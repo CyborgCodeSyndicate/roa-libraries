@@ -1,0 +1,46 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      version_bump:
+        description: 'Version bump type'
+        required: true
+        default: none
+        type: choice
+        options: [major, minor, patch, none]
+      modules:
+        description: 'Comma-separated Maven modules to deploy (optional)'
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: maven
+          server-id: github-utilities
+          server-username: ${{ secrets.GH_PACKAGES_USER }}
+          server-password: ${{ secrets.GH_PACKAGES_PAT }}
+
+      - name: Run Deploy pipeline
+        uses: CyborgCodeSyndicate/utilities/pipelines/deploy@main
+        with:
+          version_bump: ${{ inputs.version_bump || 'none' }}
+          modules: ${{ inputs.modules }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_packages_user: ${{ secrets.GH_PACKAGES_USER }}
+          github_packages_token: ${{ secrets.GH_PACKAGES_PAT }}
+

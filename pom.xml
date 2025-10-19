@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.cyborgcode.utilities</groupId>
+        <artifactId>parent-pom</artifactId>
+        <version>1.1.7</version>
+    </parent>
+
+    <groupId>io.cyborgcode.roa</groupId>
+    <artifactId>libraries</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+
+    <name>ROA Libraries</name>
+    <modules>
+        <module>assertions</module>
+        <module>api-interactor</module>
+        <module>db-interactor</module>
+        <module>ui-interactor</module>
+        <module>test-framework</module>
+        <module>api-interactor-test-framework-adapter</module>
+        <module>db-interactor-test-framework-adapter</module>
+        <module>ui-interactor-test-framework-adapter</module>
+    </modules>
+
+    <properties>
+        <utilities.version>1.1.7</utilities.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <shared-static-data.version>${utilities.version}</shared-static-data.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>github-utilities</id>
+            <name>GitHub Packages for Utilities</name>
+            <url>https://maven.pkg.github.com/CyborgCodeSyndicate/utilities</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+</project>
