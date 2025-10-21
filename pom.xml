@@ -28,6 +28,7 @@
     </modules>
 
     <properties>
+        <github.repo.name>roa-libraries</github.repo.name>
         <utilities.version>1.1.8</utilities.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
