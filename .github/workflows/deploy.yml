@@ -29,6 +29,7 @@ jobs:
       - name: Run Deploy pipeline
         uses: CyborgCodeSyndicate/utilities/pipelines/deploy@main
         with:
+          server_ids: github-roa-libraries
           version_bump: ${{ inputs.version_bump || 'none' }}
           modules: ${{ inputs.modules }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
