@@ -12,7 +12,7 @@
 
     <groupId>io.cyborgcode.roa</groupId>
     <artifactId>libraries</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <packaging>pom</packaging>
 
     <name>ROA Libraries</name>
