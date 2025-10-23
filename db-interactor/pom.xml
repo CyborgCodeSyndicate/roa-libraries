@@ -12,7 +12,7 @@
     </parent>
 
     <artifactId>db-interactor</artifactId>
-
+    <name>Ring of Automation Database Library</name>
 
     <dependencies>
         <dependency>

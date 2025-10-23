@@ -15,7 +15,7 @@
     <version>1.0.3</version>
     <packaging>pom</packaging>
 
-    <name>ROA Libraries</name>
+    <name>Ring of Automation Libraries</name>
     <modules>
         <module>assertions</module>
         <module>api-interactor</module>
@@ -25,6 +25,7 @@
         <module>api-interactor-test-framework-adapter</module>
         <module>db-interactor-test-framework-adapter</module>
         <module>ui-interactor-test-framework-adapter</module>
+        <module>roa-parent</module>
     </modules>
 
     <properties>
@@ -34,6 +35,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <shared-static-data.version>${utilities.version}</shared-static-data.version>
+        <enforcer.skipRules>reactorModuleConvergence</enforcer.skipRules>
     </properties>
 
     <repositories>
