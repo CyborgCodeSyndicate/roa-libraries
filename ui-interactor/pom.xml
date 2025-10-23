@@ -12,6 +12,7 @@
     </parent>
 
     <artifactId>ui-interactor</artifactId>
+    <name>Ring of Automation UI Library</name>
 
     <dependencies>
         <dependency>

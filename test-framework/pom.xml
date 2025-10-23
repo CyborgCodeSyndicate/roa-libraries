@@ -12,6 +12,7 @@
     </parent>
 
     <artifactId>test-framework</artifactId>
+    <name>Ring of Automation Core Test Framework</name>
 
     <dependencies>
         <dependency>

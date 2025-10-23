@@ -12,6 +12,7 @@
     </parent>
 
     <artifactId>api-interactor-test-framework-adapter</artifactId>
+    <name>Ring of Automation Api Test Framework</name>
 
     <dependencies>
         <dependency>

@@ -11,6 +11,7 @@
     </parent>
 
     <artifactId>api-interactor</artifactId>
+    <name>Ring of Automation Api Library</name>
 
     <dependencies>
         <dependency>

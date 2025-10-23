@@ -12,6 +12,7 @@
     </parent>
 
     <artifactId>assertions</artifactId>
+    <name>Ring of Automation Assertion Library</name>
 
     <dependencies>
         <dependency>

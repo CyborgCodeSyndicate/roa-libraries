@@ -12,6 +12,7 @@
     </parent>
 
     <artifactId>ui-interactor-test-framework-adapter</artifactId>
+    <name>Ring of Automation UI Test Framework</name>
 
     <dependencies>
         <dependency>

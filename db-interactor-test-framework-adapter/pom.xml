@@ -12,7 +12,7 @@
     </parent>
 
     <artifactId>db-interactor-test-framework-adapter</artifactId>
-
+    <name>Ring of Automation Database Test Framework</name>
 
     <dependencies>
         <dependency>
