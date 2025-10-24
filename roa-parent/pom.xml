@@ -28,7 +28,7 @@
 
         <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
-        <parent-pom.version>1.2.1</parent-pom.version>
+        <parent-pom.version>1.2.2</parent-pom.version>
 
         <github.repo.owner>CyborgCodeSyndicate</github.repo.owner>
     </properties>
