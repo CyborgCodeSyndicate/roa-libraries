@@ -1,10 +1,10 @@
 package io.cyborgcode.roa.framework.extension.mock;
 
-import io.cyborgcode.roa.framework.annotation.TestStaticData;
+import io.cyborgcode.roa.framework.annotation.StaticTestData;
 
 public class MockTestClass {
 
-   @TestStaticData(MockDataProvider.class)
+   @StaticTestData(MockStaticDataProvider.class)
    public void mockTestMethod() {
    }
 }

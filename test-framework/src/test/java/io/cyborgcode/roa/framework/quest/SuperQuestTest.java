@@ -35,10 +35,10 @@ class SuperQuestTest {
     @DisplayName("Artifact retrieval tests")
     class ArtifactTests {
         @Test
-        @DisplayName("Should retrieve artifact from world")
+        @DisplayName("Should retrieve artifact from ring")
         void testArtifact() {
             // Given
-            quest.registerWorld(MockFluentService.class, mockFluentService);
+            quest.registerRing(MockFluentService.class, mockFluentService);
 
             // When
             String value = superQuest.artifact(MockFluentService.class, String.class);
@@ -49,22 +49,22 @@ class SuperQuestTest {
     }
 
     @Nested
-    @DisplayName("World management tests")
-    class WorldManagementTests {
+    @DisplayName("Ring management tests")
+    class RingManagementTests {
         @Test
-        @DisplayName("Should cast to registered world")
-        void testRegisterWorldAndCast() {
+        @DisplayName("Should cast to registered ring")
+        void testRegisterRingAndCast() {
             // Given
-            // Looking at the original test, we need to manually share the worlds map
-            quest.registerWorld(MockFluentService.class, mockFluentService);
+            // Looking at the original test, we need to manually share the rings map
+            quest.registerRing(MockFluentService.class, mockFluentService);
             try {
-                // Get the worlds map from the quest
-                Field worldsField = Quest.class.getDeclaredField("worlds");
-                worldsField.setAccessible(true);
-                Map<?, ?> worldsMap = (Map<?, ?>) worldsField.get(quest);
+                // Get the rings map from the quest
+                Field ringsField = Quest.class.getDeclaredField("rings");
+                ringsField.setAccessible(true);
+                Map<?, ?> ringsMap = (Map<?, ?>) ringsField.get(quest);
 
                 // Set it on the superQuest
-                worldsField.set(superQuest, worldsMap);
+                ringsField.set(superQuest, ringsMap);
 
                 // When
                 MockFluentService casted = superQuest.cast(MockFluentService.class);
@@ -72,28 +72,28 @@ class SuperQuestTest {
                 // Then
                 assertSame(mockFluentService, casted, "Cast should return the same instance");
             } catch (NoSuchFieldException | IllegalAccessException e) {
-                fail("Failed to access worlds field: " + e.getMessage());
+                fail("Failed to access rings field: " + e.getMessage());
             }
         }
 
         @Test
-        @DisplayName("Should register and remove world correctly")
-        void testRemoveWorld() {
+        @DisplayName("Should register and remove ring correctly")
+        void testRemoveRing() {
             // Given
-            superQuest.registerWorld(MockFluentService.class, mockFluentService);
+            superQuest.registerRing(MockFluentService.class, mockFluentService);
 
             // When
-            superQuest.removeWorld(MockFluentService.class);
+            superQuest.removeRing(MockFluentService.class);
 
             // Then
             IllegalArgumentException exception = assertThrows(
                     IllegalArgumentException.class,
                     () -> superQuest.cast(MockFluentService.class),
-                    "Should throw exception when attempting to cast to removed world"
+                    "Should throw exception when attempting to cast to removed ring"
             );
 
-            assertTrue(exception.getMessage().contains("World not initialized"),
-                    "Exception message should indicate world not initialized");
+            assertTrue(exception.getMessage().contains("Ring not initialized"),
+                    "Exception message should indicate ring not initialized");
         }
 
         @Test
@@ -104,7 +104,7 @@ class SuperQuestTest {
             SuperQuest sq1 = new SuperQuest(quest1);
             SuperQuest sq2 = new SuperQuest(quest2);
 
-            sq1.registerWorld(MockFluentService.class, new MockFluentService());
+            sq1.registerRing(MockFluentService.class, new MockFluentService());
 
             assertThrows(IllegalArgumentException.class,
                     () -> sq2.cast(MockFluentService.class));
@@ -172,13 +172,13 @@ class SuperQuestTest {
         @DisplayName("Should delegate enters method to original Quest")
         void testEntersDelegate() {
             // Given
-            spyQuest.registerWorld(MockFluentService.class, mockFluentService);
+            spyQuest.registerRing(MockFluentService.class, mockFluentService);
 
             // When
-            superQuest.enters(MockFluentService.class);
+            superQuest.use(MockFluentService.class);
 
             // Then
-            verify(spyQuest).enters(MockFluentService.class);
+            verify(spyQuest).use(MockFluentService.class);
         }
     }
 }

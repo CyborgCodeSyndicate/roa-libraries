@@ -71,16 +71,16 @@ class FluentServiceDecoratorTest {
     }
 
     @Test
-    @DisplayName("then should delegate to decorated service")
-    void testThen() {
+    @DisplayName("drop should delegate to decorated service")
+    void testDrop() {
         // Given
-        when(mockFluentService.then()).thenReturn(originalQuest);
+        when(mockFluentService.drop()).thenReturn(originalQuest);
 
         // When
-        Quest result = decorator.then();
+        Quest result = decorator.drop();
 
         // Then
-        verify(mockFluentService).then();
+        verify(mockFluentService).drop();
         assertSame(originalQuest, result);
     }
 
@@ -132,13 +132,13 @@ class FluentServiceDecoratorTest {
     void testAsFluentChain() {
         // Given
         FluentChain chain = decorator;
-        when(mockFluentService.then()).thenReturn(originalQuest);
+        when(mockFluentService.drop()).thenReturn(originalQuest);
 
         // When
-        Quest result = chain.then();
+        Quest result = chain.drop();
 
         // Then
-        verify(mockFluentService).then();
+        verify(mockFluentService).drop();
         assertSame(originalQuest, result);
     }
 

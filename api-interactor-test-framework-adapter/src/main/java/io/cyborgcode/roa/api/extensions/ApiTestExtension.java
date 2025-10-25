@@ -1,6 +1,6 @@
 package io.cyborgcode.roa.api.extensions;
 
-import io.cyborgcode.roa.api.annotations.AuthenticateViaApiAs;
+import io.cyborgcode.roa.api.annotations.AuthenticateViaApi;
 import io.cyborgcode.roa.api.authentication.BaseAuthenticationClient;
 import io.cyborgcode.roa.api.authentication.Credentials;
 import io.cyborgcode.roa.api.log.LogApi;
@@ -27,7 +27,7 @@ import static io.cyborgcode.roa.framework.allure.StepType.PERFORMING_PRE_QUEST_A
 /**
  * Handles API authentication for test execution.
  *
- * <p>This JUnit 5 extension processes the {@link AuthenticateViaApiAs} annotation
+ * <p>This JUnit 5 extension processes the {@link AuthenticateViaApi} annotation
  * to authenticate users before API tests.
  *
  * @author Cyborg Code Syndicate 💍👨💻
@@ -43,11 +43,11 @@ public class ApiTestExtension implements BeforeTestExecutionCallback {
    @Override
    public void beforeTestExecution(final ExtensionContext context) throws Exception {
       context.getTestMethod()
-            .map(method -> method.getAnnotation(AuthenticateViaApiAs.class))
+            .map(method -> method.getAnnotation(AuthenticateViaApi.class))
             .ifPresent(annotation -> handleAuthentication(context, annotation));
    }
 
-   private void handleAuthentication(final ExtensionContext context, final AuthenticateViaApiAs annotation) {
+   private void handleAuthentication(final ExtensionContext context, final AuthenticateViaApi annotation) {
       try {
          Credentials credentials = annotation.credentials().getDeclaredConstructor().newInstance();
          ApplicationContext appCtx = SpringExtension.getApplicationContext(context);
@@ -80,7 +80,7 @@ public class ApiTestExtension implements BeforeTestExecutionCallback {
          quest.getStorage().sub(API).put(PASSWORD, password);
 
          LogApi.extended("Updated quest storage with credentials for username: {}", username);
-         RestServiceFluent restServiceFluent = quest.enters(RestServiceFluent.class);
+         RestServiceFluent restServiceFluent = quest.use(RestServiceFluent.class);
          SuperRestServiceFluent superRestServiceFluent =
                decoratorsFactory.decorate(restServiceFluent, SuperRestServiceFluent.class);
          superRestServiceFluent.getRestService().setCacheAuthentication(cacheCredentials);

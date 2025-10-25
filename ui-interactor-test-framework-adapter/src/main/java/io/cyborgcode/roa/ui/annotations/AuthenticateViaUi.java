@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface AuthenticateViaUiAs {
+public @interface AuthenticateViaUi {
 
    /**
     * Specifies the credentials class required for authentication.

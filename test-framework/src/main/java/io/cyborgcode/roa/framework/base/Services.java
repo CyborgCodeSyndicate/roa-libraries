@@ -1,6 +1,6 @@
 package io.cyborgcode.roa.framework.base;
 
-import io.cyborgcode.roa.framework.log.LogTest;
+import io.cyborgcode.roa.framework.log.LogQuest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,7 +70,7 @@ public class Services {
 
          List<K> fieldValues = getFieldValues(fluentService, serviceClass);
          if (fieldValues.size() > 1) {
-            LogTest.warn(
+            LogQuest.warn(
                   "There is more than one service from type: {} inside class: {}. The first one will be taken: {}",
                   serviceClass, fluentServiceClass, fieldValues.get(0));
          }

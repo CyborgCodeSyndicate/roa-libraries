@@ -3,7 +3,7 @@ package io.cyborgcode.roa.framework.quest;
 import io.cyborgcode.roa.framework.chain.FluentService;
 import io.cyborgcode.roa.framework.chain.FluentServiceDecorator;
 import io.cyborgcode.roa.framework.decorators.DecoratorsFactory;
-import io.cyborgcode.roa.framework.log.LogTest;
+import io.cyborgcode.roa.framework.log.LogQuest;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -78,8 +78,8 @@ public final class QuestFactory {
                decoratorsFactory.decorate(provider, FluentServiceDecorator.class);
          fluentServiceDecorator.setQuest(decoratorsFactory.decorate(quest, SuperQuest.class));
          fluentServiceDecorator.postQuestSetupInitialization();
-         quest.registerWorld(provider.getClass(), provider);
-         LogTest.extended("Service: '{}' has been registered for the quest",
+         quest.registerRing(provider.getClass(), provider);
+         LogQuest.extended("Service: '{}' has been registered for the quest",
                fluentServiceDecorator.getClass().getName());
       }
    }

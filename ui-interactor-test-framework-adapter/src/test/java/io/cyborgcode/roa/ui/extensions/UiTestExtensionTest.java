@@ -11,7 +11,7 @@ import io.cyborgcode.roa.framework.storage.Storage;
 import io.cyborgcode.roa.framework.storage.StoreKeys;
 import io.cyborgcode.roa.framework.util.TestContextManager;
 import io.cyborgcode.roa.ui.BaseUnitUITest;
-import io.cyborgcode.roa.ui.annotations.AuthenticateViaUiAs;
+import io.cyborgcode.roa.ui.annotations.AuthenticateViaUi;
 import io.cyborgcode.roa.ui.annotations.InterceptRequests;
 import io.cyborgcode.roa.ui.authentication.BaseLoginClient;
 import io.cyborgcode.roa.ui.authentication.LoginCredentials;
@@ -19,7 +19,6 @@ import io.cyborgcode.roa.ui.components.interceptor.ApiResponse;
 import io.cyborgcode.roa.ui.config.UiFrameworkConfig;
 import io.cyborgcode.roa.ui.config.UiFrameworkConfigHolder;
 import io.cyborgcode.roa.ui.exceptions.AuthenticationUiException;
-import io.cyborgcode.roa.ui.extensions.UiTestExtension;
 import io.cyborgcode.roa.ui.parameters.DataIntercept;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
 import io.cyborgcode.roa.ui.service.fluent.SuperUiServiceFluent;
@@ -874,7 +873,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
          // 3) identify the @AuthenticateViaUiAs stub method in *this* test class
          Method stub = BeforeTestExecutionTests.class
                .getDeclaredMethod("authenticateGood");
-         assertNotNull(stub.getAnnotation(AuthenticateViaUiAs.class),
+         assertNotNull(stub.getAnnotation(AuthenticateViaUi.class),
                "sanity–check: our stub must have @AuthenticateViaUiAs");
 
          // 4) stub SpringExtension → DecoratorsFactory → DummyLoginClient
@@ -1044,21 +1043,21 @@ class UiTestExtensionTest extends BaseUnitUITest {
          }
       }
 
-      @AuthenticateViaUiAs(
+      @AuthenticateViaUi(
             credentials = TestLoginCredentials.class,
             type = TestLoginClient.class,
             cacheCredentials = true
       )
       void authenticateMethod() { /* no‐op */}
 
-      @AuthenticateViaUiAs(
+      @AuthenticateViaUi(
             credentials = DummyLoginCredentials.class,
             type = DummyLoginClient.class,    // ← must be a Class<? extends BaseLoginClient>
             cacheCredentials = false
       )
       void authenticateGood() { /* no‐op */ }
 
-      @AuthenticateViaUiAs(
+      @AuthenticateViaUi(
             credentials = BadLoginCredentials.class,
             type = DummyLoginClient.class,    // ← same here
             cacheCredentials = false
@@ -2145,9 +2144,9 @@ class UiTestExtensionTest extends BaseUnitUITest {
             // this must not throw…
             assertDoesNotThrow(() -> m.invoke(null, quest));
 
-            // …and it must have registered and then removed the world
-            verify(quest).registerWorld(eq(DummyService.class), isA(DummyService.class));
-            verify(quest).removeWorld(eq(UiServiceFluent.class));
+            // …and it must have registered and then removed the ring
+            verify(quest).registerRing(eq(DummyService.class), isA(DummyService.class));
+            verify(quest).removeRing(eq(UiServiceFluent.class));
          }
       }
 

@@ -2,7 +2,7 @@ package io.cyborgcode.roa.framework.extension;
 
 import io.cyborgcode.roa.framework.annotation.Ripper;
 import io.cyborgcode.roa.framework.decorators.DecoratorsFactory;
-import io.cyborgcode.roa.framework.log.LogTest;
+import io.cyborgcode.roa.framework.log.LogQuest;
 import io.cyborgcode.roa.framework.parameters.DataRipper;
 import io.cyborgcode.roa.framework.quest.Quest;
 import io.cyborgcode.roa.framework.quest.SuperQuest;
@@ -56,7 +56,7 @@ public class RipperMan implements AfterTestExecutionCallback {
     * @param targets The targets specified in the {@code Ripper} annotation for cleanup.
     */
    private void executeRipperLogic(ExtensionContext context, String[] targets) {
-      LogTest.info("The ripper has arrived");
+      LogQuest.info("The ripper has arrived");
 
       ApplicationContext appCtx = SpringExtension.getApplicationContext(context);
       DecoratorsFactory decoratorsFactory = appCtx.getBean(DecoratorsFactory.class);
@@ -66,14 +66,14 @@ public class RipperMan implements AfterTestExecutionCallback {
          throw new IllegalStateException("Quest not found in the global store");
       }
 
-      superQuest.getStorage().sub(StorageKeysTest.ARGUMENTS).joinLateArguments();
+      superQuest.getStorage().sub(StorageKeysTest.ARGUMENTS).createLateArguments();
 
       Arrays.stream(targets).forEach(target -> {
          DataRipper<?> dataRipper = ReflectionUtil.findEnumImplementationsOfInterface(
                DataRipper.class, target, getFrameworkConfig().projectPackage());
 
          dataRipper.eliminate().accept(superQuest);
-         LogTest.info("DataRipper processed target: '{}'.", target);
+         LogQuest.info("DataRipper processed target: '{}'.", target);
       });
    }
 

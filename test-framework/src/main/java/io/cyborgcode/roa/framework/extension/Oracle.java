@@ -1,9 +1,9 @@
 package io.cyborgcode.roa.framework.extension;
 
-import io.cyborgcode.roa.framework.annotation.TestStaticData;
+import io.cyborgcode.roa.framework.annotation.StaticTestData;
 import io.cyborgcode.roa.framework.decorators.DecoratorsFactory;
 import io.cyborgcode.roa.framework.exceptions.StaticTestDataInitializationException;
-import io.cyborgcode.roa.framework.log.LogTest;
+import io.cyborgcode.roa.framework.log.LogQuest;
 import io.cyborgcode.roa.framework.quest.Quest;
 import io.cyborgcode.roa.framework.quest.QuestFactory;
 import io.cyborgcode.roa.framework.quest.SuperQuest;
@@ -83,7 +83,7 @@ public class Oracle implements ParameterResolver {
       Storage storage = superQuest.getStorage();
       storage.put(STATIC_DATA, staticTestData);
       addHooksDataInTestStorage(storage, extensionContext);
-      LogTest.info("The quest: '{}' has begun and is crafted.", extensionContext.getDisplayName());
+      LogQuest.info("The quest: '{}' has begun and is crafted.", extensionContext.getDisplayName());
       ExtensionContext.Store store = extensionContext.getStore(GLOBAL);
       @SuppressWarnings("unchecked")
       List<Consumer<SuperQuest>> consumers = (List<Consumer<SuperQuest>>) store.get(StoreKeys.QUEST_CONSUMERS);
@@ -96,9 +96,9 @@ public class Oracle implements ParameterResolver {
    }
 
    /**
-    * Retrieves and instantiates static test data defined via {@code @TestStaticData}.
+    * Retrieves and instantiates static test data defined via {@code @StaticTestData}.
     *
-    * <p>If a test method is annotated with {@code @TestStaticData}, this method
+    * <p>If a test method is annotated with {@code @StaticTestData}, this method
     * dynamically instantiates the specified data provider and extracts its test data.
     *
     * @param extensionContext The context of the test execution.
@@ -107,11 +107,11 @@ public class Oracle implements ParameterResolver {
    private static Map<String, Object> getStaticTestData(final ExtensionContext extensionContext) {
       Optional<Method> testMethod = extensionContext.getTestMethod();
       if (testMethod.isPresent()) {
-         TestStaticData staticDataAnnotation = testMethod.get().getAnnotation(TestStaticData.class);
+         StaticTestData staticDataAnnotation = testMethod.get().getAnnotation(StaticTestData.class);
          if (staticDataAnnotation != null) {
             try {
                return staticDataAnnotation.value().getDeclaredConstructor()
-                     .newInstance().testStaticData();
+                     .newInstance().staticTestData();
 
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException
                      | NoSuchMethodException e) {

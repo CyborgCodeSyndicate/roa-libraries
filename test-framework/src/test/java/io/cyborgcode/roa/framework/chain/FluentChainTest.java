@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.framework.chain;
 
 import io.cyborgcode.roa.framework.assertion.CustomSoftAssertion;
-import io.cyborgcode.roa.framework.log.LogTest;
+import io.cyborgcode.roa.framework.log.LogQuest;
 import io.cyborgcode.roa.framework.quest.Quest;
 import io.cyborgcode.roa.framework.quest.SuperQuest;
 import org.assertj.core.api.SoftAssertions;
@@ -41,7 +41,7 @@ class FluentChainTest {
         }
 
         @Override
-        public Quest then() {
+        public Quest drop() {
             return quest;
         }
 
@@ -68,7 +68,7 @@ class FluentChainTest {
         @Test
         @DisplayName("validate(Consumer) should execute consumer for soft assertions")
         void testValidateWithConsumer() {
-            try (MockedStatic<LogTest> logTestMock = mockStatic(LogTest.class)) {
+            try (MockedStatic<LogQuest> logTestMock = mockStatic(LogQuest.class)) {
                 // Given
                 CustomSoftAssertion mockedSoftAssertion = mock(CustomSoftAssertion.class);
                 SuperQuest mockedSuperQuest = mock(SuperQuest.class);
@@ -89,7 +89,7 @@ class FluentChainTest {
                 verify(mockedSuperQuest).getSoftAssertions();
 
                 // Verify the log message was called
-                logTestMock.verify(() -> LogTest.validation(anyString()));
+                logTestMock.verify(() -> LogQuest.validation(anyString()));
 
                 // Verify method returns this for chaining
                 assertSame(fluentChain, result, "Method should return this for chaining");
@@ -99,7 +99,7 @@ class FluentChainTest {
         @Test
         @DisplayName("validate(Runnable) should execute runnable for hard assertions")
         void testValidateWithRunnable() {
-            try (MockedStatic<LogTest> logTestMock = mockStatic(LogTest.class)) {
+            try (MockedStatic<LogQuest> logTestMock = mockStatic(LogQuest.class)) {
                 // Given
                 Runnable runnable = mock(Runnable.class);
 
@@ -111,7 +111,7 @@ class FluentChainTest {
                 verifyNoMoreInteractions(quest);
 
                 // Verify log messages
-                logTestMock.verify(() -> LogTest.validation(anyString()), times(2));
+                logTestMock.verify(() -> LogQuest.validation(anyString()), times(2));
 
                 assertSame(fluentChain, result, "Method should return this for chaining");
             }
@@ -133,19 +133,19 @@ class FluentChainTest {
         }
 
         @Test
-        @DisplayName("then() should return the underlying quest")
-        void testThen() {
+        @DisplayName("drop() should return the underlying quest")
+        void testDrop() {
             // When
-            Quest result = fluentChain.then();
+            Quest result = fluentChain.drop();
 
             // Then
-            assertSame(quest, result, "then() should return the underlying quest");
+            assertSame(quest, result, "drop() should return the underlying quest");
         }
 
         @Test
         @DisplayName("Factory method pattern works with validate(Consumer)")
         void testFactoryMethodWithValidate() {
-            try (MockedStatic<LogTest> logTestMock = mockStatic(LogTest.class)) {
+            try (MockedStatic<LogQuest> logTestMock = mockStatic(LogQuest.class)) {
                 // Given
                 CustomSoftAssertion mockedSoftAssertion = mock(CustomSoftAssertion.class);
                 SuperQuest mockedSuperQuest = mock(SuperQuest.class);
@@ -175,7 +175,7 @@ class FluentChainTest {
         @Test
         @DisplayName("Chained methods should work together")
         void testChainedMethods() {
-            try (MockedStatic<LogTest> logTestMock = mockStatic(LogTest.class)) {
+            try (MockedStatic<LogQuest> logTestMock = mockStatic(LogQuest.class)) {
                 // Given
                 Runnable runnable = mock(Runnable.class);
 
@@ -187,14 +187,14 @@ class FluentChainTest {
                 verify(quest).complete();
 
                 // Verify log messages
-                logTestMock.verify(() -> LogTest.validation(anyString()), times(2));
+                logTestMock.verify(() -> LogQuest.validation(anyString()), times(2));
             }
         }
 
         @Test
         @DisplayName("Soft validation and complete should work together")
         void testSoftValidationChained() {
-            try (MockedStatic<LogTest> logTestMock = mockStatic(LogTest.class)) {
+            try (MockedStatic<LogQuest> logTestMock = mockStatic(LogQuest.class)) {
                 // Given
                 CustomSoftAssertion mockedSoftAssertion = mock(CustomSoftAssertion.class);
                 SuperQuest mockedSuperQuest = mock(SuperQuest.class);
@@ -215,7 +215,7 @@ class FluentChainTest {
                 verify(quest).complete();
 
                 // Verify the log message was called
-                logTestMock.verify(() -> LogTest.validation(anyString()), times(1));
+                logTestMock.verify(() -> LogQuest.validation(anyString()), times(1));
             }
         }
     }
@@ -236,7 +236,7 @@ class FluentChainTest {
     @Test
     @DisplayName("validate(Runnable) should handle exceptions and log the failure")
     void testValidateWithRunnableThrowsException() {
-        try (MockedStatic<LogTest> logTestMock = mockStatic(LogTest.class)) {
+        try (MockedStatic<LogQuest> logTestMock = mockStatic(LogQuest.class)) {
             // Given
             Runnable runnable = () -> { throw new RuntimeException("Test exception"); }; // Simulating an exception
 
@@ -246,7 +246,7 @@ class FluentChainTest {
             } catch (RuntimeException e) {
                 // Then
                 // Verify that the exception was logged
-                logTestMock.verify(() -> LogTest.validation("Hard validation failed: Test exception"));
+                logTestMock.verify(() -> LogQuest.validation("Hard validation failed: Test exception"));
                 assertSame("Test exception", e.getMessage(), "The exception message should match.");
             }
         }

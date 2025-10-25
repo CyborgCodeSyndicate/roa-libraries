@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.framework.extension;
 
-import io.cyborgcode.roa.framework.annotation.TestStaticData;
-import io.cyborgcode.roa.framework.data.DataProvider;
+import io.cyborgcode.roa.framework.annotation.StaticTestData;
+import io.cyborgcode.roa.framework.data.StaticDataProvider;
 import io.cyborgcode.roa.framework.decorators.DecoratorsFactory;
 import io.cyborgcode.roa.framework.exceptions.StaticTestDataInitializationException;
 import io.cyborgcode.roa.framework.extension.mock.MockTestClass;
@@ -293,19 +293,19 @@ class OracleTest {
         }
     }
 
-    public static class FaultyProvider implements DataProvider {
-        public FaultyProvider() {
+    public static class FaultyProviderStatic implements StaticDataProvider {
+        public FaultyProviderStatic() {
             throw new RuntimeException("Boom");
         }
 
         @Override
-        public Map<String, Object> testStaticData() {
+        public Map<String, Object> staticTestData() {
             return Map.of();
         }
     }
 
     public static class FaultyStaticDataTestClass {
-        @TestStaticData(FaultyProvider.class)
+        @StaticTestData(FaultyProviderStatic.class)
         public void testMethod() {
             // Just a dummy method to attach the annotation
         }

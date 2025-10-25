@@ -3,7 +3,7 @@ package io.cyborgcode.roa.framework.quest;
 import io.cyborgcode.roa.framework.chain.FluentService;
 import io.cyborgcode.roa.framework.chain.FluentServiceDecorator;
 import io.cyborgcode.roa.framework.decorators.DecoratorsFactory;
-import io.cyborgcode.roa.framework.log.LogTest;
+import io.cyborgcode.roa.framework.log.LogQuest;
 import io.cyborgcode.roa.framework.quest.mock.MockFluentService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -46,7 +46,7 @@ class QuestFactoryTest {
                 .thenAnswer(inv -> new SuperQuest(inv.getArgument(0)));
 
         // When
-        try (MockedStatic<LogTest> logMock = mockStatic(LogTest.class)) {
+        try (MockedStatic<LogQuest> logMock = mockStatic(LogQuest.class)) {
             Quest quest = questFactory.createQuest();
 
             // Then
@@ -54,12 +54,12 @@ class QuestFactoryTest {
             SuperQuest superQuest = QuestHolder.get();
             assertSame(quest, superQuest.getOriginal());
 
-            MockFluentService result = quest.enters(MockFluentService.class);
+            MockFluentService result = quest.use(MockFluentService.class);
             assertSame(mockFluentService, result);
 
             verify(mockDecorator).setQuest(any(SuperQuest.class));
             verify(mockDecorator).postQuestSetupInitialization();
-            logMock.verify(() -> LogTest.extended(anyString(), any()), times(1));
+            logMock.verify(() -> LogQuest.extended(anyString(), any()), times(1));
         }
     }
 
@@ -97,12 +97,12 @@ class QuestFactoryTest {
                 .thenAnswer(inv -> new SuperQuest(inv.getArgument(0)));
 
         // When
-        try (MockedStatic<LogTest> logMock = mockStatic(LogTest.class)) {
+        try (MockedStatic<LogQuest> logMock = mockStatic(LogQuest.class)) {
             Quest quest = questFactory.createQuest();
 
             // Then - Verify services are accessible (without instance equality check)
-            assertNotNull(quest.enters(MockFluentService.class));
-            assertNotNull(quest.enters(MockFluentService.class));
+            assertNotNull(quest.use(MockFluentService.class));
+            assertNotNull(quest.use(MockFluentService.class));
 
             // Verify decorator interactions
             verify(decorator1).setQuest(any(SuperQuest.class));
@@ -110,7 +110,7 @@ class QuestFactoryTest {
             verify(decorator2).setQuest(any(SuperQuest.class));
             verify(decorator2).postQuestSetupInitialization();
 
-            logMock.verify(() -> LogTest.extended(anyString(), any()), times(2));
+            logMock.verify(() -> LogQuest.extended(anyString(), any()), times(2));
         }
     }
 

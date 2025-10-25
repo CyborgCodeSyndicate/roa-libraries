@@ -10,7 +10,7 @@ import org.springframework.test.annotation.DirtiesContext;
 /**
  * Base test class for sequential test execution.
  *
- * <p>This class extends {@code BaseTest} and ensures that tests run sequentially
+ * <p>This class extends {@code BaseQuest} and ensures that tests run sequentially
  * within a single instance using the {@code PER_CLASS} lifecycle.
  * It also provides before-all and after-all lifecycle hooks for test setup and cleanup.
  *
@@ -19,7 +19,7 @@ import org.springframework.test.annotation.DirtiesContext;
 @Component
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-public class BaseTestSequential extends BaseTest {
+public class BaseQuestSequential extends BaseQuest {
 
    /**
     * The test service container for managing test-related dependencies.

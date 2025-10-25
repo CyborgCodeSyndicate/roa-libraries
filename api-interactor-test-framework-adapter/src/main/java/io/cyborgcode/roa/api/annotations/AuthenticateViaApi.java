@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface AuthenticateViaApiAs {
+public @interface AuthenticateViaApi {
 
    /**
     * Specifies the credentials class providing authentication details.

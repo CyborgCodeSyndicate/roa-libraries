@@ -43,30 +43,30 @@ public final class SuperQuest extends Quest {
     * <p>This method delegates the call to the underlying {@code Quest} instance,
     * extracting an instance of the specified artifact type from the corresponding test service.
     *
-    * @param worldType    the class type of the test service.
+    * @param ringType    the class type of the test service.
     * @param artifactType the class type of the artifact to retrieve.
     * @param <T>          the type of the test service.
     * @param <K>          the type of the artifact.
     * @return the artifact instance retrieved from the underlying quest.
     */
    @Override
-   public <T extends FluentService, K> K artifact(Class<T> worldType, Class<K> artifactType) {
-      return original.artifact(worldType, artifactType);
+   public <T extends FluentService, K> K artifact(Class<T> ringType, Class<K> artifactType) {
+      return original.artifact(ringType, artifactType);
    }
 
 
    /**
-    * Registers a test service (world) into the underlying quest.
+    * Registers a test service (ring) into the underlying quest.
     *
     * <p>This method delegates the registration of the test service to the underlying {@code Quest} instance,
     * ensuring that the test execution context is aware of the new service.
     *
-    * @param worldType the class type of the test service.
-    * @param world     the instance of the test service.
+    * @param ringType the class type of the test service.
+    * @param ring     the instance of the test service.
     */
    @Override
-   public void registerWorld(Class<? extends FluentService> worldType, FluentService world) {
-      original.registerWorld(worldType, world);
+   public void registerRing(Class<? extends FluentService> ringType, FluentService ring) {
+      original.registerRing(ringType, ring);
    }
 
 
@@ -76,13 +76,13 @@ public final class SuperQuest extends Quest {
     * <p>This method delegates the retrieval to the underlying {@code Quest} instance,
     * returning the requested test service instance.
     *
-    * @param worldType the class type of the test service to retrieve.
+    * @param ringType the class type of the test service to retrieve.
     * @param <T>       the type of the test service.
     * @return the corresponding test service instance.
     */
    @Override
-   public <T extends FluentService> T cast(Class<T> worldType) {
-      return super.cast(worldType);
+   public <T extends FluentService> T cast(Class<T> ringType) {
+      return super.cast(ringType);
    }
 
 
@@ -92,11 +92,11 @@ public final class SuperQuest extends Quest {
     * <p>This method delegates the removal operation to the underlying {@code Quest} instance,
     * ensuring that the specified test service is no longer part of the execution context.
     *
-    * @param worldType the class type of the test service to remove.
+    * @param ringType the class type of the test service to remove.
     */
    @Override
-   public void removeWorld(Class<? extends FluentService> worldType) {
-      original.removeWorld(worldType);
+   public void removeRing(Class<? extends FluentService> ringType) {
+      original.removeRing(ringType);
    }
 
 

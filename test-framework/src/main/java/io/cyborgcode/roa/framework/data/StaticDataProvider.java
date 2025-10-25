@@ -14,7 +14,7 @@ import java.util.Map;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface DataProvider {
+public interface StaticDataProvider {
 
    /**
     * Provides a set of predefined static test data.
@@ -24,6 +24,6 @@ public interface DataProvider {
     *
     * @return A map containing static test data.
     */
-   Map<String, Object> testStaticData();
+   Map<String, Object> staticTestData();
 
 }

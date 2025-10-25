@@ -6,7 +6,7 @@ import io.cyborgcode.roa.framework.annotation.Journey;
 import io.cyborgcode.roa.framework.annotation.JourneyData;
 import io.cyborgcode.roa.framework.annotation.PreQuest;
 import io.cyborgcode.roa.framework.decorators.DecoratorsFactory;
-import io.cyborgcode.roa.framework.log.LogTest;
+import io.cyborgcode.roa.framework.log.LogQuest;
 import io.cyborgcode.roa.framework.parameters.DataForge;
 import io.cyborgcode.roa.framework.parameters.PreQuestJourney;
 import io.cyborgcode.roa.framework.quest.Quest;
@@ -139,11 +139,11 @@ public class Initiator implements InvocationInterceptor {
 
       Object argument;
       if (journeyData.late()) {
-         LogTest.extended("Creating data using late binding for: {}", journeyData.value());
+         LogQuest.extended("Creating data using late binding for: {}", journeyData.value());
          argument = dataForge.dataCreator();
       } else {
-         LogTest.extended("Joining data for: {}", journeyData.value());
-         argument = dataForge.dataCreator().join();
+         LogQuest.extended("Creating data for: {}", journeyData.value());
+         argument = dataForge.dataCreator().create();
       }
       quest.getStorage().sub(PRE_ARGUMENTS).put(dataForge.enumImpl(), argument);
       return argument;

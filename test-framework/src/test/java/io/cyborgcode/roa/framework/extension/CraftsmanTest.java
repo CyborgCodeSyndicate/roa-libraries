@@ -213,12 +213,12 @@ class CraftsmanTest {
       }
 
       @Test
-      @DisplayName("Should return joined object when parameter type is not Late")
-      void shouldReturnJoinedObjectWhenParameterTypeIsNotLate() {
-         Object joinedObject = new Object();
+      @DisplayName("Should return created object when parameter type is not Late")
+      void shouldReturnCreatedObjectWhenParameterTypeIsNotLate() {
+         Object createdObject = new Object();
          paramType = String.class;
          doReturn(String.class).when(parameter).getType();
-         when(late.join()).thenReturn(joinedObject);
+         when(late.create()).thenReturn(createdObject);
 
          try (MockedStatic<TestContextManager> testContextManagerMock = mockStatic(TestContextManager.class);
               MockedStatic<ReflectionUtil> reflectionUtilMock = mockStatic(ReflectionUtil.class);
@@ -233,18 +233,18 @@ class CraftsmanTest {
 
             Object result = craftsman.resolveParameter(parameterContext, extensionContext);
 
-            assertThat(result).isSameAs(joinedObject);
-            verify(late).join();
+            assertThat(result).isSameAs(createdObject);
+            verify(late).create();
          }
       }
 
       @Test
       @DisplayName("Should verify all method calls and interactions")
       void shouldVerifyAllMethodCallsAndInteractions() {
-         Object joinedObject = new Object();
+         Object createdObject = new Object();
          paramType = String.class;
          doReturn(String.class).when(parameter).getType();
-         when(late.join()).thenReturn(joinedObject);
+         when(late.create()).thenReturn(createdObject);
 
          try (MockedStatic<TestContextManager> testContextManagerMock = mockStatic(TestContextManager.class);
               MockedStatic<ReflectionUtil> reflectionUtilMock = mockStatic(ReflectionUtil.class);
@@ -262,12 +262,12 @@ class CraftsmanTest {
             verify(parameterContext, atLeastOnce()).getParameter();
             verify(parameterContext).findAnnotation(Craft.class);
             verify(craft).model();
-            verify(late).join();
+            verify(late).create();
 
             testContextManagerMock.verify(() -> TestContextManager.initializeParameterTracking(extensionContext));
             testContextManagerMock.verify(() -> TestContextManager.getSuperQuest(extensionContext));
             testContextManagerMock.verify(
-                  () -> TestContextManager.storeArgument(superQuest, dataForge, joinedObject, extensionContext));
+                  () -> TestContextManager.storeArgument(superQuest, dataForge, createdObject, extensionContext));
 
             frameworkConfigHolderMock.verify(FrameworkConfigHolder::getFrameworkConfig);
             reflectionUtilMock.verify(() -> ReflectionUtil.findEnumImplementationsOfInterface(

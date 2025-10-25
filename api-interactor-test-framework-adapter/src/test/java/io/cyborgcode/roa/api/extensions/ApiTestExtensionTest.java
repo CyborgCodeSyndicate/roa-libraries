@@ -1,6 +1,6 @@
 package io.cyborgcode.roa.api.extensions;
 
-import io.cyborgcode.roa.api.annotations.AuthenticateViaApiAs;
+import io.cyborgcode.roa.api.annotations.AuthenticateViaApi;
 import io.cyborgcode.roa.api.authentication.Credentials;
 import io.cyborgcode.roa.api.mock.TestAuthClient;
 import io.cyborgcode.roa.api.mock.TestCreds;
@@ -62,7 +62,7 @@ class ApiTestExtensionTest {
 
    private final ApiTestExtension extension = new ApiTestExtension();
 
-   @AuthenticateViaApiAs(credentials = TestCreds.class, type = TestAuthClient.class)
+   @AuthenticateViaApi(credentials = TestCreds.class, type = TestAuthClient.class)
    void dummyTestMethod() {
       // Method used for testing annotation handling
    }
@@ -176,7 +176,7 @@ class ApiTestExtensionTest {
          boolean cacheCredentials = false;
 
          Method dummyMethod = ApiTestExtensionTest.class.getDeclaredMethod("dummyTestMethod");
-         AuthenticateViaApiAs authAs = dummyMethod.getAnnotation(AuthenticateViaApiAs.class);
+         AuthenticateViaApi authAs = dummyMethod.getAnnotation(AuthenticateViaApi.class);
 
          // Create consumer using reflection to access private method
          Method createMethod = ApiTestExtension.class.getDeclaredMethod(
@@ -208,7 +208,7 @@ class ApiTestExtensionTest {
 
          when(quest.getStorage()).thenReturn(storage);
          when(storage.sub(API)).thenReturn(subStorage);
-         when(quest.enters(RestServiceFluent.class)).thenReturn(fluentMock);
+         when(quest.use(RestServiceFluent.class)).thenReturn(fluentMock);
          when(fluentMock.authenticate(any(), any(), any())).thenReturn(fluentMock);
          when(decoratorsFactory.decorate(fluentMock, SuperRestServiceFluent.class)).thenReturn(superFluentMock);
          when(superFluentMock.getRestService()).thenReturn(restServiceMock);
@@ -236,7 +236,7 @@ class ApiTestExtensionTest {
        * A dummy test method annotated with a credentials class
        * that has no public no‑arg constructor, so instantiation fails.
        */
-      @AuthenticateViaApiAs(
+      @AuthenticateViaApi(
             credentials = NoDefaultCtorCreds.class,
             type = TestAuthClient.class,
             cacheCredentials = false

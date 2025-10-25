@@ -5,19 +5,19 @@ import io.cyborgcode.roa.framework.quest.Quest;
 
 public class TestableQuest extends Quest {
 
-   public void exposeRegisterWorld(Class<? extends FluentService> worldType, FluentService world) {
-      registerWorld(worldType, world);
+   public void exposeRegisterRing(Class<? extends FluentService> ringType, FluentService ring) {
+      registerRing(ringType, ring);
    }
 
-   public void exposeRemoveWorld(Class<? extends FluentService> worldType) {
-      removeWorld(worldType);
+   public void exposeRemoveRing(Class<? extends FluentService> ringType) {
+      removeRing(ringType);
    }
 
-   public <T extends FluentService> T exposeCast(Class<T> worldType) {
-      return cast(worldType);
+   public <T extends FluentService> T exposeCast(Class<T> ringType) {
+      return cast(ringType);
    }
 
-   public <T extends FluentService, K> K exposeArtifact(Class<T> worldType, Class<K> artifactType) {
-      return artifact(worldType, artifactType);
+   public <T extends FluentService, K> K exposeArtifact(Class<T> ringType, Class<K> artifactType) {
+      return artifact(ringType, artifactType);
    }
 }

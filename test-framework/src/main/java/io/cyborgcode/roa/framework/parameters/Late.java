@@ -25,6 +25,6 @@ public interface Late<T> {
     *
     * @return The instantiated object of type {@code T}.
     */
-   T join();
+   T create();
 
 }

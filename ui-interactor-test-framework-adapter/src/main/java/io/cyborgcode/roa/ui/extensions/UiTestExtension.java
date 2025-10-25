@@ -4,12 +4,12 @@ import io.cyborgcode.roa.framework.allure.CustomAllureListener;
 import io.cyborgcode.roa.framework.assertion.CustomSoftAssertion;
 import io.cyborgcode.roa.framework.decorators.DecoratorsFactory;
 import io.cyborgcode.roa.framework.exceptions.ServiceInitializationException;
-import io.cyborgcode.roa.framework.log.LogTest;
+import io.cyborgcode.roa.framework.log.LogQuest;
 import io.cyborgcode.roa.framework.quest.Quest;
 import io.cyborgcode.roa.framework.quest.SuperQuest;
 import io.cyborgcode.roa.framework.storage.Storage;
 import io.cyborgcode.roa.framework.storage.StoreKeys;
-import io.cyborgcode.roa.ui.annotations.AuthenticateViaUiAs;
+import io.cyborgcode.roa.ui.annotations.AuthenticateViaUi;
 import io.cyborgcode.roa.ui.annotations.InterceptRequests;
 import io.cyborgcode.roa.ui.authentication.BaseLoginClient;
 import io.cyborgcode.roa.ui.authentication.LoginCredentials;
@@ -72,7 +72,7 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.USERNAME;
  * <p>This extension provides support for:
  * <ul>
  *     <li>Intercepting UI-related HTTP requests using {@link InterceptRequests}.</li>
- *     <li>Automating login via UI authentication using {@link AuthenticateViaUiAs}.</li>
+ *     <li>Automating login via UI authentication using {@link AuthenticateViaUi}.</li>
  *     <li>Capturing screenshots on test failures and optionally on passed tests.</li>
  *     <li>Registering UI assertions and handling WebDriver session cleanup.</li>
  *     <li>Intercepting backend requests in Chrome DevTools.</li>
@@ -241,7 +241,7 @@ public class UiTestExtension implements BeforeTestExecutionCallback, AfterTestEx
 
 
    private void processAuthenticateViaUiAsAnnotation(ExtensionContext context, Method method) {
-      Optional.ofNullable(method.getAnnotation(AuthenticateViaUiAs.class))
+      Optional.ofNullable(method.getAnnotation(AuthenticateViaUi.class))
             .ifPresent(login -> {
                try {
                   ApplicationContext appCtx = SpringExtension.getApplicationContext(context);
@@ -380,9 +380,9 @@ public class UiTestExtension implements BeforeTestExecutionCallback, AfterTestEx
          Class<? extends UiServiceFluent> customUiServiceFluentClass = customUiServices.get(0);
          try {
             SmartWebDriver driver = quest.artifact(UiServiceFluent.class, SmartWebDriver.class);
-            quest.registerWorld(customUiServiceFluentClass, customUiServiceFluentClass.getDeclaredConstructor(
+            quest.registerRing(customUiServiceFluentClass, customUiServiceFluentClass.getDeclaredConstructor(
                   SmartWebDriver.class, SuperQuest.class).newInstance(driver, quest));
-            quest.removeWorld(UiServiceFluent.class);
+            quest.removeRing(UiServiceFluent.class);
          } catch (InstantiationException | IllegalAccessException | InvocationTargetException
                   | NoSuchMethodException e) {
             throw new ServiceInitializationException("Failed to register custom UI service", e);
@@ -397,7 +397,7 @@ public class UiTestExtension implements BeforeTestExecutionCallback, AfterTestEx
                                               final Class<? extends BaseLoginClient> type, boolean cache) {
       quest.getStorage().sub(UI).put(USERNAME, username);
       quest.getStorage().sub(UI).put(PASSWORD, password);
-      UiServiceFluent<?> uiServiceFluent = quest.enters(UiServiceFluent.class);
+      UiServiceFluent<?> uiServiceFluent = quest.use(UiServiceFluent.class);
 
       try {
          BaseLoginClient baseLoginClient = type.getDeclaredConstructor().newInstance();
@@ -434,7 +434,7 @@ public class UiTestExtension implements BeforeTestExecutionCallback, AfterTestEx
          TakesScreenshot screenshot = (TakesScreenshot) driver;
          byte[] screenshotBytes = screenshot.getScreenshotAs(OutputType.BYTES);
          Allure.addAttachment(testName, new ByteArrayInputStream(screenshotBytes));
-         LogTest.info("Screenshot taken and stored for: " + testName);
+         LogQuest.info("Screenshot taken and stored for: " + testName);
       } catch (Exception e) {
          LogUi.error("Failed to take screenshot for test '{}': {}", testName, e.getMessage());
       }

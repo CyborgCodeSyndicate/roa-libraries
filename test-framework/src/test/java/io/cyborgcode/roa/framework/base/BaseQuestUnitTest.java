@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.framework.base;
 
 import io.cyborgcode.roa.framework.base.mock.MockEnum;
-import io.cyborgcode.roa.framework.log.LogTest;
+import io.cyborgcode.roa.framework.log.LogQuest;
 import io.cyborgcode.roa.framework.quest.QuestHolder;
 import io.cyborgcode.roa.framework.quest.SuperQuest;
 import io.cyborgcode.roa.framework.storage.DataExtractor;
@@ -34,8 +34,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("BaseTest Unit Tests")
-class BaseTestUnitTest {
+@DisplayName("BaseQuest Unit Tests")
+class BaseQuestUnitTest {
 
    private static final String DEFAULT_VALUE = "defaultValue";
 
@@ -48,22 +48,22 @@ class BaseTestUnitTest {
    @Mock
    private Storage subStorage;
 
-   private BaseTest baseTest;
+   private BaseQuest baseQuest;
 
    private MockedStatic<QuestHolder> questHolderMock;
-   private MockedStatic<LogTest> logTestMock;
+   private MockedStatic<LogQuest> logTestMock;
 
    @BeforeEach
-   void setUpBaseTest() {
+   void setUpBaseQuest() {
       lenient().when(superQuest.getStorage()).thenReturn(storage);
       questHolderMock = mockStatic(QuestHolder.class);
       questHolderMock.when(QuestHolder::get).thenReturn(superQuest);
-      logTestMock = mockStatic(LogTest.class);
-      baseTest = new BaseTest();
+      logTestMock = mockStatic(LogQuest.class);
+      baseQuest = new BaseQuest();
    }
 
    @AfterEach
-   void tearDownBaseTest() {
+   void tearDownBaseQuest() {
       questHolderMock.close();
       logTestMock.close();
       System.clearProperty("dummy.prop");
@@ -77,12 +77,12 @@ class BaseTestUnitTest {
       when(storage.get(key, clazz)).thenReturn(expected);
 
       // When
-      T result = baseTest.retrieve(key, clazz);
+      T result = baseQuest.retrieve(key, clazz);
 
       // Then
       assertEquals(expected, result);
       verify(storage).get(key, clazz);
-      logTestMock.verify(() -> LogTest.extended(anyString(), any(), any()));
+      logTestMock.verify(() -> LogQuest.extended(anyString(), any(), any()));
    }
 
    @Test
@@ -93,13 +93,13 @@ class BaseTestUnitTest {
       when(subStorage.get(MockEnum.KEY1, Integer.class)).thenReturn(42);
 
       // When
-      Integer result = baseTest.retrieve(MockEnum.KEY2, MockEnum.KEY1, Integer.class);
+      Integer result = baseQuest.retrieve(MockEnum.KEY2, MockEnum.KEY1, Integer.class);
 
       // Then
       assertEquals(42, result);
       verify(storage).sub(MockEnum.KEY2);
       verify(subStorage).get(MockEnum.KEY1, Integer.class);
-      logTestMock.verify(() -> LogTest.extended(anyString(), any(), any()));
+      logTestMock.verify(() -> LogQuest.extended(anyString(), any(), any()));
    }
 
    @Test
@@ -111,12 +111,12 @@ class BaseTestUnitTest {
       when(storage.get(extractor, Boolean.class)).thenReturn(true);
 
       // Given
-      Boolean result = baseTest.retrieve(extractor, Boolean.class);
+      Boolean result = baseQuest.retrieve(extractor, Boolean.class);
 
       // Then
       assertTrue(result);
       verify(storage).get(extractor, Boolean.class);
-      logTestMock.verify(() -> LogTest.extended(anyString(), any(), any()));
+      logTestMock.verify(() -> LogQuest.extended(anyString(), any(), any()));
    }
 
    @Test
@@ -128,12 +128,12 @@ class BaseTestUnitTest {
       when(storage.get(extractor, Double.class, 1)).thenReturn(9.99);
 
       // When
-      Double result = baseTest.retrieve(extractor, 1, Double.class);
+      Double result = baseQuest.retrieve(extractor, 1, Double.class);
 
       // Then
       assertEquals(9.99, result);
       verify(storage).get(extractor, Double.class, 1);
-      logTestMock.verify(() -> LogTest.extended(anyString(), any(), any()));
+      logTestMock.verify(() -> LogQuest.extended(anyString(), any(), any()));
    }
 
    @Test
@@ -144,7 +144,7 @@ class BaseTestUnitTest {
       when(subStorage.get(MockEnum.KEY1, String.class)).thenReturn(DEFAULT_VALUE);
 
       // When
-      String result = BaseTest.DefaultStorage.retrieve(MockEnum.KEY1, String.class);
+      String result = BaseQuest.DefaultStorage.retrieve(MockEnum.KEY1, String.class);
 
       // Then
       assertEquals(DEFAULT_VALUE, result);
@@ -161,7 +161,7 @@ class BaseTestUnitTest {
       when(subStorage.get(extractor, Integer.class)).thenReturn(123);
 
       // When
-      Integer result = BaseTest.DefaultStorage.retrieve(extractor, Integer.class);
+      Integer result = BaseQuest.DefaultStorage.retrieve(extractor, Integer.class);
 
       // Then
       assertEquals(123, result);
@@ -176,7 +176,7 @@ class BaseTestUnitTest {
       when(storage.get(MockEnum.KEY1, String.class)).thenReturn(null);
 
       // When
-      String result = baseTest.retrieve(MockEnum.KEY1, String.class);
+      String result = baseQuest.retrieve(MockEnum.KEY1, String.class);
 
       // Then
       assertNull(result);
@@ -193,7 +193,7 @@ class BaseTestUnitTest {
       questHolderMock.when(QuestHolder::get).thenReturn(null);
 
       // Then
-      assertThrows(NullPointerException.class, () -> new BaseTest().retrieve(MockEnum.KEY1, String.class));
+      assertThrows(NullPointerException.class, () -> new BaseQuest().retrieve(MockEnum.KEY1, String.class));
    }
 
    @Test
@@ -205,12 +205,12 @@ class BaseTestUnitTest {
 
       // When
       when(storage.getHookData(input, clazz)).thenReturn(99);
-      Integer result = baseTest.hookData(input, clazz);
+      Integer result = baseQuest.hookData(input, clazz);
 
       // Then
       assertEquals(99, result);
       verify(storage).getHookData(input, clazz);
-      logTestMock.verify(() -> LogTest.extended(anyString(), eq(input), eq(clazz.getName())));
+      logTestMock.verify(() -> LogQuest.extended(anyString(), eq(input), eq(clazz.getName())));
    }
 
    private static Stream<Arguments> provideBasicRetrieveScenarios() {

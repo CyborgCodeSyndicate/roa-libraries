@@ -9,24 +9,24 @@ import io.cyborgcode.utilities.logging.LogCore;
  * for test execution, including information, warnings, errors, debugging, tracing,
  * and validation-specific logs.
  *
- * <p>The logging is categorized under the "ROA.TEST" namespace, ensuring test-related logs
+ * <p>The logging is categorized under the "ROA.QUEST" namespace, ensuring test-related logs
  * are distinguishable from other logs in the system.
  *
  * <p>This class follows the singleton pattern, ensuring that only one instance of
- * {@code LogTest} exists.
+ * {@code LogQuest} exists.
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public final class LogTest extends LogCore {
+public final class LogQuest extends LogCore {
 
-   private static LogTest instance;
+   private static LogQuest instance;
 
    /**
     * Private constructor to enforce singleton pattern.
     * Initializes the logger with a predefined namespace.
     */
-   private LogTest() {
-      super("ROA.TEST", "TEST");
+   private LogQuest() {
+      super("ROA.TEST", "QUEST");
    }
 
    /**
@@ -110,13 +110,13 @@ public final class LogTest extends LogCore {
    }
 
    /**
-    * Retrieves the singleton instance of {@code LogTest}.
+    * Retrieves the singleton instance of {@code LogQuest}.
     *
-    * @return The singleton instance of {@code LogTest}.
+    * @return The singleton instance of {@code LogQuest}.
     */
-   private static LogTest getInstance() {
+   private static LogQuest getInstance() {
       if (instance == null) {
-         instance = new LogTest();
+         instance = new LogQuest();
       }
       return instance;
    }

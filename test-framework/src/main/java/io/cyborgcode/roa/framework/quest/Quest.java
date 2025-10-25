@@ -1,10 +1,10 @@
 package io.cyborgcode.roa.framework.quest;
 
 
-import io.cyborgcode.roa.framework.annotation.TestService;
+import io.cyborgcode.roa.framework.annotation.Ring;
 import io.cyborgcode.roa.framework.assertion.CustomSoftAssertion;
 import io.cyborgcode.roa.framework.chain.FluentService;
-import io.cyborgcode.roa.framework.log.LogTest;
+import io.cyborgcode.roa.framework.log.LogQuest;
 import io.cyborgcode.roa.framework.storage.Storage;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +18,7 @@ import static io.cyborgcode.utilities.reflections.ReflectionUtil.getFieldValues;
  *
  * <p>This class acts as the central controller for executing test operations,
  * managing service interactions, and storing data during a test run.
- * It allows transitioning between different testing contexts (worlds) and
+ * It allows transitioning between different testing contexts (rings) and
  * ensures test completion with proper validations.
  *
  * @author Cyborg Code Syndicate 💍👨💻
@@ -28,7 +28,7 @@ public class Quest {
    /**
     * Stores registered test services, mapping their types to instances.
     */
-   private final Map<Class<? extends FluentService>, FluentService> worlds = new HashMap<>();
+   private final Map<Class<? extends FluentService>, FluentService> rings = new HashMap<>();
 
    /**
     * Storage instance for temporarily holding test data within a test execution.
@@ -48,51 +48,49 @@ public class Quest {
    }
 
    /**
-    * Transitions the test execution context into the specified world (test service).
+    * Transitions the test execution context into the specified ring (test service).
     *
     * <p>This method retrieves a registered service by its class type and allows the test execution
     * to proceed within that context.
     *
-    * @param worldType The class type of the desired test service.
-    * @param <T>       The type of the fluent service.
+    * @param ring The class type of the desired test service.
+    * @param <T>  The type of the fluent service.
     * @return The corresponding fluent service instance.
-    * @throws IllegalArgumentException If the specified world is not registered.
+    * @throws IllegalArgumentException If the specified ring is not registered.
     */
    @SuppressWarnings("unchecked")
-   public <T extends FluentService> T enters(Class<T> worldType) {
+   public <T extends FluentService> T use(Class<T> ring) {
       Optional<Class<? extends FluentService>> match =
-            worlds.keySet().stream().filter(worldType::isAssignableFrom).findFirst();
+            rings.keySet().stream().filter(ring::isAssignableFrom).findFirst();
       if (match.isEmpty()) {
-         throw new IllegalArgumentException("World not initialized: " + worldType.getName());
+         throw new IllegalArgumentException("Ring not initialized: " + ring.getName());
       }
-      TestService worldName = worldType.getAnnotation(TestService.class);
-      if (worldName == null) {
-         worldName = worldType.getAnnotation(TestService.class);
-      }
-      String message = worldName == null
-            ? "The quest has undertaken a journey through: '" + worldType.getName() + "'"
-            : "The quest has undertaken a journey through: '" + worldName.value() + "'";
+      Ring ringName = ring.getAnnotation(Ring.class);
 
-      LogTest.info(message);
-      return (T) worlds.get(match.get());
+      String message = ringName == null
+            ? "The quest has used the ring: '" + ring.getName() + "'"
+            : "The quest has used the ring: '" + ringName.value() + "'";
+
+      LogQuest.info(message);
+      return (T) rings.get(match.get());
    }
 
    /**
     * Retrieves a registered fluent service without modifying the execution context.
     *
-    * @param worldType The class type of the service to retrieve.
+    * @param ringType The class type of the service to retrieve.
     * @param <T>       The type of the fluent service.
     * @return The corresponding service instance.
-    * @throws IllegalArgumentException If the specified world is not registered.
+    * @throws IllegalArgumentException If the specified ring is not registered.
     */
    @SuppressWarnings("unchecked")
-   protected <T extends FluentService> T cast(Class<T> worldType) {
+   protected <T extends FluentService> T cast(Class<T> ringType) {
       Optional<Class<? extends FluentService>> match =
-            worlds.keySet().stream().filter(worldType::isAssignableFrom).findFirst();
+            rings.keySet().stream().filter(ringType::isAssignableFrom).findFirst();
       if (match.isEmpty()) {
-         throw new IllegalArgumentException("World not initialized: " + worldType.getName());
+         throw new IllegalArgumentException("Ring not initialized: " + ringType.getName());
       }
-      return (T) worlds.get(match.get());
+      return (T) rings.get(match.get());
    }
 
    /**
@@ -102,7 +100,7 @@ public class Quest {
     * soft assertions collected during the test execution.
     */
    public void complete() {
-      LogTest.info("The quest has reached his end");
+      LogQuest.info("The quest has reached his end");
       QuestHolder.clear();
       softAssertions.assertAll();
    }
@@ -113,30 +111,30 @@ public class Quest {
     * <p>This method extracts an instance of the specified artifact type from the
     * requested test service.
     *
-    * @param worldType    The class type of the test service.
+    * @param ringType    The class type of the test service.
     * @param artifactType The class type of the artifact to retrieve.
     * @param <T>          The type of the test service.
     * @param <K>          The type of the artifact.
     * @return The retrieved artifact instance.
     * @throws IllegalArgumentException If input parameters are null.
-    * @throws IllegalStateException    If the requested world is not available.
+    * @throws IllegalStateException    If the requested ring is not available.
     */
-   protected <T extends FluentService, K> K artifact(Class<T> worldType, Class<K> artifactType) {
-      if (worldType == null || artifactType == null) {
-         throw new IllegalArgumentException("Parameters worldType and artifactType must not be null.");
+   protected <T extends FluentService, K> K artifact(Class<T> ringType, Class<K> artifactType) {
+      if (ringType == null || artifactType == null) {
+         throw new IllegalArgumentException("Parameters ringType and artifactType must not be null.");
       }
 
-      T world = cast(worldType);
-      if (world == null) {
+      T ring = cast(ringType);
+      if (ring == null) {
          throw new IllegalStateException(
-               "Could not retrieve an instance of the specified worldType: " + worldType.getName());
+               "Could not retrieve an instance of the specified ringType: " + ringType.getName());
       }
 
-      List<K> fieldValues = getFieldValues(world, artifactType);
+      List<K> fieldValues = getFieldValues(ring, artifactType);
       if (fieldValues.size() > 1) {
-         LogTest.warn(
+         LogQuest.warn(
                "There is more than one artifact from type: {} inside class: {}. The first one will be taken: {}",
-               artifactType, worldType, fieldValues.get(0));
+               artifactType, ringType, fieldValues.get(0));
       }
       return fieldValues.get(0);
    }
@@ -144,20 +142,20 @@ public class Quest {
    /**
     * Registers a new test service into the current execution context.
     *
-    * @param worldType The class type of the test service.
-    * @param world     The instance of the test service.
+    * @param ringType The class type of the test service.
+    * @param ring     The instance of the test service.
     */
-   protected void registerWorld(Class<? extends FluentService> worldType, FluentService world) {
-      worlds.put(worldType, world);
+   protected void registerRing(Class<? extends FluentService> ringType, FluentService ring) {
+      rings.put(ringType, ring);
    }
 
    /**
     * Removes a test service from the current execution context.
     *
-    * @param worldType The class type of the test service to remove.
+    * @param ringType The class type of the test service to remove.
     */
-   protected void removeWorld(Class<? extends FluentService> worldType) {
-      worlds.remove(worldType);
+   protected void removeRing(Class<? extends FluentService> ringType) {
+      rings.remove(ringType);
    }
 
    /**
