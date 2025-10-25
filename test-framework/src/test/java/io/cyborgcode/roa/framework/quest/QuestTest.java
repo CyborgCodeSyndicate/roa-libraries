@@ -2,7 +2,7 @@ package io.cyborgcode.roa.framework.quest;
 
 import io.cyborgcode.roa.framework.assertion.CustomSoftAssertion;
 import io.cyborgcode.roa.framework.chain.FluentService;
-import io.cyborgcode.roa.framework.log.LogTest;
+import io.cyborgcode.roa.framework.log.LogQuest;
 import io.cyborgcode.roa.framework.quest.mock.MockFluentService;
 import io.cyborgcode.roa.framework.quest.mock.TestableQuest;
 import io.cyborgcode.roa.framework.storage.Storage;
@@ -36,59 +36,59 @@ class QuestTest {
     void setUp() {
         quest = new TestableQuest();
         mockFluentService = new MockFluentService();
-        quest.exposeRegisterWorld(MockFluentService.class, mockFluentService);
+        quest.exposeRegisterRing(MockFluentService.class, mockFluentService);
     }
 
     @Nested
-    @DisplayName("enters method tests")
-    class EntersMethodTests {
+    @DisplayName("use method tests")
+    class UseMethodTests {
         @Test
-        @DisplayName("Should successfully enter existing world")
-        void testEntersSuccess() {
-            try (MockedStatic<LogTest> logMock = mockStatic(LogTest.class)) {
+        @DisplayName("Should successfully enter existing ring")
+        void testUseSuccess() {
+            try (MockedStatic<LogQuest> logMock = mockStatic(LogQuest.class)) {
                 // When
-                MockFluentService result = quest.enters(MockFluentService.class);
+                MockFluentService result = quest.use(MockFluentService.class);
 
                 // Then
                 assertSame(mockFluentService, result);
-                logMock.verify(() -> LogTest.info(
-                        "The quest has undertaken a journey through: 'MockWorld'"
+                logMock.verify(() -> LogQuest.info(
+                        "The quest has used the ring: 'MockRing'"
                 ));
             }
         }
 
         @Test
-        @DisplayName("Should throw exception when world not initialized")
-        void testEntersNoWorld() {
+        @DisplayName("Should throw exception when ring not initialized")
+        void testUseNoRing() {
             // Given
-            quest.exposeRemoveWorld(MockFluentService.class);
+            quest.exposeRemoveRing(MockFluentService.class);
 
             // When/Then
             IllegalArgumentException exception = assertThrows(
                     IllegalArgumentException.class,
-                    () -> quest.enters(MockFluentService.class)
+                    () -> quest.use(MockFluentService.class)
             );
             assertEquals(
-                    "World not initialized: " + MockFluentService.class.getName(),
+                    "Ring not initialized: " + MockFluentService.class.getName(),
                     exception.getMessage()
             );
         }
 
         @Test
-        @DisplayName("Should handle world without TestService annotation")
-        void testEntersWorldWithoutAnnotation() {
+        @DisplayName("Should handle ring without TestService annotation")
+        void testUseRingWithoutAnnotation() {
             // Given
             class NoAnnotationService extends FluentService {
             }
-            quest.exposeRegisterWorld(NoAnnotationService.class, new NoAnnotationService());
+            quest.exposeRegisterRing(NoAnnotationService.class, new NoAnnotationService());
 
             // When/Then
-            try (MockedStatic<LogTest> logMock = mockStatic(LogTest.class)) {
-                NoAnnotationService result = quest.enters(NoAnnotationService.class);
+            try (MockedStatic<LogQuest> logMock = mockStatic(LogQuest.class)) {
+                NoAnnotationService result = quest.use(NoAnnotationService.class);
 
                 assertNotNull(result);
-                logMock.verify(() -> LogTest.info(
-                        "The quest has undertaken a journey through: '" +
+                logMock.verify(() -> LogQuest.info(
+                        "The quest has used the ring: '" +
                                 NoAnnotationService.class.getName() + "'"
                 ));
             }
@@ -121,16 +121,16 @@ class QuestTest {
                     )
             );
             assertEquals(
-                    "Parameters worldType and artifactType must not be null.",
+                    "Parameters ringType and artifactType must not be null.",
                     exception.getMessage()
             );
         }
 
         @Test
-        @DisplayName("Should throw exception when world is not found")
-        void testArtifactWorldNotFound() {
+        @DisplayName("Should throw exception when ring is not found")
+        void testArtifactRingNotFound() {
             // Given
-            quest.exposeRemoveWorld(MockFluentService.class);
+            quest.exposeRemoveRing(MockFluentService.class);
 
             // When/Then
             IllegalArgumentException exception = assertThrows(
@@ -138,14 +138,14 @@ class QuestTest {
                     () -> quest.exposeArtifact(MockFluentService.class, String.class)
             );
             assertEquals(
-                    "World not initialized: " + MockFluentService.class.getName(),
+                    "Ring not initialized: " + MockFluentService.class.getName(),
                     exception.getMessage()
             );
         }
 
         @Test
-        @DisplayName("Should throw IllegalArgumentException when worldType is null")
-        void testArtifactNullWorldType() {
+        @DisplayName("Should throw IllegalArgumentException when ringType is null")
+        void testArtifactNullRingType() {
             // When/Then
             IllegalArgumentException exception = assertThrows(
                     IllegalArgumentException.class,
@@ -153,7 +153,7 @@ class QuestTest {
             );
 
             assertEquals(
-                    "Parameters worldType and artifactType must not be null.",
+                    "Parameters ringType and artifactType must not be null.",
                     exception.getMessage()
             );
         }
@@ -168,16 +168,16 @@ class QuestTest {
             );
 
             assertEquals(
-                    "Parameters worldType and artifactType must not be null.",
+                    "Parameters ringType and artifactType must not be null.",
                     exception.getMessage()
             );
         }
 
         @Test
-        @DisplayName("Should throw IllegalArgumentException when no matching world is found for cast")
-        void testArtifactNoMatchingWorld() {
+        @DisplayName("Should throw IllegalArgumentException when no matching ring is found for cast")
+        void testArtifactNoMatchingRing() {
             // Given
-            quest.exposeRemoveWorld(MockFluentService.class);
+            quest.exposeRemoveRing(MockFluentService.class);
 
             // Create a new service class to test
             class UnregisteredService extends FluentService {
@@ -191,7 +191,7 @@ class QuestTest {
             );
 
             assertEquals(
-                    "World not initialized: " + UnregisteredService.class.getName(),
+                    "Ring not initialized: " + UnregisteredService.class.getName(),
                     exception.getMessage()
             );
         }
@@ -214,7 +214,7 @@ class QuestTest {
 
             // Register the subclass
             SubMockService subService = new SubMockService();
-            quest.exposeRegisterWorld(SubMockService.class, subService);
+            quest.exposeRegisterRing(SubMockService.class, subService);
 
             // When
             String retrievedField = quest.exposeArtifact(SubMockService.class, String.class);
@@ -234,7 +234,7 @@ class QuestTest {
             }
 
             ComplexService service = new ComplexService();
-            quest.exposeRegisterWorld(ComplexService.class, service);
+            quest.exposeRegisterRing(ComplexService.class, service);
 
             // When/Then - verify Number retrieval
             Number numberValue = quest.exposeArtifact(ComplexService.class, Number.class);
@@ -255,7 +255,7 @@ class QuestTest {
             }
 
             MultiFieldService service = new MultiFieldService();
-            quest.exposeRegisterWorld(MultiFieldService.class, service);
+            quest.exposeRegisterRing(MultiFieldService.class, service);
 
             // When
             String retrievedField = quest.exposeArtifact(MultiFieldService.class, String.class);
@@ -269,7 +269,7 @@ class QuestTest {
     @DisplayName("cast method tests")
     class CastMethodTests {
         @Test
-        @DisplayName("Should successfully cast to world")
+        @DisplayName("Should successfully cast to ring")
         void testCastSuccess() {
             // When
             MockFluentService result = quest.exposeCast(MockFluentService.class);
@@ -279,10 +279,10 @@ class QuestTest {
         }
 
         @Test
-        @DisplayName("Should throw exception when world not initialized")
-        void testCastNoWorld() {
+        @DisplayName("Should throw exception when ring not initialized")
+        void testCastNoRing() {
             // Given
-            quest.exposeRemoveWorld(MockFluentService.class);
+            quest.exposeRemoveRing(MockFluentService.class);
 
             // When/Then
             IllegalArgumentException exception = assertThrows(
@@ -290,7 +290,7 @@ class QuestTest {
                     () -> quest.exposeCast(MockFluentService.class)
             );
             assertEquals(
-                    "World not initialized: " + MockFluentService.class.getName(),
+                    "Ring not initialized: " + MockFluentService.class.getName(),
                     exception.getMessage()
             );
         }
@@ -309,13 +309,13 @@ class QuestTest {
             softField.set(quest, softSpy);
 
             // When/Then
-            try (MockedStatic<LogTest> logMock = mockStatic(LogTest.class);
+            try (MockedStatic<LogQuest> logMock = mockStatic(LogQuest.class);
                  MockedStatic<QuestHolder> holderMock = mockStatic(QuestHolder.class)) {
 
                 quest.complete();
 
                 // Verify interactions
-                logMock.verify(() -> LogTest.info("The quest has reached his end"));
+                logMock.verify(() -> LogQuest.info("The quest has reached his end"));
                 holderMock.verify(QuestHolder::clear);
                 verify(softSpy, times(1)).assertAll();
             }
@@ -347,21 +347,21 @@ class QuestTest {
     }
 
     @Nested
-    @DisplayName("World management tests")
-    class WorldManagementTests {
+    @DisplayName("Ring management tests")
+    class RingManagementTests {
         @Test
-        @DisplayName("Should remove world")
-        void testRemoveWorld() {
+        @DisplayName("Should remove ring")
+        void testRemoveRing() {
             // Given
-            quest.exposeRemoveWorld(MockFluentService.class);
+            quest.exposeRemoveRing(MockFluentService.class);
 
             // When/Then
             IllegalArgumentException exception = assertThrows(
                     IllegalArgumentException.class,
-                    () -> quest.enters(MockFluentService.class)
+                    () -> quest.use(MockFluentService.class)
             );
             assertEquals(
-                    "World not initialized: " + MockFluentService.class.getName(),
+                    "Ring not initialized: " + MockFluentService.class.getName(),
                     exception.getMessage()
             );
         }
@@ -376,7 +376,7 @@ class QuestTest {
             private int someIntField = 42;
         }
 
-        quest.exposeRegisterWorld(NoMatchingFieldService.class, new NoMatchingFieldService());
+        quest.exposeRegisterRing(NoMatchingFieldService.class, new NoMatchingFieldService());
 
         // When/Then
         ReflectionException exception = assertThrows(
@@ -400,7 +400,7 @@ class QuestTest {
             private Integer intField = 42;
         }
 
-        quest.exposeRegisterWorld(TypeMismatchService.class, new TypeMismatchService());
+        quest.exposeRegisterRing(TypeMismatchService.class, new TypeMismatchService());
 
         // When/Then
         ReflectionException exception = assertThrows(
@@ -417,22 +417,22 @@ class QuestTest {
     }
 
     @Test
-    @DisplayName("Should throw IllegalStateException when world is null")
-    void testArtifactNullWorld() {
+    @DisplayName("Should throw IllegalStateException when ring is null")
+    void testArtifactNullRing() {
         // Given
-        class NullWorldService extends FluentService {}
+        class NullRingService extends FluentService {}
 
         TestableQuest spyQuest = spy(quest);
-        spyQuest.exposeRegisterWorld(NullWorldService.class, null);
+        spyQuest.exposeRegisterRing(NullRingService.class, null);
 
         // When/Then
         IllegalStateException exception = assertThrows(
                 IllegalStateException.class,
-                () -> spyQuest.exposeArtifact(NullWorldService.class, String.class)
+                () -> spyQuest.exposeArtifact(NullRingService.class, String.class)
         );
 
         assertEquals(
-                "Could not retrieve an instance of the specified worldType: " + NullWorldService.class.getName(),
+                "Could not retrieve an instance of the specified ringType: " + NullRingService.class.getName(),
                 exception.getMessage()
         );
     }
@@ -442,7 +442,7 @@ class QuestTest {
     void testArtifactEmptyFieldList() {
         // Given
         class EmptyService extends FluentService {}
-        quest.exposeRegisterWorld(EmptyService.class, new EmptyService());
+        quest.exposeRegisterRing(EmptyService.class, new EmptyService());
 
         // When/Then
         assertThrows(ReflectionException.class,
@@ -452,26 +452,26 @@ class QuestTest {
     @Test
     @DisplayName("Should log warning when multiple artifacts found")
     void testArtifactMultipleFoundWarning() {
-        try (MockedStatic<LogTest> logMock = mockStatic(LogTest.class)) {
+        try (MockedStatic<LogQuest> logMock = mockStatic(LogQuest.class)) {
             // Given
             class MultiFieldService extends FluentService {
                 public String field1 = "first";
                 public String field2 = "second";
             }
-            quest.exposeRegisterWorld(MultiFieldService.class, new MultiFieldService());
+            quest.exposeRegisterRing(MultiFieldService.class, new MultiFieldService());
 
             // When
             quest.exposeArtifact(MultiFieldService.class, String.class);
 
             // Then
-            logMock.verify(() -> LogTest.warn(
+            logMock.verify(() -> LogQuest.warn(
                     anyString(), any(), any(), any()
             ));
         }
     }
 
     @Test
-    @DisplayName("Should maintain separate worlds per Quest instance")
+    @DisplayName("Should maintain separate rings per Quest instance")
     void testInstanceIsolation() {
         TestableQuest quest1 = new TestableQuest();
         TestableQuest quest2 = new TestableQuest();
@@ -479,10 +479,10 @@ class QuestTest {
         FluentService service1 = new MockFluentService();
         FluentService service2 = new MockFluentService();
 
-        quest1.exposeRegisterWorld(MockFluentService.class, service1);
-        quest2.exposeRegisterWorld(MockFluentService.class, service2);
+        quest1.exposeRegisterRing(MockFluentService.class, service1);
+        quest2.exposeRegisterRing(MockFluentService.class, service2);
 
-        assertSame(service1, quest1.enters(MockFluentService.class));
-        assertSame(service2, quest2.enters(MockFluentService.class));
+        assertSame(service1, quest1.use(MockFluentService.class));
+        assertSame(service2, quest2.use(MockFluentService.class));
     }
 }

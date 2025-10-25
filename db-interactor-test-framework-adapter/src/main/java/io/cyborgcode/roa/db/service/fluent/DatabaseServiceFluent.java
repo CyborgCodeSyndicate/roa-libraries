@@ -3,7 +3,7 @@ package io.cyborgcode.roa.db.service.fluent;
 import io.cyborgcode.roa.db.query.DbQuery;
 import io.cyborgcode.roa.db.query.QueryResponse;
 import io.cyborgcode.roa.db.service.DatabaseService;
-import io.cyborgcode.roa.framework.annotation.TestService;
+import io.cyborgcode.roa.framework.annotation.Ring;
 import io.cyborgcode.roa.framework.base.ClassLevelHook;
 import io.cyborgcode.roa.framework.chain.FluentService;
 import io.cyborgcode.roa.framework.retry.RetryCondition;
@@ -25,7 +25,7 @@ import static io.cyborgcode.roa.db.storage.StorageKeysDb.DB;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@TestService("DB")
+@Ring("DB")
 public class DatabaseServiceFluent extends FluentService implements ClassLevelHook {
 
    private final DatabaseService databaseService;

@@ -18,6 +18,14 @@
         <include.tags></include.tags>
         <exclude.tags>exclude-from-verify</exclude.tags>
 
+        <api.config.file>config</api.config.file>
+        <db.config.file>config</db.config.file>
+        <ui.config.file>config</ui.config.file>
+        <test.data.file>test_data</test.data.file>
+        <framework.config.file>config</framework.config.file>
+
+        <test.env></test.env>
+
         <surefire.forkCount>1C</surefire.forkCount>
         <surefire.reuseForks>true</surefire.reuseForks>
 
@@ -46,42 +54,42 @@
             <dependency>
                 <groupId>io.cyborgcode.roa</groupId>
                 <artifactId>assertions</artifactId>
-                <version>${project.version}</version>
+                <version>${project.parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.cyborgcode.roa</groupId>
                 <artifactId>api-interactor</artifactId>
-                <version>${project.version}</version>
+                <version>${project.parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.cyborgcode.roa</groupId>
                 <artifactId>db-interactor</artifactId>
-                <version>${project.version}</version>
+                <version>${project.parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.cyborgcode.roa</groupId>
                 <artifactId>ui-interactor</artifactId>
-                <version>${project.version}</version>
+                <version>${project.parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.cyborgcode.roa</groupId>
                 <artifactId>test-framework</artifactId>
-                <version>${project.version}</version>
+                <version>${project.parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.cyborgcode.roa</groupId>
                 <artifactId>api-interactor-test-framework-adapter</artifactId>
-                <version>${project.version}</version>
+                <version>${project.parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.cyborgcode.roa</groupId>
                 <artifactId>db-interactor-test-framework-adapter</artifactId>
-                <version>${project.version}</version>
+                <version>${project.parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.cyborgcode.roa</groupId>
                 <artifactId>ui-interactor-test-framework-adapter</artifactId>
-                <version>${project.version}</version>
+                <version>${project.parent.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

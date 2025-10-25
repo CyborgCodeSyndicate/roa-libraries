@@ -11,7 +11,7 @@ public class DummyLate<T> implements Late<T> {
    }
 
    @Override
-   public T join() {
+   public T create() {
       return value;
    }
 }

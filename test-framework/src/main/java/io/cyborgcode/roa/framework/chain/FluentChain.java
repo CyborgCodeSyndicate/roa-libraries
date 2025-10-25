@@ -1,6 +1,6 @@
 package io.cyborgcode.roa.framework.chain;
 
-import io.cyborgcode.roa.framework.log.LogTest;
+import io.cyborgcode.roa.framework.log.LogQuest;
 import io.cyborgcode.roa.framework.quest.Quest;
 import io.cyborgcode.roa.framework.quest.SuperQuest;
 import java.util.function.Consumer;
@@ -13,7 +13,7 @@ import org.assertj.core.api.SoftAssertions;
  * in a fluent manner, allowing validation and completion of tasks within a
  * chained execution flow.
  *
- * <p>Implementing classes must provide the {@code then()} method to return a {@code Quest},
+ * <p>Implementing classes must provide the {@code drop()} method to return a {@code Quest},
  * enabling further execution and validation within the chain.
  *
  * @author Cyborg Code Syndicate 💍👨💻
@@ -25,7 +25,7 @@ public interface FluentChain {
     *
     * @return The current {@code Quest} instance.
     */
-   Quest then();
+   Quest drop();
 
    /**
     * Performs a soft validation within the execution chain.
@@ -37,8 +37,8 @@ public interface FluentChain {
     * @return The current {@code FluentChain} instance for method chaining.
     */
    default FluentChain validate(Consumer<SoftAssertions> assertion) {
-      Quest quest = then();
-      LogTest.validation("Starting soft validation.");
+      Quest quest = drop();
+      LogQuest.validation("Starting soft validation.");
       assertion.accept(createSuperQuest(quest).getSoftAssertions());
       return this;
    }
@@ -52,12 +52,12 @@ public interface FluentChain {
     * @return The current {@code FluentChain} instance for method chaining.
     */
    default FluentChain validate(Runnable assertion) {
-      LogTest.validation("Starting hard validation...");
+      LogQuest.validation("Starting hard validation...");
       try {
          assertion.run();
-         LogTest.validation("Hard validation completed successfully.");
+         LogQuest.validation("Hard validation completed successfully.");
       } catch (AssertionError | Exception e) {
-         LogTest.validation("Hard validation failed: " + e.getMessage());
+         LogQuest.validation("Hard validation failed: " + e.getMessage());
          throw e;
       }
       return this;
@@ -69,7 +69,7 @@ public interface FluentChain {
     * <p>This signals that the sequence of operations has been finalized.
     */
    default void complete() {
-      then().complete();
+      drop().complete();
    }
 
    /**

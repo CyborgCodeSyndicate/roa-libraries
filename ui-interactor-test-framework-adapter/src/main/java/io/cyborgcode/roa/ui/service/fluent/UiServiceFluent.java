@@ -1,6 +1,6 @@
 package io.cyborgcode.roa.ui.service.fluent;
 
-import io.cyborgcode.roa.framework.annotation.TestService;
+import io.cyborgcode.roa.framework.annotation.Ring;
 import io.cyborgcode.roa.framework.chain.FluentService;
 import io.cyborgcode.roa.ui.components.accordion.AccordionServiceImpl;
 import io.cyborgcode.roa.ui.components.alert.AlertServiceImpl;
@@ -51,7 +51,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@TestService("UI")
+@Ring("UI")
 @Getter
 public class UiServiceFluent<T extends UiServiceFluent<?>> extends FluentService {
 

@@ -1,6 +1,6 @@
 package io.cyborgcode.roa.framework.chain;
 
-import io.cyborgcode.roa.framework.log.LogTest;
+import io.cyborgcode.roa.framework.log.LogQuest;
 import io.cyborgcode.roa.framework.quest.Quest;
 import io.cyborgcode.roa.framework.quest.SuperQuest;
 import io.cyborgcode.roa.framework.retry.RetryCondition;
@@ -33,8 +33,8 @@ public class FluentService implements FluentChain {
     * @return The original {@code Quest} instance.
     */
    @Override
-   public Quest then() {
-      LogTest.info("The quest has left the journey.");
+   public Quest drop() {
+      LogQuest.info("The quest has dropped the ring.");
       return quest.getOriginal();
    }
 
@@ -76,7 +76,7 @@ public class FluentService implements FluentChain {
    protected void validation(List<AssertionResult<Object>> assertionResults) {
       assertionResults.forEach(assertionResult -> {
          String message = assertionResult.toString();
-         LogTest.validation(message);
+         LogQuest.validation(message);
          Allure.step(message);
 
          boolean isPassed = assertionResult.isPassed();

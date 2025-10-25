@@ -15,12 +15,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("BaseTestSequential Tests")
-class BaseTestSequentialTest {
+@DisplayName("BaseQuestSequential Tests")
+class BaseQuestSequentialTest {
 
    @Spy
    @InjectMocks
-   private BaseTestSequential baseTestSequential;
+   private BaseQuestSequential baseQuestSequential;
 
    @Mock
    private Services services;
@@ -29,19 +29,19 @@ class BaseTestSequentialTest {
    @DisplayName("beforeAll() should call overridable beforeAll(Services)")
    void testBeforeAll_ShouldCallOverridableBeforeAll() {
       // When
-      baseTestSequential.beforeAll();
+      baseQuestSequential.beforeAll();
 
       // Then
-      verify(baseTestSequential).beforeAll(services);
+      verify(baseQuestSequential).beforeAll(services);
    }
 
    @Test
    @DisplayName("afterAll() should call overridable afterAll(Services)")
    void testAfterAll_ShouldCallOverridableAfterAll() {
       // When
-      baseTestSequential.afterAll();
+      baseQuestSequential.afterAll();
 
       // Then
-      verify(baseTestSequential).afterAll(services);
+      verify(baseQuestSequential).afterAll(services);
    }
 }

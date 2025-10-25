@@ -5,7 +5,7 @@ import io.cyborgcode.roa.framework.decorators.DecoratorsFactory;
 import io.cyborgcode.roa.framework.extension.mock.MockConfig;
 import io.cyborgcode.roa.framework.extension.mock.MockNoRipper;
 import io.cyborgcode.roa.framework.extension.mock.MockRipper;
-import io.cyborgcode.roa.framework.log.LogTest;
+import io.cyborgcode.roa.framework.log.LogQuest;
 import io.cyborgcode.roa.framework.parameters.DataRipper;
 import io.cyborgcode.roa.framework.quest.Quest;
 import io.cyborgcode.roa.framework.quest.SuperQuest;
@@ -119,7 +119,7 @@ class RipperManTest {
 
                 Storage subStorage = mock(Storage.class);
                 when(storage.sub(ARGUMENTS)).thenReturn(subStorage);
-                doNothing().when(subStorage).joinLateArguments();
+                doNothing().when(subStorage).createLateArguments();
 
                 MockConfig mockConfig = new MockConfig();
                 try (MockedStatic<FrameworkConfigHolder> configMock = mockStatic(FrameworkConfigHolder.class)) {
@@ -140,14 +140,14 @@ class RipperManTest {
                                                 )
                         ).thenReturn(dataRipper);
 
-                        try (MockedStatic<LogTest> logTestMock = mockStatic(LogTest.class)) {
+                        try (MockedStatic<LogQuest> logTestMock = mockStatic(LogQuest.class)) {
                             ripperMan.afterTestExecution(context);
 
                             // Then
-                            verify(subStorage).joinLateArguments();
+                            verify(subStorage).createLateArguments();
                             verify(consumer).accept(superQuest);
 
-                            logTestMock.verify(() -> LogTest.info(
+                            logTestMock.verify(() -> LogQuest.info(
                                 eq("DataRipper processed target: '{}'."), eq(MOCK_TARGET)));
                         }
                     }

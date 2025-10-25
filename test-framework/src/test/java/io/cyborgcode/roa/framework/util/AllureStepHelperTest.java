@@ -4,7 +4,7 @@ import io.cyborgcode.utilities.config.ConfigSource;
 import io.cyborgcode.utilities.config.PropertyConfig;
 import io.cyborgcode.roa.framework.config.FrameworkConfig;
 import io.cyborgcode.roa.framework.config.FrameworkConfigHolder;
-import io.cyborgcode.roa.framework.log.LogTest;
+import io.cyborgcode.roa.framework.log.LogQuest;
 import io.cyborgcode.utilities.reflections.ReflectionUtil;
 import io.qameta.allure.Allure;
 import org.aeonbits.owner.Config;
@@ -283,12 +283,12 @@ public class AllureStepHelperTest {
         long durationInSeconds = 5;
 
         // When
-        try (MockedStatic<LogTest> mockedLogTest = mockStatic(LogTest.class)) {
+        try (MockedStatic<LogQuest> mockedLogTest = mockStatic(LogQuest.class)) {
             AllureStepHelper.logTestOutcome(testName, "SUCCESS", durationInSeconds, null);
 
             // Then
             mockedLogTest.verify(() ->
-                            LogTest.info(anyString(), eq(testName), eq("SUCCESS"), eq(durationInSeconds)),
+                            LogQuest.info(anyString(), eq(testName), eq("SUCCESS"), eq(durationInSeconds)),
                     times(1)
             );
         }
@@ -303,16 +303,16 @@ public class AllureStepHelperTest {
         Throwable throwable = new RuntimeException("Test failed");
 
         // When
-        try (MockedStatic<LogTest> mockedLogTest = mockStatic(LogTest.class)) {
+        try (MockedStatic<LogQuest> mockedLogTest = mockStatic(LogQuest.class)) {
             AllureStepHelper.logTestOutcome(testName, "FAILED", durationInSeconds, throwable);
 
             // Then
             mockedLogTest.verify(() ->
-                            LogTest.info(anyString(), eq(testName), eq("FAILED"), eq(durationInSeconds)),
+                            LogQuest.info(anyString(), eq(testName), eq("FAILED"), eq(durationInSeconds)),
                     times(1)
             );
             mockedLogTest.verify(() ->
-                            LogTest.debug(eq("Failure reason:"), eq(throwable)),
+                            LogQuest.debug(eq("Failure reason:"), eq(throwable)),
                     times(1)
             );
         }
@@ -710,7 +710,7 @@ public class AllureStepHelperTest {
                 MockedStatic<ReflectionUtil> mockedReflectionUtil = mockStatic(ReflectionUtil.class);
                 MockedStatic<ConfigCache> mockedConfigCache = mockStatic(ConfigCache.class);
                 MockedStatic<FrameworkConfigHolder> mockedFrameworkConfigHolder = mockStatic(FrameworkConfigHolder.class);
-                MockedStatic<LogTest> mockedLogTest = mockStatic(LogTest.class)
+                MockedStatic<LogQuest> mockedLogTest = mockStatic(LogQuest.class)
         ) {
             // 1. Setup framework config
             FrameworkConfig mockConfig = mock(FrameworkConfig.class);
@@ -746,7 +746,7 @@ public class AllureStepHelperTest {
             assertTrue(result.isEmpty());
 
             mockedLogTest.verify(() ->
-                            LogTest.error(eq("Error processing willThrow"), any(Exception.class)),
+                            LogQuest.error(eq("Error processing willThrow"), any(Exception.class)),
                     atLeastOnce()
             );
         }

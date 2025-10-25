@@ -3,7 +3,7 @@ package io.cyborgcode.roa.api.service.fluent;
 import io.cyborgcode.roa.api.authentication.BaseAuthenticationClient;
 import io.cyborgcode.roa.api.core.Endpoint;
 import io.cyborgcode.roa.api.service.RestService;
-import io.cyborgcode.roa.framework.annotation.TestService;
+import io.cyborgcode.roa.framework.annotation.Ring;
 import io.cyborgcode.roa.framework.base.ClassLevelHook;
 import io.cyborgcode.roa.framework.chain.FluentService;
 import io.cyborgcode.roa.framework.retry.RetryCondition;
@@ -27,7 +27,7 @@ import static io.cyborgcode.roa.api.storage.StorageKeysApi.API;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@TestService("API")
+@Ring("API")
 @SuppressWarnings("java:S6832")
 public class RestServiceFluent extends FluentService implements ClassLevelHook {
 

@@ -23,7 +23,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class LogTestTest {
+class LogQuestTest {
     // Constants for test data
     static final String INFO_MESSAGE = "info message";
     static final String WARN_MESSAGE = "warn message";
@@ -53,13 +53,13 @@ class LogTestTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        clearLogTestInstance();
+        clearLogQuestInstance();
         clearExtendedLogging();
     }
 
     @AfterEach
     void tearDown() throws Exception {
-        clearLogTestInstance();
+        clearLogQuestInstance();
         clearExtendedLogging();
         System.clearProperty(EXTENDED_LOGGING);
     }
@@ -73,7 +73,7 @@ class LogTestTest {
             Object[] args = {ARG_1, 100};
 
             // When: info log is called
-            LogTest.info(INFO_MESSAGE, args);
+            LogQuest.info(INFO_MESSAGE, args);
 
             // Then: verify logger was called with expected parameters
             verify(mockLogger, times(1)).info(mockMarker, INFO_MESSAGE, args);
@@ -89,7 +89,7 @@ class LogTestTest {
             Object[] args = {ARG_2, 200};
 
             // When: warn log is called
-            LogTest.warn(WARN_MESSAGE, args);
+            LogQuest.warn(WARN_MESSAGE, args);
 
             // Then: verify logger was called with expected parameters
             verify(mockLogger, times(1)).warn(mockMarker, WARN_MESSAGE, args);
@@ -105,7 +105,7 @@ class LogTestTest {
             Object[] args = {ARG_3, 300};
 
             // When: error log is called
-            LogTest.error(ERROR_MESSAGE, args);
+            LogQuest.error(ERROR_MESSAGE, args);
 
             // Then: verify logger was called with expected parameters
             verify(mockLogger, times(1)).error(mockMarker, ERROR_MESSAGE, args);
@@ -121,7 +121,7 @@ class LogTestTest {
             Object[] args = {ARG_4, 400};
 
             // When: debug log is called
-            LogTest.debug(DEBUG_MESSAGE, args);
+            LogQuest.debug(DEBUG_MESSAGE, args);
 
             // Then: verify logger was called with expected parameters
             verify(mockLogger, times(1)).debug(mockMarker, DEBUG_MESSAGE, args);
@@ -137,7 +137,7 @@ class LogTestTest {
             Object[] args = {ARG_5, 500};
 
             // When: trace log is called
-            LogTest.trace(TRACE_MESSAGE, args);
+            LogQuest.trace(TRACE_MESSAGE, args);
 
             // Then: verify logger was called with expected parameters
             verify(mockLogger, times(1)).trace(mockMarker, TRACE_MESSAGE, args);
@@ -154,7 +154,7 @@ class LogTestTest {
             Level stepLevel = Level.forName("STEP", 350);
 
             // When: step log is called
-            LogTest.step(STEP_MESSAGE, args);
+            LogQuest.step(STEP_MESSAGE, args);
 
             // Then: verify logger was called with STEP level and expected parameters
             verify(mockLogger, times(1)).log(stepLevel, mockMarker, STEP_MESSAGE, args);
@@ -171,7 +171,7 @@ class LogTestTest {
             Level validationLevel = Level.forName("VALIDATION", 350);
 
             // When: validation log is called
-            LogTest.validation(VALIDATION_MESSAGE, args);
+            LogQuest.validation(VALIDATION_MESSAGE, args);
 
             // Then: verify logger was called with VALIDATION level and expected parameters
             verify(mockLogger, times(1)).log(validationLevel, mockMarker, VALIDATION_MESSAGE, args);
@@ -188,7 +188,7 @@ class LogTestTest {
             Object[] args = {ARG_8, 800};
 
             // When: extended log is called
-            LogTest.extended(EXTENDED_MESSAGE, args);
+            LogQuest.extended(EXTENDED_MESSAGE, args);
 
             // Then: verify no logging occurred
             verify(mockLogger, times(0)).log(
@@ -211,7 +211,7 @@ class LogTestTest {
             Level extendedLevel = Level.forName("EXTENDED", 450);
 
             // When: extended log is called
-            LogTest.extended(EXTENDED_MESSAGE, args);
+            LogQuest.extended(EXTENDED_MESSAGE, args);
 
             // Then: verify logger was called with EXTENDED level and expected parameters
             verify(mockLogger, times(1)).log(extendedLevel, mockMarker, EXTENDED_MESSAGE, args);
@@ -219,8 +219,8 @@ class LogTestTest {
     }
 
     // Reflection-based methods to reset static state
-    private void clearLogTestInstance() throws Exception {
-        Field instanceField = LogTest.class.getDeclaredField("instance");
+    private void clearLogQuestInstance() throws Exception {
+        Field instanceField = LogQuest.class.getDeclaredField("instance");
         instanceField.setAccessible(true);
         instanceField.set(null, null);
     }
@@ -233,6 +233,6 @@ class LogTestTest {
 
     private void setupLoggerMocks(MockedStatic<LogCyborg> mockedLog, Logger mockLogger, Marker mockMarker) {
         mockedLog.when(() -> LogCyborg.getLogger("ROA.TEST")).thenReturn(mockLogger);
-        mockedLog.when(() -> LogCyborg.registerMarker("TEST")).thenReturn(mockMarker);
+        mockedLog.when(() -> LogCyborg.registerMarker("QUEST")).thenReturn(mockMarker);
     }
 }

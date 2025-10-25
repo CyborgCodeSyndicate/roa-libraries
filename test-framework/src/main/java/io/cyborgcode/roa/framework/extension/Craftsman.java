@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.framework.extension;
 
 import io.cyborgcode.roa.framework.annotation.Craft;
-import io.cyborgcode.roa.framework.log.LogTest;
+import io.cyborgcode.roa.framework.log.LogQuest;
 import io.cyborgcode.roa.framework.parameters.DataForge;
 import io.cyborgcode.roa.framework.parameters.Late;
 import io.cyborgcode.roa.framework.quest.SuperQuest;
@@ -61,7 +61,7 @@ public class Craftsman implements ParameterResolver {
    @Override
    public Object resolveParameter(final ParameterContext parameterContext, final ExtensionContext extensionContext)
          throws ParameterResolutionException {
-      LogTest.debug("Resolving parameter: {}", parameterContext.getParameter().getName());
+      LogQuest.debug("Resolving parameter: {}", parameterContext.getParameter().getName());
       initializeParameterTracking(extensionContext);
 
       Class<?> parameterType = parameterContext.getParameter().getType();
@@ -80,7 +80,7 @@ public class Craftsman implements ParameterResolver {
 
          DataForge<?> dataForge = ReflectionUtil.findEnumImplementationsOfInterface(
                DataForge.class, craft.model(), getFrameworkConfig().projectPackage());
-         Object argument = isLate ? dataForge.dataCreator() : dataForge.dataCreator().join();
+         Object argument = isLate ? dataForge.dataCreator() : dataForge.dataCreator().create();
 
          storeArgument(superQuest, dataForge, argument, extensionContext);
 

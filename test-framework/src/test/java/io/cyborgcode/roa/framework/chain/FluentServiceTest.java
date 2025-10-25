@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.framework.chain;
 
 import io.cyborgcode.roa.framework.assertion.CustomSoftAssertion;
-import io.cyborgcode.roa.framework.log.LogTest;
+import io.cyborgcode.roa.framework.log.LogQuest;
 import io.cyborgcode.roa.framework.quest.Quest;
 import io.cyborgcode.roa.framework.quest.SuperQuest;
 import io.cyborgcode.roa.framework.retry.RetryCondition;
@@ -59,19 +59,19 @@ class FluentServiceTest {
    }
 
    @Test
-   @DisplayName("then() should return original quest and log message")
-   void testThen() {
-      try (MockedStatic<LogTest> logTestMock = mockStatic(LogTest.class)) {
+   @DisplayName("drop() should return original quest and log message")
+   void testDrop() {
+      try (MockedStatic<LogQuest> logTestMock = mockStatic(LogQuest.class)) {
          // Given
          when(superQuest.getOriginal()).thenReturn(originalQuest);
 
          // When
-         Quest result = service.then();
+         Quest result = service.drop();
 
          // Then
          verify(superQuest).getOriginal();
          assertSame(originalQuest, result, "Should return original quest");
-         logTestMock.verify(() -> LogTest.info(anyString()));
+         logTestMock.verify(() -> LogQuest.info(anyString()));
       }
    }
 
@@ -162,7 +162,7 @@ class FluentServiceTest {
       @Test
       @DisplayName("validation should handle empty results list")
       void testValidationWithEmptyList() {
-         try (MockedStatic<LogTest> logTestMock = mockStatic(LogTest.class);
+         try (MockedStatic<LogQuest> logTestMock = mockStatic(LogQuest.class);
               MockedStatic<Allure> allureMock = mockStatic(Allure.class)) {
             // When
             service.validation(Collections.emptyList());
@@ -177,7 +177,7 @@ class FluentServiceTest {
       @Test
       @DisplayName("validation should process passing soft assertions correctly")
       void testValidationWithPassingSoftAssertions() {
-         try (MockedStatic<LogTest> logTestMock = mockStatic(LogTest.class);
+         try (MockedStatic<LogQuest> logTestMock = mockStatic(LogQuest.class);
               MockedStatic<Allure> allureMock = mockStatic(Allure.class)) {
             // Given
             AssertionResult<Object> softAssertion =
@@ -194,7 +194,7 @@ class FluentServiceTest {
             service.validation(List.of(softAssertion));
 
             // Then
-            logTestMock.verify(() -> LogTest.validation(softAssertion.toString()));
+            logTestMock.verify(() -> LogQuest.validation(softAssertion.toString()));
             allureMock.verify(() -> Allure.step(softAssertion.toString()));
             verify(superQuest).getSoftAssertions();
             verify(customSoftAssertions).assertThat(true);
@@ -206,7 +206,7 @@ class FluentServiceTest {
       @Test
       @DisplayName("validation should process failing soft assertions correctly")
       void testValidationWithFailingSoftAssertions() {
-         try (MockedStatic<LogTest> logTestMock = mockStatic(LogTest.class);
+         try (MockedStatic<LogQuest> logTestMock = mockStatic(LogQuest.class);
               MockedStatic<Allure> allureMock = mockStatic(Allure.class)) {
             // Given
             AssertionResult<Object> softAssertion =
@@ -223,7 +223,7 @@ class FluentServiceTest {
             service.validation(List.of(softAssertion));
 
             // Then
-            logTestMock.verify(() -> LogTest.validation(softAssertion.toString()));
+            logTestMock.verify(() -> LogQuest.validation(softAssertion.toString()));
             allureMock.verify(() -> Allure.step(softAssertion.toString()));
             verify(superQuest).getSoftAssertions();
             verify(customSoftAssertions).assertThat(false);
@@ -235,7 +235,7 @@ class FluentServiceTest {
       @Test
       @DisplayName("validation should process passing hard assertions correctly")
       void testValidationWithPassingHardAssertions() {
-         try (MockedStatic<LogTest> logTestMock = mockStatic(LogTest.class);
+         try (MockedStatic<LogQuest> logTestMock = mockStatic(LogQuest.class);
               MockedStatic<Allure> allureMock = mockStatic(Allure.class);
               MockedStatic<org.assertj.core.api.Assertions> assertionsMock =
                     mockStatic(org.assertj.core.api.Assertions.class)) {
@@ -255,7 +255,7 @@ class FluentServiceTest {
             service.validation(List.of(hardAssertion));
 
             // Then
-            logTestMock.verify(() -> LogTest.validation(hardAssertion.toString()));
+            logTestMock.verify(() -> LogQuest.validation(hardAssertion.toString()));
             allureMock.verify(() -> Allure.step(hardAssertion.toString()));
             assertionsMock.verify(() -> org.assertj.core.api.Assertions.assertThat(true));
             verify(localBooleanAssert).as(hardAssertion.toString());
@@ -266,7 +266,7 @@ class FluentServiceTest {
       @Test
       @DisplayName("validation should process failing hard assertions correctly")
       void testValidationWithFailingHardAssertions() {
-         try (MockedStatic<LogTest> logTestMock = mockStatic(LogTest.class);
+         try (MockedStatic<LogQuest> logTestMock = mockStatic(LogQuest.class);
               MockedStatic<Allure> allureMock = mockStatic(Allure.class);
               MockedStatic<org.assertj.core.api.Assertions> assertionsMock =
                     mockStatic(org.assertj.core.api.Assertions.class)) {
@@ -286,7 +286,7 @@ class FluentServiceTest {
             service.validation(List.of(hardAssertion));
 
             // Then
-            logTestMock.verify(() -> LogTest.validation(hardAssertion.toString()));
+            logTestMock.verify(() -> LogQuest.validation(hardAssertion.toString()));
             allureMock.verify(() -> Allure.step(hardAssertion.toString()));
             assertionsMock.verify(() -> org.assertj.core.api.Assertions.assertThat(false));
             verify(localBooleanAssert).as(hardAssertion.toString());
@@ -297,7 +297,7 @@ class FluentServiceTest {
       @Test
       @DisplayName("validation should handle multiple assertion results")
       void testValidationWithMultipleResults() {
-         try (MockedStatic<LogTest> logTestMock = mockStatic(LogTest.class);
+         try (MockedStatic<LogQuest> logTestMock = mockStatic(LogQuest.class);
               MockedStatic<Allure> allureMock = mockStatic(Allure.class);
               MockedStatic<org.assertj.core.api.Assertions> assertionsMock =
                     mockStatic(org.assertj.core.api.Assertions.class)) {
@@ -324,8 +324,8 @@ class FluentServiceTest {
             service.validation(Arrays.asList(softAssertion, hardAssertion));
 
             // Then
-            logTestMock.verify(() -> LogTest.validation(softAssertion.toString()));
-            logTestMock.verify(() -> LogTest.validation(hardAssertion.toString()));
+            logTestMock.verify(() -> LogQuest.validation(softAssertion.toString()));
+            logTestMock.verify(() -> LogQuest.validation(hardAssertion.toString()));
             allureMock.verify(() -> Allure.step(softAssertion.toString()));
             allureMock.verify(() -> Allure.step(hardAssertion.toString()));
             verify(superQuest).getSoftAssertions();

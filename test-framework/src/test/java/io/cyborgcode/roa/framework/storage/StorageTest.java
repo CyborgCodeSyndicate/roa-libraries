@@ -36,7 +36,7 @@ class StorageTest {
     private static final String STRING = "string";
     private static final String SUB_VALUE = "subValue";
     private static final String DATA = "data";
-    private static final String JOINED = "joined";
+    private static final String CREATED = "created";
     private static final String NORMAL = "normal";
 
     private Storage storage;
@@ -458,35 +458,35 @@ class StorageTest {
     class LateArgumentOperations {
 
         @Test
-        @DisplayName("Should join late arguments")
-        void testJoinLateArguments() {
+        @DisplayName("Should create late arguments")
+        void testCreateLateArguments() {
             // Given
-            DummyLate<String> lateValue = new DummyLate<>(JOINED);
+            DummyLate<String> lateValue = new DummyLate<>(CREATED);
             storage.put(MockEnum.KEY1, lateValue);
             storage.put(MockEnum.KEY1, NORMAL);
 
             // When
-            storage.joinLateArguments();
+            storage.createLateArguments();
 
             // Then
-            String joined = storage.getByIndex(MockEnum.KEY1, 2, String.class);
+            String created = storage.getByIndex(MockEnum.KEY1, 2, String.class);
             String normal = storage.getByIndex(MockEnum.KEY1, 1, String.class);
-            assertEquals(JOINED, joined, "Late value should be joined");
+            assertEquals(CREATED, created, "Late value should be created");
             assertEquals(NORMAL, normal, "Normal value should remain unchanged");
         }
 
         @Test
-        @DisplayName("Should handle exceptions during join")
-        void testJoinLateArgumentsWithException() {
+        @DisplayName("Should handle exceptions during create")
+        void testCreateLateArgumentsWithException() {
             // Given
             DummyLate<String> failingLate = mock(DummyLate.class);
-            when(failingLate.join()).thenThrow(new RuntimeException("Join failed"));
+            when(failingLate.create()).thenThrow(new RuntimeException("Create failed"));
 
             storage.put(MockEnum.KEY1, failingLate);
             storage.put(MockEnum.KEY2, "This should remain");
 
             // When - should not throw exception
-            storage.joinLateArguments();
+            storage.createLateArguments();
 
             // Then
             // The failing Late object's value is skipped in the current implementation

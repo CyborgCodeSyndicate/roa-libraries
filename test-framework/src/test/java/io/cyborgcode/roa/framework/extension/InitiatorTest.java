@@ -4,7 +4,6 @@ import io.cyborgcode.roa.framework.annotation.Journey;
 import io.cyborgcode.roa.framework.annotation.JourneyData;
 import io.cyborgcode.roa.framework.config.FrameworkConfigHolder;
 import io.cyborgcode.roa.framework.decorators.DecoratorsFactory;
-import io.cyborgcode.roa.framework.extension.mock.*;
 import io.cyborgcode.roa.framework.extension.mock.MockConfig;
 import io.cyborgcode.roa.framework.extension.mock.MockDataForge;
 import io.cyborgcode.roa.framework.extension.mock.MockEnum;
@@ -127,7 +126,7 @@ class InitiatorTest {
                     initiator.interceptTestMethod(invocation, invocationContext, extensionContext);
 
                     // Then
-                    verify(subStorage).put(mockDataForge.enumImpl(), mockLate.join());
+                    verify(subStorage).put(mockDataForge.enumImpl(), mockLate.create());
                     assertTrue(mockPreQuestJourney.invoked.get());
                     assertTrue(invocation.proceeded.get());
                 }
@@ -171,7 +170,7 @@ class InitiatorTest {
             processJourneyDataMethod.invoke(initiator, journeyData, quest);
 
             // Then
-            verify(spyLate, never()).join();
+            verify(spyLate, never()).create();
             verify(subStorage).put(eq(MockEnum.VALUE), any());
         }
     }
@@ -212,8 +211,8 @@ class InitiatorTest {
             processJourneyDataMethod.invoke(initiator, journeyData, quest);
 
             // Then
-            verify(spyLate).join();
-            verify(subStorage).put(eq(MockEnum.VALUE), eq("joinedValue"));
+            verify(spyLate).create();
+            verify(subStorage).put(eq(MockEnum.VALUE), eq("createdValue"));
         }
     }
 
@@ -237,8 +236,8 @@ class InitiatorTest {
     }
 
     @Test
-    @DisplayName("Should call join method when late is false")
-    void processJourneyData_WhenLateIsFalse_CallsJoin() throws Exception {
+    @DisplayName("Should call create method when late is false")
+    void processJourneyData_WhenLateIsFalse_CallsCreate() throws Exception {
         // Given
         Initiator initiator = new Initiator();
 
@@ -272,7 +271,7 @@ class InitiatorTest {
             processJourneyDataMethod.invoke(initiator, journeyData, quest);
 
             // Then
-            verify(spyLate).join();
+            verify(spyLate).create();
             verify(subStorage).put(eq(MockEnum.VALUE), any());
         }
     }

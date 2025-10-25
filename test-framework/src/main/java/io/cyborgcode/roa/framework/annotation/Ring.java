@@ -25,7 +25,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Scope("prototype")
 @Lazy
-public @interface TestService {
+public @interface Ring {
 
    /**
     * Specifies the type or category of the test service.

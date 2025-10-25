@@ -2,7 +2,7 @@ package io.cyborgcode.roa.framework.util;
 
 import io.cyborgcode.utilities.config.ConfigSource;
 import io.cyborgcode.utilities.config.PropertyConfig;
-import io.cyborgcode.roa.framework.log.LogTest;
+import io.cyborgcode.roa.framework.log.LogQuest;
 import io.cyborgcode.utilities.reflections.ReflectionUtil;
 import io.qameta.allure.Allure;
 import java.io.BufferedReader;
@@ -140,9 +140,9 @@ public class AllureStepHelper {
             + (throwable == null ? "concluded with glory" : "ended in defeat")
             + ". Status: {}. Duration: {} seconds.";
 
-      LogTest.info(logMessage, testName, status, durationInSeconds);
+      LogQuest.info(logMessage, testName, status, durationInSeconds);
       if (throwable != null) {
-         LogTest.debug("Failure reason:", throwable);
+         LogQuest.debug("Failure reason:", throwable);
       }
    }
 
@@ -226,7 +226,7 @@ public class AllureStepHelper {
                            Object value = method.invoke(propertyConfig);
 
                            if (value == null || value.toString().trim().isEmpty()) {
-                              LogTest.debug("Skipping key '" + key + "' because value is empty or null.");
+                              LogQuest.debug("Skipping key '" + key + "' because value is empty or null.");
                               return null;
                            }
 
@@ -235,7 +235,7 @@ public class AllureStepHelper {
                                  value + " (Source: " + configSourceValue + ")"
                            );
                         } catch (Exception e) {
-                           LogTest.error("Error processing " + method.getName(), e);
+                           LogQuest.error("Error processing " + method.getName(), e);
                            return null;
                         }
                      })

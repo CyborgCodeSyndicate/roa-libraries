@@ -228,13 +228,13 @@ public class Storage {
     * Resolves any stored deferred values (instances of {@link Late}) by replacing them
     * with their actual evaluated objects.
     */
-   public void joinLateArguments() {
+   public void createLateArguments() {
       data.replaceAll((key, objects) -> {
          LinkedList<Object> updatedObjects = new LinkedList<>();
          for (Object o : objects) {
             if (o instanceof Late<?>) {
                try {
-                  updatedObjects.add(((Late<?>) o).join());
+                  updatedObjects.add(((Late<?>) o).create());
                } catch (Exception ignored) {
                   //ignore failure
                }

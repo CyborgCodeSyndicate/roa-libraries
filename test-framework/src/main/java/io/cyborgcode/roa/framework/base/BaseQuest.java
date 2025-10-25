@@ -2,7 +2,7 @@ package io.cyborgcode.roa.framework.base;
 
 import io.cyborgcode.roa.framework.annotation.Odyssey;
 import io.cyborgcode.roa.framework.config.TestConfig;
-import io.cyborgcode.roa.framework.log.LogTest;
+import io.cyborgcode.roa.framework.log.LogQuest;
 import io.cyborgcode.roa.framework.quest.QuestHolder;
 import io.cyborgcode.roa.framework.quest.SuperQuest;
 import io.cyborgcode.roa.framework.storage.DataExtractor;
@@ -29,12 +29,12 @@ import static io.cyborgcode.roa.framework.util.PropertiesUtil.addSystemPropertie
       webEnvironment = SpringBootTest.WebEnvironment.NONE
 )
 @Tag("exclude-from-verify")
-public class BaseTest {
+public class BaseQuest {
 
    private static final String RETRIEVAL_LOG_TEMPLATE = "Fetching data from storage by key: '{}' and type: '{}'";
 
    static {
-      synchronized (BaseTest.class) {
+      synchronized (BaseQuest.class) {
          addSystemProperties();
          LoggerContext context = (LoggerContext) LogManager.getContext(false);
          context.reconfigure();
@@ -51,7 +51,7 @@ public class BaseTest {
     */
    protected <T> T retrieve(Enum<?> key, Class<T> clazz) {
       SuperQuest quest = QuestHolder.get();
-      LogTest.extended(RETRIEVAL_LOG_TEMPLATE, key.name(), clazz.getName());
+      LogQuest.extended(RETRIEVAL_LOG_TEMPLATE, key.name(), clazz.getName());
       return quest.getStorage().get(key, clazz);
    }
 
@@ -66,7 +66,7 @@ public class BaseTest {
     */
    protected <T> T retrieve(Enum<?> subKey, Enum<?> key, Class<T> clazz) {
       SuperQuest quest = QuestHolder.get();
-      LogTest.extended(RETRIEVAL_LOG_TEMPLATE, key.name(), clazz.getName());
+      LogQuest.extended(RETRIEVAL_LOG_TEMPLATE, key.name(), clazz.getName());
       return quest.getStorage().sub(subKey).get(key, clazz);
    }
 
@@ -80,7 +80,7 @@ public class BaseTest {
     */
    protected <T> T retrieve(DataExtractor<T> extractor, Class<T> clazz) {
       SuperQuest quest = QuestHolder.get();
-      LogTest.extended(RETRIEVAL_LOG_TEMPLATE, extractor.getKey().name(),
+      LogQuest.extended(RETRIEVAL_LOG_TEMPLATE, extractor.getKey().name(),
             clazz.getName());
       return quest.getStorage().get(extractor, clazz);
    }
@@ -96,7 +96,7 @@ public class BaseTest {
     */
    protected <T> T retrieve(DataExtractor<T> extractor, int index, Class<T> clazz) {
       SuperQuest quest = QuestHolder.get();
-      LogTest.extended(RETRIEVAL_LOG_TEMPLATE, extractor.getKey().name(),
+      LogQuest.extended(RETRIEVAL_LOG_TEMPLATE, extractor.getKey().name(),
             clazz.getName());
       return quest.getStorage().get(extractor, clazz, index);
    }
@@ -114,7 +114,7 @@ public class BaseTest {
     */
    protected <T> T hookData(Object value, Class<T> clazz) {
       SuperQuest quest = QuestHolder.get();
-      LogTest.extended(RETRIEVAL_LOG_TEMPLATE, value,
+      LogQuest.extended(RETRIEVAL_LOG_TEMPLATE, value,
             clazz.getName());
       return quest.getStorage().getHookData(value, clazz);
    }
