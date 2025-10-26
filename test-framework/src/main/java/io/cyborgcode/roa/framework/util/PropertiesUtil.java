@@ -32,20 +32,37 @@ public final class PropertiesUtil {
     * @throws UncheckedIOException if reading or parsing <code>system.properties</code> fails
     */
    public static void addSystemProperties() {
-      Resource resource = getResource();
-      if (resource.exists()) {
-         try {
-            Properties props = PropertiesLoaderUtils.loadProperties(resource);
-            for (String propName : props.stringPropertyNames()) {
-               String propValue = props.getProperty(propName);
-               if (System.getProperty(propName) == null) {
-                  System.setProperty(propName, propValue);
+      Resource resource = getResource(); // your existing resolver
+      if (!resource.exists()) {
+         return;
+      }
+
+      try {
+         Properties props = PropertiesLoaderUtils.loadProperties(resource);
+         boolean surefire = isSurefireEnvironment();
+
+         for (String name : props.stringPropertyNames()) {
+            String value = props.getProperty(name);
+            if (surefire) {
+               if (System.getProperty(name) == null) {
+                  System.setProperty(name, value);
                }
+            } else {
+               System.setProperty(name, value);
             }
-         } catch (IOException e) {
-            throw new UncheckedIOException("Failed to load system.properties", e);
+         }
+      } catch (IOException e) {
+         throw new UncheckedIOException("Failed to load system.properties", e);
+      }
+   }
+
+   private static boolean isSurefireEnvironment() {
+      for (String key : System.getProperties().stringPropertyNames()) {
+         if (key.startsWith("surefire.")) {
+            return true;
          }
       }
+      return false;
    }
 
    static Resource getResource() {

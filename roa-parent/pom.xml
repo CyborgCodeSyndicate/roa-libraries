@@ -36,7 +36,12 @@
 
         <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
-        <parent-pom.version>1.2.2</parent-pom.version>
+        <parent-pom.version>1.2.5</parent-pom.version>
+
+        <logFileName>roa.log</logFileName>
+        <log4j2.scriptEnableLanguages>javascript</log4j2.scriptEnableLanguages>
+        <extended.logging>false</extended.logging>
+        <silent.mode>false</silent.mode>
 
         <github.repo.owner>CyborgCodeSyndicate</github.repo.owner>
     </properties>
@@ -117,6 +122,7 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${maven-surefire-plugin.version}</version>
                     <configuration>
+                        <encoding>${project.build.sourceEncoding}</encoding>
                         <skipTests>${skipTests}</skipTests>
                         <failIfNoTests>false</failIfNoTests>
                         <useModulePath>false</useModulePath>
@@ -125,10 +131,9 @@
                         <reuseForks>${surefire.reuseForks}</reuseForks>
                         <printSummary>true</printSummary>
 
-                        <properties>
-                            <groups>${include.tags}</groups>
-                            <excludedGroups>${exclude.tags}</excludedGroups>
-                        </properties>
+                        <groups>${include.tags}</groups>
+                        <excludedGroups>${exclude.tags}</excludedGroups>
+
 
                         <systemPropertyVariables>
                             <allure.results.directory>${allure.results.dir}</allure.results.directory>
@@ -136,6 +141,16 @@
                             <allure.link.tms.pattern>${allure.link.tms.pattern}</allure.link.tms.pattern>
                             <junit.jupiter.extensions.autodetection.enabled>true
                             </junit.jupiter.extensions.autodetection.enabled>
+
+                            <ui.config.file>${ui.config.file}</ui.config.file>
+                            <api.config.file>${api.config.file}</api.config.file>
+                            <db.config.file>${db.config.file}</db.config.file>
+                            <framework.config.file>${framework.config.file}</framework.config.file>
+                            <test.data.file>${test.data.file}</test.data.file>
+                            <logFileName>${logFileName}</logFileName>
+                            <log4j2.scriptEnableLanguages>${log4j2.scriptEnableLanguages}</log4j2.scriptEnableLanguages>
+                            <extended.logging>${extended.logging}</extended.logging>
+                            <silent.mode>${silent.mode}</silent.mode>
                         </systemPropertyVariables>
                     </configuration>
                 </plugin>
