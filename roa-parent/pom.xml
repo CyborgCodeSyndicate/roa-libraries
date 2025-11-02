@@ -36,7 +36,7 @@
 
         <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
-        <parent-pom.version>1.2.5</parent-pom.version>
+        <parent-pom.version>1.2.6-SNAPSHOT-c6b1392-19013321111</parent-pom.version>
 
         <logFileName>roa.log</logFileName>
         <log4j2.scriptEnableLanguages>javascript</log4j2.scriptEnableLanguages>
@@ -44,6 +44,7 @@
         <silent.mode>false</silent.mode>
 
         <github.repo.owner>CyborgCodeSyndicate</github.repo.owner>
+        <roa-plugins.version>1.0.1-SNAPSHOT-be0ceee-19013767924</roa-plugins.version>
     </properties>
 
     <dependencyManagement>
@@ -155,6 +156,21 @@
                     </configuration>
                 </plugin>
 
+                <plugin>
+                    <groupId>io.cyborgcode.roa.plugins</groupId>
+                    <artifactId>test-allocator-maven-plugin</artifactId>
+                    <version>${roa-plugins.version}</version>
+                    <executions>
+                        <execution>
+                            <id>split-tests</id>
+                            <phase>test-compile</phase>
+                            <goals>
+                                <goal>split</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
             </plugins>
         </pluginManagement>
 
@@ -177,6 +193,17 @@
                 <exclude.tags></exclude.tags>
             </properties>
         </profile>
+        <profile>
+            <id>execution-setup</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.cyborgcode.roa.plugins</groupId>
+                        <artifactId>test-allocator-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 
     <repositories>
@@ -184,17 +211,6 @@
             <id>github-utilities</id>
             <name>GitHub Packages for Utilities</name>
             <url>https://maven.pkg.github.com/${github.repo.owner}/utilities</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>github-roa-libraries</id>
-            <name>GitHub Packages for ROA Libraries</name>
-            <url>https://maven.pkg.github.com/${github.repo.owner}/roa-libraries</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
