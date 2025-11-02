@@ -219,7 +219,7 @@ sequenceDiagram
 ## Usage
 
 ### Step 1 — Driver Setup
-```java
+```
 import io.cyborgcode.roa.ui.drivers.base.DriverProvider;
 import io.cyborgcode.roa.ui.drivers.providers.ChromeDriverProvider;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
@@ -244,7 +244,7 @@ SmartWebDriver driver = new SmartWebDriver(webDriver);
 ```
 
 ### Step 2 — Component Services
-```java
+```
 import io.cyborgcode.roa.ui.components.button.ButtonServiceImpl;
 import io.cyborgcode.roa.ui.components.input.InputServiceImpl;
 import io.cyborgcode.roa.ui.components.checkbox.CheckboxServiceImpl;
@@ -269,7 +269,7 @@ ItemListService lists = new ItemListServiceImpl(driver);
 ```
 
 ### Step 3 — Basic UI Operations
-```java
+```
 import org.openqa.selenium.By;
 
 // Navigate
@@ -295,7 +295,7 @@ boolean ok = driver.checkNoException(() -> driver.findSmartElement(By.id("option
 ```
 
 ### Step 4 — Button Component
-```java
+```
 // Click by text
 buttons.click("Save");
 buttons.click("Submit");
@@ -313,7 +313,7 @@ boolean visible = buttons.isVisible(By.id("save-btn"));
 ```
 
 ### Step 5 — Input Component
-```java
+```
 // Insert value by label
 inputs.insert("Email", "user@example.com");
 inputs.insert("Password", "secret123");
@@ -342,7 +342,7 @@ String error2 = inputs.getErrorMessage(form, "Password");
 ```
 
 ### Step 6 — Checkbox Component
-```java
+```
 // Select single checkbox
 checkboxes.select("Remember me");
 
@@ -379,7 +379,7 @@ checkboxes.deSelect(form, Strategy.ALL);
 ```
 
 ### Step 7 — Select Component
-```java
+```
 // Select by visible text
 selects.select("Country", "United States");
 
@@ -406,7 +406,7 @@ boolean enabled = selects.isEnabled("Country");
 ```
 
 ### Step 8 — Radio Component
-```java
+```
 // Select radio button
 radios.select("Male");
 radios.select("Credit Card");
@@ -428,7 +428,7 @@ String selected2 = radios.getSelected(By.cssSelector(".payment-options"));
 ```
 
 ### Step 9 — Toggle Component
-```java
+```
 // Toggle on/off
 toggles.toggle("Dark Mode");
 toggles.toggle(By.id("notifications-toggle"));
@@ -446,7 +446,7 @@ boolean selected = toggles.isSelected("Auto-save");
 The table component provides comprehensive operations for reading, filtering, sorting, validating, and inserting data into HTML tables using typed row models.
 
 #### Table Model Definition
-```java
+```
 import io.cyborgcode.roa.ui.components.table.annotations.*;
 import org.openqa.selenium.support.FindBy;
 
@@ -500,7 +500,7 @@ public class User {
 ```
 
 #### Reading Table Data
-```java
+```
 // Read entire table
 List<User> allUsers = tables.readTable(User.class);
 
@@ -534,7 +534,7 @@ User foundPartial = tables.readRow(
 ```
 
 #### Inserting Data into Tables
-```java
+```
 // Insert into entire row (uses @CellInsertion annotations)
 User newUser = new User(null, "Jane Doe", "jane@example.com", "Active", true);
 tables.insertCellValue(1, User.class, newUser);
@@ -561,7 +561,7 @@ tables.insertCellValue(Arrays.asList("jane@example.com"), User.class, updatedUse
 ```
 
 #### Filtering Tables
-```java
+```
 // Filter using TableField
 TableField<User> statusField = TableField.of(User::setStatus);
 tables.filterTable(User.class, statusField, FilterStrategy.SELECT_ONLY, "Active", "Pending");
@@ -576,7 +576,7 @@ tables.filterTable(User.class, statusField, FilterStrategy.UNSELECT_ALL);
 ```
 
 #### Sorting Tables
-```java
+```
 import io.cyborgcode.roa.ui.components.table.sort.SortingStrategy;
 
 // Sort ascending
@@ -589,7 +589,7 @@ tables.sortTable(User.class, emailField, SortingStrategy.DESCENDING);
 ```
 
 #### Validating Tables
-```java
+```
 import io.cyborgcode.roa.validator.core.Assertion;
 import io.cyborgcode.roa.validator.core.AssertionResult;
 import io.cyborgcode.roa.validator.enums.AssertionType;
@@ -646,7 +646,7 @@ results.forEach(result -> {
 - For custom component implementations
 
 ### Step 11 — Modal Component
-```java
+```
 // Check if modal is displayed
 boolean visible = modals.isDisplayed("Confirmation");
 boolean visible2 = modals.isDisplayed(By.id("delete-modal"));
@@ -667,7 +667,7 @@ buttons.click(modal, "Confirm");
 ```
 
 ### Step 12 — Alert Component
-```java
+```
 // Check if alert is displayed
 boolean visible = alerts.isDisplayed("Success");
 boolean visible2 = alerts.isDisplayed(By.cssSelector(".alert.success"));
@@ -685,7 +685,7 @@ alerts.waitUntilDisplayed("Processing", 10);
 ```
 
 ### Step 13 — Link Component
-```java
+```
 // Click link by text
 links.click("Privacy Policy");
 links.click("Terms of Service");
@@ -707,7 +707,7 @@ boolean visible = links.isVisible(footer, "Contact Us");
 ```
 
 ### Step 14 — Loader Component
-```java
+```
 // Wait until loader disappears
 loaders.waitUntilLoaderDisappears(10);
 loaders.waitUntilLoaderDisappears(By.id("spinner"), 15);
@@ -718,7 +718,7 @@ boolean loading2 = loaders.isDisplayed(By.cssSelector(".loading-spinner"));
 ```
 
 ### Step 15 — Tab Component
-```java
+```
 // Select tab by name
 tabs.selectTab("Profile");
 tabs.selectTab("Settings");
@@ -742,7 +742,7 @@ List<String> allTabs = tabs.getTabs(By.id("main-tabs"));
 ```
 
 ### Step 16 — Accordion Component
-```java
+```
 // Expand accordion section
 accordions.expand("Personal Information");
 accordions.expand(By.id("section-payment"));
@@ -764,7 +764,7 @@ accordions.toggle("Billing");
 ```
 
 ### Step 17 — List Component
-```java
+```
 // Get all items
 List<String> items = lists.getItems(By.id("product-list"));
 
@@ -785,7 +785,7 @@ int count = lists.getItemCount(container);
 ```
 
 ### Step 18 — Insertion Pattern
-```java
+```
 import io.cyborgcode.roa.ui.insertion.Insertion;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 
@@ -812,7 +812,7 @@ checkboxes.tableInsertion(cellElement, CheckboxComponentType.DEFAULT_TYPE, "true
 ```
 
 ### Error Handling and Logging
-```java
+```
 import io.cyborgcode.roa.ui.log.LogUi;
 
 // All component operations are automatically logged via LogUi
@@ -832,7 +832,7 @@ LogUi.error("Validation failed for email field");
 ```
 
 ### Shadow DOM Support
-```java
+```
 // Enable Shadow DOM in configuration
 // Set use.shadow.root=true in ui-config.properties
 
@@ -854,7 +854,7 @@ inputs.insert("Email", "user@test.com"); // Works inside shadow roots
 #### SmartFinder — Element Location Strategies
 The `SmartFinder` utility provides unified element location with automatic Shadow DOM handling.
 
-```java
+```
 import io.cyborgcode.roa.ui.selenium.locating.SmartFinder;
 
 // Find without wrapping (no waits)
@@ -899,7 +899,7 @@ The framework provides automatic exception handling for common Selenium failures
 - `ElementNotInteractableException` — Waits for element to become interactable
 - `NoSuchElementException` — Logs detailed error with locator information
 
-```java
+```
 import io.cyborgcode.roa.ui.selenium.handling.ExceptionHandlingWebElement;
 import io.cyborgcode.roa.ui.selenium.handling.ExceptionHandlingWebDriver;
 
@@ -923,7 +923,7 @@ public class CustomExceptionHandler {
 ```
 
 #### WebElement Decorators
-```java
+```
 import io.cyborgcode.roa.ui.selenium.decorators.WebElementDecorator;
 import io.cyborgcode.roa.ui.selenium.decorators.WebDriverDecorator;
 
@@ -954,7 +954,7 @@ WebElement original = element.getOriginal();
 ```
 
 #### Selenium Logging
-```java
+```
 import io.cyborgcode.roa.ui.selenium.logging.SeleniumLogger;
 
 // All SmartWebDriver/SmartWebElement operations are automatically logged
@@ -970,7 +970,7 @@ import io.cyborgcode.roa.ui.selenium.listeners.CustomEventListener;
 ```
 
 #### Shadow Root Utilities
-```java
+```
 import io.cyborgcode.roa.ui.selenium.shadowroot.ShadowDomUtils;
 
 // Shadow DOM utilities (used internally by SmartFinder)
@@ -988,7 +988,7 @@ SmartWebElement deepElement = driver.findSmartElement(
 ### Util Package — Helper Utilities
 
 #### Strategy Pattern for Component Selection
-```java
+```
 import io.cyborgcode.roa.ui.util.strategy.Strategy;
 
 // Use Strategy enum for dynamic selection in checkboxes, lists, etc.
@@ -1007,7 +1007,7 @@ checkboxes.select(container, Strategy.ALL);
 ```
 
 #### Functional Interfaces for Table Operations
-```java
+```
 import io.cyborgcode.roa.ui.util.BiConsumer;
 import io.cyborgcode.roa.ui.util.BiFunction;
 import io.cyborgcode.roa.ui.util.TriConsumer;
@@ -1032,7 +1032,7 @@ FourFunction<WebDriver, SmartWebElement, Exception, Object[], SmartWebElement> h
 ```
 
 #### Table Utilities
-```java
+```
 import io.cyborgcode.roa.ui.util.table.TableUtils;
 
 // Utility methods for table operations (used internally)
@@ -1054,7 +1054,7 @@ ComponentType type = TableUtils.getComponentType(field);
 ### Advanced Driver Configuration
 
 #### Custom Driver Options
-```java
+```
 import io.cyborgcode.roa.ui.drivers.base.DriverProvider;
 import io.cyborgcode.roa.ui.drivers.providers.ChromeDriverProvider;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -1093,7 +1093,7 @@ SmartWebDriver driver = new SmartWebDriver(webDriver);
 ```
 
 #### Remote Driver (Selenium Grid)
-```java
+```
 // Configure remote driver URL in ui-config.properties
 // remote.driver.url=http://localhost:4444/wd/hub
 
@@ -1113,7 +1113,7 @@ if (!getUiConfig().remoteDriverUrl().isEmpty()) {
 ```
 
 #### Driver Session Management
-```java
+```
 // Keep driver for entire session
 driver.setKeepDriverForSession(true);
 
@@ -1133,7 +1133,7 @@ try (SmartWebDriver driver = new SmartWebDriver(webDriver)) {
 ### Performance Optimization
 
 #### Minimize Element Lookups
-```java
+```
 // Bad: Multiple lookups
 driver.findSmartElement(By.id("form")).findSmartElement(By.id("name")).sendKeys("John");
 driver.findSmartElement(By.id("form")).findSmartElement(By.id("email")).sendKeys("john@example.com");
@@ -1145,7 +1145,7 @@ form.findSmartElement(By.id("email")).sendKeys("john@example.com");
 ```
 
 #### Disable Wrapping for Simple Operations
-```java
+```
 // For simple, non-critical operations, disable wrapping
 // Set use.wrap.selenium.function=false in config
 
@@ -1155,7 +1155,7 @@ element.getOriginal().click(); // Direct Selenium call, no waits
 ```
 
 #### Batch Element Operations
-```java
+```
 // Read multiple elements at once
 List<SmartWebElement> rows = driver.findSmartElements(By.cssSelector("table tr"));
 
@@ -1169,7 +1169,7 @@ rows.parallelStream().forEach(row -> {
 ### Troubleshooting
 
 #### Enable Debug Logging
-```java
+```
 import io.cyborgcode.roa.ui.log.LogUi;
 
 // Set logging level in configuration or programmatically
@@ -1185,7 +1185,7 @@ LogUi.setDebugMode(true);
 #### Common Issues and Solutions
 
 **Issue: StaleElementReferenceException persists**
-```java
+```
 // Solution: Increase wait duration
 // Set wait.duration.in.seconds=15 in config
 
@@ -1196,7 +1196,7 @@ SmartWebElement element = driver.findSmartElement(locator);
 ```
 
 **Issue: Element not interactable**
-```java
+```
 // Solution: Explicit wait for element state
 driver.waitUntilElementIsShown(By.id("element"), 10);
 SmartWebElement element = driver.findSmartElement(By.id("element"));
@@ -1205,7 +1205,7 @@ element.click();
 ```
 
 **Issue: Shadow DOM elements not found**
-```java
+```
 // Solution: Enable Shadow DOM support
 // Set use.shadow.root=true in ui-config.properties
 
@@ -1215,7 +1215,7 @@ SmartWebElement shadowChild = shadowHost.findSmartElement(By.cssSelector(".inner
 ```
 
 **Issue: Slow table operations**
-```java
+```
 // Solution: Read with specific fields only
 TableField<User> nameField = TableField.of(User::setName);
 TableField<User> emailField = TableField.of(User::setEmail);

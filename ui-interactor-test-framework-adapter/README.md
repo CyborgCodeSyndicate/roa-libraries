@@ -137,7 +137,7 @@ project.package=com.example.tests
 ```
 
 ### Step 3 — Enable the Adapter
-```java
+```
 import io.cyborgcode.roa.ui.annotations.UI;
 import io.cyborgcode.roa.ui.service.fluent.UiServiceFluent;
 import io.cyborgcode.roa.framework.annotation.Prologue;
@@ -175,7 +175,7 @@ public class LoginTest {
 ### Step 4 — Component Usage Examples
 
 **Button Operations:**
-```java
+```
 ui.getButtonField()
     .click("Submit")
     .click(By.id("cancel"))
@@ -183,7 +183,7 @@ ui.getButtonField()
 ```
 
 **Input Operations:**
-```java
+```
 ui.getInputField()
     .insert("Username", "admin")
     .insert("Email", "admin@example.com")
@@ -193,7 +193,7 @@ String email = ui.getInputField().getValue("Email");
 ```
 
 **Checkbox Operations:**
-```java
+```
 ui.getCheckboxField()
     .select("Terms and Conditions")
     .select("Newsletter")
@@ -201,7 +201,7 @@ ui.getCheckboxField()
 ```
 
 **Table Operations:**
-```java
+```
 // Read table
 List<User> users = ui.getTable().readTable(User.class);
 
@@ -217,7 +217,7 @@ ui.getTable()
 ```
 
 ### Step 5 — Authentication
-```java
+```
 @Test
 @AuthenticateViaUi(
     credentials = AdminCredentials.class,
@@ -230,7 +230,7 @@ void testAdminArea() {
 ```
 
 ### Step 6 — Network Interception
-```java
+```
 @Test
 @InterceptRequests
 void testApiCalls() {
@@ -274,7 +274,7 @@ void testApiCalls() {
 
 ## Storage Integration
 
-```java
+```
 // Store data
 ui.getQuest().getStorage().put(StorageKeysUi.UI, "email", "user@example.com");
 

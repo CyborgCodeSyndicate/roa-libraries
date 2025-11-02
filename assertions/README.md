@@ -231,7 +231,7 @@ List<AssertionResult<Object>> results = AssertionUtil.validate(
 ```
 
 ### Step 4 — Process Results
-```java
+```
 // Check if all passed
 boolean allPassed = results.stream().allMatch(AssertionResult::isPassed);
 
@@ -259,7 +259,7 @@ if (!hardFailures.isEmpty()) {
 ```
 
 ### Step 5 — Custom Assertions
-```java
+```
 import io.cyborgcode.roa.validator.registry.AssertionRegistry;
 
 // Define custom type
@@ -434,7 +434,7 @@ public class UiValidatorImpl {
 ## Custom Assertion Types
 
 ### Example: API-Specific Assertions
-```java
+```
 // Define custom types
 public enum ApiAssertionTypes implements AssertionType<ApiAssertionTypes> {
     JSON_SCHEMA_VALID(String.class),
