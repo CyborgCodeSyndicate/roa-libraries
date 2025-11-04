@@ -1,7 +1,7 @@
 # ui-interactor
 
 <!-- Quick jump -->
-**Start here:** [Usage — Quick Start](#usage)
+**Start here:** [Usage - Quick Start](#usage)
 
 ## Table of Contents
 - [Overview](#overview)
@@ -17,24 +17,24 @@
     - [Table Operations with Typed Models](#table-operations-with-typed-models)
     - [Exception Recovery Strategy](#exception-recovery-strategy)
 - [Usage](#usage)
-  - [Step 1 — Driver Setup](#step-1--driver-setup)
-  - [Step 2 — Component Services](#step-2--component-services)
-  - [Step 3 — Basic UI Operations](#step-3--basic-ui-operations)
-  - [Step 4 — Button Component](#step-4--button-component)
-  - [Step 5 — Input Component](#step-5--input-component)
-  - [Step 6 — Checkbox Component](#step-6--checkbox-component)
-  - [Step 7 — Select Component](#step-7--select-component)
-  - [Step 8 — Radio Component](#step-8--radio-component)
-  - [Step 9 — Toggle Component](#step-9--toggle-component)
-  - [Step 10 — Table Component](#step-10--table-component)
-  - [Step 11 — Modal Component](#step-11--modal-component)
-  - [Step 12 — Alert Component](#step-12--alert-component)
-  - [Step 13 — Link Component](#step-13--link-component)
-  - [Step 14 — Loader Component](#step-14--loader-component)
-  - [Step 15 — Tab Component](#step-15--tab-component)
-  - [Step 16 — Accordion Component](#step-16--accordion-component)
-  - [Step 17 — List Component](#step-17--list-component)
-  - [Step 18 — Insertion Pattern](#step-18--insertion-pattern)
+  - [Step 1 - Driver Setup](#step-1--driver-setup)
+  - [Step 2 - Component Services](#step-2--component-services)
+  - [Step 3 - Basic UI Operations](#step-3--basic-ui-operations)
+  - [Step 4 - Button Component](#step-4--button-component)
+  - [Step 5 - Input Component](#step-5--input-component)
+  - [Step 6 - Checkbox Component](#step-6--checkbox-component)
+  - [Step 7 - Select Component](#step-7--select-component)
+  - [Step 8 - Radio Component](#step-8--radio-component)
+  - [Step 9 - Toggle Component](#step-9--toggle-component)
+  - [Step 10 - Table Component](#step-10--table-component)
+  - [Step 11 - Modal Component](#step-11--modal-component)
+  - [Step 12 - Alert Component](#step-12--alert-component)
+  - [Step 13 - Link Component](#step-13--link-component)
+  - [Step 14 - Loader Component](#step-14--loader-component)
+  - [Step 15 - Tab Component](#step-15--tab-component)
+  - [Step 16 - Accordion Component](#step-16--accordion-component)
+  - [Step 17 - List Component](#step-17--list-component)
+  - [Step 18 - Insertion Pattern](#step-18--insertion-pattern)
 - [Configuration](#configuration)
 - [Extensibility](#extensibility)
 - [Cross-module links](#cross-module-links)
@@ -67,15 +67,15 @@ The library is test-framework agnostic and designed to be embedded in adapters o
   - org.assertj:assertj-core (test)
 
 ## Features
-- **Smart Selenium wrappers** with automatic waits and exception recovery strategies
-- **17 component types** with uniform service APIs and pluggable implementations
-- **Table operations**: read rows, filter, sort, insert, validate with typed field mapping
-- **Driver management**: abstracted via `DriverProvider` with automatic setup
-- **Insertion pattern**: uniform data entry contract across all input components
-- **Shadow DOM support** for modern web components
-- **Owner-based configuration** via `UiConfig`/`UiConfigHolder` for all settings
-- **Structured logging** via `LogUi` with step and error tracking
-- **Extensible architecture**: add custom component types, drivers, or insertion strategies
+- **Smart Selenium wrappers** via SmartWebDriver and SmartWebElement, offering configurable waits, optional Shadow DOM traversal (use.shadow.root), and mapped exception recovery strategies.
+- **Component services** for buttons, inputs, checkboxes, selects, radios, toggles, item lists, loaders, links, alerts, tabs, tables, accordions, and modals resolved through ComponentFactory.
+- **Facade service** (UiService) that wires the core components plus insertion/table registries so tests can interact without manual plumbing.
+- **Configurable defaults** using the Owner-based UiConfig interface (browser type, wait duration, component default enums, project package scanning).
+- **Driver factory** with built-in Chrome and Edge providers, optional remote execution, and extension points to register additional browsers.
+- **Typed table utilities** with annotations (@TableInfo, @TableCellLocator) for reading, filtering, inserting, and validating structured rows.
+- **Insertion pattern** that reuses component services to populate complex forms in a consistent way.
+- **Structured logging** through LogUi, producing action/validation/step logs that integrate with external reporters.
+
 
 ## Structure
 
@@ -149,7 +149,7 @@ All component packages follow a uniform structure:
 |---|---|---|---|
 | `DriverProvider<T>` | Driver lifecycle contract | `createDriver(options)`, `setupDriver(version)` | Factories |
 | `BaseDriverProvider` | Common driver logic | option application | Concrete providers |
-| Chrome/Firefox/Edge/Safari providers | Browser-specific setup | browser-specific options | Driver creation |
+| Chrome/Edge providers | Browser-specific setup | browser-specific options | Driver creation |
 
 ### Package: `io.cyborgcode.roa.ui.insertion`
 | Class | Responsibility | Key methods | Used by |
@@ -166,12 +166,12 @@ All component packages follow a uniform structure:
 | `UiConfigHolder` | Singleton holder for UiConfig | `getUiConfig()` returns cached Owner instance | All classes needing config |
 
 ### Other packages
-- `io.cyborgcode.roa.ui.annotations` — `@HandleUiException`, `@InsertionField`, `@ImplementationOfType`
-- `io.cyborgcode.roa.ui.selenium.*` — locating, handling, decorators, logging, listeners, shadowroot support
-- `io.cyborgcode.roa.ui.components.table.*` — table annotations, filters, insertion, sorting, model, registry
-- `io.cyborgcode.roa.ui.log` — `LogUi` for structured logging (namespace: "ROA.UI")
-- `io.cyborgcode.roa.ui.util` — helpers and strategies
-- `io.cyborgcode.roa.ui.validator` — validation helpers
+- `io.cyborgcode.roa.ui.annotations` - `@HandleUiException`, `@InsertionField`, `@ImplementationOfType`
+- `io.cyborgcode.roa.ui.selenium.*` - locating, handling, decorators, logging, listeners, shadowroot support
+- `io.cyborgcode.roa.ui.components.table.*` - table annotations, filters, insertion, sorting, model, registry
+- `io.cyborgcode.roa.ui.log` - `LogUi` for structured logging (namespace: "ROA.UI")
+- `io.cyborgcode.roa.ui.util` - helpers and strategies
+- `io.cyborgcode.roa.ui.validator` - validation helpers
 
 ### Annotations Reference
 | Annotation | Target | Purpose | Example |
@@ -383,57 +383,64 @@ sequenceDiagram
 
 ## Usage
 
-### Step 1 — Driver Setup
-```
-import io.cyborgcode.roa.ui.drivers.base.DriverProvider;
-import io.cyborgcode.roa.ui.drivers.providers.ChromeDriverProvider;
+### Step 1 - Driver Setup
+```java
+import io.cyborgcode.roa.ui.config.UiConfigHolder;
+import io.cyborgcode.roa.ui.drivers.config.WebDriverConfig;
+import io.cyborgcode.roa.ui.drivers.factory.WebDriverFactory;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
-// Option A: Using DriverProvider (recommended)
-DriverProvider<ChromeOptions> provider = new ChromeDriverProvider();
-provider.setupDriver(""); // auto-download latest
-ChromeOptions options = provider.createOptions();
-provider.applyDefaultArguments(options);
-if (getUiConfig().headless()) {
-    provider.applyHeadlessArguments(options);
-}
-WebDriver webDriver = provider.createDriver(options);
+var uiConfig = UiConfigHolder.getUiConfig();
 
-// Option B: Direct WebDriver creation
-WebDriver webDriver = new ChromeDriver();
+WebDriver webDriver = WebDriverFactory.createDriver(
+    uiConfig.browserType(),
+    WebDriverConfig.builder()
+        .version(uiConfig.browserVersion())
+        .headless(uiConfig.headless())
+        .remote(uiConfig.remoteDriverUrl() != null && !uiConfig.remoteDriverUrl().isBlank())
+        .remoteUrl(uiConfig.remoteDriverUrl())
+        .build()
+);
 
-// Wrap with SmartWebDriver
 SmartWebDriver driver = new SmartWebDriver(webDriver);
 ```
 
-### Step 2 — Component Services
+### Step 2 - Component Services
 ```java
-import io.cyborgcode.roa.ui.components.button.ButtonServiceImpl;
-import io.cyborgcode.roa.ui.components.input.InputServiceImpl;
-import io.cyborgcode.roa.ui.components.checkbox.CheckboxServiceImpl;
-import io.cyborgcode.roa.ui.components.select.SelectServiceImpl;
-import io.cyborgcode.roa.ui.components.table.service.TableServiceImpl;
+import io.cyborgcode.roa.ui.components.accordion.AccordionService;
+import io.cyborgcode.roa.ui.components.accordion.AccordionServiceImpl;
+import io.cyborgcode.roa.ui.components.modal.ModalService;
+import io.cyborgcode.roa.ui.components.modal.ModalServiceImpl;
+import io.cyborgcode.roa.ui.service.facade.UiService;
 
-// Initialize all component services
-ButtonService buttons = new ButtonServiceImpl(driver);
-InputService inputs = new InputServiceImpl(driver);
-CheckboxService checkboxes = new CheckboxServiceImpl(driver);
-SelectService selects = new SelectServiceImpl(driver);
-RadioService radios = new RadioServiceImpl(driver);
-ToggleService toggles = new ToggleServiceImpl(driver);
-TableService tables = new TableServiceImpl(driver);
+UiService ui = new UiService(driver);
+
+// Core services exposed by the facade
+var buttons = ui.getButtonField();
+var inputs = ui.getInputField();
+var radios = ui.getRadioField();
+var checkboxes = ui.getCheckboxField();
+var toggles = ui.getToggleField();
+var selects = ui.getSelectField();
+var lists = ui.getListField();
+var loaders = ui.getLoaderField();
+var links = ui.getLinkField();
+var alerts = ui.getAlertField();
+var tabs = ui.getTabField();
+var tables = ui.getTableService();
+var insertion = ui.getInsertionService();
+
+// Optional services not managed by UiService
 ModalService modals = new ModalServiceImpl(driver);
-AlertService alerts = new AlertServiceImpl(driver);
-LinkService links = new LinkServiceImpl(driver);
-LoaderService loaders = new LoaderServiceImpl(driver);
-TabService tabs = new TabServiceImpl(driver);
 AccordionService accordions = new AccordionServiceImpl(driver);
-ItemListService lists = new ItemListServiceImpl(driver);
 ```
 
-### Step 3 — Basic UI Operations
+```java
+// Resolve custom component implementations at runtime
+ComponentFactory.getButtonComponent(MyButtonType.PRIMARY, driver);
+```
+### Step 3 - Basic UI Operations
 ```
 import org.openqa.selenium.By;
 
@@ -459,7 +466,7 @@ driver.waitUntilElementIsRemoved(By.id("loader"), 10);
 boolean ok = driver.checkNoException(() -> driver.findSmartElement(By.id("optional")));
 ```
 
-### Step 4 — Button Component
+### Step 4 - Button Component
 ```
 // Click by text
 buttons.click("Save");
@@ -477,7 +484,7 @@ boolean enabled = buttons.isEnabled("Save");
 boolean visible = buttons.isVisible(By.id("save-btn"));
 ```
 
-### Step 5 — Input Component
+### Step 5 - Input Component
 ```
 // Insert value by label
 inputs.insert("Email", "user@example.com");
@@ -506,7 +513,7 @@ String error = inputs.getErrorMessage("Email");
 String error2 = inputs.getErrorMessage(form, "Password");
 ```
 
-### Step 6 — Checkbox Component
+### Step 6 - Checkbox Component
 ```
 // Select single checkbox
 checkboxes.select("Remember me");
@@ -543,7 +550,7 @@ checkboxes.select(form, Strategy.FIRST);
 checkboxes.deSelect(form, Strategy.ALL);
 ```
 
-### Step 7 — Select Component
+### Step 7 - Select Component
 ```
 // Select by visible text
 selects.select("Country", "United States");
@@ -570,7 +577,7 @@ List<String> options2 = selects.getOptions(form, "State");
 boolean enabled = selects.isEnabled("Country");
 ```
 
-### Step 8 — Radio Component
+### Step 8 - Radio Component
 ```
 // Select radio button
 radios.select("Male");
@@ -592,7 +599,7 @@ String selected = radios.getSelected(form);
 String selected2 = radios.getSelected(By.cssSelector(".payment-options"));
 ```
 
-### Step 9 — Toggle Component
+### Step 9 - Toggle Component
 ```
 // Toggle on/off
 toggles.toggle("Dark Mode");
@@ -607,7 +614,7 @@ boolean enabled = toggles.isEnabled("Dark Mode");
 boolean selected = toggles.isSelected("Auto-save");
 ```
 
-### Step 10 — Table Component (Overview)
+### Step 10 - Table Component (Overview)
 The table component provides comprehensive operations for reading, filtering, sorting, validating, and inserting data into HTML tables using typed row models.
 
 #### Table Model Definition
@@ -810,7 +817,7 @@ results.forEach(result -> {
 **@CustomCellInsertion** / **@CustomCellFilter** (Field-level)
 - For custom component implementations
 
-### Step 11 — Modal Component
+### Step 11 - Modal Component
 ```
 // Check if modal is displayed
 boolean visible = modals.isDisplayed("Confirmation");
@@ -831,7 +838,7 @@ SmartWebElement modal = driver.findSmartElement(By.id("confirm-modal"));
 buttons.click(modal, "Confirm");
 ```
 
-### Step 12 — Alert Component
+### Step 12 - Alert Component
 ```
 // Check if alert is displayed
 boolean visible = alerts.isDisplayed("Success");
@@ -849,7 +856,7 @@ alerts.close(By.cssSelector(".alert.closable"));
 alerts.waitUntilDisplayed("Processing", 10);
 ```
 
-### Step 13 — Link Component
+### Step 13 - Link Component
 ```
 // Click link by text
 links.click("Privacy Policy");
@@ -871,7 +878,7 @@ boolean enabled = links.isEnabled("Privacy Policy");
 boolean visible = links.isVisible(footer, "Contact Us");
 ```
 
-### Step 14 — Loader Component
+### Step 14 - Loader Component
 ```
 // Wait until loader disappears
 loaders.waitUntilLoaderDisappears(10);
@@ -882,7 +889,7 @@ boolean loading = loaders.isDisplayed();
 boolean loading2 = loaders.isDisplayed(By.cssSelector(".loading-spinner"));
 ```
 
-### Step 15 — Tab Component
+### Step 15 - Tab Component
 ```
 // Select tab by name
 tabs.selectTab("Profile");
@@ -906,7 +913,7 @@ String activeTab = tabs.getSelectedTab(tabContainer);
 List<String> allTabs = tabs.getTabs(By.id("main-tabs"));
 ```
 
-### Step 16 — Accordion Component
+### Step 16 - Accordion Component
 ```
 // Expand accordion section
 accordions.expand("Personal Information");
@@ -928,7 +935,7 @@ boolean expanded2 = accordions.isExpanded(By.id("section-payment"));
 accordions.toggle("Billing");
 ```
 
-### Step 17 — List Component
+### Step 17 - List Component
 ```
 // Get all items
 List<String> items = lists.getItems(By.id("product-list"));
@@ -949,7 +956,7 @@ List<String> selected = lists.getSelectedItems(By.id("selected-filters"));
 int count = lists.getItemCount(container);
 ```
 
-### Step 18 — Insertion Pattern
+### Step 18 - Insertion Pattern
 ```
 import io.cyborgcode.roa.ui.insertion.Insertion;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
@@ -1016,7 +1023,7 @@ inputs.insert("Email", "user@test.com"); // Works inside shadow roots
 
 ### Selenium Package Deep Dive
 
-#### SmartFinder — Element Location Strategies
+#### SmartFinder - Element Location Strategies
 The `SmartFinder` utility provides unified element location with automatic Shadow DOM handling.
 
 ```java
@@ -1055,14 +1062,14 @@ List<SmartWebElement> elements = SmartFinder.findElementsNormally(
 );
 ```
 
-#### Exception Handling — Automatic Recovery
+#### Exception Handling - Automatic Recovery
 The framework provides automatic exception handling for common Selenium failures.
 
 **Handled Exceptions:**
-- `StaleElementReferenceException` — Re-locates element and retries operation
-- `ElementClickInterceptedException` — Scrolls to element and retries
-- `ElementNotInteractableException` — Waits for element to become interactable
-- `NoSuchElementException` — Logs detailed error with locator information
+- `StaleElementReferenceException` - Re-locates element and retries operation
+- `ElementClickInterceptedException` - Scrolls to element and retries
+- `ElementNotInteractableException` - Waits for element to become interactable
+- `NoSuchElementException` - Logs detailed error with locator information
 
 ```java
 import io.cyborgcode.roa.ui.selenium.handling.ExceptionHandlingWebElement;
@@ -1150,7 +1157,7 @@ SmartWebElement deepElement = driver.findSmartElement(
 );
 ```
 
-### Util Package — Helper Utilities
+### Util Package - Helper Utilities
 
 #### Strategy Pattern for Component Selection
 ```

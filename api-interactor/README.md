@@ -1,7 +1,7 @@
 # api-interactor
 
 <!-- Quick jump -->
-**Start here:** [Usage — Quick Start (step-by-step)](#usage)
+**Start here:** [Usage - Quick Start (step-by-step)](#usage)
 
 ## Table of Contents
 - [Overview](#overview)
@@ -15,16 +15,16 @@
     - [Response Validation Flow](#response-validation-flow)
     - [Authentication Cache Semantics](#authentication-cache-semantics)
 - [Usage](#usage)
-    - [Step 1 — Install dependency](#step-1--install-dependency)
-    - [Step 2 — Configure environment](#step-2--configure-environment)
-    - [Step 3 — Define app endpoints](#step-3--define-app-endpoints)
-    - [Step 4 — Create a small test-facing service with validation assertions](#step-4--create-a-small-test-facing-service-with-validation-assertions)
-    - [Step 5 — (Optional) Plug an auth strategy](#step-5--optional-plug-an-auth-strategy)
+    - [Step 1 - Install dependency](#step-1--install-dependency)
+    - [Step 2 - Configure environment](#step-2--configure-environment)
+    - [Step 3 - Define app endpoints](#step-3--define-app-endpoints)
+    - [Step 4 - Create a small test-facing service with validation assertions](#step-4--create-a-small-test-facing-service-with-validation-assertions)
+    - [Step 5 - (Optional) Plug an auth strategy](#step-5--optional-plug-an-auth-strategy)
 - [Dependencies](#dependencies)
 - [Author](#author)
 
 ## Overview
-The **api-interactor** module is a purpose-built foundation for declarative REST API testing on Java 17. It lets you model endpoints as code (typically enums implementing Endpoint<T>) and then compose requests immutably at runtime via ParametrizedEndpoint—adding path, query, and header parameters without mutating the original definition. Execution is handled by a pluggable HTTP SPI (RestClient), with a production-ready default (RestClientImpl on Rest Assured). The RestService orchestrates the flow end-to-end: it builds the RequestSpecification, applies optional authentication through BaseAuthenticationClient (with per-user header caching via AuthenticationKey), calls the client, and delegates response checks to RestResponseValidator using RestAssertionTarget (status, headers, body/JsonPath).
+The **api-interactor** module is a purpose-built foundation for declarative REST API testing on Java 17. It lets you model endpoints as code (typically enums implementing Endpoint<T>) and then compose requests immutably at runtime via ParametrizedEndpoint-adding path, query, and header parameters without mutating the original definition. Execution is handled by a pluggable HTTP SPI (RestClient), with a production-ready default (RestClientImpl on Rest Assured). The RestService orchestrates the flow end-to-end: it builds the RequestSpecification, applies optional authentication through BaseAuthenticationClient (with per-user header caching via AuthenticationKey), calls the client, and delegates response checks to RestResponseValidator using RestAssertionTarget (status, headers, body/JsonPath).
 
 Configuration is standardized through the Owner library (ApiConfig / ApiConfigHolder) so base URLs, logging levels, and body truncation are consistent across environments. Structured logging via LogApi surfaces steps, request/response details (pretty-printed when possible), and highlights slow calls, making test runs observable and debuggable. The library is test-framework agnostic and can be wired plain or with Spring (DI annotations are provided but not required), which makes it easy to embed in existing suites or layer a fluent test adapter on top in a separate module.
 
@@ -53,14 +53,14 @@ Configuration is standardized through the Owner library (ApiConfig / ApiConfigHo
 - **Auth template** (`BaseAuthenticationClient`) with cached `Header` per `AuthenticationKey`
 
 ## Structure
-- `authentication` — `AuthenticationClient`, `BaseAuthenticationClient`, `AuthenticationKey`  
-- `client` — `RestClient`, `RestClientImpl`  
-- `config` — `ApiConfig`, `ApiConfigHolder`  
-- `core` — `Endpoint<T>`, `ParametrizedEndpoint<T>`  
-- `exceptions` — `RestServiceException`  
-- `log` — `LogApi`  
-- `service` — `RestService`  
-- `validator` — `RestAssertionTarget`, `RestResponseValidator`, `RestResponseValidatorImpl`
+- `authentication` - `AuthenticationClient`, `BaseAuthenticationClient`, `AuthenticationKey`  
+- `client` - `RestClient`, `RestClientImpl`  
+- `config` - `ApiConfig`, `ApiConfigHolder`  
+- `core` - `Endpoint<T>`, `ParametrizedEndpoint<T>`  
+- `exceptions` - `RestServiceException`  
+- `log` - `LogApi`  
+- `service` - `RestService`  
+- `validator` - `RestAssertionTarget`, `RestResponseValidator`, `RestResponseValidatorImpl`
 
 ## Architecture
 
@@ -145,9 +145,9 @@ sequenceDiagram
 #### Response Validation Flow
 - **RestService.validate(response, assertions):** delegates to `RestResponseValidatorImpl`.
 - **Targets:**
-  - `STATUS` — handled by `handleStatusAssertion(...)`.
-  - `BODY` — `handleBodyAssertion(...)` with JsonPath extraction.
-  - `HEADER` — `handleHeaderAssertion(...)`.
+  - `STATUS` - handled by `handleStatusAssertion(...)`.
+  - `BODY` - `handleBodyAssertion(...)` with JsonPath extraction.
+  - `HEADER` - `handleHeaderAssertion(...)`.
 - Final validation via `AssertionUtil.validate(...)`.
 
 #### Authentication Cache Semantics
@@ -163,7 +163,7 @@ flowchart TB
 
 ## Usage
 
-### Step 1 — Install dependency
+### Step 1 - Install dependency
 Add the module to your build and depend on it from test modules:
 ```xml
 <dependency>
@@ -178,13 +178,13 @@ If publishing to an internal registry, keep the same coordinates. Otherwise inst
 mvn -pl api-interactor -am install
 ```
 
-### Step 2 — Configure environment
+### Step 2 - Configure environment
 Configuration is provided via **Owner** (`ApiConfig`) and loaded with `ApiConfigHolder`.
 
 | Key                                  | Type    | Default | Description                                  |
 |--------------------------------------|---------|:-------:|----------------------------------------------|
-| `project.package`                    | String  |   —     | Base package for scanning                     |
-| `api.base.url`                       | String  |   —     | Base URL for endpoints                        |
+| `project.package`                    | String  |   -     | Base package for scanning                     |
+| `api.base.url`                       | String  |   -     | Base URL for endpoints                        |
 | `api.restassured.logging.enabled`    | boolean | `true`  | Toggle Rest Assured logging                   |
 | `api.restassured.logging.level`      | String  | `ALL`   | One of `ALL`, `BASIC`, `NONE`                 |
 | `log.full.body`                      | boolean | `true`  | Log entire response body                      |
@@ -202,7 +202,7 @@ log.full.body=false
 shorten.body=800
 ```
 
-### Step 3 — Define app endpoints
+### Step 3 - Define app endpoints
 ```java
 public enum Endpoints implements Endpoint {
   GET_ALL_USERS(Method.GET, "/users?{page}"),
@@ -241,7 +241,7 @@ public enum Endpoints implements Endpoint {
 }
 ```
 
-### Step 4 — Create a small test-facing service with validation assertions
+### Step 4 - Create a small test-facing service with validation assertions
 ```java
 public class TestAppService {
 
@@ -273,7 +273,7 @@ public class TestAppService {
 }
 ```
 
-### Step 5 — (Optional) Plug an auth strategy
+### Step 5 - (Optional) Plug an auth strategy
 ```java
 public class TestAppAuthentication extends BaseAuthenticationClient {
 
