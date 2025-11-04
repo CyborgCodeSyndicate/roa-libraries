@@ -59,7 +59,7 @@ public class Initiator implements InvocationInterceptor {
 
       Optional<Method> testMethod = extensionContext.getTestMethod();
 
-      if (testMethod.isPresent() && testMethod.get().isAnnotationPresent(PreQuest.class)) {
+      if (testMethod.isPresent() && testMethod.get().getAnnotationsByType(Journey.class).length > 0) {
          Quest quest = (Quest) extensionContext.getStore(ExtensionContext.Namespace.GLOBAL).get(QUEST);
          if (quest == null) {
             throw new IllegalStateException("Quest not found in the global store");
