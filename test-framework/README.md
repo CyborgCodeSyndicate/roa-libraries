@@ -8,249 +8,242 @@
 - [Features](#features)
 - [Structure](#structure)
 - [Architecture](#architecture)
-  - [Class Diagram](#class-diagram)
-  - [Execution Flow](#execution-flow)
+    - [Class Diagram](#class-diagram)
+    - [Execution Flow](#execution-flow)
+      - [Extension Lifecycle Flow](#extension-lifecycle-flow)
 - [Usage](#usage)
-  - [Step 1 — Add dependency](#step-1--add-dependency)
-  - [Step 2 — Enable the framework on tests](#step-2--enable-the-framework-on-tests)
-  - [Step 3 — Compose a fluent chain](#step-3--compose-a-fluent-chain)
-  - [Test Example (JUnit 5)](#test-example-junit-5)
-- [Configuration](#configuration)
-- [Extensibility](#extensibility)
-- [Annotations and Parameters](#annotations-and-parameters)
-  - [Annotations](#annotations)
-  - [Parameters](#parameters)
+    - [Step 1 — Add dependency](#step-1--add-dependency)
+    - [Step 2 — Enable the framework on tests](#step-2--enable-the-framework-on-tests)
+    - [Step 3 — Compose a fluent chain](#step-3--compose-a-fluent-chain)
+    - [Step 4 — (Optional) Register rings with Spring](#step-4--optional-register-rings-with-spring)
+    - [Step 5 — (Optional) Use retry mechanisms](#step-5--optional-use-retry-mechanisms)
+    - [Step 6 — (Optional) Configure pre-quest journeys](#step-6--optional-configure-pre-quest-journeys)
+- [Annotations & Hooks](#annotations--hooks)
+- [Retry Helpers](#retry-helpers)
+- [Allure Reporting](#allure-reporting)
+- [Framework Configuration](#framework-configuration)
 - [Dependencies](#dependencies)
 - [Author](#author)
 
 ---
 
 ## Overview
-The **test-framework** module is the ROA (Ring of Automation) core testing layer. It provides a fluent, test-facing API to orchestrate end-to-end flows as chains, collect soft and hard validations, perform time-bound retries, and attach rich logs/steps for observability. 
+The **test-framework** module is the ROA (Ring of Automation) core testing layer. It provides a **fluent, test-facing API** to orchestrate end-to-end flows as chains, collect soft and hard validations, perform time-bound retries, and attach rich logs/steps for observability.
 
-At the center sits `Quest`: a lightweight execution context with data storage and assertion aggregation. Test-facing services extend `FluentService` and are registered as “rings” that a `Quest` can use to compose journeys. The framework remains test-framework agnostic while offering JUnit 5 friendly patterns and Allure hooks.
+At the center sits `Quest`: a lightweight execution context with data storage (`Storage`) and assertion aggregation (`CustomSoftAssertion`). Test-facing services extend `FluentService` and are registered as "rings" that a `Quest` can use to compose journeys. The framework is test-framework agnostic while offering **JUnit 5 extensions** (`Oracle`, `Initiator`, `Prologue`, `Epilogue`, `Craftsman`, `RipperMan`) and **Allure hooks** (`CustomAllureListener`) for structured reporting.
 
 ## Features
-- **Fluent chain API:** `FluentChain.validate(SoftAssertions)`, `FluentChain.validate(Runnable)`, `FluentChain.complete()`.
-- **Execution context:** `Quest` stores rings (services), artifacts, soft assertions, and ephemeral data.
-- **Service base class:** `FluentService` with validation helpers and protected `retryUntil(...)` support.
-- **Retry utilities:** integrate with `RetryCondition` and `RetryUtils` for eventual consistency.
-- **Extensions lifecycle:** init/prologue/epilogue-style helpers (`Initiator`, `Prologue`, `Epilogue`, `Craftsman`, `Oracle`).
-- **Logging & steps:** `LogQuest` messages and Allure step attachments for validations.
+- **Fluent chain API:** `FluentChain` → `validate(Consumer<SoftAssertions>)`, `validate(Runnable)`, `complete()`, `drop()`; services implement `FluentChain` for method chaining.
+- **Execution context:** `Quest` stores:
+    - Rings (services) via `use(Class<T>)` — retrieves registered `FluentService` instances
+    - Artifacts via `artifact(ringType, artifactType)` — extracts specific objects from rings
+    - Soft assertions via `CustomSoftAssertion` — aggregates soft validations
+    - Ephemeral data in `Storage` — thread-safe key-value store with sub-storage support
+- **Service base class:** `FluentService` implements `FluentChain` with:
+    - `validation(List<AssertionResult>)` — processes assertion results (soft/hard)
+    - `retryUntil(retryCondition, maxWait, retryInterval, service)` — polls until condition met
+    - `drop()` — returns original `Quest` for ring switching
+    - `postQuestSetupInitialization()` — hook for custom setup after quest wiring
+- **Retry utilities:** `RetryCondition<T>` / `RetryConditionImpl<T>` combine `Function<Object, T>` and `Predicate<T>` with `RetryUtils.retryUntil(...)` for eventual consistency.
+- **JUnit 5 extensions lifecycle:**
+    - **`Initiator`** (InvocationInterceptor, Order=MAX) — intercepts test method, processes `@PreQuest` / `@Journey` annotations, executes `PreQuestJourney` flows, populates Storage with pre-arguments via `DataForge`.
+    - **`Prologue`** (BeforeTestExecutionCallback, Order=MIN) — initializes test environment via `AllureStepHelper.initializeTestEnvironment()` (writes environment.properties, categories.json) and `setupTestContext()` (stores test name, start time).
+    - **`Oracle`** (ParameterResolver) — resolves `Quest` parameter, creates via `QuestFactory`, loads `@StaticTestData`, decorates `Quest` → `SuperQuest`, stores in `QuestHolder`.
+    - **`Craftsman`** (ParameterResolver) — resolves `@Craft` parameters using `DataForge<T>` (immediate via `.dataCreator().create()` or `Late<T>` deferred via `.dataCreator()`).
+    - **`RipperMan`** (AfterTestExecutionCallback) — processes `@Ripper` targets, executes `DataRipper.eliminate()` cleanup on Storage.
+    - **`Epilogue`** (AfterTestExecutionCallback, Order=MAX) — logs test outcome, calculates duration, attaches filtered logs/HTML to Allure via `AllureStepHelper`, stops active steps.
+- **Logging & steps:** 
+    - `LogQuest` — singleton structured logger under "ROA.TEST.QUEST" namespace with methods: `info()`, `warn()`, `error()`, `debug()`, `trace()`, `step()`, `validation()`, `extended()`.
+    - `CustomAllureListener` — extends `AllureJunit5`, manages thread-local step tracking with `StatusType` enum (DEFAULT, INFO, SUCCESS, WARNING, ERROR), methods: `startStep()`, `stopStep()`, `isStepActive()`.
+- **Spring integration:** 
+    - `QuestFactory` — creates `Quest` instances, auto-wires `FluentService` collection, registers rings via `registerRing()`, decorates with `DecoratorsFactory`.
+    - `FrameworkAdapterContextCustomizer` / `FrameworkAdapterContextCustomizerFactory` — Spring TestContext customization for framework adapter integration.
 
 ## Structure
-- `allure` — `CustomAllureListener`, `StepType`
-- `annotation` — `Ring`, `Journey`, `Odyssey`, `Craft`, `Regression`, `Smoke`, `Ripper`, `PreQuest`, `StaticTestData`, `FrameworkAdapter`
-- `assertion` — `CustomSoftAssertion`
+- `allure` — `CustomAllureListener` (step tracking, status types), `StepType` (enum for predefined steps)
+- `annotation` — `@Ring`, `@Journey`, `@Odyssey`, `@Craft`, `@Regression`, `@Smoke`, `@Ripper`, `@PreQuest`, `@StaticTestData`, `@FrameworkAdapter`, `@JourneyData`
+- `assertion` — `CustomSoftAssertion` (extends AssertJ SoftAssertions, defers failures)
 - `base` — `BaseQuest`, `BaseQuestSequential`, `ClassLevelHook`, `Services`
-- `chain` — `FluentChain`, `FluentService`, `FluentServiceDecorator`
-- `config` — framework configuration helpers
-- `exceptions` — core exception types
+- `chain` — `FluentChain` (interface), `FluentService` (abstract base), `FluentServiceDecorator`
+- `config` — `FrameworkConfig` (Owner interface), `FrameworkConfigHolder`, `TestConfig`
+- `data` — data model helpers
+- `decorators` — `DecoratorsFactory` (decorator pattern support)
+- `exceptions` — `HookExecutionException`, `ServiceInitializationException`, `StaticTestDataInitializationException`
 - `extension` — `Initiator`, `Prologue`, `Epilogue`, `Craftsman`, `Oracle`, `RipperMan`
-- `hooks` — hook contracts
-- `log` — `LogQuest`
-- `parameters` — `DataForge`, `DataRipper`, `Late`, `PreQuestJourney`
-- `quest` — `Quest`, `SuperQuest`, `QuestFactory`, `QuestHolder`
-- `retry` — `RetryCondition`, `RetryConditionImpl`
-- `spring` — Spring integration helpers
-- `storage` — `Storage`, `StoreKeys`, `DataExtractor`, `DataExtractorImpl`, `StorageKeysTest`, `DataExtractorsTest`
-- `util` — `AllureStepHelper`, `ObjectFormatter`, `TestContextManager`, `FrameworkAdapterContextCustomizer`, `FrameworkAdapterContextCustomizerFactory`
-
-### Package Reference (Class tables)
-
-#### allure
-| Class | Responsibility | Key methods | Used by |
-|---|---|---|---|
-| `CustomAllureListener` | Attach structured steps/artifacts to Allure reports. | `step(...)`, helpers via `AllureStepHelper` | Rings and extensions for reporting |
-| `StepType` | Enum for classifying Allure steps. | n/a | `CustomAllureListener`, log helpers |
-
-#### annotation
-| Class | Responsibility | Key methods | Used by |
-|---|---|---|---|
-| `Ring` | Names a ring (service) for readable logs. | n/a | `Quest.use(...)` logging |
-| `Journey`, `Odyssey`, `Craft`, `Regression`, `Smoke`, `Ripper`, `PreQuest`, `StaticTestData`, `FrameworkAdapter` | Marker/meta annotations for test grouping and data. | n/a | JUnit 5 classes, extensions |
-
-#### assertion
-| Class | Responsibility | Key methods | Used by |
-|---|---|---|---|
-| `CustomSoftAssertion` | Aggregates soft-asserts and defers failure. | `assertAll()` | `Quest.complete()` and validations |
-
-#### base
-| Class | Responsibility | Key methods | Used by |
-|---|---|---|---|
-| `BaseQuest`, `BaseQuestSequential` | Base harnesses for organizing flows. | lifecycle helpers | Rings and test scaffolding |
-| `ClassLevelHook` | Hook contract executed at class level. | `execute(...)` | Extensions/Hooks |
-| `Services` | Helper to access shared services/artifacts. | getters | Rings and tests |
-
-#### chain
-| Class | Responsibility | Key methods | Used by |
-|---|---|---|---|
-| `FluentChain` | Chain façade for validations and completion. | `validate(...)`, `complete()` | Returned by rings to tests |
-| `FluentService` | Base for ring services with retry/validation. | `retryUntil(...)`, `validation(...)`, `drop()` | User-defined rings |
-| `FluentServiceDecorator` | Decorate a `FluentService` with extra behavior. | delegation | Cross-cutting extensions |
-
-#### config
-| Class | Responsibility | Key methods | Used by |
-|---|---|---|---|
-| `FrameworkConfig` | Owner-backed framework properties. | getters | Rings/extensions for toggles |
-| `FrameworkConfigHolder` | Loads/holds `FrameworkConfig`. | `get()` | Any component needing config |
-| `TestConfig` | Test-scope configuration keys. | getters | Test bootstrapping |
-
-#### exceptions
-| Class | Responsibility | Key methods | Used by |
-|---|---|---|---|
-| `HookExecutionException` | Signals hook failures. | constructors | Extensions/hooks |
-| `ServiceInitializationException` | Ring/service init problems. | constructors | Quest/rings |
-| `StaticTestDataInitializationException` | Static data init failures. | constructors | Data providers/extensions |
-
-#### extension
-| Class | Responsibility | Key methods | Used by |
-|---|---|---|---|
-| `Initiator`, `Prologue`, `Epilogue` | Lifecycle helpers before/after tests. | callbacks | Test classes via annotations |
-| `Craftsman`, `Oracle`, `RipperMan` | Utilities for wiring, assertions, teardown. | assorted | Rings/tests/bootstrapping |
-
-#### hooks
-| Class | Responsibility | Key methods | Used by |
-|---|---|---|---|
-| `HookExecution` | Enum for BEFORE/AFTER timing. | n/a | Hook processing logic |
-
-#### log
-| Class | Responsibility | Key methods | Used by |
-|---|---|---|---|
-| `LogQuest` | Structured logging for quests/chains. | `info(...)`, `validation(...)`, `warn(...)` | All components |
-
-#### parameters
-| Class | Responsibility | Key methods | Used by |
-|---|---|---|---|
-| `DataForge`, `DataRipper`, `Late`, `PreQuestJourney` | Parameter assembly utilities for chains. | builders/helpers | Rings/tests |
-
-#### quest
-| Class | Responsibility | Key methods | Used by |
-|---|---|---|---|
-| `Quest` | Execution context, ring registry, storage, soft-asserts. | `use(...)`, `complete()`, `artifact(...)` | All fluent tests |
-| `SuperQuest` | Decorator exposing soft-assertions. | accessors | `FluentService`, `FluentChain` |
-| `QuestFactory`, `QuestHolder` | Create and hold per-test quest. | factory/accessors | Test lifecycle |
-
-#### retry
-| Class | Responsibility | Key methods | Used by |
-|---|---|---|---|
-| `RetryCondition`, `RetryConditionImpl` | Functional polling conditions. | `function()`, `condition()` | `FluentService.retryUntil(...)` |
-
-#### spring
-| Class | Responsibility | Key methods | Used by |
-|---|---|---|---|
-| `FrameworkAdapterContextCustomizer` | Spring TestContext customization. | Spring hooks | Spring-enabled tests |
-| `FrameworkAdapterContextCustomizerFactory` | Factory to register customizer. | Spring hooks | Spring-enabled tests |
-
-#### storage
-| Class | Responsibility | Key methods | Used by |
-|---|---|---|---|
-| `Storage` | In-memory key-value store for test run. | put/get helpers | Rings/tests |
-| `StoreKeys` | Key registry for storage. | constants | Tests/rings |
-| `DataExtractor`, `DataExtractorImpl` | Helpers to extract/store data. | extract/store | Rings/tests |
-| `StorageKeysTest`, `DataExtractorsTest` | Test-named helpers under main. | helpers | Clarify intent despite name |
-
-#### util
-| Class | Responsibility | Key methods | Used by |
-|---|---|---|---|
-| `AllureStepHelper` | Common Allure step formatting. | step helpers | Reporting across rings |
-| `ObjectFormatter` | Pretty-print complex objects. | formatters | Logs/attachments |
-| `TestContextManager` | Manages per-test context. | lifecycle | Extensions/tests |
-| `PropertiesUtil`, `ResourceLoader` | Property/resource loading. | loaders | Config/data fixtures |
+- `hooks` — `HookExecution` (enum: BEFORE/AFTER)
+- `log` — `LogQuest` (singleton structured logger)
+- `parameters` — `DataForge<T>` (data builder interface), `DataRipper<T>` (cleanup interface), `Late<T>` (deferred supplier), `PreQuestJourney<T>` (pre-execution journey interface)
+- `quest` — `Quest` (core context), `SuperQuest` (decorator with Lombok @Delegate), `QuestFactory`, `QuestHolder` (ThreadLocal holder)
+- `retry` — `RetryCondition<T>` (interface), `RetryConditionImpl<T>` (implementation)
+- `spring` — `FrameworkAdapterContextCustomizer`, `FrameworkAdapterContextCustomizerFactory`
+- `storage` — `Storage` (concurrent key-value store with sub-storage), `StoreKeys`, `StorageKeysTest`, `DataExtractor<T>`, `DataExtractorImpl<T>`, `DataExtractorsTest`
+- `util` — `AllureStepHelper`, `ObjectFormatter`, `TestContextManager`, `PropertiesUtil`, `ResourceLoader`
 
 ## Architecture
 
 ### Class Diagram
 ```mermaid
 classDiagram
-  direction LR
+    direction TB
 
-  class Quest {
-    -rings : Map<Class, FluentService>
-    -storage : Storage
-    -softAssertions : CustomSoftAssertion
-    +use(ring) : T
-    +complete() : void
-    #artifact(ringType, artifactType) : K
-  }
+    class Quest {
+        -Map~Class, FluentService~ rings
+        -Storage storage
+        -CustomSoftAssertion softAssertions
+        +use(Class~T~) T
+        +complete() void
+        #artifact(ringType, artifactType) K
+        #registerRing(ringType, ring) void
+        #removeRing(ringType) void
+        #getStorage() Storage
+        #getSoftAssertions() CustomSoftAssertion
+    }
 
-  class FluentChain {
-    +validate(Consumer<SoftAssertions>) : FluentChain
-    +validate(Runnable) : FluentChain
-    +complete() : void
-  }
+    class SuperQuest {
+        -Quest original
+        +getOriginal() Quest
+    }
+    
+    SuperQuest --|> Quest : decorates via @Delegate
 
-  class FluentService {
-    -quest : SuperQuest
-    #retryUntil(cond, maxWait, retryInterval, service) : FluentService
-    #validation(List<AssertionResult>) : void
-    #setQuest(quest) : void
-  }
+    class FluentChain {
+        <<interface>>
+        +validate(Consumer~SoftAssertions~) FluentChain
+        +validate(Runnable) FluentChain
+        +complete() void
+        +drop() Quest
+    }
 
-  class SuperQuest
-  class CustomSoftAssertion
-  class Storage
-  class RetryCondition
+    class FluentService {
+        <<abstract>>
+        #SuperQuest quest
+        #retryUntil(cond, maxWait, interval, service) FluentService
+        #validation(List~AssertionResult~) void
+        #setQuest(SuperQuest) void
+        #postQuestSetupInitialization() void
+        +drop() Quest
+    }
 
-  Quest --> FluentService : registers rings
-  FluentService ..|> FluentChain
-  FluentService --> SuperQuest : uses
-  Quest --> Storage : uses
-  Quest --> CustomSoftAssertion : aggregates
-```
+    FluentService ..|> FluentChain : implements
+    FluentService --> SuperQuest : uses
 
-### Package Diagram
-```mermaid
-flowchart LR
-  subgraph core
-    quest((quest))
-    chain((chain))
-    assertion((assertion))
-    storage((storage))
-    retry((retry))
-  end
+    class Storage {
+        -Map~Enum, LinkedList~Object~~ data
+        +put(Enum, T) void
+        +get(Enum, Class~T~) T
+        +getByIndex(Enum, int, Class~T~) T
+        +getByClass(Enum, Class~T~) T
+        +sub(Enum) Storage
+        +createLateArguments() void
+        +getHookData(Object, Class~T~) T
+    }
 
-  util((util))
-  log((log))
-  extension((extension))
-  annotation((annotation))
-  spring((spring))
-  allure((allure))
+    class CustomSoftAssertion {
+        +assertAll() void
+    }
 
-  quest --> chain
-  chain --> assertion
-  quest --> storage
-  chain --> retry
-  quest --> assertion
+    class RetryCondition~T~ {
+        <<interface>>
+        +function() Function~Object, T~
+        +condition() Predicate~T~
+    }
 
-  chain --> util
-  quest --> util
-  quest --> log
-  extension --> quest
-  extension --> chain
-  annotation --> extension
-  spring --> extension
-  allure --> extension
-  allure --> chain
+    class QuestFactory {
+        -Collection~FluentService~ fluentServices
+        -DecoratorsFactory decoratorsFactory
+        +createQuest() Quest
+        -registerServices(Quest) void
+    }
+
+    Quest --> Storage : owns
+    Quest --> CustomSoftAssertion : owns
+    Quest --> FluentService : registers
+    QuestFactory ..> Quest : creates
+    FluentService --> RetryCondition : uses for polling
 ```
 
 ### Execution Flow
 ```mermaid
 sequenceDiagram
-  autonumber
-  participant T as Test
-  participant Q as Quest
-  participant R as Ring (FluentService)
+    autonumber
+    participant Test
+    participant Quest
+    participant Ring as FluentService (Ring)
+    participant Storage
+    participant SoftAssert as CustomSoftAssertion
 
-  T->>Q: new Quest()
-  T->>Q: use(MyRing)
-  Q-->>T: FluentService (ring instance)
-  T->>R: validate(soft -> ...)
-  T->>R: validate(() -> ...)
-  T->>Q: complete()
+    Test->>Quest: use(MyRing.class)
+    Quest->>Quest: retrieve from rings map
+    Quest-->>Test: Ring instance
+    Test->>Ring: chainedMethod().validate(soft -> ...)
+    Ring->>SoftAssert: add soft assertion
+    Test->>Ring: validate(() -> hardCheck)
+    Ring->>Ring: execute immediately (throws on fail)
+    Test->>Quest: complete()
+    Quest->>SoftAssert: assertAll()
+    Quest->>Quest: clear QuestHolder
+```
+
+#### Extension Lifecycle Flow
+```mermaid
+sequenceDiagram
+    autonumber
+    participant JUnit as JUnit Engine
+    participant Init as Initiator
+    participant Prol as Prologue
+    participant Orac as Oracle
+    participant Craft as Craftsman
+    participant Factory as QuestFactory
+    participant Test as Test Method
+    participant Rip as RipperMan
+    participant Epi as Epilogue
+
+    JUnit->>Init: interceptTestMethod
+    Init->>Init: read @PreQuest, @Journey
+    Init->>Init: execute PreQuestJourney flows
+    Init->>Init: populate Storage with pre-arguments
+    Init-->>JUnit: proceed with invocation
+    
+    JUnit->>Prol: beforeTestExecution
+    Prol->>Prol: initializeTestEnvironment
+    Prol->>Prol: setupTestContext (testName, startTime)
+    Prol-->>JUnit: context ready
+    
+    JUnit->>Orac: supportsParameter(Quest)
+    Orac-->>JUnit: true
+    JUnit->>Orac: resolveParameter
+    Orac->>Factory: createQuest()
+    Factory->>Factory: registerServices (all FluentService beans)
+    Factory-->>Orac: Quest
+    Orac->>Orac: load @StaticTestData
+    Orac->>Orac: decorate Quest -> SuperQuest
+    Orac-->>JUnit: Quest injected
+    
+    JUnit->>Craft: supportsParameter(@Craft)
+    Craft-->>JUnit: true
+    JUnit->>Craft: resolveParameter
+    Craft->>Craft: resolve DataForge, create/defer
+    Craft-->>JUnit: crafted argument injected
+    
+    JUnit->>Test: invoke test method
+    Test->>Test: quest.use(Ring), chain operations
+    Test-->>JUnit: test completes
+    
+    JUnit->>Rip: afterTestExecution
+    Rip->>Rip: read @Ripper targets
+    Rip->>Rip: execute DataRipper.eliminate()
+    Rip-->>JUnit: cleanup done
+    
+    JUnit->>Epi: afterTestExecution
+    Epi->>Epi: log outcome, duration
+    Epi->>Epi: attach filtered logs/HTML to Allure
+    Epi->>Epi: stop active steps
+    Epi-->>JUnit: reporting finalized
 ```
 
 ## Usage
+
+> Follow these steps in your **test module**. The framework is designed for JUnit 5 with Spring DI support.
 
 ### Step 1 — Add dependency
 ```xml
@@ -263,243 +256,244 @@ sequenceDiagram
 ```
 
 ### Step 2 — Enable the framework on tests
-This module is test-framework agnostic. You can use it plain, or wire it via your own test bootstrapping (e.g., JUnit 5 extensions, Spring test context). Rings (your test-facing services) must extend `FluentService` and be available for `Quest` to use.
+The framework integrates via JUnit 5 extensions. Enable it by:
+1. Annotating your test class with Spring test annotations if using Spring DI
+2. Injecting `Quest` as a method parameter (resolved by `Oracle` extension)
+3. Ensuring `FluentService` implementations are Spring beans (auto-registered by `QuestFactory`)
 
-### Step 3 — Compose a fluent chain
-- Create a `Quest` for each test method (or per class if you centralize lifecycle).
-- Retrieve a ring (your service) with `quest.use(YourRing.class)`.
-- Chain validations via `FluentChain.validate(...)` and finalize with `complete()`.
-
-### Test Example (JUnit 5)
 ```java
-import io.cyborgcode.roa.framework.quest.Quest;
-import io.cyborgcode.roa.framework.chain.FluentChain;
-import io.cyborgcode.roa.framework.chain.FluentService;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
-
-class SampleFluentTest {
-  // Example ring (service) from your project that extends FluentService
-  static class MyApiRing extends FluentService {
-    // your fluent methods calling underlying interactors/adapters
-  }
-
+@SpringBootTest
+class UserJourneyTest {
+  
   @Test
-  void userJourney_uses_chain_and_validations() {
-    Quest quest = new Quest();
-
-    // In your project, bootstrap/register rings so Quest can resolve them.
-    // For illustration, we assume MyApiRing is registered and retrievable.
-    MyApiRing api = quest.use(MyApiRing.class);
-
-    FluentChain chain = api
-        // soft validation — collected and asserted at quest.complete()
-        .validate(soft -> soft.assertThat(2 + 2).as("math").isEqualTo(4))
-        // hard validation — fails immediately on error
-        .validate(() -> Assertions.assertThat("ok").isNotBlank());
-
-    // end the chain and assert all soft validations
-    chain.complete();
+  void userCanLoginAndViewProfile(Quest quest) {
+    // Quest automatically injected, rings registered
+    quest.use(AuthRing.class)
+        .login("user", "pass")
+        .validate(soft -> soft.assertThat(true).isTrue())
+        .complete();
   }
 }
 ```
 
-> Notes
-> - Use your project-specific rings (services) that extend `FluentService` and wrap API/DB adapters.
-> - For polling/retries, implement `RetryCondition<T>` and call the protected `retryUntil(...)` inside your ring methods.
-
-#### Registering rings (QuestFactory/Spring)
-Centralize ring registration so `quest.use(FooRing.class)` resolves consistently. Example `QuestFactory` wiring with Spring:
+### Step 3 — Compose a fluent chain
+Create your rings (services) by extending `FluentService`:
 
 ```java
 @Component
-public class QuestFactory {
-  private final Map<Class<?>, FluentService> registry = new ConcurrentHashMap<>();
-  public QuestFactory(List<FluentService> rings) { rings.forEach(r -> registry.put(r.getClass(), r)); }
-  public Quest createQuest() {
-    Quest q = new Quest();
-    registry.forEach((type, ring) -> q.registerRing((Class) type, ring));
-    return q;
+@Ring("Auth Service")
+public class AuthRing extends FluentService {
+  
+  private final AuthClient authClient;
+  
+  public AuthRing(AuthClient authClient) {
+    this.authClient = authClient;
   }
-}
-```
-
-#### Using retryUntil inside a ring
-Prefer polling inside `FluentService` methods using `RetryCondition` and `retryUntil(...)`:
-
-```java
-public class UserRing extends FluentService {
-  public FluentChain waitUntilUserActive(String userId) {
-    RetryCondition<Boolean> cond = new RetryConditionImpl<>(
-        ignored -> api.getUser(userId).isActive(),
-        Boolean::booleanValue);
-    retryUntil(cond, Duration.ofSeconds(30), Duration.ofSeconds(2), this);
+  
+  public FluentChain login(String username, String password) {
+    Response response = authClient.login(username, password);
+    
+    // Store token in Storage
+    quest.getStorage().put(StorageKeys.AUTH_TOKEN, response.getToken());
+    
+    // Validate response
+    List<AssertionResult<Object>> results = List.of(
+        AssertionResult.builder()
+            .target("status")
+            .expected(200)
+            .actual(response.getStatus())
+            .passed(response.getStatus() == 200)
+            .build()
+    );
+    validation(results);
+    
     return this;
   }
 }
 ```
 
-#### Allure setup (CustomAllureListener)
-Register the listener via JUnit Platform ServiceLoader so it’s auto-discovered:
-
-```text
-src/test/resources/META-INF/services/org.junit.platform.launcher.TestExecutionListener
+Use the ring in tests:
+```java
+@Test
+void loginJourney(Quest quest) {
+  quest.use(AuthRing.class)
+      .login("admin", "password")
+      .validate(soft -> {
+          String token = quest.getStorage().get(StorageKeys.AUTH_TOKEN, String.class);
+          soft.assertThat(token).isNotBlank();
+      })
+      .complete();
+}
 ```
 
-File contents:
+### Step 4 — (Optional) Register rings with Spring
+Rings are auto-registered if they are Spring beans. `QuestFactory` collects all `FluentService` beans:
 
-```text
+```java
+@Component
+@Ring("User Service")
+public class UserRing extends FluentService {
+  // automatically registered by QuestFactory
+}
+```
+
+Manual registration (if not using Spring):
+```java
+public Quest createQuest() {
+  Quest quest = new Quest();
+  quest.registerRing(UserRing.class, new UserRing());
+  return quest;
+}
+```
+
+### Step 5 — (Optional) Use retry mechanisms
+Implement polling inside rings using `RetryCondition`:
+
+```java
+public FluentChain waitForUserActive(String userId) {
+  RetryCondition<Boolean> condition = new RetryConditionImpl<>(
+      service -> userApi.getUser(userId).isActive(),
+      Boolean::booleanValue
+  );
+  
+  retryUntil(condition, Duration.ofSeconds(30), Duration.ofSeconds(2), this);
+  return this;
+}
+```
+
+### Step 6 — (Optional) Configure pre-quest journeys
+Use `@PreQuest` and `@Journey` to execute preconditions before tests:
+
+```java
+public enum Journeys implements PreQuestJourney<SuperQuest> {
+  CREATE_USER {
+    @Override
+    public BiConsumer<SuperQuest, Object[]> journey() {
+      return (quest, data) -> {
+        quest.use(UserRing.class).createUser((UserRequest) data[0]);
+      };
+    }
+  }
+}
+
+@Test
+@PreQuest
+@Journey(value = "CREATE_USER", journeyData = @JourneyData("UserData"), order = 1)
+void testWithPreCreatedUser(Quest quest) {
+  // User already created by journey
+  quest.use(UserRing.class).verifyUserExists().complete();
+}
+```
+
+## Annotations & Hooks
+
+- **`@Ring(value)`** — Names a `FluentService` for readable logs. Used by `Quest.use(...)` to log ring usage.
+- **`@Journey(value, journeyData, order)`** — Declares a pre-execution journey processed by `Initiator`. Runs before test method.
+- **`@PreQuest`** — Enables `@Journey` processing on test methods.
+- **`@Craft(model)`** — Marks a parameter for resolution by `Craftsman` using `DataForge`.
+- **`@Ripper(targets)`** — Declares cleanup targets processed by `RipperMan` after test execution.
+- **`@StaticTestData(value)`** — Loads static test data into Storage before parameter resolution.
+- **`@Odyssey`, `@Regression`, `@Smoke`** — Test categorization markers for Allure labels and filtering.
+- **`@FrameworkAdapter`** — Enables project-level Spring customization.
+
+Example:
+```java
+@Test
+@PreQuest
+@Journey(value = "SETUP_ENV", order = 1)
+@Ripper(targets = {"CLEANUP_USER"})
+void complexTest(Quest quest, @Craft(model = "UserRequest") UserRequest user) {
+  quest.use(UserRing.class)
+      .createUser(user)
+      .validate(soft -> soft.assertThat(user.getName()).isNotBlank())
+      .complete();
+}
+```
+
+## Retry Helpers
+
+`RetryCondition<T>` and `RetryConditionImpl<T>` enable polling:
+
+```java
+RetryCondition<Response> condition = new RetryConditionImpl<>(
+    service -> apiClient.checkStatus(jobId),
+    response -> response.getStatus().equals("COMPLETED")
+);
+
+retryUntil(condition, Duration.ofSeconds(60), Duration.ofSeconds(5), this);
+```
+
+Key methods:
+- `function()` — returns `Function<Object, T>` that produces the value to test
+- `condition()` — returns `Predicate<T>` that evaluates success
+
+Used internally by `FluentService.retryUntil(...)` which delegates to `RetryUtils.retryUntil(...)`.
+
+## Allure Reporting
+
+### CustomAllureListener
+Extends `AllureJunit5` to provide step tracking with status types.
+
+**StatusType enum:**
+- `DEFAULT` — neutral step
+- `INFO` — informational (maps to SKIPPED)
+- `SUCCESS` — passed (maps to PASSED)
+- `WARNING` — broken (maps to BROKEN)
+- `ERROR` — failed (maps to FAILED)
+
+**Methods:**
+- `startStep(String stepName)` — starts a new step
+- `startStep(StepType stepType)` — starts with predefined type
+- `startStepWithStatusType(String stepName, StatusType statusType)` — starts with custom status
+- `stopStep()` — stops the most recent step
+- `isStepActive(String stepName)` — checks if step is active
+
+**Setup:**
+Create `src/test/resources/META-INF/services/org.junit.platform.launcher.TestExecutionListener`:
+```
 io.cyborgcode.roa.framework.allure.CustomAllureListener
 ```
 
-## Configuration
-| Key | Source (Owner/Spring) | Default | Example |
-|---|---|---|---|
-| `api.baseUrl` | Owner | `http://localhost:8080` | `-Dapi.baseUrl=https://api.example.com` |
-| `api.timeout.ms` | Owner | `5000` | `-Dapi.timeout.ms=15000` |
-| `db.url` | Spring/Owner | `jdbc:h2:mem:testdb` | `-Ddb.url=jdbc:postgresql://host/db` |
-| `db.user` | Spring/Owner | `sa` | `-Ddb.user=app_user` |
-| `allure.results.dir` | Owner | `target/allure-results` | `-Dallure.results.dir=build/allure-results` |
-| `retry.maxWait.seconds` | Owner | `30` | `-Dretry.maxWait.seconds=60` |
-| `retry.interval.seconds` | Owner | `2` | `-Dretry.interval.seconds=5` |
+### AllureStepHelper
+Utility methods for Allure integration:
+- `setDescription(ExtensionContext)` — sets HTML description with test arguments
+- `attachFilteredLogsToAllure(String testName)` — attaches filtered logs by test name
+- `logTestOutcome(...)` — logs test result with duration
+- `setUpTestMetadata(ExtensionContext)` — formats test metadata HTML
+- `initializeTestEnvironment()` — writes environment.properties and categories.json
+- `setupTestContext(ExtensionContext)` — stores test name and start time
 
-## Extensibility
-- **Create rings:** Extend `FluentService` to expose fluent methods for your domain (e.g., `login()`, `getUser()`, `queryUsers()`), internally delegating to `api-interactor`/`db-interactor` or their adapters.
-- **Model journeys:** Use `Quest` to select and compose rings. Aggregate validations with soft/hard checks and end with `complete()`.
-- **Lifecycle hooks:** The framework includes extension points (`Initiator`, `Prologue`, `Epilogue`, `Craftsman`, `Oracle`) you can integrate to bootstrap rings, manage context, or attach reporting.
-- **Retry strategies:** Provide `RetryCondition` implementations and use `retryUntil(...)` from inside your ring methods to wait for eventual consistency.
+## Framework Configuration
 
-### Extensions lifecycle
+The framework uses Owner library for configuration. Key configurations:
 
-- **Initiator**. An InvocationInterceptor that preprocesses a test invocation. It reads `@PreQuest`/journey annotations, prepares data via `DataForge`, and enriches `Storage` before the test method is invoked. Use it to standardize preconditions and derive inputs deterministically for the run.
+**FrameworkConfig interface:**
+- `projectPackage()` — base package for reflection (default: "io.cyborgcode")
+- `defaultStorage()` — default sub-storage key (default: "DEFAULT")
 
-- **Prologue**. A BeforeTestExecutionCallback that runs just before the test body. It initializes the environment and test context metadata (names, tags, categories), sets Allure descriptions, and wires any run-scoped context required by the test. Keep it fast and idempotent.
+**TestConfig interface:**
+- Test-scope configuration keys
+- Extended by project-specific configs
 
-- **Oracle**. A ParameterResolver that supplies method parameters such as a fresh `Quest`, static test data, or pre-computed artifacts from `Storage`. It is responsible for creating the `Quest` and making it available to downstream helpers via `QuestHolder`.
-
-- **Craftsman**. A ParameterResolver for `@Craft` arguments. It pulls data from `DataForge`/`Storage` to hydrate complex parameters used by the test body or rings. Prefer `Craftsman` for building rich, typed inputs rather than manual object assembly in tests.
-
-- **RipperMan**. An AfterTestExecutionCallback that performs registered teardown via `@Ripper` implementations (e.g., deleting created entities). It runs even when the test fails, helping keep environments clean and deterministic across runs.
-
-- **Epilogue**. An AfterTestExecutionCallback that finalizes reporting. It logs outcomes, attaches filtered logs/HTML/screenshots to Allure, and performs last-mile context cleanup. Avoid heavy I/O here beyond attachments.
-
-#### Sequence: typical test run
-```mermaid
-sequenceDiagram
-  autonumber
-  participant J as JUnit Engine
-  participant I as Initiator (InvocationInterceptor)
-  participant P as Prologue (BeforeTestExecution)
-  participant O as Oracle (ParameterResolver)
-  participant C as Craftsman (ParameterResolver)
-  participant F as QuestFactory/Quest
-  participant T as Test Method
-  participant R as RipperMan (AfterTestExecution)
-  participant E as Epilogue (AfterTestExecution)
-  J->>I: interceptTestMethod
-  I-->>J: pre-journey data prepared in Storage
-  J->>P: beforeTestExecution
-  P-->>J: env and context initialized
-  J->>O: supportsParameter and resolveParameter
-  O->>F: createQuest
-  F-->>O: SuperQuest provided and QuestHolder set
-  O-->>J: Quest and other parameters injected
-  J->>C: supportsParameter and resolveParameter for Craft
-  C-->>J: crafted arguments injected
-  J->>T: invoke test method
-  T->>F: quest.use MyRing
-  T->>T: chain.validate then complete
-  J->>R: afterTestExecution
-  R-->>J: environment cleanup via Ripper
-  J->>E: afterTestExecution
-  E-->>J: logs and attachments finalized
-```
-
-## Annotations and Parameters
-
-### Annotations
-- **Ring**: Names a `FluentService` for readable logs and selection. Used by `Quest.use(...)` and reporting.
-- **Journey / Odyssey**: Semantic markers to group end-to-end flows for reporting and selection.
-- **Craft**: Marks a parameter to be resolved by `Craftsman` from `DataForge`/Storage.
-- **Regression / Smoke**: Execution grouping tags; useful for CI filters and Allure labels.
-- **Ripper**: Marks a teardown routine discovered by `RipperMan` after the test.
-- **PreQuest**: Declares preconditions/journeys to run by `Initiator` before test execution.
-- **StaticTestData**: Declares static providers to load fixed data into Storage before parameter resolution.
-- **FrameworkAdapter**: Enables project-level Spring customization via the framework adapter factory.
-
-### Parameters
-- **DataForge<T>**: Builder/assembler for typed test inputs. Produces crafted arguments injected via `@Craft`.
-- **DataRipper**: Cleanup strategy invoked by `RipperMan` to remove created/dirty state.
-- **Late<T>**: Deferred value supplier; resolved just-in-time and stored under a Storage key.
-- **PreQuestJourney**: Descriptor for pre-execution steps used by `Initiator` to prepare inputs.
-
-Example usage
-
+Configuration loading:
 ```java
-class MyTest {
-  @Test
-  void user_can_login(@Craft DataForge<LoginRequest> login) {
-    Quest q = new Quest();
-    q.use(MyApiRing.class)
-      .login(login.build())
-      .complete();
-  }
-}
+FrameworkConfig config = FrameworkConfigHolder.getFrameworkConfig();
+String projectPkg = config.projectPackage();
 ```
-
-Teardown example
-
-```java
-@Ripper
-public class UserCleanup implements DataRipper {
-  public void rip(Storage storage) {
-    var id = storage.get(StoreKeys.USER_ID, String.class);
-    api.deleteUser(id);
-  }
-}
-```
-
-#### Pitfalls and best practices
-- **Register rings centrally**: Prefer registering rings in `QuestFactory` (or your bootstrapping) so `quest.use(...)` resolves immediately. Avoid ad-hoc registration in test methods.
-- **Use `retryUntil(...)` inside rings**: Poll within `FluentService` methods for eventual consistency (e.g., async propagation). Keep tests declarative; do not `sleep` in tests.
-- **Choose hard vs soft asserts**: Use hard asserts for invariants/preconditions that must stop the flow; use soft validations via `FluentChain.validate(soft -> ...)` to aggregate multiple checks before `quest.complete()`.
-- **Keep extensions fast**: `Initiator`/`Prologue` should stay lightweight. Heavy data seeding belongs in project fixtures or pre-run jobs.
-- **Storage discipline**: Namespace keys (enums) and prefer `DataExtractor` for typed retrieval to avoid class cast issues.
-- **Reporting hygiene**: Only attach necessary logs/screenshots in `Epilogue`; large attachments can slow CI.
-
-## Lifecycle & Thread-safety
-- **Quest scope**: Create a new `Quest` per test method (recommended). Avoid sharing across tests.
-- **Storage scope**: `Storage` is owned by the `Quest`; treat as per-test, thread-confined data store.
-- **Assertions**: `CustomSoftAssertion` is per-quest; call `quest.complete()` once to assert all soft validations.
-- **Rings**: Keep ring methods stateless; do not store mutable run-state in fields unless properly synchronized.
-
-## Cross-module links
-| Module | Purpose | Where rings typically delegate |
-|---|---|---|
-| [`../api-interactor/`](../api-interactor/README.md) | Low-level HTTP client and request orchestration | API-backed rings |
-| [`../db-interactor/`](../db-interactor/README.md) | Low-level DB interactions and SQL helpers | DB-backed rings |
-| [`../api-interactor-test-framework-adapter/`](../api-interactor-test-framework-adapter/README.md) | Glue between API interactor and this framework | API rings wiring |
-| [`../db-interactor-test-framework-adapter/`](../db-interactor-test-framework-adapter/README.md) | Glue between DB interactor and this framework | DB rings wiring |
-
-## Glossary
-- **Quest**: The execution context per test. Manages rings, `Storage`, and soft assertions; finalize with `complete()`.
-- **Ring**: A `FluentService`-based, test-facing service that exposes fluent actions and validations for a domain.
-- **Journey**: A higher-level composition of ring actions that models a user or system flow end-to-end.
-- **Craft**: Structured, typed test input produced by `DataForge` and injected via `Craftsman`.
-- **Ripper**: A teardown routine invoked by `RipperMan` to clean external state created during a test.
 
 ## Dependencies
-- `org.projectlombok:lombok`
-- `io.cyborgcode.utilities:commons`
-- `org.springframework.boot:spring-boot-starter`
-- `io.cyborgcode.roa:assertions`
-- `org.assertj:assertj-core`
-- `org.junit.jupiter:junit-jupiter-api`
-- `io.qameta.allure:allure-junit5`
-- `io.qameta.allure:allure-java-commons`
-- `org.aeonbits.owner:owner`
-- `org.springframework.boot:spring-boot-starter-test`
-- `com.github.spotbugs:spotbugs-annotations`
+
+- `org.projectlombok:lombok` — code generation (@Delegate, @Getter, etc.)
+- `io.cyborgcode.utilities:commons` — reflection utils, retry utils, logging
+- `org.springframework.boot:spring-boot-starter` — Spring DI support
+- `io.cyborgcode.roa:assertions` — assertion result models
+- `org.assertj:assertj-core` — fluent assertions
+- `org.junit.jupiter:junit-jupiter-api` — JUnit 5 extensions
+- `io.qameta.allure:allure-junit5` — Allure JUnit 5 integration
+- `io.qameta.allure:allure-java-commons` — Allure reporting
+- `org.aeonbits.owner:owner` — configuration management
+- `org.springframework.boot:spring-boot-starter-test` — Spring test support
+- `com.github.spotbugs:spotbugs-annotations` — static analysis annotations
 
 ## Author
 **Cyborg Code Syndicate 💍👨💻**
