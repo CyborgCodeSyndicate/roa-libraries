@@ -8,113 +8,236 @@
 - [Features](#features)
 - [Structure](#structure)
 - [Architecture](#architecture)
+    - [Class Diagram](#class-diagram)
+    - [Package Diagram](#package-diagram)
+    - [Execution Flow](#execution-flow)
 - [Usage](#usage)
-- [Annotations & Features](#annotations--features)
-- [Component Services](#component-services)
+    - [Step 1 — Add dependency](#step-1--add-dependency)
+    - [Step 2 — Configure environment](#step-2--configure-environment)
+    - [Step 3 — Enable the adapter](#step-3--enable-the-adapter)
+    - [Step 4 — Component usage examples](#step-4--component-usage-examples)
+    - [Step 5 — (Optional) Authenticate a test](#step-5--authentication)
+    - [Step 6 — (Optional) Network interception](#step-6--network-interception)
+- [Annotations & Hooks](#annotations--hooks)
+- [Component Services Reference](#component-services-reference)
+- [UiElement Pattern](#uielement-pattern)
 - [Storage Integration](#storage-integration)
+- [Adapter Configuration](#adapter-configuration)
 - [Allure Reporting](#allure-reporting)
+- [Advanced Topics](#advanced-topics)
+- [Troubleshooting](#troubleshooting)
 - [Dependencies](#dependencies)
 - [Author](#author)
 
 ---
 
 ## Overview
-The **ui-interactor-test-framework-adapter** layers **test-facing ergonomics** on top of the core **ui-interactor** module. It introduces:
-
-- **Fluent APIs** (`UiServiceFluent` and 16+ component-specific fluent services) for chaining UI operations
-- **Component fluent services** for all 17 UI components with method chaining via `and()`
-- **JUnit 5 enablement** via `@UI` annotation and `UiTestExtension`
-- **Authentication support** through `@AuthenticateViaUi` for declarative UI-based login
-- **Network interception** via `@InterceptRequests` for capturing HTTP traffic
-- **Insertion pattern** with `@InsertionElement` for dynamic element data entry
-- **Table operations** with comprehensive CRUD, filtering, sorting, and validation
-- **Storage integration** via `StorageKeysUi` for sharing data between test steps
-- **Spring auto-configuration** that wires SmartWebDriver automatically
-- **Allure integration** for rich reporting with screenshots and interaction logs
-
-The adapter transforms UI automation into **declarative, maintainable, and observable** tests that integrate seamlessly with the Quest/Ring architecture.
+The **ui-interactor-test-framework-adapter** layers **test-facing ergonomics** on top of `ui-interactor`. It provides a fluent API (`UiServiceFluent`) for chaining UI operations across 17 component services with method chaining, `UiElement` pattern for type-safe element definitions, and Quest/Ring storage integration. It also ships **JUnit 5 enablement** via the `@UI` annotation and extensions, **Allure bridges** that attach screenshots, network requests, and validation data, **authentication** via `@AuthenticateViaUi` with session caching, **network interception** using Chrome DevTools Protocol (`@InterceptRequests`), and **table operations** with comprehensive CRUD, filtering, sorting, and validation. Spring **auto-configuration** wires `SmartWebDriver` and all component services so UI tests become **declarative, observable, and maintainable**.
 
 ## Features
-- **Fluent chaining:** 16+ component-specific fluent services for natural method chaining
-- **Comprehensive component coverage:** button, input, checkbox, select, radio, toggle, table, modal, alert, link, loader, tab, accordion, list
-- **JUnit 5 bootstrap:** `@UI` applies `UiTestExtension`, scans `.ui` package
-- **Authentication:** `@AuthenticateViaUi` + `LoginCredentials` + `BaseLoginClient`
-- **Network interception:** `@InterceptRequests` captures browser network traffic with CDP
-- **Insertion pattern:** `@InsertionElement` for declarative element data entry
-- **Storage helpers:** `StorageKeysUi` constants, `DataExtractorsUi` utilities
-- **Spring auto-config:** `UiInteractionAutoConfiguration` wires `SmartWebDriver`
-- **Validation integration:** Works with `CustomSoftAssertion` framework
+- **Fluent chaining:** `UiServiceFluent` → 17 component services (button, input, checkbox, select, radio, toggle, table, modal, alert, link, loader, tab, accordion, list, navigation, validation, insertion, interceptor); `SuperUiServiceFluent` for decorator/extension use-cases.
+- **Allure integration:**
+    - Screenshot attachments on test failure and soft assertion failures
+    - Network request/response attachments (HTML-formatted)
+    - Automatic step creation for all UI operations with component type and locator details
+- **JUnit 5 bootstrap:** `@UI` applies `UiTestExtension`; scans `.ui`.
+- **Authentication annotation:** `@AuthenticateViaUi(credentials, type, cacheCredentials)` + `LoginCredentials` interface with session caching via cookies and localStorage.
+- **Network interception:** `@InterceptRequests` + Chrome DevTools Protocol (CDP) for capturing HTTP traffic.
+- **UiElement pattern:** Type-safe element definitions with `before()`/`after()` hooks and automatic storage integration.
+- **Table operations:** Comprehensive CRUD via `TableServiceFluent` with filtering, sorting, validation.
+- **Spring auto-config:** `UiInteractionAutoConfiguration` wires `SmartWebDriver` as bean.
 
 ## Structure
-**Package Organization:**
 - `annotations` — `@UI`, `@AuthenticateViaUi`, `@InterceptRequests`, `@InsertionElement`
-- `authentication` — `LoginCredentials`, `BaseLoginClient`, authentication utilities
-- `config` — `UiInteractionAutoConfiguration`, `UiFrameworkConfig`
-- `extensions` — `UiTestExtension` (JUnit 5 integration)
-- `selenium` — 14 browser automation utilities (CDP, DevTools, network capture)
-- `service.fluent` — All fluent service implementations (16+ classes)
-- `service.tables` — `TableServiceFluent`, table-specific operations
+- `authentication` — `LoginCredentials`, `BaseLoginClient`, `LoginClient`, `LoginKey`, `SessionInfo`
+- `config` — `UiInteractionAutoConfiguration`, `UiFrameworkConfig`, `UiFrameworkConfigHolder`
+- `enums` — `Features`
+- `exceptions` — `AuthenticationUiException`
+- `extensions` — `UiTestExtension`
+- `parameters` — `DataIntercept`
+- `selenium` — `UiElement` (base), `ButtonUiElement`, `InputUiElement`, `CheckboxUiElement`, `RadioUiElement`, `SelectUiElement`, `ToggleUiElement`, `AlertUiElement`, `ModalUiElement`, `LinkUiElement`, `LoaderUiElement`, `TabUiElement`, `AccordionUiElement`, `ListUiElement`
+- `service.fluent` — `UiServiceFluent`, `SuperUiServiceFluent`, `ButtonServiceFluent`, `InputServiceFluent`, `CheckboxServiceFluent`, `RadioServiceFluent`, `SelectServiceFluent`, `ToggleServiceFluent`, `AlertServiceFluent`, `ModalServiceFluent`, `LinkServiceFluent`, `LoaderServiceFluent`, `TabServiceFluent`, `AccordionServiceFluent`, `ListServiceFluent`, `NavigationServiceFluent`, `ValidationServiceFluent`, `InsertionServiceFluent`, `InterceptorServiceFluent`
+- `service.tables` — `TableServiceFluent`, `TableElement`
+- `service` — `InsertionServiceElementImpl`
 - `storage` — `StorageKeysUi`, `DataExtractorsUi`
-
-**Key Classes:**
-- `UiServiceFluent<T>` — Main fluent orchestrator with all component services
-- Component fluent services — `ButtonServiceFluent`, `InputServiceFluent`, `TableServiceFluent`, etc.
-- `NavigationServiceFluent<T>` — Browser navigation operations
-- `ValidationServiceFluent<T>` — UI validation with assertions
-- `InsertionServiceFluent<T>` — Dynamic insertion pattern
-- `InterceptorServiceFluent<T>` — Network interception
+- `util` — `ResponseFormatter`
 
 ## Architecture
 
 ### Class Diagram
 ```mermaid
 classDiagram
-  direction TB
+    direction TB
 
-  FluentService <|-- UiServiceFluent
-  
-  class UiServiceFluent~T~ {
-    +InputServiceFluent inputField
-    +ButtonServiceFluent buttonField
-    +TableServiceFluent table
-    +NavigationServiceFluent navigation
-    +SmartWebDriver driver
-    +validate(assertion)
-  }
+    class FluentService {
+        <<abstract>>
+        #Quest quest
+        +validate(Runnable) T
+        +validate(Consumer) T
+    }
 
-  UiServiceFluent --> ButtonServiceFluent
-  UiServiceFluent --> InputServiceFluent
-  UiServiceFluent --> TableServiceFluent
-  UiServiceFluent --> NavigationServiceFluent
-  UiServiceFluent --> SmartWebDriver
+    class UiServiceFluent~T~ {
+        -InputServiceFluent inputField
+        -ButtonServiceFluent buttonField
+        -TableServiceFluent table
+        -NavigationServiceFluent navigation
+        -ValidationServiceFluent validation
+        -SmartWebDriver driver
+        +getInputField() InputServiceFluent
+        +getButtonField() ButtonServiceFluent
+        +getTable() TableServiceFluent
+        +validate(assertion) T
+    }
 
-  class UI
-  class AuthenticateViaUi
-  class InterceptRequests
+    class SuperUiServiceFluent~T~ {
+        -UiServiceFluent original
+        +getDriver() SmartWebDriver
+        +validation(List) void
+    }
 
-  UI ..> UiTestExtension
-  AuthenticateViaUi ..> BaseLoginClient
+    class ButtonServiceFluent~T~ {
+        -ButtonService buttonService
+        -T uiServiceFluent
+        -Storage storage
+        -SmartWebDriver driver
+        +click(ButtonUiElement) T
+        +isEnabled(ButtonUiElement) T
+        +validateIsVisible(ButtonUiElement) T
+    }
+
+    class UiElement {
+        <<interface>>
+        +locator() By
+        +componentType() ComponentType
+        +before() Consumer~SmartWebDriver~
+        +after() Consumer~SmartWebDriver~
+    }
+
+    class ButtonUiElement {
+        <<interface>>
+    }
+
+    class UiTestExtension {
+        +beforeTestExecution(context) void
+        +afterTestExecution(context) void
+        +handleTestExecutionException(context, throwable) void
+        -postQuestCreationIntercept(quest, urls) void
+        -postQuestCreationLogin(quest, factory, user, pass, type, cache) void
+    }
+
+    class BaseLoginClient {
+        <<abstract>>
+        -Map~LoginKey,SessionInfo~ userLoginMap
+        -List~SmartWebDriver~ driverToKeep
+        +login(uiService, username, password, cache) void
+        #loginImpl(uiService, username, password)* void
+        #waitAfterLogin(driver)* void
+    }
+
+    FluentService <|-- UiServiceFluent
+    UiServiceFluent <|-- SuperUiServiceFluent
+    UiServiceFluent --> ButtonServiceFluent : has
+    UiServiceFluent --> InputServiceFluent : has
+    UiServiceFluent --> TableServiceFluent : has
+    UiServiceFluent --> NavigationServiceFluent : has
+    UiServiceFluent --> ValidationServiceFluent : has
+    UiServiceFluent --> SmartWebDriver : uses
+    
+    ButtonServiceFluent --> UiServiceFluent : returns for chaining
+    ButtonServiceFluent --> ButtonService : delegates to
+    ButtonServiceFluent --> ButtonUiElement : operates on
+    
+    UiElement <|.. ButtonUiElement : implements
+    UiElement <|.. InputUiElement : implements
+    
+    UiTestExtension ..> UiServiceFluent : creates/manages
+    UiTestExtension ..> BaseLoginClient : uses for auth
+    BaseLoginClient ..> SuperUiServiceFluent : receives
+```
+
+### Package Diagram
+```mermaid
+flowchart TB
+    annotations((annotations))
+    authentication((authentication))
+    config((config))
+    extensions((extensions))
+    selenium((selenium))
+    fluent((service.fluent))
+    tables((service.tables))
+    service((service))
+    storage((storage))
+    util((util))
+    
+    framework[test-framework]
+    uiinteractor[ui-interactor]
+    spring[Spring Boot]
+    junit[JUnit 5]
+    allure[Allure]
+    
+    extensions --> annotations
+    extensions --> authentication
+    extensions --> fluent
+    extensions --> storage
+    extensions --> junit
+    extensions --> allure
+    
+    fluent --> service
+    fluent --> tables
+    fluent --> selenium
+    fluent --> storage
+    fluent --> uiinteractor
+    fluent --> framework
+    
+    authentication --> fluent
+    config --> spring
+    
+    selenium --> uiinteractor
+    tables --> uiinteractor
+    service --> uiinteractor
+    
+    annotations --> extensions
+    annotations --> junit
 ```
 
 ### Execution Flow
 ```mermaid
 sequenceDiagram
-  autonumber
-  participant T as Test (@UI)
-  participant UF as UiServiceFluent
-  participant BF as ButtonServiceFluent
-  participant D as SmartWebDriver
+    autonumber
+    participant Test as Test (@UI)
+    participant Ext as UiTestExtension
+    participant Quest as Quest/Storage
+    participant UF as UiServiceFluent
+    participant BF as ButtonServiceFluent
+    participant Elem as ButtonUiElement
+    participant BS as ButtonService
+    participant Driver as SmartWebDriver
 
-  T->>UF: getButtonField()
-  UF-->>T: ButtonServiceFluent
-  T->>BF: click("Login")
-  BF->>D: findSmartElement(By)
-  D-->>BF: SmartWebElement
-  BF->>BF: element.click()
-  BF-->>T: and() for chaining
+    Test->>Ext: @UI triggers beforeTestExecution
+    Ext->>Quest: Create Quest & Storage
+    Ext->>UF: Instantiate UiServiceFluent(driver)
+    Ext->>UF: Initialize all component services
+    Ext-->>Test: Inject UiServiceFluent
+    
+    Test->>UF: getButtonField()
+    UF-->>Test: ButtonServiceFluent
+    Test->>BF: click(ButtonUiElement)
+    BF->>Elem: element.before().accept(driver)
+    BF->>Elem: Get locator() and componentType()
+    BF->>BS: buttonService.click(type, locator)
+    BS->>Driver: Find and click element
+    BF->>Elem: element.after().accept(driver)
+    BF->>Quest: Store result in storage
+    BF-->>Test: return uiServiceFluent (for chaining)
+    
+    Test->>Ext: Test completes
+    Ext->>Driver: Take screenshot if failed
+    Ext->>Driver: Close/quit if not cached
 ```
 
 ## Usage
+
+> Follow these steps in your **app-specific test module**. Examples avoid external DSLs; only the adapter and `ui-interactor` are required.
 
 ### Step 1 — Add dependency
 ```xml
@@ -127,17 +250,24 @@ sequenceDiagram
 ```
 
 ### Step 2 — Configure environment
+This adapter does not introduce new Owner keys.
+It reuses `UiConfig` from `ui-interactor` and primarily needs your project package for reflection:
+
+**Load order:** system properties + `classpath:ui-config.properties`
+
 ```properties
-# config.properties
+# src/test/resources/ui-config.properties
 ui.base.url=https://test.example.com
 browser.type=CHROME
 headless=false
 wait.duration.in.seconds=10
 project.package=com.example.tests
+button.default.type=STANDARD_BUTTON
+input.default.type=STANDARD_INPUT
 ```
 
 ### Step 3 — Enable the Adapter
-```
+```java
 import io.cyborgcode.roa.ui.annotations.UI;
 import io.cyborgcode.roa.ui.service.fluent.UiServiceFluent;
 import io.cyborgcode.roa.framework.annotation.Prologue;
@@ -217,7 +347,7 @@ ui.getTable()
 ```
 
 ### Step 5 — Authentication
-```
+```java
 @Test
 @AuthenticateViaUi(
     credentials = AdminCredentials.class,
@@ -230,7 +360,7 @@ void testAdminArea() {
 ```
 
 ### Step 6 — Network Interception
-```
+```java
 @Test
 @InterceptRequests
 void testApiCalls() {
@@ -241,36 +371,114 @@ void testApiCalls() {
 }
 ```
 
-## Annotations & Features
+## Annotations & Hooks
+- `@UI` — applies JUnit 5 extensions and scans the adapter packages.
+- `@AuthenticateViaUi(credentials, type, cacheCredentials)` — authenticates via your `BaseLoginClient` using a `LoginCredentials` provider; supports session caching via cookies and localStorage.
+- `@InterceptRequests(requestUrlSubStrings)` — enables network request interception using Chrome DevTools Protocol (CDP).
+- `@InsertionElement(locatorClass, elementEnum, order)` — marks fields for dynamic data insertion; used with `InsertionServiceFluent`.
 
-**@UI** — Marks test class as UI test, applies `UiTestExtension`
-
-**@AuthenticateViaUi** — Performs UI-based authentication
-- `credentials()` — Class implementing `LoginCredentials`
-- `type()` — Class extending `BaseLoginClient`
-- `cacheCredentials()` — Cache session (default: false)
-
-**@InterceptRequests** — Enables network request interception
-
-**@InsertionElement** — Marks fields for dynamic insertion
-
-## Component Services
+## Component Services Reference
 
 | Service | Key Operations |
 |---|---|
-| `ButtonServiceFluent` | click, isEnabled, isVisible |
-| `InputServiceFluent` | insert, getValue, clear, getErrorMessage |
-| `CheckboxServiceFluent` | select, deSelect, isSelected, getSelected |
-| `RadioServiceFluent` | select, isSelected, getSelected |
-| `SelectServiceFluent` | select, getSelected, getOptions |
-| `TableServiceFluent` | readTable, insertCellValue, filterTable, sortTable |
-| `ModalServiceFluent` | isDisplayed, close, getTitle |
-| `AlertServiceFluent` | isDisplayed, close, getText |
-| `LinkServiceFluent` | click, getHref, isEnabled |
-| `TabServiceFluent` | selectTab, isSelected, getSelectedTab |
-| `AccordionServiceFluent` | expand, collapse, isExpanded |
-| `NavigationServiceFluent` | navigate, refresh, back, forward |
+| `ButtonServiceFluent` | click, isEnabled, isVisible, validateIsEnabled, validateIsHidden |
+| `InputServiceFluent` | insert, getValue, clear, getErrorMessage, validateValue |
+| `CheckboxServiceFluent` | select, deSelect, isSelected, getSelected, validateIsSelected |
+| `RadioServiceFluent` | select, isSelected, getSelected, validateIsSelected |
+| `SelectServiceFluent` | select, getSelected, getOptions, validateSelected |
+| `ToggleServiceFluent` | toggle, isSelected, validateIsToggled |
+| `TableServiceFluent` | readTable, readRow, insertCellValue, filterTable, sortTable, validateTable |
+| `ModalServiceFluent` | isDisplayed, close, getTitle, getContent, validateIsDisplayed |
+| `AlertServiceFluent` | isDisplayed, close, getText, validateIsDisplayed |
+| `LinkServiceFluent` | click, getHref, isEnabled, validateIsEnabled |
+| `LoaderServiceFluent` | waitUntilDisappears, isDisplayed, validateIsHidden |
+| `TabServiceFluent` | selectTab, isSelected, getSelectedTab, getTabs |
+| `AccordionServiceFluent` | expand, collapse, isExpanded, toggle |
+| `ListServiceFluent` | getItems, selectItem, getSelectedItems, getItemCount |
+| `NavigationServiceFluent` | navigate, refresh, back, forward, getCurrentUrl |
 | `ValidationServiceFluent` | validate, validateSoft |
+| `InsertionServiceFluent` | insertion (dynamic pattern) |
+| `InterceptorServiceFluent` | getRequests, getResponses, clearResponses |
+
+## UiElement Pattern
+
+The adapter uses a type-safe element definition pattern via `UiElement` interfaces. This allows you to define UI elements as enums with locators and component types.
+
+### Defining UI Elements
+
+```java
+import io.cyborgcode.roa.ui.selenium.ButtonUiElement;
+import io.cyborgcode.roa.ui.selenium.InputUiElement;
+import io.cyborgcode.roa.ui.components.button.ButtonComponentType;
+import io.cyborgcode.roa.ui.components.input.InputComponentType;
+import org.openqa.selenium.By;
+
+public enum LoginPageElements implements ButtonUiElement, InputUiElement {
+    // Button elements
+    LOGIN_BUTTON(ButtonComponentType.DEFAULT_TYPE, By.id("login-btn")),
+    CANCEL_BUTTON(ButtonComponentType.DEFAULT_TYPE, By.cssSelector(".cancel")),
+    
+    // Input elements
+    USERNAME_INPUT(InputComponentType.DEFAULT_TYPE, By.id("username")),
+    PASSWORD_INPUT(InputComponentType.DEFAULT_TYPE, By.name("password"));
+    
+    private final ComponentType componentType;
+    private final By locator;
+    
+    LoginPageElements(ComponentType componentType, By locator) {
+        this.componentType = componentType;
+        this.locator = locator;
+    }
+    
+    @Override
+    public By locator() {
+        return locator;
+    }
+    
+    @Override
+    public ComponentType componentType() {
+        return componentType;
+    }
+    
+    @Override
+    public Enum<?> enumImpl() {
+        return this;
+    }
+    
+    // Optional: Add before/after hooks
+    @Override
+    public Consumer<SmartWebDriver> before() {
+        return driver -> {
+            // Wait for element, scroll, log, etc.
+        };
+    }
+}
+```
+
+### Using UI Elements
+
+```java
+@Test
+void testLogin() {
+    ui.getInputField()
+        .insert(USERNAME_INPUT, "admin")
+        .insert(PASSWORD_INPUT, "secret123")
+        .and()
+    .getButtonField()
+        .click(LOGIN_BUTTON)
+        .and()
+    .getButtonField()
+        .validateIsVisible(CANCEL_BUTTON);
+}
+```
+
+### Benefits
+
+- **Type safety** — Compile-time checking of element types
+- **Reusability** — Elements defined once, used everywhere
+- **Maintainability** — Centralized element definitions
+- **Hooks** — before()/after() for custom logic per element
+- **Storage integration** — Automatic storage via enumImpl()
 
 ## Storage Integration
 
@@ -283,24 +491,249 @@ String email = ui.getQuest().getStorage().get(StorageKeysUi.UI, "email");
 
 // Extract using JSON path
 String name = DataExtractorsUi.extract(json, "$.user.name", String.class);
+
+// Auto-storage from UiElement operations
+ui.getInputField().getValue(EMAIL_INPUT);  // Stored as EMAIL_INPUT key
+String email = ui.getQuest().getStorage().get(StorageKeysUi.UI, EMAIL_INPUT);
 ```
 
-## Allure Reporting
+## Adapter Configuration
+```java
+@Configuration
+@ComponentScan(basePackages = "io.cyborgcode.roa.ui")
+public class UiInteractionAutoConfiguration {
+  @Bean
+  @ConditionalOnMissingBean
+  SmartWebDriver smartWebDriver() {
+    // Automatically creates and configures SmartWebDriver
+    return new SmartWebDriver(createWebDriver());
+  }
+}
+```
 
-Automatic attachments:
-- Screenshots on failure
-- Element highlights before actions
-- Network requests when intercepted
-- Table data on read operations
-- Validation results with details
+**Framework Configuration (ui-framework-config.properties):**
+- `make.screenshot.on.passed.test` (boolean, default: `false`) — Take screenshot even on passing tests
+
+**Inherited from ui-interactor:**
+All configuration from `ui-interactor` module applies (browser.type, headless, wait.duration.in.seconds, project.package, ui.base.url, use.shadow.root, component *.default.type keys).
+
+## Allure Reporting
+- **Screenshots:** Captured on test failure via `UiTestExtension.handleTestExecutionException()` and on soft assertion failures.
+- **Network requests:** HTML-formatted table of all intercepted requests/responses when `@InterceptRequests` is used.
+- **UI operations:** All fluent service methods automatically create Allure steps with component type and locator details (e.g., `[UI - Button] Clicking button with componentType: DEFAULT_TYPE, locator: By.id: login-btn`).
+
+## Advanced Topics
+
+### Custom Login Client Implementation
+
+```java
+import io.cyborgcode.roa.ui.authentication.BaseLoginClient;
+import io.cyborgcode.roa.ui.service.fluent.UiServiceFluent;
+import org.openqa.selenium.By;
+
+public class CustomLoginClient extends BaseLoginClient {
+    
+    @Override
+    protected void loginImpl(UiServiceFluent<?> uiService, String username, String password) {
+        uiService.getNavigation()
+            .navigate("/login")
+            .and()
+        .getInputField()
+            .insert(USERNAME_FIELD, username)
+            .insert(PASSWORD_FIELD, password)
+            .and()
+        .getButtonField()
+            .click(LOGIN_BUTTON);
+    }
+    
+    @Override
+    protected void waitAfterLogin(SmartWebDriver driver) {
+        driver.waitUntilElementIsShown(By.id("dashboard"), 10);
+    }
+}
+```
+
+### Custom UiServiceFluent Extension
+
+You can extend `UiServiceFluent` to add domain-specific methods:
+
+```java
+@Ring("CustomUI")
+public class CustomUiServiceFluent extends UiServiceFluent<CustomUiServiceFluent> {
+    
+    public CustomUiServiceFluent(SmartWebDriver driver, SuperQuest quest) {
+        super(driver);
+        // Custom initialization
+    }
+    
+    // Add custom domain-specific methods
+    public CustomUiServiceFluent loginAsAdmin() {
+        getInputField()
+            .insert(USERNAME, "admin")
+            .insert(PASSWORD, "admin123")
+            .and()
+        .getButtonField()
+            .click(LOGIN_BTN);
+        return this;
+    }
+    
+    public CustomUiServiceFluent navigateToDashboard() {
+        getNavigation().navigate("/dashboard");
+        return this;
+    }
+}
+```
+
+The extension will automatically detect and register your custom service (only 1 allowed per project).
+
+### Network Interception with DataIntercept
+
+Define an enum implementing `DataIntercept` to specify endpoints for interception:
+
+```java
+public enum ApiEndpoints implements DataIntercept<ApiEndpoints> {
+    USERS_API("/api/users"),
+    PRODUCTS_API("/api/products"),
+    ORDERS_API("/api/orders");
+    
+    private final String endpoint;
+    
+    ApiEndpoints(String endpoint) {
+        this.endpoint = endpoint;
+    }
+    
+    @Override
+    public String getEndpointSubString() {
+        return endpoint;
+    }
+}
+
+// Usage in test
+@Test
+@InterceptRequests(requestUrlSubStrings = {"USERS_API", "PRODUCTS_API"})
+void testApiInterception() {
+    ui.getButtonField().click(LOAD_DATA_BTN);
+    
+    List<ApiResponse> responses = ui.getInterceptor().getResponses();
+    // Validate intercepted API calls
+}
+```
+
+### Table Element Pattern
+
+```java
+public enum UserTableElements implements TableElement<User> {
+    USER_TABLE(User.class, TableComponentType.DEFAULT_TYPE);
+    
+    private final Class<User> rowClass;
+    private final ComponentType tableType;
+    
+    UserTableElements(Class<User> rowClass, ComponentType tableType) {
+        this.rowClass = rowClass;
+        this.tableType = tableType;
+    }
+    
+    @Override
+    public Class<User> rowsRepresentationClass() {
+        return rowClass;
+    }
+    
+    @Override
+    public ComponentType tableType() {
+        return tableType;
+    }
+    
+    @Override
+    public Enum<?> enumImpl() {
+        return this;
+    }
+}
+
+// Usage
+@Test
+void testTableOperations() {
+    ui.getTable()
+        .readTable(USER_TABLE)
+        .and();
+    
+    List<User> users = ui.getQuest().getStorage().get(StorageKeysUi.UI, USER_TABLE);
+}
+```
+
+### @InsertionElement for Dynamic Forms
+
+```java
+public class RegistrationFormData {
+    @InsertionElement(locatorClass = FormElements.class, elementEnum = "FIRST_NAME", order = 1)
+    private String firstName;
+    
+    @InsertionElement(locatorClass = FormElements.class, elementEnum = "LAST_NAME", order = 2)
+    private String lastName;
+    
+    @InsertionElement(locatorClass = FormElements.class, elementEnum = "EMAIL", order = 3)
+    private String email;
+    
+    // Getters and setters
+}
+
+// Usage
+@Test
+void testDynamicInsertion() {
+    RegistrationFormData data = new RegistrationFormData();
+    data.setFirstName("John");
+    data.setLastName("Doe");
+    data.setEmail("john@example.com");
+    
+    ui.getInsertionService().insertion(data);
+}
+```
+
+### Session Caching
+
+When using `@AuthenticateViaUi(cacheCredentials = true)`, the framework:
+1. Performs login once and stores cookies + localStorage
+2. Reuses the session for subsequent tests with same credentials
+3. Keeps one driver instance alive per credential set
+4. Automatically cleans up drivers at session end
+
+This significantly speeds up test suites with multiple tests requiring authentication.
+
+## Troubleshooting
+
+**Issue: UiServiceFluent not injected**
+- Ensure `@UI` annotation is on the test class
+- Verify Spring context is properly configured
+- Check that `@Prologue` method accepts `UiServiceFluent<?>`
+
+**Issue: Network interception not working**
+- Only works with ChromeDriver
+- Ensure Chrome version supports DevTools Protocol
+- Check that URL substrings match actual request URLs
+
+**Issue: Authentication not cached**
+- Verify `cacheCredentials = true` in `@AuthenticateViaUi`
+- Ensure `LoginCredentials` implementation is consistent
+- Check that `waitAfterLogin()` waits for stable element
+
+**Issue: Screenshots not attached to Allure**
+- Verify Allure listener is configured in JUnit
+- Check `make.screenshot.on.passed.test` config if needed
+- Ensure test failure is properly propagated
 
 ## Dependencies
-- `io.cyborgcode.roa:test-framework`
-- `io.cyborgcode.roa:ui-interactor`
-- `org.seleniumhq.selenium:selenium-java`
-- `org.springframework.boot:spring-boot-starter`
-- `io.qameta.allure:allure-java-commons`
-- `com.jayway.jsonpath:json-path`
+
+- `io.cyborgcode.roa:test-framework` *(required)*
+- `io.cyborgcode.roa:ui-interactor` *(required)*
+- `org.seleniumhq.selenium:selenium-java` *(required — Selenium WebDriver)*
+- `io.qameta.allure:allure-java-commons` *(optional — Allure attachments)*
+- `io.qameta.allure:allure-junit5` *(optional — Allure + JUnit 5 bridge)*
+- `org.springframework:spring-context` *(required if using Spring DI / auto-config)*
+- `org.springframework:spring-test` *(tests — JUnit5 + SpringExtension)*
+- `org.junit.jupiter:junit-jupiter` *(tests)*
+- `org.assertj:assertj-core` *(tests — used by `SoftAssertions`)*
+- `org.projectlombok:lombok` *(optional)*
+- `com.jayway.jsonpath:json-path` *(optional — JSON extraction via DataExtractorsUi)*
+- `org.aeonbits.owner:owner` *(transitive via ui-interactor; add explicitly if your BOM doesn't manage it)*
 
 ## Author
 **Cyborg Code Syndicate 💍👨💻**
