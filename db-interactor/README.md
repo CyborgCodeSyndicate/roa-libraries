@@ -1,13 +1,14 @@
 # db-interactor
 
 <!-- Quick jump -->
-**Start here:** [Usage — Quick Start (step-by-step)](#usage)
+**Start here:** [Usage - Quick Start (step-by-step)](#usage)
 
 
 ---
 
 ## Table of Contents
 - [Overview](#overview)
+- [Module metadata](#module-metadata)
 - [Features](#features)
 - [Structure](#structure)
 - [Architecture](#architecture)
@@ -17,13 +18,13 @@
     - [Parameterized Query Processing](#parameterized-query-processing)
     - [Validation Flow](#validation-flow)
 - [Usage](#usage)
-    - [Step 1 —  Install](#step-1--install-dependency)
-    - [Step 2 —  Configure environment](#step-2--configure-environment)
-    - [Step 3 —  Provide your projects-dbtype-enum](#step-3--provide-your-projects-dbtype-enum)
-    - [Step 4 —  Declare queries (enum implements dbquery)](#step-4--declare-queries-enum-implements-dbquery)
-    - [Step 5 —  Execute via databaseservice](#step-5--execute-via-databaseservice)
-    - [Step 6 —  Extract values with jsonpath](#step-6--extract-values-with-jsonpath)
-    - [Step 7 —  Validate responses (assertion-driven)](#step-7--validate-responses-assertion-driven)
+    - [Step 1 - Install](#step-1--install-dependency)
+    - [Step 2 - Configure environment](#step-2--configure-environment)
+    - [Step 3 - Provide your projects-dbtype-enum](#step-3--provide-your-projects-dbtype-enum)
+    - [Step 4 - Declare queries (enum implements dbquery)](#step-4--declare-queries-enum-implements-dbquery)
+    - [Step 5 - Execute via databaseservice](#step-5--execute-via-databaseservice)
+    - [Step 6 - Extract values with jsonpath](#step-6--extract-values-with-jsonpath)
+    - [Step 7 - Validate responses (assertion-driven)](#step-7--validate-responses-assertion-driven)
 - [Dependencies](#dependencies)
 - [Author](#author)
 
@@ -60,15 +61,15 @@ The **db-interactor** module is the database engine of ROA (Ring of Automation).
 - **Validation:** `DatabaseService` + `QueryResponseValidatorImpl` support `NUMBER_ROWS`, `QUERY_RESULT` (JsonPath on rows), and `COLUMNS` checks.
 
 ## Structure
-- `client` — `DbClient`, `DbClientManager`, `RelationalDbClient`
-- `config` — `DatabaseConfiguration`, `DbConfig`, `DbConfigHolder`, `DbInteractionAutoConfiguration`, `DbType`, `DbTypeConverter`
-- `connector` — `BaseDbConnectorService`
-- `exceptions` — `DatabaseOperationException`, `JsonPathExtractionException`
-- `json` — `JsonPathExtractor`
-- `log` — `LogDb`
-- `query` — `DbQuery<T>`, `ParametrizedQuery<T>`, `QueryResponse`
-- `service` — `DatabaseService`
-- `validator` — `DbAssertionTarget`, `QueryResponseValidator`, `QueryResponseValidatorImpl`
+- `client` - `DbClient`, `DbClientManager`, `RelationalDbClient`
+- `config` - `DatabaseConfiguration`, `DbConfig`, `DbConfigHolder`, `DbInteractionAutoConfiguration`, `DbType`, `DbTypeConverter`
+- `connector` - `BaseDbConnectorService`
+- `exceptions` - `DatabaseOperationException`, `JsonPathExtractionException`
+- `json` - `JsonPathExtractor`
+- `log` - `LogDb`
+- `query` - `DbQuery<T>`, `ParametrizedQuery<T>`, `QueryResponse`
+- `service` - `DatabaseService`
+- `validator` - `DbAssertionTarget`, `QueryResponseValidator`, `QueryResponseValidatorImpl`
 
 ## Architecture
 
@@ -171,16 +172,16 @@ sequenceDiagram
 #### Validation Flow
 - **DatabaseService.validate(queryResponse, assertions):** delegates to `QueryResponseValidatorImpl`.
 - **Targets:**
-  - `NUMBER_ROWS` — counts rows in `QueryResponse`.
-  - `QUERY_RESULT` — uses `JsonPathExtractor` to extract values from rows by JSONPath.
-  - `COLUMNS` — verifies presence of expected columns.
+  - `NUMBER_ROWS` - counts rows in `QueryResponse`.
+  - `QUERY_RESULT` - uses `JsonPathExtractor` to extract values from rows by JSONPath.
+  - `COLUMNS` - verifies presence of expected columns.
 - Returns a list of assertion results for further handling.
 
 ---
 
 ## Usage
 
-### Step 1 — Install dependency
+### Step 1 - Install dependency
 ```xml
 <dependency>
   <groupId>io.cyborgcode.roa</groupId>
@@ -189,12 +190,12 @@ sequenceDiagram
 </dependency>
 ```
 
-### Step 2 — Configure environment
+### Step 2 - Configure environment
 Configuration is provided via **Owner** (`DbConfig`) and loaded with `DbConfigHolder`.
 
 | Key | Type | Default | Description |
 |---|---:|:---:|---|
-| `project.package`            | String | —     | Base package scanned for your `DbType` enum. |
+| `project.package`           | String | —     | Base package scanned for your `DbType` enum. |
 | `db.default.type`           | DbType | —     | Resolved via `DbTypeConverter` (e.g., `POSTGRES`). |
 | `db.default.host`           | String | —     | DB host. |
 | `db.default.port`           | int    | —     | DB port. |
@@ -219,7 +220,7 @@ db.default.password=secret
 # db.full.connection.string=jdbc:postgresql://localhost:5432/appdb
 ```
 
-### Step 3 — Provide your project's DbType enum
+### Step 3 - Provide your project's DbType enum
 ```java
 public enum MyDbType implements DbType<MyDbType> {
   POSTGRES;
@@ -229,7 +230,7 @@ public enum MyDbType implements DbType<MyDbType> {
 }
 ```
 
-### Step 4 — Declare queries (enum implements DbQuery)
+### Step 4 - Declare queries (enum implements DbQuery)
 ```java
 public enum UserQueries implements DbQuery<UserQueries> {
   GET_BY_ID         { public String query() { return "SELECT * FROM users WHERE id = {id}"; } },
@@ -239,7 +240,7 @@ public enum UserQueries implements DbQuery<UserQueries> {
 }
 ```
 
-### Step 5 — Execute via DatabaseService
+### Step 5 - Execute via DatabaseService
 ```java
 DatabaseService db = appContext.getBean(DatabaseService.class);
 
@@ -247,7 +248,7 @@ var resp = db.query(UserQueries.COUNT_ALL);
 var byId = db.query(UserQueries.GET_BY_ID.withParam("id", 42));
 ```
 
-### Step 6 — Extract values with JSONPath
+### Step 6 - Extract values with JSONPath
 ```java
 String name = db.query(
   UserQueries.GET_BY_ID.withParam("id", 42),
@@ -256,7 +257,7 @@ String name = db.query(
 );
 ```
 
-### Step 7 — Validate responses (assertion-driven)
+### Step 7 - Validate responses (assertion-driven)
 <pre><code>
 validate(
         retrieve(StorageKeysDb.DB, QUERY_ORDER, QueryResponse.class),

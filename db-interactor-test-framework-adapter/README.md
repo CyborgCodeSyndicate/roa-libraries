@@ -1,10 +1,11 @@
 # db-interactor-test-framework-adapter
 
 <!-- Quick jump -->
-**Start here:** [Usage — Quick Start (step-by-step)](#usage)
+**Start here:** [Usage - Quick Start (step-by-step)](#usage)
 
 ## Table of Contents
 - [Overview](#overview)
+- [Module metadata](#module-metadata)
 - [Features](#features)
 - [Structure](#structure)
 - [Architecture](#architecture)
@@ -17,13 +18,13 @@
       - [Hook Execution (BEFORE/AFTER)](#hook-execution-beforeafter)
       - [Retry for Eventual Consistency](#retry-for-eventual-consistency)
 - [Usage](#usage)
-    - [Step 1 — Install](#step-1--install)
-    - [Step 2 — Configure environment](#step-2--configure-environment)
-    - [Step 3 — Enable the Adapter on Tests](#step-3--enable-the-adapter-on-tests)
-    - [Step 4 — Run Queries Fluently](#step-4--run-queries-fluently)
-    - [Step 5 — Validate Query Responses](#step-5--validate-query-responses)
-    - [Step 6 — Wait/Retry Until Data Appears](#step-6--waitretry-until-data-appears)
-    - [Step 7 — Use Hooks (optional)](#step-7--use-hooks-optional)
+    - [Step 1 - Install](#step-1--install)
+    - [Step 2 - Configure environment](#step-2--configure-environment)
+    - [Step 3 - Enable the Adapter on Tests](#step-3--enable-the-adapter-on-tests)
+    - [Step 4 - Run Queries Fluently](#step-4--run-queries-fluently)
+    - [Step 5 - Validate Query Responses](#step-5--validate-query-responses)
+    - [Step 6 - Wait/Retry Until Data Appears](#step-6--waitretry-until-data-appears)
+    - [Step 7 - Use Hooks (optional)](#step-7--use-hooks-optional)
 - [Annotations & Hooks](#annotations--hooks)
 - [Retry Helpers](#retry-helpers)
 - [Allure Reporting](#allure-reporting)
@@ -66,14 +67,14 @@ The result is **declarative, traceable, and robust** database automation that in
 - **Storage integration:** results are stored under `StorageKeysDb.DB` keyed by your query enum.
 
 ## Structure
-- `allure` — `AllureDbClientManager`, `RelationalDbClientAllure`, `QueryResponseValidatorAllureImpl`
-- `annotations` — `DB`, `DbHook`, `DbHooks`
-- `config` — `DbTestFrameworkAutoConfiguration`
-- `extensions` — `DbHookExtension`, `DbTestExtension`
-- `hooks` — `DbHookFlow<T>`
-- `retry` — `RetryConditionDb`
-- `service.fluent` — `DatabaseServiceFluent`
-- `storage` — `StorageKeysDb`
+- `allure` - `AllureDbClientManager`, `RelationalDbClientAllure`, `QueryResponseValidatorAllureImpl`
+- `annotations` - `DB`, `DbHook`, `DbHooks`
+- `config` - `DbTestFrameworkAutoConfiguration`
+- `extensions` - `DbHookExtension`, `DbTestExtension`
+- `hooks` - `DbHookFlow<T>`
+- `retry` - `RetryConditionDb`
+- `service.fluent` - `DatabaseServiceFluent`
+- `storage` - `StorageKeysDb`
 
 > **Depends on:** all types from **db-interactor** (`DatabaseService`, `DbQuery`, `QueryResponse`, etc.).
 
@@ -175,7 +176,7 @@ sequenceDiagram
 
 ## Usage
 
-### Step 1 — Install
+### Step 1 - Install
 Add the adapter **and** the core module:
 ```xml
 <dependency>
@@ -186,7 +187,7 @@ Add the adapter **and** the core module:
 </dependency>
 ```
 
-### Step 2 — Configure environment
+### Step 2 - Configure environment
 The adapter relies on the same **Owner** configuration as `db-interactor`. Create `src/test/resources/config.properties` and run with `-Ddb.config.file=db-config`:
 
 ```properties
@@ -203,7 +204,7 @@ db.default.password=secret
 
 When Spring is present, `DbTestFrameworkAutoConfiguration` will register the Allure-enabled beans automatically.
 
-### Step 3 — Enable the Adapter on Tests
+### Step 3 - Enable the Adapter on Tests
 Annotate your JUnit test class with `@DB` to activate extensions and scanning.
 
 ```java
@@ -213,7 +214,7 @@ class UsersDbTests {
 }
 ```
 
-### Step 4 — Run Queries Fluently
+### Step 4 - Run Queries Fluently
 <pre><code>
 .query(Queries.QUERY_ORDER.withParam("id",
                   retrieve(responseBodyExtraction(ENDPOINT_EXAMPLE, "$.id"), Long.class)))
@@ -222,7 +223,7 @@ class UsersDbTests {
                         .build())
 </code></pre>
 
-### Step 5 — Validate Query Responses
+### Step 5 - Validate Query Responses
 
 <pre><code>
  .validate(retrieve(StorageKeysDb.DB, QUERY_ORDER, QueryResponse.class),
@@ -238,7 +239,7 @@ class UsersDbTests {
 )
 </code></pre>
 
-### Step 6 — Wait/Retry Until Data Appears
+### Step 6 - Wait/Retry Until Data Appears
 With the adapter you can combine `RetryConditionDb` and your framework's retry utility.
 
 ```java
@@ -255,7 +256,7 @@ String ok = RetryUtils.retryUntil(
 );
 ```
 
-### Step 7 — Use Hooks (optional)
+### Step 7 - Use Hooks (optional)
 Run DB setup/cleanup once per class with `@DbHook` and your enum-backed `DbHookFlow` implementations.
 
 ```java
@@ -303,15 +304,15 @@ public class DbTestFrameworkAutoConfiguration {
 
 ## Dependencies
 - `io.cyborgcode:db-interactor` *(required)*
-- `io.qameta.allure:allure-java-commons` *(optional — base Allure attachments)*
-- `io.qameta.allure:allure-junit5` *(optional — Allure + JUnit 5 bridge)*
-- `org.springframework:spring-context` *(optional — DI / auto-config)*
-- `org.springframework:spring-test` *(tests — JUnit 5 SpringExtension)*
+- `io.qameta.allure:allure-java-commons` *(optional - base Allure attachments)*
+- `io.qameta.allure:allure-junit5` *(optional - Allure + JUnit 5 bridge)*
+- `org.springframework:spring-context` *(optional - DI / auto-config)*
+- `org.springframework:spring-test` *(tests - JUnit 5 SpringExtension)*
 - `org.junit.jupiter:junit-jupiter` *(tests)*
-- `org.assertj:assertj-core` *(tests — used by SoftAssertions in examples)*
+- `org.assertj:assertj-core` *(tests - used by SoftAssertions in examples)*
 - `com.fasterxml.jackson.core:jackson-databind` *(usually transitive via `db-interactor`; add explicitly if your BOM doesn’t manage it)*
 - `com.jayway.jsonpath:json-path` *(usually transitive via `db-interactor`; add explicitly if your BOM doesn’t manage it)*
-- `org.projectlombok:lombok` *(optional — codegen)*
+- `org.projectlombok:lombok` *(optional - codegen)*
 - **JDBC driver** for your DB, e.g.:
   - `org.postgresql:postgresql`
   - `mysql:mysql-connector-j`

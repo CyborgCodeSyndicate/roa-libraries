@@ -1,7 +1,7 @@
 # roa-libraries
 
 ## Table of Contents
-- [Automation Testing Libraries — Module Index](#automation-testing-libraries--module-index)
+- [Automation Testing Libraries - Module Index](#automation-testing-libraries--module-index)
 - [Modules Overview](#modules-overview)
 - [Core Architecture & Execution Flows](#core-architecture--execution-flows)
   - [API Request Execution](#api-request-execution)
@@ -10,7 +10,7 @@
   - [Quest Orchestration](#quest-orchestration)
   - [Shared Assertion Validation Engine](#shared-assertion-validation-engine)
 
-## Automation Testing Libraries — Module Index
+## Automation Testing Libraries - Module Index
 
 > Jump straight to a module:
 - [API Interactor](./api-interactor/README.md)

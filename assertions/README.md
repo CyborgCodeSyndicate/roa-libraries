@@ -5,6 +5,7 @@
 
 ## Table of Contents
 - [Overview](#overview)
+- [Module metadata](#module-metadata)
 - [Features](#features)
 - [Structure](#structure)
 - [Architecture](#architecture)
