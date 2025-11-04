@@ -79,9 +79,31 @@ The library is test-framework agnostic and designed to be embedded in adapters o
 ### Package: `io.cyborgcode.roa.ui.selenium.smart`
 | Class | Responsibility | Key methods | Used by |
 |---|---|---|---|
-| `SmartWebDriver` | Wraps `WebDriver` with wait/handling/shadow | `findSmartElement(By)`, `waitUntilElementIsShown(By, int)` | Services |
-| `SmartWebElement` | Wraps `WebElement` with waits | `click()`, `clearAndSendKeys(...)`, `isEnabledAndVisible()` | Components |
+| `SmartWebDriver` | Wraps `WebDriver` with wait/handling/shadow | `findSmartElement(By)`, `waitUntilElementIsShown(By, int)`, `checkNoException(Runnable)` | Services |
+| `SmartWebElement` | Wraps `WebElement` with waits | `click()`, `clearAndSendKeys(...)`, `isEnabledAndVisible()`, `doubleClick()`, `waitUntilAttributeValueIsChanged(...)` | Components |
 | `SmartWebElementInspector` | Inspect element properties | inspection helpers | Components |
+
+### Package: `io.cyborgcode.roa.ui.selenium.decorators`
+| Class | Responsibility | Key methods | Used by |
+|---|---|---|---|
+| `WebDriverDecorator` | Base decorator wrapping `WebDriver` | `getOriginal()`, delegates all WebDriver methods | `SmartWebDriver` extends this |
+| `WebElementDecorator` | Base decorator wrapping `WebElement` | `getOriginal()`, delegates all WebElement methods | `SmartWebElement` extends this |
+
+### Package: `io.cyborgcode.roa.ui.selenium.locating`
+| Class | Responsibility | Key methods | Used by |
+|---|---|---|---|
+| `SmartFinder` | Static utility for element location | `findElementNormally(...)`, `findElementWithShadowRootDriver(...)`, `findElementNoWrap(...)` | `SmartWebDriver`, `SmartWebElement` |
+
+### Package: `io.cyborgcode.roa.ui.selenium.handling`
+| Class | Responsibility | Key methods | Used by |
+|---|---|---|---|
+| `ExceptionHandlingWebDriver` | Enum defining driver exception strategies | `getMethodName()`, `getExceptionHandlingMap()` | `SmartWebDriver` for recovery |
+| `ExceptionHandlingWebElement` | Enum defining element exception strategies | `getMethodName()`, `getExceptionHandlingMap()` | `SmartWebElement` for recovery |
+
+### Package: `io.cyborgcode.roa.ui.selenium.enums`
+| Class | Responsibility | Key methods | Used by |
+|---|---|---|---|
+| `WebElementAction` | Enum defining element action types | `CLICK`, `CLEAR`, `SEND_KEYS`, `SUBMIT` | Exception handling |
 
 ### Package: `io.cyborgcode.roa.ui.components.*`
 All component packages follow a uniform structure:
@@ -126,94 +148,179 @@ All component packages follow a uniform structure:
 ### Package: `io.cyborgcode.roa.ui.config`
 | Class | Responsibility | Key methods | Used by |
 |---|---|---|---|
-| `UiConfig` | Owner-backed configuration | All config keys with `@DefaultValue` | All |
-| `UiConfigHolder` | Singleton config access | `getUiConfig()` | All |
+| `UiConfig` | Owner-backed configuration interface | `browserType()`, `waitDuration()`, `useShadowRoot()`, `useWrappedSeleniumFunctions()`, `projectPackage()`, all component default types | All classes |
+| `UiConfigHolder` | Singleton holder for UiConfig | `getUiConfig()` returns cached Owner instance | All classes needing config |
 
 ### Other packages
 - `io.cyborgcode.roa.ui.annotations` — `@HandleUiException`, `@InsertionField`, `@ImplementationOfType`
 - `io.cyborgcode.roa.ui.selenium.*` — locating, handling, decorators, logging, listeners, shadowroot support
 - `io.cyborgcode.roa.ui.components.table.*` — table annotations, filters, insertion, sorting, model, registry
-- `io.cyborgcode.roa.ui.log` — `LogUi` for structured logging
+- `io.cyborgcode.roa.ui.log` — `LogUi` for structured logging (namespace: "ROA.UI")
 - `io.cyborgcode.roa.ui.util` — helpers and strategies
 - `io.cyborgcode.roa.ui.validator` — validation helpers
+
+### Annotations Reference
+| Annotation | Target | Purpose | Example |
+|---|---|---|---|
+| `@HandleUiException` | Method | Enables automatic exception handling for Selenium operations | Applied to `SmartWebDriver.findSmartElement()`, `SmartWebElement.click()` |
+| `@ImplementationOfType(value)` | Class | Marks component implementation with matching enum name | `@ImplementationOfType("STANDARD_BUTTON")` on `StandardButton` class |
+| `@InsertionField` | Field | Marks field for table insertion operations | Used in table model classes for cell insertion |
 
 ## Architecture
 
 ### Class Diagram
 ```mermaid
 classDiagram
-  direction LR
+    direction TB
 
-  class SmartWebDriver {
-    +SmartWebElement findSmartElement(By)
-    +List~SmartWebElement~ findSmartElements(By)
-    +void waitUntilElementIsShown(By,int)
-    +void waitUntilElementIsRemoved(By,int)
-  }
+    class WebDriver {
+        <<interface>>
+        +findElement(By) WebElement
+        +findElements(By) List~WebElement~
+        +get(String) void
+    }
 
-  class SmartWebElement {
-    +void click()
-    +void clearAndSendKeys(CharSequence...)
-    +boolean isEnabledAndVisible()
-  }
+    class WebDriverDecorator {
+        #WebDriver original
+        +getOriginal() WebDriver
+    }
 
-  class AbstractComponentService~T,C~ {
-    #C getOrCreateComponent(T)
-    #C createComponent(T)
-  }
+    class SmartWebDriver {
+        -WebDriverWait wait
+        -boolean keepDriverForSession
+        +findSmartElement(By) SmartWebElement
+        +findSmartElements(By) List~SmartWebElement~
+        +waitUntilElementIsShown(By, int) void
+        +waitUntilElementIsRemoved(By, int) void
+        +checkNoException(Runnable) boolean
+    }
 
-  class ButtonService {
-    +void click(...)
-    +boolean isEnabled(...)
-    +boolean isVisible(...)
-  }
-  class ButtonServiceImpl
-  class ComponentFactory { +Button getButtonComponent(type,driver) }
-  class UiConfig { +int waitDuration(); +boolean useShadowRoot(); }
+    class WebElementDecorator {
+        #WebElement original
+        +getOriginal() WebElement
+    }
 
-  ButtonService <|.. ButtonServiceImpl
-  ButtonServiceImpl --> AbstractComponentService
-  ButtonServiceImpl --> ComponentFactory
-  AbstractComponentService --> SmartWebDriver : uses
-  SmartWebElement --> SmartWebDriver : driver
+    class SmartWebElement {
+        -WebDriver driver
+        -WebDriverWait wait
+        +findSmartElement(By) SmartWebElement
+        +findSmartElements(By) List~SmartWebElement~
+        +click() void
+        +clearAndSendKeys(CharSequence...) void
+        +isEnabledAndVisible() boolean
+        +doubleClick() void
+    }
+
+    class AbstractComponentService~T,C~ {
+        #SmartWebDriver driver
+        #Map~T,C~ components
+        #getOrCreateComponent(T) C
+        #createComponent(T)* C
+    }
+
+    class ButtonService {
+        <<interface>>
+        +click(String) void
+        +isEnabled(String) boolean
+        +isVisible(By) boolean
+    }
+
+    class ButtonServiceImpl {
+        +click(String) void
+        -createComponent(ButtonComponentType) Button
+    }
+
+    class ComponentFactory {
+        <<static>>
+        +getButtonComponent(type, driver)$ Button
+        +getInputComponent(type, driver)$ Input
+        +getTableComponent(type, driver)$ Table
+    }
+
+    class UiConfig {
+        <<interface>>
+        +browserType() String
+        +waitDuration() int
+        +useShadowRoot() boolean
+        +useWrappedSeleniumFunctions() boolean
+    }
+
+    WebDriver <|.. WebDriverDecorator : implements
+    WebDriverDecorator <|-- SmartWebDriver : extends
+    WebElementDecorator <|-- SmartWebElement : extends
+    SmartWebDriver --> SmartWebElement : creates
+    SmartWebElement --> SmartWebDriver : has driver
+    
+    ButtonService <|.. ButtonServiceImpl : implements
+    AbstractComponentService <|-- ButtonServiceImpl : extends
+    AbstractComponentService --> SmartWebDriver : uses
+    ButtonServiceImpl --> ComponentFactory : uses
+    ComponentFactory --> SmartWebDriver : uses
+    SmartWebDriver ..> UiConfig : reads
 ```
 
 ### Package Diagram
 ```mermaid
-flowchart LR
-  smart((ui.selenium.smart))
-  components((ui.components.*))
-  config((ui.config))
-  drivers((ui.drivers.*))
-  util((ui.util))
-  log((ui.log))
-
-  components --> smart
-  components --> config
-  drivers --> config
-  smart --> config
-  components --> util
-  components --> log
+flowchart TB
+    smart((selenium.smart))
+    locating((selenium.locating))
+    handling((selenium.handling))
+    decorators((selenium.decorators))
+    shadowroot((selenium.shadowroot))
+    components((components.*))
+    factory((components.factory))
+    config((config))
+    drivers((drivers))
+    insertion((insertion))
+    util((util))
+    log((log))
+    annotations((annotations))
+    
+    components --> smart
+    components --> factory
+    factory --> smart
+    factory --> config
+    smart --> locating
+    smart --> handling
+    smart --> decorators
+    smart --> config
+    locating --> shadowroot
+    drivers --> config
+    components --> util
+    components --> log
+    components --> insertion
+    components --> annotations
+    insertion --> components
 ```
 
 ### Execution Flow
 ```mermaid
 sequenceDiagram
-  autonumber
-  participant T as Caller
-  participant D as SmartWebDriver
-  participant S as ButtonServiceImpl
-  participant F as ComponentFactory
-  participant C as Button
+    autonumber
+    participant Caller
+    participant Driver as SmartWebDriver
+    participant Finder as SmartFinder
+    participant Service as ButtonServiceImpl
+    participant Abstract as AbstractComponentService
+    participant Factory as ComponentFactory
+    participant Component as Button
 
-  T->>D: findSmartElement(By.css("button.save"))
-  D-->>T: SmartWebElement
-  T->>S: click(DEFAULT_TYPE, element)
-  S->>F: getButtonComponent(type, driver)
-  F-->>S: Button
-  S->>C: click(element)
-  C-->>S: done
-  S-->>T: return
+    Caller->>Driver: findSmartElement(By.css("button.save"))
+    Driver->>Finder: findElementNormally/WithShadowRoot
+    Finder-->>Driver: SmartWebElement
+    Driver-->>Caller: SmartWebElement
+    
+    Caller->>Service: click(DEFAULT_TYPE, element)
+    Service->>Abstract: getOrCreateComponent(type)
+    Abstract->>Factory: getButtonComponent(type, driver)
+    Factory->>Factory: scan @ImplementationOfType annotations
+    Factory->>Component: new ButtonImpl(driver)
+    Factory-->>Abstract: Button instance
+    Abstract-->>Service: Button (cached)
+    Service->>Component: click(element)
+    Component->>Component: @HandleUiException
+    Component-->>Service: done
+    Service-->>Caller: void
 ```
 
 ## Usage
@@ -244,7 +351,7 @@ SmartWebDriver driver = new SmartWebDriver(webDriver);
 ```
 
 ### Step 2 — Component Services
-```
+```java
 import io.cyborgcode.roa.ui.components.button.ButtonServiceImpl;
 import io.cyborgcode.roa.ui.components.input.InputServiceImpl;
 import io.cyborgcode.roa.ui.components.checkbox.CheckboxServiceImpl;
@@ -446,7 +553,7 @@ boolean selected = toggles.isSelected("Auto-save");
 The table component provides comprehensive operations for reading, filtering, sorting, validating, and inserting data into HTML tables using typed row models.
 
 #### Table Model Definition
-```
+```java
 import io.cyborgcode.roa.ui.components.table.annotations.*;
 import org.openqa.selenium.support.FindBy;
 
@@ -854,7 +961,7 @@ inputs.insert("Email", "user@test.com"); // Works inside shadow roots
 #### SmartFinder — Element Location Strategies
 The `SmartFinder` utility provides unified element location with automatic Shadow DOM handling.
 
-```
+```java
 import io.cyborgcode.roa.ui.selenium.locating.SmartFinder;
 
 // Find without wrapping (no waits)
@@ -899,7 +1006,7 @@ The framework provides automatic exception handling for common Selenium failures
 - `ElementNotInteractableException` — Waits for element to become interactable
 - `NoSuchElementException` — Logs detailed error with locator information
 
-```
+```java
 import io.cyborgcode.roa.ui.selenium.handling.ExceptionHandlingWebElement;
 import io.cyborgcode.roa.ui.selenium.handling.ExceptionHandlingWebDriver;
 
@@ -954,7 +1061,7 @@ WebElement original = element.getOriginal();
 ```
 
 #### Selenium Logging
-```
+```java
 import io.cyborgcode.roa.ui.selenium.logging.SeleniumLogger;
 
 // All SmartWebDriver/SmartWebElement operations are automatically logged
@@ -970,7 +1077,7 @@ import io.cyborgcode.roa.ui.selenium.listeners.CustomEventListener;
 ```
 
 #### Shadow Root Utilities
-```
+```java
 import io.cyborgcode.roa.ui.selenium.shadowroot.ShadowDomUtils;
 
 // Shadow DOM utilities (used internally by SmartFinder)
@@ -1007,7 +1114,7 @@ checkboxes.select(container, Strategy.ALL);
 ```
 
 #### Functional Interfaces for Table Operations
-```
+```java
 import io.cyborgcode.roa.ui.util.BiConsumer;
 import io.cyborgcode.roa.ui.util.BiFunction;
 import io.cyborgcode.roa.ui.util.TriConsumer;
@@ -1032,7 +1139,7 @@ FourFunction<WebDriver, SmartWebElement, Exception, Object[], SmartWebElement> h
 ```
 
 #### Table Utilities
-```
+```java
 import io.cyborgcode.roa.ui.util.table.TableUtils;
 
 // Utility methods for table operations (used internally)
@@ -1185,7 +1292,7 @@ LogUi.setDebugMode(true);
 #### Common Issues and Solutions
 
 **Issue: StaleElementReferenceException persists**
-```
+```java
 // Solution: Increase wait duration
 // Set wait.duration.in.seconds=15 in config
 
@@ -1205,7 +1312,7 @@ element.click();
 ```
 
 **Issue: Shadow DOM elements not found**
-```
+```java
 // Solution: Enable Shadow DOM support
 // Set use.shadow.root=true in ui-config.properties
 
@@ -1215,7 +1322,7 @@ SmartWebElement shadowChild = shadowHost.findSmartElement(By.cssSelector(".inner
 ```
 
 **Issue: Slow table operations**
-```
+```java
 // Solution: Read with specific fields only
 TableField<User> nameField = TableField.of(User::setName);
 TableField<User> emailField = TableField.of(User::setEmail);
@@ -1224,31 +1331,37 @@ List<User> users = tables.readTable(User.class, nameField, emailField);
 ```
 
 ## Configuration
-| Key | Source (Owner) | Default | Example |
-|---|---|---|---|
-| `browser.type` | Owner | `CHROME` | `-Dbrowser.type=FIREFOX` |
-| `browser.version` | Owner | `` (empty) | `-Dbrowser.version=114.0` |
-| `headless` | Owner | `false` | `-Dheadless=true` |
-| `remote.driver.url` | Owner | `` (empty) | `-Dremote.driver.url=http://localhost:4444/wd/hub` |
-| `wait.duration.in.seconds` | Owner | — | `-Dwait.duration.in.seconds=10` |
-| `project.package` | Owner | — | `-Dproject.package=io.cyborgcode` |
-| `input.default.type` | Owner | — | class name of enum constant |
-| `button.default.type` | Owner | — | class name of enum constant |
-| `checkbox.default.type` | Owner | — | class name of enum constant |
-| `toggle.default.type` | Owner | — | class name of enum constant |
-| `radio.default.type` | Owner | — | class name of enum constant |
-| `select.default.type` | Owner | — | class name of enum constant |
-| `list.default.type` | Owner | — | class name of enum constant |
-| `loader.default.type` | Owner | — | class name of enum constant |
-| `link.default.type` | Owner | — | class name of enum constant |
-| `alert.default.type` | Owner | — | class name of enum constant |
-| `tab.default.type` | Owner | — | class name of enum constant |
-| `modal.default.type` | Owner | — | class name of enum constant |
-| `accordion.default.type` | Owner | — | class name of enum constant |
-| `ui.base.url` | Owner | — | `-Dui.base.url=https://app.example.com` |
-| `table.default.type` | Owner | — | class name of enum constant |
-| `use.wrap.selenium.function` | Owner | `true` | `-Duse.wrap.selenium.function=false` |
-| `use.shadow.root` | Owner | `false` | `-Duse.shadow.root=true` |
+| Key | Source (Owner) | Default | Required | Example |
+|---|---|---|---|---|
+| `browser.type` | Owner | `CHROME` | No | `-Dbrowser.type=FIREFOX` |
+| `browser.version` | Owner | `` (latest) | No | `-Dbrowser.version=114.0` |
+| `headless` | Owner | `false` | No | `-Dheadless=true` |
+| `remote.driver.url` | Owner | `` (local) | No | `-Dremote.driver.url=http://localhost:4444/wd/hub` |
+| `wait.duration.in.seconds` | Owner | **NO DEFAULT** | **Yes** | `-Dwait.duration.in.seconds=10` |
+| `project.package` | Owner | **NO DEFAULT** | **Yes** | `-Dproject.package=io.cyborgcode` |
+| `input.default.type` | Owner | **NO DEFAULT** | If using input | class name of enum constant |
+| `button.default.type` | Owner | **NO DEFAULT** | If using button | class name of enum constant |
+| `checkbox.default.type` | Owner | **NO DEFAULT** | If using checkbox | class name of enum constant |
+| `toggle.default.type` | Owner | **NO DEFAULT** | If using toggle | class name of enum constant |
+| `radio.default.type` | Owner | **NO DEFAULT** | If using radio | class name of enum constant |
+| `select.default.type` | Owner | **NO DEFAULT** | If using select | class name of enum constant |
+| `list.default.type` | Owner | **NO DEFAULT** | If using list | class name of enum constant |
+| `loader.default.type` | Owner | **NO DEFAULT** | If using loader | class name of enum constant |
+| `link.default.type` | Owner | **NO DEFAULT** | If using link | class name of enum constant |
+| `alert.default.type` | Owner | **NO DEFAULT** | If using alert | class name of enum constant |
+| `tab.default.type` | Owner | **NO DEFAULT** | If using tab | class name of enum constant |
+| `modal.default.type` | Owner | **NO DEFAULT** | If using modal | class name of enum constant |
+| `accordion.default.type` | Owner | **NO DEFAULT** | If using accordion | class name of enum constant |
+| `ui.base.url` | Owner | `` (empty) | No | `-Dui.base.url=https://app.example.com` |
+| `table.default.type` | Owner | **NO DEFAULT** | If using table | class name of enum constant |
+| `use.wrap.selenium.function` | Owner | `true` | No | `-Duse.wrap.selenium.function=false` |
+| `use.shadow.root` | Owner | `false` | No | `-Duse.shadow.root=true` |
+
+**Configuration Notes:**
+- Keys marked as **Required** will throw exceptions if not set
+- Component `*.default.type` keys are required only when using that component type
+- All configurations can be set via system properties or `ui-config.properties` file
+- Load order: system properties override properties file values
 
 ## Extensibility
 - Add a new component type: create an enum implementing `ComponentType` and a component class
