@@ -7,16 +7,15 @@
 - [Overview](#overview)
 - [Features](#features)
 - [Structure](#structure)
-  - [Key Classes](#key-classes)
-  - [Package: `io.cyborgcode.roa.ui.selenium.smart`](#package-iocyborgcoderoauiseleniumsmart)
-  - [Package: `io.cyborgcode.roa.ui.components.*`](#package-iocyborgcoderoauicomponents)
-  - [Package: `io.cyborgcode.roa.ui.drivers`](#package-iocyborgcoderoauidrivers)
-  - [Package: `io.cyborgcode.roa.ui.insertion`](#package-iocyborgcoderoauiinsertion)
-  - [Package: `io.cyborgcode.roa.ui.config`](#package-iocyborgcoderoauiconfig)
 - [Architecture](#architecture)
   - [Class Diagram](#class-diagram)
   - [Package Diagram](#package-diagram)
   - [Execution Flow](#execution-flow)
+    - [Smart Element Finding (Shadow DOM aware)](#smart-element-finding-shadow-dom-aware)
+    - [ComponentFactory Resolution](#componentfactory-resolution)
+    - [Configuration-Driven Defaults](#configuration-driven-defaults)
+    - [Table Operations with Typed Models](#table-operations-with-typed-models)
+    - [Exception Recovery Strategy](#exception-recovery-strategy)
 - [Usage](#usage)
   - [Step 1 — Driver Setup](#step-1--driver-setup)
   - [Step 2 — Component Services](#step-2--component-services)
@@ -341,11 +340,11 @@ sequenceDiagram
 #### Smart Element Finding (Shadow DOM aware)
 ```mermaid
 flowchart LR
-  A[findSmartElement(By)] --> B{UiConfig.useShadowRoot?}
-  B -- yes --> C[SmartFinder.findElementWithShadowRootDriver]
-  B -- no --> D[SmartFinder.findElementNormally]
-  C --> E[SmartWebElement]
-  D --> E[SmartWebElement]
+  A["findSmartElement(By)"] --> B{"UiConfig.useShadowRoot()?"}
+  B -- yes --> C["SmartFinder.findElementWithShadowRootDriver"]
+  B -- no --> D["SmartFinder.findElementNormally"]
+  C --> E["SmartWebElement"]
+  D --> E["SmartWebElement"]
 ```
 
 #### ComponentFactory Resolution

@@ -14,6 +14,8 @@
     - [Class Diagram](#class-diagram)
   - [Execution Flow](#execution-flow)
     - [Core Request Flow](#core-request-flow)
+    - [Parameterized Query Processing](#parameterized-query-processing)
+    - [Validation Flow](#validation-flow)
 - [Usage](#usage)
     - [Step 1 —  Install](#step-1--install-dependency)
     - [Step 2 —  Configure environment](#step-2--configure-environment)

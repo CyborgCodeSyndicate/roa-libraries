@@ -11,6 +11,8 @@
     - [Class Diagram](#class-diagram)
   - [Execution Flow](#execution-flow)
     - [Core Request Flow](#core-request-flow)
+    - [Detailed Request Execution](#detailed-request-execution)
+    - [Response Validation Flow](#response-validation-flow)
     - [Authentication Cache Semantics](#authentication-cache-semantics)
 - [Usage](#usage)
     - [Step 1 — Install dependency](#step-1--install-dependency)

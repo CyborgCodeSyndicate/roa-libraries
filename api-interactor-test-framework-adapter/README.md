@@ -153,6 +153,7 @@ sequenceDiagram
   - Attaches method, URL, query params, headers, request/response body, status, and response time.
 - **RestResponseValidatorAllureImpl:** attaches the validation target data map for traceability.
 
+#### Authentication Handling
 - **@AuthenticateViaApi(credentials, type, cacheCredentials):**
   - `ApiTestExtension` instantiates provided `Credentials`.
   - Stores `USERNAME`/`PASSWORD` in quest storage and decorates `RestServiceFluent`.
