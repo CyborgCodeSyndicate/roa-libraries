@@ -30,6 +30,22 @@
 ## Overview
 The **db-interactor** module is the database engine of ROA (Ring of Automation). It offers **structured JDBC execution**, **parameterized query composition**, **client caching & connection reuse**, **JSON-Path extraction from tabular results**, and **assertion-driven validation**. It’s test-framework agnostic and works standalone or with Spring; when Spring is present, **auto-configured beans** (Jackson `ObjectMapper`, `JsonPathExtractor`) are provided for convenience.
 
+### Module metadata
+- **name:** Ring of Automation Database Library
+- **artifactId:** db-interactor
+- **direct dependencies (from pom.xml):**
+  - org.projectlombok:lombok
+  - com.fasterxml.jackson.core:jackson-databind
+  - com.jayway.jsonpath:json-path
+  - io.cyborgcode.roa:assertions
+  - org.springframework.boot:spring-boot-starter
+  - io.cyborgcode.utilities:commons
+  - org.aeonbits.owner:owner
+  - org.junit.jupiter:junit-jupiter (test)
+  - org.mockito:mockito-core
+  - com.h2database:h2
+  - org.mockito:mockito-junit-jupiter
+
 ## Features
 
 - **JDBC core:** `DbClient` + `RelationalDbClient` for `SELECT` and DML with timing + slow-query warnings.
@@ -145,6 +161,19 @@ sequenceDiagram
   Service-->>Test: QueryResponse
 ```
 
+#### Parameterized Query Processing
+- **DbQuery.withParam(name, value):** creates a new immutable `ParametrizedQuery` copying existing params and adding the new one.
+- **ParametrizedQuery.query():** performs placeholder substitution on the original SQL using the parameters map.
+- The final SQL string is then sent through the standard `DatabaseService.query(...)` execution path.
+
+#### Validation Flow
+- **DatabaseService.validate(queryResponse, assertions):** delegates to `QueryResponseValidatorImpl`.
+- **Targets:**
+  - `NUMBER_ROWS` — counts rows in `QueryResponse`.
+  - `QUERY_RESULT` — uses `JsonPathExtractor` to extract values from rows by JSONPath.
+  - `COLUMNS` — verifies presence of expected columns.
+- Returns a list of assertion results for further handling.
+
 ---
 
 ## Usage
@@ -250,13 +279,17 @@ validate(
 
 ## Dependencies
 
-- `org.aeonbits.owner:owner`
+- `org.projectlombok:lombok`
 - `com.fasterxml.jackson.core:jackson-databind`
 - `com.jayway.jsonpath:json-path`
-- `org.springframework:spring-context` *(optional; DI / auto-config)*
-- `org.projectlombok:lombok`
-- `org.junit.jupiter:junit-jupiter` *(tests)*
-- **JDBC driver** for your DB (e.g., `org.postgresql:postgresql`, `mysql:mysql-connector-j`)
+- `io.cyborgcode.roa:assertions`
+- `org.springframework.boot:spring-boot-starter`
+- `io.cyborgcode.utilities:commons`
+- `org.aeonbits.owner:owner`
+- `org.junit.jupiter:junit-jupiter` *(test)*
+- `org.mockito:mockito-core`
+- `com.h2database:h2`
+- `org.mockito:mockito-junit-jupiter`
 
 ---
 

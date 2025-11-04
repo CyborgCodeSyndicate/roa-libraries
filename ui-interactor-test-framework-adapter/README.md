@@ -11,6 +11,11 @@
     - [Class Diagram](#class-diagram)
     - [Package Diagram](#package-diagram)
     - [Execution Flow](#execution-flow)
+      - [Test Bootstrap & Extensions](#test-bootstrap--extensions)
+      - [Fluent Service Initialization](#fluent-service-initialization)
+      - [Authentication with Session Caching](#authentication-with-session-caching)
+      - [Network Interception (CDP)](#network-interception-cdp)
+      - [Component Interaction Flow](#component-interaction-flow)
 - [Usage](#usage)
     - [Step 1 — Add dependency](#step-1--add-dependency)
     - [Step 2 — Configure environment](#step-2--configure-environment)
@@ -33,6 +38,20 @@
 
 ## Overview
 The **ui-interactor-test-framework-adapter** layers **test-facing ergonomics** on top of `ui-interactor`. It provides a fluent API (`UiServiceFluent`) for chaining UI operations across 17 component services with method chaining, `UiElement` pattern for type-safe element definitions, and Quest/Ring storage integration. It also ships **JUnit 5 enablement** via the `@UI` annotation and extensions, **Allure bridges** that attach screenshots, network requests, and validation data, **authentication** via `@AuthenticateViaUi` with session caching, **network interception** using Chrome DevTools Protocol (`@InterceptRequests`), and **table operations** with comprehensive CRUD, filtering, sorting, and validation. Spring **auto-configuration** wires `SmartWebDriver` and all component services so UI tests become **declarative, observable, and maintainable**.
+
+### Module metadata
+- **name:** Ring of Automation UI Test Framework
+- **artifactId:** ui-interactor-test-framework-adapter
+- **direct dependencies (from pom.xml):**
+  - org.seleniumhq.selenium:selenium-java
+  - io.cyborgcode.roa:test-framework
+  - io.cyborgcode.roa:ui-interactor
+  - com.jayway.jsonpath:json-path
+  - org.projectlombok:lombok
+  - org.springframework.boot:spring-boot-starter
+  - org.junit.platform:junit-platform-launcher
+  - io.qameta.allure:allure-java-commons
+  - com.github.spotbugs:spotbugs-annotations
 
 ## Features
 - **Fluent chaining:** `UiServiceFluent` → 17 component services (button, input, checkbox, select, radio, toggle, table, modal, alert, link, loader, tab, accordion, list, navigation, validation, insertion, interceptor); `SuperUiServiceFluent` for decorator/extension use-cases.
@@ -234,6 +253,39 @@ sequenceDiagram
     Ext->>Driver: Take screenshot if failed
     Ext->>Driver: Close/quit if not cached
 ```
+
+#### Test Bootstrap & Extensions
+- **@UI** applies `UiTestExtension` (JUnit 5) to manage quest lifecycle, storage, and driver.
+- `beforeTestExecution()` processes annotations:
+  - `@InterceptRequests` → sets up Chrome DevTools (DevTools.createSession, Network.enable, listeners).
+  - Registers assertion consumer and custom services.
+  - `@AuthenticateViaUi` → triggers login client setup.
+- `afterTestExecution()` captures screenshots on failure and cleans up WebDriver (unless kept).
+
+#### Fluent Service Initialization
+- `UiServiceFluent` constructed with `SmartWebDriver` and quest storage.
+- `postQuestSetupInitialization()` creates all component services and their fluent wrappers (Button, Input, Table, Navigation, Validation, Interceptor, etc.).
+- `TableServiceFluent` is initialized with `TableServiceRegistry` and `UiTableValidator`.
+
+#### Authentication with Session Caching
+- `@AuthenticateViaUi(credentials, type, cacheCredentials)` handled by `UiTestExtension`.
+- `BaseLoginClient.login()`:
+  - Builds `LoginKey(username, password, clientClass)`.
+  - If not cached → `performLoginAndCache()` calls `loginImpl()`, waits for success element, captures cookies + localStorage, stores `SessionInfo`.
+  - If cached → restores session (inject cookies + localStorage) and optionally keeps a driver per credentials.
+
+#### Network Interception (CDP)
+- `@InterceptRequests` enables DevTools via ChromeDriver:
+  - `createSession()`, `Network.enable(...)`.
+  - Listeners capture request/response metadata and bodies (truncated if large).
+  - Responses are stored in quest storage via `addResponseInStorage(...)` for later validation.
+
+#### Component Interaction Flow
+- `ButtonServiceFluent.click(element)` executes:
+  - `element.before().accept(driver)` → pre-action hook.
+  - Delegates to underlying `ButtonService.click(type, locator)`.
+  - `element.after().accept(driver)` → post-action hook.
+  - Stores relevant data in storage and returns parent for chaining.
 
 ## Usage
 

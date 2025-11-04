@@ -52,6 +52,21 @@ Driver management is abstracted via `DriverProvider` implementations (Chrome, Fi
 
 The library is test-framework agnostic and designed to be embedded in adapters or test rings.
 
+### Module metadata
+- **name:** Ring of Automation UI Library
+- **artifactId:** ui-interactor
+- **direct dependencies (from pom.xml):**
+  - org.seleniumhq.selenium:selenium-java
+  - org.projectlombok:lombok
+  - org.aeonbits.owner:owner
+  - io.github.bonigarcia:webdrivermanager
+  - io.cyborgcode.utilities:commons
+  - io.cyborgcode.roa:assertions
+  - org.junit.jupiter:junit-jupiter (test)
+  - org.mockito:mockito-core
+  - org.mockito:mockito-junit-jupiter
+  - org.assertj:assertj-core (test)
+
 ## Features
 - **Smart Selenium wrappers** with automatic waits and exception recovery strategies
 - **17 component types** with uniform service APIs and pluggable implementations
@@ -322,6 +337,50 @@ sequenceDiagram
     Component-->>Service: done
     Service-->>Caller: void
 ```
+
+#### Smart Element Finding (Shadow DOM aware)
+```mermaid
+flowchart LR
+  A[findSmartElement(By)] --> B{UiConfig.useShadowRoot?}
+  B -- yes --> C[SmartFinder.findElementWithShadowRootDriver]
+  B -- no --> D[SmartFinder.findElementNormally]
+  C --> E[SmartWebElement]
+  D --> E[SmartWebElement]
+```
+
+#### ComponentFactory Resolution
+```mermaid
+sequenceDiagram
+  autonumber
+  participant Service as *ServiceImpl
+  participant Abstract as AbstractComponentService
+  participant Factory as ComponentFactory
+  participant Impl as Concrete Component
+
+  Service->>Abstract: getOrCreateComponent(type)
+  Abstract->>Factory: getXComponent(type, driver)
+  Factory->>Factory: scan project + framework packages
+  Factory->>Factory: filter by @ImplementationOfType
+  Factory->>Impl: instantiate with SmartWebDriver
+  Factory-->>Abstract: component instance
+  Abstract-->>Service: cached component
+```
+
+#### Configuration-Driven Defaults
+- `UiConfig.buttonDefaultType` supplies the enum name.
+- `ButtonService.DEFAULT_TYPE` resolves via reflection at startup.
+- Default service methods delegate to the resolved type.
+
+#### Table Operations with Typed Models
+- Class-level `@TableInfo` defines table structure.
+- Field-level `@TableCellLocator` maps columns; optional `@CellInsertion`, `@CellFilter`, sorting annotations.
+- `TableService.readTable(...)` builds typed rows via reflection and SmartWebDriver.
+- `insertCellValue(...)` applies insertion annotations in declared order.
+
+#### Exception Recovery Strategy
+- `@HandleUiException` on critical methods.
+- Failure path extracts root cause and matches `ExceptionHandlingWebDriver` strategy by method name and exception type.
+- Applies mapped recovery function; rethrows if no strategy matches.
 
 ## Usage
 

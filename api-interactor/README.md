@@ -26,6 +26,21 @@ The **api-interactor** module is a purpose-built foundation for declarative REST
 
 Configuration is standardized through the Owner library (ApiConfig / ApiConfigHolder) so base URLs, logging levels, and body truncation are consistent across environments. Structured logging via LogApi surfaces steps, request/response details (pretty-printed when possible), and highlights slow calls, making test runs observable and debuggable. The library is test-framework agnostic and can be wired plain or with Spring (DI annotations are provided but not required), which makes it easy to embed in existing suites or layer a fluent test adapter on top in a separate module.
 
+### Module metadata
+- **name:** Ring of Automation Api Library
+- **artifactId:** api-interactor
+- **direct dependencies (from pom.xml):**
+  - org.springframework.boot:spring-boot-starter
+  - org.projectlombok:lombok
+  - io.rest-assured:rest-assured
+  - io.cyborgcode.roa:assertions
+  - io.cyborgcode.utilities:commons
+  - org.aeonbits.owner:owner
+  - org.mockito:mockito-core
+  - org.junit.jupiter:junit-jupiter-api (test)
+  - org.mockito:mockito-junit-jupiter
+  - org.junit.jupiter:junit-jupiter-params (test)
+
 ## Features
 - **Endpoint-as-code** via `Endpoint<T>` with a fluent decorator `ParametrizedEndpoint<T>` (path/query/headers)
 - **HTTP execution** through `RestClient` (default `RestClientImpl` using Rest Assured)
@@ -108,6 +123,30 @@ sequenceDiagram
   RC-->>RS: Response
   RS-->>Test: Response / Validation results
 ```
+
+#### Detailed Request Execution
+```mermaid
+sequenceDiagram
+  autonumber
+  participant RS as RestService
+  participant EP as Endpoint/ParametrizedEndpoint
+  participant RC as RestClientImpl
+
+  RS->>RS: executeRequest(endpoint, body)
+  RS->>EP: endpoint.prepareRequestSpec(body)
+  RS->>RS: inject auth header if present
+  RS->>RC: execute(RequestSpecification, endpoint.method)
+  RC->>RC: METHOD_EXECUTORS lookup + request logging
+  RC-->>RS: Response (with duration + slow-call warning)
+```
+
+#### Response Validation Flow
+- **RestService.validate(response, assertions):** delegates to `RestResponseValidatorImpl`.
+- **Targets:**
+  - `STATUS` — handled by `handleStatusAssertion(...)`.
+  - `BODY` — `handleBodyAssertion(...)` with JsonPath extraction.
+  - `HEADER` — `handleHeaderAssertion(...)`.
+- Final validation via `AssertionUtil.validate(...)`.
 
 #### Authentication Cache Semantics
 ```mermaid
@@ -249,11 +288,16 @@ public class TestAppAuthentication extends BaseAuthenticationClient {
 ```
 
 ## Dependencies
-- `io.restassured:rest-assured`
-- `org.aeonbits.owner:owner`
-- `org.springframework:spring-context` *(optional)*
+- `org.springframework.boot:spring-boot-starter`
 - `org.projectlombok:lombok`
-- `org.junit.jupiter:junit-jupiter` *(tests)*
+- `io.rest-assured:rest-assured`
+- `io.cyborgcode.roa:assertions`
+- `io.cyborgcode.utilities:commons`
+- `org.aeonbits.owner:owner`
+- `org.mockito:mockito-core`
+- `org.junit.jupiter:junit-jupiter-api` *(test)*
+- `org.mockito:mockito-junit-jupiter`
+- `org.junit.jupiter:junit-jupiter-params` *(test)*
 
 ## Author
 **Cyborg Code Syndicate 💍👨💻**

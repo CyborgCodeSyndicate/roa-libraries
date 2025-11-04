@@ -8,6 +8,12 @@
 - [Features](#features)
 - [Structure](#structure)
 - [Architecture](#architecture)
+  - [Class Diagram](#class-diagram)
+  - [Execution Flow](#execution-flow)
+    - [Core Validation Engine](#core-validation-engine)
+    - [API Response Validation Integration](#api-response-validation-integration)
+    - [Database Query Validation Integration](#database-query-validation-integration)
+    - [UI Table Validation Integration](#ui-table-validation-integration)
 - [Usage](#usage)
 - [Assertion Types Reference](#assertion-types-reference)
 - [Integration Examples](#integration-examples)
@@ -21,6 +27,13 @@
 The **assertions** module is a domain-agnostic, pluggable validation engine for the Ring of Automation (ROA) framework. It provides a **strongly-typed validation language** that can be applied across various domains: API responses, database records, UI states, and more.
 
 The module is **framework-independent** and designed to be extended or reused across adapters (`api-interactor`, `db-interactor`, `ui-interactor`).
+
+### Module metadata
+- **name:** Ring of Automation Assertion Library
+- **artifactId:** assertions
+- **direct dependencies (from pom.xml):**
+  - org.projectlombok:lombok
+  - org.junit.jupiter:junit-jupiter (test)
 
 **Core Principles:**
 - **Domain-agnostic:** Works with any data source (API, DB, UI, files, etc.)
@@ -150,6 +163,33 @@ sequenceDiagram
   end
   U-->>C: List<AssertionResult>
 ```
+
+#### Core Validation Engine
+- **Entry point:** `AssertionUtil.validate(data, assertions)` processes a batch via stream mapping.
+- **Registry lookup:** `AssertionRegistry.getValidator(type)` retrieves a `BiPredicate` from the concurrent map (pre-registered + custom).
+- **Execution:** Validator `test(actual, expected)` returns boolean; results are wrapped as `AssertionResult` including soft/hard metadata.
+- **Extensibility:** `AssertionRegistry.registerCustomAssertion(type, validator)` adds new validators at runtime.
+
+#### API Response Validation Integration
+- Adapter uses `RestResponseValidatorImpl.validateResponse(response, assertions)`.
+- For each assertion:
+  - Routes by `RestAssertionTarget` → STATUS/BODY/HEADER handlers.
+  - BODY: extract value via JsonPath and `data.put(key, value)`.
+  - Delegates to core `AssertionUtil.validate(data, assertions)`.
+
+#### Database Query Validation Integration
+- Adapter uses `QueryResponseValidatorImpl.validateQueryResponse(queryResponse, assertions)`.
+- For each assertion:
+  - Routes by `DbAssertionTarget` → NUMBER_ROWS/QUERY_RESULT/COLUMNS.
+  - QUERY_RESULT: uses `JsonPathExtractor.extract(...)` to obtain value.
+  - Delegates to core `AssertionUtil.validate(data, assertions)`.
+
+#### UI Table Validation Integration
+- UI adapter registers custom validators on startup via `AssertionRegistry.registerCustomAssertion(...)`.
+- `UiTableValidatorImpl.validateTable(object, assertions)`:
+  - Switches on `UiTablesAssertionTarget` (e.g., ROW_VALUES).
+  - Extracts row values via `TableReflectionUtil` and maps into `data`.
+  - Delegates to `AssertionUtil.validate(data, assertions)`.
 
 ## Usage
 

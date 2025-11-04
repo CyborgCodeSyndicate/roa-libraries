@@ -11,6 +11,11 @@
     - [Class Diagram](#class-diagram)
     - [Execution Flow](#execution-flow)
       - [Adapter Runtime Flow](#adapter-runtime-flow)
+      - [Test Bootstrap & Extensions](#test-bootstrap--extensions)
+      - [Fluent Query & Storage](#fluent-query--storage)
+      - [Allure Reporting Integration](#allure-reporting-integration)
+      - [Hook Execution (BEFORE/AFTER)](#hook-execution-beforeafter)
+      - [Retry for Eventual Consistency](#retry-for-eventual-consistency)
 - [Usage](#usage)
     - [Step 1 — Install](#step-1--install)
     - [Step 2 — Configure environment](#step-2--configure-environment)
@@ -40,6 +45,13 @@ The **db-interactor-test-framework-adapter** layers **test-facing ergonomics** o
 - and Spring auto-configuration to wire the Allure-enabled components by default.
 
 The result is **declarative, traceable, and robust** database automation that integrates cleanly with the ROA (Ring of Automation) quest/service model while staying test-framework agnostic.
+
+### Module metadata
+- **name:** Ring of Automation Database Test Framework
+- **artifactId:** db-interactor-test-framework-adapter
+- **direct dependencies:**
+  - io.cyborgcode.roa:test-framework
+  - io.cyborgcode.roa:db-interactor
 
 ## Features
 - **Fluent chaining:** `DatabaseServiceFluent` -> `query`, `query(jsonPath, type)`, `queryAndValidate`, `validate`, `retryUntil`.
@@ -131,6 +143,33 @@ sequenceDiagram
   Test->>HookEx: AFTER class hooks (@DbHook when=AFTER)
   Ext-->>DB: close all connections (after all tests)
 ```
+
+#### Test Bootstrap & Extensions
+- **@DB annotation** registers JUnit 5 extensions: `DbTestExtension`, `DbHookExtension`.
+- **DbTestExtension.afterAll()** retrieves `BaseDbConnectorService` and closes all DB connections after the test class.
+- **DbHookExtension.beforeAll()/afterAll()** discovers `@DbHook` annotations on the test class and executes them based on `when` and `order`.
+
+#### Fluent Query & Storage
+- **DatabaseServiceFluent.query(query):** delegates to `DatabaseService.query`, stores `QueryResponse` in test storage under `StorageKeysDb.DB` keyed by `query.enumImpl()`.
+- **queryAndValidate(query, assertions):** executes query, stores response, immediately calls `validate(...)`.
+- **validate(...)** delegates to `databaseService.validate(...)` using the stored data.
+
+#### Allure Reporting Integration
+- **DbTestFrameworkAutoConfiguration:** exposes `@Primary` beans so Allure-enhanced components are used by default.
+- **AllureDbClientManager:** creates `RelationalDbClientAllure` instances.
+- **RelationalDbClientAllure:**
+  - adds Allure step for executing SQL.
+  - attaches executed SQL, duration, and result rows.
+- **QueryResponseValidatorAllureImpl:** attaches validation target data to Allure.
+
+#### Hook Execution (BEFORE/AFTER)
+- **@DbHook / @DbHooks** on a test class declare hooks.
+- **DbHookExtension** resolves a `DbHookFlow` implementation by `type` and executes `flow().accept(DatabaseService, storageMap, arguments)`.
+- Hooks share a `Map<Object,Object>` across executions within the class lifecycle.
+
+#### Retry for Eventual Consistency
+- **RetryConditionDb.queryReturnsRows(query):** evaluates to true when the query returns at least one row; use with `DatabaseServiceFluent.retryUntil(...)`.
+- **retryUntil(...)** delegates to the parent fluent service to run the condition until satisfied or timeout.
 
 ---
 
@@ -227,7 +266,7 @@ class OrdersDbTests { /* ... */ }
 ```
 
 ## Annotations & Hooks
-- `@DB` — applies JUnit 5 extensions for DB tests and scans the adapter packages (`com.theairebellion.zeus.db`).
+- `@DB` — applies JUnit 5 extensions for DB tests and scans the adapter packages (`io.cyborgcode.roa.db`).
 - `@DbHook(when, type, arguments, order)` / `@DbHooks` — run **BEFORE/AFTER** class hook flows; implement `DbHookFlow` to register custom database hook logic (executed with a shared `Map<Object,Object>` and a `DatabaseService`).
 
 ## Retry Helpers

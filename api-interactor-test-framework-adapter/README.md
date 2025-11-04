@@ -11,6 +11,12 @@
     - [Class Diagram](#class-diagram)
     - [Execution Flow](#execution-flow)
       - [Adapter Runtime Flow](#adapter-runtime-flow)
+      - [Test Bootstrap & JUnit Integration](#test-bootstrap--junit-integration)
+      - [Fluent Request & Storage](#fluent-request--storage)
+      - [Allure Reporting Integration](#allure-reporting-integration)
+      - [Authentication Handling](#authentication-handling)
+      - [Hook Processing (BEFORE/AFTER)](#hook-processing-beforeafter)
+      - [Retry for Eventual Consistency](#retry-for-eventual-consistency)
 - [Usage](#usage)
     - [Step 1 — Add dependency](#step-1--add-dependency)
     - [Step 2 — Configure environment](#step-2--configure-environment)
@@ -30,13 +36,20 @@
 ## Overview
 The **api-interactor-test-framework-adapter** layers **test-facing ergonomics** on top of `api-interactor`. It provides a fluent API (`RestServiceFluent`) for chaining `request`, `request(body)`, `requestAndValidate`, `validateResponse`, `authenticate`, and `retryUntil`. It also ships **JUnit 5 enablement** via the `@API` annotation and extensions, **Allure bridges** that attach detailed request/response and validation data (`RestClientAllureImpl`, `RestResponseValidatorAllureImpl`), **hook** processing (`@ApiHook`, `ApiHookExtension`), **retry** utilities (`RetryConditionApi`), and light **storage** helpers. Spring **auto-configuration** wires the Allure-enabled beans so API tests become **declarative, observable, and resilient**.
 
+### Module metadata
+- **name:** Ring of Automation Api Test Framework
+- **artifactId:** api-interactor-test-framework-adapter
+- **direct dependencies:**
+  - io.cyborgcode.roa:test-framework
+  - io.cyborgcode.roa:api-interactor
+
 ## Features
 - **Fluent chaining:** `RestServiceFluent` → `request`, `request(body)`, `requestAndValidate`, `validateResponse`, `authenticate`, `retryUntil`; `SuperRestServiceFluent` for decorator/extension use-cases.
 - **Allure integration:**
     - `RestClientAllureImpl` (extends `RestClientImpl`) — attaches method, URL, query params, headers, body, status, response time.
     - `RestResponseValidatorAllureImpl` (extends `RestResponseValidatorImpl`) — attaches validation targets and extracted data.
-- **JUnit 5 bootstrap:** `@API` applies `ApiTestExtension` and `ApiHookExtension`; scans `.api`.
-- **Authentication annotation:** `@AuthenticateViaApiAs(credentials, type, cacheCredentials)` + `Credentials` interface.
+- **JUnit 5 bootstrap:** `@API` applies `ApiTestExtension` and `ApiHookExtension`; scans `io.cyborgcode.roa.api`.
+- **Authentication annotation:** `@AuthenticateViaApi(credentials, type, cacheCredentials)` + `Credentials` interface.
 - **Hooks:** `@ApiHook` / `@ApiHooks` + `ApiHookFlow` executed **BEFORE/AFTER** test class.
 - **Retry helpers:** `RetryConditionApi` (status equals, JSON field equals/non-null) to combine with `retryUntil(...)`.
 - **Spring auto-config:** `ApiTestFrameworkAutoConfiguration` marks Allure implementations as `@Primary` beans.
@@ -124,6 +137,35 @@ sequenceDiagram
   F-->>T: validation results (Allure attachments)
 ```
 
+#### Test Bootstrap & JUnit Integration
+- **@API annotation** registers JUnit 5 extensions: `ApiTestExtension`, `ApiHookExtension`.
+- **ApiTestFrameworkAutoConfiguration** marks Allure beans as `@Primary` and scans `io.cyborgcode.roa.api`.
+- **ApiTestExtension.beforeTestExecution()** detects `@AuthenticateViaApi` on a test method and triggers authentication handling.
+
+#### Fluent Request & Storage
+- **RestServiceFluent.request(endpoint):** delegates to `RestService.request`, stores `Response` in quest storage under `StorageKeysApi.API` keyed by `endpoint.enumImpl()`.
+- **requestAndValidate(endpoint, assertions):** executes request and validates in one chain.
+- **validateResponse(response, assertions):** delegates to `RestService.validate` and feeds results to the fluent validation handler.
+
+#### Allure Reporting Integration
+- **RestClientAllureImpl:**
+  - Intercepts `printRequest/printResponse` to create Allure steps.
+  - Attaches method, URL, query params, headers, request/response body, status, and response time.
+- **RestResponseValidatorAllureImpl:** attaches the validation target data map for traceability.
+
+- **@AuthenticateViaApi(credentials, type, cacheCredentials):**
+  - `ApiTestExtension` instantiates provided `Credentials`.
+  - Stores `USERNAME`/`PASSWORD` in quest storage and decorates `RestServiceFluent`.
+  - Calls `restService.authenticate(...)` with an implementation of `BaseAuthenticationClient`.
+
+#### Hook Processing (BEFORE/AFTER)
+- **@ApiHook / @ApiHooks** on a test class declare setup/cleanup flows.
+- **ApiHookExtension** filters by `when`, sorts by `order`, resolves an `ApiHookFlow` implementation via reflection and executes `flow().accept(RestService, hooksStorage, args)`.
+- `ApiHookExtension` lazily creates `RestService` with Allure implementations when needed.
+
+#### Retry for Eventual Consistency
+- **RetryConditionApi** provides ready-made conditions such as `statusEquals`, `responseFieldEqualsTo`, and `responseFieldNonNull` to be used with `RestServiceFluent.retryUntil(...)`.
+
 ## Usage
 
 > Follow these steps in your **app-specific test module**. Examples avoid external DSLs; only the adapter and `api-interactor` are required.
@@ -203,8 +245,8 @@ void me_endpoint_is_authenticated() {
 </code></pre>
 
 ## Annotations & Hooks
-- `@API` — applies JUnit 5 extensions and scans the adapter packages.
-  - `@AuthenticateViaApiAs(credentials, type, cacheCredentials)` — authenticates via your `BaseAuthenticationClient` using a `Credentials` provider.
+- `@API` — applies JUnit 5 extensions and scans `io.cyborgcode.roa.api`.
+  - `@AuthenticateViaApi(credentials, type, cacheCredentials)` — authenticates via your `BaseAuthenticationClient` using a `Credentials` provider.
   - `@ApiHook(type, when, arguments, order)` / `@ApiHooks` — run **BEFORE/AFTER** class hook flows; implement the `ApiHookFlow` interface to add custom flows.
 
 ## Retry Helpers
