@@ -1,7 +1,7 @@
 # roa-libraries
 
 ## Table of Contents
-- [Automation Testing Libraries - Module Index](#automation-testing-libraries--module-index)
+- [Automation Testing Libraries - Module Index](#automation-testing-libraries---module-index)
 - [Modules Overview](#modules-overview)
 - [Core Architecture & Execution Flows](#core-architecture--execution-flows)
   - [API Request Execution](#api-request-execution)
@@ -9,6 +9,7 @@
   - [UI Component Interaction](#ui-component-interaction)
   - [Quest Orchestration](#quest-orchestration)
   - [Shared Assertion Validation Engine](#shared-assertion-validation-engine)
+- [Author](#author)
 
 ## Automation Testing Libraries - Module Index
 
@@ -125,3 +126,6 @@ sequenceDiagram
   AU->>AU: validator.test(actual, expected)
   AU-->>V: List<AssertionResult>
 ```
+
+## Author
+**Cyborg Code Syndicate 💍👨💻**

@@ -16,11 +16,11 @@
     - [Response Validation Flow](#response-validation-flow)
     - [Authentication Cache Semantics](#authentication-cache-semantics)
 - [Usage](#usage)
-    - [Step 1 - Install dependency](#step-1--install-dependency)
-    - [Step 2 - Configure environment](#step-2--configure-environment)
-    - [Step 3 - Define app endpoints](#step-3--define-app-endpoints)
-    - [Step 4 - Create a small test-facing service with validation assertions](#step-4--create-a-small-test-facing-service-with-validation-assertions)
-    - [Step 5 - (Optional) Plug an auth strategy](#step-5--optional-plug-an-auth-strategy)
+    - [Step 1 - Install dependency](#step-1---install-dependency)
+    - [Step 2 - Configure environment](#step-2---configure-environment)
+    - [Step 3 - Define app endpoints](#step-3---define-app-endpoints)
+    - [Step 4 - Create a small test-facing service with validation assertions](#step-4---create-a-small-test-facing-service-with-validation-assertions)
+    - [Step 5 - (Optional) Plug an auth strategy](#step-5---optional-plug-an-auth-strategy)
 - [Dependencies](#dependencies)
 - [Author](#author)
 
@@ -209,6 +209,9 @@ public enum Endpoints implements Endpoint {
   GET_ALL_USERS(Method.GET, "/users?{page}"),
   POST_LOGIN_USER(Method.POST, "/users");
 
+  private static final String API_KEY_HEADER = "X-API-Key";
+  private static final String API_KEY_VALUE = "your-api-key-here";
+  
   private final Method method;
   private final String url;
 

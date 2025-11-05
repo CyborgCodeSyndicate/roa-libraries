@@ -300,7 +300,7 @@ if (!hardFailures.isEmpty()) {
 ```
 
 ### Step 5 — Custom Assertions
-```
+```java
 import io.cyborgcode.roa.validator.registry.AssertionRegistry;
 
 // Define custom type
@@ -377,7 +377,7 @@ Assertion custom = Assertion.builder()
   - Supported: `String.class`
   - Example: `.type(MATCHES_REGEX).expected("\\d{3}-\\d{4}")`
   
-- **`LENGTH`** — String or collection length
+- **`LENGTH`** — String length, collection size, or array length
   - Supported: `Object.class`
   - Example: `.type(LENGTH).expected(10)`
 
@@ -475,7 +475,7 @@ public class UiValidatorImpl {
 ## Custom Assertion Types
 
 ### Example: API-Specific Assertions
-```
+```java
 // Define custom types
 public enum ApiAssertionTypes implements AssertionType<ApiAssertionTypes> {
     JSON_SCHEMA_VALID(String.class),

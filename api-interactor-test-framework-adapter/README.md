@@ -19,12 +19,12 @@
       - [Hook Processing (BEFORE/AFTER)](#hook-processing-beforeafter)
       - [Retry for Eventual Consistency](#retry-for-eventual-consistency)
 - [Usage](#usage)
-    - [Step 1 - Add dependency](#step-1--add-dependency)
-    - [Step 2 - Configure environment](#step-2--configure-environment)
-    - [Step 3 - Enable adapter](#step-3--enable-the-adapter-on-tests)
-    - [Step 4 - Call the fluent API](#step-4--call-the-fluent-api)
-    - [Step 5 - (Optional) Authenticate a method](#step-5--optional-authenticate-a-method)
-    - [Step 6 - (Optional) Retry until a condition](#step-6--optional-retry-until-a-condition)
+    - [Step 1 - Add dependency](#step-1---add-dependency)
+    - [Step 2 - Configure environment](#step-2---configure-environment)
+    - [Step 3 - Enable adapter](#step-3---enable-the-adapter-on-tests)
+    - [Step 4 - Call the fluent API](#step-4---call-the-fluent-api)
+    - [Step 5 - (Optional) Authenticate a method](#step-5---optional-authenticate-a-method)
+    - [Step 6 - (Optional) Retry until a condition](#step-6---optional-retry-until-a-condition)
 - [Annotations & Hooks](#annotations--hooks)
 - [Retry Helpers](#retry-helpers)
 - [Allure Reporting](#allure-reporting)
@@ -239,11 +239,16 @@ void me_endpoint_is_authenticated() {
 
 ### Step 6 - (Optional) Retry until a condition
 <pre><code>
-  .retryUntil(statusEquals(CREATE_PET, 200),
-                  Duration.ofSeconds(5), Duration.ofSeconds(1))
-
-        .retryUntil(responseFieldEqualsTo(CREATE_PET, "$.status", "FINISH"),
-                  Duration.ofSeconds(5), Duration.ofSeconds(1))
+  api.retryUntil(
+      statusEquals(CREATE_PET, 200),
+      Duration.ofSeconds(5), 
+      Duration.ofSeconds(1)
+  )
+  .retryUntil(
+      responseFieldEqualsTo(CREATE_PET, "$.status", "FINISH"),
+      Duration.ofSeconds(5), 
+      Duration.ofSeconds(1)
+  );
 </code></pre>
 
 ## Annotations & Hooks

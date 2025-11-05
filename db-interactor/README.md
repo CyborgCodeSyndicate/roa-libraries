@@ -18,13 +18,13 @@
     - [Parameterized Query Processing](#parameterized-query-processing)
     - [Validation Flow](#validation-flow)
 - [Usage](#usage)
-    - [Step 1 - Install](#step-1--install-dependency)
-    - [Step 2 - Configure environment](#step-2--configure-environment)
-    - [Step 3 - Provide your projects-dbtype-enum](#step-3--provide-your-projects-dbtype-enum)
-    - [Step 4 - Declare queries (enum implements dbquery)](#step-4--declare-queries-enum-implements-dbquery)
-    - [Step 5 - Execute via databaseservice](#step-5--execute-via-databaseservice)
-    - [Step 6 - Extract values with jsonpath](#step-6--extract-values-with-jsonpath)
-    - [Step 7 - Validate responses (assertion-driven)](#step-7--validate-responses-assertion-driven)
+    - [Step 1 - Install](#step-1---install-dependency)
+    - [Step 2 - Configure environment](#step-2---configure-environment)
+    - [Step 3 - Provide your projects-dbtype-enum](#step-3---provide-your-projects-dbtype-enum)
+    - [Step 4 - Declare queries (enum implements dbquery)](#step-4---declare-queries-enum-implements-dbquery)
+    - [Step 5 - Execute via databaseservice](#step-5---execute-via-databaseservice)
+    - [Step 6 - Extract values with jsonpath](#step-6---extract-values-with-jsonpath)
+    - [Step 7 - Validate responses (assertion-driven)](#step-7---validate-responses-assertion-driven)
 - [Dependencies](#dependencies)
 - [Author](#author)
 
@@ -224,8 +224,14 @@ db.default.password=secret
 ```java
 public enum MyDbType implements DbType<MyDbType> {
   POSTGRES;
+
+  @Override
   public java.sql.Driver driver() { return new org.postgresql.Driver(); }
+
+  @Override
   public String protocol() { return "postgresql"; }
+
+  @Override 
   public MyDbType enumImpl() { return this; }
 }
 ```
@@ -233,9 +239,20 @@ public enum MyDbType implements DbType<MyDbType> {
 ### Step 4 - Declare queries (enum implements DbQuery)
 ```java
 public enum UserQueries implements DbQuery<UserQueries> {
-  GET_BY_ID         { public String query() { return "SELECT * FROM users WHERE id = {id}"; } },
-  COUNT_ALL         { public String query() { return "SELECT COUNT(*) AS cnt FROM users"; } },
-  DELETE_OLDER_THAN { public String query() { return "DELETE FROM users WHERE created_at < '{ts}'"; } };
+  GET_BY_ID { 
+      @Override
+      public String query() { return "SELECT * FROM users WHERE id = {id}"; } 
+  },
+  COUNT_ALL { 
+      @Override
+      public String query() { return "SELECT COUNT(*) AS cnt FROM users"; } 
+  },
+  DELETE_OLDER_THAN { 
+      @Override
+      public String query() { return "DELETE FROM users WHERE created_at < '{ts}'"; } 
+  };
+  
+  @Override
   public UserQueries enumImpl() { return this; }
 }
 ```
