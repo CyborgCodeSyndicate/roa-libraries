@@ -142,15 +142,42 @@ class ResponseFormatterTest {
          resourceLoaderMock.when(() -> ResourceLoader.loadResourceFile("allure/html/intercepted-responses.html"))
                .thenReturn("<div>{{total}}</div><div>{{success}}</div><div>{{warning}}</div><div>{{error}}</div>");
 
-         // Call method — exception will be swallowed silently in appendResponseAccordion
+         // Call method — exception will be caught during defensive copy creation and response will be filtered out
          String result = ResponseFormatter.formatResponses(List.of(faultyResponse));
 
-         // Verify that output still contains summary, but no additional accordion block was added
-         assertTrue(result.contains("{{total}}") || result.contains("1")); // total still counted
+         // Verify that the faulty response is filtered out, resulting in zero totals
+         assertTrue(result.contains("<div>0</div>"), "Total should be 0 since faulty response is filtered out");
          assertFalse(result.contains("<div class='accordion'>"), "Accordion block should not be added due to exception");
       }
    }
 
+   @Test
+   void testFormatResponsesTruncatesLargeBodyTo1000Characters() {
+      // Create a response with a body larger than 10000 characters
+      String largeBody = "X".repeat(15000);
+      ApiResponse largeBodyResponse = mock(ApiResponse.class);
+      when(largeBodyResponse.getStatus()).thenReturn(200);
+      when(largeBodyResponse.getMethod()).thenReturn("POST");
+      when(largeBodyResponse.getUrl()).thenReturn("https://example.com/api/large");
+      when(largeBodyResponse.getBody()).thenReturn(largeBody);
+
+      try (MockedStatic<ResourceLoader> resourceLoaderMock = Mockito.mockStatic(ResourceLoader.class)) {
+         resourceLoaderMock.when(() -> ResourceLoader.loadResourceFile("allure/html/intercepted-responses.html"))
+               .thenReturn("<div>{{total}}</div><div>{{success}}</div><div>{{warning}}</div><div>{{error}}</div>");
+
+         String html = ResponseFormatter.formatResponses(List.of(largeBodyResponse));
+
+         // Verify the body is truncated to 1000 chars + "..."
+         String expectedTruncatedBody = "X".repeat(1000) + "...";
+         assertTrue(html.contains(expectedTruncatedBody), "Body should be truncated to 1000 characters with '...' appended");
+         
+         // Verify original body is NOT modified (defensive copy test)
+         assertEquals(15000, largeBody.length(), "Original body should remain unchanged");
+         
+         // Verify full body is NOT present in the output
+         assertFalse(html.contains("X".repeat(10000)), "Full body should not be present in output");
+      }
+   }
 
    @Test
    void testExtractEndpointWithValidUrl() {
