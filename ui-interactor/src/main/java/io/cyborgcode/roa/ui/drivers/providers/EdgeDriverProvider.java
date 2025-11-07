@@ -58,7 +58,7 @@ public class EdgeDriverProvider extends BaseDriverProvider<EdgeOptions> {
     */
    @Override
    public void applyDefaultArguments(EdgeOptions options) {
-      options.addArguments("--disable-gpu", "--no-sandbox", "--remote-allow-origins=*");
+      options.addArguments("--disable-gpu", "--no-sandbox", "--remote-allow-origins=*", "--guest");
    }
 
    /**

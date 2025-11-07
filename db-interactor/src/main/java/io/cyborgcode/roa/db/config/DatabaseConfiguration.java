@@ -2,6 +2,7 @@ package io.cyborgcode.roa.db.config;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Represents the configuration settings for database connections.
@@ -13,6 +14,7 @@ import lombok.Getter;
  */
 @Getter
 @Builder
+@Setter
 public class DatabaseConfiguration {
 
    /**

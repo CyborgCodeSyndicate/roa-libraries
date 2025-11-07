@@ -103,7 +103,7 @@ class ChromeDriverProviderTest {
       provider.applyDefaultArguments(optionsMock);
 
       // Then the expected arguments should be added
-      verify(optionsMock).addArguments("--disable-gpu", "--no-sandbox", "--remote-allow-origins=*");
+      verify(optionsMock).addArguments("--disable-gpu", "--no-sandbox", "--remote-allow-origins=*", "--guest");
    }
 
    @Test

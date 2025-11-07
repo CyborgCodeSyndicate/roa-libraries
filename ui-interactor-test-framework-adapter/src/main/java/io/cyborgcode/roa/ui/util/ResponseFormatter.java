@@ -3,6 +3,7 @@ package io.cyborgcode.roa.ui.util;
 import io.cyborgcode.roa.framework.util.ResourceLoader;
 import io.cyborgcode.roa.ui.components.interceptor.ApiResponse;
 import java.util.List;
+import java.util.Objects;
 
 import static io.cyborgcode.roa.framework.util.ObjectFormatter.escapeHtml;
 
@@ -29,12 +30,31 @@ public final class ResponseFormatter {
     * @return a string containing the generated HTML with formatted responses
     */
    public static String formatResponses(List<ApiResponse> responses) {
+
+      List<ApiResponse> formattedResponses = responses.stream()
+            .map(response -> {
+               try {
+                  ApiResponse copy = new ApiResponse(response.getUrl(), response.getMethod(), response.getStatus());
+                  String body = response.getBody();
+                  if (body != null && body.length() > 10000) {
+                     copy.setBody(body.substring(0, 1000) + "...");
+                  } else {
+                     copy.setBody(body);
+                  }
+                  return copy;
+               } catch (Exception e) {
+                  return null;
+               }
+            })
+            .filter(Objects::nonNull)
+            .toList();
+
       int totalRequests = 0;
       int successCount = 0;
       int warningCount = 0;
       int errorCount = 0;
 
-      for (ApiResponse response : responses) {
+      for (ApiResponse response : formattedResponses) {
          totalRequests++;
          int status = response.getStatus();
          if (status >= 400) {
@@ -53,8 +73,8 @@ public final class ResponseFormatter {
                   .replace("{{warning}}", String.valueOf(warningCount))
                   .replace("{{error}}", String.valueOf(errorCount)));
 
-      for (int i = 0; i < responses.size(); i++) {
-         appendResponseAccordion(htmlBuilder, responses.get(i), i);
+      for (int i = 0; i < formattedResponses.size(); i++) {
+         appendResponseAccordion(htmlBuilder, formattedResponses.get(i), i);
       }
 
       return htmlBuilder.toString();

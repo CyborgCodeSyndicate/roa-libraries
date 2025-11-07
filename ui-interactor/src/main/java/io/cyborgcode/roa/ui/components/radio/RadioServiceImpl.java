@@ -335,7 +335,7 @@ public class RadioServiceImpl extends AbstractComponentService<RadioComponentTyp
          throw new IllegalArgumentException("Component type needs to be from: RadioComponentType.");
       }
       LogUi.step(String.format(INSERT_RADIO_VALUES_LOCATOR, Arrays.toString(values), componentType, locator));
-      select(radioType, String.valueOf(values[0]));
+      select(radioType, locator);
    }
 
    /**

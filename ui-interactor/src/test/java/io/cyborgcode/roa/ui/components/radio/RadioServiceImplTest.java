@@ -375,7 +375,7 @@ class RadioServiceImplTest extends BaseUnitUITest {
 
          // Then
          // Based on implementation: insertion -> select(type, text) -> component.select(text)
-         verify(radioMock).select(RADIO_OPTION_1);
+         verify(radioMock).select(locator);
          verifyNoMoreInteractions(radioMock);
          factoryMock.verify(() -> ComponentFactory.getRadioComponent(eq(componentType), eq(driver)), times(1));
       }
