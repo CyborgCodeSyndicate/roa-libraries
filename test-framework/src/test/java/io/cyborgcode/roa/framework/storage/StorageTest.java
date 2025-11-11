@@ -610,4 +610,136 @@ class StorageTest {
             assertTrue(result.isEmpty(), "Should return empty map for empty storage");
         }
     }
+
+    @Nested
+    @DisplayName("Type Casting with ParameterizedTypeReference")
+    class TypeCastingOperations {
+
+        @Test
+        @DisplayName("Should handle parameterized types correctly - List<String>")
+        void testParameterizedTypeListOfStrings() {
+            // Given
+            List<String> stringList = List.of("a", "b", "c");
+            storage.put(MockEnum.KEY1, stringList);
+
+            // When
+            List<String> retrieved = storage.get(MockEnum.KEY1, new ParameterizedTypeReference<List<String>>() {});
+
+            // Then
+            assertNotNull(retrieved, "Should retrieve List<String>");
+            assertEquals(3, retrieved.size(), "List should have 3 elements");
+            assertEquals("a", retrieved.get(0), "First element should be 'a'");
+        }
+
+        @Test
+        @DisplayName("Should return null when type mismatch with ParameterizedTypeReference")
+        void testTypeMismatchWithParameterizedTypeReference() {
+            // Given
+            storage.put(MockEnum.KEY1, "plain string");
+
+            // When
+            List<String> retrieved = storage.get(MockEnum.KEY1, new ParameterizedTypeReference<List<String>>() {});
+
+            // Then
+            assertNull(retrieved, "Should return null when type doesn't match");
+        }
+
+        @Test
+        @DisplayName("Should handle Map with ParameterizedTypeReference")
+        void testParameterizedTypeMap() {
+            // Given
+            Map<String, Integer> map = Map.of("one", 1, "two", 2);
+            storage.put(MockEnum.KEY1, map);
+
+            // When
+            Map<String, Integer> retrieved = storage.get(MockEnum.KEY1, new ParameterizedTypeReference<Map<String, Integer>>() {});
+
+            // Then
+            assertNotNull(retrieved, "Should retrieve Map");
+            assertEquals(2, retrieved.size(), "Map should have 2 entries");
+            assertEquals(1, retrieved.get("one"), "Should retrieve correct value");
+        }
+
+        @Test
+        @DisplayName("Should handle raw type checking with isInstance")
+        void testRawTypeInstanceCheck() {
+            // Given
+            List<Integer> intList = List.of(1, 2, 3);
+            storage.put(MockEnum.KEY1, intList);
+            storage.put(MockEnum.KEY1, "not a list");
+
+            // When
+            List<Integer> retrieved = storage.getByClass(MockEnum.KEY1, new ParameterizedTypeReference<List<Integer>>() {});
+
+            // Then
+            assertNotNull(retrieved, "Should find the List instance");
+            assertEquals(3, retrieved.size(), "Should retrieve the correct list");
+        }
+
+        @Test
+        @DisplayName("Should return null for incompatible raw types")
+        void testIncompatibleRawTypes() {
+            // Given
+            storage.put(MockEnum.KEY1, 123);
+
+            // When
+            List<String> retrieved = storage.get(MockEnum.KEY1, new ParameterizedTypeReference<List<String>>() {});
+
+            // Then
+            assertNull(retrieved, "Should return null when raw type doesn't match");
+        }
+
+        @Test
+        @DisplayName("Should handle nested parameterized types")
+        void testNestedParameterizedTypes() {
+            // Given
+            List<List<String>> nestedList = List.of(
+                    List.of("a", "b"),
+                    List.of("c", "d")
+            );
+            storage.put(MockEnum.KEY1, nestedList);
+
+            // When
+            List<List<String>> retrieved = storage.get(MockEnum.KEY1, new ParameterizedTypeReference<List<List<String>>>() {});
+
+            // Then
+            assertNotNull(retrieved, "Should retrieve nested parameterized type");
+            assertEquals(2, retrieved.size(), "Should have 2 nested lists");
+            assertEquals("a", retrieved.get(0).get(0), "Should access nested elements");
+        }
+
+        @Test
+        @DisplayName("Should handle getAllByClass with ParameterizedTypeReference and type filtering")
+        void testGetAllByClassWithTypeFiltering() {
+            // Given
+            List<String> list1 = List.of("a");
+            List<String> list2 = List.of("b");
+            storage.put(MockEnum.KEY1, list1);
+            storage.put(MockEnum.KEY1, "not a list");
+            storage.put(MockEnum.KEY1, list2);
+            storage.put(MockEnum.KEY1, 123);
+
+            // When
+            List<List<String>> allLists = storage.getAllByClass(MockEnum.KEY1, new ParameterizedTypeReference<List<String>>() {});
+
+            // Then
+            assertEquals(2, allLists.size(), "Should retrieve only List instances");
+            assertEquals("a", allLists.get(0).get(0), "First list should be list1");
+            assertEquals("b", allLists.get(1).get(0), "Second list should be list2");
+        }
+
+        @Test
+        @DisplayName("Should handle getByIndex with ParameterizedTypeReference and type mismatch")
+        void testGetByIndexWithTypeMismatch() {
+            // Given
+            storage.put(MockEnum.KEY1, "string value");
+            storage.put(MockEnum.KEY1, List.of("a", "b"));
+
+            // When
+            List<String> retrieved = storage.getByIndex(MockEnum.KEY1, 2, new ParameterizedTypeReference<List<String>>() {});
+
+            // Then
+            assertNull(retrieved, "Should return null when indexed value doesn't match type");
+        }
+    }
 }
