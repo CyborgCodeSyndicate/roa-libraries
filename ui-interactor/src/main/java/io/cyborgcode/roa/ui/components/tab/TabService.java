@@ -34,7 +34,7 @@ public interface TabService extends ButtonService {
       try {
          return ReflectionUtil.findEnumImplementationsOfInterface(TabComponentType.class,
                getUiConfig().tabDefaultType(),
-               getUiConfig().projectPackage());
+               getUiConfig().projectPackages());
       } catch (Exception ignored) {
          return null;
       }

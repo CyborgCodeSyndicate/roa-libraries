@@ -25,8 +25,9 @@ public interface DbConfig extends PropertyConfig {
     *
     * @return the root package name of the application code
     */
-   @Key("project.package")
-   String projectPackage();
+   @Key("project.packages")
+   @Separator(";")
+   String[] projectPackages();
 
    /**
     * Retrieves the default database type.

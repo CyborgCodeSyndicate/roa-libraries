@@ -30,7 +30,7 @@ public interface ItemListService extends Insertion {
       try {
          return ReflectionUtil.findEnumImplementationsOfInterface(ItemListComponentType.class,
                getUiConfig().listDefaultType(),
-               getUiConfig().projectPackage());
+               getUiConfig().projectPackages());
       } catch (Exception ignored) {
          return null;
       }

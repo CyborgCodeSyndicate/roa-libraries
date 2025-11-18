@@ -31,7 +31,7 @@ public interface ToggleService {
       try {
          return ReflectionUtil.findEnumImplementationsOfInterface(ToggleComponentType.class,
                getUiConfig().toggleDefaultType(),
-               getUiConfig().projectPackage());
+               getUiConfig().projectPackages());
       } catch (Exception ignored) {
          return null;
       }

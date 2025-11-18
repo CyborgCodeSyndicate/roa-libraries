@@ -35,7 +35,7 @@ public class DbTypeConverter implements Converter<DbType<?>> {
 
       List<Class<? extends Enum>> enumClassImplementationsOfInterface =
             ReflectionUtil.findEnumClassImplementationsOfInterface(
-                  DbType.class, getDbConfig().projectPackage()
+                  DbType.class, getDbConfig().projectPackages()
             );
 
       if (enumClassImplementationsOfInterface.size() > 1) {

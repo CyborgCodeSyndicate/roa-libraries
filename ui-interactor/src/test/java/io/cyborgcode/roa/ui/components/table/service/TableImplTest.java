@@ -160,7 +160,7 @@ class TableImplTest extends BaseUnitUITest {
       var uiConfig = mock(UiConfig.class);
       uiConfigHolderMock.when(UiConfigHolder::getUiConfig).thenReturn(uiConfig);
       // Use lenient() if these might not be called in every path of the test using the helper
-      lenient().when(uiConfig.projectPackage()).thenReturn("io.cyborgcode.roa"); // Or test package
+      lenient().when(uiConfig.projectPackages()).thenReturn(new String[]{"io.cyborgcode.roa"}); // Or test package
    }
 
    // --- Inner Mock Component Type (Keep Necessary) ---

@@ -91,7 +91,7 @@ public class DbHookExtension implements BeforeAllCallback, AfterAllCallback {
    private void executeHook(DbHook dbHook, Map<Object, Object> storageHooks) {
       try {
          DbHookFlow<?> hookFlow = ReflectionUtil.findEnumImplementationsOfInterface(
-               DbHookFlow.class, dbHook.type(), getDbConfig().projectPackage());
+               DbHookFlow.class, dbHook.type(), getDbConfig().projectPackages());
          hookFlow.flow().accept(dbService(), storageHooks, dbHook.arguments());
       } catch (Exception e) {
          throw new HookExecutionException("Error executing DbHook: " + dbHook.type(), e);

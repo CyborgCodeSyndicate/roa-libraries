@@ -31,7 +31,7 @@ public interface TableService {
       try {
          return ReflectionUtil.findEnumImplementationsOfInterface(TableComponentType.class,
                getUiConfig().tableDefaultType(),
-               getUiConfig().projectPackage());
+               getUiConfig().projectPackages());
       } catch (ReflectionException e) {
          return ReflectionUtil.findEnumImplementationsOfInterface(TableComponentType.class,
                getUiConfig().tableDefaultType(),
