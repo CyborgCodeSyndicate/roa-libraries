@@ -101,7 +101,7 @@ public class ApiHookExtension implements BeforeAllCallback, AfterAllCallback {
    private void executeHook(ApiHook apiHook, Map<Object, Object> storageHooks) {
       try {
          ApiHookFlow<?> hookFlow = ReflectionUtil.findEnumImplementationsOfInterface(
-               ApiHookFlow.class, apiHook.type(), getApiConfig().projectPackage());
+               ApiHookFlow.class, apiHook.type(), getApiConfig().projectPackages());
          hookFlow.flow().accept(restService(), storageHooks, apiHook.arguments());
       } catch (Exception e) {
          throw new HookExecutionException("Error executing ApiHook: " + apiHook.type(), e);

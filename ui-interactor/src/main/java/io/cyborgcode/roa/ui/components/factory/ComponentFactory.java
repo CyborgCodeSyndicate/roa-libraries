@@ -69,7 +69,7 @@ public class ComponentFactory {
     * @return The corresponding {@code Input} component instance.
     */
    public static Input getInputComponent(InputComponentType type, SmartWebDriver smartWebDriver) {
-      return getComponent(Input.class, type, getUiConfig().projectPackage(), smartWebDriver);
+      return getComponent(Input.class, type, getUiConfig().projectPackages(), smartWebDriver);
    }
 
    /**
@@ -80,7 +80,7 @@ public class ComponentFactory {
     * @return The corresponding {@code Button} component instance.
     */
    public static Button getButtonComponent(ButtonComponentType type, SmartWebDriver smartWebDriver) {
-      return getComponent(Button.class, type, getUiConfig().projectPackage(), smartWebDriver);
+      return getComponent(Button.class, type, getUiConfig().projectPackages(), smartWebDriver);
    }
 
    /**
@@ -91,7 +91,7 @@ public class ComponentFactory {
     * @return The corresponding {@code Radio} component instance.
     */
    public static Radio getRadioComponent(RadioComponentType type, SmartWebDriver smartWebDriver) {
-      return getComponent(Radio.class, type, getUiConfig().projectPackage(), smartWebDriver);
+      return getComponent(Radio.class, type, getUiConfig().projectPackages(), smartWebDriver);
    }
 
    /**
@@ -102,7 +102,7 @@ public class ComponentFactory {
     * @return The corresponding {@code Select} component instance.
     */
    public static Select getSelectComponent(SelectComponentType type, SmartWebDriver smartWebDriver) {
-      return getComponent(Select.class, type, getUiConfig().projectPackage(), smartWebDriver);
+      return getComponent(Select.class, type, getUiConfig().projectPackages(), smartWebDriver);
    }
 
    /**
@@ -113,7 +113,7 @@ public class ComponentFactory {
     * @return The corresponding {@code ItemList} component instance.
     */
    public static ItemList getListComponent(ItemListComponentType type, SmartWebDriver smartWebDriver) {
-      return getComponent(ItemList.class, type, getUiConfig().projectPackage(), smartWebDriver);
+      return getComponent(ItemList.class, type, getUiConfig().projectPackages(), smartWebDriver);
    }
 
    /**
@@ -124,7 +124,7 @@ public class ComponentFactory {
     * @return The corresponding {@code Loader} component instance.
     */
    public static Loader getLoaderComponent(LoaderComponentType type, SmartWebDriver smartWebDriver) {
-      return getComponent(Loader.class, type, getUiConfig().projectPackage(), smartWebDriver);
+      return getComponent(Loader.class, type, getUiConfig().projectPackages(), smartWebDriver);
    }
 
    /**
@@ -135,7 +135,7 @@ public class ComponentFactory {
     * @return The corresponding {@code Link} component instance.
     */
    public static Link getLinkComponent(LinkComponentType type, SmartWebDriver smartWebDriver) {
-      return getComponent(Link.class, type, getUiConfig().projectPackage(), smartWebDriver);
+      return getComponent(Link.class, type, getUiConfig().projectPackages(), smartWebDriver);
    }
 
    /**
@@ -146,7 +146,7 @@ public class ComponentFactory {
     * @return The corresponding {@code Alert} component instance.
     */
    public static Alert getAlertComponent(AlertComponentType type, SmartWebDriver smartWebDriver) {
-      return getComponent(Alert.class, type, getUiConfig().projectPackage(), smartWebDriver);
+      return getComponent(Alert.class, type, getUiConfig().projectPackages(), smartWebDriver);
    }
 
    /**
@@ -157,7 +157,7 @@ public class ComponentFactory {
     * @return The corresponding {@code Tab} component instance.
     */
    public static Tab getTabComponent(TabComponentType type, SmartWebDriver smartWebDriver) {
-      return getComponent(Tab.class, type, getUiConfig().projectPackage(), smartWebDriver);
+      return getComponent(Tab.class, type, getUiConfig().projectPackages(), smartWebDriver);
    }
 
    /**
@@ -168,7 +168,7 @@ public class ComponentFactory {
     * @return The corresponding {@code Checkbox} component instance.
     */
    public static Checkbox getCheckBoxComponent(CheckboxComponentType type, SmartWebDriver smartWebDriver) {
-      return getComponent(Checkbox.class, type, getUiConfig().projectPackage(), smartWebDriver);
+      return getComponent(Checkbox.class, type, getUiConfig().projectPackages(), smartWebDriver);
    }
 
    /**
@@ -179,7 +179,7 @@ public class ComponentFactory {
     * @return The corresponding {@code Toggle} component instance.
     */
    public static Toggle getToggleComponent(ToggleComponentType type, SmartWebDriver smartWebDriver) {
-      return getComponent(Toggle.class, type, getUiConfig().projectPackage(), smartWebDriver);
+      return getComponent(Toggle.class, type, getUiConfig().projectPackages(), smartWebDriver);
    }
 
    /**
@@ -190,7 +190,7 @@ public class ComponentFactory {
     * @return The corresponding {@code Modal} component instance.
     */
    public static Modal getModalComponent(ModalComponentType type, SmartWebDriver smartWebDriver) {
-      return getComponent(Modal.class, type, getUiConfig().projectPackage(), smartWebDriver);
+      return getComponent(Modal.class, type, getUiConfig().projectPackages(), smartWebDriver);
    }
 
    /**
@@ -201,7 +201,7 @@ public class ComponentFactory {
     * @return The corresponding {@code Accordion} component instance.
     */
    public static Accordion getAccordionComponent(AccordionComponentType type, SmartWebDriver smartWebDriver) {
-      return getComponent(Accordion.class, type, getUiConfig().projectPackage(), smartWebDriver);
+      return getComponent(Accordion.class, type, getUiConfig().projectPackages(), smartWebDriver);
    }
 
    /**
@@ -212,7 +212,7 @@ public class ComponentFactory {
     * @return The corresponding {@code Table} component instance.
     */
    public static Table getTableComponent(TableComponentType type, SmartWebDriver smartWebDriver) {
-      return getComponent(Table.class, type, getUiConfig().projectPackage(), smartWebDriver);
+      return getComponent(Table.class, type, getUiConfig().projectPackages(), smartWebDriver);
    }
 
    /**
@@ -230,14 +230,14 @@ public class ComponentFactory {
     * @return A newly instantiated component matching the desired type.
     * @throws ComponentNotFoundException If no matching implementation class is found.
     */
-   private static <T> T getComponent(Class<T> interfaceType, ComponentType componentType, String projectPackage,
+   private static <T> T getComponent(Class<T> interfaceType, ComponentType componentType, String[] projectPackages,
                                      SmartWebDriver smartWebDriver) {
       List<Class<? extends T>> implementations = ReflectionUtil.findImplementationsOfInterface(interfaceType,
-            projectPackage);
+            projectPackages);
       LogUi.debug("Found {} classes implementing {} in package {}.",
             implementations.size(),
             interfaceType.getSimpleName(),
-            projectPackage);
+            projectPackages);
       implementations.addAll(ReflectionUtil.findImplementationsOfInterface(interfaceType,
             FRAMEWORK_PACKAGE));
 

@@ -62,7 +62,7 @@ class PrologueTest {
                         .thenReturn(dummyConfig);
 
                 FrameworkConfig dummyFrameworkConfig = mock(FrameworkConfig.class);
-                lenient().when(dummyFrameworkConfig.projectPackage()).thenReturn("io.cyborgcode.roa");
+                lenient().when(dummyFrameworkConfig.projectPackages()).thenReturn(new String[]{"io.cyborgcode.roa"});
                 mockedConfigCache.when(() -> ConfigCache.getOrCreate(FrameworkConfig.class))
                         .thenReturn(dummyFrameworkConfig);
                 prologue.beforeTestExecution(context);

@@ -972,7 +972,7 @@ public abstract class TableImpl extends BaseComponent implements Table {
 
          Enum<?> componentInstance =
                (Enum<?>) ReflectionUtil.findEnumImplementationsOfInterface(type, component.getComponentType(),
-                     getUiConfig().projectPackage());
+                     getUiConfig().projectPackages());
          final TableInsertion service = serviceRegistry.getTableService(type);
          service.tableInsertion(targetCell, (ComponentType) componentInstance, values);
       } catch (Exception e) {
@@ -1034,7 +1034,7 @@ public abstract class TableImpl extends BaseComponent implements Table {
          final Class<? extends ComponentType> type = component.getType();
          final Enum<?> componentInstance =
                (Enum<?>) ReflectionUtil.findEnumImplementationsOfInterface(type, component.getComponentType(),
-                     getUiConfig().projectPackage());
+                     getUiConfig().projectPackages());
          final TableFilter service = serviceRegistry.getFilterService(type);
          service.tableFilter(targetCell, (ComponentType) componentInstance, filterStrategy, values);
       } catch (Exception e) {

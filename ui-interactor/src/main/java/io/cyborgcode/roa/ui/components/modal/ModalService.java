@@ -34,7 +34,7 @@ public interface ModalService {
       try {
          return ReflectionUtil.findEnumImplementationsOfInterface(ModalComponentType.class,
                getUiConfig().modalDefaultType(),
-               getUiConfig().projectPackage());
+               getUiConfig().projectPackages());
       } catch (Exception ignored) {
          return null;
       }

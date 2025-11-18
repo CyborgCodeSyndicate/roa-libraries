@@ -442,7 +442,7 @@ public class AllureStepHelperTest {
                     .thenReturn(dummyConfig);
 
             FrameworkConfig dummyFrameworkConfig = mock(FrameworkConfig.class);
-            lenient().when(dummyFrameworkConfig.projectPackage()).thenReturn("io.cyborgcode.roa");
+            lenient().when(dummyFrameworkConfig.projectPackages()).thenReturn(new String[]{"io.cyborgcode.roa"});
             mockedConfigCache.when(() -> ConfigCache.getOrCreate(FrameworkConfig.class))
                     .thenReturn(dummyFrameworkConfig);
 
@@ -484,12 +484,12 @@ public class AllureStepHelperTest {
                         .thenReturn(dummyConfig);
 
                 FrameworkConfig mockConfig = mock(FrameworkConfig.class);
-                when(mockConfig.projectPackage()).thenReturn("io.cyborgcode.roa");
+                when(mockConfig.projectPackages()).thenReturn(new String[]{"io.cyborgcode.roa"});
                 mockedFrameworkConfigHolder.when(FrameworkConfigHolder::getFrameworkConfig)
                         .thenReturn(mockConfig);
 
                 FrameworkConfig dummyFrameworkConfig = mock(FrameworkConfig.class);
-                lenient().when(dummyFrameworkConfig.projectPackage()).thenReturn("io.cyborgcode.roa");
+                lenient().when(dummyFrameworkConfig.projectPackages()).thenReturn(new String[]{"io.cyborgcode.roa"});
 
                 // When
                 AllureStepHelper.initializeTestEnvironment();
@@ -528,7 +528,7 @@ public class AllureStepHelperTest {
             mockedConfigCache.when(() -> ConfigCache.getOrCreate(SimpleKeyedConfigImpl.class)).thenReturn(simpleKeyedConfigImpl);
 
             FrameworkConfig mockConfig = mock(FrameworkConfig.class);
-            when(mockConfig.projectPackage()).thenReturn("io.cyborgcode.roa");
+            when(mockConfig.projectPackages()).thenReturn(new String[]{"io.cyborgcode.roa"});
             mockedFrameworkConfigHolder.when(FrameworkConfigHolder::getFrameworkConfig).thenReturn(mockConfig);
 
             // When
@@ -553,7 +553,7 @@ public class AllureStepHelperTest {
                 MockedStatic<FrameworkConfigHolder> mockedFrameworkConfigHolder = mockStatic(FrameworkConfigHolder.class)
         ) {
             FrameworkConfig mockConfig = mock(FrameworkConfig.class);
-            when(mockConfig.projectPackage()).thenReturn("io.cyborgcode.roa");
+            when(mockConfig.projectPackages()).thenReturn(new String[]{"io.cyborgcode.roa"});
             mockedFrameworkConfigHolder.when(FrameworkConfigHolder::getFrameworkConfig).thenReturn(mockConfig);
 
             mockedReflectionUtil.when(() ->
@@ -585,7 +585,7 @@ public class AllureStepHelperTest {
                 MockedStatic<FrameworkConfigHolder> mockedFrameworkConfigHolder = mockStatic(FrameworkConfigHolder.class)
         ) {
             FrameworkConfig mockConfig = mock(FrameworkConfig.class);
-            when(mockConfig.projectPackage()).thenReturn("io.cyborgcode.roa");
+            when(mockConfig.projectPackages()).thenReturn(new String[]{"io.cyborgcode.roa"});
             mockedFrameworkConfigHolder.when(FrameworkConfigHolder::getFrameworkConfig).thenReturn(mockConfig);
 
             mockedReflectionUtil.when(() ->
@@ -616,7 +616,7 @@ public class AllureStepHelperTest {
                 MockedStatic<FrameworkConfigHolder> mockedFrameworkConfigHolder = mockStatic(FrameworkConfigHolder.class)
         ) {
             FrameworkConfig mockConfig = mock(FrameworkConfig.class);
-            when(mockConfig.projectPackage()).thenReturn("io.cyborgcode.roa");
+            when(mockConfig.projectPackages()).thenReturn(new String[]{"io.cyborgcode.roa"});
             mockedFrameworkConfigHolder.when(FrameworkConfigHolder::getFrameworkConfig).thenReturn(mockConfig);
 
             mockedReflectionUtil.when(() ->
@@ -647,7 +647,7 @@ public class AllureStepHelperTest {
                 MockedStatic<FrameworkConfigHolder> mockedFrameworkConfigHolder = mockStatic(FrameworkConfigHolder.class)
         ) {
             FrameworkConfig mockConfig = mock(FrameworkConfig.class);
-            when(mockConfig.projectPackage()).thenReturn("io.cyborgcode.roa");
+            when(mockConfig.projectPackages()).thenReturn(new String[]{"io.cyborgcode.roa"});
             mockedFrameworkConfigHolder.when(FrameworkConfigHolder::getFrameworkConfig).thenReturn(mockConfig);
 
             mockedReflectionUtil.when(() ->
@@ -714,7 +714,7 @@ public class AllureStepHelperTest {
         ) {
             // 1. Setup framework config
             FrameworkConfig mockConfig = mock(FrameworkConfig.class);
-            when(mockConfig.projectPackage()).thenReturn("io.cyborgcode.roa");
+            when(mockConfig.projectPackages()).thenReturn(new String[]{"io.cyborgcode.roa"});
             mockedFrameworkConfigHolder.when(FrameworkConfigHolder::getFrameworkConfig).thenReturn(mockConfig);
 
             // 2. Create minimal test interface

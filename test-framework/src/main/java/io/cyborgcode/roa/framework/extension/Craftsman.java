@@ -79,7 +79,7 @@ public class Craftsman implements ParameterResolver {
          SuperQuest superQuest = getSuperQuest(extensionContext);
 
          DataForge<?> dataForge = ReflectionUtil.findEnumImplementationsOfInterface(
-               DataForge.class, craft.model(), getFrameworkConfig().projectPackage());
+               DataForge.class, craft.model(), getFrameworkConfig().projectPackages());
          Object argument = isLate ? dataForge.dataCreator() : dataForge.dataCreator().create();
 
          storeArgument(superQuest, dataForge, argument, extensionContext);

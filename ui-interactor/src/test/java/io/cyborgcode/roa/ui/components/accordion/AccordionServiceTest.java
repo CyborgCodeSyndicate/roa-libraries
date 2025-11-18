@@ -45,7 +45,7 @@ class AccordionServiceTest extends BaseUnitUITest {
    void testGetDefaultTypeShouldReturnNullWhenExceptionIsThrown() throws Exception {
       UiConfig mockConfig = mock(UiConfig.class);
       when(mockConfig.accordionDefaultType()).thenReturn("SomeType");
-      when(mockConfig.projectPackage()).thenReturn("com.example");
+      when(mockConfig.projectPackages()).thenReturn(new String[]{"com.example"});
 
       try (
             MockedStatic<UiConfigHolder> configMock = mockStatic(UiConfigHolder.class);

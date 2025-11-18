@@ -52,7 +52,7 @@ class DbTypeConverterTest {
 
             // 1) Stub DbConfigHolder to return our mock config
             dbConfigHolder.when(DbConfigHolder::getDbConfig).thenReturn(mockDbConfig);
-            when(mockDbConfig.projectPackage()).thenReturn("any.pkg");
+            when(mockDbConfig.projectPackages()).thenReturn(new String[]{"any.pkg"});
 
             // 2) Stub ReflectionUtil to return exactly one implementing enum
             refl.when(() ->
@@ -75,7 +75,7 @@ class DbTypeConverterTest {
              MockedStatic<ReflectionUtil> refl = mockStatic(ReflectionUtil.class)) {
 
             dbConfigHolder.when(DbConfigHolder::getDbConfig).thenReturn(mockDbConfig);
-            when(mockDbConfig.projectPackage()).thenReturn("none.pkg");
+            when(mockDbConfig.projectPackages()).thenReturn(new String[]{"none.pkg"});
 
             refl.when(() ->
                     ReflectionUtil.findEnumClassImplementationsOfInterface(
@@ -94,7 +94,7 @@ class DbTypeConverterTest {
              var refl = mockStatic(ReflectionUtil.class)) {
 
             dbConfigHolder.when(DbConfigHolder::getDbConfig).thenReturn(mockDbConfig);
-            when(mockDbConfig.projectPackage()).thenReturn("multi.pkg");
+            when(mockDbConfig.projectPackages()).thenReturn(new String[]{"multi.pkg"});
 
             refl.when(() ->
                     ReflectionUtil.findEnumClassImplementationsOfInterface(
@@ -117,7 +117,7 @@ class DbTypeConverterTest {
              MockedStatic<ReflectionUtil> refl = mockStatic(ReflectionUtil.class)) {
 
             dbConfigHolder.when(DbConfigHolder::getDbConfig).thenReturn(mockDbConfig);
-            when(mockDbConfig.projectPackage()).thenReturn("any.pkg");
+            when(mockDbConfig.projectPackages()).thenReturn(new String[]{"any.pkg"});
 
             refl.when(() ->
                     ReflectionUtil.findEnumClassImplementationsOfInterface(

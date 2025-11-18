@@ -2,6 +2,7 @@ package io.cyborgcode.roa.api.config;
 
 import io.cyborgcode.utilities.config.ConfigSource;
 import io.cyborgcode.utilities.config.PropertyConfig;
+import java.util.List;
 import org.aeonbits.owner.Config;
 
 /**
@@ -29,8 +30,9 @@ public interface ApiConfig extends PropertyConfig {
     *
     * @return The base package name defined in the configuration.
     */
-   @Key("project.package")
-   String projectPackage();
+   @Key("project.packages")
+   @Separator(";")
+   String[] projectPackages();
 
    /**
     * Determines whether RestAssured request/response logging is enabled.

@@ -3,7 +3,6 @@ package io.cyborgcode.roa.api.extensions;
 import io.cyborgcode.roa.api.annotations.ApiHook;
 import io.cyborgcode.roa.api.config.ApiConfig;
 import io.cyborgcode.roa.api.config.ApiConfigHolder;
-import io.cyborgcode.roa.api.extensions.ApiHookExtension;
 import io.cyborgcode.roa.api.hooks.ApiHookFlow;
 import io.cyborgcode.roa.framework.hooks.HookExecution;
 import io.cyborgcode.roa.framework.storage.StoreKeys;
@@ -69,7 +68,7 @@ class ApiHookExtensionTest {
             ) {
                 ApiConfig cfg = mock(ApiConfig.class);
                 cfgMock.when(ApiConfigHolder::getApiConfig).thenReturn(cfg);
-                when(cfg.projectPackage()).thenReturn("dummy.pkg");
+                when(cfg.projectPackages()).thenReturn(new String[]{"dummy.pkg"});
 
                 reflMock.when(() -> ReflectionUtil.findEnumImplementationsOfInterface(
                         eq(ApiHookFlow.class), eq("failType"), anyString()
@@ -99,7 +98,7 @@ class ApiHookExtensionTest {
             ) {
                 ApiConfig cfg = mock(ApiConfig.class);
                 cfgMock.when(ApiConfigHolder::getApiConfig).thenReturn(cfg);
-                when(cfg.projectPackage()).thenReturn("any.pkg");
+                when(cfg.projectPackages()).thenReturn(new String[]{"any.pkg"});
 
                 // now stub the "beforeType" hook
                 ApiHookFlow hookFlow = mock(ApiHookFlow.class);
@@ -156,7 +155,7 @@ class ApiHookExtensionTest {
             ) {
                 ApiConfig cfg = mock(ApiConfig.class);
                 cfgMock.when(ApiConfigHolder::getApiConfig).thenReturn(cfg);
-                when(cfg.projectPackage()).thenReturn("ignored.pkg");
+                when(cfg.projectPackages()).thenReturn(new String[]{"ignored.pkg"});
 
                 ApiHookFlow hookFlow = mock(ApiHookFlow.class);
                 when(hookFlow.flow()).thenReturn(

@@ -113,12 +113,12 @@ class InitiatorTest {
                 configMock.when(FrameworkConfigHolder::getFrameworkConfig).thenReturn(mockConfig);
                 try (MockedStatic<ReflectionUtil> reflectionMock = mockStatic(ReflectionUtil.class)) {
                     reflectionMock.when(() ->
-                                            ReflectionUtil.findEnumImplementationsOfInterface(eq(PreQuestJourney.class), eq("mockJourney"), eq(mockConfig.projectPackage()))
+                                            ReflectionUtil.findEnumImplementationsOfInterface(eq(PreQuestJourney.class), eq("mockJourney"), eq(mockConfig.projectPackages()))
                     ).thenReturn(mockPreQuestJourney);
                     MockLate mockLate = new MockLate();
                     MockDataForge mockDataForge = new MockDataForge(mockLate);
                     reflectionMock.when(() ->
-                                            ReflectionUtil.findEnumImplementationsOfInterface(eq(DataForge.class), eq("mockData"), eq(mockConfig.projectPackage()))
+                                            ReflectionUtil.findEnumImplementationsOfInterface(eq(DataForge.class), eq("mockData"), eq(mockConfig.projectPackages()))
                     ).thenReturn(mockDataForge);
                     Storage subStorage = mock(Storage.class);
                     when(dummyStorage.sub(StorageKeysTest.PRE_ARGUMENTS)).thenReturn(subStorage);
@@ -162,7 +162,7 @@ class InitiatorTest {
             configMock.when(FrameworkConfigHolder::getFrameworkConfig).thenReturn(mockConfig);
 
             reflectionMock.when(() ->
-                                    ReflectionUtil.findEnumImplementationsOfInterface(eq(DataForge.class), eq("mockData"), eq(mockConfig.projectPackage()))
+                                    ReflectionUtil.findEnumImplementationsOfInterface(eq(DataForge.class), eq("mockData"), eq(mockConfig.projectPackages()))
             ).thenReturn(mockDataForge);
 
             Method processJourneyDataMethod = Initiator.class.getDeclaredMethod("processJourneyData", JourneyData.class, SuperQuest.class);
@@ -203,7 +203,7 @@ class InitiatorTest {
             configMock.when(FrameworkConfigHolder::getFrameworkConfig).thenReturn(mockConfig);
 
             reflectionMock.when(() ->
-                                    ReflectionUtil.findEnumImplementationsOfInterface(eq(DataForge.class), eq("mockData"), eq(mockConfig.projectPackage()))
+                                    ReflectionUtil.findEnumImplementationsOfInterface(eq(DataForge.class), eq("mockData"), eq(mockConfig.projectPackages()))
             ).thenReturn(mockDataForge);
 
             Method processJourneyDataMethod = Initiator.class.getDeclaredMethod("processJourneyData", JourneyData.class, SuperQuest.class);
@@ -263,7 +263,7 @@ class InitiatorTest {
             configMock.when(FrameworkConfigHolder::getFrameworkConfig).thenReturn(mockConfig);
 
             reflectionMock.when(() ->
-                    ReflectionUtil.findEnumImplementationsOfInterface(eq(DataForge.class), eq("mockData"), eq(mockConfig.projectPackage()))
+                    ReflectionUtil.findEnumImplementationsOfInterface(eq(DataForge.class), eq("mockData"), eq(mockConfig.projectPackages()))
             ).thenReturn(mockDataForge);
 
             Method processJourneyDataMethod = Initiator.class.getDeclaredMethod("processJourneyData", JourneyData.class, SuperQuest.class);

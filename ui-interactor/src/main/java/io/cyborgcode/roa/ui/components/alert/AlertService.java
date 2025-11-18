@@ -32,7 +32,7 @@ public interface AlertService {
       try {
          return ReflectionUtil.findEnumImplementationsOfInterface(AlertComponentType.class,
                getUiConfig().alertDefaultType(),
-               getUiConfig().projectPackage());
+               getUiConfig().projectPackages());
       } catch (Exception ignored) {
          return null;
       }

@@ -54,7 +54,7 @@ class ComponentFactoryTest extends BaseUnitUITest {
       reflectionMock = mockStatic(ReflectionUtil.class);
       uiConfigHolderMock = mockStatic(UiConfigHolder.class);
 
-      lenient().when(uiConfig.projectPackage()).thenReturn(TEST_PACKAGE);
+      lenient().when(uiConfig.projectPackages()).thenReturn(new String[]{TEST_PACKAGE});
       when(UiConfigHolder.getUiConfig()).thenReturn(uiConfig);
    }
 

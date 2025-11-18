@@ -152,7 +152,7 @@ public class UiTestExtension implements BeforeTestExecutionCallback, AfterTestEx
                try {
                   List<Class<? extends Enum>> enumClassImplementations =
                         ReflectionUtil.findEnumClassImplementationsOfInterface(
-                              DataIntercept.class, getFrameworkConfig().projectPackage());
+                              DataIntercept.class, getFrameworkConfig().projectPackages());
 
                   if (enumClassImplementations.size() > 1) {
                      throw new IllegalStateException(
@@ -361,7 +361,7 @@ public class UiTestExtension implements BeforeTestExecutionCallback, AfterTestEx
    private static void postQuestCreationRegisterCustomServices(SuperQuest quest) {
 
       List<Class<? extends UiServiceFluent>> customUiServices =
-            ReflectionUtil.findImplementationsOfInterface(UiServiceFluent.class, getUiConfig().projectPackage());
+            ReflectionUtil.findImplementationsOfInterface(UiServiceFluent.class, getUiConfig().projectPackages());
       if (customUiServices.size() > 1) {
          throw new IllegalStateException(
                "There is more than one UI services that extends from UiServiceFluent. Only 1 is allowed");
