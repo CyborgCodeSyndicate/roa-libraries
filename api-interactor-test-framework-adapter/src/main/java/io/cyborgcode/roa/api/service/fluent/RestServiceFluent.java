@@ -1,5 +1,7 @@
 package io.cyborgcode.roa.api.service.fluent;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
 import io.cyborgcode.roa.api.authentication.BaseAuthenticationClient;
 import io.cyborgcode.roa.api.core.Endpoint;
 import io.cyborgcode.roa.api.service.RestService;
@@ -29,6 +31,17 @@ import static io.cyborgcode.roa.api.storage.StorageKeysApi.API;
  */
 @Ring("API")
 @SuppressWarnings("java:S6832")
+@Pandora(
+   description = "Fluent API service: sending requests, validating responses, authentication and retries."
+      + "Can be accessed from the Quest Instance",
+   tags = {"api", "roa", "test"}
+)
+@PandoraOptions(
+   exampleFilesPath = "ai/roa/api-usage.json",
+   meta = {
+      @PandoraOptions.Meta(key = "level", value = "LAST"),
+   }
+)
 public class RestServiceFluent extends FluentService implements ClassLevelHook {
 
    private final RestService restService;
@@ -49,6 +62,14 @@ public class RestServiceFluent extends FluentService implements ClassLevelHook {
     * @param endpoint The API endpoint.
     * @return The current {@code RestServiceFluent} instance for method chaining.
     */
+
+   @Pandora(
+      description = "Send a request to the given endpoint and store the response in quest storage.",
+      tags = {"api", "roa", "test"}
+   )
+   @PandoraOptions(
+      exampleFilesPath = "ai/roa/api-usage.json"
+   )
    public RestServiceFluent request(final Endpoint<?> endpoint) {
       final Response response = restService.request(endpoint);
       quest.getStorage().sub(API).put(endpoint.enumImpl(), response);
@@ -62,7 +83,18 @@ public class RestServiceFluent extends FluentService implements ClassLevelHook {
     * @param body     The request body.
     * @return The current {@code RestServiceFluent} instance for method chaining.
     */
-   public RestServiceFluent request(final Endpoint<?> endpoint, final Object body) {
+   @Pandora(
+      description = "Send a request to the given endpoint with a payload and store the response in quest storage.",
+      tags = {"api", "roa", "test"}
+   )
+   @PandoraOptions(
+      exampleFilesPath = "ai/roa/api-usage.json"
+   )
+   public RestServiceFluent request(
+      final Endpoint<?> endpoint,
+      @Pandora(
+         description = "Payload to send with the request."
+      ) final Object body) {
       final Response response = restService.request(endpoint, body);
       quest.getStorage().sub(API).put(endpoint.enumImpl(), response);
       return this;
@@ -88,7 +120,15 @@ public class RestServiceFluent extends FluentService implements ClassLevelHook {
     * @param assertions The assertions to validate.
     * @return The current {@code RestServiceFluent} instance for method chaining.
     */
-   public RestServiceFluent requestAndValidate(final Endpoint<?> endpoint, final Assertion... assertions) {
+   @Pandora(
+      description = "Send a request to the given endpoint and validate the response.",
+      tags = {"api", "roa", "test"}
+   )
+   @PandoraOptions(
+      exampleFilesPath = "ai/roa/api-usage.json"
+   )
+   public RestServiceFluent requestAndValidate(final Endpoint<?> endpoint,
+                                               final Assertion... assertions) {
       final Response response = restService.request(endpoint);
       quest.getStorage().sub(API).put(endpoint.enumImpl(), response);
       return validateResponse(response, assertions);
