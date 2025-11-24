@@ -45,6 +45,6 @@ jobs:
     uses: CyborgCodeSyndicate/roa-example-projects/.github/workflows/e2e-tests.yml@e2e-flow
     with:
       snapshot_version: ${{ needs.deploy.outputs.next_version }}
-    secrets:
-      GH_PACKAGES_USER: ${{ secrets.GH_PACKAGES_USER }}
-      GH_PACKAGES_PAT:  ${{ secrets.GH_PACKAGES_PAT }}
+    secrets: inherit
+#      GH_PACKAGES_USER: ${{ secrets.GH_PACKAGES_USER }}
+#      GH_PACKAGES_PAT:  ${{ secrets.GH_PACKAGES_PAT }}
