@@ -1,0 +1,58 @@
+🤖 CYBORG 🤖 2025-11-27T13:44:26,406 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2025-11-27T13:44:26,424 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2025-11-27T13:44:26,432 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2025-11-27T13:44:26,442 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] INFO  [QUEST] - The quest: 'shouldCreateAndDeleteLeaderUserSuccessfully(Quest, Late)' has begun and is crafted.
+🤖 CYBORG 🤖 2025-11-27T13:44:26,450 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] EXTENDED [API] - Updated quest storage with credentials for username: eve.holt@reqres.in
+🤖 CYBORG 🤖 2025-11-27T13:44:26,461 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] INFO  [QUEST] - The quest has used the ring: 'API'
+🤖 CYBORG 🤖 2025-11-27T13:44:27,146 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] STEP  [API] - Sending request to endpoint POST-https://reqres.in/api/login.
+🤖 CYBORG 🤖 2025-11-27T13:44:27,154 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] EXTENDED [API] - Request body: {
+🤖 CYBORG 🤖 2025-11-27T13:44:27,160 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] EXTENDED [API] - Request headers: Content-Type=application/json
+🤖 CYBORG 🤖 2025-11-27T13:44:27,887 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] STEP  [API] - Response with status: 200 received from endpoint: POST-https://reqres.in/api/login in 716ms.
+🤖 CYBORG 🤖 2025-11-27T13:44:27,910 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] EXTENDED [API] - Response body: {
+🤖 CYBORG 🤖 2025-11-27T13:44:27,914 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] EXTENDED [API] - Response headers: Date=Thu, 27 Nov 2025 13:44:27 GMT
+🤖 CYBORG 🤖 2025-11-27T13:44:28,271 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] INFO  [API] - Successfully authenticated user: eve.holt@reqres.in
+🤖 CYBORG 🤖 2025-11-27T13:44:28,318 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] INFO  [QUEST] - The quest has used the ring: 'Gondor'
+🤖 CYBORG 🤖 2025-11-27T13:44:28,325 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] INFO  [QUEST] - The quest has used the ring: 'API'
+🤖 CYBORG 🤖 2025-11-27T13:44:28,357 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] STEP  [API] - Sending request to endpoint POST-https://reqres.in/api/users.
+🤖 CYBORG 🤖 2025-11-27T13:44:28,365 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] EXTENDED [API] - Request body: {
+🤖 CYBORG 🤖 2025-11-27T13:44:28,369 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] EXTENDED [API] - Request headers: Content-Type=application/json
+🤖 CYBORG 🤖 2025-11-27T13:44:28,591 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] STEP  [API] - Response with status: 201 received from endpoint: POST-https://reqres.in/api/users in 215ms.
+🤖 CYBORG 🤖 2025-11-27T13:44:28,598 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] EXTENDED [API] - Response body: {
+🤖 CYBORG 🤖 2025-11-27T13:44:28,601 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] EXTENDED [API] - Response headers: Date=Thu, 27 Nov 2025 13:44:28 GMT
+🤖 CYBORG 🤖 2025-11-27T13:44:28,608 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] INFO  [API] - Starting response validation with 3 assertion(s).
+🤖 CYBORG 🤖 2025-11-27T13:44:28,632 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] EXTENDED [API] - Validation target: [{name=Morpheus, job=Leader, AssertionKeyForStatus=201}]
+🤖 CYBORG 🤖 2025-11-27T13:44:28,640 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] VALIDATION [QUEST] - ✔ Validation passed: IS (Expected: 201, Actual: 201)
+🤖 CYBORG 🤖 2025-11-27T13:44:28,683 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] VALIDATION [QUEST] - ✔ Validation passed: IS (Expected: Morpheus, Actual: Morpheus)
+🤖 CYBORG 🤖 2025-11-27T13:44:28,966 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] VALIDATION [QUEST] - ✔ Validation passed: IS (Expected: Leader, Actual: Leader)
+🤖 CYBORG 🤖 2025-11-27T13:44:28,971 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] INFO  [QUEST] - The quest has dropped the ring.
+🤖 CYBORG 🤖 2025-11-27T13:44:28,975 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] INFO  [QUEST] - The quest has used the ring: 'API'
+🤖 CYBORG 🤖 2025-11-27T13:44:28,980 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] VALIDATION [QUEST] - Starting hard validation...
+🤖 CYBORG 🤖 2025-11-27T13:44:28,983 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] EXTENDED [QUEST] - Fetching data from storage by key: 'POST_CREATE_USER' and type: 'io.restassured.response.Response'
+🤖 CYBORG 🤖 2025-11-27T13:44:29,017 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] VALIDATION [QUEST] - Hard validation completed successfully.
+🤖 CYBORG 🤖 2025-11-27T13:44:29,022 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] EXTENDED [QUEST] - Fetching data from storage by key: 'POST_CREATE_USER' and type: 'io.restassured.response.Response'
+🤖 CYBORG 🤖 2025-11-27T13:44:29,035 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] INFO  [API] - Prepared RequestSpecification with pathParams: {id=616}, queryParams: {}, headers: {}
+🤖 CYBORG 🤖 2025-11-27T13:44:29,041 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] STEP  [API] - Sending request to endpoint DELETE-https://reqres.in/api/users/616.
+🤖 CYBORG 🤖 2025-11-27T13:44:29,045 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] EXTENDED [API] - Request body: .
+🤖 CYBORG 🤖 2025-11-27T13:44:29,048 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] EXTENDED [API] - Request headers: Content-Type=application/json
+🤖 CYBORG 🤖 2025-11-27T13:44:29,258 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] STEP  [API] - Response with status: 204 received from endpoint: DELETE-https://reqres.in/api/users/616 in 206ms.
+🤖 CYBORG 🤖 2025-11-27T13:44:29,264 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] EXTENDED [API] - Response body: .
+🤖 CYBORG 🤖 2025-11-27T13:44:29,267 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] EXTENDED [API] - Response headers: Date=Thu, 27 Nov 2025 13:44:29 GMT
+🤖 CYBORG 🤖 2025-11-27T13:44:29,273 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] INFO  [API] - Starting response validation with 1 assertion(s).
+🤖 CYBORG 🤖 2025-11-27T13:44:29,276 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] EXTENDED [API] - Validation target: [{AssertionKeyForStatus=204}]
+🤖 CYBORG 🤖 2025-11-27T13:44:29,279 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] VALIDATION [QUEST] - ✔ Validation passed: IS (Expected: 204, Actual: 204)
+🤖 CYBORG 🤖 2025-11-27T13:44:29,282 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] INFO  [QUEST] - The quest has dropped the ring.
+🤖 CYBORG 🤖 2025-11-27T13:44:29,285 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] INFO  [QUEST] - The quest has reached his end
+🤖 CYBORG 🤖 2025-11-27T13:44:29,291 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] INFO  [QUEST] - The ripper has arrived
+🤖 CYBORG 🤖 2025-11-27T13:44:29,304 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] INFO  [QUEST] - The quest has used the ring: 'API'
+🤖 CYBORG 🤖 2025-11-27T13:44:29,309 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] INFO  [API] - Prepared RequestSpecification with pathParams: {id=3}, queryParams: {}, headers: {}
+🤖 CYBORG 🤖 2025-11-27T13:44:29,314 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] STEP  [API] - Sending request to endpoint DELETE-https://reqres.in/api/users/3.
+🤖 CYBORG 🤖 2025-11-27T13:44:29,317 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] EXTENDED [API] - Request body: .
+🤖 CYBORG 🤖 2025-11-27T13:44:29,320 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] EXTENDED [API] - Request headers: Content-Type=application/json
+🤖 CYBORG 🤖 2025-11-27T13:44:29,458 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] STEP  [API] - Response with status: 204 received from endpoint: DELETE-https://reqres.in/api/users/3 in 133ms.
+🤖 CYBORG 🤖 2025-11-27T13:44:29,462 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] EXTENDED [API] - Response body: .
+🤖 CYBORG 🤖 2025-11-27T13:44:29,465 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] EXTENDED [API] - Response headers: Date=Thu, 27 Nov 2025 13:44:29 GMT
+🤖 CYBORG 🤖 2025-11-27T13:44:29,470 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] INFO  [API] - Starting response validation with 1 assertion(s).
+🤖 CYBORG 🤖 2025-11-27T13:44:29,473 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] EXTENDED [API] - Validation target: [{AssertionKeyForStatus=204}]
+🤖 CYBORG 🤖 2025-11-27T13:44:29,476 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] VALIDATION [QUEST] - ✔ Validation passed: IS (Expected: 204, Actual: 204)
+🤖 CYBORG 🤖 2025-11-27T13:44:29,479 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] INFO  [QUEST] - DataRipper processed target: 'DELETE_ADMIN_USER'.
+🤖 CYBORG 🤖 2025-11-27T13:44:29,491 [scenario=RoAGeneratedTest.shouldCreateAndDeleteLeaderUserSuccessfully] INFO  [QUEST] - The quest of 'shouldCreateAndDeleteLeaderUserSuccessfully(Quest, Late)' has concluded with glory. Status: SUCCESS. Duration: 3 seconds.
