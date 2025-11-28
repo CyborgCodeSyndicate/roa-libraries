@@ -80,6 +80,7 @@ public interface UiConfig extends PropertyConfig {
     * @return The project's root package.
     */
    @Key("project.packages")
+   @Separator(";")
    String[] projectPackages();
 
    /**
