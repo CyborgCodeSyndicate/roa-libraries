@@ -1,0 +1,25 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.cyborgcode.roa.example</groupId>
+    <artifactId>roa-archetype</artifactId>
+    <version>1.2.0</version>
+    <packaging>maven-archetype</packaging>
+
+    <properties>
+        <archetype.packaging.version>3.4.1</archetype.packaging.version>
+        <github.repo.owner>CyborgCodeSyndicate</github.repo.owner>
+    </properties>
+
+    <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.archetype</groupId>
+                <artifactId>archetype-packaging</artifactId>
+                <version>${archetype.packaging.version}</version>
+            </extension>
+        </extensions>
+    </build>
+</project>

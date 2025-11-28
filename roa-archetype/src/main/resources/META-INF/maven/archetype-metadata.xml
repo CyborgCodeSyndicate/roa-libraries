@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archetype-descriptor
+        xmlns="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.2.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.2.0 https://maven.apache.org/xsd/archetype-descriptor-1.2.0.xsd"
+        name="roa-archetype">
+
+    <!-- Required properties -->
+    <requiredProperties>
+        <requiredProperty key="modules">
+
+            <defaultValue></defaultValue>
+        </requiredProperty>
+        <requiredProperty key="commonFeatures">
+
+            <defaultValue></defaultValue>
+        </requiredProperty>
+        <requiredProperty key="environments">
+
+            <defaultValue></defaultValue>
+        </requiredProperty>
+        <requiredProperty key="browserType">
+
+            <defaultValue>CHROME</defaultValue>
+        </requiredProperty>
+        <requiredProperty key="uiComponents">
+
+            <defaultValue>BUTTON,INPUT,RADIO,SELECT,ALERT,LINK,LIST</defaultValue>
+        </requiredProperty>
+        <requiredProperty key="headless">
+
+            <defaultValue>true</defaultValue>
+        </requiredProperty>
+        <requiredProperty key="baseUrls">
+
+            <defaultValue>https://example.com</defaultValue>
+        </requiredProperty>
+        <requiredProperty key="dbType">
+
+            <defaultValue></defaultValue>
+        </requiredProperty>
+    </requiredProperties>
+
+    <!-- Root POM -->
+    <fileSets>
+        <fileSet filtered="true">
+            <directory>.</directory>
+            <includes>
+                <include>pom.xml</include>
+            </includes>
+        </fileSet>
+
+        <fileSet packaged="true" filtered="true">
+            <directory>src/main/java</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+        </fileSet>
+
+        <fileSet packaged="false" filtered="true">
+            <directory>src/main/resources</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+        </fileSet>
+
+        <fileSet packaged="true" filtered="true">
+            <directory>src/test/java</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+        </fileSet>
+
+        <fileSet packaged="false" filtered="true">
+            <directory>src/test/resources</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+        </fileSet>
+
+    </fileSets>
+
+</archetype-descriptor>
