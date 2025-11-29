@@ -14,7 +14,7 @@ public enum ExampleDbQueries implements DbQuery<ExampleDbQueries> {
     /**
      * Simple example query to demonstrate usage.
      */
-    SIMPLE_QUERY("SELECT 1 AS example");
+    SIMPLE_QUERY("SELECT * FROM example WHERE id = {id}");
 
     private final String query;
 

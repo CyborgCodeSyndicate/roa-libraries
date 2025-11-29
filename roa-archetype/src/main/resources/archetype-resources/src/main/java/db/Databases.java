@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public enum Databases implements DbType<Databases> {
 
 #if ( $dbType.equalsIgnoreCase("H2") || $dbType == ""  || $dbType == "/" )
-    H2(new org.h2.Driver(), "jdbc:h2") // H2 driver constructor does not throw SQLException, so no wrapper needed 
+    H2(new org.h2.Driver(), "jdbc:h2") // H2 driver constructor does not throw SQLException, so no wrapper needed
 #end
 
 #if ( $dbType.equalsIgnoreCase("POSTGRES") )

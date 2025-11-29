@@ -51,8 +51,8 @@ public class GettingStartedDbTest extends BaseQuest {
                 .validate(() -> System.out.println("Replace with your custom flow, example: " + example))
                 .drop()
                 .use(RING_OF_DB)
-                .query(ExampleDbQueries.SIMPLE_QUERY)
-                .validate(
+                .query(ExampleDbQueries.SIMPLE_QUERY.withParam("id", 1))
+                .validate(retrieve(StorageKeysDb.DB, ExampleDbQueries.SIMPLE_QUERY, QueryResponse.class),
                         Assertion.builder()
                                 .target(QUERY_RESULT)
                                 .key(DbResponsesJsonPaths.PRODUCT_BY_ID.getJsonPath(1))
