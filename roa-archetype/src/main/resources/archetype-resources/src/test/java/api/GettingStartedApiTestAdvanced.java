@@ -12,6 +12,7 @@ import io.cyborgcode.roa.framework.quest.Quest;
 import io.cyborgcode.roa.validator.core.Assertion;
 import org.junit.jupiter.api.Test;
 import io.qameta.allure.Description;
+import org.junit.jupiter.api.DisplayName;
 
 import ${package}.api.ExampleEndpoints;
 import ${package}.api.authentication.ExampleCredentials;

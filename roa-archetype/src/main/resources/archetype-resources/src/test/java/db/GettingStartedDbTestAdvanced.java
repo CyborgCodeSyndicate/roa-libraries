@@ -12,6 +12,7 @@ import io.cyborgcode.roa.validator.core.Assertion;
 import org.junit.jupiter.api.Test;
 
 import io.qameta.allure.Description;
+import org.junit.jupiter.api.DisplayName;
 
 import ${package}.api.dto.request.ExampleRequestDto;
 import ${package}.db.extractors.DbResponsesJsonPaths;
