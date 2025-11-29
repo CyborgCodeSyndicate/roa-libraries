@@ -4,6 +4,7 @@ import io.cyborgcode.roa.ui.annotations.ImplementationOfType;
 import io.cyborgcode.roa.ui.components.base.BaseComponent;
 import io.cyborgcode.roa.ui.components.list.ItemList;
 import io.cyborgcode.roa.ui.selenium.smart.*;
+import io.cyborgcode.roa.ui.util.strategy.Strategy;
 import ${package}.ui.types.ListFieldTypes;
 import org.openqa.selenium.By;
 

@@ -5,8 +5,11 @@ import io.cyborgcode.roa.ui.components.base.BaseComponent;
 import io.cyborgcode.roa.ui.components.radio.Radio;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import io.cyborgcode.roa.ui.util.strategy.Strategy;
 import ${package}.ui.types.RadioFieldTypes;
 import org.openqa.selenium.By;
+
+import java.util.List;
 
 /**
  * Minimal example implementation of the Radio component.

@@ -5,6 +5,7 @@ import io.cyborgcode.roa.ui.components.base.BaseComponent;
 import io.cyborgcode.roa.ui.components.select.Select;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import io.cyborgcode.roa.ui.util.strategy.Strategy;
 import ${package}.ui.types.SelectFieldTypes;
 import org.openqa.selenium.By;
 
