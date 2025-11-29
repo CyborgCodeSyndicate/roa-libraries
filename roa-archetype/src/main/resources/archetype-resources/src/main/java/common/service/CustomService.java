@@ -1,6 +1,4 @@
-package $
-
-{package}.common.service;
+package ${package}.common.service;
 
 import io.cyborgcode.roa.framework.annotation.Ring;
 import io.cyborgcode.roa.framework.chain.FluentService;
