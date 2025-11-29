@@ -11,13 +11,14 @@ import io.cyborgcode.roa.framework.quest.SuperQuest;
  */
 public final class PreconditionFunctions {
 
-   private PreconditionFunctions() {}
+    private PreconditionFunctions() {
+    }
 
-   /**
-    * Example precondition: no-op.
-    */
-   public static void examplePrecondition(SuperQuest quest, Object[] args) {
-      // TODO: Implement your precondition logic here
-      System.out.println("Executing example precondition...");
-   }
+    /**
+     * Example precondition: no-op.
+     */
+    public static void examplePrecondition(SuperQuest quest, Object[] args) {
+        // TODO: Implement your precondition logic here
+        System.out.println("Executing example precondition...");
+    }
 }

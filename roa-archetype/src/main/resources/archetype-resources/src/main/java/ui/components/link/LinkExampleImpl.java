@@ -14,7 +14,7 @@ import org.openqa.selenium.By;
 @ImplementationOfType(LinkFieldTypes.Data.EXAMPLE_LINK)
 public class LinkExampleImpl extends BaseComponent implements Link {
 
-   private static final By LINK_SELECTOR = By.tagName("a");
+    private static final By LINK_SELECTOR = By.tagName("a");
 
     public LinkExampleImpl(SmartWebDriver driver) {
         super(driver);

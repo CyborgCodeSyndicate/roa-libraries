@@ -28,14 +28,14 @@ import ${package}.common.data.test_data.Data;
  */
 public class ExampleCredentials implements LoginCredentials {
 
-   @Override
-   public String username() {
-      return Data.testData().exampleUsername();
-   }
+    @Override
+    public String username() {
+        return Data.testData().exampleUsername();
+    }
 
-   @Override
-   public String password() {
-      return Data.testData().exampleValue();
-   }
+    @Override
+    public String password() {
+        return Data.testData().exampleValue();
+    }
 
 }

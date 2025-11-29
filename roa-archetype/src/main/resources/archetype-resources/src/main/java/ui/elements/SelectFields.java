@@ -11,36 +11,36 @@ import org.openqa.selenium.By;
  */
 public enum SelectFields implements SelectUiElement {
 
-   GENERIC_SELECT(
-         By.cssSelector("select"),
-         SelectFieldTypes.EXAMPLE_SELECT_TYPE
-   ),
+    GENERIC_SELECT(
+            By.cssSelector("select"),
+            SelectFieldTypes.EXAMPLE_SELECT_TYPE
+    ),
 
-   COUNTRY_SELECT(
-         By.cssSelector("select[name='country']"),
-         SelectFieldTypes.EXAMPLE_SELECT_TYPE
-   );
+    COUNTRY_SELECT(
+            By.cssSelector("select[name='country']"),
+            SelectFieldTypes.EXAMPLE_SELECT_TYPE
+    );
 
-   private final By locator;
-   private final SelectComponentType componentType;
+    private final By locator;
+    private final SelectComponentType componentType;
 
-   SelectFields(By locator, SelectComponentType componentType) {
-      this.locator = locator;
-      this.componentType = componentType;
-   }
+    SelectFields(By locator, SelectComponentType componentType) {
+        this.locator = locator;
+        this.componentType = componentType;
+    }
 
-   @Override
-   public By locator() {
-      return locator;
-   }
+    @Override
+    public By locator() {
+        return locator;
+    }
 
-   @Override
-   public <T extends ComponentType> T componentType() {
-      return (T) componentType;
-   }
+    @Override
+    public <T extends ComponentType> T componentType() {
+        return (T) componentType;
+    }
 
-   @Override
-   public Enum<?> enumImpl() {
-      return this;
-   }
+    @Override
+    public Enum<?> enumImpl() {
+        return this;
+    }
 }

@@ -16,31 +16,32 @@ import io.cyborgcode.roa.framework.parameters.Late;
  */
 public enum DataCreator implements DataForge<DataCreator> {
 
-   EXAMPLE_MODEL(DataCreatorFunctions::createExampleModel),
-   EXAMPLE_TABLE_MODEL(DataCreatorFunctions::createExampleTableModel);
+    EXAMPLE_MODEL(DataCreatorFunctions::createExampleModel),
+    EXAMPLE_TABLE_MODEL(DataCreatorFunctions::createExampleTableModel);
 
 
-   public static final class Data {
+    public static final class Data {
 
-      public static final String EXAMPLE_MODEL = "EXAMPLE_MODEL";
-      public static final String EXAMPLE_TABLE_MODEL = "EXAMPLE_TABLE_MODEL";
+        public static final String EXAMPLE_MODEL = "EXAMPLE_MODEL";
+        public static final String EXAMPLE_TABLE_MODEL = "EXAMPLE_TABLE_MODEL";
 
-      private Data() {}
-   }
+        private Data() {
+        }
+    }
 
-   private final Late<Object> createDataFunction;
+    private final Late<Object> createDataFunction;
 
-   DataCreator(final Late<Object> createDataFunction) {
-      this.createDataFunction = createDataFunction;
-   }
+    DataCreator(final Late<Object> createDataFunction) {
+        this.createDataFunction = createDataFunction;
+    }
 
-   @Override
-   public Late<Object> dataCreator() {
-      return createDataFunction;
-   }
+    @Override
+    public Late<Object> dataCreator() {
+        return createDataFunction;
+    }
 
-   @Override
-   public DataCreator enumImpl() {
-      return this;
-   }
+    @Override
+    public DataCreator enumImpl() {
+        return this;
+    }
 }

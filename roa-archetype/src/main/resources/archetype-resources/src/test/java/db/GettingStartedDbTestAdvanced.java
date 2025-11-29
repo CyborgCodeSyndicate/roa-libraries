@@ -32,42 +32,42 @@ import static io.cyborgcode.roa.validator.core.AssertionTypes.IS;
  */
 @DB
 @DbHooks({
-      @DbHook(when = BEFORE, type = DbHookFlows.Data.EXAMPLE_INITIALIZE)
+        @DbHook(when = BEFORE, type = DbHookFlows.Data.EXAMPLE_INITIALIZE)
 })
 public class GettingStartedDbTest extends BaseQuest {
 
-   @Test
-   @Regression
-   @Description("Database usage with a hook and simple validation")
-   void createOrderDatabaseValidation(Quest quest) {
+    @Test
+    @Regression
+    @Description("Database usage with a hook and simple validation")
+    void createOrderDatabaseValidation(Quest quest) {
 
-      ExampleRequestDto example = ExampleRequestDto.builder()
-            .name("Example Name")
-            .job("Example Role")
-            .build();
+        ExampleRequestDto example = ExampleRequestDto.builder()
+                .name("Example Name")
+                .job("Example Role")
+                .build();
 
-      quest
-            .use(RING_OF_DB)
-            .validate(() -> System.out.println("Replace with your custom flow, example: " + example))
-            .drop()
-            .use(RING_OF_DB)
-            .query(ExampleDbQueries.SIMPLE_QUERY)
-            .validate(
-                  Assertion.builder()
-                        .target(QUERY_RESULT)
-                        .key(DbResponsesJsonPaths.PRODUCT_BY_ID.getJsonPath(1))
-                        .type(CONTAINS_ALL)
-                        .expected(List.of(example.getName()))
-                        .soft(true)
-                        .build(),
-                  Assertion.builder()
-                        .target(QUERY_RESULT)
-                        .key(DbResponsesJsonPaths.LOCATION_BY_ID.getJsonPath(1))
-                        .type(IS)
-                        .expected("REPLACE_WITH_LOCATION")
-                        .soft(true)
-                        .build()
-            )
-            .complete();
-   }
+        quest
+                .use(RING_OF_DB)
+                .validate(() -> System.out.println("Replace with your custom flow, example: " + example))
+                .drop()
+                .use(RING_OF_DB)
+                .query(ExampleDbQueries.SIMPLE_QUERY)
+                .validate(
+                        Assertion.builder()
+                                .target(QUERY_RESULT)
+                                .key(DbResponsesJsonPaths.PRODUCT_BY_ID.getJsonPath(1))
+                                .type(CONTAINS_ALL)
+                                .expected(List.of(example.getName()))
+                                .soft(true)
+                                .build(),
+                        Assertion.builder()
+                                .target(QUERY_RESULT)
+                                .key(DbResponsesJsonPaths.LOCATION_BY_ID.getJsonPath(1))
+                                .type(IS)
+                                .expected("REPLACE_WITH_LOCATION")
+                                .soft(true)
+                                .build()
+                )
+                .complete();
+    }
 }

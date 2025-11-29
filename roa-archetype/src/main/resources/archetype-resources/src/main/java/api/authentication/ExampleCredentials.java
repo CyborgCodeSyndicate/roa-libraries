@@ -13,7 +13,7 @@ import org.aeonbits.owner.ConfigCache;
 public class ExampleCredentials implements Credentials {
 
     private static final DataProperties DATA_PROPERTIES =
-          ConfigCache.getOrCreate(DataProperties.class);
+            ConfigCache.getOrCreate(DataProperties.class);
 
     @Override
     public String username() {

@@ -11,22 +11,23 @@ import ${package}.ui.model.ExampleTableModel;
  */
 public final class DataCreatorFunctions {
 
-   private DataCreatorFunctions() {}
+    private DataCreatorFunctions() {
+    }
 
-   /**
-    * Example models used across API/DB/UI tests.
-    */
-   public static ExampleRequestDto createExampleModel() {
-      return ExampleRequestDto.builder()
-            .name("Example Name")
-            .job("Example Role")
-            .build();
-   }
+    /**
+     * Example models used across API/DB/UI tests.
+     */
+    public static ExampleRequestDto createExampleModel() {
+        return ExampleRequestDto.builder()
+                .name("Example Name")
+                .job("Example Role")
+                .build();
+    }
 
-   public static ExampleTableModel createExampleTableModel() {
-      return ExampleTableModel.builder()
-            .exampleText("Example Text")
-            .exampleSelection("Example Selection")
-            .build();
-   }
+    public static ExampleTableModel createExampleTableModel() {
+        return ExampleTableModel.builder()
+                .exampleText("Example Text")
+                .exampleSelection("Example Selection")
+                .build();
+    }
 }

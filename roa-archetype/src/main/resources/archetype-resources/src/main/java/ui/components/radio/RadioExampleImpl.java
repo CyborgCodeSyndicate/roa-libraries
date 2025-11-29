@@ -14,15 +14,15 @@ import org.openqa.selenium.By;
 @ImplementationOfType(RadioFieldTypes.Data.EXAMPLE_RADIO)
 public class RadioExampleImpl extends BaseComponent implements Radio {
 
-   private static final By RADIO_SELECTOR = By.cssSelector("input[type='radio']");
+    private static final By RADIO_SELECTOR = By.cssSelector("input[type='radio']");
 
-   public RadioExampleImpl(SmartWebDriver driver) {
-      super(driver);
-   }
+    public RadioExampleImpl(SmartWebDriver driver) {
+        super(driver);
+    }
 
     @Override
     public void select(SmartWebElement container, String radioButtonText) {
-        
+
     }
 
     @Override
@@ -31,15 +31,15 @@ public class RadioExampleImpl extends BaseComponent implements Radio {
     }
 
     @Override
-   public void select(String label) {
-      SmartWebElement radio = findByLabel(label);
-      radio.click();
-   }
+    public void select(String label) {
+        SmartWebElement radio = findByLabel(label);
+        radio.click();
+    }
 
-   @Override
-   public void select(By locator) {
-      driver.findSmartElement(locator).click();
-   }
+    @Override
+    public void select(By locator) {
+        driver.findSmartElement(locator).click();
+    }
 
     @Override
     public boolean isEnabled(SmartWebElement container, String radioButtonText) {
@@ -47,15 +47,15 @@ public class RadioExampleImpl extends BaseComponent implements Radio {
     }
 
     @Override
-   public boolean isSelected(String label) {
-      SmartWebElement radio = findByLabel(label);
-      return radio.isSelected();
-   }
+    public boolean isSelected(String label) {
+        SmartWebElement radio = findByLabel(label);
+        return radio.isSelected();
+    }
 
-   @Override
-   public boolean isSelected(By locator) {
-      return driver.findSmartElement(locator).isSelected();
-   }
+    @Override
+    public boolean isSelected(By locator) {
+        return driver.findSmartElement(locator).isSelected();
+    }
 
     @Override
     public boolean isVisible(SmartWebElement container, String radioButtonText) {
@@ -63,15 +63,15 @@ public class RadioExampleImpl extends BaseComponent implements Radio {
     }
 
     @Override
-   public boolean isEnabled(String label) {
-      SmartWebElement radio = findByLabel(label);
-      return radio.isEnabled();
-   }
+    public boolean isEnabled(String label) {
+        SmartWebElement radio = findByLabel(label);
+        return radio.isEnabled();
+    }
 
-   @Override
-   public boolean isEnabled(By locator) {
-      return driver.findSmartElement(locator).isEnabled();
-   }
+    @Override
+    public boolean isEnabled(By locator) {
+        return driver.findSmartElement(locator).isEnabled();
+    }
 
     @Override
     public boolean isSelected(SmartWebElement container, String radioButtonText) {
@@ -79,15 +79,15 @@ public class RadioExampleImpl extends BaseComponent implements Radio {
     }
 
     @Override
-   public boolean isVisible(String label) {
-      SmartWebElement radio = findByLabel(label);
-      return radio.isDisplayed();
-   }
+    public boolean isVisible(String label) {
+        SmartWebElement radio = findByLabel(label);
+        return radio.isDisplayed();
+    }
 
-   @Override
-   public boolean isVisible(By locator) {
-      return driver.findSmartElement(locator).isDisplayed();
-   }
+    @Override
+    public boolean isVisible(By locator) {
+        return driver.findSmartElement(locator).isDisplayed();
+    }
 
     @Override
     public String getSelected(SmartWebElement container) {
@@ -95,14 +95,14 @@ public class RadioExampleImpl extends BaseComponent implements Radio {
     }
 
     @Override
-   public String getSelected(By groupLocator) {
-      return driver.findSmartElement(groupLocator)
-            .findSmartElements(RADIO_SELECTOR).stream()
-            .filter(SmartWebElement::isSelected)
-            .findFirst()
-            .map(this::findLabelForRadio)
-            .orElse(null);
-   }
+    public String getSelected(By groupLocator) {
+        return driver.findSmartElement(groupLocator)
+                .findSmartElements(RADIO_SELECTOR).stream()
+                .filter(SmartWebElement::isSelected)
+                .findFirst()
+                .map(this::findLabelForRadio)
+                .orElse(null);
+    }
 
     @Override
     public List<String> getAll(SmartWebElement container) {
@@ -115,25 +115,25 @@ public class RadioExampleImpl extends BaseComponent implements Radio {
     }
 
     private SmartWebElement findByLabel(String labelText) {
-      return driver.findSmartElements(RADIO_SELECTOR).stream()
-            .filter(r -> {
-               String label = findLabelForRadio(r);
-               return label.equalsIgnoreCase(labelText);
-            })
-            .findFirst()
-            .orElseThrow(() ->
-                  new RuntimeException("Radio with label '" + labelText + "' not found"));
-   }
+        return driver.findSmartElements(RADIO_SELECTOR).stream()
+                .filter(r -> {
+                    String label = findLabelForRadio(r);
+                    return label.equalsIgnoreCase(labelText);
+                })
+                .findFirst()
+                .orElseThrow(() ->
+                        new RuntimeException("Radio with label '" + labelText + "' not found"));
+    }
 
-   /**
-    * Returns the label text associated with a radio button.
-    * Assumes structure:
-    * <label>
-    *     <input type="radio"> Label Text
-    * </label>
-    */
-   private String findLabelForRadio(SmartWebElement radio) {
-      SmartWebElement parent = radio.findSmartElement(By.xpath("./.."));
-      return parent.getText().trim();
-   }
+    /**
+     * Returns the label text associated with a radio button.
+     * Assumes structure:
+     * <label>
+     * <input type="radio"> Label Text
+     * </label>
+     */
+    private String findLabelForRadio(SmartWebElement radio) {
+        SmartWebElement parent = radio.findSmartElement(By.xpath("./.."));
+        return parent.getText().trim();
+    }
 }

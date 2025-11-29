@@ -27,7 +27,7 @@ import ${package}.common.preconditions.Preconditions;
 import java.util.List;
 
 import static io.cyborgcode.roa.ui.config.UiConfigHolder.getUiConfig;
-import static ${package}.common.base.Rings.*;
+import static ${package}.common.base.Rings .*;
 
 /**
  * Getting started UI test (advanced template).
@@ -70,7 +70,7 @@ public class GettingStartedUiTest extends BaseQuest {
     @Description("Using automatic UI authentication through @AuthenticateViaUi")
     @AuthenticateViaUi(credentials = ExampleCredentials.class, type = ExampleAppUiLogin.class)
     void createExampleUsingAuthenticationAndExtractResponse(Quest quest,
-                                          @Craft(model = DataCreator.Data.EXAMPLE_TABLE_MODEL) ExampleTableModel model) {
+                                                            @Craft(model = DataCreator.Data.EXAMPLE_TABLE_MODEL) ExampleTableModel model) {
 
         quest.use(RING_OF_UI)
                 .input().insert(InputFields.GENERIC_INPUT, model.getExampleText())

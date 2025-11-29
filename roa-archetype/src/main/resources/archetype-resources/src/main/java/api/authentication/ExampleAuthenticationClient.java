@@ -12,12 +12,12 @@ import io.restassured.http.Header;
  */
 public class ExampleAuthenticationClient extends BaseAuthenticationClient {
 
-   @Override
-   protected Header authenticateImpl(RestService restService, String username, String password) {
+    @Override
+    protected Header authenticateImpl(RestService restService, String username, String password) {
 
-      // TODO: Replace with your real authentication call.
-      // For now, return a placeholder header.
+        // TODO: Replace with your real authentication call.
+        // For now, return a placeholder header.
 
-      return new Header("Authorization", "Bearer example-token");
-   }
+        return new Header("Authorization", "Bearer example-token");
+    }
 }

@@ -2,6 +2,7 @@ package ${package}.common.data.cleaner;
 
 import io.cyborgcode.roa.framework.parameters.DataRipper;
 import io.cyborgcode.roa.framework.quest.SuperQuest;
+
 import java.util.function.Consumer;
 
 /**
@@ -20,37 +21,38 @@ import java.util.function.Consumer;
  */
 public enum DataCleaner implements DataRipper<DataCleaner> {
 
-   /**
-    * Example cleanup operation.
-    *
-    * <p>Update the implementation inside {@link DataCleanerFunctions#exampleCleanup(SuperQuest)}
-    * to match your application's teardown logic.</p>
-    */
-   EXAMPLE_CLEANUP(DataCleanerFunctions::exampleCleanup);
+    /**
+     * Example cleanup operation.
+     *
+     * <p>Update the implementation inside {@link DataCleanerFunctions#exampleCleanup(SuperQuest)}
+     * to match your application's teardown logic.</p>
+     */
+    EXAMPLE_CLEANUP(DataCleanerFunctions::exampleCleanup);
 
-   /**
-    * String identifiers that can be referenced from @Ripper annotations.
-    */
-   public static final class Data {
+    /**
+     * String identifiers that can be referenced from @Ripper annotations.
+     */
+    public static final class Data {
 
-      private Data() {}
+        private Data() {
+        }
 
-      public static final String EXAMPLE_CLEANUP = "EXAMPLE_CLEANUP";
-   }
+        public static final String EXAMPLE_CLEANUP = "EXAMPLE_CLEANUP";
+    }
 
-   private final Consumer<SuperQuest> cleanUpFunction;
+    private final Consumer<SuperQuest> cleanUpFunction;
 
-   DataCleaner(final Consumer<SuperQuest> cleanUpFunction) {
-      this.cleanUpFunction = cleanUpFunction;
-   }
+    DataCleaner(final Consumer<SuperQuest> cleanUpFunction) {
+        this.cleanUpFunction = cleanUpFunction;
+    }
 
-   @Override
-   public Consumer<SuperQuest> eliminate() {
-      return cleanUpFunction;
-   }
+    @Override
+    public Consumer<SuperQuest> eliminate() {
+        return cleanUpFunction;
+    }
 
-   @Override
-   public DataCleaner enumImpl() {
-      return this;
-   }
+    @Override
+    public DataCleaner enumImpl() {
+        return this;
+    }
 }

@@ -18,19 +18,19 @@ import org.aeonbits.owner.Config;
  */
 @Config.LoadPolicy(Config.LoadType.MERGE)
 @Config.Sources({
-      "system:properties",
-      "classpath:${test.data.file}.properties"
+        "system:properties",
+        "classpath:${test.data.file}.properties"
 })
 public interface DataProperties extends PropertyConfig {
 
-   /**
-    * Example configuration entry.
-    *
-    * <p>TODO: Replace or extend with your real test data keys.</p>
-    */
-   @Key("example.username")
-   String exampleUsername();
+    /**
+     * Example configuration entry.
+     *
+     * <p>TODO: Replace or extend with your real test data keys.</p>
+     */
+    @Key("example.username")
+    String exampleUsername();
 
-   @Key("example.value")
-   String exampleValue();
+    @Key("example.value")
+    String exampleValue();
 }

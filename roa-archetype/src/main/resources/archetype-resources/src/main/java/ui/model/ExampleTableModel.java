@@ -15,7 +15,7 @@ import lombok.*;
  * <pre>{@code
  * quest.use(RING_OF_UI).insertion().insertData(order);
  * }</pre>
- *
+ * <p>
  * ROA will automatically fill all annotated fields into the corresponding
  * UI elements in the specified order.
  */
@@ -26,32 +26,32 @@ import lombok.*;
 @Setter
 public class ExampleTableModel {
 
-   /**
-    * Example text input field.
-    * Replace with a real field and element mapping.
-    */
-   @InsertionElement(
-         locatorClass = InputFields.class,
-         elementEnum = "EXAMPLE_INPUT",
-         order = 1
-   )
-   private String exampleText;
+    /**
+     * Example text input field.
+     * Replace with a real field and element mapping.
+     */
+    @InsertionElement(
+            locatorClass = InputFields.class,
+            elementEnum = "EXAMPLE_INPUT",
+            order = 1
+    )
+    private String exampleText;
 
-   /**
-    * Example dropdown/select field.
-    * Replace with a real field and element mapping.
-    */
-   @InsertionElement(
-         locatorClass = SelectFields.class,
-         elementEnum = "EXAMPLE_DROPDOWN",
-         order = 2
-   )
-   private String exampleSelection;
+    /**
+     * Example dropdown/select field.
+     * Replace with a real field and element mapping.
+     */
+    @InsertionElement(
+            locatorClass = SelectFields.class,
+            elementEnum = "EXAMPLE_DROPDOWN",
+            order = 2
+    )
+    private String exampleSelection;
 
-   /**
-    * Add your own model fields below.
-    * They can be plain fields or annotated with @InsertionElement
-    * depending on whether they should be auto-filled.
-    */
-   private String additionalInfo;
+    /**
+     * Add your own model fields below.
+     * They can be plain fields or annotated with @InsertionElement
+     * depending on whether they should be auto-filled.
+     */
+    private String additionalInfo;
 }

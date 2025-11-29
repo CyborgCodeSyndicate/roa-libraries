@@ -14,7 +14,7 @@ import org.openqa.selenium.By;
 @ImplementationOfType(InputFieldTypes.Data.EXAMPLE_INPUT)
 public class InputExampleImpl extends BaseComponent implements Input {
 
-   private static final By INPUT_SELECTOR = By.tagName("input");
+    private static final By INPUT_SELECTOR = By.tagName("input");
     private static final String VALUE_ATTR = "value";
 
     public InputExampleImpl(SmartWebDriver driver) {

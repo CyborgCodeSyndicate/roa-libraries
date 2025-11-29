@@ -17,42 +17,42 @@ import java.util.Map;
  */
 public enum ExampleEndpoints implements Endpoint<ExampleEndpoints> {
 
-   EXAMPLE_GET(Method.GET, "/example/get"),
-   EXAMPLE_POST(Method.POST, "/example/create");
+    EXAMPLE_GET(Method.GET, "/example/get"),
+    EXAMPLE_POST(Method.POST, "/example/create");
 
-   private final Method method;
-   private final String url;
+    private final Method method;
+    private final String url;
 
-   ExampleEndpoints(Method method, String url) {
-      this.method = method;
-      this.url = url;
-   }
+    ExampleEndpoints(Method method, String url) {
+        this.method = method;
+        this.url = url;
+    }
 
-   @Override
-   public Method method() {
-      return method;
-   }
+    @Override
+    public Method method() {
+        return method;
+    }
 
-   @Override
-   public String url() {
-      return url;
-   }
+    @Override
+    public String url() {
+        return url;
+    }
 
-   @Override
-   public ExampleEndpoints enumImpl() {
-      return this;
-   }
+    @Override
+    public ExampleEndpoints enumImpl() {
+        return this;
+    }
 
-   @Override
-   public RequestSpecification defaultConfiguration() {
-      return Endpoint.super.defaultConfiguration()
-            .contentType(ContentType.JSON);
-   }
+    @Override
+    public RequestSpecification defaultConfiguration() {
+        return Endpoint.super.defaultConfiguration()
+                .contentType(ContentType.JSON);
+    }
 
-   @Override
-   public Map<String, List<String>> headers() {
-      return Map.of(
-            "Accept", List.of("application/json")
-      );
-   }
+    @Override
+    public Map<String, List<String>> headers() {
+        return Map.of(
+                "Accept", List.of("application/json")
+        );
+    }
 }

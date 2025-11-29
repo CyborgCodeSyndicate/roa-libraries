@@ -7,18 +7,18 @@ import io.cyborgcode.roa.ui.components.radio.RadioComponentType;
  */
 public enum RadioFieldTypes implements RadioComponentType {
 
-   EXAMPLE_RADIO_TYPE;
+    EXAMPLE_RADIO_TYPE;
 
-   public static final class Data {
+    public static final class Data {
 
-      public static final String EXAMPLE_RADIO = "EXAMPLE_RADIO_TYPE";
+        public static final String EXAMPLE_RADIO = "EXAMPLE_RADIO_TYPE";
 
-      private Data() {
-      }
-   }
+        private Data() {
+        }
+    }
 
-   @Override
-   public Enum<?> getType() {
-      return this;
-   }
+    @Override
+    public Enum<?> getType() {
+        return this;
+    }
 }

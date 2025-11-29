@@ -16,11 +16,11 @@ import java.util.List;
 @ImplementationOfType(SelectFieldTypes.Data.EXAMPLE_SELECT)
 public class SelectExampleImpl extends BaseComponent implements Select {
 
-   private static final By OPTION_SELECTOR = By.tagName("option");
+    private static final By OPTION_SELECTOR = By.tagName("option");
 
-   public SelectExampleImpl(SmartWebDriver driver) {
-      super(driver);
-   }
+    public SelectExampleImpl(SmartWebDriver driver) {
+        super(driver);
+    }
 
     @Override
     public void selectOptions(SmartWebElement container, String... values) {
@@ -48,12 +48,12 @@ public class SelectExampleImpl extends BaseComponent implements Select {
     }
 
     @Override
-   public List<String> getAvailableOptions(By locator) {
-      SmartWebElement select = driver.findSmartElement(locator);
-      return select.findSmartElements(OPTION_SELECTOR).stream()
-            .map(e -> e.getText().trim())
-            .toList();
-   }
+    public List<String> getAvailableOptions(By locator) {
+        SmartWebElement select = driver.findSmartElement(locator);
+        return select.findSmartElements(OPTION_SELECTOR).stream()
+                .map(e -> e.getText().trim())
+                .toList();
+    }
 
     @Override
     public List<String> getSelectedOptions(SmartWebElement container) {
@@ -61,13 +61,13 @@ public class SelectExampleImpl extends BaseComponent implements Select {
     }
 
     @Override
-   public List<String> getSelectedOptions(By locator) {
-      SmartWebElement select = driver.findSmartElement(locator);
-      return select.findSmartElements(OPTION_SELECTOR).stream()
-            .filter(SmartWebElement::isSelected)
-            .map(e -> e.getText().trim())
-            .toList();
-   }
+    public List<String> getSelectedOptions(By locator) {
+        SmartWebElement select = driver.findSmartElement(locator);
+        return select.findSmartElements(OPTION_SELECTOR).stream()
+                .filter(SmartWebElement::isSelected)
+                .map(e -> e.getText().trim())
+                .toList();
+    }
 
     @Override
     public boolean isOptionVisible(SmartWebElement container, String value) {
@@ -75,18 +75,18 @@ public class SelectExampleImpl extends BaseComponent implements Select {
     }
 
     @Override
-   public boolean isOptionEnabled(By locator, String visibleText) {
-      SmartWebElement select = driver.findSmartElement(locator);
-      SmartWebElement option = findOption(select, visibleText);
-      return option.isEnabled();
-   }
+    public boolean isOptionEnabled(By locator, String visibleText) {
+        SmartWebElement select = driver.findSmartElement(locator);
+        SmartWebElement option = findOption(select, visibleText);
+        return option.isEnabled();
+    }
 
-   @Override
-   public boolean isOptionVisible(By locator, String visibleText) {
-      SmartWebElement select = driver.findSmartElement(locator);
-      SmartWebElement option = findOption(select, visibleText);
-      return option.isDisplayed();
-   }
+    @Override
+    public boolean isOptionVisible(By locator, String visibleText) {
+        SmartWebElement select = driver.findSmartElement(locator);
+        SmartWebElement option = findOption(select, visibleText);
+        return option.isDisplayed();
+    }
 
     @Override
     public boolean isOptionEnabled(SmartWebElement container, String value) {
@@ -94,16 +94,16 @@ public class SelectExampleImpl extends BaseComponent implements Select {
     }
 
     private SmartWebElement findFirstSelect() {
-      return driver.findSmartElements(By.tagName("select")).stream()
-            .findFirst()
-            .orElseThrow(() -> new RuntimeException("No <select> elements found"));
-   }
+        return driver.findSmartElements(By.tagName("select")).stream()
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No <select> elements found"));
+    }
 
-   private SmartWebElement findOption(SmartWebElement select, String visibleText) {
-      return select.findSmartElements(OPTION_SELECTOR).stream()
-            .filter(e -> e.getText().trim().equalsIgnoreCase(visibleText))
-            .findFirst()
-            .orElseThrow(() ->
-                  new RuntimeException("Option '" + visibleText + "' not found"));
-   }
+    private SmartWebElement findOption(SmartWebElement select, String visibleText) {
+        return select.findSmartElements(OPTION_SELECTOR).stream()
+                .filter(e -> e.getText().trim().equalsIgnoreCase(visibleText))
+                .findFirst()
+                .orElseThrow(() ->
+                        new RuntimeException("Option '" + visibleText + "' not found"));
+    }
 }

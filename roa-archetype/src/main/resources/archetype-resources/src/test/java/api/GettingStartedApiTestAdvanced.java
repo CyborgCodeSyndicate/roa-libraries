@@ -34,26 +34,26 @@ import static org.apache.http.HttpStatus.SC_CREATED;
 @API
 public class GettingStartedApiTestAdvanced extends BaseQuestSequential {
 
-   @Test
-   @Regression
-   @Description("Creates two example payloads using crafted models (advanced example)")
-   @AuthenticateViaApi(credentials = ExampleCredentials.class, type = ExampleAuthenticationClient.class)
-   @Journey(value = Preconditions.Data.EXAMPLE_PRECONDITION, order = 1)
-   void createsTwoUsersUsingCraftAndLate(Quest quest,
-         @Craft(model = DataCreator.Data.EXAMPLE_MODEL) ExampleRequestDto firstPayload,
-         @Craft(model = DataCreator.Data.EXAMPLE_MODEL) Late<ExampleRequestDto> secondPayload) {
+    @Test
+    @Regression
+    @Description("Creates two example payloads using crafted models (advanced example)")
+    @AuthenticateViaApi(credentials = ExampleCredentials.class, type = ExampleAuthenticationClient.class)
+    @Journey(value = Preconditions.Data.EXAMPLE_PRECONDITION, order = 1)
+    void createsTwoUsersUsingCraftAndLate(Quest quest,
+                                          @Craft(model = DataCreator.Data.EXAMPLE_MODEL) ExampleRequestDto firstPayload,
+                                          @Craft(model = DataCreator.Data.EXAMPLE_MODEL) Late<ExampleRequestDto> secondPayload) {
 
-      quest.use(RING_OF_API)
-            .requestAndValidate(
-                  ExampleEndpoints.EXAMPLE_POST,
-                  firstPayload,
-                  Assertion.builder().target(STATUS).type(IS).expected(SC_CREATED).build()
-            )
-            .requestAndValidate(
-                  ExampleEndpoints.EXAMPLE_POST,
-                  secondPayload.create(),
-                  Assertion.builder().target(STATUS).type(IS).expected(SC_CREATED).build()
-            )
-            .complete();
-   }
+        quest.use(RING_OF_API)
+                .requestAndValidate(
+                        ExampleEndpoints.EXAMPLE_POST,
+                        firstPayload,
+                        Assertion.builder().target(STATUS).type(IS).expected(SC_CREATED).build()
+                )
+                .requestAndValidate(
+                        ExampleEndpoints.EXAMPLE_POST,
+                        secondPayload.create(),
+                        Assertion.builder().target(STATUS).type(IS).expected(SC_CREATED).build()
+                )
+                .complete();
+    }
 }

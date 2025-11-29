@@ -26,15 +26,15 @@ import static org.apache.http.HttpStatus.SC_OK;
 @API
 public class GettingStartedApiTestBasic extends BaseQuest {
 
-   @Test
-   @Regression
-   @AuthenticateViaApi(credentials = ExampleCredentials.class, type = ExampleAuthenticationClient.class)
-   void apiUsingAuthenticateViaApi(Quest quest) {
-      quest.use(RING_OF_API)
-            .requestAndValidate(
-                  AppEndpoints.EXAMPLE_GET,
-                  Assertion.builder().target(STATUS).type(IS).expected(SC_OK).build()
-            )
-            .complete();
-   }
+    @Test
+    @Regression
+    @AuthenticateViaApi(credentials = ExampleCredentials.class, type = ExampleAuthenticationClient.class)
+    void apiUsingAuthenticateViaApi(Quest quest) {
+        quest.use(RING_OF_API)
+                .requestAndValidate(
+                        AppEndpoints.EXAMPLE_GET,
+                        Assertion.builder().target(STATUS).type(IS).expected(SC_OK).build()
+                )
+                .complete();
+    }
 }

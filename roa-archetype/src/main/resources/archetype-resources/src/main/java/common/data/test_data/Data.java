@@ -11,14 +11,15 @@ import org.aeonbits.owner.ConfigCache;
  */
 public final class Data {
 
-   private Data() {}
+    private Data() {
+    }
 
-   /**
-    * Retrieves the shared {@link DataProperties} instance.
-    *
-    * @return the test data configuration
-    */
-   public static DataProperties testData() {
-      return ConfigCache.getOrCreate(DataProperties.class);
-   }
+    /**
+     * Retrieves the shared {@link DataProperties} instance.
+     *
+     * @return the test data configuration
+     */
+    public static DataProperties testData() {
+        return ConfigCache.getOrCreate(DataProperties.class);
+    }
 }

@@ -7,17 +7,18 @@ import io.cyborgcode.roa.ui.components.list.ItemListComponentType;
  */
 public enum ListFieldTypes implements ItemListComponentType {
 
-   EXAMPLE_LIST_TYPE;
+    EXAMPLE_LIST_TYPE;
 
-   public static final class Data {
+    public static final class Data {
 
-      public static final String EXAMPLE_LIST = "EXAMPLE_LIST_TYPE";
+        public static final String EXAMPLE_LIST = "EXAMPLE_LIST_TYPE";
 
-      private Data() {}
-   }
+        private Data() {
+        }
+    }
 
-   @Override
-   public Enum<?> getType() {
-      return this;
-   }
+    @Override
+    public Enum<?> getType() {
+        return this;
+    }
 }

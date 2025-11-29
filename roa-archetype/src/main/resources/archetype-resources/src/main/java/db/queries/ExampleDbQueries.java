@@ -11,24 +11,24 @@ import io.cyborgcode.roa.db.query.DbQuery;
  */
 public enum ExampleDbQueries implements DbQuery<ExampleDbQueries> {
 
-   /**
-    * Simple example query to demonstrate usage.
-    */
-   SIMPLE_QUERY("SELECT 1 AS example");
+    /**
+     * Simple example query to demonstrate usage.
+     */
+    SIMPLE_QUERY("SELECT 1 AS example");
 
-   private final String query;
+    private final String query;
 
-   ExampleDbQueries(String query) {
-      this.query = query;
-   }
+    ExampleDbQueries(String query) {
+        this.query = query;
+    }
 
-   @Override
-   public String query() {
-      return query;
-   }
+    @Override
+    public String query() {
+        return query;
+    }
 
-   @Override
-   public ExampleDbQueries enumImpl() {
-      return this;
-   }
+    @Override
+    public ExampleDbQueries enumImpl() {
+        return this;
+    }
 }

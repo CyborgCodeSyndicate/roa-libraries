@@ -15,6 +15,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ExampleRequestDto {
 
-   private String name;
-   private String job;
+    private String name;
+    private String job;
 }

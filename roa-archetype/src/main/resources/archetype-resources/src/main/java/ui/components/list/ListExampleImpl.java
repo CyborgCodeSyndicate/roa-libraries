@@ -6,6 +6,7 @@ import io.cyborgcode.roa.ui.components.list.ItemList;
 import io.cyborgcode.roa.ui.selenium.smart.*;
 import ${package}.ui.types.ListFieldTypes;
 import org.openqa.selenium.By;
+
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ import java.util.List;
 @ImplementationOfType(ListFieldTypes.Data.EXAMPLE_LIST)
 public class ListExampleImpl extends BaseComponent implements ItemList {
 
-   private static final By ITEM_LOCATOR = By.tagName("li");
+    private static final By ITEM_LOCATOR = By.tagName("li");
     private static final By LABEL_LOCATOR = By.tagName("a");
 
     public ListExampleImpl(SmartWebDriver driver) {

@@ -2,6 +2,7 @@ package ${package}.db.hooks;
 
 import io.cyborgcode.roa.db.query.QueryResponse;
 import io.cyborgcode.roa.db.service.DatabaseService;
+
 import static ${package}.db.queries.ExampleDbQueries.SIMPLE_QUERY;
 import java.util.Map;
 
@@ -15,7 +16,8 @@ import java.util.Map;
  */
 public final class DbHookFunctions {
 
-    private DbHookFunctions() {}
+    private DbHookFunctions() {
+    }
 
     /**
      * Example database initialization.
@@ -35,7 +37,7 @@ public final class DbHookFunctions {
      * in shared test storage for later use by tests.</p>
      */
     public static void queryAndStoreExample(DatabaseService service,
-                                            Map<Object,Object> storage,
+                                            Map<Object, Object> storage,
                                             String[] args) {
 
         // TODO: Replace with real query logic

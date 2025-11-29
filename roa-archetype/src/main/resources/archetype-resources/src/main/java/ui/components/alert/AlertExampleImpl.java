@@ -14,32 +14,32 @@ import org.openqa.selenium.By;
 @ImplementationOfType(AlertFieldTypes.Data.EXAMPLE_ALERT)
 public class AlertExampleImpl extends BaseComponent implements Alert {
 
-   private static final By ALERT_SELECTOR = By.className("alert");
+    private static final By ALERT_SELECTOR = By.className("alert");
 
-   public AlertExampleImpl(SmartWebDriver driver) {
-      super(driver);
-   }
+    public AlertExampleImpl(SmartWebDriver driver) {
+        super(driver);
+    }
 
-   @Override
-   public String getValue(SmartWebElement container) {
-      SmartWebElement alert = container.findSmartElement(ALERT_SELECTOR);
-      return alert.getText().trim();
-   }
+    @Override
+    public String getValue(SmartWebElement container) {
+        SmartWebElement alert = container.findSmartElement(ALERT_SELECTOR);
+        return alert.getText().trim();
+    }
 
-   @Override
-   public String getValue(By locator) {
-      return driver.findSmartElement(locator).getText().trim();
-   }
+    @Override
+    public String getValue(By locator) {
+        return driver.findSmartElement(locator).getText().trim();
+    }
 
-   @Override
-   public boolean isVisible(SmartWebElement container) {
-      return driver.checkNoException(() -> container.findSmartElement(ALERT_SELECTOR))
-            && container.findSmartElement(ALERT_SELECTOR).isDisplayed();
-   }
+    @Override
+    public boolean isVisible(SmartWebElement container) {
+        return driver.checkNoException(() -> container.findSmartElement(ALERT_SELECTOR))
+                && container.findSmartElement(ALERT_SELECTOR).isDisplayed();
+    }
 
-   @Override
-   public boolean isVisible(By locator) {
-      return driver.checkNoException(() -> driver.findSmartElement(locator))
-            && driver.findSmartElement(locator).isDisplayed();
-   }
+    @Override
+    public boolean isVisible(By locator) {
+        return driver.checkNoException(() -> driver.findSmartElement(locator))
+                && driver.findSmartElement(locator).isDisplayed();
+    }
 }

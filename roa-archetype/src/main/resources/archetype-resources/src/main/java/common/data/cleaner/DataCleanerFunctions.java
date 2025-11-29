@@ -2,7 +2,7 @@ package ${package}.common.data.cleaner;
 
 import io.cyborgcode.roa.framework.quest.SuperQuest;
 import io.cyborgcode.roa.validator.core.Assertion;
-#if( $modules.contains("API") )
+#if($modules.contains("API"))
 import static io.cyborgcode.roa.validator.core.AssertionTypes.IS;
 import static ${package}.common.base.Rings.RING_OF_API;
 import static ${package}.api.ExampleEndpoints.EXAMPLE_POST;
@@ -22,35 +22,36 @@ import static org.apache.http.HttpStatus.SC_NO_CONTENT;
  */
 public final class DataCleanerFunctions {
 
-   private DataCleanerFunctions() {}
+    private DataCleanerFunctions() {
+    }
 
-   /**
-    * Example cleanup operation.
-    *
-    * <p>This method demonstrates how to implement a cleanup function.
-    * Replace the request URL, path params, and validation rules according
-    * to your application's needs.</p>
-    *
-    * <p>Example usage:
-    * <pre>
-    *     @Ripper(DataCleaner.Data.EXAMPLE_CLEANUP)
-    *     void myTest() { ... }
-    * </pre>
-    * </p>
-    */
-   public static void exampleCleanup(SuperQuest quest) {
-#if( $modules.contains("API") )
-      quest.use(RING_OF_API)
-            .requestAndValidate(
-                  EXAMPLE_POST,
-                  Assertion.builder()
-                        .target(STATUS)
-                        .type(IS)
-                        .expected(SC_NO_CONTENT)
-                        .build()
-            );
+    /**
+     * Example cleanup operation.
+     *
+     * <p>This method demonstrates how to implement a cleanup function.
+     * Replace the request URL, path params, and validation rules according
+     * to your application's needs.</p>
+     *
+     * <p>Example usage:
+     * <pre>
+     *     @Ripper(DataCleaner.Data.EXAMPLE_CLEANUP)
+     *     void myTest() { ... }
+     * </pre>
+     * </p>
+     */
+    public static void exampleCleanup(SuperQuest quest) {
+#if ($modules.contains("API"))
+            quest.use(RING_OF_API)
+                    .requestAndValidate(
+                            EXAMPLE_POST,
+                            Assertion.builder()
+                                    .target(STATUS)
+                                    .type(IS)
+                                    .expected(SC_NO_CONTENT)
+                                    .build()
+                    );
 #else
-      System.out.println("Example cleanup function");
+        System.out.println("Example cleanup function");
 #end
-   }
+    }
 }

@@ -7,17 +7,18 @@ import io.cyborgcode.roa.ui.components.link.LinkComponentType;
  */
 public enum LinkFieldTypes implements LinkComponentType {
 
-   EXAMPLE_LINK_TYPE;
+    EXAMPLE_LINK_TYPE;
 
-   public static final class Data {
+    public static final class Data {
 
-      public static final String EXAMPLE_LINK = "EXAMPLE_LINK_TYPE";
+        public static final String EXAMPLE_LINK = "EXAMPLE_LINK_TYPE";
 
-      private Data() {}
-   }
+        private Data() {
+        }
+    }
 
-   @Override
-   public Enum<?> getType() {
-      return this;
-   }
+    @Override
+    public Enum<?> getType() {
+        return this;
+    }
 }

@@ -7,6 +7,7 @@ import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
 import ${package}.ui.types.ButtonFieldTypes;
 import org.openqa.selenium.By;
+
 import java.util.Objects;
 
 /**
@@ -15,15 +16,15 @@ import java.util.Objects;
 @ImplementationOfType(ButtonFieldTypes.Data.EXAMPLE_BUTTON)
 public class ButtonExampleImpl extends BaseComponent implements Button {
 
-   private static final By BUTTON_SELECTOR = By.tagName("button");
+    private static final By BUTTON_SELECTOR = By.tagName("button");
 
-   public ButtonExampleImpl(SmartWebDriver driver) {
-      super(driver);
-   }
+    public ButtonExampleImpl(SmartWebDriver driver) {
+        super(driver);
+    }
 
     @Override
     public void click(SmartWebElement container, String buttonText) {
-        
+
     }
 
     @Override
@@ -37,10 +38,10 @@ public class ButtonExampleImpl extends BaseComponent implements Button {
         button.click();
     }
 
-   @Override
-   public void click(By locator) {
-      driver.findSmartElement(locator).click();
-   }
+    @Override
+    public void click(By locator) {
+        driver.findSmartElement(locator).click();
+    }
 
     @Override
     public boolean isEnabled(SmartWebElement container, String buttonText) {

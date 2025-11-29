@@ -11,36 +11,36 @@ import org.openqa.selenium.By;
  */
 public enum AlertFields implements AlertUiElement {
 
-   GENERIC_ALERT(
-         By.cssSelector(".alert"),
-         AlertFieldTypes.EXAMPLE_ALERT_TYPE
-   ),
+    GENERIC_ALERT(
+            By.cssSelector(".alert"),
+            AlertFieldTypes.EXAMPLE_ALERT_TYPE
+    ),
 
-   SUCCESS_ALERT(
-         By.cssSelector(".alert.alert-success"),
-         AlertFieldTypes.EXAMPLE_ALERT_TYPE
-   );
+    SUCCESS_ALERT(
+            By.cssSelector(".alert.alert-success"),
+            AlertFieldTypes.EXAMPLE_ALERT_TYPE
+    );
 
-   private final By locator;
-   private final AlertComponentType componentType;
+    private final By locator;
+    private final AlertComponentType componentType;
 
-   AlertFields(By locator, AlertComponentType componentType) {
-      this.locator = locator;
-      this.componentType = componentType;
-   }
+    AlertFields(By locator, AlertComponentType componentType) {
+        this.locator = locator;
+        this.componentType = componentType;
+    }
 
-   @Override
-   public By locator() {
-      return locator;
-   }
+    @Override
+    public By locator() {
+        return locator;
+    }
 
-   @Override
-   public <T extends ComponentType> T componentType() {
-      return (T) componentType;
-   }
+    @Override
+    public <T extends ComponentType> T componentType() {
+        return (T) componentType;
+    }
 
-   @Override
-   public Enum<?> enumImpl() {
-      return this;
-   }
+    @Override
+    public Enum<?> enumImpl() {
+        return this;
+    }
 }

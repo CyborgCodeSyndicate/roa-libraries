@@ -7,18 +7,18 @@ import io.cyborgcode.roa.ui.components.alert.AlertComponentType;
  */
 public enum AlertFieldTypes implements AlertComponentType {
 
-   EXAMPLE_ALERT_TYPE;
+    EXAMPLE_ALERT_TYPE;
 
-   public static final class Data {
+    public static final class Data {
 
-      public static final String EXAMPLE_ALERT = "EXAMPLE_ALERT_TYPE";
+        public static final String EXAMPLE_ALERT = "EXAMPLE_ALERT_TYPE";
 
-      private Data() {
-      }
-   }
+        private Data() {
+        }
+    }
 
-   @Override
-   public Enum<?> getType() {
-      return this;
-   }
+    @Override
+    public Enum<?> getType() {
+        return this;
+    }
 }

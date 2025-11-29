@@ -23,18 +23,18 @@ import static io.cyborgcode.roa.validator.core.AssertionTypes.IS;
 @DB
 public class GettingStartedDbTestBasic extends BaseQuest {
 
-   @Test
-   @Regression
-   void basicDbQuery(Quest quest) {
-      quest.use(RING_OF_DB)
-            .query(ExampleDbQueries.SIMPLE_QUERY)
-            .validate(
-                  Assertion.builder()
-                        .target(QUERY_RESULT)
-                        .expected(true)
-                        .type(IS)
-                        .build()
-            )
-            .complete();
-   }
+    @Test
+    @Regression
+    void basicDbQuery(Quest quest) {
+        quest.use(RING_OF_DB)
+                .query(ExampleDbQueries.SIMPLE_QUERY)
+                .validate(
+                        Assertion.builder()
+                                .target(QUERY_RESULT)
+                                .expected(true)
+                                .type(IS)
+                                .build()
+                )
+                .complete();
+    }
 }

@@ -9,12 +9,12 @@ import static ${package}.common.base.Rings.RING_OF_CUSTOM;
 
 public class CustomFlowTest extends BaseQuest {
 
-   @Test
-   @Regression
-   void customFlowDemonstration(Quest quest) {
+    @Test
+    @Regression
+    void customFlowDemonstration(Quest quest) {
 
-      quest.use(RING_OF_CUSTOM)
-            // .performExampleFlow(order) add custom flow here
-            .complete();
-   }
+        quest.use(RING_OF_CUSTOM)
+                // .performExampleFlow(order) add custom flow here
+                .complete();
+    }
 }

@@ -15,6 +15,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ExampleResponseDto {
 
-   private String id;
-   private String status;
+    private String id;
+    private String status;
 }

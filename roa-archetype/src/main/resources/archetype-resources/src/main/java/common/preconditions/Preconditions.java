@@ -13,26 +13,28 @@ import java.util.function.BiConsumer;
  */
 public enum Preconditions implements PreQuestJourney<Preconditions> {
 
-   EXAMPLE_PRECONDITION(PreconditionFunctions::examplePrecondition);
+    EXAMPLE_PRECONDITION(PreconditionFunctions::examplePrecondition);
 
-   public static final class Data {
-      public static final String EXAMPLE_PRECONDITION = "EXAMPLE_PRECONDITION";
-      private Data() {}
-   }
+    public static final class Data {
+        public static final String EXAMPLE_PRECONDITION = "EXAMPLE_PRECONDITION";
 
-   private final BiConsumer<SuperQuest, Object[]> function;
+        private Data() {
+        }
+    }
 
-   Preconditions(BiConsumer<SuperQuest, Object[]> function) {
-      this.function = function;
-   }
+    private final BiConsumer<SuperQuest, Object[]> function;
 
-   @Override
-   public BiConsumer<SuperQuest, Object[]> journey() {
-      return function;
-   }
+    Preconditions(BiConsumer<SuperQuest, Object[]> function) {
+        this.function = function;
+    }
 
-   @Override
-   public Preconditions enumImpl() {
-      return this;
-   }
+    @Override
+    public BiConsumer<SuperQuest, Object[]> journey() {
+        return function;
+    }
+
+    @Override
+    public Preconditions enumImpl() {
+        return this;
+    }
 }

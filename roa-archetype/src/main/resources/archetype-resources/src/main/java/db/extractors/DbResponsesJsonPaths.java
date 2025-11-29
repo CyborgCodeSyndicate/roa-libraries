@@ -10,32 +10,32 @@ package ${package}.db.extractors;
  */
 public enum DbResponsesJsonPaths {
 
-   /**
-    * Example: extract the "value" field from the first row.
-    */
-   PRODUCT_BY_ID("$[?(@.id == %d)].product"),
+    /**
+     * Example: extract the "value" field from the first row.
+     */
+    PRODUCT_BY_ID("$[?(@.id == %d)].product"),
 
-   /**
-    * Example: filter rows by "id".
-    */
-   LOCATION_BY_ID("$[?(@.id == %d)].location");
+    /**
+     * Example: filter rows by "id".
+     */
+    LOCATION_BY_ID("$[?(@.id == %d)].location");
 
-   private final String jsonPath;
+    private final String jsonPath;
 
-   DbResponsesJsonPaths(String jsonPath) {
-      this.jsonPath = jsonPath;
-   }
+    DbResponsesJsonPaths(String jsonPath) {
+        this.jsonPath = jsonPath;
+    }
 
-   /**
-    * Returns the formatted JsonPath expression.
-    *
-    * @param args optional formatting arguments
-    * @return the formatted JsonPath
-    */
-   public String getJsonPath(Object... args) {
-      if (args != null && args.length > 0) {
-         return String.format(jsonPath, args);
-      }
-      return jsonPath;
-   }
+    /**
+     * Returns the formatted JsonPath expression.
+     *
+     * @param args optional formatting arguments
+     * @return the formatted JsonPath
+     */
+    public String getJsonPath(Object... args) {
+        if (args != null && args.length > 0) {
+            return String.format(jsonPath, args);
+        }
+        return jsonPath;
+    }
 }

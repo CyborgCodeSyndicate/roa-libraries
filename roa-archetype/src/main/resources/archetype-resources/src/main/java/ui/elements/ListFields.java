@@ -11,29 +11,29 @@ import org.openqa.selenium.By;
  */
 public enum ListFields implements ListUiElement {
 
-   MAIN_TABS(By.className("nav-tabs"), ListFieldTypes.EXAMPLE_LIST_TYPE),
-   SIDE_MENU(By.className("list-group"), ListFieldTypes.EXAMPLE_LIST_TYPE);
+    MAIN_TABS(By.className("nav-tabs"), ListFieldTypes.EXAMPLE_LIST_TYPE),
+    SIDE_MENU(By.className("list-group"), ListFieldTypes.EXAMPLE_LIST_TYPE);
 
-   private final By locator;
-   private final ItemListComponentType componentType;
+    private final By locator;
+    private final ItemListComponentType componentType;
 
-   ListFields(By locator, ItemListComponentType componentType) {
-      this.locator = locator;
-      this.componentType = componentType;
-   }
+    ListFields(By locator, ItemListComponentType componentType) {
+        this.locator = locator;
+        this.componentType = componentType;
+    }
 
-   @Override
-   public By locator() {
-      return locator;
-   }
+    @Override
+    public By locator() {
+        return locator;
+    }
 
-   @Override
-   public <T extends ComponentType> T componentType() {
-      return (T) componentType;
-   }
+    @Override
+    public <T extends ComponentType> T componentType() {
+        return (T) componentType;
+    }
 
-   @Override
-   public Enum<?> enumImpl() {
-      return this;
-   }
+    @Override
+    public Enum<?> enumImpl() {
+        return this;
+    }
 }
