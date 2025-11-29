@@ -7,7 +7,7 @@
     <parent>
         <groupId>io.cyborgcode.utilities</groupId>
         <artifactId>parent-pom</artifactId>
-        <version>1.3.3-SNAPSHOT-c0a39ef-19446477201</version>
+        <version>1.4.0</version>
     </parent>
 
     <groupId>io.cyborgcode.roa</groupId>
@@ -30,7 +30,7 @@
 
     <properties>
         <github.repo.name>roa-libraries</github.repo.name>
-        <utilities.version>1.3.3-SNAPSHOT-c0a39ef-19446477201</utilities.version>
+        <utilities.version>1.4.0</utilities.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

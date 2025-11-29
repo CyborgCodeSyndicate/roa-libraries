@@ -582,7 +582,7 @@ Utility methods for Allure integration:
 The framework uses the Owner library for configuration. Define these keys (via a `config.properties` referenced by `-Dframework.config.file` or by direct system properties):
 
 **FrameworkConfig interface (required unless noted):**
-- `projectPackage()` - base package scanned for your enums/adapters. Set `project.package=<your.base.package>` (no default inside the framework).
+- `projectPackages()` - base packages scanned for your enums/adapters. Set `project.packages=<your.base.packages>` (no default inside the framework).
 - `defaultStorage()` - enum name used as the default storage bucket when calling `Storage.sub()`. Set `default.storage=<ENUM_CONSTANT>`.
 - `testEnv()` - optional label surfaced in reporting (e.g. `qa`, `staging`).
 
@@ -600,7 +600,7 @@ test.env=qa
 Configuration loading:
 ```java
 FrameworkConfig config = FrameworkConfigHolder.getFrameworkConfig();
-String projectPkg = config.projectPackage();
+String projectPkg = config.projectPackages();
 ```
 
 ## Dependencies

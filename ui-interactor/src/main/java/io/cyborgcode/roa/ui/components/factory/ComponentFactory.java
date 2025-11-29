@@ -224,7 +224,7 @@ public class ComponentFactory {
     *
     * @param interfaceType  The class object representing the component interface (e.g. {@code Input.class}).
     * @param componentType  The enum-based type identifying the component variant.
-    * @param projectPackage The user's project package to scan for implementations.
+    * @param projectPackages The user's project packages to scan for implementations.
     * @param smartWebDriver The WebDriver used for UI interactions.
     * @param <T>            The generic type of the component interface.
     * @return A newly instantiated component matching the desired type.

@@ -86,16 +86,15 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.isA;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.nullable;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -148,7 +147,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
          reflectionMock = mockStatic(ReflectionUtil.class);
          reflectionMock
             .when(() -> ReflectionUtil.findImplementationsOfInterface(
-               eq(UiServiceFluent.class), anyString()))
+               eq(UiServiceFluent.class), any(String[].class)))
             .thenReturn(List.of());
       }
 
@@ -2008,7 +2007,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
       void noImpls() throws Exception {
          try (var ref = mockStatic(ReflectionUtil.class)) {
             ref.when(() ->
-               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), anyString())
+               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), any(String[].class))
             ).thenReturn(List.of());
 
             Method m = UiTestExtension.class
@@ -2025,7 +2024,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
       void multipleImpls() throws Exception {
          try (var ref = mockStatic(ReflectionUtil.class)) {
             ref.when(() ->
-               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), anyString())
+               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), any(String[].class))
             ).thenReturn(List.of(DummyService.class, AnotherService.class));
 
             Method m = UiTestExtension.class
@@ -2045,7 +2044,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
       void ctorBlowsUp() throws Exception {
          try (var ref = mockStatic(ReflectionUtil.class)) {
             ref.when(() ->
-               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), anyString())
+               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), any(String[].class))
             ).thenReturn(List.of(BadService.class));
 
             Method m = UiTestExtension.class
@@ -2065,7 +2064,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
       void singleImpl() throws Exception {
          try (var ref = mockStatic(ReflectionUtil.class)) {
             ref.when(() ->
-               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), anyString())
+               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), any(String[].class))
             ).thenReturn(List.of(DummyService.class));
 
             Method m = UiTestExtension.class
@@ -2417,7 +2416,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
          // Mock the ReflectionUtil to return null (no custom class found)
          try (var reflectionUtilMock = mockStatic(ReflectionUtil.class)) {
             reflectionUtilMock.when(() ->
-                  ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), anyString()))
+                  ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), any(String[].class)))
                .thenReturn(List.of());
 
             // Execute the method
@@ -2425,7 +2424,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
             // Verify the lookup was attempted
             reflectionUtilMock.verify(() ->
-               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), nullable(String.class)));
+               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), any(String[].class)));
          }
       }
    }
@@ -2564,26 +2563,21 @@ class UiTestExtensionTest extends BaseUnitUITest {
             configHolder.when(io.cyborgcode.roa.ui.config.UiConfigHolder::getUiConfig).thenReturn(uiConfig);
             when(uiConfig.projectPackages()).thenReturn(new String[]{"io.cyborgcode.roa"});
             
-            // First call with varargs returns 2 implementations from different sources
+            // Use consecutive returns: first call returns 2 from different sources, second call returns 1
             ref.when(() ->
                ReflectionUtil.findImplementationsOfInterface(
                   eq(UiServiceFluent.class), 
-                  eq("io.cyborgcode.roa")
+                  any(String[].class)
                )
-            ).thenReturn(List.of(
-               PostQuestCreationRegisterCustomServicesTests.DummyService.class,
-               Test.class
-            ));
-
-            // Second call (narrowed to first package) returns just one
-            ref.when(() ->
-               ReflectionUtil.findImplementationsOfInterface(
-                  eq(UiServiceFluent.class), 
-                  eq("io.cyborgcode.roa")
+            ).thenReturn(
+               List.of(
+                  PostQuestCreationRegisterCustomServicesTests.DummyService.class,
+                  Test.class
+               ),
+               List.of(
+                  PostQuestCreationRegisterCustomServicesTests.DummyService.class
                )
-            ).thenReturn(List.of(
-               PostQuestCreationRegisterCustomServicesTests.DummyService.class
-            ));
+            );
 
             Method m = UiTestExtension.class
                .getDeclaredMethod("postQuestCreationRegisterCustomServices", SuperQuest.class);
@@ -2600,7 +2594,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
          try (MockedStatic<ReflectionUtil> ref = mockStatic(ReflectionUtil.class)) {
             // Both from same code source (same test class)
             ref.when(() ->
-               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), anyString())
+               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), any(String[].class))
             ).thenReturn(List.of(
                PostQuestCreationRegisterCustomServicesTests.DummyService.class,
                PostQuestCreationRegisterCustomServicesTests.AnotherService.class
@@ -2622,22 +2616,27 @@ class UiTestExtensionTest extends BaseUnitUITest {
       @Test
       @DisplayName("multiple implementations, narrowing still yields multiple → throws")
       void multipleImplsAfterNarrowing() throws Exception {
-         try (MockedStatic<ReflectionUtil> ref = mockStatic(ReflectionUtil.class)) {
-            // First call returns 2 from different sources
+         try (MockedStatic<ReflectionUtil> ref = mockStatic(ReflectionUtil.class);
+              MockedStatic<io.cyborgcode.roa.ui.config.UiConfigHolder> configHolder = mockStatic(io.cyborgcode.roa.ui.config.UiConfigHolder.class)) {
+            
+            // Mock UiConfig to return project packages
+            io.cyborgcode.roa.ui.config.UiConfig uiConfig = mock(io.cyborgcode.roa.ui.config.UiConfig.class);
+            configHolder.when(io.cyborgcode.roa.ui.config.UiConfigHolder::getUiConfig).thenReturn(uiConfig);
+            when(uiConfig.projectPackages()).thenReturn(new String[]{"io.cyborgcode.roa"});
+            
+            // Use consecutive returns: first returns 2 from different sources, second still returns 2
             ref.when(() ->
-               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), anyString())
-            ).thenReturn(List.of(
-               PostQuestCreationRegisterCustomServicesTests.DummyService.class,
-               Test.class
-            ));
-
-            // After narrowing, still returns 2 (both from same package now)
-            ref.when(() ->
-               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), eq("com.example"))
-            ).thenReturn(List.of(
-               PostQuestCreationRegisterCustomServicesTests.DummyService.class,
-               PostQuestCreationRegisterCustomServicesTests.AnotherService.class
-            ));
+               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), any(String[].class))
+            ).thenReturn(
+               List.of(
+                  PostQuestCreationRegisterCustomServicesTests.DummyService.class,
+                  Test.class
+               ),
+               List.of(
+                  PostQuestCreationRegisterCustomServicesTests.DummyService.class,
+                  PostQuestCreationRegisterCustomServicesTests.AnotherService.class
+               )
+            );
 
             Method m = UiTestExtension.class
                .getDeclaredMethod("postQuestCreationRegisterCustomServices", SuperQuest.class);
