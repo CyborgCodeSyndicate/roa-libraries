@@ -40,14 +40,14 @@ jobs:
           github_packages_user: ${{ secrets.GH_PACKAGES_USER }}
           github_packages_token: ${{ secrets.GH_PACKAGES_PAT }}
 
-#  e2e-api-tests:
-#    needs: deploy
-#    uses: CyborgCodeSyndicate/roa-example-projects/.github/workflows/e2e-api-tests.yml@e2e-flow
-#    with:
-#      deployed_version: ${{ needs.deploy.outputs.next_version }}
-#    secrets:
-#      gh_packages_user: ${{ secrets.GH_PACKAGES_USER }}
-#      gh_packages_pat:  ${{ secrets.GH_PACKAGES_PAT }}
+  e2e-api-tests:
+    needs: deploy
+    uses: CyborgCodeSyndicate/roa-example-projects/.github/workflows/e2e-api-tests.yml@e2e-flow
+    with:
+      deployed_version: ${{ needs.deploy.outputs.next_version }}
+    secrets:
+      gh_packages_user: ${{ secrets.GH_PACKAGES_USER }}
+      gh_packages_pat:  ${{ secrets.GH_PACKAGES_PAT }}
 
   e2e-ui-complex-tests:
     needs: deploy
