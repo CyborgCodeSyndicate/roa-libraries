@@ -11,10 +11,10 @@ import org.junit.jupiter.api.Test;
 
 import io.qameta.allure.Description;
 
-import ${package}.api_module.api.dto.request.ExampleRequestDto;
-import ${package}.db_module.db.extractors.DbResponsesJsonPaths;
-import ${package}.db_module.db.hooks.DbHookFlows;
-import ${package}.db_module.db.queries.ExampleDbQueries;
+import ${package}.api.dto.request.ExampleRequestDto;
+import ${package}.db.extractors.DbResponsesJsonPaths;
+import ${package}.db.hooks.DbHookFlows;
+import ${package}.db.queries.ExampleDbQueries;
 
 import java.util.List;
 

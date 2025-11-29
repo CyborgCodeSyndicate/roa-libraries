@@ -13,8 +13,7 @@ import java.util.function.BiConsumer;
  */
 public enum Preconditions implements PreQuestJourney<Preconditions> {
 
-   EXAMPLE_PRECONDITION((quest, args) ->
-         PreconditionFunctions.examplePrecondition(quest, args));
+   EXAMPLE_PRECONDITION(PreconditionFunctions::examplePrecondition);
 
    public static final class Data {
       public static final String EXAMPLE_PRECONDITION = "EXAMPLE_PRECONDITION";

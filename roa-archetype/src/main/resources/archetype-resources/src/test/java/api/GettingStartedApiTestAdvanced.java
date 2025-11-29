@@ -13,10 +13,10 @@ import io.cyborgcode.roa.validator.core.Assertion;
 import org.junit.jupiter.api.Test;
 import io.qameta.allure.Description;
 
-import ${package}.api_module.api.ExampleEndpoints;
-import ${package}.api_module.api.authentication.ExampleCredentials;
-import ${package}.api_module.api.authentication.ExampleAuthenticationClient;
-import ${package}.api_module.api.dto.request.ExampleRequestDto;
+import ${package}.api.ExampleEndpoints;
+import ${package}.api.authentication.ExampleCredentials;
+import ${package}.api.authentication.ExampleAuthenticationClient;
+import ${package}.api.dto.request.ExampleRequestDto;
 import ${package}.common.data.creator.DataCreator;
 import ${package}.common.preconditions.Preconditions;
 

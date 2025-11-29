@@ -1,6 +1,5 @@
 package ${package}.common.data.test_data;
 
-import io.cyborgcode.utilities.config.ConfigSource;
 import io.cyborgcode.utilities.config.PropertyConfig;
 import org.aeonbits.owner.Config;
 

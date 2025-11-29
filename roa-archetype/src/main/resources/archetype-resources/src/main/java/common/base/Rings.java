@@ -9,7 +9,7 @@ import io.cyborgcode.roa.db.service.fluent.DatabaseServiceFluent;
 import io.cyborgcode.roa.framework.quest.Quest;
 import ${package}.common.service.CustomService;
 #if( $modules.contains("UI") )
-import ${package}.ui_module.ui.AppUiService;
+import ${package}.ui.AppUiService;
 #end
 import lombok.experimental.UtilityClass;
 

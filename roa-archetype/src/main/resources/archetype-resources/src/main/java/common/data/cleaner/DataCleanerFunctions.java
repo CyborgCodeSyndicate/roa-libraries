@@ -4,7 +4,8 @@ import io.cyborgcode.roa.framework.quest.SuperQuest;
 import io.cyborgcode.roa.validator.core.Assertion;
 #if( $modules.contains("API") )
 import static io.cyborgcode.roa.validator.core.AssertionTypes.IS;
-import static io.cyborgcode.roa.api.config.ApiRings.RING_OF_API;
+import static ${package}.common.base.Rings.RING_OF_API;
+import static ${package}.api.ExampleEndpoints.EXAMPLE_POST;
 import static io.cyborgcode.roa.api.validator.RestAssertionTarget.STATUS;
 import static org.apache.http.HttpStatus.SC_NO_CONTENT;
 #end
@@ -41,7 +42,7 @@ public final class DataCleanerFunctions {
 #if( $modules.contains("API") )
       quest.use(RING_OF_API)
             .requestAndValidate(
-                  "/example/{id}".withPathParam("id", "123"),
+                  EXAMPLE_POST,
                   Assertion.builder()
                         .target(STATUS)
                         .type(IS)

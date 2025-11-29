@@ -1,7 +1,7 @@
 package ${package}.common.data.creator;
 
-import ${package}.api_module.api.dto.request.ExampleRequestDto;
-import ${package}.ui_module.ui.model.ExampleTableModel;
+import ${package}.api.dto.request.ExampleRequestDto;
+import ${package}.ui.model.ExampleTableModel;
 
 /**
  * Factory methods used by {@link DataCreator}.

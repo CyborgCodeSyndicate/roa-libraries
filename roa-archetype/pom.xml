@@ -12,6 +12,15 @@
         <archetype.packaging.version>3.4.1</archetype.packaging.version>
         <github.repo.owner>CyborgCodeSyndicate</github.repo.owner>
     </properties>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.groovy</groupId>
+            <artifactId>groovy</artifactId>
+            <version>5.0.1</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
     <build>
         <extensions>

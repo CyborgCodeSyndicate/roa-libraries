@@ -8,9 +8,9 @@ import io.cyborgcode.roa.ui.annotations.UI;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import ${package}.ui_module.ui.elements.ButtonFields;
-import ${package}.ui_module.ui.elements.InputFields;
-import ${package}.ui_module.ui.elements.SelectFields;
+import ${package}.ui.elements.ButtonFields;
+import ${package}.ui.elements.InputFields;
+import ${package}.ui.elements.SelectFields;
 
 import static ${package}.common.base.Rings.RING_OF_UI;
 import static io.cyborgcode.roa.ui.config.UiConfigHolder.getUiConfig;
@@ -21,12 +21,12 @@ import static io.cyborgcode.roa.ui.config.UiConfigHolder.getUiConfig;
  * <p>Minimal example showing raw-value interactions. Replace locators and flows with your app.</p>
  */
 @UI
-@DisplayName("Template UI Tests — Getting Started")
+@DisplayName("Template UI Tests ï¿½ Getting Started")
 public class GettingStartedUiTestBasic extends BaseQuest {
 
    @Test
    @Regression
-   @Description("Basic UI flow using raw test values — customize for your app.")
+   @Description("Basic UI flow using raw test values ï¿½ customize for your app.")
    void createExampleUsingRawValues(Quest quest) {
       quest.use(RING_OF_UI)
             .browser().navigate(getUiConfig().baseUrl())

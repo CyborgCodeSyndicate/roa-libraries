@@ -8,7 +8,7 @@ import io.cyborgcode.roa.framework.quest.Quest;
 import io.cyborgcode.roa.validator.core.Assertion;
 import org.junit.jupiter.api.Test;
 
-import ${package}.db_module.db.queries.ExampleDbQueries;
+import ${package}.db.queries.ExampleDbQueries;
 
 import static ${package}.common.base.Rings.RING_OF_DB;
 import static io.cyborgcode.roa.db.validator.DbAssertionTarget.QUERY_RESULT;

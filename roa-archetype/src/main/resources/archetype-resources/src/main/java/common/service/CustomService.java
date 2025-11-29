@@ -1,8 +1,9 @@
-package ${package}.common.service;
+package $
+
+{package}.common.service;
 
 import io.cyborgcode.roa.framework.annotation.Ring;
 import io.cyborgcode.roa.framework.chain.FluentService;
-import io.cyborgcode.roa.framework.quest.SuperQuest;
 
 /**
  * Custom high-level service for application-specific actions.
@@ -20,19 +21,19 @@ import io.cyborgcode.roa.framework.quest.SuperQuest;
 @Ring("Custom")
 public class CustomService extends FluentService {
 
-   /**
-    * Example method demonstrating how to implement a custom flow.
-    *
-    * <p>Replace this with your actual business operations (e.g., login,
-    * create user, create order, etc.).
-    */
-   public CustomService exampleFlow() {
-      // Example of orchestration:
-      // quest.use(RING_OF_UI).browser().navigate("https://example.com");
-      // quest.use(RING_OF_API).request(...);
-      // quest.use(RING_OF_DB).query(...);
+    /**
+     * Example method demonstrating how to implement a custom flow.
+     *
+     * <p>Replace this with your actual business operations (e.g., login,
+     * create user, create order, etc.).
+     */
+    public CustomService exampleFlow() {
+        // Example of orchestration:
+        // quest.use(RING_OF_UI).browser().navigate("https://example.com");
+        // quest.use(RING_OF_API).request(...);
+        // quest.use(RING_OF_DB).query(...);
 
-      System.out.println("Executing example custom flow...");
-      return this;
-   }
+        System.out.println("Executing example custom flow...");
+        return this;
+    }
 }

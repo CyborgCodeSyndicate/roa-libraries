@@ -1,4 +1,3 @@
-import java.nio.file.*
 
 def modulesRaw = request.properties['modules']
 def rootDir = new File(request.outputDirectory, request.artifactId)
@@ -84,18 +83,18 @@ if (keepUI) {
 if (!keepUI) {
     println "Removing UI module..."
 
-    // Remove UI from src/main/java (note: it's inside the package structure)
-    def uiMainDir = new File(rootDir, "src/main/java/${packagePath}/ui_module")
-    if (uiMainDir.exists()) {
-        uiMainDir.deleteDir()
-        println "  Deleted: ${uiMainDir}"
-    }
-
     // Remove UI from src/test/java
     def uiTestDir = new File(rootDir, "src/test/java/${packagePath}/ui")
     if (uiTestDir.exists()) {
         uiTestDir.deleteDir()
         println "  Deleted: ${uiTestDir}"
+    }
+
+    // Remove UI from src/main/java
+    def uiMainDir = new File(rootDir, "src/main/java/${packagePath}/ui")
+    if (uiMainDir.exists()) {
+        uiMainDir.deleteDir()
+        println "  Deleted: ${uiMainDir}"
     }
 } else {
     // -------------------------------------------
@@ -114,9 +113,9 @@ if (!keepUI) {
             "LIST"  : ["list"]
     ]
 
-    def uiBaseMain = new File(rootDir, "src/main/java/${packagePath}/ui_module/ui")
-    def uiBaseElements = new File(rootDir, "src/main/java/${packagePath}/ui_module/ui/elements")
-    def uiBaseTypes = new File(rootDir, "src/main/java/${packagePath}/ui_module/ui/types")
+    def uiBaseMain = new File(rootDir, "src/main/java/${packagePath}/ui")
+    def uiBaseElements = new File(rootDir, "src/main/java/${packagePath}/ui/elements")
+    def uiBaseTypes = new File(rootDir, "src/main/java/${packagePath}/ui/types")
 
     componentFolders.each { key, subFolders ->
         if (!selectedUI.contains(key)) {
@@ -154,18 +153,18 @@ if (!keepUI) {
 if (!keepAPI) {
     println "Removing API module..."
 
-    // Remove API from src/main/java (note: it's inside the package structure)
-    def apiMainDir = new File(rootDir, "src/main/java/${packagePath}/api_module")
-    if (apiMainDir.exists()) {
-        apiMainDir.deleteDir()
-        println "  Deleted: ${apiMainDir}"
-    }
-
     // Remove API from src/test/java
     def apiTestDir = new File(rootDir, "src/test/java/${packagePath}/api")
     if (apiTestDir.exists()) {
         apiTestDir.deleteDir()
         println "  Deleted: ${apiTestDir}"
+    }
+
+    // Remove API from src/main/java
+    def apiMainDir = new File(rootDir, "src/main/java/${packagePath}/api")
+    if (apiMainDir.exists()) {
+        apiMainDir.deleteDir()
+        println "  Deleted: ${apiMainDir}"
     }
 }
 
@@ -173,18 +172,18 @@ if (!keepAPI) {
 if (!keepDB) {
     println "Removing DB module..."
 
-    // Remove DB from src/main/java (note: it's inside the package structure)
-    def dbMainDir = new File(rootDir, "src/main/java/${packagePath}/db_module")
-    if (dbMainDir.exists()) {
-        dbMainDir.deleteDir()
-        println "  Deleted: ${dbMainDir}"
-    }
-
     // Remove DB from src/test/java
     def dbTestDir = new File(rootDir, "src/test/java/${packagePath}/db")
     if (dbTestDir.exists()) {
         dbTestDir.deleteDir()
         println "  Deleted: ${dbTestDir}"
+    }
+
+    // Remove DB from src/main/java
+    def dbMainDir = new File(rootDir, "src/main/java/${packagePath}/db")
+    if (dbMainDir.exists()) {
+        dbMainDir.deleteDir()
+        println "  Deleted: ${dbMainDir}"
     }
 }
 
@@ -208,6 +207,12 @@ if (isBasicCommons) {
     if (cleanerDir.exists()) {
         cleanerDir.deleteDir()
         println "  Deleted: ${cleanerDir}"
+    }
+
+    def extractorDir = new File(rootDir, "src/main/java/${packagePath}/common/data/extractor")
+    if (extractorDir.exists()) {
+        extractorDir.deleteDir()
+        println "  Deleted: ${extractorDir}"
     }
 }
 
