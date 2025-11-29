@@ -3,6 +3,8 @@ package ${package}.db;
 import io.cyborgcode.roa.db.annotations.DB;
 import io.cyborgcode.roa.db.annotations.DbHook;
 import io.cyborgcode.roa.db.annotations.DbHooks;
+import io.cyborgcode.roa.db.query.QueryResponse;
+import io.cyborgcode.roa.db.storage.StorageKeysDb;
 import io.cyborgcode.roa.framework.annotation.Regression;
 import io.cyborgcode.roa.framework.base.BaseQuest;
 import io.cyborgcode.roa.framework.quest.Quest;
