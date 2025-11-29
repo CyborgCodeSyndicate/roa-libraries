@@ -2,7 +2,6 @@ package io.cyborgcode.roa.api.config;
 
 import io.cyborgcode.utilities.config.ConfigSource;
 import io.cyborgcode.utilities.config.PropertyConfig;
-import java.util.List;
 import org.aeonbits.owner.Config;
 
 /**

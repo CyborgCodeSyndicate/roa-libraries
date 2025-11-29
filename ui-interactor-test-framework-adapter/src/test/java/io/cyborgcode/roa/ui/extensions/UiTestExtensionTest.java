@@ -315,7 +315,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
       @Test
       @DisplayName("– no enums found → use raw substrings")
-      void interceptRequests_NoEnums_UsesRaw() throws Exception {
+      void interceptRequestsNoEnumsUsesRaw() throws Exception {
          Method m = UiTestExtension.class
             .getDeclaredMethod("processInterceptRequestsAnnotation",
                ExtensionContext.class, Method.class);
@@ -355,7 +355,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
       @Test
       @DisplayName("– one enum, no match → fallback to raw")
-      void interceptRequests_OneEnum_NoMatch_UsesRaw() throws Exception {
+      void interceptRequestsOneEnumNoMatchUsesRaw() throws Exception {
          Method m = UiTestExtension.class
             .getDeclaredMethod("processInterceptRequestsAnnotation",
                ExtensionContext.class, Method.class);
@@ -392,7 +392,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
       @Test
       @DisplayName("– one enum, match found → use resolved endpoints")
-      void interceptRequests_OneEnum_Match_UsesResolved() throws Exception {
+      void interceptRequestsOneEnumMatchUsesResolved() throws Exception {
          Method m = UiTestExtension.class
             .getDeclaredMethod("processInterceptRequestsAnnotation", ExtensionContext.class, Method.class);
          m.setAccessible(true);
@@ -402,7 +402,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
          // stub to return our single enum
          reflectionMock
             .when(() -> ReflectionUtil.findEnumClassImplementationsOfInterface(
-               eq(DataIntercept.class), anyString()))
+               eq(DataIntercept.class), any(String[].class)))
             .thenReturn(List.of(TestInterceptEnum.class));
 
          // call
@@ -419,11 +419,36 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
          // since the annotation was {"ONE"}, resolvedEndpoints == List.of("/bar")
          assertArrayEquals(new String[] {"/bar"}, got);
+
+         // --------- NEW PART: execute the consumer to cover the lambda ---------
+         SuperQuest quest = mock(SuperQuest.class);
+         SmartWebDriver smart = mock(SmartWebDriver.class);
+         HasOriginal proxy = mock(HasOriginal.class);
+         ChromeDriver chrome = mock(ChromeDriver.class);
+         DevTools devTools = mock(DevTools.class);
+         Storage root = mock(Storage.class);
+         Storage ui = mock(Storage.class);
+
+         // quest -> SmartWebDriver -> HasOriginal -> ChromeDriver -> DevTools
+         when(quest.artifact(eq(UiServiceFluent.class), eq(SmartWebDriver.class)))
+            .thenReturn(smart);
+         when(smart.getOriginal()).thenReturn(proxy);
+         when(proxy.getOriginal()).thenReturn(chrome);
+         when(chrome.getDevTools()).thenReturn(devTools);
+
+         // storage wiring so postQuestCreationIntercept doesn't NPE
+         when(quest.getStorage()).thenReturn(root);
+         when(root.sub(UI)).thenReturn(ui);
+         when(ui.get(eq(RESPONSES), any(ParameterizedTypeReference.class)))
+            .thenReturn(null);
+
+         // this actually runs: quest -> postQuestCreationIntercept(...)
+         assertDoesNotThrow(() -> c.accept(quest));
       }
 
       @Test
       @DisplayName("– reflection throws → use raw substrings")
-      void interceptRequests_ReflectionThrows_UsesRaw() throws Exception {
+      void interceptRequestsReflectionThrowsUsesRaw() throws Exception {
          // 1) grab the private method
          Method process = UiTestExtension.class
             .getDeclaredMethod("processInterceptRequestsAnnotation",
@@ -463,7 +488,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
       @Test
       @DisplayName("– multiple enums → fallback to raw annotation values")
-      void interceptRequests_MultipleEnums_FallbackToRaw() throws Exception {
+      void interceptRequestsMultipleEnumsFallbackToRaw() throws Exception {
          // 1) grab the private method
          Method process = UiTestExtension.class
             .getDeclaredMethod("processInterceptRequestsAnnotation",
@@ -504,7 +529,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
       @Test
       @DisplayName("– multiple enum impls → fallback to raw substrings")
-      void interceptRequests_MultipleEnums_UsesRaw() throws Exception {
+      void interceptRequestsMultipleEnumsUsesRaw() throws Exception {
          // 1) reflectively grab the private method
          Method proc = UiTestExtension.class
             .getDeclaredMethod("processInterceptRequestsAnnotation",
@@ -545,7 +570,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
       @Test
       @DisplayName("– one enum, empty annotation → fallback to raw substrings")
-      void interceptRequests_OneEnum_EmptyAnnotation_UsesRaw() throws Exception {
+      void interceptRequestsOneEnumEmptyAnnotationUsesRaw() throws Exception {
          Method proc = UiTestExtension.class
             .getDeclaredMethod("processInterceptRequestsAnnotation",
                ExtensionContext.class, Method.class);
@@ -621,7 +646,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
       @Test
       @DisplayName("postQuestCreationIntercept — full Chrome path executes without error")
-      void postQuestCreationIntercept_fullChromePath_noException() throws Exception {
+      void postQuestCreationInterceptfullChromePathnoException() throws Exception {
          // 1) grab the private helper
          Method helper = UiTestExtension.class
             .getDeclaredMethod("postQuestCreationIntercept", SuperQuest.class, String[].class);
@@ -660,7 +685,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
       }
 
       @Test
-      void postQuestCreationIntercept_nonChromeDriver_throws() throws Exception {
+      void postQuestCreationInterceptnonChromeDriverThrows() throws Exception {
          Method helper = UiTestExtension.class
             .getDeclaredMethod("postQuestCreationIntercept", SuperQuest.class, String[].class);
          helper.setAccessible(true);
@@ -1414,7 +1439,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
       }
 
       @Test
-      void afterTestExecution_noResponses_takesScreenshotAndCloses() {
+      void afterTestExecutioNoResponsesTakesScreenshotAndCloses() {
          // 1) test passed → no exception
          when(context.getExecutionException()).thenReturn(Optional.empty());
 
@@ -1450,7 +1475,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
       @Test
       @DisplayName("when exception present → skip screenshot, still close/quit")
-      void afterTestExecution_withException_skipsScreenshot_butCloses() {
+      void afterTestExecutionWithExceptionSkipsScreenshotButCloses() {
          // 1) executionException.isPresent()
          when(context.getExecutionException()).thenReturn(Optional.of(new RuntimeException("boom")));
 
@@ -1488,7 +1513,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
       @Test
       @DisplayName("when keepDriverForSession=true → skip close/quit entirely")
-      void afterTestExecution_keepDriverForSession_skipsCloseAndQuit() {
+      void afterTestExecutionKeepDriverForSessionSkipsCloseAndQuit() {
          // 1) no exception
          when(context.getExecutionException()).thenReturn(Optional.empty());
 
@@ -1526,7 +1551,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
    @Nested
    @DisplayName("afterTestExecution – non-empty responses")
-   class AfterTestExecution_NonEmptyResponses {
+   class AfterTestExecutionNonEmptyResponses {
 
       @Mock
       ExtensionContext context;
@@ -1627,7 +1652,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
       @Test
       @DisplayName("should attach intercepted-requests when storage is non-empty")
-      void afterTestExecution_withNonEmptyResponses_attaches() {
+      void afterTestExecutionWithNonEmptyResponsesAttaches() {
          new UiTestExtension().afterTestExecution(context);
 
          // verify that we attached the HTML
@@ -1715,7 +1740,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
       @Test
       @DisplayName("captures screenshot, closes+quits driver, and rethrows")
-      void handleTestExecutionException_closesAndQuits_whenNotKeepingDriver() {
+      void handleTestExecutionExceptionClosesAndQuitsWhenNotKeepingDriver() {
          // branch: driver should NOT be kept
          when(smartWebDriver.isKeepDriverForSession()).thenReturn(false);
 
@@ -1746,7 +1771,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
       @Test
       @DisplayName("when keepDriverForSession=true → skip close/quit but still rethrow")
-      void handleTestExecutionException_keepsDriver_skipsCloseQuit() {
+      void handleTestExecutionExceptionKeepsDriverSkipsCloseQuit() {
          // branch: driver should be kept for session
          when(smartWebDriver.isKeepDriverForSession()).thenReturn(true);
 
@@ -1777,7 +1802,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
       @Test
       @DisplayName("when parent TEST_EXECUTION step is active it stops it and starts TEAR_DOWN")
-      void handleTestExecutionException_switchesParentStep_whenParentStepActive() throws Throwable {
+      void handleTestExecutionExceptionSwitchesParentStepWhenParentStepActive() throws Throwable {
          when(smartWebDriver.isKeepDriverForSession()).thenReturn(false);
          RuntimeException boom = new RuntimeException("boom!");
 
