@@ -8,7 +8,6 @@ import io.cyborgcode.roa.framework.quest.Quest;
 import io.cyborgcode.roa.validator.core.Assertion;
 import org.junit.jupiter.api.Test;
 
-import ${package}.api.AppEndpoints;
 import ${package}.api.authentication.ExampleCredentials;
 import ${package}.api.authentication.ExampleAuthenticationClient;
 
@@ -29,10 +28,11 @@ public class GettingStartedApiTestBasic extends BaseQuest {
     @Test
     @Regression
     @AuthenticateViaApi(credentials = ExampleCredentials.class, type = ExampleAuthenticationClient.class)
+    @Description("Basic API flow")
     void apiUsingAuthenticateViaApi(Quest quest) {
         quest.use(RING_OF_API)
                 .requestAndValidate(
-                        AppEndpoints.EXAMPLE_GET,
+                        ExampleEndpoints.EXAMPLE_GET,
                         Assertion.builder().target(STATUS).type(IS).expected(SC_OK).build()
                 )
                 .complete();

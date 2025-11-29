@@ -37,12 +37,12 @@ import static ${package}.common.base.Rings .*;
  * Replace element locators, data models, and flows with your application specifics.</p>
  */
 @UI
-@DisplayName("Template UI Tests - Basic to Advanced Usage")
+@DisplayName("Getting started UI test class")
 public class GettingStartedUiTest extends BaseQuest {
 
     @Test
     @Regression
-    @Description("Basic UI flow using raw test values - users should customize this.")
+    @Description("Basic UI flow")
     void createExampleUsingRawValues(Quest quest) {
         quest.use(RING_OF_UI)
                 .browser().navigate(getUiConfig().baseUrl())
@@ -54,7 +54,7 @@ public class GettingStartedUiTest extends BaseQuest {
 
     @Test
     @Regression
-    @Description("Using crafted data models from DataCreator - generic demonstration.")
+    @Description("Using crafted data models from DataCreator")
     void createExampleUsingCraft(Quest quest,
                                  @Craft(model = DataCreator.Data.EXAMPLE_TABLE_MODEL) ExampleTableModel model) {
 

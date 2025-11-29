@@ -32,11 +32,12 @@ import static org.apache.http.HttpStatus.SC_CREATED;
  * Replace the DTO, endpoints, auth, and assertions with your real API interactions.</p>
  */
 @API
+@DisplayName("Getting started API test class")
 public class GettingStartedApiTestAdvanced extends BaseQuestSequential {
 
     @Test
     @Regression
-    @Description("Creates two example payloads using crafted models (advanced example)")
+    @Description("Creates two example payloads using crafted models")
     @AuthenticateViaApi(credentials = ExampleCredentials.class, type = ExampleAuthenticationClient.class)
     @Journey(value = Preconditions.Data.EXAMPLE_PRECONDITION, order = 1)
     void createsTwoUsersUsingCraftAndLate(Quest quest,

@@ -36,6 +36,7 @@ import static io.cyborgcode.roa.validator.core.AssertionTypes.IS;
 @DbHooks({
         @DbHook(when = BEFORE, type = DbHookFlows.Data.EXAMPLE_INITIALIZE)
 })
+@DisplayName("Getting started DB test class")
 public class GettingStartedDbTest extends BaseQuest {
 
     @Test

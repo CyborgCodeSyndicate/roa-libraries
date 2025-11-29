@@ -1,6 +1,6 @@
 package ${package}.ui;
 
-import io.cyborgcode.roa.framework.annotation.Description;
+import io.qameta.allure.Description;
 import io.cyborgcode.roa.framework.annotation.Regression;
 import io.cyborgcode.roa.framework.base.BaseQuest;
 import io.cyborgcode.roa.framework.quest.Quest;
@@ -21,18 +21,17 @@ import static io.cyborgcode.roa.ui.config.UiConfigHolder.getUiConfig;
  * <p>Minimal example showing raw-value interactions. Replace locators and flows with your app.</p>
  */
 @UI
-@DisplayName("Template UI Tests � Getting Started")
 public class GettingStartedUiTestBasic extends BaseQuest {
 
     @Test
     @Regression
-    @Description("Basic UI flow using raw test values � customize for your app.")
+    @Description("Basic UI flow")
     void createExampleUsingRawValues(Quest quest) {
         quest.use(RING_OF_UI)
                 .browser().navigate(getUiConfig().baseUrl())
-                .input().insert(InputFields.EXAMPLE_INPUT, "example")
-                .button().click(ButtonFields.EXAMPLE_BUTTON)
-                .select().selectOption(SelectFields.EXAMPLE_DROPDOWN, "Option 1")
+                .input().insert(InputFields.GENERIC_INPUT, "example")
+                .button().click(ButtonFields.GENERIC_BUTTON)
+                .select().selectOption(SelectFields.GENERIC_SELECT, "Option 1")
                 .complete();
     }
 }
