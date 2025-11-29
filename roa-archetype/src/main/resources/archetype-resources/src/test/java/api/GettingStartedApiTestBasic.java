@@ -6,6 +6,7 @@ import io.cyborgcode.roa.framework.annotation.Regression;
 import io.cyborgcode.roa.framework.base.BaseQuest;
 import io.cyborgcode.roa.framework.quest.Quest;
 import io.cyborgcode.roa.validator.core.Assertion;
+import io.qameta.allure.Description;
 import org.junit.jupiter.api.Test;
 
 import ${package}.api.authentication.ExampleCredentials;
