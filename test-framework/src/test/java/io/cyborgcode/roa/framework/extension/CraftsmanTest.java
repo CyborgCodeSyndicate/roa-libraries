@@ -114,7 +114,7 @@ class CraftsmanTest {
 
       doReturn(MockEnum.VALUE).when(dataForge).enumImpl();
       when(dataForge.dataCreator()).thenReturn(late);
-      when(frameworkConfig.projectPackage()).thenReturn(COM_EXAMPLE);
+      when(frameworkConfig.projectPackages()).thenReturn(new String[]{COM_EXAMPLE});
    }
 
    // Dummy method used for reflection in test setup

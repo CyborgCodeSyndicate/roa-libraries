@@ -42,7 +42,7 @@ class ToggleUiElementTest {
          // Mock UiConfigHolder.getUiConfig()
          UiConfig mockConfig = mock(UiConfig.class);
          when(mockConfig.toggleDefaultType()).thenReturn("DUMMY");
-         when(mockConfig.projectPackage()).thenReturn("com.theairebellion.zeus");
+         when(mockConfig.projectPackages()).thenReturn(new String[]{"io.cyborgcode.roa"});
 
          configHolderMock.when(UiConfigHolder::getUiConfig).thenReturn(mockConfig);
 

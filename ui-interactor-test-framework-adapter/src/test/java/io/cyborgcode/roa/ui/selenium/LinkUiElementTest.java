@@ -42,7 +42,7 @@ class LinkUiElementTest {
          // Mock UiConfigHolder.getUiConfig()
          UiConfig mockConfig = mock(UiConfig.class);
          when(mockConfig.linkDefaultType()).thenReturn("DUMMY");
-         when(mockConfig.projectPackage()).thenReturn("com.theairebellion.zeus");
+         when(mockConfig.projectPackages()).thenReturn(new String[]{"io.cyborgcode.roa"});
 
          configHolderMock.when(UiConfigHolder::getUiConfig).thenReturn(mockConfig);
 

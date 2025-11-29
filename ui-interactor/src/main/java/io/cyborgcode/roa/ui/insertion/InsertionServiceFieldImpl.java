@@ -85,7 +85,7 @@ public class InsertionServiceFieldImpl extends BaseInsertionService<InsertionFie
       final String componentTypeEnumName = annotation.componentType();
       final Class<? extends ComponentType> typeClass = annotation.type();
       return ReflectionUtil.findEnumImplementationsOfInterface(
-            typeClass, componentTypeEnumName, getUiConfig().projectPackage()
+            typeClass, componentTypeEnumName, getUiConfig().projectPackages()
       );
    }
 

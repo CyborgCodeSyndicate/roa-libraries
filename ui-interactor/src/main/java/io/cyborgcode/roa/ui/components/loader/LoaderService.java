@@ -36,7 +36,7 @@ public interface LoaderService {
       try {
          return ReflectionUtil.findEnumImplementationsOfInterface(LoaderComponentType.class,
                getUiConfig().loaderDefaultType(),
-               getUiConfig().projectPackage());
+               getUiConfig().projectPackages());
       } catch (Exception ignored) {
          return null;
       }

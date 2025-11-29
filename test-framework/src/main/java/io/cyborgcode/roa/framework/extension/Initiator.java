@@ -4,7 +4,6 @@ import io.cyborgcode.roa.framework.allure.CustomAllureListener;
 import io.cyborgcode.roa.framework.allure.StepType;
 import io.cyborgcode.roa.framework.annotation.Journey;
 import io.cyborgcode.roa.framework.annotation.JourneyData;
-import io.cyborgcode.roa.framework.annotation.PreQuest;
 import io.cyborgcode.roa.framework.decorators.DecoratorsFactory;
 import io.cyborgcode.roa.framework.log.LogQuest;
 import io.cyborgcode.roa.framework.parameters.DataForge;
@@ -107,7 +106,7 @@ public class Initiator implements InvocationInterceptor {
       JourneyData[] journeyData = preQuest.journeyData();
 
       PreQuestJourney<?> preQuestJourney = ReflectionUtil.findEnumImplementationsOfInterface(
-            PreQuestJourney.class, journey, getFrameworkConfig().projectPackage());
+            PreQuestJourney.class, journey, getFrameworkConfig().projectPackages());
 
       Object[] processedData = Arrays.stream(journeyData)
             .map(dataEnumStr -> processJourneyData(dataEnumStr, superQuest))
@@ -135,7 +134,7 @@ public class Initiator implements InvocationInterceptor {
     */
    private Object processJourneyData(JourneyData journeyData, SuperQuest quest) {
       DataForge<?> dataForge = ReflectionUtil.findEnumImplementationsOfInterface(
-            DataForge.class, journeyData.value(), getFrameworkConfig().projectPackage());
+            DataForge.class, journeyData.value(), getFrameworkConfig().projectPackages());
 
       Object argument;
       if (journeyData.late()) {

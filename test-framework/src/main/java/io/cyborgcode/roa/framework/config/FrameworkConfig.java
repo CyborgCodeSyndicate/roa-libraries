@@ -23,8 +23,9 @@ public interface FrameworkConfig extends Config {
     *
     * @return The base package name defined in the configuration.
     */
-   @Key("project.package")
-   String projectPackage();
+   @Key("project.packages")
+   @Separator(";")
+   String[] projectPackages();
 
    /**
     * Retrieves the default storage location used by the framework.
