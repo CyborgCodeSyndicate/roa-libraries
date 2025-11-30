@@ -1,0 +1,19 @@
+🤖 CYBORG 🤖 2025-11-30T09:50:51,279 [scenario=GettingStartedTest.returns200AndUsersWhenPageIs2] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2025-11-30T09:50:51,296 [scenario=GettingStartedTest.returns200AndUsersWhenPageIs2] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2025-11-30T09:50:51,305 [scenario=GettingStartedTest.returns200AndUsersWhenPageIs2] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2025-11-30T09:50:51,314 [scenario=GettingStartedTest.returns200AndUsersWhenPageIs2] INFO  [QUEST] - The quest: 'returns200AndUsersWhenPageIs2(Quest)' has begun and is crafted.
+🤖 CYBORG 🤖 2025-11-30T09:50:51,330 [scenario=GettingStartedTest.returns200AndUsersWhenPageIs2] INFO  [QUEST] - The quest has used the ring: 'API'
+🤖 CYBORG 🤖 2025-11-30T09:50:51,606 [scenario=GettingStartedTest.returns200AndUsersWhenPageIs2] INFO  [API] - Prepared RequestSpecification with pathParams: {}, queryParams: {page=2}, headers: {}
+🤖 CYBORG 🤖 2025-11-30T09:50:51,836 [scenario=GettingStartedTest.returns200AndUsersWhenPageIs2] STEP  [API] - Sending request to endpoint GET-https://reqres.in/api/users?page=2.
+🤖 CYBORG 🤖 2025-11-30T09:50:51,845 [scenario=GettingStartedTest.returns200AndUsersWhenPageIs2] EXTENDED [API] - Request body: .
+🤖 CYBORG 🤖 2025-11-30T09:50:51,850 [scenario=GettingStartedTest.returns200AndUsersWhenPageIs2] EXTENDED [API] - Request headers: Content-Type=application/json
+🤖 CYBORG 🤖 2025-11-30T09:50:52,536 [scenario=GettingStartedTest.returns200AndUsersWhenPageIs2] STEP  [API] - Response with status: 200 received from endpoint: GET-https://reqres.in/api/users?page=2 in 677ms.
+🤖 CYBORG 🤖 2025-11-30T09:50:52,583 [scenario=GettingStartedTest.returns200AndUsersWhenPageIs2] EXTENDED [API] - Response body: {
+🤖 CYBORG 🤖 2025-11-30T09:50:52,589 [scenario=GettingStartedTest.returns200AndUsersWhenPageIs2] EXTENDED [API] - Response headers: Date=Sun, 30 Nov 2025 09:50:52 GMT
+🤖 CYBORG 🤖 2025-11-30T09:50:52,603 [scenario=GettingStartedTest.returns200AndUsersWhenPageIs2] INFO  [API] - Starting response validation with 2 assertion(s).
+🤖 CYBORG 🤖 2025-11-30T09:50:52,609 [scenario=GettingStartedTest.returns200AndUsersWhenPageIs2] EXTENDED [API] - Validation target: [{AssertionKeyForStatus=200, Content-Type=application/json; charset=utf-8}]
+🤖 CYBORG 🤖 2025-11-30T09:50:52,628 [scenario=GettingStartedTest.returns200AndUsersWhenPageIs2] VALIDATION [QUEST] - ✔ Validation passed: IS (Expected: 200, Actual: 200)
+🤖 CYBORG 🤖 2025-11-30T09:50:52,678 [scenario=GettingStartedTest.returns200AndUsersWhenPageIs2] VALIDATION [QUEST] - ✔ Validation passed: CONTAINS (Expected: application/json, Actual: application/json; charset=utf-8)
+🤖 CYBORG 🤖 2025-11-30T09:50:52,684 [scenario=GettingStartedTest.returns200AndUsersWhenPageIs2] INFO  [QUEST] - The quest has dropped the ring.
+🤖 CYBORG 🤖 2025-11-30T09:50:52,689 [scenario=GettingStartedTest.returns200AndUsersWhenPageIs2] INFO  [QUEST] - The quest has reached his end
+🤖 CYBORG 🤖 2025-11-30T09:50:52,707 [scenario=GettingStartedTest.returns200AndUsersWhenPageIs2] INFO  [QUEST] - The quest of 'returns200AndUsersWhenPageIs2(Quest)' has concluded with glory. Status: SUCCESS. Duration: 1 seconds.
