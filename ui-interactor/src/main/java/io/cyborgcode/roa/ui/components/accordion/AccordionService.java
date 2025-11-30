@@ -40,7 +40,7 @@ public interface AccordionService {
       try {
          return ReflectionUtil.findEnumImplementationsOfInterface(AccordionComponentType.class,
                getUiConfig().accordionDefaultType(),
-               getUiConfig().projectPackage());
+               getUiConfig().projectPackages());
       } catch (Exception ignored) {
          return null;
       }

@@ -3,7 +3,6 @@ package io.cyborgcode.roa.db.extensions;
 import io.cyborgcode.roa.db.annotations.DbHook;
 import io.cyborgcode.roa.db.config.DbConfig;
 import io.cyborgcode.roa.db.config.DbConfigHolder;
-import io.cyborgcode.roa.db.extensions.DbHookExtension;
 import io.cyborgcode.roa.db.hooks.DbHookFlow;
 import io.cyborgcode.roa.db.service.DatabaseService;
 import io.cyborgcode.roa.framework.storage.StoreKeys;
@@ -84,7 +83,7 @@ class DbHookExtensionTest {
              MockedStatic<ReflectionUtil> rif = mockStatic(ReflectionUtil.class)) {
 
             var mockConfig = mock(DbConfig.class);
-            when(mockConfig.projectPackage()).thenReturn("my.project");
+            when(mockConfig.projectPackages()).thenReturn(new String[]{"my.project"});
             dbh.when(DbConfigHolder::getDbConfig).thenReturn(mockConfig);
 
             DbHookFlow dummyFlow = mock(DbHookFlow.class);
@@ -116,7 +115,7 @@ class DbHookExtensionTest {
              MockedStatic<ReflectionUtil> rif = mockStatic(ReflectionUtil.class)) {
             // arrange your DbConfig
             var mockConfig = mock(DbConfig.class);
-            when(mockConfig.projectPackage()).thenReturn("pkg");
+            when(mockConfig.projectPackages()).thenReturn(new String[]{"pkg"});
             dbh.when(DbConfigHolder::getDbConfig).thenReturn(mockConfig);
 
             // prepare a dummy flow and stub the static finder
@@ -168,9 +167,9 @@ class DbHookExtensionTest {
         try (MockedStatic<DbConfigHolder> dbh = mockStatic(DbConfigHolder.class);
              MockedStatic<ReflectionUtil> rif = mockStatic(ReflectionUtil.class)) {
 
-            // stub DbConfigHolder.getDbConfig().projectPackage()
+            // stub DbConfigHolder.getDbConfig().projectPackages()
             var cfg = mock(io.cyborgcode.roa.db.config.DbConfig.class);
-            when(cfg.projectPackage()).thenReturn("my.pkg");
+            when(cfg.projectPackages()).thenReturn(new String[]{"my.pkg"});
             dbh.when(DbConfigHolder::getDbConfig).thenReturn(cfg);
 
             // prepare a dummy DbHookFlow, and capture the Flow.accept() args
@@ -229,7 +228,7 @@ class DbHookExtensionTest {
              MockedStatic<ReflectionUtil> rif = mockStatic(ReflectionUtil.class)) {
 
             var cfg = mock(io.cyborgcode.roa.db.config.DbConfig.class);
-            when(cfg.projectPackage()).thenReturn("my.pkg");
+            when(cfg.projectPackages()).thenReturn(new String[]{"my.pkg"});
             dbh.when(DbConfigHolder::getDbConfig).thenReturn(cfg);
 
             // make ReflectionUtil throw

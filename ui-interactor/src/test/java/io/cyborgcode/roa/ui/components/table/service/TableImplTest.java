@@ -160,7 +160,7 @@ class TableImplTest extends BaseUnitUITest {
       var uiConfig = mock(UiConfig.class);
       uiConfigHolderMock.when(UiConfigHolder::getUiConfig).thenReturn(uiConfig);
       // Use lenient() if these might not be called in every path of the test using the helper
-      lenient().when(uiConfig.projectPackage()).thenReturn("io.cyborgcode.roa"); // Or test package
+      lenient().when(uiConfig.projectPackages()).thenReturn(new String[]{"io.cyborgcode.roa"}); // Or test package
    }
 
    // --- Inner Mock Component Type (Keep Necessary) ---
@@ -645,7 +645,7 @@ class TableImplTest extends BaseUnitUITest {
          // Assume text locator points to cell itself
          when(mockCell.findSmartElement(eq(TEXT_LOCATOR_DUMMY))).thenReturn(mockCell);
          when(mockCell.getText()).thenReturn(cellText);
-         when(mockRow.getDomAttribute("innerText")).thenReturn(cellText); // Simple inner text for criteria matching
+         when(mockRow.getText()).thenReturn(cellText); // Simple inner text for criteria matching
          return mockRow;
       }
 
@@ -789,7 +789,7 @@ class TableImplTest extends BaseUnitUITest {
       void testReadRow_Criteria() {
          // Given
          var row1 = createMockedRow(ROW_BY_CRITERIA_VALUE);
-         when(row1.getDomAttribute("innerText")).thenReturn(MATCH_CRITERIA_TEXT); // Setup text for criteria match
+         when(row1.getText()).thenReturn(MATCH_CRITERIA_TEXT); // Setup text for criteria match
          doReturn(List.of(row1)).when(tableImpl).getRows(any(), any(), anyString());
 
 
@@ -799,7 +799,7 @@ class TableImplTest extends BaseUnitUITest {
          // Then
          assertThat(result).isNotNull();
          assertThat(result.getField1().getText()).isEqualTo(ROW_BY_CRITERIA_VALUE);
-         verify(row1).getDomAttribute("innerText"); // Verify criteria check happened
+         verify(row1).getText(); // Verify criteria check happened
       }
 
       @Test
@@ -807,7 +807,7 @@ class TableImplTest extends BaseUnitUITest {
       void testReadRow_CriteriaNotFound() {
          // Given
          var row1 = createMockedRow(CELL_TEXT_1);
-         when(row1.getDomAttribute("innerText")).thenReturn(NO_MATCH_CRITERIA_TEXT);
+         when(row1.getText()).thenReturn(NO_MATCH_CRITERIA_TEXT);
          doReturn(List.of(row1)).when(tableImpl).getRows(any(), any(), eq("dummySection")); // Ensure correct section
 
          // When / Then
@@ -838,7 +838,7 @@ class TableImplTest extends BaseUnitUITest {
       void testReadRow_CriteriaAndFields() {
          // Given
          var row1 = createMockedRow(ROW_CRITERIA_WITH_FIELDS_VALUE);
-         when(row1.getDomAttribute("innerText")).thenReturn(MATCH_CRITERIA_TEXT);
+         when(row1.getText()).thenReturn(MATCH_CRITERIA_TEXT);
          doReturn(List.of(row1)).when(tableImpl).getRows(any(), any(), anyString());
          TableField<DummyRow> field1 = TableField.of(DummyRow::setField1);
 
@@ -1089,7 +1089,7 @@ class TableImplTest extends BaseUnitUITest {
          // Given
          var data = new InsertionRow();
          data.setInsertionField(new TableCell(null, SINGLE_ROW_VAL));
-         when(rowElement.getDomAttribute("innerText")).thenReturn("match criteria");
+         when(rowElement.getText()).thenReturn("match criteria");
          when(rowElement.findSmartElements(eq(By.className("insCell")))).thenReturn(List.of(cellElement));
          try (var reflectionUtilMock = mockStatic(ReflectionUtil.class);
               var uiConfigHolderMock = mockStatic(UiConfigHolder.class)) {
@@ -1113,7 +1113,7 @@ class TableImplTest extends BaseUnitUITest {
          // Given
          var data = new CustomInsertionRow();
          data.setCustomInsertionField(new TableCell(null, CUSTOM_INSERT_VAL));
-         when(rowElement.getDomAttribute("innerText")).thenReturn("match criteria");
+         when(rowElement.getText()).thenReturn("match criteria");
          when(rowElement.findSmartElements(eq(By.className("customInsCell")))).thenReturn(List.of(cellElement));
          WorkingCellInsertionFunction.reset();
 
@@ -1157,7 +1157,7 @@ class TableImplTest extends BaseUnitUITest {
       void testInsertCellValue_CriteriaAndField_Component() {
          // Given
          TableField<InsertionRow> field = TableField.of(InsertionRow::setInsertionField);
-         when(rowElement.getDomAttribute("innerText")).thenReturn("match criteria");
+         when(rowElement.getText()).thenReturn("match criteria");
          when(rowElement.findSmartElements(eq(By.className("insCell")))).thenReturn(List.of(cellElement));
          try (var reflectionUtilMock = mockStatic(ReflectionUtil.class);
               var uiConfigHolderMock = mockStatic(UiConfigHolder.class)) {
@@ -1199,7 +1199,7 @@ class TableImplTest extends BaseUnitUITest {
       void testInsertCellValue_CriteriaAndField_CustomFunction() {
          // Given
          TableField<CustomInsertionRow> field = TableField.of(CustomInsertionRow::setCustomInsertionField);
-         when(rowElement.getDomAttribute("innerText")).thenReturn("match criteria");
+         when(rowElement.getText()).thenReturn("match criteria");
          when(rowElement.findSmartElements(eq(By.className("customInsCell")))).thenReturn(List.of(cellElement));
          WorkingCellInsertionFunction.reset();
 

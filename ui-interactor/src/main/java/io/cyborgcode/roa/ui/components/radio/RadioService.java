@@ -33,7 +33,7 @@ public interface RadioService extends Insertion {
       try {
          return ReflectionUtil.findEnumImplementationsOfInterface(RadioComponentType.class,
                getUiConfig().radioDefaultType(),
-               getUiConfig().projectPackage());
+               getUiConfig().projectPackages());
       } catch (Exception ignored) {
          return null;
       }

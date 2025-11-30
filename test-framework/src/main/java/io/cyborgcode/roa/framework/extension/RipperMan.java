@@ -70,7 +70,7 @@ public class RipperMan implements AfterTestExecutionCallback {
 
       Arrays.stream(targets).forEach(target -> {
          DataRipper<?> dataRipper = ReflectionUtil.findEnumImplementationsOfInterface(
-               DataRipper.class, target, getFrameworkConfig().projectPackage());
+               DataRipper.class, target, getFrameworkConfig().projectPackages());
 
          dataRipper.eliminate().accept(superQuest);
          LogQuest.info("DataRipper processed target: '{}'.", target);
