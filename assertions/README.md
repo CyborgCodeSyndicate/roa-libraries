@@ -43,6 +43,7 @@ The module is **framework-independent** and designed to be extended or reused ac
 - **Declarative:** Build assertions with fluent API
 - **Functional:** Pure validation functions without side effects
 - **Observable:** Detailed result objects with actual vs. expected values
+- **Test-engine agnostic:** Works seamlessly with JUnit, TestNG, and other test runners
 
 ## Features
 - **Fluent Builder API:** Create assertions with `Assertion.builder()` pattern
@@ -252,11 +253,58 @@ Assertion assertion4 = Assertion.builder()
     .build();
 ```
 
-### Step 3 — Validate Data
+### Step 3 — Create Custom Validation Function (Optional)
+For domain-specific validation, create a custom function that uses the target to extract and prepare data:
+
+```java
+import io.cyborgcode.roa.validator.util.AssertionUtil;
+import io.cyborgcode.roa.validator.exceptions.InvalidAssertionException;
+
+public class UserValidator {
+    
+    public <T> List<AssertionResult<T>> validateUser(User user, Assertion... assertions) {
+        Map<String, T> data = new HashMap<>();
+        
+        for (Assertion assertion : assertions) {
+            Object target = assertion.getTarget();
+            if (!(target instanceof MyTarget myTarget)) {
+                throw new InvalidAssertionException("Invalid target: " + target);
+            }
+            
+            // Extract data based on target
+            switch (myTarget) {
+                case BODY -> {
+                    String key = assertion.getKey();
+                    Object value = extractUserField(user, key);
+                    data.put(key, (T) value);
+                }
+                case HEADER -> {
+                    // Custom logic for header-like metadata
+                    data.put(assertion.getKey(), (T) user.getMetadata(assertion.getKey()));
+                }
+            }
+        }
+        
+        return AssertionUtil.validate(data, List.of(assertions));
+    }
+    
+    private Object extractUserField(User user, String key) {
+        return switch (key) {
+            case "user.name" -> user.getName();
+            case "user.age" -> user.getAge();
+            case "user.email" -> user.getEmail();
+            case "roles" -> user.getRoles();
+            default -> throw new IllegalArgumentException("Unknown key: " + key);
+        };
+    }
+}
+```
+
+### Step 4 — Validate Data
 ```java
 import io.cyborgcode.roa.validator.util.AssertionUtil;
 
-// Prepare data map
+// Option A: Direct validation with data map
 Map<String, Object> dataMap = Map.of(
     "user.name", "John Doe",
     "user.age", 25,
@@ -264,14 +312,21 @@ Map<String, Object> dataMap = Map.of(
     "roles", List.of("admin", "user", "moderator")
 );
 
-// Execute validation
 List<AssertionResult<Object>> results = AssertionUtil.validate(
     dataMap,
     List.of(assertion1, assertion2, assertion3, assertion4)
 );
+
+// Option B: Using custom validation function
+UserValidator validator = new UserValidator();
+User user = new User("John Doe", 25, "john@example.com", List.of("admin", "user", "moderator"));
+List<AssertionResult<Object>> results = validator.validateUser(
+    user, 
+    assertion1, assertion2, assertion3, assertion4
+);
 ```
 
-### Step 4 — Process Results
+### Step 5 — Process Results
 ```
 // Check if all passed
 boolean allPassed = results.stream().allMatch(AssertionResult::isPassed);
@@ -299,7 +354,39 @@ if (!hardFailures.isEmpty()) {
 }
 ```
 
-### Step 5 — Custom Assertions
+#### JUnit 5 Example
+```java
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+@Test
+void should_validate_user_assertions() {
+    List<AssertionResult<Object>> results = validator.validateUser(
+        user,
+        assertion1, assertion2, assertion3, assertion4
+    );
+
+    assertTrue(results.stream().allMatch(AssertionResult::isPassed),
+        () -> "Failed assertions: " + results);
+}
+```
+
+#### TestNG Example
+```java
+import static org.testng.Assert.assertTrue;
+
+@Test
+public void shouldValidateUserAssertions() {
+    List<AssertionResult<Object>> results = validator.validateUser(
+        user,
+        assertion1, assertion2, assertion3, assertion4
+    );
+
+    assertTrue(results.stream().allMatch(AssertionResult::isPassed),
+        "Failed assertions: " + results);
+}
+```
+
+### Step 6 — Custom Assertions
 ```java
 import io.cyborgcode.roa.validator.registry.AssertionRegistry;
 

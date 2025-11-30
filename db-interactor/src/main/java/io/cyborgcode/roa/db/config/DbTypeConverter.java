@@ -2,7 +2,6 @@ package io.cyborgcode.roa.db.config;
 
 import io.cyborgcode.utilities.reflections.ReflectionUtil;
 import java.lang.reflect.Method;
-import java.util.List;
 import org.aeonbits.owner.Converter;
 
 import static io.cyborgcode.roa.db.config.DbConfigHolder.getDbConfig;
@@ -27,26 +26,18 @@ public class DbTypeConverter implements Converter<DbType<?>> {
     * @param method the {@link Method} annotated with the {@code @Key} for which this conversion applies
     * @param input  the raw String value from configuration (e.g. "POSTGRES")
     * @return the matching {@link DbType} enum constant
-    * @throws IllegalStateException    if zero or more than one enum implementing {@link DbType} is found
-    * @throws IllegalArgumentException if the given {@code input} does not match any constant in the enum
     */
    @Override
    public DbType<?> convert(Method method, String input) {
-
-      List<Class<? extends Enum>> enumClassImplementationsOfInterface =
-            ReflectionUtil.findEnumClassImplementationsOfInterface(
-                  DbType.class, getDbConfig().projectPackage()
-            );
-
-      if (enumClassImplementationsOfInterface.size() > 1) {
-         throw new IllegalStateException(
-               "There is more than one enum for representing different types of databases. Only 1 is allowed");
+      try {
+         return ReflectionUtil.findEnumImplementationsOfInterface(DbType.class, input, getDbConfig().projectPackages());
+      } catch (Exception e) {
+         if (e.getMessage().contains("more than one enum")) {
+            return ReflectionUtil.findEnumImplementationsOfInterface(DbType.class, input,
+               getDbConfig().projectPackages()[0]);
+         } else {
+            throw e;
+         }
       }
-
-      Class<? extends Enum> enumClass = enumClassImplementationsOfInterface.get(0);
-
-      final Enum<?> enumValue = Enum.valueOf(enumClass, input);
-      return (DbType) enumValue;
-
    }
 }

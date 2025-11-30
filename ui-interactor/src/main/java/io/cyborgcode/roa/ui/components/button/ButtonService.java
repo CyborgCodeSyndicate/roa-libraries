@@ -29,7 +29,7 @@ public interface ButtonService extends TableInsertion {
       try {
          return ReflectionUtil.findEnumImplementationsOfInterface(ButtonComponentType.class,
                getUiConfig().buttonDefaultType(),
-               getUiConfig().projectPackage());
+               getUiConfig().projectPackages());
       } catch (Exception ignored) {
          return null;
       }

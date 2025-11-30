@@ -31,7 +31,7 @@ public interface InputService extends Insertion, TableInsertion, TableFilter {
       try {
          return ReflectionUtil.findEnumImplementationsOfInterface(InputComponentType.class,
                getUiConfig().inputDefaultType(),
-               getUiConfig().projectPackage());
+               getUiConfig().projectPackages());
       } catch (Exception ignored) {
          return null;
       }

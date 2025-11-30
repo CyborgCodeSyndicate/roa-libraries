@@ -29,7 +29,7 @@ public interface LinkService extends ButtonService {
       try {
          return ReflectionUtil.findEnumImplementationsOfInterface(LinkComponentType.class,
                getUiConfig().linkDefaultType(),
-               getUiConfig().projectPackage());
+               getUiConfig().projectPackages());
       } catch (Exception ignored) {
          return null;
       }

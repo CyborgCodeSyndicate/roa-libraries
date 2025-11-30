@@ -22,6 +22,7 @@
 - [UI Interactor Test Framework Adapter](./ui-interactor-test-framework-adapter/README.md)
 - [Assertions](./assertions/README.md)
 - [Test Framework](./test-framework/README.md)
+  - [ROA Parent POM](./roa-parent/README.md)    
 
 ---
 
@@ -37,6 +38,8 @@
 | **ui-interactor-test-framework-adapter** | Fluent adapter for **ui-interactor**, exposing high-level UI actions/assertions in the same DSL used across modules. | [README](./ui-interactor-test-framework-adapter/README.md) |
 | **assertions** | Core **assertion/validation** library (assertion types, targets, builders, result model) used by API/DB/UI interactors. | [README](./assertions/README.md) |
 | **test-framework** | Test orchestration primitives (runners, lifecycles, DSL entry points) that the adapters plug into to provide fluent scenarios. | [README](./test-framework/README.md) |
+| **roa-parent** | Maven parent POM providing centralized dependency management, plugin configuration, and default properties for all ROA-based testing frameworks. | [README](./roa-parent/README.md) |
+
 
 ---
 
