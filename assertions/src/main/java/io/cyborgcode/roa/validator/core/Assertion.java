@@ -23,7 +23,7 @@ import lombok.Setter;
 @SuppressWarnings("java:S3740")
 @Pandora(
       description = "Single validation rule describing what to assert, how to compare it and what value is expected.",
-      tags = {"api", "ui", "db", "assertion"},
+      tags = {"assertion"},
       creation = CreationKind.BUILDER
 )
 @PandoraOptions(

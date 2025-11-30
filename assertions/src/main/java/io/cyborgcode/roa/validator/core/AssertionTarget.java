@@ -3,6 +3,7 @@ package io.cyborgcode.roa.validator.core;
 import io.cyborgcode.pandora.annotation.Pandora;
 import io.cyborgcode.pandora.annotation.PandoraOptions;
 import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.roa.validator.pandora.AvailableOptionsRules;
 
 /**
  * Defines a contract for specifying the target of an assertion.
@@ -19,6 +20,7 @@ import io.cyborgcode.pandora.model.CreationKind;
       creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
+      availableOptionsRule = AvailableOptionsRules.AvailableAssertionTargets.class,
       meta = {
             @PandoraOptions.Meta(key = "type", value = "assertion-target")
       }
