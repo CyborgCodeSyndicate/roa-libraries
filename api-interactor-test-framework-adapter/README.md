@@ -23,8 +23,8 @@
     - [Step 2 - Configure environment](#step-2---configure-environment)
     - [Step 3 - Enable adapter](#step-3---enable-the-adapter-on-tests)
     - [Step 4 - Call the fluent API](#step-4---call-the-fluent-api)
-    - [Step 5 - (Optional) Authenticate a method](#step-5---optional-authenticate-a-method)
-    - [Step 6 - (Optional) Retry until a condition](#step-6---optional-retry-until-a-condition)
+    - [Step 5 - Authenticate a method](#step-5---authenticate-a-method)
+    - [Step 6 - Retry until a condition](#step-6---retry-until-a-condition)
 - [Annotations & Hooks](#annotations--hooks)
 - [Retry Helpers](#retry-helpers)
 - [Allure Reporting](#allure-reporting)
@@ -57,7 +57,7 @@ The **api-interactor-test-framework-adapter** layers **test-facing ergonomics** 
 
 ## Structure
 - `allure` - `RestClientAllureImpl`, `RestResponseValidatorAllureImpl`
-- `annotations` - `API`, `ApiHook`, `ApiHooks`, `AuthenticateViaApiAs`
+- `annotations` - `API`, `ApiHook`, `ApiHooks`, `AuthenticateViaApi`
 - `authentication` - `Credentials`
 - `config` - `ApiTestFrameworkAutoConfiguration`
 - `extensions` - `ApiHookExtension`, `ApiTestExtension`
@@ -92,7 +92,7 @@ classDiagram
     class API
     class ApiHook
     class ApiHooks
-    class AuthenticateViaApiAs
+    class AuthenticateViaApi
     API ..> ApiTestExtension : applies
     API ..> ApiHookExtension : applies
 
@@ -110,32 +110,31 @@ classDiagram
         +restResponseValidator(impl): RestResponseValidator
     }
 
-    AuthenticateViaApiAs ..> Credentials : uses
-    AuthenticateViaApiAs ..> BaseAuthenticationClient : uses
-
+    AuthenticateViaApi ..> Credentials : uses
+    AuthenticateViaApi ..> BaseAuthenticationClient : uses
 ```
 
 ### Execution Flow
 #### Adapter Runtime Flow
 ```mermaid
 sequenceDiagram
-  autonumber
-  participant T as Test (@API)
-  participant Ext as JUnit Extensions
-  participant Ctx as Spring Context
-  participant F as RestServiceFluent
-  participant RS as RestService
-  participant RC as RestClientAllureImpl
-
-  T->>Ext: class start
-  Ext->>Ctx: scan & auto-config (Allure beans @Primary)
-  Ctx-->>T: inject RestServiceFluent
-  T->>F: requestAndValidate(endpoint, assertions)
-  F->>RS: request(...)
-  RS->>RC: execute(...)
-  RC-->>RS: Response (Allure attachments)
-  RS-->>F: Response
-  F-->>T: validation results (Allure attachments)
+    autonumber
+    participant T as Test (@API)
+    participant Ext as JUnit Extensions
+    participant Ctx as Spring Context
+    participant F as RestServiceFluent
+    participant RS as RestService
+    participant RC as RestClientAllureImpl
+    
+    T ->> Ext: class start
+    Ext ->> Ctx: scan & auto-config (Allure beans @Primary)
+    Ctx -->> Ext: expose Allure-enabled RestClient/RestResponseValidator
+    T ->> F: requestAndValidate(endpoint, assertions)
+    F ->> RS: request(...)
+    RS ->> RC: execute(...)
+    RC -->> RS: Response (Allure attachments)
+    RS -->> F: Response
+    F -->> T: validation results (Allure attachments)
 ```
 
 #### Test Bootstrap & JUnit Integration
@@ -170,7 +169,7 @@ sequenceDiagram
 
 ## Usage
 
-> Follow these steps in your **app-specific test module**. Examples avoid external DSLs; only the adapter and `api-interactor` are required.
+> Follow these steps in your **app-specific test module**. This module is part of the Ring of Automation (RoA) stack, so the examples below show the **typical usage** via the RoA Quest DSL (`BaseQuest`, `Quest`, `Rings.RING_OF_API`).  
 
 ### Step 1 - Add dependency
 ```xml
@@ -183,19 +182,21 @@ sequenceDiagram
 ```
 
 ### Step 2 - Configure environment
-This adapter does not introduce new Owner keys. 
-It reuses `ApiConfig` from `api-interactor` and primarily needs your project package for reflection 
-(e.g., to locate `ApiHookFlow` enums):
+This adapter does not introduce new Owner keys.  
+It reuses `ApiConfig` from `api-interactor` and primarily needs your project packages for reflection  
+(e.g., to locate `ApiHookFlow` enums).
 
 **Load order:** system properties + `classpath:${api.config.file}.properties`
 
 ```properties
-# src/test/resources/config.properties
+# src/test/resources/api-config.properties
+project.packages=io.cyborgcode.mytests;io.cyborgcode.myhooks
 api.base.url=https://test/api
 api.restassured.logging.enabled=true
 api.restassured.logging.level=ALL
 log.full.body=false
 shorten.body=800
+
 ```
 Run tests with:
 ```
@@ -213,43 +214,76 @@ class UsersRestTests {
 ```
 
 ### Step 4 - Call the fluent API
-<pre><code>
-  .requestAndValidate(
-          POST_CREATE_USER,
-          userLeader,
-          Assertion.builder().target(STATUS).type(IS).expected(SC_CREATED).build(),
-          Assertion.builder().target(BODY).key(CREATE_USER_NAME_RESPONSE.getJsonPath()).type(IS).expected(USER_LEADER_NAME).soft(true).build(),
-          Assertion.builder().target(BODY).key(CREATE_USER_JOB_RESPONSE.getJsonPath()).type(IS).expected(USER_LEADER_JOB).soft(true).build()
-  );
-}
-</code></pre>
 
-### Step 5 - (Optional) Authenticate a method
+In RoA-based test suites you usually don’t call `RestServiceFluent` directly.  
+Instead, you obtain it through the Quest DSL by using a **ring**.  
+In the example project, the “API ring” is defined like this:
+
 ```java
-@AuthenticateViaApiAs(
-  credentials = MyCreds.class,
-  type = MyAuthClient.class,
-  cacheCredentials = true
-)
-@Test
-void me_endpoint_is_authenticated() {
-  api.requestAndValidate(MyEndpoints.ME);
+public static final Class<RestServiceFluent> RING_OF_API = RestServiceFluent.class;
+```
+
+and then used in tests as shown below:
+
+```java
+quest
+      .use(RING_OF_API) 
+      .requestAndValidate(
+            POST_CREATE_USER,
+            userLeader,
+            Assertion.builder().target(STATUS).type(IS).expected(SC_CREATED).build(),
+            Assertion.builder().target(BODY).key(CREATE_USER_NAME_RESPONSE.getJsonPath()).type(IS).expected(USER_LEADER_NAME).build(),
+            Assertion.builder().target(BODY).key(CREATE_USER_JOB_RESPONSE.getJsonPath()).type(IS).expected(USER_LEADER_JOB).build()
+      )
+      .complete();
+```
+
+### Step 5 - Authenticate a method
+```java
+@API
+class SecuredUserTests extends BaseQuest {
+
+   @Test
+   @AuthenticateViaApi(
+         credentials = MyCreds.class,
+         type = MyAuthClient.class,
+         cacheCredentials = true
+   )
+   void me_endpoint_is_authenticated(Quest quest) {
+      quest
+            .use(RING_OF_API)
+            .requestAndValidate(
+                  MyEndpoints.ME,
+                  Assertion.builder().target(STATUS).type(IS).expected(SC_OK).build()
+            )
+            .complete();
+   }
 }
 ```
 
-### Step 6 - (Optional) Retry until a condition
-<pre><code>
-  api.retryUntil(
-      statusEquals(CREATE_PET, 200),
-      Duration.ofSeconds(5), 
-      Duration.ofSeconds(1)
-  )
-  .retryUntil(
-      responseFieldEqualsTo(CREATE_PET, "$.status", "FINISH"),
-      Duration.ofSeconds(5), 
-      Duration.ofSeconds(1)
-  );
-</code></pre>
+### Step 6 - Retry until a condition
+```java
+@API
+class RetryExamples extends BaseQuest {
+
+   @Test
+   void waitsUntilPetIsFinished(Quest quest) {
+      quest
+            .use(RING_OF_API)
+            .retryUntil(
+                  statusEquals(CREATE_PET, 200),
+                  Duration.ofSeconds(5),
+                  Duration.ofSeconds(1)
+            )
+            .retryUntil(
+                  responseFieldEqualsTo(CREATE_PET, "$.status", "FINISH"),
+                  Duration.ofSeconds(5),
+                  Duration.ofSeconds(1)
+            )
+            .complete();
+   }
+}
+```
 
 ## Annotations & Hooks
 - `@API` - applies JUnit 5 extensions and scans `io.cyborgcode.roa.api`.
@@ -259,12 +293,12 @@ void me_endpoint_is_authenticated() {
 ## Retry Helpers
 `RetryConditionApi` exposes ready-made `RetryCondition`s for polling with `RestServiceFluent.retryUntil(...)`:
 - `statusEquals(endpoint, expectedStatus)` (+ overload with body)
-  - `responseFieldEqualsTo(endpoint, jsonPath, expected)` (+ overload with body)
-  - `responseFieldNonNull(endpoint, jsonPath)` (+ overload with body)
+- `responseFieldEqualsTo(endpoint, jsonPath, expected)` (+ overload with body)
+- `responseFieldNonNull(endpoint, jsonPath)` (+ overload with body)
 
 ## Allure Reporting
 - **Requests/Responses:** `RestClientAllureImpl` attaches method, URL, query params, headers, (pretty) body, status, response time.
-  - **Validations:** `RestResponseValidatorAllureImpl` attaches the **data map** being validated for traceability.
+- **Validations:** `RestResponseValidatorAllureImpl` attaches the **data map** being validated for traceability.
 
 ## Adapter Configuration
 ```java
@@ -287,7 +321,7 @@ public class ApiTestFrameworkAutoConfiguration {
 
 ## Dependencies
 
-- `io.cyborgcode:api-interactor` *(required)*
+- `io.cyborgcode.roa:api-interactor` *(required)*
 - `io.qameta.allure:allure-java-commons` *(optional - Allure attachments)*
 - `io.qameta.allure:allure-junit5` *(optional - Allure + JUnit 5 bridge)*
 - `org.springframework:spring-context` *(required if using Spring DI / auto-config)*
@@ -297,7 +331,6 @@ public class ApiTestFrameworkAutoConfiguration {
 - `org.projectlombok:lombok` *(optional)*
 - `io.restassured:rest-assured` *(usually transitive via api-interactor; add explicitly if needed)*
 - `org.aeonbits.owner:owner` *(transitive via api-interactor; add explicitly if your BOM doesn't manage it)*
-
 
 ## Author
 **Cyborg Code Syndicate 💍👨💻**
