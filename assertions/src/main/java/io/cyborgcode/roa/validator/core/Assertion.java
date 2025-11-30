@@ -1,6 +1,8 @@
 package io.cyborgcode.roa.validator.core;
 
-
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
@@ -19,6 +21,17 @@ import lombok.Setter;
 @Getter
 @Builder
 @SuppressWarnings("java:S3740")
+@Pandora(
+      description = "Single validation rule describing what to assert, how to compare it and what value is expected.",
+      tags = {"api", "ui", "db", "assertion"},
+      creation = CreationKind.BUILDER
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/api-usage.json",
+      meta = {
+            @PandoraOptions.Meta(key = "type", value = "assertion")
+      }
+)
 public final class Assertion {
 
    /**
@@ -30,6 +43,9 @@ public final class Assertion {
    /**
     * Provides a supplementary identifier for targeted validation.
     */
+   @Pandora(
+         description = "Optional key that refines the target, such as JSON path, header name or locator."
+   )
    @Setter
    private String key;
 
@@ -42,13 +58,18 @@ public final class Assertion {
    /**
     * The reference value expected by this assertion.
     */
+   @Pandora(
+         description = "Expected reference value used by the assertion operator."
+   )
    @NonNull
    private final Object expected;
 
    /**
     * Determines if the assertion is a soft assertion.
     */
+   @Pandora(
+         description = "Whether this assertion is soft (do not fail immediately, collect in soft-assertions)."
+   )
    private final boolean soft;
-
 
 }

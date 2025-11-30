@@ -1,5 +1,9 @@
 package io.cyborgcode.roa.validator.core;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
+
 /**
  * Defines a contract for specifying the target of an assertion.
  *
@@ -9,6 +13,16 @@ package io.cyborgcode.roa.validator.core;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Marker interface for assertion targets (e.g. STATUS, BODY, HEADER). Implemented by enums that define where an assertion is applied.",
+      tags = {"assertion"},
+      creation = CreationKind.ENUM_CONSTANT
+)
+@PandoraOptions(
+      meta = {
+            @PandoraOptions.Meta(key = "type", value = "assertion-target")
+      }
+)
 public interface AssertionTarget<T extends Enum<T>> {
 
    /**
