@@ -1,8 +1,10 @@
 package ${package}.common.data.cleaner;
 
+#set( $mods = $modules.toUpperCase() )
+
 import io.cyborgcode.roa.framework.quest.SuperQuest;
 import io.cyborgcode.roa.validator.core.Assertion;
-#if($modules.contains("API"))
+#if($mods.contains("API"))
 import static io.cyborgcode.roa.validator.core.AssertionTypes.IS;
 import static ${package}.common.base.Rings.RING_OF_API;
 import static ${package}.api.ExampleEndpoints.EXAMPLE_POST;
@@ -40,7 +42,7 @@ public final class DataCleanerFunctions {
      * </p>
      */
     public static void exampleCleanup(SuperQuest quest) {
-#if ($modules.contains("API"))
+#if ($mods.contains("API"))
             quest.use(RING_OF_API)
                     .requestAndValidate(
                             EXAMPLE_POST,
