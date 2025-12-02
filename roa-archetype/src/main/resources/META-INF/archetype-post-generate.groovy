@@ -26,7 +26,6 @@ println "Selected UI components: ${uiComponents}"
 println "Creating config files for environments: ${environmentsRaw}"
 println "Common features level (set -DcommonFeatures=BASIC or ADVANCED): ${commonFeaturesRaw}"
 
-// Parse and validate modules/commonFeatures/uiComponents
 def allowedModules = ['API','UI','DB'] as Set
 def selectedModules = modulesRaw?.split(',')*.trim()*.toUpperCase().findAll { allowedModules.contains(it) } ?: []
 if (selectedModules.isEmpty()) {
@@ -42,22 +41,12 @@ if (!commonFeatures || !(commonFeatures in ['BASIC', 'ADVANCED'])) {
 def isBasicCommons = commonFeatures == 'BASIC'
 
 def allowedUiComponents = ['BUTTON','INPUT','RADIO','SELECT','ALERT','LINK','LIST'] as Set
-def selectedUI = []
-if (uiComponents?.trim()?.equalsIgnoreCase('NONE')) {
-    println "  UI components explicitly set to NONE."
-} else {
-    selectedUI = uiComponents?.split(',')*.trim()*.toUpperCase().findAll { allowedUiComponents.contains(it) } ?: []
-    if (selectedUI.isEmpty() && selectedModules.contains('UI')) {
-        println "  WARNING: No valid uiComponents provided (and not set to NONE). Defaulting to all: ${allowedUiComponents}."
-        selectedUI = allowedUiComponents as List
-    }
-}
+def selectedUI = allowedUiComponents as List
 
 def testDataTemplateFile = new File(resourcesDir, "test_data-template.properties")
 
 println "Parsed modules: ${selectedModules}"
 
-// Determine what to keep
 def keepUI = selectedModules.contains('UI')
 def keepAPI = selectedModules.contains('API')
 def keepDB = selectedModules.contains('DB')
@@ -79,30 +68,23 @@ if (keepUI) {
     println "Parsed UI components: ${selectedUI}"
 }
 
-// Remove UI module if not selected
 if (!keepUI) {
     println "Removing UI module..."
 
-    // Remove UI from src/test/java
     def uiTestDir = new File(rootDir, "src/test/java/${packagePath}/ui")
     if (uiTestDir.exists()) {
         uiTestDir.deleteDir()
         println "  Deleted: ${uiTestDir}"
     }
 
-    // Remove UI from src/main/java
     def uiMainDir = new File(rootDir, "src/main/java/${packagePath}/ui")
     if (uiMainDir.exists()) {
         uiMainDir.deleteDir()
         println "  Deleted: ${uiMainDir}"
     }
 } else {
-    // -------------------------------------------
-    // UI module kept - now filter UI components
-    // -------------------------------------------
     println "Filtering UI components..."
 
-    // Mapping: component name -> folder name
     def componentFolders = [
             "BUTTON": ["button"],
             "INPUT" : ["input"],
@@ -121,7 +103,6 @@ if (!keepUI) {
         if (!selectedUI.contains(key)) {
             println "Removing UI component: ${key}"
 
-            // Remove component implementation folders
             subFolders.each { folder ->
                 def compDir = new File(uiBaseMain, "components/${folder}")
                 if (compDir.exists()) {
@@ -130,7 +111,6 @@ if (!keepUI) {
                 }
             }
 
-            // Remove related elements (if match folder name)
             subFolders.each { folder ->
                 def elementFile = new File(uiBaseElements, "${folder.capitalize()}Fields.java")
                 if (elementFile.exists()) {
@@ -139,7 +119,6 @@ if (!keepUI) {
                 }
             }
 
-            // Remove type file
             def typeFile = new File(uiBaseTypes, "${key.capitalize()}FieldTypes.java")
             if (typeFile.exists()) {
                 typeFile.delete()
@@ -149,18 +128,15 @@ if (!keepUI) {
     }
 }
 
-// Remove API module if not selected
 if (!keepAPI) {
     println "Removing API module..."
 
-    // Remove API from src/test/java
     def apiTestDir = new File(rootDir, "src/test/java/${packagePath}/api")
     if (apiTestDir.exists()) {
         apiTestDir.deleteDir()
         println "  Deleted: ${apiTestDir}"
     }
 
-    // Remove API from src/main/java
     def apiMainDir = new File(rootDir, "src/main/java/${packagePath}/api")
     if (apiMainDir.exists()) {
         apiMainDir.deleteDir()
@@ -168,18 +144,15 @@ if (!keepAPI) {
     }
 }
 
-// Remove DB module if not selected
 if (!keepDB) {
     println "Removing DB module..."
 
-    // Remove DB from src/test/java
     def dbTestDir = new File(rootDir, "src/test/java/${packagePath}/db")
     if (dbTestDir.exists()) {
         dbTestDir.deleteDir()
         println "  Deleted: ${dbTestDir}"
     }
 
-    // Remove DB from src/main/java
     def dbMainDir = new File(rootDir, "src/main/java/${packagePath}/db")
     if (dbMainDir.exists()) {
         dbMainDir.deleteDir()
@@ -187,7 +160,6 @@ if (!keepDB) {
     }
 }
 
-// Prune advanced commons when BASIC is selected
 if (isBasicCommons) {
     println "Pruning advanced commons (Preconditions/DataCreator/DataCleaner) for BASIC mode"
 
@@ -216,13 +188,11 @@ if (isBasicCommons) {
     }
 }
 
-// Toggle test suites based on commons mode
 Closure selectTestVariant = { String baseName, String basicName, String advancedName, String basicClass, String advancedClass, String targetClass ->
     def baseFile = new File(rootDir, baseName)
     def basicFile = new File(rootDir, basicName)
     def advancedFile = new File(rootDir, advancedName)
 
-    // Clean any existing base file to avoid conflicts
     if (baseFile.exists()) {
         baseFile.delete()
     }
@@ -290,20 +260,16 @@ def configTemplateContent = configTemplateFile.text
 def testDataTemplateContent = testDataTemplateFile.text
 
 def envList = environmentsRaw.split(',')*.trim().findAll { it }
-// Do not drop empty entries from baseUrls to preserve positional mapping
-// (e.g., "dev,,prod" keeps the empty middle value)
 def urlList = baseUrlsRaw.split(',')*.trim()
 
-// Decide test data file name based on first environment (if any)
 def selectedTestDataFile = envList ? "test_data-${envList[0]}" : "test_data"
 
-// Helpers to generate files
 Closure generateConfigFile = { File targetFile, String baseUrl ->
     def processedTemplate = configTemplateContent
+            .replaceFirst(/browser\.type=.*/, "browser.type=${request.properties['browserType'] ?: 'CHROME'}")
+            .replaceFirst(/headless=.*/, "headless=${request.properties['headless'] ?: 'true'}")
             .replace('${package}', packageName)
             .replace('${baseUrl}', baseUrl ?: 'https://example.com')
-            .replace('browser.type=', "browser.type=${request.properties['browserType'] ?: 'CHROME'}")
-            .replace('headless=', "headless=${request.properties['headless'] ?: 'true'}")
     targetFile.text = processedTemplate
     println "  Created: ${targetFile.name} with baseUrl: ${baseUrl ?: 'https://example.com'}"
 }
@@ -335,7 +301,6 @@ if (envList && envList.size() > 0) {
     generateTestDataFile(new File(resourcesDir, "test_data.properties"))
 }
 
-// Update test.data.file property in generated POM to point to selected file
 def generatedPom = new File(rootDir, "pom.xml")
 if (generatedPom.exists()) {
     def pomText = generatedPom.text
@@ -348,7 +313,6 @@ if (generatedPom.exists()) {
     }
 }
 
-// Delete the template files after use
 configTemplateFile.delete()
 testDataTemplateFile.delete()
 println "  Removed template files"

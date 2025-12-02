@@ -23,10 +23,6 @@
 
             <defaultValue>CHROME</defaultValue>
         </requiredProperty>
-        <requiredProperty key="uiComponents">
-
-            <defaultValue>BUTTON,INPUT,RADIO,SELECT,ALERT,LINK,LIST</defaultValue>
-        </requiredProperty>
         <requiredProperty key="headless">
 
             <defaultValue>true</defaultValue>
