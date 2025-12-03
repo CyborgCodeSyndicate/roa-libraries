@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.framework.base;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
@@ -19,6 +22,18 @@ import org.springframework.test.annotation.DirtiesContext;
 @Component
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+@Pandora(
+      description = "Sequential variant of BaseQuest that runs tests in a single instance (PER_CLASS lifecycle) "
+            + "and exposes beforeAll/afterAll hooks for custom setup and cleanup.",
+      tags = {"framework"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      meta = {
+            @PandoraOptions.Meta(key = "type", value = "base-quest"),
+            @PandoraOptions.Meta(key = "lifecycle", value = "sequential-per-class")
+      }
+)
 public class BaseQuestSequential extends BaseQuest {
 
    /**

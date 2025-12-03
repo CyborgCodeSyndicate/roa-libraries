@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.framework.annotation;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -18,6 +21,17 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({})
+@Pandora(
+      description = "Annotation used inside @Journey to declare which test data models should be prepared " +
+            "as part of a pre-test setup (eager or lazy).",
+      tags = {"framework", "test-data"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      meta = {
+            @PandoraOptions.Meta(key = "type", value = "journey-data-annotation")
+      }
+)
 public @interface JourneyData {
 
    /**

@@ -1,6 +1,9 @@
 package io.cyborgcode.roa.framework.quest;
 
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.annotation.Ring;
 import io.cyborgcode.roa.framework.assertion.CustomSoftAssertion;
 import io.cyborgcode.roa.framework.chain.FluentService;
@@ -23,6 +26,17 @@ import static io.cyborgcode.utilities.reflections.ReflectionUtil.getFieldValues;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Core RoA quest object used in tests. Holds rings (fluent services), shared storage and soft assertions for a single test run.",
+      tags = {"framework"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/api-usage.json",
+      meta = {
+            @PandoraOptions.Meta(key = "type", value = "quest")
+      }
+)
 public class Quest {
 
    /**
@@ -59,6 +73,13 @@ public class Quest {
     * @throws IllegalArgumentException If the specified ring is not registered.
     */
    @SuppressWarnings("unchecked")
+   @Pandora(
+         description = "Switch the active ring (fluent service) for the current quest. Typical usage: quest.use(RING_OF_API) or quest.use(RING_OF_CUSTOM).",
+         tags = {"framework"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
+   )
    public <T extends FluentService> T use(Class<T> ring) {
       Optional<Class<? extends FluentService>> match =
             rings.keySet().stream().filter(ring::isAssignableFrom).findFirst();
@@ -99,6 +120,13 @@ public class Quest {
     * <p>This method logs the completion, clears the test execution state, and verifies all
     * soft assertions collected during the test execution.
     */
+   @Pandora(
+         description = "Finish the quest: log completion, clear the quest from QuestHolder and assert all collected soft assertions. Call this at the end of the test flow.",
+         tags = {"framework"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
+   )
    public void complete() {
       LogQuest.info("The quest has reached his end");
       QuestHolder.clear();
