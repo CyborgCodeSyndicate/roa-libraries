@@ -1,0 +1,11 @@
+name: E2E Tests After Deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Placeholder
+        run: echo "E2E tests will be implemented here"
