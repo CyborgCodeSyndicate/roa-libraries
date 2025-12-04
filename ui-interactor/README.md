@@ -46,35 +46,28 @@
     - [4.14 List Component](#step-414---list-component)
     - [4.15 Table Component](#step-415---table-component)
   - [Step 5 - Insertion Pattern](#step-5---insertion-pattern)
-- [Advanced Topics](#advanced-topics)
+- [Selenium Package Deep Dive](#selenium-package-deep-dive)
   - [Error Handling and Logging](#error-handling-and-logging)
-  - [Shadow DOM Support](#shadow-dom-support)
-  - [Selenium Package Deep Dive](#selenium-package-deep-dive)
-    - [SmartFinder - Element Location Strategies](#smartfinder---element-location-strategies)
-    - [Exception Handling - Automatic Recovery](#exception-handling---automatic-recovery)
-    - [WebElement Decorators](#webelement-decorators)
-    - [Selenium Logging](#selenium-logging)
-    - [Shadow Root Utilities](#shadow-root-utilities)
-  - [Util Package - Helper Utilities](#util-package---helper-utilities)
-    - [Strategy Pattern for Component Selection](#strategy-pattern-for-component-selection)
-    - [Functional Interfaces for Table Operations](#functional-interfaces-for-table-operations)
-    - [Table Utilities](#table-utilities)
-  - [Advanced Driver Configuration](#advanced-driver-configuration)
-    - [Custom Driver Options](#custom-driver-options)
-    - [Remote Driver (Selenium Grid)](#remote-driver-selenium-grid)
-    - [Driver Session Management](#driver-session-management)
-  - [Performance Optimization](#performance-optimization)
-    - [Minimize Element Lookups](#minimize-element-lookups)
-    - [Disable Wrapping for Simple Operations](#disable-wrapping-for-simple-operations)
-    - [Batch Element Operations](#batch-element-operations)
-  - [Troubleshooting](#troubleshooting)
-    - [Enable Debug Logging](#enable-debug-logging)
-    - [Common Issues and Solutions](#common-issues-and-solutions)
+  - [Exception Handling - Automatic Recovery](#exception-handling---automatic-recovery)
+  - [SmartFinder and Shadow DOM Support](#smartfinder-and-shadow-dom-support)
+  - [WebElement Decorator (SmartWebElement)](#webelement-decorator-smartwebelement)
+  - [WebDriver Decorator (SmartWebDriver)](#webdriver-decorator-smartwebdriver)
+- [Util Package - Helper Utilities](#util-package---helper-utilities)
+  - [Strategy Pattern for Component Selection](#strategy-pattern-for-component-selection)
+  - [Functional Interfaces](#functional-interfaces)
+- [Advanced Driver Configuration](#advanced-driver-configuration)
+  - [Custom Driver Options](#custom-driver-options)
+  - [Remote Driver (Selenium Grid)](#remote-driver-selenium-grid)
+- [Performance Optimization](#performance-optimization)
+  - [Disable Wrapping for Simple Operations](#disable-wrapping-for-simple-operations)
+- [Troubleshooting](#troubleshooting)
+  - [Enable Debug Logging](#enable-debug-logging)
+  - [Common Issues and Solutions](#common-issues-and-solutions)
 - [Configuration](#configuration)
 - [Extensibility](#extensibility)
 - [Cross-module links](#cross-module-links)
 - [Glossary](#glossary)
-- [Dependencies](#dependencies)
+- [Module Dependencies](#module-dependencies)
 - [Author](#author)
 
 ## Overview
@@ -449,7 +442,8 @@ Create a `ui-config.properties` file in your `src/main/resources` or `src/test/r
 wait.duration.in.seconds=10
 project.packages=your.project.package
 
-# Required browser configuration
+# Optional browser configuration
+# If browser.type and headless are missing, then browser.type defaults to 'CHROME' and headless defaults to false
 browser.type=CHROME
 browser.version=
 headless=false
@@ -1391,35 +1385,50 @@ results.forEach(result -> {
 ---
 
 ### Step 5 - Insertion Pattern
+Use `InsertionService` from `UiService` to populate forms from an annotated model. `UiService` wires all component services and the insertion registry for you.
+
+#### Define a form model with @InsertionElement
 ```java
-import io.cyborgcode.roa.ui.insertion.Insertion;
-import io.cyborgcode.roa.ui.components.base.ComponentType;
+import io.cyborgcode.roa.ui.annotations.InsertionElement;
 
-// All component services implement Insertion interface
-// Use insertion() for dynamic component interactions
+// Example form model. Each field maps to a UI element via locatorClass + elementEnum
+public class RegistrationForm {
+   @InsertionElement(locatorClass = MySelects.class, elementEnum = MySelects.Data.COUNTRY, order = 1)
+   private String country;
 
-// Insert into input field
-inputs.insertion(InputComponentType.DEFAULT_TYPE, By.id("email"), "user@test.com");
+   @InsertionElement(locatorClass = MyInputs.class, elementEnum = MyInputs.Data.EMAIL, order = 2)
+   private String email;
 
-// Select checkbox via insertion
-checkboxes.insertion(CheckboxComponentType.DEFAULT_TYPE, By.id("terms"), true);
+   @InsertionElement(locatorClass = MyRadios.class, elementEnum = MyRadios.Data.ACCEPT_TERMS, order = 3)
+   private boolean acceptTerms;
 
-// Select dropdown via insertion
-selects.insertion(SelectComponentType.DEFAULT_TYPE, By.id("country"), "United States");
-
-// Custom insertion service registration
-InsertionService customService = new MyCustomInsertionService(driver);
-InsertionServiceRegistry.register(MyComponentType.class, customService);
-
-// Table insertion (insert values into table cells)
-buttons.tableInsertion(cellElement, ButtonComponentType.DEFAULT_TYPE);
-inputs.tableInsertion(cellElement, InputComponentType.DEFAULT_TYPE, "New Value");
-checkboxes.tableInsertion(cellElement, CheckboxComponentType.DEFAULT_TYPE, "true");
+   // getters/setters or builder
+}
 ```
+
+The `locatorClass` and `elementEnum` refer to your own enum classes that describe how to find elements in your UI. The `order` controls the insertion sequence.
+
+#### Use InsertionService via UiService
+```java
+import io.cyborgcode.roa.ui.service.facade.UiService;
+import io.cyborgcode.roa.ui.insertion.InsertionService;
+
+UiService ui = new UiService(driver);
+InsertionService insertionService = ui.getInsertionService();
+
+RegistrationForm data = new RegistrationForm();
+data.setCountry("United States");
+data.setEmail("user@example.com");
+data.setAcceptTerms(true);
+
+insertionService.insertData(data);
+```
+
+This will process the annotated fields in ascending `order`, resolve the appropriate component services, and perform the insertions.
 
 ---
 
-## Advanced Topics
+## Selenium Package Deep Dive
 
 ### Error Handling and Logging
 ```java
@@ -1441,31 +1450,47 @@ LogUi.warn("Optional field left empty: Middle Name");
 LogUi.error("Validation failed for email field");
 ```
 
----
 
-### Shadow DOM Support
+### Exception Handling - Automatic Recovery
+The framework provides automatic exception handling for common Selenium failures.
+
+**Handled Exceptions:**
+- `StaleElementReferenceException` - Re-locates element and retries operation
+- `ElementClickInterceptedException` - Scrolls to element and retries
+- `ElementNotInteractableException` - Waits for element to become interactable
+- `NoSuchElementException` - Logs detailed error with locator information
+
 ```java
-// Enable Shadow DOM in configuration
-// Set use.shadow.root=true in ui-config.properties
+import io.cyborgcode.roa.ui.selenium.handling.ExceptionHandlingWebElement;
+import io.cyborgcode.roa.ui.selenium.handling.ExceptionHandlingWebDriver;
 
-// All find operations automatically support Shadow DOM when enabled
-SmartWebElement shadowElement = driver.findSmartElement(By.cssSelector("custom-component"));
-SmartWebElement nestedElement = shadowElement.findSmartElement(By.cssSelector(".inner"));
+// Exception handling is automatic in SmartWebElement/SmartWebDriver
+// Custom handlers can be added by extending ExceptionHandlingWebElementFunctions
 
-// Component services work transparently with Shadow DOM
-buttons.click("Save"); // Works inside shadow roots
-inputs.insert("Email", "user@test.com"); // Works inside shadow roots
+// Example: Custom stale element handling
+public class CustomExceptionHandler {
+    public static SmartWebElement handleStaleElement(
+        WebDriver driver,
+        SmartWebElement staleElement,
+        WebElementAction action,
+        Object... params
+    ) {
+        // Custom recovery logic
+        LogUi.warn("Handling stale element for action: " + action);
+        // Re-locate and return fresh element
+        return driver.findSmartElement((By) params[0]);
+    }
+}
 ```
 
----
-
-### Selenium Package Deep Dive
-
-#### SmartFinder - Element Location Strategies
+### SmartFinder and Shadow DOM Support
 The `SmartFinder` utility provides unified element location with automatic Shadow DOM handling.
 
 ```java
 import io.cyborgcode.roa.ui.selenium.locating.SmartFinder;
+
+// Enable Shadow DOM in configuration
+// Set use.shadow.root=true in ui-config.properties
 
 // Find without wrapping (no waits)
 SmartWebElement element = SmartFinder.findElementNoWrap(driver, By.id("btn"));
@@ -1500,39 +1525,18 @@ List<SmartWebElement> elements = SmartFinder.findElementsNormally(
 );
 ```
 
-#### Exception Handling - Automatic Recovery
-The framework provides automatic exception handling for common Selenium failures.
-
-**Handled Exceptions:**
-- `StaleElementReferenceException` - Re-locates element and retries operation
-- `ElementClickInterceptedException` - Scrolls to element and retries
-- `ElementNotInteractableException` - Waits for element to become interactable
-- `NoSuchElementException` - Logs detailed error with locator information
-
+#### Shadow Root Utilities
 ```java
-import io.cyborgcode.roa.ui.selenium.handling.ExceptionHandlingWebElement;
-import io.cyborgcode.roa.ui.selenium.handling.ExceptionHandlingWebDriver;
+import io.cyborgcode.roa.ui.selenium.shadowroot.ShadowDomUtils;
 
-// Exception handling is automatic in SmartWebElement/SmartWebDriver
-// Custom handlers can be added by extending ExceptionHandlingWebElementFunctions
-
-// Example: Custom stale element handling
-public class CustomExceptionHandler {
-    public static SmartWebElement handleStaleElement(
-        WebDriver driver,
-        SmartWebElement staleElement,
-        WebElementAction action,
-        Object... params
-    ) {
-        // Custom recovery logic
-        LogUi.warn("Handling stale element for action: " + action);
-        // Re-locate and return fresh element
-        return driver.findSmartElement((By) params[0]);
-    }
-}
+// Shadow DOM utilities (used internally by SmartFinder)
+// Manual shadow root access
+WebElement shadowHost = driver.findElement(By.cssSelector("custom-component"));
+SearchContext shadowRoot = ShadowDomUtils.getShadowRoot(driver, shadowHost);
+WebElement shadowChild = shadowRoot.findElement(By.cssSelector(".inner-element"));
 ```
 
-#### WebElement Decorators
+### WebElement Decorator (SmartWebElement)
 ```java
 import io.cyborgcode.roa.ui.selenium.decorators.WebElementDecorator;
 import io.cyborgcode.roa.ui.selenium.decorators.WebDriverDecorator;
@@ -1563,43 +1567,38 @@ element.waitUntilAttributeValueIsChanged("class", "old-class"); // Wait for attr
 WebElement original = element.getOriginal();
 ```
 
-#### Selenium Logging
+### WebDriver Decorator (SmartWebDriver)
 ```java
-import io.cyborgcode.roa.ui.selenium.logging.SeleniumLogger;
+import io.cyborgcode.roa.ui.selenium.decorators.WebDriverDecorator;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
-// All SmartWebDriver/SmartWebElement operations are automatically logged
-// Example log output:
-// [UI] Finding element: By.id: login-btn
-// [UI] Clicking element: By.id: login-btn
-// [UI] Sending keys to element: By.id: email-input
-// [UI] Element not found after 10 seconds: By.id: missing-element
+// SmartWebDriver extends WebDriverDecorator
+// All standard WebDriver methods are available plus enhanced ones
 
-// Selenium event listeners can be registered
-import io.cyborgcode.roa.ui.selenium.listeners.CustomEventListener;
-// Listeners are automatically registered in SmartWebDriver
+SmartWebDriver driver = new SmartWebDriver(webDriver);
+
+// Element finding methods enhanced with waits
+SmartWebElement el = driver.findSmartElement(By.id("input"));
+java.util.List<SmartWebElement> rows = driver.findSmartElements(By.cssSelector("table tr"));
+
+// Wait helpers
+driver.waitUntilElementIsShown(By.id("toast"), 5);
+driver.waitUntilElementIsRemoved(By.id("loader"), 10);
+
+// Safe checks
+boolean ok = driver.checkNoException(() -> driver.findSmartElement(By.id("optional")));
+
+// Access original WebDriver if needed
+WebDriver originalDriver = driver.getOriginal();
 ```
-
-#### Shadow Root Utilities
-```java
-import io.cyborgcode.roa.ui.selenium.shadowroot.ShadowDomUtils;
-
-// Shadow DOM utilities (used internally by SmartFinder)
-// Manual shadow root access
-WebElement shadowHost = driver.findElement(By.cssSelector("custom-component"));
-SearchContext shadowRoot = ShadowDomUtils.getShadowRoot(driver, shadowHost);
-WebElement shadowChild = shadowRoot.findElement(By.cssSelector(".inner-element"));
-
-// Deep shadow piercing (multiple levels)
-SmartWebElement deepElement = driver.findSmartElement(
-    By.cssSelector("outer-component::shadow inner-component::shadow button")
-);
-```
-
 ---
 
-### Util Package - Helper Utilities
+## Util Package - Helper Utilities
 
-#### Strategy Pattern for Component Selection
+### Strategy Pattern for Component Selection
 ```java
 import io.cyborgcode.roa.ui.util.strategy.Strategy;
 
@@ -1618,7 +1617,7 @@ radios.select(container, Strategy.LAST);
 checkboxes.select(container, Strategy.ALL);
 ```
 
-#### Functional Interfaces for Table Operations
+### Functional Interfaces
 ```java
 import io.cyborgcode.roa.ui.util.BiConsumer;
 import io.cyborgcode.roa.ui.util.BiFunction;
@@ -1628,7 +1627,7 @@ import io.cyborgcode.roa.ui.util.FourConsumer;
 import io.cyborgcode.roa.ui.util.FourFunction;
 
 // These functional interfaces support multiple parameters for complex operations
-// Used internally by table component for field mapping
+// Used internally for field mapping
 
 // BiConsumer<T, U> - 2 parameters, no return
 BiConsumer<User, String> nameSetter = (user, name) -> user.setName(name);
@@ -1643,31 +1642,11 @@ FourFunction<WebDriver, SmartWebElement, Exception, Object[], SmartWebElement> h
     (driver, element, ex, params) -> handleException(driver, element, ex, params);
 ```
 
-#### Table Utilities
-```java
-import io.cyborgcode.roa.ui.util.table.TableUtils;
-
-// Utility methods for table operations (used internally)
-// Available for custom table implementations
-
-// Extract cell locator from field annotation
-FindBy cellLocator = TableUtils.getCellLocator(field);
-
-// Get insertion order for field
-int order = TableUtils.getInsertionOrder(field);
-
-// Check if field has filter annotation
-boolean filterable = TableUtils.isFilterable(field);
-
-// Get component type for field
-ComponentType type = TableUtils.getComponentType(field);
-```
-
 ---
 
-### Advanced Driver Configuration
+## Advanced Driver Configuration
 
-#### Custom Driver Options
+### Custom Driver Options
 ```java
 import io.cyborgcode.roa.ui.drivers.base.DriverProvider;
 import io.cyborgcode.roa.ui.drivers.providers.ChromeDriverProvider;
@@ -1706,7 +1685,7 @@ WebDriver webDriver = provider.createDriver(options);
 SmartWebDriver driver = new SmartWebDriver(webDriver);
 ```
 
-#### Remote Driver (Selenium Grid)
+### Remote Driver (Selenium Grid)
 ```java
 // Configure remote driver URL in ui-config.properties
 // remote.driver.url=http://localhost:4444/wd/hub
@@ -1726,67 +1705,34 @@ if (!getUiConfig().remoteDriverUrl().isEmpty()) {
 }
 ```
 
-#### Driver Session Management
-```java
-// Keep driver for entire session
-driver.setKeepDriverForSession(true);
-
-// Close after test
-if (!driver.isKeepDriverForSession()) {
-    driver.quit();
-}
-
-// Driver lifecycle with try-with-resources
-try (SmartWebDriver driver = new SmartWebDriver(webDriver)) {
-    // Test operations
-    driver.get("https://example.com");
-    // Driver automatically closed
-}
-```
-
 ---
 
-### Performance Optimization
+## Performance Optimization
 
-#### Minimize Element Lookups
+### Disable Wrapping for Simple Operations
+
 ```java
-// Bad: Multiple lookups
-driver.findSmartElement(By.id("form")).findSmartElement(By.id("name")).sendKeys("John");
-driver.findSmartElement(By.id("form")).findSmartElement(By.id("email")).sendKeys("john@example.com");
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
 
-// Good: Cache container
-SmartWebElement form = driver.findSmartElement(By.id("form"));
-form.findSmartElement(By.id("name")).sendKeys("John");
-form.findSmartElement(By.id("email")).sendKeys("john@example.com");
-```
-
-#### Disable Wrapping for Simple Operations
-```java
-// For simple, non-critical operations, disable wrapping
+// For simple, non-critical operations, disable wrapping (using SmartWebDriver and SmartWebElement decorators)
 // Set use.wrap.selenium.function=false in config
 
 // Or use NoWrap methods directly
+SmartWebDriver driver = new SmartWebDriver(webDriver);
 SmartWebElement element = SmartFinder.findElementNoWrap(driver, By.id("simple-btn"));
-element.getOriginal().click(); // Direct Selenium call, no waits
-```
 
-#### Batch Element Operations
-```java
-// Read multiple elements at once
-List<SmartWebElement> rows = driver.findSmartElements(By.cssSelector("table tr"));
+// Or use Direct original WebElement instance, with no waits
+element.getOriginal().click();
 
-// Process in parallel if operations are independent
-rows.parallelStream().forEach(row -> {
-    String text = row.getText();
-    // Process row
-});
+// Or use Direct original WebDriver instance, with no waits
+driver.getOriginal().findElement(By.id("simple-btn"));
 ```
 
 ---
 
-### Troubleshooting
+## Troubleshooting
 
-#### Enable Debug Logging
+### Enable Debug Logging
 ```java
 import io.cyborgcode.roa.ui.log.LogUi;
 
@@ -1800,7 +1746,7 @@ LogUi.setDebugMode(true);
 // - Shadow DOM traversal paths
 ```
 
-#### Common Issues and Solutions
+### Common Issues and Solutions
 
 **Issue: StaleElementReferenceException persists**
 ```java
@@ -1844,12 +1790,12 @@ List<User> users = tables.readTable(User.class, nameField, emailField);
 ---
 
 ## Configuration
-| Key | Source (Owner) | Default | Required | Example |
-|---|---|---|---|---|
-| `browser.type` | Owner | `CHROME` | No | `-Dbrowser.type=FIREFOX` |
-| `browser.version` | Owner | `` (latest) | No | `-Dbrowser.version=114.0` |
-| `headless` | Owner | `false` | No | `-Dheadless=true` |
-| `remote.driver.url` | Owner | `` (local) | No | `-Dremote.driver.url=http://localhost:4444/wd/hub` |
+| Key | Source (Owner) | Default        | Required | Example |
+|---|---|----------------|---|---|
+| `browser.type` | Owner | `CHROME`       | No | `-Dbrowser.type=FIREFOX` |
+| `browser.version` | Owner | (latest)    | No | `-Dbrowser.version=114.0` |
+| `headless` | Owner | `false`        | No | `-Dheadless=true` |
+| `remote.driver.url` | Owner | (local)     | No | `-Dremote.driver.url=http://localhost:4444/wd/hub` |
 | `wait.duration.in.seconds` | Owner | **NO DEFAULT** | **Yes** | `-Dwait.duration.in.seconds=10` |
 | `project.package` | Owner | **NO DEFAULT** | **Yes** | `-Dproject.package=io.cyborgcode` |
 | `input.default.type` | Owner | **NO DEFAULT** | If using input | class name of enum constant |
@@ -1865,13 +1811,14 @@ List<User> users = tables.readTable(User.class, nameField, emailField);
 | `tab.default.type` | Owner | **NO DEFAULT** | If using tab | class name of enum constant |
 | `modal.default.type` | Owner | **NO DEFAULT** | If using modal | class name of enum constant |
 | `accordion.default.type` | Owner | **NO DEFAULT** | If using accordion | class name of enum constant |
-| `ui.base.url` | Owner | `` (empty) | No | `-Dui.base.url=https://app.example.com` |
+| `ui.base.url` | Owner | `` (empty)     | No | `-Dui.base.url=https://app.example.com` |
 | `table.default.type` | Owner | **NO DEFAULT** | If using table | class name of enum constant |
-| `use.wrap.selenium.function` | Owner | `true` | No | `-Duse.wrap.selenium.function=false` |
-| `use.shadow.root` | Owner | `false` | No | `-Duse.shadow.root=true` |
+| `use.wrap.selenium.function` | Owner | `true`         | No | `-Duse.wrap.selenium.function=false` |
+| `use.shadow.root` | Owner | `false`        | No | `-Duse.shadow.root=true` |
 
 **Configuration Notes:**
 - Keys marked as **Required** will throw exceptions if not set
+- If browser.type and headless properties are missing, then browser.type defaults to 'CHROME' and headless defaults to false
 - Component `*.default.type` keys are required only when using that component type
 - All configurations can be set via system properties or `ui-config.properties` file
 - Load order: system properties override properties file values
@@ -1900,7 +1847,7 @@ List<User> users = tables.readTable(User.class, nameField, emailField);
 
 ---
 
-## Dependencies
+## Module Dependencies
 - `org.seleniumhq.selenium:selenium-java`
 - `org.projectlombok:lombok`
 - `org.aeonbits.owner:owner`

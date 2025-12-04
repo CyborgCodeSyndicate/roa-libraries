@@ -382,7 +382,7 @@ Annotate your test class with `@UI` and inject `Quest` into test methods.
     - `@AuthenticateViaUi` to run the login client and optionally cache sessions.
 - Scans packages under `project.packages` from `system.properties` for components and rings.
 
-#### Minimal class setup:
+#### Minimal class setup and usage:
 ```java
 @UI
 class MyUiTests extends BaseQuest {
@@ -406,7 +406,7 @@ class MyUiTests extends BaseQuest {
 - Per your requirement, the example demonstrates the `get...()` syntax.
 
 ### Step 4 - AppUiService as facade and component usage
-This module provides you the ability to define an application-specific façade, `AppUiService`, extending `UiServiceFluent`. It centralizes UI component services and provides a cohesive, readable DSL.
+This module provides you the ability to define an application-specific façade, `AppUiService`, extending `UiServiceFluent`. It centralizes UI component services and provides a cohesive, readable DSL. (**Note: `AppUiService` is not part of `ui-interactor-test-framework-adapter` module, it's shown here as an example pattern you can implement in your project**)
 
 - AppUiService (example):
 ```java
