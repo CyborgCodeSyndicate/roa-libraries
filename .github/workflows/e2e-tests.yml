@@ -1,6 +1,8 @@
 name: E2E Tests After Deploy
 
 on:
+  workflow_dispatch:
+
   workflow_run:
     workflows: ["Deploy"]
     types: [completed]
