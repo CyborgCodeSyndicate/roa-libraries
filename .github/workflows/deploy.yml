@@ -41,14 +41,22 @@ jobs:
           github_packages_user: ${{ secrets.GH_PACKAGES_USER }}
           github_packages_token: ${{ secrets.GH_PACKAGES_PAT }}
 
-      - name: Persist deployed version
-        if: ${{ steps.deploy.outputs.next_version != '' }}
-        run: echo "${{ steps.deploy.outputs.next_version }}" > version.txt
-
-      - name: Upload deployed version artifact
-        if: ${{ steps.deploy.outputs.next_version != '' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: deployed-version
-          path: version.txt
-          retention-days: 7
+#      - name: Persist deployed version
+#        if: ${{ steps.deploy.outputs.next_version != '' }}
+#        run: echo "${{ steps.deploy.outputs.next_version }}" > version.txt
+#
+#      - name: Upload deployed version artifact
+#        if: ${{ steps.deploy.outputs.next_version != '' }}
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: deployed-version
+#          path: version.txt
+#          retention-days: 7
+  e2e-tests:
+    needs: deploy
+    uses: ./.github/workflows/e2e-tests.yml
+    with:
+      deployed_version: ${{ needs.deploy.outputs.next_version }}
+    secrets:
+      gh_packages_user: ${{ secrets.GH_PACKAGES_USER }}
+      gh_packages_pat: ${{ secrets.GH_PACKAGES_PAT }}

@@ -1,4 +1,4 @@
-name: E2E UI-COMPLEX Tests After Deploy
+name: E2E Tests After Deploy
 
 on:
   workflow_call:
