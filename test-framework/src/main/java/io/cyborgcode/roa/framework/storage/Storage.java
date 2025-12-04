@@ -2,6 +2,8 @@ package io.cyborgcode.roa.framework.storage;
 
 import io.cyborgcode.roa.framework.parameters.Late;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -306,8 +308,27 @@ public class Storage {
     */
    @SuppressWarnings("unchecked")
    private <T> T castOrNullTypeRef(Object value, ParameterizedTypeReference<T> typeReference) {
-      return (value != null && typeReference.getType().getTypeName().equals(value.getClass().getTypeName()))
-            ? (T) value : null;
+      if (value == null) {
+         return null;
+      }
+
+      Type type = typeReference.getType();
+      Class<?> rawType;
+
+      if (type instanceof ParameterizedType parameterizedType) {
+         Type rawTypeFromParam = parameterizedType.getRawType();
+         if (rawTypeFromParam instanceof Class<?>) {
+            rawType = (Class<?>) rawTypeFromParam;
+         } else {
+            return null;
+         }
+      } else if (type instanceof Class<?>) {
+         rawType = (Class<?>) type;
+      } else {
+         return null;
+      }
+
+      return rawType.isInstance(value) ? (T) value : null;
    }
 
    /**

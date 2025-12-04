@@ -3,7 +3,7 @@ package io.cyborgcode.roa.ui;
 public class BaseUnitUITest {
 
    static {
-      System.setProperty("project.package", "com.theairebellion.zeus");
+      System.setProperty("project.packages", "io.cyborgcode.roa");
       System.setProperty("ui.config.file", "ui-config");
       System.setProperty("wait.duration.in.seconds", "2");
       System.setProperty("accordion.default.type", "DUMMY");

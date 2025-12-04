@@ -4,6 +4,11 @@ import io.cyborgcode.roa.framework.config.FrameworkConfig;
 import io.cyborgcode.roa.framework.config.FrameworkConfigHolder;
 import io.cyborgcode.roa.framework.storage.mock.DummyLate;
 import io.cyborgcode.roa.framework.storage.mock.MockEnum;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -14,78 +19,82 @@ import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.ParameterizedTypeReference;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class StorageTest {
 
-    // Test constants
-    private static final String VALUE_1 = "value1";
-    private static final String VALUE_2 = "value2";
-    private static final String VALUE = "value";
-    private static final String VALUE_X = "valueX";
-    private static final String HELLO = "hello";
-    private static final String FIRST = "first";
-    private static final String SECOND = "second";
-    private static final String ONLY = "only";
-    private static final String STRING = "string";
-    private static final String SUB_VALUE = "subValue";
-    private static final String DATA = "data";
-    private static final String CREATED = "created";
-    private static final String NORMAL = "normal";
+   // Test constants
+   private static final String VALUE_1 = "value1";
+   private static final String VALUE_2 = "value2";
+   private static final String VALUE = "value";
+   private static final String VALUE_X = "valueX";
+   private static final String HELLO = "hello";
+   private static final String FIRST = "first";
+   private static final String SECOND = "second";
+   private static final String ONLY = "only";
+   private static final String STRING = "string";
+   private static final String SUB_VALUE = "subValue";
+   private static final String DATA = "data";
+   private static final String CREATED = "created";
+   private static final String NORMAL = "normal";
 
-    private Storage storage;
+   private Storage storage;
 
-    @Mock
-    private FrameworkConfig mockConfig;
+   @Mock
+   private FrameworkConfig mockConfig;
 
-    @BeforeEach
-    void setUp() {
-        storage = new Storage();
-    }
+   @BeforeEach
+   void setUp() {
+      storage = new Storage();
+   }
 
-    @Nested
-    @DisplayName("Basic put and get operations")
-    class BasicOperations {
+   @Nested
+   @DisplayName("Basic put and get operations")
+   class BasicOperations {
 
-        @Test
-        @DisplayName("Should store and retrieve value with class")
-        void testPutAndGet() {
-            // Given
-            storage.put(MockEnum.KEY1, VALUE_1);
+      @Test
+      @DisplayName("Should store and retrieve value with class")
+      void testPutAndGet() {
+         // Given
+         storage.put(MockEnum.KEY1, VALUE_1);
 
-            // When
-            String retrieved = storage.get(MockEnum.KEY1, String.class);
+         // When
+         String retrieved = storage.get(MockEnum.KEY1, String.class);
 
-            // Then
-            assertEquals(VALUE_1, retrieved, "Retrieved value should match stored value");
-        }
+         // Then
+         assertEquals(VALUE_1, retrieved, "Retrieved value should match stored value");
+      }
 
-        @Test
-        @DisplayName("Should store and retrieve value with ParameterizedTypeReference")
-        void testGetWithParameterizedTypeReference() {
-            // Given
-            storage.put(MockEnum.KEY1, VALUE_2);
+      @Test
+      @DisplayName("Should store and retrieve value with ParameterizedTypeReference")
+      void testGetWithParameterizedTypeReference() {
+         // Given
+         storage.put(MockEnum.KEY1, VALUE_2);
 
-            // When
-            String retrieved = storage.get(MockEnum.KEY1, new ParameterizedTypeReference<String>() {});
+         // When
+         String retrieved = storage.get(MockEnum.KEY1, new ParameterizedTypeReference<String>() {
+         });
 
-            // Then
-            assertEquals(VALUE_2, retrieved, "Retrieved value should match stored value");
-        }
+         // Then
+         assertEquals(VALUE_2, retrieved, "Retrieved value should match stored value");
+      }
 
-        @Test
-        @DisplayName("Should return null when getting non-existent key")
-        void testGetLatestValueWhenEmpty() {
-            // When/Then
-            assertNull(storage.get(MockEnum.KEY2, String.class),
-                    "Should return null for non-existent key");
-        }
+      @Test
+      @DisplayName("Should return null when getting non-existent key")
+      void testGetLatestValueWhenEmpty() {
+         // When/Then
+         assertNull(storage.get(MockEnum.KEY2, String.class),
+            "Should return null for non-existent key");
+      }
 
 //        @Test
 //        @DisplayName("Should handle concurrent put operations")
@@ -105,481 +114,488 @@ class StorageTest {
 //            latch.await();
 //            assertEquals(threadCount, storage.getAllByClass(MockEnum.KEY1, String.class).size());
 //        }
-    }
+   }
 
-    @Nested
-    @DisplayName("DataExtractor operations")
-    class DataExtractorOperations {
+   @Nested
+   @DisplayName("DataExtractor operations")
+   class DataExtractorOperations {
 
-        @Test
-        @DisplayName("Should extract data without sub-key")
-        void testGetDataExtractorWithoutSubKey() {
-            // Given
-            DataExtractor<String> extractor = new DataExtractorImpl<>(MockEnum.KEY1, raw -> raw + "X");
-            storage.put(MockEnum.KEY1, VALUE);
+      @Test
+      @DisplayName("Should extract data without sub-key")
+      void testGetDataExtractorWithoutSubKey() {
+         // Given
+         DataExtractor<String> extractor = new DataExtractorImpl<>(MockEnum.KEY1, raw -> raw + "X");
+         storage.put(MockEnum.KEY1, VALUE);
 
-            // When
-            String result = storage.get(extractor, String.class);
+         // When
+         String result = storage.get(extractor, String.class);
 
-            // Then
-            assertEquals(VALUE_X, result, "Extracted value should have transformation applied");
-        }
+         // Then
+         assertEquals(VALUE_X, result, "Extracted value should have transformation applied");
+      }
 
-        @Test
-        @DisplayName("Should extract data with sub-key")
-        void testGetDataExtractorWithSubKey() {
-            // Given
-            DataExtractor<Integer> extractor = new DataExtractorImpl<>(
-                    MockEnum.SUB, MockEnum.KEY1, raw -> ((String) raw).length());
-            Storage subStorage = storage.sub(MockEnum.SUB);
-            subStorage.put(MockEnum.KEY1, HELLO);
+      @Test
+      @DisplayName("Should extract data with sub-key")
+      void testGetDataExtractorWithSubKey() {
+         // Given
+         DataExtractor<Integer> extractor = new DataExtractorImpl<>(
+            MockEnum.SUB, MockEnum.KEY1, raw -> ((String) raw).length());
+         Storage subStorage = storage.sub(MockEnum.SUB);
+         subStorage.put(MockEnum.KEY1, HELLO);
 
-            // When
-            Integer result = storage.get(extractor, Integer.class);
+         // When
+         Integer result = storage.get(extractor, Integer.class);
 
-            // Then
-            assertEquals(5, result, "Extracted value should have transformation applied");
-        }
+         // Then
+         assertEquals(5, result, "Extracted value should have transformation applied");
+      }
 
-        @Test
-        @DisplayName("Should extract indexed data without sub-key")
-        void testGetDataExtractorByIndexWithoutSubKey() {
-            // Given
-            DataExtractor<String> extractor = new DataExtractorImpl<>(
-                    MockEnum.KEY1, raw -> raw + "_suffix");
-            storage.put(MockEnum.KEY1, "val1");
-            storage.put(MockEnum.KEY1, "val2");
+      @Test
+      @DisplayName("Should extract indexed data without sub-key")
+      void testGetDataExtractorByIndexWithoutSubKey() {
+         // Given
+         DataExtractor<String> extractor = new DataExtractorImpl<>(
+            MockEnum.KEY1, raw -> raw + "_suffix");
+         storage.put(MockEnum.KEY1, "val1");
+         storage.put(MockEnum.KEY1, "val2");
 
-            // When
-            String result1 = storage.get(extractor, String.class, 1);
-            String result2 = storage.get(extractor, String.class, 2);
+         // When
+         String result1 = storage.get(extractor, String.class, 1);
+         String result2 = storage.get(extractor, String.class, 2);
 
-            // Then
-            assertEquals("val2_suffix", result1, "First extracted value should be transformed val2");
-            assertEquals("val1_suffix", result2, "Second extracted value should be transformed val1");
-        }
+         // Then
+         assertEquals("val2_suffix", result1, "First extracted value should be transformed val2");
+         assertEquals("val1_suffix", result2, "Second extracted value should be transformed val1");
+      }
 
-        @Test
-        @DisplayName("Should extract indexed data with sub-key")
-        void testGetDataExtractorByIndexWithSubKey() {
-            // Given
-            DataExtractor<Integer> extractor = new DataExtractorImpl<>(
-                    MockEnum.SUB, MockEnum.KEY1, raw -> ((String) raw).length());
-            Storage subStorage = storage.sub(MockEnum.SUB);
-            subStorage.put(MockEnum.KEY1, "abc");
-            subStorage.put(MockEnum.KEY1, "de");
+      @Test
+      @DisplayName("Should extract indexed data with sub-key")
+      void testGetDataExtractorByIndexWithSubKey() {
+         // Given
+         DataExtractor<Integer> extractor = new DataExtractorImpl<>(
+            MockEnum.SUB, MockEnum.KEY1, raw -> ((String) raw).length());
+         Storage subStorage = storage.sub(MockEnum.SUB);
+         subStorage.put(MockEnum.KEY1, "abc");
+         subStorage.put(MockEnum.KEY1, "de");
 
-            // When
-            Integer result1 = storage.get(extractor, Integer.class, 1);
-            Integer result2 = storage.get(extractor, Integer.class, 2);
+         // When
+         Integer result1 = storage.get(extractor, Integer.class, 1);
+         Integer result2 = storage.get(extractor, Integer.class, 2);
 
-            // Then
-            assertEquals(2, result1, "First extracted value should be length of 'de'");
-            assertEquals(3, result2, "Second extracted value should be length of 'abc'");
-        }
-    }
+         // Then
+         assertEquals(2, result1, "First extracted value should be length of 'de'");
+         assertEquals(3, result2, "Second extracted value should be length of 'abc'");
+      }
+   }
 
-    @Nested
-    @DisplayName("Indexed operations")
-    class IndexedOperations {
+   @Nested
+   @DisplayName("Indexed operations")
+   class IndexedOperations {
 
-        @Test
-        @DisplayName("Should retrieve values by index")
-        void testGetByIndex() {
-            // Given
-            storage.put(MockEnum.KEY1, FIRST);
-            storage.put(MockEnum.KEY1, SECOND);
+      @Test
+      @DisplayName("Should retrieve values by index")
+      void testGetByIndex() {
+         // Given
+         storage.put(MockEnum.KEY1, FIRST);
+         storage.put(MockEnum.KEY1, SECOND);
 
-            // When
-            String last = storage.getByIndex(MockEnum.KEY1, 1, String.class);
-            String secondLast = storage.getByIndex(MockEnum.KEY1, 2, String.class);
+         // When
+         String last = storage.getByIndex(MockEnum.KEY1, 1, String.class);
+         String secondLast = storage.getByIndex(MockEnum.KEY1, 2, String.class);
 
-            // Then
-            assertEquals(SECOND, last, "Index 1 should return the most recent value");
-            assertEquals(FIRST, secondLast, "Index 2 should return the second most recent value");
-        }
+         // Then
+         assertEquals(SECOND, last, "Index 1 should return the most recent value");
+         assertEquals(FIRST, secondLast, "Index 2 should return the second most recent value");
+      }
 
-        @Test
-        @DisplayName("Should retrieve values by index using ParameterizedTypeReference")
-        void testGetByIndexWithParameterizedTypeReference() {
-            // Given
-            storage.put(MockEnum.KEY1, FIRST);
-            storage.put(MockEnum.KEY1, SECOND);
+      @Test
+      @DisplayName("Should retrieve values by index using ParameterizedTypeReference")
+      void testGetByIndexWithParameterizedTypeReference() {
+         // Given
+         storage.put(MockEnum.KEY1, FIRST);
+         storage.put(MockEnum.KEY1, SECOND);
 
-            // When
-            String last = storage.getByIndex(MockEnum.KEY1, 1, new ParameterizedTypeReference<String>() {});
+         // When
+         String last = storage.getByIndex(MockEnum.KEY1, 1, new ParameterizedTypeReference<String>() {
+         });
 
-            // Then
-            assertEquals(SECOND, last, "Index 1 should return the most recent value");
-        }
+         // Then
+         assertEquals(SECOND, last, "Index 1 should return the most recent value");
+      }
 
-        @Test
-        @DisplayName("Should return null for out of range index")
-        void testGetByIndexOutOfRange() {
-            // Given
-            storage.put(MockEnum.KEY1, ONLY);
+      @Test
+      @DisplayName("Should return null for out of range index")
+      void testGetByIndexOutOfRange() {
+         // Given
+         storage.put(MockEnum.KEY1, ONLY);
 
-            // When/Then
-            assertNull(storage.getByIndex(MockEnum.KEY1, 2, String.class),
-                    "Should return null for out of range index");
-            assertNull(storage.getByIndex(MockEnum.KEY1, 0, String.class),
-                    "Should return null for invalid index 0");
-            assertNull(storage.getByIndex(MockEnum.KEY2, 1, String.class),
-                    "Should return null for non-existent key");
-        }
+         // When/Then
+         assertNull(storage.getByIndex(MockEnum.KEY1, 2, String.class),
+            "Should return null for out of range index");
+         assertNull(storage.getByIndex(MockEnum.KEY1, 0, String.class),
+            "Should return null for invalid index 0");
+         assertNull(storage.getByIndex(MockEnum.KEY2, 1, String.class),
+            "Should return null for non-existent key");
+      }
 
-        @Test
-        @DisplayName("Should return null for invalid index with ParameterizedTypeReference")
-        void testGetByIndexWithTypeRefOutOfRange() {
-            // Given
-            storage.put(MockEnum.KEY1, ONLY);
+      @Test
+      @DisplayName("Should return null for invalid index with ParameterizedTypeReference")
+      void testGetByIndexWithTypeRefOutOfRange() {
+         // Given
+         storage.put(MockEnum.KEY1, ONLY);
 
-            // When/Then
-            assertNull(storage.getByIndex(MockEnum.KEY1, 2, new ParameterizedTypeReference<String>() {}),
-                    "Should return null for out of range index");
-        }
-    }
+         // When/Then
+         assertNull(storage.getByIndex(MockEnum.KEY1, 2, new ParameterizedTypeReference<String>() {
+            }),
+            "Should return null for out of range index");
+      }
+   }
 
-    @Nested
-    @DisplayName("Class-based retrieval operations")
-    class ClassBasedRetrievalOperations {
+   @Nested
+   @DisplayName("Class-based retrieval operations")
+   class ClassBasedRetrievalOperations {
 
-        @Test
-        @DisplayName("Should retrieve value by class")
-        void testGetByClass() {
-            // Given
-            storage.put(MockEnum.KEY1, STRING);
-            storage.put(MockEnum.KEY1, 123);
+      @Test
+      @DisplayName("Should retrieve value by class")
+      void testGetByClass() {
+         // Given
+         storage.put(MockEnum.KEY1, STRING);
+         storage.put(MockEnum.KEY1, 123);
 
-            // When
-            Integer value = storage.getByClass(MockEnum.KEY1, Integer.class);
-            String strValue = storage.getByClass(MockEnum.KEY1, String.class);
+         // When
+         Integer value = storage.getByClass(MockEnum.KEY1, Integer.class);
+         String strValue = storage.getByClass(MockEnum.KEY1, String.class);
 
-            // Then
-            assertEquals(123, value, "Should retrieve the most recent value of Integer type");
-            assertEquals(STRING, strValue, "Should retrieve the most recent value of String type");
-        }
+         // Then
+         assertEquals(123, value, "Should retrieve the most recent value of Integer type");
+         assertEquals(STRING, strValue, "Should retrieve the most recent value of String type");
+      }
 
-        @Test
-        @DisplayName("Should retrieve value by class with ParameterizedTypeReference")
-        void testGetByClassWithParameterizedTypeReference() {
-            // Given
-            storage.put(MockEnum.KEY1, HELLO);
-            storage.put(MockEnum.KEY1, 99);
+      @Test
+      @DisplayName("Should retrieve value by class with ParameterizedTypeReference")
+      void testGetByClassWithParameterizedTypeReference() {
+         // Given
+         storage.put(MockEnum.KEY1, HELLO);
+         storage.put(MockEnum.KEY1, 99);
 
-            // When
-            String result = storage.getByClass(MockEnum.KEY1, new ParameterizedTypeReference<String>() {});
-            Integer intResult = storage.getByClass(MockEnum.KEY1, new ParameterizedTypeReference<Integer>() {});
+         // When
+         String result = storage.getByClass(MockEnum.KEY1, new ParameterizedTypeReference<String>() {
+         });
+         Integer intResult = storage.getByClass(MockEnum.KEY1, new ParameterizedTypeReference<Integer>() {
+         });
 
-            // Then
-            assertEquals(HELLO, result, "Should retrieve the most recent value of String type");
-            assertEquals(99, intResult, "Should retrieve the most recent value of Integer type");
-        }
+         // Then
+         assertEquals(HELLO, result, "Should retrieve the most recent value of String type");
+         assertEquals(99, intResult, "Should retrieve the most recent value of Integer type");
+      }
 
-        @Test
-        @DisplayName("Should return null when class not found")
-        void testGetByClassWhenNotFound() {
-            // Given
-            storage.put(MockEnum.KEY1, "string only");
+      @Test
+      @DisplayName("Should return null when class not found")
+      void testGetByClassWhenNotFound() {
+         // Given
+         storage.put(MockEnum.KEY1, "string only");
 
-            // When/Then
-            assertNull(storage.getByClass(MockEnum.KEY1, Integer.class),
-                    "Should return null when no value of the requested type exists");
-            assertNull(storage.getByClass(MockEnum.KEY2, String.class),
-                    "Should return null for non-existent key");
-        }
+         // When/Then
+         assertNull(storage.getByClass(MockEnum.KEY1, Integer.class),
+            "Should return null when no value of the requested type exists");
+         assertNull(storage.getByClass(MockEnum.KEY2, String.class),
+            "Should return null for non-existent key");
+      }
 
-        @Test
-        @DisplayName("Should return null when type reference not matched")
-        void testGetByClassWithTypeRefWhenNotFound() {
-            // Given
-            storage.put(MockEnum.KEY1, "string only");
+      @Test
+      @DisplayName("Should return null when type reference not matched")
+      void testGetByClassWithTypeRefWhenNotFound() {
+         // Given
+         storage.put(MockEnum.KEY1, "string only");
 
-            // When/Then
-            assertNull(storage.getByClass(MockEnum.KEY1, new ParameterizedTypeReference<Integer>() {}),
-                    "Should return null when no value of the requested type exists");
-        }
+         // When/Then
+         assertNull(storage.getByClass(MockEnum.KEY1, new ParameterizedTypeReference<Integer>() {
+            }),
+            "Should return null when no value of the requested type exists");
+      }
 
-        @Test
-        @DisplayName("Should retrieve all values by class")
-        void testGetAllByClass() {
-            // Given
-            storage.put(MockEnum.KEY1, "a");
-            storage.put(MockEnum.KEY1, 1);
-            storage.put(MockEnum.KEY1, "b");
+      @Test
+      @DisplayName("Should retrieve all values by class")
+      void testGetAllByClass() {
+         // Given
+         storage.put(MockEnum.KEY1, "a");
+         storage.put(MockEnum.KEY1, 1);
+         storage.put(MockEnum.KEY1, "b");
 
-            // When
-            List<String> strings = storage.getAllByClass(MockEnum.KEY1, String.class);
-            List<Integer> integers = storage.getAllByClass(MockEnum.KEY1, Integer.class);
+         // When
+         List<String> strings = storage.getAllByClass(MockEnum.KEY1, String.class);
+         List<Integer> integers = storage.getAllByClass(MockEnum.KEY1, Integer.class);
 
-            // Then
-            assertEquals(2, strings.size(), "Should retrieve 2 String values");
-            assertEquals("a", strings.get(0), "First String should be 'a'");
-            assertEquals("b", strings.get(1), "Second String should be 'b'");
+         // Then
+         assertEquals(2, strings.size(), "Should retrieve 2 String values");
+         assertEquals("a", strings.get(0), "First String should be 'a'");
+         assertEquals("b", strings.get(1), "Second String should be 'b'");
 
-            assertEquals(1, integers.size(), "Should retrieve 1 Integer value");
-            assertEquals(1, integers.get(0), "Integer value should be 1");
-        }
+         assertEquals(1, integers.size(), "Should retrieve 1 Integer value");
+         assertEquals(1, integers.get(0), "Integer value should be 1");
+      }
 
-        @Test
-        @DisplayName("Should retrieve all values by class with ParameterizedTypeReference")
-        void testGetAllByClassWithParameterizedTypeReference() {
-            // Given
-            storage.put(MockEnum.KEY1, "a");
-            storage.put(MockEnum.KEY1, 1);
-            storage.put(MockEnum.KEY1, "b");
+      @Test
+      @DisplayName("Should retrieve all values by class with ParameterizedTypeReference")
+      void testGetAllByClassWithParameterizedTypeReference() {
+         // Given
+         storage.put(MockEnum.KEY1, "a");
+         storage.put(MockEnum.KEY1, 1);
+         storage.put(MockEnum.KEY1, "b");
 
-            // When
-            List<String> result = storage.getAllByClass(MockEnum.KEY1, new ParameterizedTypeReference<String>() {});
+         // When
+         List<String> result = storage.getAllByClass(MockEnum.KEY1, new ParameterizedTypeReference<String>() {
+         });
 
-            // Then
-            assertNotNull(result, "Result should not be null");
-            assertEquals(2, result.size(), "Should retrieve 2 String values");
-            assertEquals("a", result.get(0), "First String should be 'a'");
-            assertEquals("b", result.get(1), "Second String should be 'b'");
-        }
+         // Then
+         assertNotNull(result, "Result should not be null");
+         assertEquals(2, result.size(), "Should retrieve 2 String values");
+         assertEquals("a", result.get(0), "First String should be 'a'");
+         assertEquals("b", result.get(1), "Second String should be 'b'");
+      }
 
-        @Test
-        @DisplayName("Should return empty list when no values of class exist")
-        void testGetAllByClassWhenNoneExist() {
-            // Given
-            storage.put(MockEnum.KEY1, "string only");
+      @Test
+      @DisplayName("Should return empty list when no values of class exist")
+      void testGetAllByClassWhenNoneExist() {
+         // Given
+         storage.put(MockEnum.KEY1, "string only");
 
-            // When
-            List<Integer> result = storage.getAllByClass(MockEnum.KEY1, Integer.class);
-            List<String> emptyKeyResult = storage.getAllByClass(MockEnum.KEY2, String.class);
+         // When
+         List<Integer> result = storage.getAllByClass(MockEnum.KEY1, Integer.class);
+         List<String> emptyKeyResult = storage.getAllByClass(MockEnum.KEY2, String.class);
 
-            // Then
-            assertTrue(result.isEmpty(), "Result should be empty when no values of type exist");
-            assertTrue(emptyKeyResult.isEmpty(), "Result should be empty for non-existent key");
-        }
+         // Then
+         assertTrue(result.isEmpty(), "Result should be empty when no values of type exist");
+         assertTrue(emptyKeyResult.isEmpty(), "Result should be empty for non-existent key");
+      }
 
-        @Test
-        @DisplayName("Should return empty list when no values of parameterized type exist")
-        void testGetAllByClassWithTypeRefWhenNoneExist() {
-            // Given
-            storage.put(MockEnum.KEY1, "string only");
+      @Test
+      @DisplayName("Should return empty list when no values of parameterized type exist")
+      void testGetAllByClassWithTypeRefWhenNoneExist() {
+         // Given
+         storage.put(MockEnum.KEY1, "string only");
 
-            // When
-            List<Integer> result = storage.getAllByClass(MockEnum.KEY1, new ParameterizedTypeReference<Integer>() {});
+         // When
+         List<Integer> result = storage.getAllByClass(MockEnum.KEY1, new ParameterizedTypeReference<Integer>() {
+         });
 
-            // Then
-            assertTrue(result.isEmpty(), "Result should be empty when no values of type exist");
-        }
-    }
+         // Then
+         assertTrue(result.isEmpty(), "Result should be empty when no values of type exist");
+      }
+   }
 
-    @Nested
-    @DisplayName("Sub-storage operations")
-    class SubStorageOperations {
+   @Nested
+   @DisplayName("Sub-storage operations")
+   class SubStorageOperations {
 
-        @Test
-        @DisplayName("Should create new sub-storage when missing")
-        void testSubCreatesNewStorageWhenMissing() {
+      @Test
+      @DisplayName("Should create new sub-storage when missing")
+      void testSubCreatesNewStorageWhenMissing() {
+         // When
+         Storage sub = storage.sub(MockEnum.SUB);
+
+         // Then
+         assertNotNull(sub, "Substorage should not be null");
+
+         // Additional verification
+         sub.put(MockEnum.KEY1, SUB_VALUE);
+         String retrieved = sub.get(MockEnum.KEY1, String.class);
+         assertEquals(SUB_VALUE, retrieved, "Value stored in substorage should be retrievable");
+      }
+
+      @Test
+      @DisplayName("Should return existing sub-storage")
+      void testSubReturnsExistingStorage() {
+         // Given
+         Storage sub1 = storage.sub(MockEnum.SUB);
+         sub1.put(MockEnum.KEY1, DATA);
+
+         // When
+         Storage sub2 = storage.sub(MockEnum.SUB);
+         String retrieved = sub2.get(MockEnum.KEY1, String.class);
+
+         // Then
+         assertEquals(DATA, retrieved, "Substorage should maintain stored values");
+      }
+
+      @Test
+      @DisplayName("Should throw exception when last value is not storage")
+      void testSubThrowsWhenLastValueIsNotStorage() {
+         // Given
+         storage.put(MockEnum.NON_STORAGE, "not a storage");
+
+         // When/Then
+         IllegalStateException ex = assertThrows(IllegalStateException.class,
+            () -> storage.sub(MockEnum.NON_STORAGE),
+            "Should throw IllegalStateException for non-storage value");
+
+         assertTrue(ex.getMessage().contains("already used for a non-storage value"),
+            "Exception message should mention non-storage value");
+      }
+
+      @Test
+      @DisplayName("Should create sub-storage with default key when config is available")
+      void testSubWithDefaultKey() {
+         // Given
+         try (MockedStatic<FrameworkConfigHolder> configHolderMock = mockStatic(FrameworkConfigHolder.class)) {
+            when(mockConfig.defaultStorage()).thenReturn("SUB");
+            configHolderMock.when(FrameworkConfigHolder::getFrameworkConfig).thenReturn(mockConfig);
+
             // When
             Storage sub = storage.sub(MockEnum.SUB);
 
             // Then
-            assertNotNull(sub, "Substorage should not be null");
+            assertNotNull(sub, "Substorage should be created");
 
-            // Additional verification
-            sub.put(MockEnum.KEY1, SUB_VALUE);
-            String retrieved = sub.get(MockEnum.KEY1, String.class);
-            assertEquals(SUB_VALUE, retrieved, "Value stored in substorage should be retrievable");
-        }
-
-        @Test
-        @DisplayName("Should return existing sub-storage")
-        void testSubReturnsExistingStorage() {
-            // Given
-            Storage sub1 = storage.sub(MockEnum.SUB);
-            sub1.put(MockEnum.KEY1, DATA);
-
-            // When
-            Storage sub2 = storage.sub(MockEnum.SUB);
-            String retrieved = sub2.get(MockEnum.KEY1, String.class);
+            // When - calling default sub()
+            Storage defaultSub = storage.sub();
 
             // Then
-            assertEquals(DATA, retrieved, "Substorage should maintain stored values");
-        }
+            assertNotNull(defaultSub, "Default substorage should be created");
+            assertSame(sub, defaultSub, "Default storage should be the same instance");
+         }
+      }
 
-        @Test
-        @DisplayName("Should throw exception when last value is not storage")
-        void testSubThrowsWhenLastValueIsNotStorage() {
-            // Given
-            storage.put(MockEnum.NON_STORAGE, "not a storage");
+      @Test
+      @DisplayName("Should throw exception when default storage not initialized")
+      void testSubDefaultThrowsWhenNotInitialized() {
+         // When/Then
+         IllegalStateException ex = assertThrows(IllegalStateException.class,
+            () -> storage.sub(),
+            "Should throw IllegalStateException when default storage not initialized");
 
-            // When/Then
-            IllegalStateException ex = assertThrows(IllegalStateException.class,
-                    () -> storage.sub(MockEnum.NON_STORAGE),
-                    "Should throw IllegalStateException for non-storage value");
+         assertEquals("There is no default storage initialized", ex.getMessage(),
+            "Exception message should indicate default storage not initialized");
+      }
+   }
 
-            assertTrue(ex.getMessage().contains("already used for a non-storage value"),
-                    "Exception message should mention non-storage value");
-        }
+   @Nested
+   @DisplayName("Late argument operations")
+   class LateArgumentOperations {
 
-        @Test
-        @DisplayName("Should create sub-storage with default key when config is available")
-        void testSubWithDefaultKey() {
-            // Given
-            try (MockedStatic<FrameworkConfigHolder> configHolderMock = mockStatic(FrameworkConfigHolder.class)) {
-                when(mockConfig.defaultStorage()).thenReturn("SUB");
-                configHolderMock.when(FrameworkConfigHolder::getFrameworkConfig).thenReturn(mockConfig);
+      @Test
+      @DisplayName("Should create late arguments")
+      void testCreateLateArguments() {
+         // Given
+         DummyLate<String> lateValue = new DummyLate<>(CREATED);
+         storage.put(MockEnum.KEY1, lateValue);
+         storage.put(MockEnum.KEY1, NORMAL);
 
-                // When
-                Storage sub = storage.sub(MockEnum.SUB);
+         // When
+         storage.createLateArguments();
 
-                // Then
-                assertNotNull(sub, "Substorage should be created");
+         // Then
+         String created = storage.getByIndex(MockEnum.KEY1, 2, String.class);
+         String normal = storage.getByIndex(MockEnum.KEY1, 1, String.class);
+         assertEquals(CREATED, created, "Late value should be created");
+         assertEquals(NORMAL, normal, "Normal value should remain unchanged");
+      }
 
-                // When - calling default sub()
-                Storage defaultSub = storage.sub();
+      @Test
+      @DisplayName("Should handle exceptions during create")
+      void testCreateLateArgumentsWithException() {
+         // Given
+         DummyLate<String> failingLate = mock(DummyLate.class);
+         when(failingLate.create()).thenThrow(new RuntimeException("Create failed"));
 
-                // Then
-                assertNotNull(defaultSub, "Default substorage should be created");
-                assertSame(sub, defaultSub, "Default storage should be the same instance");
-            }
-        }
+         storage.put(MockEnum.KEY1, failingLate);
+         storage.put(MockEnum.KEY2, "This should remain");
 
-        @Test
-        @DisplayName("Should throw exception when default storage not initialized")
-        void testSubDefaultThrowsWhenNotInitialized() {
-            // When/Then
-            IllegalStateException ex = assertThrows(IllegalStateException.class,
-                    () -> storage.sub(),
-                    "Should throw IllegalStateException when default storage not initialized");
+         // When - should not throw exception
+         storage.createLateArguments();
 
-            assertEquals("There is no default storage initialized", ex.getMessage(),
-                    "Exception message should indicate default storage not initialized");
-        }
-    }
+         // Then
+         // The failing Late object's value is skipped in the current implementation
+         assertNull(storage.get(MockEnum.KEY1, Object.class),
+            "Failed Late objects are skipped in the current implementation");
 
-    @Nested
-    @DisplayName("Late argument operations")
-    class LateArgumentOperations {
+         // But other keys should be unaffected
+         assertEquals("This should remain", storage.get(MockEnum.KEY2, String.class),
+            "Other values should remain in storage");
+      }
+   }
 
-        @Test
-        @DisplayName("Should create late arguments")
-        void testCreateLateArguments() {
-            // Given
-            DummyLate<String> lateValue = new DummyLate<>(CREATED);
-            storage.put(MockEnum.KEY1, lateValue);
-            storage.put(MockEnum.KEY1, NORMAL);
+   @Nested
+   @DisplayName("Hook Data Operations")
+   class HookDataOperations {
 
-            // When
-            storage.createLateArguments();
+      @Test
+      @DisplayName("Should retrieve hook data when exists")
+      void testGetHookDataWhenExists() {
+         // Given
+         Map<Object, Object> hooksMap = new HashMap<>();
+         hooksMap.put("testKey", "testValue");
+         storage.put(StorageKeysTest.HOOKS, hooksMap);
 
-            // Then
-            String created = storage.getByIndex(MockEnum.KEY1, 2, String.class);
-            String normal = storage.getByIndex(MockEnum.KEY1, 1, String.class);
-            assertEquals(CREATED, created, "Late value should be created");
-            assertEquals(NORMAL, normal, "Normal value should remain unchanged");
-        }
+         // When
+         String result = storage.getHookData("testKey", String.class);
 
-        @Test
-        @DisplayName("Should handle exceptions during create")
-        void testCreateLateArgumentsWithException() {
-            // Given
-            DummyLate<String> failingLate = mock(DummyLate.class);
-            when(failingLate.create()).thenThrow(new RuntimeException("Create failed"));
+         // Then
+         assertEquals("testValue", result, "Should return correct hook data");
+      }
 
-            storage.put(MockEnum.KEY1, failingLate);
-            storage.put(MockEnum.KEY2, "This should remain");
+      @Test
+      @DisplayName("Should return null when hook map doesn't exist")
+      void testGetHookDataWhenNoHookMap() {
+         // When/Then
+         assertNull(storage.getHookData("anyKey", String.class),
+            "Should return null when no hook map exists");
+      }
 
-            // When - should not throw exception
-            storage.createLateArguments();
+      @Test
+      @DisplayName("Should return null when key not in hook map")
+      void testGetHookDataWhenKeyMissing() {
+         // Given
+         Map<Object, Object> hooksMap = new HashMap<>();
+         hooksMap.put("otherKey", "otherValue");
+         storage.put(StorageKeysTest.HOOKS, hooksMap);
 
-            // Then
-            // The failing Late object's value is skipped in the current implementation
-            assertNull(storage.get(MockEnum.KEY1, Object.class),
-                    "Failed Late objects are skipped in the current implementation");
+         // When/Then
+         assertNull(storage.getHookData("missingKey", String.class),
+            "Should return null when key not in hook map");
+      }
 
-            // But other keys should be unaffected
-            assertEquals("This should remain", storage.get(MockEnum.KEY2, String.class),
-                    "Other values should remain in storage");
-        }
-    }
+      @Test
+      @DisplayName("Should throw ClassCastException for wrong type")
+      void testGetHookDataWithWrongType() {
+         // Given
+         Map<Object, Object> hooksMap = new HashMap<>();
+         hooksMap.put("testKey", "123");
+         storage.put(StorageKeysTest.HOOKS, hooksMap);
 
-    @Nested
-    @DisplayName("Hook Data Operations")
-    class HookDataOperations {
+         // When/Then
+         assertThrows(ClassCastException.class,
+            () -> storage.getHookData("testKey", Integer.class),
+            "Should throw when wrong type requested");
+      }
+   }
 
-        @Test
-        @DisplayName("Should retrieve hook data when exists")
-        void testGetHookDataWhenExists() {
-            // Given
-            Map<Object, Object> hooksMap = new HashMap<>();
-            hooksMap.put("testKey", "testValue");
-            storage.put(StorageKeysTest.HOOKS, hooksMap);
+   @Nested
+   @DisplayName("Data Access Operations")
+   class DataAccessOperations {
 
-            // When
-            String result = storage.getHookData("testKey", String.class);
+      @Test
+      @DisplayName("Should return copy of all data")
+      void testGetDataReturnsCopy() {
+         // Given
+         storage.put(MockEnum.KEY1, "value1");
+         storage.put(MockEnum.KEY2, "value2");
+         Storage subStorage = storage.sub(MockEnum.SUB);
+         subStorage.put(MockEnum.KEY3, "subValue");
 
-            // Then
-            assertEquals("testValue", result, "Should return correct hook data");
-        }
+         // When
+         Map<Enum<?>, List<Object>> dataCopy = storage.getData();
 
-        @Test
-        @DisplayName("Should return null when hook map doesn't exist")
-        void testGetHookDataWhenNoHookMap() {
-            // When/Then
-            assertNull(storage.getHookData("anyKey", String.class),
-                    "Should return null when no hook map exists");
-        }
+         // Then
+         assertNotNull(dataCopy, "Should return non-null map");
+         assertEquals(3, dataCopy.size(), "Should contain all keys");
+         assertEquals("value1", dataCopy.get(MockEnum.KEY1).get(0));
+         assertEquals("value2", dataCopy.get(MockEnum.KEY2).get(0));
 
-        @Test
-        @DisplayName("Should return null when key not in hook map")
-        void testGetHookDataWhenKeyMissing() {
-            // Given
-            Map<Object, Object> hooksMap = new HashMap<>();
-            hooksMap.put("otherKey", "otherValue");
-            storage.put(StorageKeysTest.HOOKS, hooksMap);
-
-            // When/Then
-            assertNull(storage.getHookData("missingKey", String.class),
-                    "Should return null when key not in hook map");
-        }
-
-        @Test
-        @DisplayName("Should throw ClassCastException for wrong type")
-        void testGetHookDataWithWrongType() {
-            // Given
-            Map<Object, Object> hooksMap = new HashMap<>();
-            hooksMap.put("testKey", "123");
-            storage.put(StorageKeysTest.HOOKS, hooksMap);
-
-            // When/Then
-            assertThrows(ClassCastException.class,
-                    () -> storage.getHookData("testKey", Integer.class),
-                    "Should throw when wrong type requested");
-        }
-    }
-
-    @Nested
-    @DisplayName("Data Access Operations")
-    class DataAccessOperations {
-
-        @Test
-        @DisplayName("Should return copy of all data")
-        void testGetDataReturnsCopy() {
-            // Given
-            storage.put(MockEnum.KEY1, "value1");
-            storage.put(MockEnum.KEY2, "value2");
-            Storage subStorage = storage.sub(MockEnum.SUB);
-            subStorage.put(MockEnum.KEY3, "subValue");
-
-            // When
-            Map<Enum<?>, List<Object>> dataCopy = storage.getData();
-
-            // Then
-            assertNotNull(dataCopy, "Should return non-null map");
-            assertEquals(3, dataCopy.size(), "Should contain all keys");
-            assertEquals("value1", dataCopy.get(MockEnum.KEY1).get(0));
-            assertEquals("value2", dataCopy.get(MockEnum.KEY2).get(0));
-
-            // Verify sub-storage is included
-            List<Object> subValues = dataCopy.get(MockEnum.SUB);
-            assertTrue(subValues.get(0) instanceof Storage, "Should contain sub-storage");
-        }
+         // Verify sub-storage is included
+         List<Object> subValues = dataCopy.get(MockEnum.SUB);
+         assertTrue(subValues.get(0) instanceof Storage, "Should contain sub-storage");
+      }
 
 //        @Test
 //        @DisplayName("Should return independent copy")
@@ -599,15 +615,285 @@ class StorageTest {
 //                    "Second copy should reflect modifications");
 //        }
 
-        @Test
-        @DisplayName("Should return empty map for empty storage")
-        void testGetDataWhenEmpty() {
-            // When
-            Map<Enum<?>, List<Object>> result = storage.getData();
+      @Test
+      @DisplayName("Should return empty map for empty storage")
+      void testGetDataWhenEmpty() {
+         // When
+         Map<Enum<?>, List<Object>> result = storage.getData();
 
-            // Then
-            assertNotNull(result, "Should return non-null map");
-            assertTrue(result.isEmpty(), "Should return empty map for empty storage");
-        }
-    }
+         // Then
+         assertNotNull(result, "Should return non-null map");
+         assertTrue(result.isEmpty(), "Should return empty map for empty storage");
+      }
+   }
+
+   @Nested
+   @DisplayName("Type Casting with ParameterizedTypeReference")
+   class TypeCastingOperations {
+
+      @Test
+      @DisplayName("Should handle parameterized types correctly - List<String>")
+      void testParameterizedTypeListOfStrings() {
+         // Given
+         List<String> stringList = List.of("a", "b", "c");
+         storage.put(MockEnum.KEY1, stringList);
+
+         // When
+         List<String> retrieved = storage.get(MockEnum.KEY1, new ParameterizedTypeReference<List<String>>() {
+         });
+
+         // Then
+         assertNotNull(retrieved, "Should retrieve List<String>");
+         assertEquals(3, retrieved.size(), "List should have 3 elements");
+         assertEquals("a", retrieved.get(0), "First element should be 'a'");
+      }
+
+      @Test
+      @DisplayName("Should return null when type mismatch with ParameterizedTypeReference")
+      void testTypeMismatchWithParameterizedTypeReference() {
+         // Given
+         storage.put(MockEnum.KEY1, "plain string");
+
+         // When
+         List<String> retrieved = storage.get(MockEnum.KEY1, new ParameterizedTypeReference<List<String>>() {
+         });
+
+         // Then
+         assertNull(retrieved, "Should return null when type doesn't match");
+      }
+
+      @Test
+      @DisplayName("Should handle Map with ParameterizedTypeReference")
+      void testParameterizedTypeMap() {
+         // Given
+         Map<String, Integer> map = Map.of("one", 1, "two", 2);
+         storage.put(MockEnum.KEY1, map);
+
+         // When
+         Map<String, Integer> retrieved =
+            storage.get(MockEnum.KEY1, new ParameterizedTypeReference<Map<String, Integer>>() {
+            });
+
+         // Then
+         assertNotNull(retrieved, "Should retrieve Map");
+         assertEquals(2, retrieved.size(), "Map should have 2 entries");
+         assertEquals(1, retrieved.get("one"), "Should retrieve correct value");
+      }
+
+      @Test
+      @DisplayName("Should handle raw type checking with isInstance")
+      void testRawTypeInstanceCheck() {
+         // Given
+         List<Integer> intList = List.of(1, 2, 3);
+         storage.put(MockEnum.KEY1, intList);
+         storage.put(MockEnum.KEY1, "not a list");
+
+         // When
+         List<Integer> retrieved = storage.getByClass(MockEnum.KEY1, new ParameterizedTypeReference<List<Integer>>() {
+         });
+
+         // Then
+         assertNotNull(retrieved, "Should find the List instance");
+         assertEquals(3, retrieved.size(), "Should retrieve the correct list");
+      }
+
+      @Test
+      @DisplayName("Should return null for incompatible raw types")
+      void testIncompatibleRawTypes() {
+         // Given
+         storage.put(MockEnum.KEY1, 123);
+
+         // When
+         List<String> retrieved = storage.get(MockEnum.KEY1, new ParameterizedTypeReference<List<String>>() {
+         });
+
+         // Then
+         assertNull(retrieved, "Should return null when raw type doesn't match");
+      }
+
+      @Test
+      @DisplayName("Should handle nested parameterized types")
+      void testNestedParameterizedTypes() {
+         // Given
+         List<List<String>> nestedList = List.of(
+            List.of("a", "b"),
+            List.of("c", "d")
+         );
+         storage.put(MockEnum.KEY1, nestedList);
+
+         // When
+         List<List<String>> retrieved =
+            storage.get(MockEnum.KEY1, new ParameterizedTypeReference<List<List<String>>>() {
+            });
+
+         // Then
+         assertNotNull(retrieved, "Should retrieve nested parameterized type");
+         assertEquals(2, retrieved.size(), "Should have 2 nested lists");
+         assertEquals("a", retrieved.get(0).get(0), "Should access nested elements");
+      }
+
+      @Test
+      @DisplayName("Should handle getAllByClass with ParameterizedTypeReference and type filtering")
+      void testGetAllByClassWithTypeFiltering() {
+         // Given
+         List<String> list1 = List.of("a");
+         List<String> list2 = List.of("b");
+         storage.put(MockEnum.KEY1, list1);
+         storage.put(MockEnum.KEY1, "not a list");
+         storage.put(MockEnum.KEY1, list2);
+         storage.put(MockEnum.KEY1, 123);
+
+         // When
+         List<List<String>> allLists =
+            storage.getAllByClass(MockEnum.KEY1, new ParameterizedTypeReference<List<String>>() {
+            });
+
+         // Then
+         assertEquals(2, allLists.size(), "Should retrieve only List instances");
+         assertEquals("a", allLists.get(0).get(0), "First list should be list1");
+         assertEquals("b", allLists.get(1).get(0), "Second list should be list2");
+      }
+
+      @Test
+      @DisplayName("Should handle getByIndex with ParameterizedTypeReference and type mismatch")
+      void testGetByIndexWithTypeMismatch() {
+         // Given
+         storage.put(MockEnum.KEY1, "string value");
+         storage.put(MockEnum.KEY1, List.of("a", "b"));
+
+         // When
+         List<String> retrieved = storage.getByIndex(MockEnum.KEY1, 2, new ParameterizedTypeReference<List<String>>() {
+         });
+
+         // Then
+         assertNull(retrieved, "Should return null when indexed value doesn't match type");
+      }
+
+      @Test
+      @DisplayName("Should return null when retrieving null value with ParameterizedTypeReference")
+      void testGetNullValueWithParameterizedTypeReference() {
+         // Given
+         Storage storage = new Storage();
+         storage.put(MockEnum.KEY1, null);
+
+         // When
+         String retrieved = storage.get(MockEnum.KEY1, new ParameterizedTypeReference<String>() {
+         });
+
+         // Then
+         assertNull(retrieved, "Should return null when stored value is null");
+      }
+
+      @Test
+      @DisplayName("Should return null when retrieving null value by index with ParameterizedTypeReference")
+      void testGetByIndexNullValueWithParameterizedTypeReference() {
+         // Given
+         Storage storage = new Storage();
+         storage.put(MockEnum.KEY1, null);
+
+         // When
+         String retrieved = storage.getByIndex(MockEnum.KEY1, 1, new ParameterizedTypeReference<String>() {
+         });
+
+         // Then
+         assertNull(retrieved, "Should return null when indexed value is null");
+      }
+
+      @Test
+      @DisplayName("Should return null when finding null value by class with ParameterizedTypeReference")
+      void testGetByClassNullValueWithParameterizedTypeReference() {
+         // Given
+         Storage storage = new Storage();
+         storage.put(MockEnum.KEY1, null);
+         storage.put(MockEnum.KEY1, "non-null");
+
+         // When
+         String retrieved = storage.getByClass(MockEnum.KEY1, new ParameterizedTypeReference<String>() {
+         });
+
+         // Then
+         assertEquals("non-null", retrieved, "Should skip null and return non-null value");
+      }
+
+      @Test
+      @DisplayName("Should handle getAllByClass with null values in ParameterizedTypeReference")
+      void testGetAllByClassWithNullValuesAndParameterizedTypeReference() {
+         // Given
+         Storage storage = new Storage();
+         storage.put(MockEnum.KEY1, List.of("a"));
+         storage.put(MockEnum.KEY1, null);
+         storage.put(MockEnum.KEY1, List.of("b"));
+
+         // When
+         List<List<String>> allLists =
+            storage.getAllByClass(MockEnum.KEY1, new ParameterizedTypeReference<List<String>>() {
+            });
+
+         // Then
+         assertEquals(2, allLists.size(), "Should retrieve only non-null List instances");
+         assertEquals("a", allLists.get(0).get(0), "First list should contain 'a'");
+         assertEquals("b", allLists.get(1).get(0), "Second list should contain 'b'");
+      }
+
+      @Test
+      @DisplayName("Should handle TypeVariable edge case gracefully")
+      void testTypeVariableEdgeCase() {
+         // Given - Create a custom TypeReference with TypeVariable
+         Storage storage = new Storage();
+         ParameterizedTypeReference<String> customTypeRef = new ParameterizedTypeReference<String>() {
+            @Override
+            public Type getType() {
+               // Return a TypeVariable which is neither ParameterizedType nor Class
+               TypeVariable<?>[] typeParams = List.class.getTypeParameters();
+               return typeParams.length > 0 ? typeParams[0] : String.class;
+            }
+         };
+
+         storage.put(MockEnum.KEY1, "test");
+
+         // When
+         String retrieved = storage.get(MockEnum.KEY1, customTypeRef);
+
+         // Then - Should return null because TypeVariable is not handled (line 328)
+         assertNull(retrieved, "Should return null for TypeVariable type");
+      }
+
+      @Test
+      @DisplayName("Should handle non-Class raw type in ParameterizedType")
+      void testNonClassRawTypeInParameterizedType() {
+         // Given - Create a custom TypeReference with non-Class raw type
+         Storage storage = new Storage();
+         ParameterizedTypeReference<List<String>> customTypeRef = new ParameterizedTypeReference<List<String>>() {
+            @Override
+            public Type getType() {
+               return new java.lang.reflect.ParameterizedType() {
+                  @Override
+                  public Type[] getActualTypeArguments() {
+                     return new Type[] {String.class};
+                  }
+
+                  @Override
+                  public Type getRawType() {
+                     // Return a TypeVariable instead of Class (non-Class raw type)
+                     TypeVariable<?>[] typeParams = List.class.getTypeParameters();
+                     return typeParams.length > 0 ? typeParams[0] : List.class;
+                  }
+
+                  @Override
+                  public Type getOwnerType() {
+                     return null;
+                  }
+               };
+            }
+         };
+
+         storage.put(MockEnum.KEY1, List.of("a", "b"));
+
+         // When
+         List<String> retrieved = storage.get(MockEnum.KEY1, customTypeRef);
+
+         // Then - Should return null because raw type is not a Class (line 323)
+         assertNull(retrieved, "Should return null when ParameterizedType raw type is not Class");
+      }
+   }
 }

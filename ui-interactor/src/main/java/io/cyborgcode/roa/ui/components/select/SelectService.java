@@ -39,7 +39,7 @@ public interface SelectService extends Insertion {
       try {
          return ReflectionUtil.findEnumImplementationsOfInterface(SelectComponentType.class,
                getUiConfig().selectDefaultType(),
-               getUiConfig().projectPackage());
+               getUiConfig().projectPackages());
       } catch (Exception ignored) {
          return null;
       }

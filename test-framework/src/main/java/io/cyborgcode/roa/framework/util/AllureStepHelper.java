@@ -259,7 +259,7 @@ public class AllureStepHelper {
       List<Class<? extends PropertyConfig>> implementationsOfInterfaceInFramework =
             ReflectionUtil.findImplementationsOfInterface(PropertyConfig.class, FRAMEWORK_PACKAGE);
       List<Class<? extends PropertyConfig>> implementationsOfInterfaceInProject =
-            ReflectionUtil.findImplementationsOfInterface(PropertyConfig.class, getFrameworkConfig().projectPackage());
+            ReflectionUtil.findImplementationsOfInterface(PropertyConfig.class, getFrameworkConfig().projectPackages());
 
       List<Class<? extends PropertyConfig>> allConfig = new ArrayList<>();
       allConfig.addAll(implementationsOfInterfaceInFramework);

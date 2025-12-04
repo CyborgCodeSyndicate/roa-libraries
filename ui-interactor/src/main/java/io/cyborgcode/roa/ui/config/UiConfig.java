@@ -79,8 +79,9 @@ public interface UiConfig extends PropertyConfig {
     *
     * @return The project's root package.
     */
-   @Key("project.package")
-   String projectPackage();
+   @Key("project.packages")
+   @Separator(";")
+   String[] projectPackages();
 
    /**
     * Retrieves the default type for input fields.

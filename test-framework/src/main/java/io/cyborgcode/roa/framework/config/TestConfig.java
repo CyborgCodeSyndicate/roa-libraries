@@ -18,7 +18,8 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootConfiguration
 @ComponentScan(basePackages = {
    "io.cyborgcode.roa.framework",
-   "${project.package}"
+   "${project.packages}"
+
 })
 public class TestConfig {
 

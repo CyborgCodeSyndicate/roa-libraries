@@ -5,8 +5,8 @@ import io.cyborgcode.roa.framework.config.FrameworkConfig;
 public class MockConfig implements FrameworkConfig {
 
    @Override
-   public String projectPackage() {
-      return "dummy.package";
+   public String[] projectPackages() {
+      return new String[]{"dummy.package"};
    }
 
    @Override

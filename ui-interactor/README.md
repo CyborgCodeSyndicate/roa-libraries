@@ -161,10 +161,10 @@ All component packages follow a uniform structure:
 | `InsertionServiceRegistry` | Service registry | `register(...)`, `resolve(...)` | Factory |
 
 ### Package: `io.cyborgcode.roa.ui.config`
-| Class | Responsibility | Key methods | Used by |
-|---|---|---|---|
-| `UiConfig` | Owner-backed configuration interface | `browserType()`, `waitDuration()`, `useShadowRoot()`, `useWrappedSeleniumFunctions()`, `projectPackage()`, all component default types | All classes |
-| `UiConfigHolder` | Singleton holder for UiConfig | `getUiConfig()` returns cached Owner instance | All classes needing config |
+| Class | Responsibility | Key methods                                                                                                                             | Used by |
+|---|---|-----------------------------------------------------------------------------------------------------------------------------------------|---|
+| `UiConfig` | Owner-backed configuration interface | `browserType()`, `waitDuration()`, `useShadowRoot()`, `useWrappedSeleniumFunctions()`, `projectPackages()`, all component default types | All classes |
+| `UiConfigHolder` | Singleton holder for UiConfig | `getUiConfig()` returns cached Owner instance                                                                                           | All classes needing config |
 
 ### Other packages
 - `io.cyborgcode.roa.ui.annotations` - `@HandleUiException`, `@InsertionField`, `@ImplementationOfType`

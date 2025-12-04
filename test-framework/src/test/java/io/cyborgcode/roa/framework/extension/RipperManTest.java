@@ -136,7 +136,7 @@ class RipperManTest {
                                                 ReflectionUtil.findEnumImplementationsOfInterface(
                                                     eq(DataRipper.class),
                                                     eq(MOCK_TARGET),
-                                                    eq(mockConfig.projectPackage())
+                                                    eq(mockConfig.projectPackages())
                                                 )
                         ).thenReturn(dataRipper);
 
