@@ -1155,7 +1155,7 @@ At **api-interactor level**:
 * `soft(true)` is stored in `Assertion` and propagated into `AssertionResult`
 * `RestResponseValidatorImpl` does **not** treat soft assertions differently – it just returns the results
 
-How you *interpret* soft vs hard is up to your test layer or higher-level framework (e.g. your adapter/test-framework can:
+How you *interpret* soft vs hard is up to your test layer or higher-level framework (e.g. your adapter/test-framework) can:
 
 * Fail immediately on hard assertions
 * Collect and only log soft assertion failures
