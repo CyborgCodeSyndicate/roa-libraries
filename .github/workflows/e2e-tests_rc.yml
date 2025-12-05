@@ -1,23 +1,17 @@
 name: E2E Tests After Deploy
 
 on:
-  workflow_call:
-    inputs:
-      deployed_version:
-        description: "Snapshot version to test"
-        required: true
-        type: string
-    secrets:
-      gh_packages_user:
-        required: true
-      gh_packages_pat:
-        required: true
+  workflow_run:
+    workflows: [ "Deploy" ]
+    types: [ completed ]
 
 permissions:
   contents: write
+  actions: read
 
 jobs:
   setup:
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'e2e-flow' }}
     runs-on: ubuntu-latest
     steps:
       - name: Download deployed version artifact
@@ -54,8 +48,8 @@ jobs:
         uses: CyborgCodeSyndicate/utilities/pipelines/shared/setup-maven@v1.3.2
         with:
           server_ids: github-roa-libraries,github-roa-plugins
-          github_packages_user: ${{ secrets.gh_packages_user }}
-          github_packages_token: ${{ secrets.gh_packages_pat }}
+          github_packages_user: ${{ secrets.GH_PACKAGES_USER }}
+          github_packages_token: ${{ secrets.GH_PACKAGES_PAT }}
 
       - name: Override parent version
         if: ${{ env.deployed_version != '' }}
@@ -80,8 +74,8 @@ jobs:
       repository: CyborgCodeSyndicate/roa-example-projects
       ref: e2e-flow
     secrets:
-      maven_user: ${{ secrets.gh_packages_user }}
-      maven_token: ${{ secrets.gh_packages_pat }}
+      maven_user: ${{ secrets.GH_PACKAGES_USER }}
+      maven_token: ${{ secrets.GH_PACKAGES_PAT }}
 
   e2e-ui-complex:
     needs: setup
@@ -93,5 +87,5 @@ jobs:
       repository: CyborgCodeSyndicate/roa-example-projects
       ref: e2e-flow
     secrets:
-      maven_user: ${{ secrets.gh_packages_user }}
-      maven_token: ${{ secrets.gh_packages_pat }}
+      maven_user: ${{ secrets.GH_PACKAGES_USER }}
+      maven_token: ${{ secrets.GH_PACKAGES_PAT }}
