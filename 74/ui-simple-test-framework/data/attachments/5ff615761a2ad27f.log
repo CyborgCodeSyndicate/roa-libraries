@@ -1,0 +1,24 @@
+🤖 CYBORG 🤖 2025-12-05T18:21:21,102 [scenario=BasicToAdvancedFeatureTests.craft_injectsModelDataIntoSteps] INFO  [UI] - Chrome driver is downloaded with a compatible version for the installed browser
+🤖 CYBORG 🤖 2025-12-05T18:21:21,311 [scenario=BasicToAdvancedFeatureTests.craft_injectsModelDataIntoSteps] INFO  [UI] - Creating driver using provider [ChromeDriverProvider]. Headless: [true], Remote: [true], Remote URL: [http://localhost:4444]
+🤖 CYBORG 🤖 2025-12-05T18:21:22,665 [scenario=BasicToAdvancedFeatureTests.craft_injectsModelDataIntoSteps] INFO  [QUEST] - The quest: 'craft_injectsModelDataIntoSteps(Quest, PurchaseForeignCurrency)' has begun and is crafted.
+🤖 CYBORG 🤖 2025-12-05T18:21:22,679 [scenario=BasicToAdvancedFeatureTests.craft_injectsModelDataIntoSteps] INFO  [QUEST] - The quest has used the ring: 'UI'
+🤖 CYBORG 🤖 2025-12-05T18:21:23,584 [scenario=BasicToAdvancedFeatureTests.craft_injectsModelDataIntoSteps] STEP  [UI] - Clicking button using locator: By.id: signin_button
+🤖 CYBORG 🤖 2025-12-05T18:21:23,832 [scenario=BasicToAdvancedFeatureTests.craft_injectsModelDataIntoSteps] STEP  [UI] - Inserting value: 'username' into input component of type: 'BOOTSTRAP_INPUT_TYPE'.
+🤖 CYBORG 🤖 2025-12-05T18:21:24,065 [scenario=BasicToAdvancedFeatureTests.craft_injectsModelDataIntoSteps] STEP  [UI] - Inserting value: 'password' into input component of type: 'BOOTSTRAP_INPUT_TYPE'.
+🤖 CYBORG 🤖 2025-12-05T18:21:24,281 [scenario=BasicToAdvancedFeatureTests.craft_injectsModelDataIntoSteps] STEP  [UI] - Clicking button using locator: By.cssSelector: input[value='Sign in']
+🤖 CYBORG 🤖 2025-12-05T18:21:25,159 [scenario=BasicToAdvancedFeatureTests.craft_injectsModelDataIntoSteps] INFO  [QUEST] - The quest has used the ring: 'io.cyborgcode.ui.simple.test.framework.ui.AppUiService'
+🤖 CYBORG 🤖 2025-12-05T18:21:25,169 [scenario=BasicToAdvancedFeatureTests.craft_injectsModelDataIntoSteps] STEP  [UI] - Clicking link BOOTSTRAP_LINK_TYPE using locator By.id: transfer_funds_link
+🤖 CYBORG 🤖 2025-12-05T18:21:25,409 [scenario=BasicToAdvancedFeatureTests.craft_injectsModelDataIntoSteps] STEP  [UI] - Selecting items Pay Bills from list BOOTSTRAP_LIST_TYPE using locator By.className: nav-tabs
+🤖 CYBORG 🤖 2025-12-05T18:21:26,166 [scenario=BasicToAdvancedFeatureTests.craft_injectsModelDataIntoSteps] STEP  [UI] - Selecting items Purchase Foreign Currency from list BOOTSTRAP_LIST_TYPE using locator By.className: ui-tabs-nav
+🤖 CYBORG 🤖 2025-12-05T18:21:26,418 [scenario=BasicToAdvancedFeatureTests.craft_injectsModelDataIntoSteps] STEP  [UI] - Selecting option Mexico (peso) in container with locator By.id: pc_currency for select component BOOTSTRAP_SELECT_TYPE
+🤖 CYBORG 🤖 2025-12-05T18:21:26,423 [scenario=BasicToAdvancedFeatureTests.craft_injectsModelDataIntoSteps] STEP  [UI] - Selecting options [Mexico (peso)] in container with locator By.id: pc_currency for select component BOOTSTRAP_SELECT_TYPE
+🤖 CYBORG 🤖 2025-12-05T18:21:27,075 [scenario=BasicToAdvancedFeatureTests.craft_injectsModelDataIntoSteps] STEP  [UI] - Inserting value: '100' into input component of type: 'BOOTSTRAP_INPUT_TYPE'.
+🤖 CYBORG 🤖 2025-12-05T18:21:27,285 [scenario=BasicToAdvancedFeatureTests.craft_injectsModelDataIntoSteps] STEP  [UI] - Selecting radio button with locator By.id: pc_inDollars_true for radio component BOOTSTRAP_RADIO_TYPE
+🤖 CYBORG 🤖 2025-12-05T18:21:27,464 [scenario=BasicToAdvancedFeatureTests.craft_injectsModelDataIntoSteps] STEP  [UI] - Clicking button using locator: By.id: pc_calculate_costs
+🤖 CYBORG 🤖 2025-12-05T18:21:27,571 [scenario=BasicToAdvancedFeatureTests.craft_injectsModelDataIntoSteps] STEP  [UI] - Clicking button using locator: By.id: purchase_cash
+🤖 CYBORG 🤖 2025-12-05T18:21:27,852 [scenario=BasicToAdvancedFeatureTests.craft_injectsModelDataIntoSteps] STEP  [UI] - Getting value from alert located by: By.id: alert_content
+🤖 CYBORG 🤖 2025-12-05T18:21:27,906 [scenario=BasicToAdvancedFeatureTests.craft_injectsModelDataIntoSteps] VALIDATION [QUEST] - Starting hard validation...
+🤖 CYBORG 🤖 2025-12-05T18:21:27,944 [scenario=BasicToAdvancedFeatureTests.craft_injectsModelDataIntoSteps] VALIDATION [QUEST] - Hard validation completed successfully.
+🤖 CYBORG 🤖 2025-12-05T18:21:27,948 [scenario=BasicToAdvancedFeatureTests.craft_injectsModelDataIntoSteps] INFO  [QUEST] - The quest has dropped the ring.
+🤖 CYBORG 🤖 2025-12-05T18:21:27,951 [scenario=BasicToAdvancedFeatureTests.craft_injectsModelDataIntoSteps] INFO  [QUEST] - The quest has reached his end
+🤖 CYBORG 🤖 2025-12-05T18:21:27,967 [scenario=BasicToAdvancedFeatureTests.craft_injectsModelDataIntoSteps] INFO  [QUEST] - The quest of 'craft_injectsModelDataIntoSteps(Quest, PurchaseForeignCurrency)' has concluded with glory. Status: SUCCESS. Duration: 8 seconds.
