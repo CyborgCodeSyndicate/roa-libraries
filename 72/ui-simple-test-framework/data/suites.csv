@@ -1,0 +1,2 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Fri Dec 05 16:45:25 UTC 2025","Fri Dec 05 16:45:38 UTC 2025","12354","","Progressive UI Features: Basic to Advanced","","io.cyborgcode.ui.simple.test.framework.BasicToAdvancedFeatureTests","craft_injectsModelDataIntoSteps","craft_injectsModelDataIntoSteps(Quest, PurchaseForeignCurrency)","Craft injects a typed model instance for data-driven steps"
