@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   setup:
-    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'e2e-flow' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - name: Download deployed version artifact
@@ -66,12 +66,11 @@ jobs:
 
   e2e-api:
     needs: setup
-    uses: CyborgCodeSyndicate/roa-github-workflows/.github/workflows/roa-tests.yml@v1.0.3
+    uses: CyborgCodeSyndicate/roa-github-workflows/.github/workflows/roa-tests.yml@v1.0.4
     with:
       kind: api
       project_module: api-test-framework
       repository: CyborgCodeSyndicate/roa-example-projects
-      ref: e2e-flow
       tags_include: Smoke
       tags_exclude: Flaky
       grid_node_max_sessions: 3
@@ -81,12 +80,11 @@ jobs:
 
   e2e-ui-simple:
     needs: setup
-    uses: CyborgCodeSyndicate/roa-github-workflows/.github/workflows/roa-tests.yml@v1.0.3
+    uses: CyborgCodeSyndicate/roa-github-workflows/.github/workflows/roa-tests.yml@v1.0.4
     with:
       kind: ui
       project_module: ui-simple-test-framework
       repository: CyborgCodeSyndicate/roa-example-projects
-      ref: e2e-flow
       tags_include: Smoke
       tags_exclude: Flaky
       grid_node_max_sessions: 3
@@ -96,12 +94,11 @@ jobs:
 
   e2e-ui-complex:
     needs: setup
-    uses: CyborgCodeSyndicate/roa-github-workflows/.github/workflows/roa-tests.yml@v1.0.3
+    uses: CyborgCodeSyndicate/roa-github-workflows/.github/workflows/roa-tests.yml@v1.0.4
     with:
       kind: ui
       project_module: ui-complex-test-framework
       repository: CyborgCodeSyndicate/roa-example-projects
-      ref: e2e-flow
       tags_include: Smoke
       tags_exclude: Flaky
       grid_node_max_sessions: 3
