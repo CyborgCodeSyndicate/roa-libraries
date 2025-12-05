@@ -18,12 +18,32 @@
         - [Authentication Cache Semantics](#authentication-cache-semantics)
 - [Usage](#usage)
     - [Step 1: Add dependency](#step-1-add-dependency)
+      - [1.1. Standard Maven dependency](#11-standard-maven-dependency)
     - [Step 2: Configure ApiConfig](#step-2-configure-apiconfig)
+      - [2.1 Configuration source](#21-configuration-source)
+      - [2.2 Minimal configuration example](#22-minimal-configuration-example)
+      - [2.3 Behaviour & priorities](#23-behaviour--priorities)
     - [Step 3: Define endpoints (`Endpoint<T>`)](#step-3-define-endpoints-endpointt)
+      - [3.1 Basic endpoint Enum](#31-basic-endpoint-enum)
     - [Step 4: Create `RestService`](#step-4-create-restservice)
+      - [4.1 What RestService does](#41-what-restservice-does)
+      - [4.2 Plain Java / test setup](#42-plain-java--test-setup)
     - [Step 5: Basic usage (simple GET/POST)](#step-5-basic-usage-simple-getpost)
+      - [5.1 Simple GET request](#51-simple-get-request)
+      - [5.2 GET with path/query parameters](#52-get-with-pathquery-parameters)
+      - [5.3 Simple POST with body](#53-simple-post-with-body)
+      - [5.4 Using requestAndValidate for one-shot checks](#54-using-requestandvalidate-for-one-shot-checks)
     - [Step 6: Validation with assertions](#step-6-validation-with-assertions)
+      - [6.1 Assertion model basics](#61-assertion-model-basics)
+      - [6.2 Status-only validation](#62-status-only-validation)
+      - [6.3 Body & header validation](#63-body--header-validation)
+      - [6.4 When to use validate(...) directly](#64-when-to-use-validate-directly)
+      - [6.5 Soft assertions (soft(true))](#65-soft-assertions-softtrue)
     - [Step 7: Authentication (`BaseAuthenticationClient`)](#step-7-authentication-baseauthenticationclient)
+      - [7.1 How authentication is wired](#71-how-authentication-is-wired)
+      - [7.2 Implementing a concrete BaseAuthenticationClient](#72-implementing-a-concrete-baseauthenticationclient)
+      - [7.3 Using authentication in tests](#73-using-authentication-in-tests)
+      - [7.4 Caching vs. re-login](#74-caching-vs-re-login)
 - [Dependencies](#dependencies)
 - [Author](#author)
 
@@ -402,7 +422,7 @@ The enum gives you a fixed, type-safe list of endpoints (e.g. `GET_USER`, `CREAT
 
 ---
 
-#### 3.1 – Basic endpoint enum
+#### 3.1 Basic endpoint enum
 
 Keep the URL as a **clean path** (no base URL, no query params).
 Use `withPathParam(...)`, `withQueryParam(...)` and `withHeader(...)` at call time.
@@ -505,7 +525,7 @@ That entry point is `RestService`.
 
 ---
 
-#### 4.1 – What `RestService` does
+#### 4.1 What `RestService` does
 
 `RestService` is the orchestration layer for HTTP calls and validation. It:
 
@@ -520,9 +540,9 @@ That entry point is `RestService`.
     - `requestAndValidate(endpoint, body, assertions...)`
 ---
 
-#### 4.2 – Plain Java / test setup
+#### 4.2 Plain Java / test setup
 
-In a simple test project (no Spring), you can instantiate `RestService` directly:
+In a simple test project, you can instantiate `RestService` directly:
 
 ```java
 import io.cyborgcode.roa.api.client.RestClientImpl;
@@ -532,14 +552,14 @@ import io.cyborgcode.roa.api.validator.RestResponseValidatorImpl;
 public class ApiTestSupport {
 
     // Reusable RestService instance for your tests
-    private static final RestService restService =
+    private static final RestService REST_SERVICE =
         new RestService(
             new RestClientImpl(),           // HTTP execution (Rest Assured under the hood)
             new RestResponseValidatorImpl() // Assertion engine (status/body/headers)
         );
 
     public static RestService rest() {
-        return restService;
+        return REST_SERVICE;
     }
 }
 ```
@@ -652,7 +672,7 @@ We’ll use these in the examples below.
 
 ---
 
-#### 5.1 – Simple GET request
+#### 5.1 Simple GET request
 
 The simplest usage is a GET request without a body, using a plain `Endpoint<T>` constant.
 
@@ -691,7 +711,7 @@ What happens internally:
 
 ---
 
-#### 5.2 – GET with path/query parameters
+#### 5.2 GET with path/query parameters
 
 To call dynamic URLs or filtered resources, you use `ParametrizedEndpoint<T>` via the
 fluent methods on your endpoint:
@@ -740,7 +760,7 @@ Key points:
 
 ---
 
-#### 5.3 – Simple POST with body
+#### 5.3 Simple POST with body
 
 For POST/PUT/PATCH calls, pass the request body as a second argument. The body can be
 a `Map`, a POJO, or any object supported by Rest Assured serialization.
@@ -798,7 +818,7 @@ class SimplePostTests {
 
 ---
 
-#### 5.4 – Using requestAndValidate for one-shot checks
+#### 5.4 Using requestAndValidate for one-shot checks
 
 Instead of manually asserting on `Response`, you can use `requestAndValidate(...)`
 and the shared assertion layer from `io.cyborgcode.roa:assertions`.
@@ -886,7 +906,7 @@ You decide in your tests **how** to fail (hard vs soft, custom messages, additio
 
 ---
 
-#### 6.1 – Assertion model basics
+#### 6.1 Assertion model basics
 
 Assertions are defined using the fluent `Assertion.builder()` API from the `assertions` module.
 
@@ -929,7 +949,7 @@ At runtime:
 
 ---
 
-#### 6.2 – Status-only validation
+#### 6.2 Status-only validation
 
 A common pattern is to assert only the HTTP status code:
 
@@ -971,7 +991,7 @@ class StatusValidationTests {
 
 ---
 
-#### 6.3 – Body & header validation
+#### 6.3 Body & header validation
 
 You can combine multiple assertions for **status**, **headers**, and **JSON body** in a single call:
 
@@ -1050,7 +1070,7 @@ Key points:
 
 ---
 
-#### 6.4 – When to use `validate(...)` directly
+#### 6.4 When to use `validate(...)` directly
 
 If you already have a `Response` (e.g. you want to do manual checks first or reuse the same response multiple times), you can use `validate(...)` directly:
 
@@ -1109,7 +1129,7 @@ Use `validate(...)` when you need **more control** over when/how you assert
 
 ---
 
-#### 6.5 – Soft assertions (`soft(true)`)
+#### 6.5 Soft assertions (`soft(true)`)
 
 The `Assertion` model also supports a `soft` flag:
 
@@ -1152,7 +1172,7 @@ If your API is **public** or you handle auth in some other way (e.g. static head
 
 ---
 
-#### 7.1 – How authentication is wired
+#### 7.1 How authentication is wired
 
 `RestService` exposes:
 
@@ -1177,7 +1197,7 @@ So **all you need to provide** is: *How do we log in and build the header?* — 
 
 ---
 
-#### 7.2 – Implementing a concrete `BaseAuthenticationClient`
+#### 7.2 Implementing a concrete `BaseAuthenticationClient`
 
 Below is a typical “login-once, reuse token” implementation.
 Assume you have a `LOGIN` endpoint (defined in your `Endpoint<T>` enum) that returns JSON with a `"token"` field.
@@ -1232,7 +1252,7 @@ Key points:
 
 ---
 
-#### 7.3 – Using authentication in tests
+#### 7.3 Using authentication in tests
 
 You normally authenticate once per test class / suite and then call protected endpoints as usual.
 
@@ -1309,7 +1329,7 @@ If your API does **not** require authentication, simply skip the `authenticate(.
 
 ---
 
-#### 7.4 – Caching vs. re-login
+#### 7.4 Caching vs. re-login
 
 `RestService` exposes a `cacheAuthentication` flag:
 
