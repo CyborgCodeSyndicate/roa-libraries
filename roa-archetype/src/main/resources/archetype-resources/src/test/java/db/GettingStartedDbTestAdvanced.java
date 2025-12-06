@@ -22,6 +22,7 @@ import ${package}.db.queries.ExampleDbQueries;
 import java.util.List;
 
 import static ${package}.common.base.Rings.RING_OF_DB;
+import static ${package}.common.base.Rings.RING_OF_CUSTOM;
 import static io.cyborgcode.roa.db.validator.DbAssertionTarget.QUERY_RESULT;
 import static io.cyborgcode.roa.framework.hooks.HookExecution.BEFORE;
 import static io.cyborgcode.roa.validator.core.AssertionTypes.CONTAINS_ALL;
@@ -38,7 +39,7 @@ import static io.cyborgcode.roa.validator.core.AssertionTypes.IS;
         @DbHook(when = BEFORE, type = DbHookFlows.Data.EXAMPLE_INITIALIZE)
 })
 @DisplayName("Getting started DB test class")
-public class GettingStartedDbTest extends BaseQuest {
+public class GettingStartedDbTestAdvanced extends BaseQuest {
 
     @Test
     @Regression
@@ -72,6 +73,15 @@ public class GettingStartedDbTest extends BaseQuest {
                                 .soft(true)
                                 .build()
                 )
+                .complete();
+    }
+
+    @Test
+    @Regression
+    void customFlowDemonstration(Quest quest) {
+
+        quest.use(RING_OF_CUSTOM)
+                // .performExampleFlow(order) add custom flow here
                 .complete();
     }
 }

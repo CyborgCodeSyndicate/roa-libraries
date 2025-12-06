@@ -24,6 +24,7 @@ import ${package}.ui.interceptor.RequestsInterceptor;
 import ${package}.ui.model.ExampleTableModel;
 import ${package}.common.data.creator.DataCreator;
 import ${package}.common.preconditions.Preconditions;
+import static ${package}.common.base.Rings.RING_OF_CUSTOM;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ import static ${package}.common.base.Rings .*;
  */
 @UI
 @DisplayName("Getting started UI test class")
-public class GettingStartedUiTest extends BaseQuest {
+public class GettingStartedUiTestAdvanced extends BaseQuest {
 
     @Test
     @Regression
@@ -95,6 +96,15 @@ public class GettingStartedUiTest extends BaseQuest {
     void createExampleUsingPreconditions(Quest quest) {
         quest.use(RING_OF_UI)
                 .validate(() -> System.out.println("User precondition executed"))
+                .complete();
+    }
+
+    @Test
+    @Regression
+    void customFlowDemonstration(Quest quest) {
+
+        quest.use(RING_OF_CUSTOM)
+                // .performExampleFlow(order) add custom flow here
                 .complete();
     }
 }

@@ -6,7 +6,7 @@ import io.cyborgcode.roa.framework.annotation.Craft;
 import io.cyborgcode.roa.framework.annotation.Journey;
 import io.cyborgcode.roa.framework.annotation.JourneyData;
 import io.cyborgcode.roa.framework.annotation.Regression;
-import io.cyborgcode.roa.framework.base.BaseQuestSequential;
+import io.cyborgcode.roa.framework.base.BaseQuest;
 import io.cyborgcode.roa.framework.parameters.Late;
 import io.cyborgcode.roa.framework.quest.Quest;
 import io.cyborgcode.roa.validator.core.Assertion;
@@ -34,7 +34,7 @@ import static org.apache.http.HttpStatus.SC_CREATED;
  */
 @API
 @DisplayName("Getting started API test class")
-public class GettingStartedApiTestAdvanced extends BaseQuestSequential {
+public class GettingStartedApiTestAdvanced extends BaseQuest {
 
     @Test
     @Regression
@@ -56,6 +56,15 @@ public class GettingStartedApiTestAdvanced extends BaseQuestSequential {
                         secondPayload.create(),
                         Assertion.builder().target(STATUS).type(IS).expected(SC_CREATED).build()
                 )
+                .complete();
+    }
+
+    @Test
+    @Regression
+    void customFlowDemonstration(Quest quest) {
+
+        quest.use(RING_OF_CUSTOM)
+                // .performExampleFlow(order) add custom flow here
                 .complete();
     }
 }

@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import ${package}.api.authentication.ExampleCredentials;
 import ${package}.api.authentication.ExampleAuthenticationClient;
+import static ${package}.common.base.Rings.RING_OF_CUSTOM;
 
 import static ${package}.common.base.Rings.RING_OF_API;
 import static io.cyborgcode.roa.api.validator.RestAssertionTarget.STATUS;
@@ -36,6 +37,15 @@ public class GettingStartedApiTestBasic extends BaseQuest {
                         ExampleEndpoints.EXAMPLE_GET,
                         Assertion.builder().target(STATUS).type(IS).expected(SC_OK).build()
                 )
+                .complete();
+    }
+
+    @Test
+    @Regression
+    void customFlowDemonstration(Quest quest) {
+
+        quest.use(RING_OF_CUSTOM)
+                // .performExampleFlow(order) add custom flow here
                 .complete();
     }
 }

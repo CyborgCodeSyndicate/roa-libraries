@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import ${package}.db.queries.ExampleDbQueries;
 
+import static ${package}.common.base.Rings.RING_OF_CUSTOM;
 import static ${package}.common.base.Rings.RING_OF_DB;
 import static io.cyborgcode.roa.db.validator.DbAssertionTarget.QUERY_RESULT;
 import static io.cyborgcode.roa.validator.core.AssertionTypes.IS;
@@ -39,6 +40,15 @@ public class GettingStartedDbTestBasic extends BaseQuest {
                                 .type(IS)
                                 .build()
                 )
+                .complete();
+    }
+
+    @Test
+    @Regression
+    void customFlowDemonstration(Quest quest) {
+
+        quest.use(RING_OF_CUSTOM)
+                // .performExampleFlow(order) add custom flow here
                 .complete();
     }
 }
