@@ -19,15 +19,19 @@ on:
 permissions:
   contents: write
   packages: write
+  actions: write
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    outputs:
+      next_version: ${{ steps.deploy.outputs.next_version }}
     steps:
       - uses: actions/checkout@v4
 
       - name: Run Deploy pipeline
-        uses: CyborgCodeSyndicate/utilities/pipelines/deploy@v1.3.3
+        id: deploy
+        uses: CyborgCodeSyndicate/utilities/pipelines/deploy@v1.4.1
         with:
           server_ids: github-roa-libraries
           version_bump: ${{ inputs.version_bump || 'none' }}
@@ -37,28 +41,14 @@ jobs:
           github_packages_user: ${{ secrets.GH_PACKAGES_USER }}
           github_packages_token: ${{ secrets.GH_PACKAGES_PAT }}
 
-  publish-test-catalog:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/roa-archetype'
-    needs: []
+      - name: Persist deployed version
+        if: ${{ steps.deploy.outputs.next_version != '' }}
+        run: echo "${{ steps.deploy.outputs.next_version }}" > version.txt
 
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Setup Maven Environment
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
-
-    - name: Run Maven Filtering
-      run: mvn --batch-mode process-resources -f roa-archetype/pom.xml
-
-    - name: Deploy Test Catalog to gh-pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: roa-archetype/target/classes/
-        destination_dir: test/roa-archetype
-        force_orphan: true
+      - name: Upload deployed version artifact
+        if: ${{ steps.deploy.outputs.next_version != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployed-version
+          path: version.txt
+          retention-days: 7
