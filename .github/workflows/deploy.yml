@@ -36,3 +36,29 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           github_packages_user: ${{ secrets.GH_PACKAGES_USER }}
           github_packages_token: ${{ secrets.GH_PACKAGES_PAT }}
+
+  publish-test-catalog:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/roa-archetype'
+    needs: []
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Maven Environment
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Run Maven Filtering
+      run: mvn --batch-mode process-resources -f roa-archetype/pom.xml
+
+    - name: Deploy Test Catalog to gh-pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: roa-archetype/target/classes/
+        destination_dir: test/roa-archetype
+        force_orphan: true
