@@ -20,7 +20,7 @@ def resourcesDir = new File(rootDir, "src/main/resources")
 def configTemplateFile = new File(resourcesDir, "config-template.properties")
 
 println "=== ROA Archetype Post-Generation Script ==="
-println "Input hints -> modules: API,UI,DB (comma-separated). commonFeatures: BASIC or ADVANCED. uiComponents: BUTTON,INPUT,RADIO,SELECT,ALERT,LINK,LIST."
+println "Input hints -> modules: API,UI,DB (comma-separated). commonFeatures: BASIC or ADVANCED. uiComponents: BUTTON,INPUT,SELECT."
 println "Selected modules: ${modulesRaw}"
 println "Root directory: ${rootDir}"
 println "Package path: ${packagePath}"
@@ -43,8 +43,8 @@ if (!commonFeatures || !(commonFeatures in ['BASIC', 'ADVANCED'])) {
 }
 def isBasicCommons = commonFeatures == 'BASIC'
 
-def allowedUiComponents = ['BUTTON','INPUT','RADIO','SELECT','ALERT','LINK','LIST'] as Set
-def selectedUI = allowedUiComponents as List
+def allowedUiComponents = ['BUTTON','INPUT','SELECT'] as Set
+def selectedUI = uiComponents?.split(',')*.trim()*.toUpperCase().findAll { allowedUiComponents.contains(it) } ?: []
 
 def testDataTemplateFile = new File(resourcesDir, "test_data-template.properties")
 
@@ -91,11 +91,7 @@ if (!keepUI) {
     def componentFolders = [
             "BUTTON": ["button"],
             "INPUT" : ["input"],
-            "RADIO" : ["radio"],
-            "SELECT": ["select"],
-            "ALERT" : ["alert"],
-            "LINK"  : ["link"],
-            "LIST"  : ["list"]
+            "SELECT": ["select"]
     ]
 
     def uiBaseMain = new File(rootDir, "src/main/java/${packagePath}/ui")

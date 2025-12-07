@@ -8,9 +8,16 @@ import io.cyborgcode.roa.ui.annotations.UI;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+#set( $ui = $uiComponents.toUpperCase() )
+#if( $ui.contains("BUTTON") )
 import ${package}.ui.elements.ButtonFields;
+#end
+#if( $ui.contains("INPUT") )
 import ${package}.ui.elements.InputFields;
+#end
+#if( $ui.contains("SELECT") )
 import ${package}.ui.elements.SelectFields;
+#end
 
 import static ${package}.common.base.Rings.RING_OF_UI;
 import static ${package}.common.base.Rings.RING_OF_CUSTOM;
@@ -36,9 +43,15 @@ public class GettingStartedUiTestBasic extends BaseQuest {
          */
 //        quest.use(RING_OF_UI)
 //                .getNavigation().navigate(getUiConfig().baseUrl())
+#if( $ui.contains("BUTTON") )
 //                .getButtonField().click(ButtonFields.GENERIC_BUTTON)
+#end
+#if( $ui.contains("INPUT") )
 //                .getInputField().insert(InputFields.GENERIC_INPUT, "example")
+#end
+#if( $ui.contains("SELECT") )
 //                .getSelectField().selectOption(SelectFields.GENERIC_SELECT, "example")
+#end
 //                .complete();
     }
 
