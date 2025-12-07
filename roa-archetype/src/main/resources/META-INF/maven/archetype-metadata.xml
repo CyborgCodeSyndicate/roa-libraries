@@ -8,19 +8,23 @@
     <!-- Required properties -->
     <requiredProperties>
         <requiredProperty key="modules">
-            <defaultValue></defaultValue>
+            <defaultValue>API,UI,DB</defaultValue>
         </requiredProperty>
 
         <requiredProperty key="commonFeatures">
-            <defaultValue></defaultValue>
+            <defaultValue>ADVANCED</defaultValue>
         </requiredProperty>
 
         <requiredProperty key="environments">
-            <defaultValue></defaultValue>
+            <defaultValue>QA,UAT</defaultValue>
         </requiredProperty>
 
         <requiredProperty key="dbType">
-            <defaultValue></defaultValue>
+            <defaultValue>POSTGRES</defaultValue>
+        </requiredProperty>
+
+        <requiredProperty key="uiComponents">
+            <defaultValue>BUTTON,INPUT,SELECT</defaultValue>
         </requiredProperty>
     </requiredProperties>
 
