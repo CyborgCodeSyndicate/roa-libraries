@@ -19,22 +19,22 @@ public class ExampleTableModel {
      * Example text input field.
      * Replace with a real field and element mapping.
      */
-    @InsertionElement(
-            locatorClass = InputFields.class,
-            elementEnum = "EXAMPLE_INPUT",
-            order = 1
-    )
+//    @InsertionElement(
+//            locatorClass = InputFields.class,
+//            elementEnum = "EXAMPLE_INPUT",
+//            order = 1
+//    )
     private String exampleText;
 
     /**
      * Example dropdown/select field.
      * Replace with a real field and element mapping.
      */
-    @InsertionElement(
-            locatorClass = SelectFields.class,
-            elementEnum = "EXAMPLE_DROPDOWN",
-            order = 2
-    )
+//    @InsertionElement(
+//            locatorClass = SelectFields.class,
+//            elementEnum = "EXAMPLE_DROPDOWN",
+//            order = 2
+//    )
     private String exampleSelection;
 
     /**
