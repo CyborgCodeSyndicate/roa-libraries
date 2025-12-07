@@ -5,7 +5,10 @@ def packagePath = request.properties['package'].replace('.', '/')
 def uiComponents = request.properties['uiComponents']
 
 def environmentsRaw = request.properties['environments'] ?: ''
+if (environmentsRaw == 'true') environmentsRaw = ''
+
 def baseUrlsRaw = request.properties['baseUrls'] ?: ''
+if (baseUrlsRaw == 'true') baseUrlsRaw = ''
 def commonFeaturesRaw = request.properties['commonFeatures']
 if (!commonFeaturesRaw || commonFeaturesRaw.trim().isEmpty()) {
     commonFeaturesRaw = 'ADVANCED'
