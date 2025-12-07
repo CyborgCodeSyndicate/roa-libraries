@@ -7,15 +7,25 @@ import io.cyborgcode.roa.ui.components.select.SelectComponentType;
  */
 public enum SelectFieldTypes implements SelectComponentType {
 
-    EXAMPLE_SELECT_TYPE;
+    /**
+     * Example select field type enum.
+     *
+     * <p>TODO: implement your select field type enum here</p>
+     */
+//    EXAMPLE_SELECT_TYPE;
 
-    public static final class Data {
-
-        public static final String EXAMPLE_SELECT = "EXAMPLE_SELECT_TYPE";
-
-        private Data() {
-        }
-    }
+    /**
+     * Example:
+     *
+     * <p>TODO: implement your string identifiers here so they are accessed via ImplementationOfType annotations</p>
+     */
+//    public static final class Data {
+//
+//        public static final String EXAMPLE_SELECT = "EXAMPLE_SELECT_TYPE";
+//
+//        private Data() {
+//        }
+//    }
 
     @Override
     public Enum<?> getType() {

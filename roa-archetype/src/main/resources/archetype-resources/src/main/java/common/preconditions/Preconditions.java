@@ -6,27 +6,39 @@ import io.cyborgcode.roa.framework.quest.SuperQuest;
 import java.util.function.BiConsumer;
 
 /**
- * Example registry of pre-test journeys.
- *
- * <p>Replace these entries with real preconditions required by
- * your application (e.g. logging in, creating test data, preparing state).</p>
+ * Example registry of pre-test journeys.</p>
  */
 public enum Preconditions implements PreQuestJourney<Preconditions> {
 
-    EXAMPLE_PRECONDITION(PreconditionFunctions::examplePrecondition);
+    /**
+     * Example:
+     *
+     * <p>TODO: implement your own precondition enums.</p>
+     */
+//    EXAMPLE_PRECONDITION((quest, objects) -> {});
 
-    public static final class Data {
-        public static final String EXAMPLE_PRECONDITION = "EXAMPLE_PRECONDITION";
+    /**
+     * Example:
+     *
+     * <p>TODO: implement your string identifiers here so they are accessed via PreQuest annotations.</p>
+     */
+//    public static final class Data {
+//        public static final String EXAMPLE_PRECONDITION = "EXAMPLE_PRECONDITION";
+//
+//        private Data() {
+//        }
+//    }
 
-        private Data() {
-        }
-    }
-
-    private final BiConsumer<SuperQuest, Object[]> function;
-
-    Preconditions(BiConsumer<SuperQuest, Object[]> function) {
-        this.function = function;
-    }
+    /**
+     * Example:
+     *
+     * <p>TODO: implement your function and reference it in the enum.</p>
+     */
+//    private final BiConsumer<SuperQuest, Object[]> function;
+//
+//    Preconditions(BiConsumer<SuperQuest, Object[]> function) {
+//        this.function = function;
+//    }
 
     @Override
     public BiConsumer<SuperQuest, Object[]> journey() {

@@ -11,11 +11,15 @@ import org.openqa.selenium.By;
 /**
  * Minimal example implementation of the Input component.
  */
-@ImplementationOfType(InputFieldTypes.Data.EXAMPLE_INPUT)
+//@ImplementationOfType(InputFieldTypes.Data.EXAMPLE_INPUT)
 public class InputExampleImpl extends BaseComponent implements Input {
 
-    private static final By INPUT_SELECTOR = By.tagName("input");
-    private static final String VALUE_ATTR = "value";
+    /**
+     * Example:
+     *
+     * <p>TODO: implement your locator here</p>
+     */
+//    private static final By INPUT_SELECTOR = By.tagName("input");
 
     public InputExampleImpl(SmartWebDriver driver) {
         super(driver);
@@ -33,14 +37,13 @@ public class InputExampleImpl extends BaseComponent implements Input {
 
     @Override
     public void insert(String label, String value) {
-        SmartWebElement input = findByLabel(label);
-        input.clearAndSendKeys(value);
+
     }
 
     @Override
     public void insert(By locator, String value) {
-        SmartWebElement input = driver.findSmartElement(locator);
-        input.clearAndSendKeys(value);
+//        SmartWebElement input = driver.findSmartElement(locator);
+//        input.clearAndSendKeys(value);
     }
 
     @Override
@@ -55,8 +58,7 @@ public class InputExampleImpl extends BaseComponent implements Input {
 
     @Override
     public void clear(String label) {
-        SmartWebElement input = findByLabel(label);
-        input.clear();
+
     }
 
     @Override
@@ -76,8 +78,7 @@ public class InputExampleImpl extends BaseComponent implements Input {
 
     @Override
     public String getValue(String label) {
-        SmartWebElement input = findByLabel(label);
-        return input.getDomAttribute(VALUE_ATTR);
+        return null;
     }
 
     @Override
@@ -97,8 +98,7 @@ public class InputExampleImpl extends BaseComponent implements Input {
 
     @Override
     public boolean isEnabled(String label) {
-        SmartWebElement input = findByLabel(label);
-        return input.isEnabled();
+        return false;
     }
 
     @Override
@@ -124,22 +124,5 @@ public class InputExampleImpl extends BaseComponent implements Input {
     @Override
     public String getErrorMessage(By inputFieldContainerLocator) {
         return "";
-    }
-
-    private SmartWebElement findFirstInput() {
-        return driver.findSmartElements(INPUT_SELECTOR).stream()
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("No <input> elements found"));
-    }
-
-    private SmartWebElement findByLabel(String labelText) {
-        return driver.findSmartElements(INPUT_SELECTOR).stream()
-                .filter(e -> {
-                    SmartWebElement label = e.findSmartElement(By.tagName("label"));
-                    return label != null && label.getText().trim().equalsIgnoreCase(labelText);
-                })
-                .findFirst()
-                .orElseThrow(() ->
-                        new RuntimeException("Input field with label '" + labelText + "' not found"));
     }
 }

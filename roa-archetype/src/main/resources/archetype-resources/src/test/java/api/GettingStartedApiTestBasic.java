@@ -19,7 +19,7 @@ import static io.cyborgcode.roa.validator.core.AssertionTypes.IS;
 import static org.apache.http.HttpStatus.SC_OK;
 
 /**
- * Getting started API test (basic template).
+ * Getting started API test.
  *
  * <p>Minimal example showing auth + request + status assertion.
  * Replace the endpoint, auth, and assertions with your application's needs.</p>
@@ -31,21 +31,32 @@ public class GettingStartedApiTestBasic extends BaseQuest {
     @Regression
     @AuthenticateViaApi(credentials = ExampleCredentials.class, type = ExampleAuthenticationClient.class)
     @Description("Basic API flow")
-    void apiUsingAuthenticateViaApi(Quest quest) {
-        quest.use(RING_OF_API)
-                .requestAndValidate(
-                        ExampleEndpoints.EXAMPLE_GET,
-                        Assertion.builder().target(STATUS).type(IS).expected(SC_OK).build()
-                )
-                .complete();
+    void exampleAPITest(Quest quest) {
+
+        /**
+         * Example:
+         *
+         * <p>TODO: implement your API test here</p>
+         */
+//        quest.use(RING_OF_API)
+//                .requestAndValidate(
+//                        ExampleEndpoints.EXAMPLE_GET,
+//                        Assertion.builder().target(STATUS).type(IS).expected(SC_OK).build()
+//                )
+//                .complete();
     }
 
     @Test
     @Regression
     void customFlowDemonstration(Quest quest) {
 
-        quest.use(RING_OF_CUSTOM)
-                // .performExampleFlow(order) add custom flow here
-                .complete();
+        /**
+         * Example:
+         *
+         * <p>TODO: implement your custom flow here</p>
+         */
+//        quest.use(RING_OF_CUSTOM)
+//                // .performExampleFlow(order) add custom flow here
+//                .complete();
     }
 }

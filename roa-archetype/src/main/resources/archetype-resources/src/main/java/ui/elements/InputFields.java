@@ -21,11 +21,6 @@ public enum InputFields implements InputUiElement {
             InputFieldTypes.EXAMPLE_INPUT_TYPE,
             SharedUi.WAIT_FOR_PRESENCE,
             SharedUi.WAIT_FOR_LOADING
-    ),
-
-    USERNAME_INPUT(
-            By.cssSelector("input[name='username']"),
-            InputFieldTypes.EXAMPLE_INPUT_TYPE
     );
 
     private final By locator;

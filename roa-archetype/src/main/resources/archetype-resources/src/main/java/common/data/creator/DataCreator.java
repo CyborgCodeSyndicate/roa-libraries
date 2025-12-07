@@ -5,39 +5,46 @@ import io.cyborgcode.roa.framework.parameters.Late;
 
 /**
  * Registry of reusable test data factories.
- *
- * <p>Each enum constant represents a named data model that can be referenced from
- * ROA annotations such as {@code @Craft} or {@code @Journey}. The corresponding
- * {@link Late} supplier is implemented in {@link DataCreatorFunctions} and should
- * return domain objects or primitive data structures relevant to your application.</p>
- *
- * <p>This file provides generic examples only. Replace or extend the entries
- * based on your application's needs.</p>
  */
 public enum DataCreator implements DataForge<DataCreator> {
 
-    EXAMPLE_MODEL(DataCreatorFunctions::createExampleModel),
-    EXAMPLE_TABLE_MODEL(DataCreatorFunctions::createExampleTableModel);
+    /**
+     * Example data creator enum.
+     *
+     * <p>TODO: implement your data creator enum here by adding your late objects to the enum</p>
+     */
+//    EXAMPLE_MODEL(() -> null),
+//    EXAMPLE_TABLE_MODEL(() -> null);
 
+    /**
+     * Example:
+     *
+     * <p>TODO: implement your string identifiers here so they are accessed via Craft annotations</p>
+     */
+//    public static final class Data {
+//
+//        public static final String EXAMPLE_MODEL = "EXAMPLE_MODEL";
+//        public static final String EXAMPLE_TABLE_MODEL = "EXAMPLE_TABLE_MODEL";
+//
+//        private Data() {
+//        }
+//    }
 
-    public static final class Data {
-
-        public static final String EXAMPLE_MODEL = "EXAMPLE_MODEL";
-        public static final String EXAMPLE_TABLE_MODEL = "EXAMPLE_TABLE_MODEL";
-
-        private Data() {
-        }
-    }
-
-    private final Late<Object> createDataFunction;
-
-    DataCreator(final Late<Object> createDataFunction) {
-        this.createDataFunction = createDataFunction;
-    }
+    /**
+     * Example:
+     *
+     * <p>TODO: implement your function here and reference it in the enum</p>
+     */
+//    private final Late<Object> createDataFunction;
+//
+//    DataCreator(final Late<Object> createDataFunction) {
+//        this.createDataFunction = createDataFunction;
+//    }
 
     @Override
     public Late<Object> dataCreator() {
-        return createDataFunction;
+//        return createDataFunction;
+        return null;
     }
 
     @Override

@@ -4,10 +4,6 @@ import io.cyborgcode.roa.db.query.DbQuery;
 
 /**
  * Example database query definitions.
- *
- * <p>Replace these example entries with real SQL queries relevant to your application.
- * This file demonstrates how to define {@link DbQuery} enums for use in
- * DatabaseService operations.</p>
  */
 public enum ExampleDbQueries implements DbQuery<ExampleDbQueries> {
 

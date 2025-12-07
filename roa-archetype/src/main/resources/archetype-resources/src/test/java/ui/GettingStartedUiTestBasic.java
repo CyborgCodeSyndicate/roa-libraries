@@ -27,21 +27,32 @@ public class GettingStartedUiTestBasic extends BaseQuest {
     @Test
     @Regression
     @Description("Basic UI flow")
-    void createExampleUsingRawValues(Quest quest) {
-        quest.use(RING_OF_UI)
-                .browser().navigate(getUiConfig().baseUrl())
-                .input().insert(InputFields.GENERIC_INPUT, "example")
-                .button().click(ButtonFields.GENERIC_BUTTON)
-                .select().selectOption(SelectFields.GENERIC_SELECT, "Option 1")
-                .complete();
+    void exampleUITest(Quest quest) {
+
+        /**
+         * Example:
+         *
+         * <p>TODO: implement your UI test here</p>
+         */
+//        quest.use(RING_OF_UI)
+//                .browser().navigate(getUiConfig().baseUrl())
+//                .input().insert(InputFields.GENERIC_INPUT, "example")
+//                .button().click(ButtonFields.GENERIC_BUTTON)
+//                .select().selectOption(SelectFields.GENERIC_SELECT, "Option 1")
+//                .complete();
     }
 
     @Test
     @Regression
     void customFlowDemonstration(Quest quest) {
 
-        quest.use(RING_OF_CUSTOM)
-                // .performExampleFlow(order) add custom flow here
-                .complete();
+        /**
+         * Example:
+         *
+         * <p>TODO: implement your custom flow here</p>
+         */
+//        quest.use(RING_OF_CUSTOM)
+//                // .performExampleFlow(order) add custom flow here
+//                .complete();
     }
 }

@@ -5,6 +5,11 @@ import io.cyborgcode.roa.db.config.DbType;
 import java.sql.Driver;
 import java.sql.SQLException;
 
+/**
+ *
+ * TODO: implement your database enum here by adding your database types to the enum
+ *
+ */
 public enum Databases implements DbType<Databases> {
 
 #if ( $dbType.equalsIgnoreCase("H2") || $dbType == ""  || $dbType == "/" )

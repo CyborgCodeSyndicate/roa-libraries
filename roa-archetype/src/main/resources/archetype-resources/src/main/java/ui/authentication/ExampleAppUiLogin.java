@@ -29,6 +29,7 @@ public class ExampleAppUiLogin extends BaseLoginClient {
     @Override
     protected By successfulLoginElementLocator() {
         // TODO: Replace with an actual locator that appears after successful login
-        return By.cssSelector("body");
+//        return By.cssSelector("body");
+        return null;
     }
 }

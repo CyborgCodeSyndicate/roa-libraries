@@ -14,11 +14,6 @@ public enum SelectFields implements SelectUiElement {
     GENERIC_SELECT(
             By.cssSelector("select"),
             SelectFieldTypes.EXAMPLE_SELECT_TYPE
-    ),
-
-    COUNTRY_SELECT(
-            By.cssSelector("select[name='country']"),
-            SelectFieldTypes.EXAMPLE_SELECT_TYPE
     );
 
     private final By locator;

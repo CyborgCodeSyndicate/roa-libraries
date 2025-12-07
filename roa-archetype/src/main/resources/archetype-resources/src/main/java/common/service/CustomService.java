@@ -5,13 +5,6 @@ import io.cyborgcode.roa.framework.chain.FluentService;
 
 /**
  * Custom high-level service for application-specific actions.
- *
- * <p>This service is intended to encapsulate reusable business flows
- * that orchestrate multiple rings (UI, API, DB) in a readable way.
- *
- * <p>Replace the example methods with real flows needed for your application.
- * Tests can access this service with:
- *
  * <pre>{@code
  * quest.use(RING_OF_CUSTOM).exampleFlow();
  * }</pre>

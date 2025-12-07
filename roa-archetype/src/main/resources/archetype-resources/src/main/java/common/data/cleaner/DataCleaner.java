@@ -7,48 +7,44 @@ import java.util.function.Consumer;
 
 /**
  * Defines reusable cleanup (data ripping) operations for your test suite.
- *
- * <p>This enum integrates with ROA's {@code @Ripper} mechanism via {@link DataRipper}:
- * each constant maps to a function executed after a test completes,
- * allowing you to centralize teardown logic such as deleting test data
- * or resetting application state.</p>
- *
- * <p>The nested {@link Data} class exposes string keys that can be referenced
- * directly from test annotations, ensuring a clear contract between tests
- * and the cleanup logic.</p>
- *
- * <p>Feel free to add more cleanup operations based on your application's needs.</p>
  */
 public enum DataCleaner implements DataRipper<DataCleaner> {
 
     /**
-     * Example cleanup operation.
+     * Example data cleaner enum:
      *
-     * <p>Update the implementation inside {@link DataCleanerFunctions#exampleCleanup(SuperQuest)}
-     * to match your application's teardown logic.</p>
+     * <p>TODO: implement your data cleaner enum here by adding your cleanup functions to the enum</p>
      */
-    EXAMPLE_CLEANUP(DataCleanerFunctions::exampleCleanup);
+//    EXAMPLE_CLEANUP(quest -> {});
 
     /**
-     * String identifiers that can be referenced from @Ripper annotations.
+     * Example:
+     *
+     * <p>TODO: implement your string identifiers here so they are accessed via Ripper annotations</p>
      */
-    public static final class Data {
+//    public static final class Data {
+//
+//        private Data() {
+//        }
+//
+//        public static final String EXAMPLE_CLEANUP = "EXAMPLE_CLEANUP";
+//    }
 
-        private Data() {
-        }
-
-        public static final String EXAMPLE_CLEANUP = "EXAMPLE_CLEANUP";
-    }
-
-    private final Consumer<SuperQuest> cleanUpFunction;
-
-    DataCleaner(final Consumer<SuperQuest> cleanUpFunction) {
-        this.cleanUpFunction = cleanUpFunction;
-    }
+    /**
+     * Example:
+     *
+     * <p>TODO: implement your consumer and reference it in the enum</p>
+     */
+//    private final Consumer<SuperQuest> cleanUpFunction;
+//
+//    DataCleanerTest(final Consumer<SuperQuest> cleanUpFunction) {
+//        this.cleanUpFunction = cleanUpFunction;
+//    }
 
     @Override
     public Consumer<SuperQuest> eliminate() {
-        return cleanUpFunction;
+//        return cleanUpFunction;
+        return null;
     }
 
     @Override

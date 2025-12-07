@@ -6,15 +6,11 @@ import org.aeonbits.owner.Config;
 /**
  * Strongly-typed configuration interface for test data.
  *
- * <p>This definition is intentionally generic. Add or replace methods to match
- * your application's test data needs.</p>
- *
  * <p>Values are loaded from:
  * <ul>
  *   <li>System properties</li>
  *   <li>{@code ${test.data.file}.properties} on the classpath</li>
- * </ul>
- * following OWNER's merge policy.</p>
+ * </ul></p>
  */
 @Config.LoadPolicy(Config.LoadType.MERGE)
 @Config.Sources({

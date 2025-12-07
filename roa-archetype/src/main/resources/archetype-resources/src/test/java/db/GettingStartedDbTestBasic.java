@@ -19,7 +19,7 @@ import static io.cyborgcode.roa.db.validator.DbAssertionTarget.QUERY_RESULT;
 import static io.cyborgcode.roa.validator.core.AssertionTypes.IS;
 
 /**
- * Getting started DB test (basic template).
+ * Getting started DB test.
  *
  * <p>Minimal example showing a query and a single assertion.
  * Replace the query and expected values with your application's needs.</p>
@@ -31,24 +31,35 @@ public class GettingStartedDbTestBasic extends BaseQuest {
     @Regression
     @Description("Basic DB flow")
     void basicDbQuery(Quest quest) {
-        quest.use(RING_OF_DB)
-                .query(ExampleDbQueries.SIMPLE_QUERY)
-                .validate(retrieve(StorageKeysDb.DB, ExampleDbQueries.SIMPLE_QUERY, QueryResponse.class),
-                        Assertion.builder()
-                                .target(QUERY_RESULT)
-                                .expected(true)
-                                .type(IS)
-                                .build()
-                )
-                .complete();
+
+        /**
+         * Example:
+         *
+         * <p>TODO: implement your DB test here</p>
+         */
+//        quest.use(RING_OF_DB)
+//                .query(ExampleDbQueries.SIMPLE_QUERY)
+//                .validate(retrieve(StorageKeysDb.DB, ExampleDbQueries.SIMPLE_QUERY, QueryResponse.class),
+//                        Assertion.builder()
+//                                .target(QUERY_RESULT)
+//                                .expected(true)
+//                                .type(IS)
+//                                .build()
+//                )
+//                .complete();
     }
 
     @Test
     @Regression
     void customFlowDemonstration(Quest quest) {
 
-        quest.use(RING_OF_CUSTOM)
-                // .performExampleFlow(order) add custom flow here
-                .complete();
+        /**
+         * Example:
+         *
+         * <p>TODO: implement your custom flow here</p>
+         */
+//        quest.use(RING_OF_CUSTOM)
+//                // .performExampleFlow(order) add custom flow here
+//                .complete();
     }
 }

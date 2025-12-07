@@ -7,18 +7,25 @@ import io.cyborgcode.roa.ui.components.button.ButtonComponentType;
  */
 public enum ButtonFieldTypes implements ButtonComponentType {
 
-    EXAMPLE_BUTTON_TYPE;
+    /**
+     * Example button field type enum.
+     *
+     * <p>TODO: implement your button field type enum here</p>
+     */
+//    EXAMPLE_BUTTON_TYPE;
 
     /**
-     * String identifiers used by @ImplementationOfType annotations.
+     * Example:
+     *
+     * <p>TODO: implement your string identifiers here so they are accessed via ImplementationOfType annotations</p>
      */
-    public static final class Data {
-
-        public static final String EXAMPLE_BUTTON = "EXAMPLE_BUTTON_TYPE";
-
-        private Data() {
-        }
-    }
+//    public static final class Data {
+//
+//        public static final String EXAMPLE_BUTTON = "EXAMPLE_BUTTON_TYPE";
+//
+//        private Data() {
+//        }
+//    }
 
     @Override
     public Enum<?> getType() {

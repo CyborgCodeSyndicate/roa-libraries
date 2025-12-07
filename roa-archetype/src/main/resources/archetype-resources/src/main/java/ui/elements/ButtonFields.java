@@ -21,13 +21,6 @@ public enum ButtonFields implements ButtonUiElement {
             By.cssSelector("button"),
             ButtonFieldTypes.EXAMPLE_BUTTON_TYPE,
             SharedUi.WAIT_FOR_LOADING
-    ),
-
-    SUBMIT_BUTTON(
-            By.cssSelector("button[type='submit']"),
-            ButtonFieldTypes.EXAMPLE_BUTTON_TYPE,
-            SharedUi.WAIT_TO_BE_CLICKABLE,
-            ButtonFields::waitForPresence
     );
 
     private final By locator;

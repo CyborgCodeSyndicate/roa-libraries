@@ -7,17 +7,6 @@ import lombok.*;
 
 /**
  * Example domain model demonstrating ROA automatic UI form insertion.
- *
- * <p>This class is part of the archetype template. Replace the fields and the
- * {@link InsertionElement} mappings with your real application's data model.</p>
- *
- * <p>When used with:</p>
- * <pre>{@code
- * quest.use(RING_OF_UI).insertion().insertData(order);
- * }</pre>
- * <p>
- * ROA will automatically fill all annotated fields into the corresponding
- * UI elements in the specified order.
  */
 @NoArgsConstructor
 @AllArgsConstructor

@@ -8,31 +8,18 @@
     <!-- Required properties -->
     <requiredProperties>
         <requiredProperty key="modules">
-
             <defaultValue></defaultValue>
         </requiredProperty>
+
         <requiredProperty key="commonFeatures">
-
             <defaultValue></defaultValue>
         </requiredProperty>
+
         <requiredProperty key="environments">
-
             <defaultValue></defaultValue>
         </requiredProperty>
-        <requiredProperty key="browserType">
 
-            <defaultValue>CHROME</defaultValue>
-        </requiredProperty>
-        <requiredProperty key="headless">
-
-            <defaultValue>true</defaultValue>
-        </requiredProperty>
-        <requiredProperty key="baseUrls">
-
-            <defaultValue>https://example.com</defaultValue>
-        </requiredProperty>
         <requiredProperty key="dbType">
-
             <defaultValue></defaultValue>
         </requiredProperty>
     </requiredProperties>

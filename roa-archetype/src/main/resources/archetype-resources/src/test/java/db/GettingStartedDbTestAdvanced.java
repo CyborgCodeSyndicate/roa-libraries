@@ -14,9 +14,6 @@ import org.junit.jupiter.api.Test;
 import io.qameta.allure.Description;
 import org.junit.jupiter.api.DisplayName;
 
-import ${package}.api.dto.request.ExampleRequestDto;
-import ${package}.db.extractors.DbResponsesJsonPaths;
-import ${package}.db.hooks.DbHookFlows;
 import ${package}.db.queries.ExampleDbQueries;
 
 import java.util.List;
@@ -29,59 +26,54 @@ import static io.cyborgcode.roa.validator.core.AssertionTypes.CONTAINS_ALL;
 import static io.cyborgcode.roa.validator.core.AssertionTypes.IS;
 
 /**
- * Getting started DB test (advanced template).
+ * Getting started DB test.
  *
- * <p>Demonstrates hooks and chained validations with a single example model.
- * Replace the query, hooks, and validations with your real DB logic.</p>
+ * <p>Minimal example showing a query and a single assertion.
+ * Replace the query and expected values with your application's needs.</p>
  */
 @DB
-@DbHooks({
-        @DbHook(when = BEFORE, type = DbHookFlows.Data.EXAMPLE_INITIALIZE)
-})
 @DisplayName("Getting started DB test class")
 public class GettingStartedDbTestAdvanced extends BaseQuest {
 
     @Test
     @Regression
     @Description("Database usage with a hook and simple validation")
-    void createOrderDatabaseValidation(Quest quest) {
+    void exampleDBTest(Quest quest) {
 
-        ExampleRequestDto example = ExampleRequestDto.builder()
-                .name("Example Name")
-                .job("Example Role")
-                .build();
-
-        quest
-                .use(RING_OF_DB)
-                .validate(() -> System.out.println("Replace with your custom flow, example: " + example))
-                .drop()
-                .use(RING_OF_DB)
-                .query(ExampleDbQueries.SIMPLE_QUERY.withParam("id", 1))
-                .validate(retrieve(StorageKeysDb.DB, ExampleDbQueries.SIMPLE_QUERY, QueryResponse.class),
-                        Assertion.builder()
-                                .target(QUERY_RESULT)
-                                .key(DbResponsesJsonPaths.PRODUCT_BY_ID.getJsonPath(1))
-                                .type(CONTAINS_ALL)
-                                .expected(List.of(example.getName()))
-                                .soft(true)
-                                .build(),
-                        Assertion.builder()
-                                .target(QUERY_RESULT)
-                                .key(DbResponsesJsonPaths.LOCATION_BY_ID.getJsonPath(1))
-                                .type(IS)
-                                .expected("REPLACE_WITH_LOCATION")
-                                .soft(true)
-                                .build()
-                )
-                .complete();
+        /**
+         * Example:
+         *
+         * <p>TODO: implement your DB test here</p>
+         */
+//        quest
+//                .use(RING_OF_DB)
+//                .validate(() -> System.out.println("Replace with your custom flow, example: " + example))
+//                .drop()
+//                .use(RING_OF_DB)
+//                .query(ExampleDbQueries.SIMPLE_QUERY.withParam("id", 1))
+//                .validate(retrieve(StorageKeysDb.DB, ExampleDbQueries.SIMPLE_QUERY, QueryResponse.class),
+//                        Assertion.builder()
+//                                .target(QUERY_RESULT)
+//                                .key("$[?(@.id == %d)].example")
+//                                .type(CONTAINS_ALL)
+//                                .expected(List.of(example.getName()))
+//                                .soft(true)
+//                                .build()
+//                )
+//                .complete();
     }
 
     @Test
     @Regression
     void customFlowDemonstration(Quest quest) {
 
-        quest.use(RING_OF_CUSTOM)
-                // .performExampleFlow(order) add custom flow here
-                .complete();
+        /**
+         * Example:
+         *
+         * <p>TODO: implement your custom flow here</p>
+         */
+//        quest.use(RING_OF_CUSTOM)
+//                // .performExampleFlow(order) add custom flow here
+//                .complete();
     }
 }
