@@ -12,7 +12,7 @@ public enum ButtonFieldTypes implements ButtonComponentType {
      *
      * <p>TODO: implement your button field type enum here</p>
      */
-//    EXAMPLE_BUTTON_TYPE;
+    EXAMPLE_BUTTON_TYPE;
 
     /**
      * Example:

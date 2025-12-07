@@ -8,14 +8,14 @@ import java.util.function.Consumer;
 import org.openqa.selenium.By;
 
 /**
- * These functions integrate with ROA's {@link ContextConsumer} pattern, allowing them
- * to be passed as {@code Consumer<SmartWebDriver>} to element hooks, ensuring proper
- * synchronization with dynamic UI behavior.
- * </p>
+ * Shared UI functions.
  */
 public enum SharedUi {
 
-    WAIT_FOR_TIMEOUT((driver, by) -> SharedUiFunctions.waitForTimeout(driver));
+    /**
+     * Example function.
+     */
+    EXAMPLE_FUNCTION((driver, by) -> {});
 
     private final BiConsumer<SmartWebDriver, By> function;
 

@@ -85,6 +85,4 @@ public class SelectExampleImpl extends BaseComponent implements Select {
     public boolean isOptionEnabled(SmartWebElement container, String value) {
         return false;
     }
-        return false;
-    }
 }

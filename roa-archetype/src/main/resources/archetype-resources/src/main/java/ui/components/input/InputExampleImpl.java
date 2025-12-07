@@ -83,7 +83,7 @@ public class InputExampleImpl extends BaseComponent implements Input {
 
     @Override
     public String getValue(By locator) {
-        return driver.findSmartElement(locator).getDomAttribute(VALUE_ATTR);
+        return "";
     }
 
     @Override

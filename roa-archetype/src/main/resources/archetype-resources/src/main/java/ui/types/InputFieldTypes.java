@@ -12,7 +12,7 @@ public enum InputFieldTypes implements InputComponentType {
      *
      * <p>TODO: implement your input field type enum here</p>
      */
-//    EXAMPLE_INPUT_TYPE;
+    EXAMPLE_INPUT_TYPE;
 
     /**
      * Example:

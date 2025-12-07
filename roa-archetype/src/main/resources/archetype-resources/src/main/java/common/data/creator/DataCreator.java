@@ -14,7 +14,7 @@ public enum DataCreator implements DataForge<DataCreator> {
      * <p>TODO: implement your data creator enum here by adding your late objects to the enum</p>
      */
 //    EXAMPLE_MODEL(() -> null),
-//    EXAMPLE_TABLE_MODEL(() -> null);
+    EXAMPLE_TABLE_MODEL(() -> null);
 
     /**
      * Example:
@@ -35,11 +35,11 @@ public enum DataCreator implements DataForge<DataCreator> {
      *
      * <p>TODO: implement your function here and reference it in the enum</p>
      */
-//    private final Late<Object> createDataFunction;
-//
-//    DataCreator(final Late<Object> createDataFunction) {
-//        this.createDataFunction = createDataFunction;
-//    }
+    private final Late<Object> createDataFunction;
+
+    DataCreator(final Late<Object> createDataFunction) {
+        this.createDataFunction = createDataFunction;
+    }
 
     @Override
     public Late<Object> dataCreator() {

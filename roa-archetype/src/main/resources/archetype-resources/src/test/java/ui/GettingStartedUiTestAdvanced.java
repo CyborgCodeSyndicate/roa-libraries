@@ -59,10 +59,11 @@ public class GettingStartedUiTestAdvanced extends BaseQuest {
          * <p>TODO: implement your UI test here</p>
          */
 //        quest.use(RING_OF_UI)
-//                .browser().navigate(getUiConfig().baseUrl())
-//                .input().insert(InputFields.GENERIC_INPUT, "example")
-//                .input().insert(InputFields.GENERIC_INPUT, model.getExampleText())
-//                .select().selectOption(SelectFields.GENERIC_SELECT, model.getExampleSelection())
+//                .getNavigation().navigate(getUiConfig().baseUrl())
+//                .getButtonField().click(ButtonFields.GENERIC_BUTTON)
+//                .getInputField().insert(InputFields.GENERIC_INPUT, "example")
+//                .getSelectField().selectOption(SelectFields.GENERIC_SELECT, "example")
+//                .getSelectField().selectOption(SelectFields.GENERIC_SELECT, model.getExampleSelection())
 //                .validate(() -> Assertions.assertEquals(List.of(""),
 //                        retrieve(DataExtractorFunctions
 //                                        .responseBodyExtraction(RequestsInterceptor.EXAMPLE_INTERCEPT.getEndpointSubString(),

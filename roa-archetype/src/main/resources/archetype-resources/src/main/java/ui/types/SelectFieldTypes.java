@@ -12,7 +12,7 @@ public enum SelectFieldTypes implements SelectComponentType {
      *
      * <p>TODO: implement your select field type enum here</p>
      */
-//    EXAMPLE_SELECT_TYPE;
+    EXAMPLE_SELECT_TYPE;
 
     /**
      * Example:

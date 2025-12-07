@@ -15,7 +15,7 @@ public enum Preconditions implements PreQuestJourney<Preconditions> {
      *
      * <p>TODO: implement your own precondition enums.</p>
      */
-//    EXAMPLE_PRECONDITION((quest, objects) -> {});
+    EXAMPLE_PRECONDITION((quest, objects) -> {});
 
     /**
      * Example:
@@ -34,11 +34,11 @@ public enum Preconditions implements PreQuestJourney<Preconditions> {
      *
      * <p>TODO: implement your function and reference it in the enum.</p>
      */
-//    private final BiConsumer<SuperQuest, Object[]> function;
-//
-//    Preconditions(BiConsumer<SuperQuest, Object[]> function) {
-//        this.function = function;
-//    }
+    private final BiConsumer<SuperQuest, Object[]> function;
+
+    Preconditions(BiConsumer<SuperQuest, Object[]> function) {
+        this.function = function;
+    }
 
     @Override
     public BiConsumer<SuperQuest, Object[]> journey() {

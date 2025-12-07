@@ -15,7 +15,7 @@ public enum DataCleaner implements DataRipper<DataCleaner> {
      *
      * <p>TODO: implement your data cleaner enum here by adding your cleanup functions to the enum</p>
      */
-//    EXAMPLE_CLEANUP(quest -> {});
+    EXAMPLE_CLEANUP(quest -> {});
 
     /**
      * Example:
@@ -35,11 +35,11 @@ public enum DataCleaner implements DataRipper<DataCleaner> {
      *
      * <p>TODO: implement your consumer and reference it in the enum</p>
      */
-//    private final Consumer<SuperQuest> cleanUpFunction;
-//
-//    DataCleanerTest(final Consumer<SuperQuest> cleanUpFunction) {
-//        this.cleanUpFunction = cleanUpFunction;
-//    }
+    private final Consumer<SuperQuest> cleanUpFunction;
+
+    DataCleaner(Consumer<SuperQuest> cleanUpFunction) {
+        this.cleanUpFunction = cleanUpFunction;
+    }
 
     @Override
     public Consumer<SuperQuest> eliminate() {

@@ -35,10 +35,10 @@ public class GettingStartedUiTestBasic extends BaseQuest {
          * <p>TODO: implement your UI test here</p>
          */
 //        quest.use(RING_OF_UI)
-//                .browser().navigate(getUiConfig().baseUrl())
-//                .input().insert(InputFields.GENERIC_INPUT, "example")
-//                .button().click(ButtonFields.GENERIC_BUTTON)
-//                .select().selectOption(SelectFields.GENERIC_SELECT, "Option 1")
+//                .getNavigation().navigate(getUiConfig().baseUrl())
+//                .getButtonField().click(ButtonFields.GENERIC_BUTTON)
+//                .getInputField().insert(InputFields.GENERIC_INPUT, "example")
+//                .getSelectField().selectOption(SelectFields.GENERIC_SELECT, "example")
 //                .complete();
     }
 

@@ -11,7 +11,7 @@ import io.cyborgcode.roa.db.service.fluent.DatabaseServiceFluent;
 import io.cyborgcode.roa.framework.quest.Quest;
 import ${package}.common.service.CustomService;
 #if($mods.contains("UI"))
-import ${package}.ui.AppUiService;
+import io.cyborgcode.roa.ui.service.fluent.UiServiceFluent;
 #end
 import lombok.experimental.UtilityClass;
 
@@ -50,7 +50,7 @@ public class Rings {
 #end
 
 #if($mods.contains("UI"))
-    public static final Class<AppUiService> RING_OF_UI = AppUiService.class;
+    public static final Class<UiServiceFluent> RING_OF_UI = UiServiceFluent.class;
 #end
     public static final Class<CustomService> RING_OF_CUSTOM = CustomService.class;
 
