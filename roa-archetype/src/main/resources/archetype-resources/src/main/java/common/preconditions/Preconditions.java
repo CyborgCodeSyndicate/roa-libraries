@@ -42,11 +42,13 @@ public enum Preconditions implements PreQuestJourney<Preconditions> {
 
     @Override
     public BiConsumer<SuperQuest, Object[]> journey() {
-        return function;
+//        return function;
+        return null;
     }
 
     @Override
     public Preconditions enumImpl() {
-        return this;
+//        return this;
+        return null;
     }
 }

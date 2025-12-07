@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 
 import io.qameta.allure.Description;
 
-import ${package}.common.data.extractor.DataExtractorFunctions;
 import ${package}.ui.elements.ButtonFields;
 import ${package}.ui.elements.InputFields;
 import ${package}.ui.elements.SelectFields;
@@ -46,13 +45,13 @@ public class GettingStartedUiTestAdvanced extends BaseQuest {
     @Description("Using automatic UI authentication through @AuthenticateViaUi and combining journeys/preconditions" +
             " and crafted data")
     @AuthenticateViaUi(credentials = ExampleCredentials.class, type = ExampleAppUiLogin.class)
-    @Journey(
-            value = Preconditions.Data.EXAMPLE_PRECONDITION,
+    @Journey("" //implement your journey here
+            /*value = Preconditions.Data.EXAMPLE_PRECONDITION,
             journeyData = {@JourneyData(DataCreator.Data.EXAMPLE_TABLE_MODEL)},
-            order = 1
+            order = 1*/
     )
-    void exampleUITest(Quest quest,
-                                    @Craft(model = DataCreator.Data.EXAMPLE_TABLE_MODEL) ExampleTableModel model) {
+    void exampleUITest(Quest quest //implement your data creator here
+                                    /*,@Craft(model = DataCreator.Data.EXAMPLE_TABLE_MODEL) ExampleTableModel model*/) {
 
         /**
          * Example:

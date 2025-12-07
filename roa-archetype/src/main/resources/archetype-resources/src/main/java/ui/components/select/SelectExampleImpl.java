@@ -73,18 +73,18 @@ public class SelectExampleImpl extends BaseComponent implements Select {
 
     @Override
     public boolean isOptionEnabled(By locator, String visibleText) {
-        return null;
+        return false;
     }
 
     @Override
     public boolean isOptionVisible(By locator, String visibleText) {
-        return null;
+        return false;
     }
 
     @Override
     public boolean isOptionEnabled(SmartWebElement container, String value) {
         return false;
     }
-        return null;
+        return false;
     }
 }

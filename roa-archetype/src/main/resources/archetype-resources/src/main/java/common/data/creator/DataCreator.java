@@ -49,6 +49,7 @@ public enum DataCreator implements DataForge<DataCreator> {
 
     @Override
     public DataCreator enumImpl() {
-        return this;
+//        return this;
+        return null;
     }
 }

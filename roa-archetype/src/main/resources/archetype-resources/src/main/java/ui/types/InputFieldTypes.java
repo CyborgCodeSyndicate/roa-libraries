@@ -29,6 +29,7 @@ public enum InputFieldTypes implements InputComponentType {
 
     @Override
     public Enum<?> getType() {
-        return this;
+//        return this;
+        return null;
     }
 }

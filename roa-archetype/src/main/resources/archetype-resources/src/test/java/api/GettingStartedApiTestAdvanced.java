@@ -40,10 +40,11 @@ public class GettingStartedApiTestAdvanced extends BaseQuest {
     @Regression
     @Description("Creates two example payloads using crafted models")
     @AuthenticateViaApi(credentials = ExampleCredentials.class, type = ExampleAuthenticationClient.class)
-    @Journey(value = Preconditions.Data.EXAMPLE_PRECONDITION, order = 1)
-    void exampleAPITest(Quest quest,
-                                          @Craft(model = DataCreator.Data.EXAMPLE_MODEL) ExampleRequestDto firstPayload,
-                                          @Craft(model = DataCreator.Data.EXAMPLE_MODEL) Late<ExampleRequestDto> secondPayload) {
+    @Journey("" //implement your journey here
+            /*value = Preconditions.Data.EXAMPLE_PRECONDITION, order = 1*/)
+    void exampleAPITest(Quest quest //implement your data creator here
+                                         /*,@Craft(model = DataCreator.Data.EXAMPLE_MODEL) ExampleRequestDto firstPayload,*/
+                                         /*@Craft(model = DataCreator.Data.EXAMPLE_MODEL) Late<ExampleRequestDto> secondPayload*/) {
 
         /**
          * Example:

@@ -49,6 +49,7 @@ public enum DataCleaner implements DataRipper<DataCleaner> {
 
     @Override
     public DataCleaner enumImpl() {
-        return this;
+//        return this;
+        return null;
     }
 }

@@ -29,6 +29,7 @@ public enum ButtonFieldTypes implements ButtonComponentType {
 
     @Override
     public Enum<?> getType() {
-        return this;
+//        return this;
+        return null;
     }
 }

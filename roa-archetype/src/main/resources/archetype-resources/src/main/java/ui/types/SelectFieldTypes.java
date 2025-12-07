@@ -29,6 +29,7 @@ public enum SelectFieldTypes implements SelectComponentType {
 
     @Override
     public Enum<?> getType() {
-        return this;
+//        return this;
+        return null;
     }
 }

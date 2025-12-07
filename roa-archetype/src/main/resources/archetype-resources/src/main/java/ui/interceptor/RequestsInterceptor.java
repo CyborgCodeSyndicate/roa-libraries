@@ -21,11 +21,13 @@ public enum RequestsInterceptor implements DataIntercept<RequestsInterceptor> {
 
     @Override
     public String getEndpointSubString() {
-        return endpointSubString;
+//        return endpointSubString;
+        return "";
     }
 
     @Override
     public RequestsInterceptor enumImpl() {
-        return this;
+//        return this;
+        return null;
     }
 }
