@@ -1,7 +1,9 @@
 # api-interactor-test-framework-adapter
 
 <!-- Quick jump -->
-**Start here:** [Usage - Quick Start (step-by-step)](#usage)
+> Quick jump: if you are already familiar with ROA and just want to run the sample API tests, go to:
+> [Usage](#usage).
+
 
 ## Table of Contents
 
@@ -29,7 +31,6 @@
     - [Step 3: Enable the API adapter and expose the API ring (@API + RING_OF_API)](#step-3-enable-the-api-adapter-and-expose-the-api-ring-api--ring_of_api)
       - [3.1. Annotate your test class](#31-annotate-your-test-class)
       - [3.2. Define your API ring in the test module](#32-define-your-api-ring-in-the-test-module)
-      - [3.3. Combining with other adapters (optional)](#33-combining-with-other-adapters-optional)
     - [Step 4: Perform basic API requests with `RestServiceFluent`](#step-4-perform-basic-api-requests-with-restservicefluent)
       - [4.1 Define your endpoints (typical enum-based usage)](#41-define-your-endpoints-typical-enum-based-usage)
       - [4.2 Minimal GET with status check](#42-minimal-get-with-status-check)
@@ -576,7 +577,6 @@ automated tests.
 Add the following snippet to the `dependencies` section of your test module’s `pom.xml`:
 
 ```xml
-
 <dependency>
     <groupId>io.cyborgcode.roa</groupId>
     <artifactId>api-interactor-test-framework-adapter</artifactId>
@@ -788,28 +788,6 @@ This pattern is consistent with the rest of RoA:
 
 * **The adapter** gives you concrete fluent services (like `RestServiceFluent`).
 * **Your test module** exposes them as named rings (`RING_OF_API`, `RING_OF_CUSTOM`, `RING_OF_EVOLUTION`, …) that you use via `quest.use(...)`.
-
----
-
-#### 3.3. Combining with other adapters (optional)
-
-If your test also uses UI or DB, you can combine annotations on the same class, for example:
-
-```java
-import io.cyborgcode.roa.ui.annotations.UI;
-import io.cyborgcode.roa.api.annotations.API;
-import io.cyborgcode.roa.db.annotations.DB;
-import io.cyborgcode.roa.framework.base.BaseQuest;
-
-@UI
-@API
-@DB
-class FullStackTests extends BaseQuest {
-   // UI + API + DB in the same Quest
-}
-```
-
-For the API adapter itself, the only hard requirement is that the class is annotated with `@API`; everything else (UI, DB) is optional and provided by their respective adapters.
 
 ---
 
@@ -2335,17 +2313,17 @@ Pattern recap:
 **Issue: Authentication via @AuthenticateViaApi not applied**
 - Check that `@AuthenticateViaApi` is placed on the test method (or class) that receives the `Quest`.
 - Make sure the `credentials` class and the `BaseAuthenticationClient` implementation are in packages under `project.packages` so they can be discovered via reflection.
-- Confirm your authentication client actually sets headers on the underlying `RestServiceFluent` (e.g. `withHeader(...)` or equivalent) and that caching is enabled if you expect reuse.
+- Confirm your authentication client returns a non-null `Header` from `authenticateImpl(...)` (for example, an `Authorization` header) and that caching (`cacheCredentials`) is enabled if you expect reuse.
 
 **Issue: API hooks (@ApiHook) never fire**
-- Ensure hook methods/classes annotated with `@ApiHook` are under the base packages defined by `project.packages` in `system.properties`.
-- Do not make hook methods `private`; they must be visible for reflection to invoke them.
-- Verify that the hook’s `flow` / `phase` matches the execution point you expect (e.g. BEFORE_REQUEST vs AFTER_RESPONSE).
+- Ensure your hook enums implementing `ApiHookFlow` (and any related hook code) are under the base packages defined by `project.packages` in the ApiConfig properties file (the one selected via `-Dapi.config.file=...`).
+- Do not make hook-related methods `private`; they must be visible for reflection to invoke them.
+- Verify that the hook’s `when()` value matches the execution point you expect (e.g. `HookExecution.BEFORE` vs `HookExecution.AFTER`).
 - Use logging/Allure messages inside hooks to confirm they are being invoked.
 
 **Issue: Retry conditions never trigger or requests do not retry**
-- Confirm that the API call uses a method that accepts retry configuration (e.g. `retryUntil(...)` / `withRetry(...)` using `RetryConditionApi`).
-- Check that `maxAttempts` and `delayInMillis` are non-zero and configured correctly.
+- Confirm that the API call uses a method that accepts retry configuration (e.g. `retryUntil(...)` using `RetryConditionApi`).
+- Check that `maxWait` and `retryInterval` are non-zero and that their `Duration` values are what you expect (for example, not accidentally `PT0S`).
 - Ensure that the status / JSON path you use in the retry condition can actually change between attempts; otherwise, all retries will evaluate the same outcome.
 
 **Issue: DataExtractorsApi / StorageKeysApi return null or wrong type**
@@ -2358,7 +2336,6 @@ Pattern recap:
 - Check that Allure JUnit 5 integration is enabled in your test project (`allure-junit5` + the listener configuration).
 - Ensure you go through `RestServiceFluent` / the API façade provided by this adapter; direct use of raw `RestService` may bypass the Allure decorators.
 - If you use a custom `RestService` bean, verify that the Allure decorators (`RestClientAllureImpl`, `RestResponseValidatorAllureImpl`) are still registered or marked as `@Primary`.
-
 
 ---
 
