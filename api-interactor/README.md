@@ -47,6 +47,8 @@
 - [Dependencies](#dependencies)
 - [Author](#author)
 
+---
+
 ## Overview
 
 The **api-interactor** module is a purpose-built foundation for declarative REST API testing on Java 17. It lets you
@@ -81,6 +83,8 @@ fluent test adapter on top in a separate module.
     - org.mockito:mockito-junit-jupiter
     - org.junit.jupiter:junit-jupiter-params (test)
 
+---
+
 ## Features
 
 - **Endpoint-as-code** via `Endpoint<T>` with a fluent decorator `ParametrizedEndpoint<T>` (path/query/headers)
@@ -91,6 +95,8 @@ fluent test adapter on top in a separate module.
 - **Structured logging** (`LogApi`) and slow-call warning
 - **Auth template** (`BaseAuthenticationClient`) with cached `Header` per `AuthenticationKey`
 - **Error handling** via `RestServiceException` wrapping low-level failures
+
+---
 
 ## Structure
 
@@ -331,6 +337,8 @@ To use **`api-interactor`** in your project, you first need to add it as a Maven
 In most setups, **`api-interactor`** is consumed from your **test module** (e.g. `my-app-test`), where you keep your
 automated tests.
 
+---
+
 #### 1.1. Standard Maven dependency
 
 Add the following snippet to the `dependencies` section of your test module’s `pom.xml`:
@@ -344,11 +352,15 @@ Add the following snippet to the `dependencies` section of your test module’s 
 </dependency>
 
 ```
+
 ---
+
 ### Step 2: Configure ApiConfig
 
 Before using *`api-interactor`*, you need to provide base configuration via `ApiConfig` (backed by **Owner**) and load
 it through `ApiConfigHolder`.
+
+---
 
 #### 2.1 Configuration source
 
@@ -368,6 +380,8 @@ Typical setup:
 
 `api-interactor` will then load `classpath:api-config.properties` plus any system properties.
 
+---
+
 #### 2.2 Minimal configuration example
 
 ```properties
@@ -382,6 +396,8 @@ api.restassured.logging.level=ALL   # ALL, BASIC, NONE
 log.full.body=false                 # if false, body is truncated
 shorten.body=800                    # max chars when truncated
 ```
+
+---
 
 #### 2.3 Behaviour & priorities
 
@@ -407,7 +423,9 @@ import io.cyborgcode.roa.api.config.ApiConfig;
 
 ApiConfig apiConfig = ApiConfigHolder.getApiConfig();
 ```
+
 ---
+
 ### Step 3: Define endpoints (`Endpoint<T>`)
 
 The **core idea** of `api-interactor` is:
@@ -512,7 +530,9 @@ ApiEndpoints.GET_SAMPLE
 ApiEndpoints.CREATE_SAMPLE
     .withHeader("X-Correlation-Id", "123-abc");
 ```
+
 ---
+
 ### Step 4: Create `RestService`
 
 Once you have endpoints, you need a single entry point that:
@@ -592,7 +612,9 @@ class SampleApiTests {
 > 📝 **Note**
 > `rest().request(...)` accepts both "raw" `Endpoint<T>` values (like `GET_SAMPLE`) and parameterized ones (like `GET_SAMPLE_BY_ID.withPathParam("id", 123)`).
 > In the next steps we’ll show how to parameterize endpoints and validate responses using `RestService`.
+
 ---
+
 ### Step 5: Basic usage (simple GET/POST)
 
 This section shows how to use `RestService` and your `Endpoint<T>` definitions to perform
@@ -891,7 +913,6 @@ Here:
 * Targets like `STATUS`, `BODY`, and `HEADER` are resolved by `RestResponseValidatorImpl`.
 
 ---
-
 
 ### Step 6: Validation with assertions
 
