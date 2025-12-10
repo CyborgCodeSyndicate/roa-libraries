@@ -13,10 +13,10 @@
     - [Class Diagram](#class-diagram)
     - [Execution Flow](#execution-flow)
         - [Adapter Runtime Flow](#adapter-runtime-flow)
+        - [Authentication Handling](#authentication-handling)
         - [Test Bootstrap & JUnit Integration](#test-bootstrap--junit-integration)
         - [Fluent Request & Storage](#fluent-request--storage)
         - [Allure Reporting Integration](#allure-reporting-integration)
-        - [Authentication Handling](#authentication-handling)
         - [Hook Processing (BEFORE/AFTER)](#hook-processing-beforeafter)
         - [Retry for Eventual Consistency](#retry-for-eventual-consistency)
 - [Usage](#usage)
@@ -64,6 +64,7 @@
       - [10.1. `@Craft` – inject API DTOs (including “late” / dynamic data)](#101-craft--inject-api-dtos-including-late--dynamic-data)
       - [10.2. `@Journey` – reusable pre-test flows with `Preconditions` (and `journeyData` actually used)](#102-journey--reusable-pre-test-flows-with-preconditions-and-journeydata-actually-used)
       - [10.3. `@Ripper` – centralized API cleanup via `DataCleaner`](#103-ripper--centralized-api-cleanup-via-datacleaner)
+- [Troubleshooting](#troubleshooting)
 - [Dependencies](#dependencies)
 - [Author](#author)
 
@@ -158,23 +159,23 @@ Quest/test-framework layer, while still relying on `api-interactor` for the core
 
 ### Key Classes
 
-| Class                               | Responsibility                                                                                                           | Key methods / members                                                                                                                                                                                                                                                                             | Used by                                                                                                                |
-|-------------------------------------|--------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
-| `RestServiceFluent`                 | Fluent RoA **API ring** built on top of `RestService`; exposes request/validate/auth/retry in a Quest-friendly style.    | `request(endpoint)`, `request(endpoint, body)`, `requestAndValidate(endpoint, assertions)`, `requestAndValidate(endpoint, body, assertions)`, `validateResponse(...)`, `authenticate(...)`, `validate(Runnable)`, `validate(Consumer<SoftAssertions>)`, `<T> retryUntil(...)`, `getRestService()` | RoA Quest tests via `quest.use(...)`, `DecoratorsFactory` (through `SuperRestServiceFluent`), `ApiTestExtension`       |
-| `SuperRestServiceFluent`            | Wrapper/decorator around `RestServiceFluent` to allow extra behavior via `DecoratorsFactory` while keeping the same API. | `SuperRestServiceFluent(RestServiceFluent original)`, `getRestService()` (overridden), `@Delegate RestServiceFluent original`                                                                                                                                                                     | `DecoratorsFactory`, `ApiTestExtension` (for pre-quest authentication wiring)                                          |
-| `RestClientAllureImpl`              | Allure-enabled `RestClientImpl` that attaches detailed request/response metadata as Allure steps and attachments.        | `printRequest(methodName, finalUrl, body, headers)` (overridden), `printResponse(methodName, finalUrl, response, duration)` (overridden), `logRequestDetails(...)`, `logResponseDetails(...)`                                                                                                     | `RestService` (via Spring `RestClient` bean), `ApiTestFrameworkAutoConfiguration`, `ApiHookExtension` (for hook flows) |
-| `RestResponseValidatorAllureImpl`   | Allure-enabled `RestResponseValidatorImpl` that attaches validation targets and extracted data to Allure.                | `printAssertionTarget(Map<String, Object> data)` (overridden)                                                                                                                                                                                                                                     | `RestService` (via Spring `RestResponseValidator` bean), `ApiTestFrameworkAutoConfiguration`                           |
-| `API`                               | Top-level annotation that marks a test class as an **API test** and activates this adapter’s JUnit + framework wiring.   | Meta-annotations: `@FrameworkAdapter(basePackages = "io.cyborgcode.roa.api")`, `@ExtendWith({ApiTestExtension.class, ApiHookExtension.class})`                                                                                                                                                    | Test classes in app-specific test modules                                                                              |
-| `AuthenticateViaApi`                | Method-level annotation that declares how to authenticate a test via `BaseAuthenticationClient`.                         | `Class<? extends Credentials> credentials()`, `Class<? extends BaseAuthenticationClient> type()`, `boolean cacheCredentials()`                                                                                                                                                                    | `ApiTestExtension`, test methods that require authentication                                                           |
-| `ApiHook` / `ApiHooks`              | Class-level annotations defining BEFORE/AFTER hook flows for a test class.                                               | `String type()`, `HookExecution when()`, `String[] arguments()`, `int order()`, container `ApiHook[] value()`                                                                                                                                                                                     | `ApiHookExtension`, test classes declaring custom API hooks                                                            |
-| `ApiHookExtension`                  | JUnit 5 extension that discovers and executes `@ApiHook` flows BEFORE/AFTER all tests in a class.                        | `beforeAll(context)`, `afterAll(context)`, `executeHook(ApiHook, Map<Object,Object>)`, `restService()`                                                                                                                                                                                            | Applied by `@API`, invoked by JUnit engine                                                                             |
-| `ApiTestExtension`                  | JUnit 5 extension that processes `@AuthenticateViaApi` and wires pre-Quest authentication into RoA’s `SuperQuest`.       | `beforeTestExecution(context)`, `handleAuthentication(...)`, `createQuestConsumer(...)`, `addConsumerToStore(...)`                                                                                                                                                                                | Applied by `@API`, JUnit engine, `SuperQuest`, `DecoratorsFactory`                                                     |
-| `ApiHookFlow<T extends Enum<T>>`    | Contract for hook implementations that can be resolved reflectively and executed via `ApiHookExtension`.                 | `TriConsumer<RestService, Map<Object,Object>, String[]> flow()`, `T enumImpl()`                                                                                                                                                                                                                   | App-defined enums implementing hook flows, `ApiHookExtension`                                                          |
-| `RetryConditionApi`                 | Factory for **API-centric `RetryCondition`** helpers used with `RestServiceFluent.retryUntil(...)`.                      | `statusEquals(endpoint, status)`, `statusEquals(endpoint, body, status)`, `responseFieldEqualsTo(endpoint, jsonPath, obj)`, `responseFieldEqualsTo(endpoint, body, jsonPath, obj)`, `responseFieldNonNull(endpoint, jsonPath)`, `responseFieldNonNull(endpoint, body, jsonPath)`                  | Tests using eventual consistency/polling patterns with the API ring                                                    |
-| `DataExtractorsApi`                 | Ready-made `DataExtractor` builders for storing API response fields and status codes into RoA Storage.                   | `<T> responseBodyExtraction(Enum<?> key, String jsonPath)`, `statusExtraction(Enum<?> key)`                                                                                                                                                                                                       | RoA quests/tests that extract response data into storage                                                               |
-| `StorageKeysApi`                    | Storage keys for API-related data (namespace + username/password) inside RoA Storage.                                    | Enum constants: `API`, `USERNAME`, `PASSWORD`                                                                                                                                                                                                                                                     | `RestServiceFluent`, `DataExtractorsApi`, `ApiTestExtension`, app-specific quest code                                  |
-| `ApiTestFrameworkAutoConfiguration` | Spring auto-configuration that exposes Allure-enabled beans as primary `RestClient`/`RestResponseValidator`.             | `@Bean @Primary RestClient restClient(RestClientAllureImpl)`, `@Bean @Primary RestResponseValidator restResponseValidator(RestResponseValidatorAllureImpl)`                                                                                                                                       | Spring test contexts in app test modules                                                                               |
-| `Credentials`                       | Minimal contract describing username/password used for `@AuthenticateViaApi` flows.                                      | `String username()`, `String password()`                                                                                                                                                                                                                                                          | Test-side credential classes, `ApiTestExtension`                                                                       |
+| Class                               | Responsibility                                                                                                            | Key methods / members                                                                                                                                                                                                                                                                             | Used by                                                                                                                |
+|-------------------------------------|---------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| `RestServiceFluent`                 | Fluent RoA **API ring** built on top of `RestService`; exposes request/validate/auth/retry in a Quest-friendly style.     | `request(endpoint)`, `request(endpoint, body)`, `requestAndValidate(endpoint, assertions)`, `requestAndValidate(endpoint, body, assertions)`, `validateResponse(...)`, `authenticate(...)`, `validate(Runnable)`, `validate(Consumer<SoftAssertions>)`, `<T> retryUntil(...)`, `getRestService()` | RoA Quest tests via `quest.use(...)`, `DecoratorsFactory` (through `SuperRestServiceFluent`), `ApiTestExtension`       |
+| `SuperRestServiceFluent`            | Wrapper/decorator around `RestServiceFluent` to allow extra behaviour via `DecoratorsFactory` while keeping the same API. | `SuperRestServiceFluent(RestServiceFluent original)`, `getRestService()` (overridden), `@Delegate RestServiceFluent original`                                                                                                                                                                     | `DecoratorsFactory`, `ApiTestExtension` (for pre-quest authentication wiring)                                          |
+| `RestClientAllureImpl`              | Allure-enabled `RestClientImpl` that attaches detailed request/response metadata as Allure steps and attachments.         | `printRequest(methodName, finalUrl, body, headers)` (overridden), `printResponse(methodName, finalUrl, response, duration)` (overridden), `logRequestDetails(...)`, `logResponseDetails(...)`                                                                                                     | `RestService` (via Spring `RestClient` bean), `ApiTestFrameworkAutoConfiguration`, `ApiHookExtension` (for hook flows) |
+| `RestResponseValidatorAllureImpl`   | Allure-enabled `RestResponseValidatorImpl` that attaches validation targets and extracted data to Allure.                 | `printAssertionTarget(Map<String, Object> data)` (overridden)                                                                                                                                                                                                                                     | `RestService` (via Spring `RestResponseValidator` bean), `ApiTestFrameworkAutoConfiguration`                           |
+| `API`                               | Top-level annotation that marks a test class as an **API test** and activates this adapter’s JUnit + framework wiring.    | Meta-annotations: `@FrameworkAdapter(basePackages = "io.cyborgcode.roa.api")`, `@ExtendWith({ApiTestExtension.class, ApiHookExtension.class})`                                                                                                                                                    | Test classes in app-specific test modules                                                                              |
+| `AuthenticateViaApi`                | Method-level annotation that declares how to authenticate a test via `BaseAuthenticationClient`.                          | `Class<? extends Credentials> credentials()`, `Class<? extends BaseAuthenticationClient> type()`, `boolean cacheCredentials()`                                                                                                                                                                    | `ApiTestExtension`, test methods that require authentication                                                           |
+| `ApiHook` / `ApiHooks`              | Class-level annotations defining BEFORE/AFTER hook flows for a test class.                                                | `String type()`, `HookExecution when()`, `String[] arguments()`, `int order()`, container `ApiHook[] value()`                                                                                                                                                                                     | `ApiHookExtension`, test classes declaring custom API hooks                                                            |
+| `ApiHookExtension`                  | JUnit 5 extension that discovers and executes `@ApiHook` flows BEFORE/AFTER all tests in a class.                         | `beforeAll(context)`, `afterAll(context)`, `executeHook(ApiHook, Map<Object,Object>)`, `restService()`                                                                                                                                                                                            | Applied by `@API`, invoked by JUnit engine                                                                             |
+| `ApiTestExtension`                  | JUnit 5 extension that processes `@AuthenticateViaApi` and wires pre-Quest authentication into RoA’s `SuperQuest`.        | `beforeTestExecution(context)`, `handleAuthentication(...)`, `createQuestConsumer(...)`, `addConsumerToStore(...)`                                                                                                                                                                                | Applied by `@API`, JUnit engine, `SuperQuest`, `DecoratorsFactory`                                                     |
+| `ApiHookFlow<T extends Enum<T>>`    | Contract for hook implementations that can be resolved reflectively and executed via `ApiHookExtension`.                  | `TriConsumer<RestService, Map<Object,Object>, String[]> flow()`, `T enumImpl()`                                                                                                                                                                                                                   | App-defined enums implementing hook flows, `ApiHookExtension`                                                          |
+| `RetryConditionApi`                 | Factory for **API-centric `RetryCondition`** helpers used with `RestServiceFluent.retryUntil(...)`.                       | `statusEquals(endpoint, status)`, `statusEquals(endpoint, body, status)`, `responseFieldEqualsTo(endpoint, jsonPath, obj)`, `responseFieldEqualsTo(endpoint, body, jsonPath, obj)`, `responseFieldNonNull(endpoint, jsonPath)`, `responseFieldNonNull(endpoint, body, jsonPath)`                  | Tests using eventual consistency/polling patterns with the API ring                                                    |
+| `DataExtractorsApi`                 | Ready-made `DataExtractor` builders for storing API response fields and status codes into RoA Storage.                    | `<T> responseBodyExtraction(Enum<?> key, String jsonPath)`, `statusExtraction(Enum<?> key)`                                                                                                                                                                                                       | RoA quests/tests that extract response data into storage                                                               |
+| `StorageKeysApi`                    | Storage keys for API-related data (namespace + username/password) inside RoA Storage.                                     | Enum constants: `API`, `USERNAME`, `PASSWORD`                                                                                                                                                                                                                                                     | `RestServiceFluent`, `DataExtractorsApi`, `ApiTestExtension`, app-specific quest code                                  |
+| `ApiTestFrameworkAutoConfiguration` | Spring auto-configuration that exposes Allure-enabled beans as primary `RestClient`/`RestResponseValidator`.              | `@Bean @Primary RestClient restClient(RestClientAllureImpl)`, `@Bean @Primary RestResponseValidator restResponseValidator(RestResponseValidatorAllureImpl)`                                                                                                                                       | Spring test contexts in app test modules                                                                               |
+| `Credentials`                       | Minimal contract describing username/password used for `@AuthenticateViaApi` flows.                                       | `String username()`, `String password()`                                                                                                                                                                                                                                                          | Test-side credential classes, `ApiTestExtension`                                                                       |
 
 ---
 
@@ -241,10 +242,10 @@ Quest/test-framework layer, while still relying on `api-interactor` for the core
 
 ### Package: `io.cyborgcode.roa.api.service.fluent`
 
-| Class                    | Responsibility                                                                                                                | Key methods / members                                                                                                                                                                                                                                  | Used by                                 |
-|--------------------------|-------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------|
-| `RestServiceFluent`      | Fluent RoA API service (`@Ring("API")`) built on top of `RestService`, adding Quest storage integration and retry helpers.    | `request(endpoint)`, `request(endpoint, body)`, `requestAndValidate(endpoint, assertions)`, `requestAndValidate(endpoint, body, assertions)`, `validateResponse(...)`, `authenticate(...)`, `validate(...)`, `<T> retryUntil(...)`, `getRestService()` | RoA Quest tests, decorators, hooks      |
-| `SuperRestServiceFluent` | Decorator wrapper for `RestServiceFluent` used by `DecoratorsFactory` to add cross-cutting behavior while preserving the API. | `SuperRestServiceFluent(RestServiceFluent original)`, `@Delegate RestServiceFluent original`, overridden `getRestService()`                                                                                                                            | `DecoratorsFactory`, `ApiTestExtension` |
+| Class                    | Responsibility                                                                                                                 | Key methods / members                                                                                                                                                                                                                                  | Used by                                 |
+|--------------------------|--------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------|
+| `RestServiceFluent`      | Fluent RoA API service (`@Ring("API")`) built on top of `RestService`, adding Quest storage integration and retry helpers.     | `request(endpoint)`, `request(endpoint, body)`, `requestAndValidate(endpoint, assertions)`, `requestAndValidate(endpoint, body, assertions)`, `validateResponse(...)`, `authenticate(...)`, `validate(...)`, `<T> retryUntil(...)`, `getRestService()` | RoA Quest tests, decorators, hooks      |
+| `SuperRestServiceFluent` | Decorator wrapper for `RestServiceFluent` used by `DecoratorsFactory` to add cross-cutting behaviour while preserving the API. | `SuperRestServiceFluent(RestServiceFluent original)`, `@Delegate RestServiceFluent original`, overridden `getRestService()`                                                                                                                            | `DecoratorsFactory`, `ApiTestExtension` |
 
 ---
 
@@ -252,12 +253,15 @@ Quest/test-framework layer, while still relying on `api-interactor` for the core
 
 | Class               | Responsibility                                                                                         | Key methods / members                                                                       | Used by                                                      |
 |---------------------|--------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|--------------------------------------------------------------|
-| `DataExtractorsApi` | Helper factory for `DataExtractor` instances that extract data from Rest Assured `Response` objects.   | `<T> responseBodyExtraction(Enum<?> key, String jsonPath)`, `statusExtraction(Enum<?> key)` | RoA quests/tests that populate Storage from API              |
+| `DataExtractorsApi` | Helper factory for `DataExtractor` instances that extract data from RestAssured `Response` objects.    | `<T> responseBodyExtraction(Enum<?> key, String jsonPath)`, `statusExtraction(Enum<?> key)` | RoA quests/tests that populate Storage from API              |
 | `StorageKeysApi`    | Enum of storage keys for API-related data (namespace + auth fields) used across the adapter and tests. | `API`, `USERNAME`, `PASSWORD`                                                               | `RestServiceFluent`, `DataExtractorsApi`, `ApiTestExtension` |
 
 ---
 
 ## Architecture
+
+> This section dives deep into how requests, hooks, and retries are wired internally.
+> If you only care about writing tests, you can skip this section and go straight to [Usage](#usage). 
 
 ### Class Diagram
 
@@ -461,7 +465,7 @@ sequenceDiagram
 
     * Overrides `printRequest(...)`:
 
-        * Calls `super.printRequest(...)` to keep the core logging behavior.
+        * Calls `super.printRequest(...)` to keep the core logging behaviour.
         * Wraps the request in an `Allure.step("Sending request to endpoint ...")` and attaches:
 
             * **HTTP Method**
@@ -489,7 +493,7 @@ sequenceDiagram
 
     * Overrides `printAssertionTarget(Map<String, Object> data)`:
 
-        * Wraps the parent behavior in an `Allure.step("Validating response with {n} assertion(s)", ...)`.
+        * Wraps the parent behaviour in an `Allure.step("Validating response with {n} assertion(s)", ...)`.
         * Calls `super.printAssertionTarget(data)` to keep core logging/printing.
         * Attaches:
 
@@ -498,7 +502,7 @@ sequenceDiagram
             * `"Expected Headers"` if `data` contains `"headers"`.
             * `"Expected Response Body"` if `data` contains `"body"`.
 
-This keeps **all low-level behavior** from `api-interactor` but makes every request, response, and validation fully
+This keeps **all low-level behaviour** from `api-interactor` but makes every request, response, and validation fully
 visible in Allure.
 
 #### Hook Processing (BEFORE/AFTER)
@@ -577,7 +581,6 @@ Add the following snippet to the `dependencies` section of your test module’s 
     <groupId>io.cyborgcode.roa</groupId>
     <artifactId>api-interactor-test-framework-adapter</artifactId>
     <version>${roa.version}</version>
-    <scope>test</scope>
 </dependency>
 ```
 
@@ -1133,10 +1136,6 @@ In most day-to-day API tests you will use:
 
 * `requestAndValidate(endpoint, assertions...)` for simple GETs, and
 * `requestAndValidate(endpoint, body, assertions...)` for POST/PUT flows.
-
-More advanced patterns—like mapping the stored response to a DTO and asserting on it from storage—are covered in
-[Step 5: Validate API responses using the assertions module](#step-5-validate-api-responses-using-the-assertions-module).
-
 
 ---
 
@@ -1906,7 +1905,7 @@ Notes:
       then run JsonPath `$.id` on its body.”
 * `retrieve(...)` is the storage helper from the `test-framework` module (see its README for import details and more patterns).
 
-You can use any JsonPath that Rest Assured supports, for example:
+You can use any JsonPath that RestAssured supports, for example:
 
 * `$.data[0].id`
 * `$..token`
@@ -2318,6 +2317,48 @@ Pattern recap:
 * `DataCleaner` + `DataCleanerFunctions` are **your** code.
 * `@Ripper` references string keys from `DataCleaner.Data`.
 * Cleanup is centralized and reusable, not scattered across tests.
+
+---
+
+## Troubleshooting
+
+**Issue: Quest / RestServiceFluent not injected**
+- Ensure the test class is annotated with `@API` (this applies `ApiTestExtension` and `ApiHookExtension`).
+- Use JUnit 5 (Jupiter) – Vintage/JUnit 4 runners are not supported.
+- Either extend your base Quest test (`BaseQuest`) or declare a `Quest quest` parameter in the test method signature.
+
+**Issue: RING_OF_API (API ring) not available or `IllegalStateException` when calling `.use(...)`**
+- Verify that `test-framework` and `api-interactor-test-framework-adapter` share the same `${revision}`.
+- Call `quest.use(RING_OF_API)` once per test before using your API façade (`restService()`, `api()`, `AppApiService`, etc.).
+- If you provide a custom Spring test configuration, ensure `ApiTestFrameworkAutoConfiguration` is imported or that its beans are not overridden incorrectly.
+
+**Issue: Authentication via @AuthenticateViaApi not applied**
+- Check that `@AuthenticateViaApi` is placed on the test method (or class) that receives the `Quest`.
+- Make sure the `credentials` class and the `BaseAuthenticationClient` implementation are in packages under `project.packages` so they can be discovered via reflection.
+- Confirm your authentication client actually sets headers on the underlying `RestServiceFluent` (e.g. `withHeader(...)` or equivalent) and that caching is enabled if you expect reuse.
+
+**Issue: API hooks (@ApiHook) never fire**
+- Ensure hook methods/classes annotated with `@ApiHook` are under the base packages defined by `project.packages` in `system.properties`.
+- Do not make hook methods `private`; they must be visible for reflection to invoke them.
+- Verify that the hook’s `flow` / `phase` matches the execution point you expect (e.g. BEFORE_REQUEST vs AFTER_RESPONSE).
+- Use logging/Allure messages inside hooks to confirm they are being invoked.
+
+**Issue: Retry conditions never trigger or requests do not retry**
+- Confirm that the API call uses a method that accepts retry configuration (e.g. `retryUntil(...)` / `withRetry(...)` using `RetryConditionApi`).
+- Check that `maxAttempts` and `delayInMillis` are non-zero and configured correctly.
+- Ensure that the status / JSON path you use in the retry condition can actually change between attempts; otherwise, all retries will evaluate the same outcome.
+
+**Issue: DataExtractorsApi / StorageKeysApi return null or wrong type**
+- Make sure you invoke a method that actually stores data into Storage before calling `retrieve(...)`.
+- Use enums from `StorageKeysApi` consistently; avoid hardcoded string keys.
+- Verify the expected type in `retrieve(key, Type.class)` matches what was stored (e.g. `Map`, `List`, `String`).
+- If you rely on JSONPath, validate the expression separately (e.g. against a sample response) to ensure it resolves to the expected node.
+
+**Issue: Allure steps or attachments are missing**
+- Check that Allure JUnit 5 integration is enabled in your test project (`allure-junit5` + the listener configuration).
+- Ensure you go through `RestServiceFluent` / the API façade provided by this adapter; direct use of raw `RestService` may bypass the Allure decorators.
+- If you use a custom `RestService` bean, verify that the Allure decorators (`RestClientAllureImpl`, `RestResponseValidatorAllureImpl`) are still registered or marked as `@Primary`.
+
 
 ---
 
