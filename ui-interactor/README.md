@@ -18,37 +18,64 @@
     - [Table Operations with Typed Models](#table-operations-with-typed-models)
     - [Exception Recovery Strategy](#exception-recovery-strategy)
 - [Usage](#usage)
+  - [Prerequisites](#prerequisites)
+    - [Dependencies](#dependencies)
+    - [Configuration Setup](#configuration-setup)
   - [Step 1 - Driver Setup](#step-1---driver-setup)
   - [Step 2 - Component Services](#step-2---component-services)
-  - [Step 3 - Basic UI Operations](#step-3---basic-ui-operations)
-  - [Step 4 - Button Component](#step-4---button-component)
-  - [Step 5 - Input Component](#step-5---input-component)
-  - [Step 6 - Checkbox Component](#step-6---checkbox-component)
-  - [Step 7 - Select Component](#step-7---select-component)
-  - [Step 8 - Radio Component](#step-8---radio-component)
-  - [Step 9 - Toggle Component](#step-9---toggle-component)
-  - [Step 10 - Table Component](#step-10---table-component)
-  - [Step 11 - Modal Component](#step-11---modal-component)
-  - [Step 12 - Alert Component](#step-12---alert-component)
-  - [Step 13 - Link Component](#step-13---link-component)
-  - [Step 14 - Loader Component](#step-14---loader-component)
-  - [Step 15 - Tab Component](#step-15---tab-component)
-  - [Step 16 - Accordion Component](#step-16---accordion-component)
-  - [Step 17 - List Component](#step-17---list-component)
-  - [Step 18 - Insertion Pattern](#step-18---insertion-pattern)
+    - [2.1 Understanding UiService](#21-understanding-uiservice)
+    - [2.2 Usage Approaches](#22-usage-approaches)
+    - [2.3 Component Services - Additional](#23-component-services---additional)
+  - [Step 3 - Basic Usage](#step-3---basic-usage)
+    - [3.1 Standalone Usage](#step-31---standalone-usage)
+    - [3.2 Understanding Component Types and Implementations](#step-32---understanding-component-types-and-implementations)
+  - [Step 4 - Basic UI Operations](#step-4---basic-ui-operations)
+    - [4.1 Basic SmartWebDriver Usage](#step-41---basic-smartwebdriver-usage)
+    - [4.2 Button Component](#step-42---button-component)
+    - [4.3 Input Component](#step-43---input-component)
+    - [4.4 Checkbox Component](#step-44---checkbox-component)
+    - [4.5 Select Component](#step-45---select-component)
+    - [4.6 Radio Component](#step-46---radio-component)
+    - [4.7 Toggle Component](#step-47---toggle-component)
+    - [4.8 Modal Component](#step-48---modal-component)
+    - [4.9 Alert Component](#step-49---alert-component)
+    - [4.10 Link Component](#step-410---link-component)
+    - [4.11 Loader Component](#step-411---loader-component)
+    - [4.12 Tab Component](#step-412---tab-component)
+    - [4.13 Accordion Component](#step-413---accordion-component)
+    - [4.14 List Component](#step-414---list-component)
+    - [4.15 Table Component](#step-415---table-component)
+  - [Step 5 - Insertion Pattern](#step-5---insertion-pattern)
+- [Selenium Package Deep Dive](#selenium-package-deep-dive)
+  - [Error Handling and Logging](#error-handling-and-logging)
+  - [Exception Handling - Automatic Recovery](#exception-handling---automatic-recovery)
+  - [SmartFinder and Shadow DOM Support](#smartfinder-and-shadow-dom-support)
+  - [WebElement Decorator (SmartWebElement)](#webelement-decorator-smartwebelement)
+  - [WebDriver Decorator (SmartWebDriver)](#webdriver-decorator-smartwebdriver)
+- [Util Package - Helper Utilities](#util-package---helper-utilities)
+  - [Strategy Pattern for Component Selection](#strategy-pattern-for-component-selection)
+  - [Functional Interfaces](#functional-interfaces)
+- [Advanced Driver Configuration](#advanced-driver-configuration)
+  - [Custom Driver Options](#custom-driver-options)
+  - [Remote Driver (Selenium Grid)](#remote-driver-selenium-grid)
+- [Performance Optimization](#performance-optimization)
+  - [Disable Wrapping for Simple Operations](#disable-wrapping-for-simple-operations)
+- [Troubleshooting](#troubleshooting)
+  - [Enable Debug Logging](#enable-debug-logging)
+  - [Common Issues and Solutions](#common-issues-and-solutions)
 - [Configuration](#configuration)
 - [Extensibility](#extensibility)
 - [Cross-module links](#cross-module-links)
 - [Glossary](#glossary)
-- [Dependencies](#dependencies)
+- [Module Dependencies](#module-dependencies)
 - [Author](#author)
 
 ## Overview
 The **ui-interactor** module provides a comprehensive Selenium-based UI automation framework built on Java 17+. It introduces `SmartWebDriver` and `SmartWebElement` as enhanced wrappers with configurable waits, exception handling strategies, and optional Shadow DOM support while preserving standard Selenium semantics.
 
-UI widgets are modeled as pluggable components. Component services (e.g., `ButtonService`, `InputService`, `TableService`) delegate to concrete implementations resolved by `ComponentFactory` using configuration-driven defaults from `UiConfig`. The framework supports 17 component types including buttons, inputs, checkboxes, selects, radios, toggles, tables, modals, alerts, links, loaders, tabs, accordions, and lists.
+UI widgets are modeled as pluggable components. Component services (e.g., `ButtonService`, `InputService`, `TableService`) delegate to concrete implementations resolved by `ComponentFactory` using configuration-driven defaults from `UiConfig`. The framework supports 14 component types including buttons, inputs, checkboxes, selects, radios, toggles, tables, modals, alerts, links, loaders, tabs, accordions, and lists.
 
-Driver management is abstracted via `DriverProvider` implementations (Chrome, Firefox, Edge, Safari) with automatic driver download via WebDriverManager. The insertion pattern provides uniform data entry across components. Structured logging via `LogUi` surfaces actions and failures for observability.
+Driver management is abstracted via `DriverProvider` implementations (Chrome, Edge) with automatic driver download via WebDriverManager. The insertion pattern provides uniform data entry across components. Structured logging via `LogUi` surfaces actions and failures for observability.
 
 The library is test-framework agnostic and designed to be embedded in adapters or test rings.
 
@@ -384,7 +411,84 @@ sequenceDiagram
 
 ## Usage
 
+### Prerequisites
+
+### Dependencies
+
+To use *`ui-interactor`*, you need to add the following dependency to your project.
+
+**Maven:**
+
+```xml
+<dependency>
+    <groupId>io.cyborgcode.roa</groupId>
+    <artifactId>ui-interactor</artifactId>
+    <version>${roa.version}</version>
+</dependency>
+```
+
+---
+
+### Configuration Setup
+
+Before using the *`ui-interactor`* module, you need to configure the framework via `ui-config.properties` file or system properties.
+
+**Minimum Required Configuration:**
+
+Create a `ui-config.properties` file in your `src/main/resources` or `src/test/resources` directory:
+
+```properties
+# Required properties
+wait.duration.in.seconds=10
+project.packages=your.project.package
+
+# Optional browser configuration
+# If browser.type and headless are missing, then browser.type defaults to 'CHROME' and headless defaults to false
+browser.type=CHROME
+browser.version=
+headless=false
+remote.driver.url=
+
+# Optional component defaults (required only if using specific components)
+button.default.type=YOUR_BUTTON_TYPE
+input.default.type=YOUR_INPUT_TYPE
+# ... other component types as needed
+```
+
+**Accessing Configuration:**
+
+The `UiConfigHolder` provides singleton access to the configuration throughout your application:
+
+```java
+import io.cyborgcode.roa.ui.config.UiConfigHolder;
+import io.cyborgcode.roa.ui.config.UiConfig;
+
+// Get configuration instance
+UiConfig config = UiConfigHolder.getUiConfig();
+
+// Access configuration values
+String browserType = config.browserType();
+int waitDuration = config.waitDuration();
+boolean headless = config.headless();
+```
+
+**Configuration Priority:**
+- System properties override properties file values
+- Example: `-Dbrowser.type=EDGE` overrides `browser.type=CHROME` in properties file
+
+For complete configuration options, see the [Configuration](#configuration) section.
+
+---
+
 ### Step 1 - Driver Setup
+
+**Understanding Driver Creation:**
+
+The **`ui-interactor`** uses three key components to create WebDriver instances:
+- **`WebDriverFactory`**: Central factory for creating drivers based on browser type
+- **`WebDriverConfig`**: Builder pattern configuration object for driver settings
+- **`DriverCreator`**: Internal class that handles the actual driver instantiation (used by factory)
+
 ```java
 import io.cyborgcode.roa.ui.config.UiConfigHolder;
 import io.cyborgcode.roa.ui.drivers.config.WebDriverConfig;
@@ -407,43 +511,341 @@ WebDriver webDriver = WebDriverFactory.createDriver(
 SmartWebDriver driver = new SmartWebDriver(webDriver);
 ```
 
+---
+
 ### Step 2 - Component Services
+
+#### 2.1 Understanding UiService
+
+`UiService` is a centralized facade that provides access to all UI component services. It serves as a single entry point for interacting with different UI components and manages their lifecycle. When you instantiate `UiService`, it automatically initializes all component services and registers them with internal registries for insertion and table operations.
+
+**Benefits of UiService:**
+- **Single initialization**: All component services are created once and reused
+- **Service registry**: Automatically registers components for dynamic operations
+- **Consistent access**: Provides getter methods for all managed services
+- **Memory efficient**: Components are cached and shared across operations
 ```java
-import io.cyborgcode.roa.ui.components.accordion.AccordionService;
-import io.cyborgcode.roa.ui.components.accordion.AccordionServiceImpl;
-import io.cyborgcode.roa.ui.components.modal.ModalService;
-import io.cyborgcode.roa.ui.components.modal.ModalServiceImpl;
 import io.cyborgcode.roa.ui.service.facade.UiService;
 
 UiService ui = new UiService(driver);
 
-// Core services exposed by the facade
-var buttons = ui.getButtonField();
-var inputs = ui.getInputField();
-var radios = ui.getRadioField();
-var checkboxes = ui.getCheckboxField();
-var toggles = ui.getToggleField();
-var selects = ui.getSelectField();
-var lists = ui.getListField();
-var loaders = ui.getLoaderField();
-var links = ui.getLinkField();
-var alerts = ui.getAlertField();
-var tabs = ui.getTabField();
-var tables = ui.getTableService();
+// Example: Accessing all core services 
+var button = ui.getButtonField();
+var input = ui.getInputField();
+var radio = ui.getRadioField();
+var checkbox = ui.getCheckboxField();
+var toggle = ui.getToggleField();
+var select = ui.getSelectField();
+var list = ui.getListField();
+var loader = ui.getLoaderField();
+var link = ui.getLinkField();
+var alert = ui.getAlertField();
+var tab = ui.getTabField();
+var table = ui.getTableService();
+var modal = ui.getModalService();
+var accordion = ui.getAccordionService();
 var insertion = ui.getInsertionService();
-
-// Optional services not managed by UiService
-ModalService modals = new ModalServiceImpl(driver);
-AccordionService accordions = new AccordionServiceImpl(driver);
 ```
 
+#### 2.2 Usage Approaches
+
+The framework supports multiple ways to interact with UI components. Choose the approach that best fits your project structure and coding style.
+
+##### Example 1: Direct UiService Usage
+- Initialize UiServices class by passing SmartWebDriver driver object as an argument: Initialization will be made for all the components.
+- Get hold of the ui object and call the desired method for given component in chained call
+```java
+import io.cyborgcode.roa.ui.service.facade.UiService;
+
+UiService ui = new UiService(driver);
+// Using DEFAULT_TYPE from configuration
+// If button.default.type=MD_BUTTON is configured in ui-config.properties,
+// the framework automatically uses MD_BUTTON component implementation
+ui.getButtonField().click(By.cssSelector("button.save"));
+
+// Explicitly specifying component type (overrides DEFAULT_TYPE)
+ui.getButtonField().click(ButtonComponentType.MD_BUTTON, By.cssSelector("button.save"));
+```
+
+##### Example 2: Component Service Usage
+- Initialize InputService class by passing `SmartWebDriver` driver object as an argument: Initialization will be made for all the components.
+- Get hold of the component service object and call the desired method for given component type.
+```java
+SmartWebDriver driver = new SmartWebDriver(webDriver);
+
+ButtonService buttonService = new ButtonServiceImpl(driver);
+SmartWebElement loginForm = driver.findSmartElement(By.id("login-form"));
+buttonService.click(ButtonComponentType.MD_BUTTON, By.cssSelector("button.login"));
+```
+
+#### Example 3: Component Factory for Component-Level Control
+
+**Understanding ComponentFactory:**
+
+`ComponentFactory` is the core mechanism for creating UI component instances. It uses reflection to find implementations annotated with `@ImplementationOfType` that match the requested component type. The factory scans both your project packages (configured in `project.packages`) and framework packages to locate implementations.
+
+**How ComponentFactory Works:**
+1. You request a component by type (e.g., `ButtonComponentType.MD_BUTTON`)
+2. Factory searches for classes implementing `Button` interface
+3. Finds classes annotated with `@ImplementationOfType("MD_BUTTON")`
+4. Instantiates the matching implementation with your `SmartWebDriver`
+5. Returns the component instance ready to use
+
+**Use Case:** Creating reusable component wrappers
+- Initialize the desired UI component by creating a new instance of the respective component service from **`ComponentFactory`** by passing the desired component type.
+- Get hold of the component object and call the desired method with required argumets.
 ```java
 // Resolve custom component implementations at runtime
-ComponentFactory.getButtonComponent(MyButtonType.PRIMARY, driver);
+SmartWebDriver driver = new SmartWebDriver(webDriver);
+
+Button button = ComponentFactory.getButtonComponent(ButtonComponentType.MD_BUTTON, driver);
+button.click(By.cssSelector("button.login"));
 ```
-### Step 3 - Basic UI Operations
+
+#### 2.3 Component Services - Additional
+
+**Creating Custom Service Facade**
+
+You can extend `UiService` to create your own custom facade with convenient shorthand methods. This approach provides a cleaner API tailored to your project's needs. Here's an example of a custom service (**Note: `AppUiService` is not part of `ui-interactor` module, it's shown here as an example pattern you can implement in your project**):
+
+```java
+package your.project.services;
+
+import io.cyborgcode.roa.ui.service.facade.UiService;
+import io.cyborgcode.roa.ui.components.button.ButtonService;
+import io.cyborgcode.roa.ui.components.input.InputService;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+
+public class AppUiService extends UiService {
+    
+    public AppUiService(SmartWebDriver driver) {
+        super(driver);  // Initializes all component services
+    }
+    
+    // Shorthand methods for cleaner API
+    public InputService input() {
+        return getInputField();
+    }
+    
+    public ButtonService button() {
+        return getButtonField();
+    }
+    
+    // Add more shorthand methods as needed
+}
 ```
+**Custom AppUiService Usage**
+- Create a custom `AppUiService` class that extends UiService where the service exposes shorthand methods for all UI component types you need.
+- Initialize `AppUiService` class by passing `SmartWebDriver` driver object as an argument: Initialization will be made for all the components.
+- Get hold of the service object and call the desired method for given component in chained call
+```java
+import io.cyborgcode.roa.ui.service.facade.AppUiService;
+
+SmartWebDriver driver = new SmartWebDriver(webDriver);
+
+AppUiService service = new AppUiService(driver);
+// Cleaner API with shorthand methods
+service.button().click(By.cssSelector("button.login"));  // Uses DEFAULT_TYPE from config
+service.input().insert("Email", "user@example.com");
+
+// Explicit component type (overrides DEFAULT_TYPE)
+service.button().click(ButtonComponentType.MD_BUTTON, By.cssSelector("button.login"));
+```
+
+---
+
+### Step 3 - Basic Usage
+
+#### Step 3.1 - Standalone Usage
+
+**Example 1: Using UiService**
+
+```java
+package your.project.test.framework;
+
+import io.cyborgcode.roa.ui.service.facade.UiService;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
 import org.openqa.selenium.By;
+import org.junit.jupiter.api.Test;
+
+public class UiServiceExample {
+    
+    @Test
+    void LoginUsingUiService() {
+        // Create driver, refer to: Step 1 - Driver Setup
+        SmartWebDriver driver = new SmartWebDriver(webDriver);
+        
+        // Navigate
+        driver.get("https://example.com/login");
+        
+        // All services are initialized through UiService constructor
+        UiService ui = new UiService(driver);
+        
+        // Find login form container
+        SmartWebElement loginForm = driver.findSmartElement(By.id("login-form"));
+        
+        // 
+        ui.getInputField().insert(InputComponentType.MD_INPUT, loginForm, "Username", "john.doe");
+        ui.getInputField().insert(InputComponentType.MD_INPUT, loginForm, "Password", "secret123");
+        ui.getButtonField().click(ButtonComponentType.MD_BUTTON, By.cssSelector("button.login"));
+        
+        driver.quit();
+    }
+}
+```
+
+**Example 2: Direct Service Instantiation**
+
+```java
+package your.project.test.framework;
+
+import io.cyborgcode.roa.ui.components.input.InputService;
+import io.cyborgcode.roa.ui.components.input.InputServiceImpl;
+import io.cyborgcode.roa.ui.components.button.ButtonService;
+import io.cyborgcode.roa.ui.components.button.ButtonServiceImpl;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import org.openqa.selenium.By;
+import org.junit.jupiter.api.Test;
+
+public class DirectServiceExample {
+    
+    @Test
+    void LoginUsingDirectService() {
+        // Create driver, refer to: Step 1 - Driver Setup
+        SmartWebDriver driver = new SmartWebDriver(webDriver);
+        
+        // Navigate
+        driver.get("https://example.com/login");
+        
+        // Instantiate services manually
+        // This approach gives you control over which services to create
+        // Useful when you only need specific services and want minimal overhead
+        InputService inputService = new InputServiceImpl(driver);
+        ButtonService buttonService = new ButtonServiceImpl(driver);
+        
+        // Find login form container
+        SmartWebElement loginForm = driver.findSmartElement(By.id("login-form"));
+        
+        // Perform UI actions using explicit component types
+        inputService.insert(InputComponentType.MD_INPUT, loginForm, "Username", "john.doe");
+        inputService.insert(InputComponentType.MD_INPUT, loginForm, "Password", "secret123");
+        buttonService.click(ButtonComponentType.MD_BUTTON, By.cssSelector("button.login"));
+        
+        driver.quit();
+    }
+}
+```
+
+**Example 3: ComponentFactory Usage**
+
+```java
+package your.project.test.framework;
+
+import io.cyborgcode.roa.ui.components.factory.ComponentFactory;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import org.openqa.selenium.By;
+import org.junit.jupiter.api.Test;
+
+public class ComponentFactoryExample {
+    
+    @Test
+    void LoginUsingComponentFactory() {
+        // Create driver, refer to: Step 1 - Driver Setup
+        SmartWebDriver driver = new SmartWebDriver(webDriver);
+        
+        // Navigate
+        driver.get("https://example.com/login");
+
+        //Direct Component Instantiation
+        Input input = ComponentFactory.getInputComponent(InputComponentType.MD_INPUT, driver);
+        Button button = ComponentFactory.getButtonComponent(ButtonComponentType.MD_BUTTON, driver);
+        
+        // Find login form container
+        SmartWebElement loginForm = driver.findSmartElement(By.id("login-form"));
+        
+        input.insert(loginForm, "Username", "john.doe");
+        input.insert(loginForm, "Password", "secret123");
+        button.click(By.cssSelector("button.login"));
+        
+        driver.quit();
+    }
+}
+```
+
+
+#### Step 3.2 - Understanding Component Types and Implementations
+
+To use specific component types (like `MD_INPUT`, `BOOTSTRAP_BUTTON`), you need to create implementations in your project:
+
+**1. Create Component Type Enums:**
+
+```java
+package your.project.components.types;
+
+import io.cyborgcode.roa.ui.components.button.ButtonComponentType;
+
+public enum ButtonFieldTypes implements ButtonComponentType {
+
+   MD_BUTTON,          // Material Design Button
+   BOOTSTRAP_BUTTON,   // Bootstrap Button
+   VA_BUTTON;          // Vaadin Button
+
+   @Override
+   public Enum getType() {
+       return this;
+   }
+}
+```
+
+**2. Create Component Implementations:**
+
+```java
+package your.project.components.button;
+
+import io.cyborgcode.roa.ui.components.button.Button;
+import io.cyborgcode.roa.ui.components.base.BaseComponent;
+import io.cyborgcode.roa.ui.annotations.ImplementationOfType;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+
+@ImplementationOfType(ButtonFieldTypes.MD_BUTTON)
+public class ButtonMdImpl extends BaseComponent implements Button {
+    
+    public ButtonMdImpl(SmartWebDriver driver) {
+        super(driver);
+    }
+    
+    // Implement Material Design specific button interactions
+    // Override methods as needed for your UI framework
+    @Override
+    public void click(String buttonText) {
+        // Implementation depends on your UI framework
+    }
+}
+```
+
+**3. Configure in ui-config.properties**
+
+```properties
+project.packages=your.project.components
+button.default.type=MD_BUTTON
+input.default.type=MD_INPUT
+```
+
+---
+
+### Step 4 - Basic UI Operations
+#### Step 4.1 - Basic SmartWebDriver Usage
+
+```java
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import org.openqa.selenium.By;
+
+// Create driver, refer to: Step 1 - Driver Setup
+SmartWebDriver driver = new SmartWebDriver(webDriver);
 
 // Navigate
 driver.get("https://app.example.com/login");
@@ -467,155 +869,317 @@ driver.waitUntilElementIsRemoved(By.id("loader"), 10);
 boolean ok = driver.checkNoException(() -> driver.findSmartElement(By.id("optional")));
 ```
 
-### Step 4 - Button Component
-```
+#### Step 4.2 - Button Component
+```java
+UiService ui = new UiService(driver);
+var button = ui.getButtonField();
+
 // Click by text
-buttons.click("Save");
-buttons.click("Submit");
+button.click("Save");
+button.click("Submit");
 
 // Click by locator
-buttons.click(By.id("submit-btn"));
+button.click(By.id("submit-btn"));
 
 // Click inside container
 SmartWebElement form = driver.findSmartElement(By.id("user-form"));
-buttons.click(form, "Save");
+button.click(form, "Save");
 
 // Check state
-boolean enabled = buttons.isEnabled("Save");
-boolean visible = buttons.isVisible(By.id("save-btn"));
+boolean enabled = button.isEnabled("Save");
+boolean visible = button.isVisible(By.id("save-btn"));
 ```
 
-### Step 5 - Input Component
-```
+#### Step 4.3 - Input Component
+```java
+UiService ui = new UiService(driver);
+var input = ui.getInputField();
+
 // Insert value by label
-inputs.insert("Email", "user@example.com");
-inputs.insert("Password", "secret123");
+input.insert("Email", "user@example.com");
+input.insert("Password", "secret123");
 
 // Insert with container
 SmartWebElement form = driver.findSmartElement(By.id("registration"));
-inputs.insert(form, "First Name", "John");
+input.insert(form, "First Name", "John");
 
 // Insert by locator
-inputs.insert(By.id("email-input"), "user@test.com");
+input.insert(By.id("email-input"), "user@test.com");
 
 // Get value
-String email = inputs.getValue("Email");
-String pwd = inputs.getValue(By.id("password"));
+String email = input.getValue("Email");
+String pwd = input.getValue(By.id("password"));
 
 // Clear field
-inputs.clear("Email");
-inputs.clear(By.id("notes"));
+input.clear("Email");
+input.clear(By.id("notes"));
 
 // Check state
-boolean enabled = inputs.isEnabled("Email");
+boolean enabled = input.isEnabled("Email");
 
 // Get error message
-String error = inputs.getErrorMessage("Email");
-String error2 = inputs.getErrorMessage(form, "Password");
+String error = input.getErrorMessage("Email");
+String error2 = input.getErrorMessage(form, "Password");
 ```
 
-### Step 6 - Checkbox Component
-```
+#### Step 4.4 - Checkbox Component
+```java
+UiService ui = new UiService(driver);
+var checkbox = ui.getCheckboxField();
+
 // Select single checkbox
-checkboxes.select("Remember me");
+checkbox.select("Remember me");
 
 // Select multiple
-checkboxes.select("Terms", "Privacy Policy");
+checkbox.select("Terms", "Privacy Policy");
 
 // Select with container
 SmartWebElement form = driver.findSmartElement(By.id("preferences"));
-checkboxes.select(form, "Email notifications", "SMS alerts");
+checkbox.select(form, "Email notifications", "SMS alerts");
 
 // Select by locator
-checkboxes.select(By.id("terms-checkbox"));
+checkbox.select(By.id("terms-checkbox"));
 
 // Deselect
-checkboxes.deSelect("Remember me");
-checkboxes.deSelect(form, "Email notifications");
+checkbox.deSelect("Remember me");
+checkbox.deSelect(form, "Email notifications");
 
 // Check state
-boolean selected = checkboxes.isSelected("Remember me");
-boolean allSelected = checkboxes.areSelected("Terms", "Privacy Policy");
-boolean enabled = checkboxes.isEnabled("Remember me");
+boolean selected = checkbox.isSelected("Remember me");
+boolean allSelected = checkbox.areSelected("Terms", "Privacy Policy");
+boolean enabled = checkbox.isEnabled("Remember me");
 
 // Get selected items
-List<String> selected = checkboxes.getSelected(form);
+List<String> selected = checkbox.getSelected(form);
 
 // Get all checkboxes
-List<String> all = checkboxes.getAll(By.id("filter-container"));
+List<String> all = checkbox.getAll(By.id("filter-container"));
 
 // Select with strategy
 import io.cyborgcode.roa.ui.util.strategy.Strategy;
-checkboxes.select(form, Strategy.ALL);
-checkboxes.select(form, Strategy.FIRST);
-checkboxes.deSelect(form, Strategy.ALL);
+checkbox.select(form, Strategy.ALL);
+checkbox.select(form, Strategy.FIRST);
+checkbox.deSelect(form, Strategy.ALL);
 ```
 
-### Step 7 - Select Component
-```
+#### Step 4.5 - Select Component
+```java
+UiService ui = new UiService(driver);
+var select = ui.getSelectField();
+
 // Select by visible text
-selects.select("Country", "United States");
+select.selectOptions("Country", "United States");
 
 // Select by value
-selects.selectByValue("country-select", "US");
+select.selectByValue("country-select", "US");
 
 // Select by index
-selects.selectByIndex(By.id("country"), 2);
+select.selectByIndex(By.id("country"), 2);
 
 // Select with container
 SmartWebElement form = driver.findSmartElement(By.id("address-form"));
-selects.select(form, "State", "California");
+select.selectOptions(form, "State", "California");
 
 // Get selected option
-String selected = selects.getSelected("Country");
-String selected2 = selects.getSelected(By.id("country"));
+String selected = select.getSelectedOptions("Country");
+String selected2 = select.getSelectedOptions(By.id("country"));
 
 // Get all options
-List<String> options = selects.getOptions("Country");
-List<String> options2 = selects.getOptions(form, "State");
+List<String> options = select.getAvailableOptions("Country");
+List<String> options2 = select.getAvailableOptions(form, "State");
 
 // Check state
-boolean enabled = selects.isEnabled("Country");
+boolean enabled = select.isOptionEnabled("Country");
 ```
 
-### Step 8 - Radio Component
-```
+#### Step 4.6 - Radio Component
+```java
+UiService ui = new UiService(driver);
+var radios = ui.getRadioField();
+
 // Select radio button
-radios.select("Male");
-radios.select("Credit Card");
+radio.select("Male");
+radio.select("Credit Card");
 
 // Select with container
 SmartWebElement form = driver.findSmartElement(By.id("payment-form"));
-radios.select(form, "PayPal");
+radio.select(form, "PayPal");
 
 // Select by locator
-radios.select(By.id("payment-credit"));
+radio.select(By.id("payment-credit"));
 
 // Check state
-boolean selected = radios.isSelected("Male");
-boolean enabled = radios.isEnabled(form, "PayPal");
+boolean selected = radio.isSelected("Male");
+boolean enabled = radio.isEnabled(form, "PayPal");
 
 // Get selected radio
-String selected = radios.getSelected(form);
-String selected2 = radios.getSelected(By.cssSelector(".payment-options"));
+String selected = radio.getSelected(form);
+String selected2 = radio.getSelected(By.cssSelector(".payment-options"));
 ```
 
-### Step 9 - Toggle Component
-```
+#### Step 4.7 - Toggle Component
+```java
+UiService ui = new UiService(driver);
+var toggle = ui.getToggleField();
+
 // Toggle on/off
-toggles.toggle("Dark Mode");
-toggles.toggle(By.id("notifications-toggle"));
+toggle.activate("Dark Mode");
+toggle.deactivate(By.id("notifications-toggle"));
 
 // Toggle with container
 SmartWebElement settings = driver.findSmartElement(By.id("settings"));
-toggles.toggle(settings, "Auto-save");
+toggle.activate(settings, "Auto-save");
 
 // Check state
-boolean enabled = toggles.isEnabled("Dark Mode");
-boolean selected = toggles.isSelected("Auto-save");
+boolean enabled = toggle.isEnabled("Dark Mode");
+boolean selected = toggle.isActivated("Auto-save");
 ```
 
-### Step 10 - Table Component (Overview)
+#### Step 4.8 - Modal Component
+```java
+UiService ui = new UiService(driver);
+var modal = ui.getModalField();
+
+// Check if modal is opened
+boolean visible = modal.isOpened("Confirmation");
+
+// Get modal title
+String title = modal.getTitle("Confirmation");
+
+// Get modal content title
+String content = modal.getContentTitle(By.id("alert-modal"));
+
+//Get modal body text
+String content = modal.getBodyText(By.id("alert-modal"));
+
+// Close modal
+modal.close(By.cssSelector(".modal.active"));
+
+// Click button in modal
+modal.clickButton("Confirm");
+```
+
+#### Step 4.9 - Alert Component
+```java
+UiService ui = new UiService(driver);
+var alert = ui.getAlertField();
+
+// Check if alert is visible
+boolean visible = alert.isVisible("Success");
+boolean visible2 = alert.isVisible(By.cssSelector(".alert.success"));
+
+// Get alert text
+String text = alert.getValue("Error");
+String text2 = alert.getValue(By.id("validation-alert"));
+```
+
+#### Step 4.10 - Link Component
+```java
+UiService ui = new UiService(driver);
+var link = ui.getLinkField();
+
+// Click link by text
+link.click("Privacy Policy");
+
+// Click by locator
+link.click(By.id("help-link"));
+
+// Click with container
+SmartWebElement footer = driver.findSmartElement(By.tagName("footer"));
+link.doubleClick(footer, "Contact Us");
+
+// Check state
+boolean enabled = link.isEnabled("Privacy Policy");
+boolean visible = link.isVisible(footer, "Contact Us");
+```
+
+#### Step 4.11 - Loader Component
+```java
+UiService ui = new UiService(driver);
+var loader = ui.getLoaderField();
+
+// Wait until loader to be shown/removed
+loader.waitToBeShown(10);
+loader.waitToBeRemoved(By.id("spinner"), 15);
+
+// Check if loader is visible
+boolean loading = loader.isVisible();
+boolean loading2 = loader.isVisible(By.cssSelector(".loading-spinner"));
+```
+
+#### Step 4.12 - Tab Component
+```java
+UiService ui = new UiService(driver);
+var tab = ui.getTabField();
+
+// Select tab by name
+tab.click("Profile");
+
+// Select with container
+SmartWebElement tabContainer = driver.findSmartElement(By.id("main-tabs"));
+tab.click(tabContainer, "Notifications");
+
+// Select by locator
+tab.selectTab(By.id("tab-profile"));
+
+// Check if tab is selected
+boolean selected = tab.isSelected("Profile");
+boolean selected2 = tab.isSelected(tabContainer, "Settings");
+```
+
+#### Step 4.13 - Accordion Component
+```java
+UiService ui = new UiService(driver);
+var accordion = ui.getAccordionField();
+
+// Expand accordion section
+accordion.expand("Personal Information");
+accordion.expand(By.id("section-payment"));
+
+// Expand with container
+SmartWebElement container = driver.findSmartElement(By.id("faq"));
+accordion.expand(container, "Shipping");
+
+// Collapse section
+accordion.collapse("Personal Information");
+accordion.areEnabled(container, "Shipping");
+
+// Get expanded
+boolean expanded = accordion.getExpanded("Personal Information");
+boolean expanded2 = accordion.getCollapsed(By.id("section-payment"));
+
+// Get all
+accordion.getAll("Billing");
+
+// Get title
+accordion.getTitle(By.id("section-payment"));
+
+// Get text
+accordion.getText(By.id("section-payment"));
+```
+
+#### Step 4.14 - List Component
+```java
+UiService ui = new UiService(driver);
+var list = ui.getListField();
+
+// Get all items
+List<String> items = list.getItems(By.id("product-list"));
+
+// Get items with container
+SmartWebElement container = driver.findSmartElement(By.id("sidebar"));
+List<String> navItems = list.getItems(container);
+
+// Select item
+list.select("Dashboard");
+list.select(container, "Reports");
+list.deSelect(By.cssSelector(".menu-item[data-id='3']"));
+
+// Get selected items
+List<String> selected = list.getSelected(By.id("selected-filters"));
+```
+
+#### Step 4.15 - Table Component
 The table component provides comprehensive operations for reading, filtering, sorting, validating, and inserting data into HTML tables using typed row models.
 
 #### Table Model Definition
@@ -673,7 +1237,7 @@ public class User {
 ```
 
 #### Reading Table Data
-```
+```java
 // Read entire table
 List<User> allUsers = tables.readTable(User.class);
 
@@ -707,7 +1271,7 @@ User foundPartial = tables.readRow(
 ```
 
 #### Inserting Data into Tables
-```
+```java
 // Insert into entire row (uses @CellInsertion annotations)
 User newUser = new User(null, "Jane Doe", "jane@example.com", "Active", true);
 tables.insertCellValue(1, User.class, newUser);
@@ -734,7 +1298,7 @@ tables.insertCellValue(Arrays.asList("jane@example.com"), User.class, updatedUse
 ```
 
 #### Filtering Tables
-```
+```java
 // Filter using TableField
 TableField<User> statusField = TableField.of(User::setStatus);
 tables.filterTable(User.class, statusField, FilterStrategy.SELECT_ONLY, "Active", "Pending");
@@ -749,7 +1313,7 @@ tables.filterTable(User.class, statusField, FilterStrategy.UNSELECT_ALL);
 ```
 
 #### Sorting Tables
-```
+```java
 import io.cyborgcode.roa.ui.components.table.sort.SortingStrategy;
 
 // Sort ascending
@@ -762,7 +1326,7 @@ tables.sortTable(User.class, emailField, SortingStrategy.DESCENDING);
 ```
 
 #### Validating Tables
-```
+```java
 import io.cyborgcode.roa.validator.core.Assertion;
 import io.cyborgcode.roa.validator.core.AssertionResult;
 import io.cyborgcode.roa.validator.enums.AssertionType;
@@ -818,174 +1382,56 @@ results.forEach(result -> {
 **@CustomCellInsertion** / **@CustomCellFilter** (Field-level)
 - For custom component implementations
 
-### Step 11 - Modal Component
-```
-// Check if modal is displayed
-boolean visible = modals.isDisplayed("Confirmation");
-boolean visible2 = modals.isDisplayed(By.id("delete-modal"));
+---
 
-// Get modal title
-String title = modals.getTitle("Confirmation");
+### Step 5 - Insertion Pattern
+Use `InsertionService` from `UiService` to populate forms from an annotated model. `UiService` wires all component services and the insertion registry for you.
 
-// Get modal content
-String content = modals.getContent(By.id("alert-modal"));
+#### Define a form model with @InsertionElement
+```java
+import io.cyborgcode.roa.ui.annotations.InsertionElement;
 
-// Close modal
-modals.close("Confirmation");
-modals.close(By.cssSelector(".modal.active"));
+// Example form model. Each field maps to a UI element via locatorClass + elementEnum
+public class RegistrationForm {
+   @InsertionElement(locatorClass = MySelects.class, elementEnum = MySelects.Data.COUNTRY, order = 1)
+   private String country;
 
-// Click button in modal
-SmartWebElement modal = driver.findSmartElement(By.id("confirm-modal"));
-buttons.click(modal, "Confirm");
-```
+   @InsertionElement(locatorClass = MyInputs.class, elementEnum = MyInputs.Data.EMAIL, order = 2)
+   private String email;
 
-### Step 12 - Alert Component
-```
-// Check if alert is displayed
-boolean visible = alerts.isDisplayed("Success");
-boolean visible2 = alerts.isDisplayed(By.cssSelector(".alert.success"));
+   @InsertionElement(locatorClass = MyRadios.class, elementEnum = MyRadios.Data.ACCEPT_TERMS, order = 3)
+   private boolean acceptTerms;
 
-// Get alert text
-String text = alerts.getText("Error");
-String text2 = alerts.getText(By.id("validation-alert"));
-
-// Close alert
-alerts.close("Success");
-alerts.close(By.cssSelector(".alert.closable"));
-
-// Wait for alert to appear
-alerts.waitUntilDisplayed("Processing", 10);
+   // getters/setters or builder
+}
 ```
 
-### Step 13 - Link Component
-```
-// Click link by text
-links.click("Privacy Policy");
-links.click("Terms of Service");
+The `locatorClass` and `elementEnum` refer to your own enum classes that describe how to find elements in your UI. The `order` controls the insertion sequence.
 
-// Click by locator
-links.click(By.id("help-link"));
+#### Use InsertionService via UiService
+```java
+import io.cyborgcode.roa.ui.service.facade.UiService;
+import io.cyborgcode.roa.ui.insertion.InsertionService;
 
-// Click with container
-SmartWebElement footer = driver.findSmartElement(By.tagName("footer"));
-links.click(footer, "Contact Us");
+UiService ui = new UiService(driver);
+InsertionService insertionService = ui.getInsertionService();
 
-// Get href
-String href = links.getHref("Privacy Policy");
-String href2 = links.getHref(By.id("help-link"));
+RegistrationForm data = new RegistrationForm();
+data.setCountry("United States");
+data.setEmail("user@example.com");
+data.setAcceptTerms(true);
 
-// Check state
-boolean enabled = links.isEnabled("Privacy Policy");
-boolean visible = links.isVisible(footer, "Contact Us");
+insertionService.insertData(data);
 ```
 
-### Step 14 - Loader Component
-```
-// Wait until loader disappears
-loaders.waitUntilLoaderDisappears(10);
-loaders.waitUntilLoaderDisappears(By.id("spinner"), 15);
+This will process the annotated fields in ascending `order`, resolve the appropriate component services, and perform the insertions.
 
-// Check if loader is displayed
-boolean loading = loaders.isDisplayed();
-boolean loading2 = loaders.isDisplayed(By.cssSelector(".loading-spinner"));
-```
+---
 
-### Step 15 - Tab Component
-```
-// Select tab by name
-tabs.selectTab("Profile");
-tabs.selectTab("Settings");
-
-// Select with container
-SmartWebElement tabContainer = driver.findSmartElement(By.id("main-tabs"));
-tabs.selectTab(tabContainer, "Notifications");
-
-// Select by locator
-tabs.selectTab(By.id("tab-profile"));
-
-// Check if tab is selected
-boolean selected = tabs.isSelected("Profile");
-boolean selected2 = tabs.isSelected(tabContainer, "Settings");
-
-// Get selected tab
-String activeTab = tabs.getSelectedTab(tabContainer);
-
-// Get all tabs
-List<String> allTabs = tabs.getTabs(By.id("main-tabs"));
-```
-
-### Step 16 - Accordion Component
-```
-// Expand accordion section
-accordions.expand("Personal Information");
-accordions.expand(By.id("section-payment"));
-
-// Expand with container
-SmartWebElement container = driver.findSmartElement(By.id("faq"));
-accordions.expand(container, "Shipping");
-
-// Collapse section
-accordions.collapse("Personal Information");
-accordions.collapse(container, "Shipping");
-
-// Check if expanded
-boolean expanded = accordions.isExpanded("Personal Information");
-boolean expanded2 = accordions.isExpanded(By.id("section-payment"));
-
-// Toggle section
-accordions.toggle("Billing");
-```
-
-### Step 17 - List Component
-```
-// Get all items
-List<String> items = lists.getItems(By.id("product-list"));
-
-// Get items with container
-SmartWebElement container = driver.findSmartElement(By.id("sidebar"));
-List<String> navItems = lists.getItems(container);
-
-// Select item
-lists.selectItem("Dashboard");
-lists.selectItem(container, "Reports");
-lists.selectItem(By.cssSelector(".menu-item[data-id='3']"));
-
-// Get selected items
-List<String> selected = lists.getSelectedItems(By.id("selected-filters"));
-
-// Get item count
-int count = lists.getItemCount(container);
-```
-
-### Step 18 - Insertion Pattern
-```
-import io.cyborgcode.roa.ui.insertion.Insertion;
-import io.cyborgcode.roa.ui.components.base.ComponentType;
-
-// All component services implement Insertion interface
-// Use insertion() for dynamic component interactions
-
-// Insert into input field
-inputs.insertion(InputComponentType.DEFAULT_TYPE, By.id("email"), "user@test.com");
-
-// Select checkbox via insertion
-checkboxes.insertion(CheckboxComponentType.DEFAULT_TYPE, By.id("terms"), true);
-
-// Select dropdown via insertion
-selects.insertion(SelectComponentType.DEFAULT_TYPE, By.id("country"), "United States");
-
-// Custom insertion service registration
-InsertionService customService = new MyCustomInsertionService(driver);
-InsertionServiceRegistry.register(MyComponentType.class, customService);
-
-// Table insertion (insert values into table cells)
-buttons.tableInsertion(cellElement, ButtonComponentType.DEFAULT_TYPE);
-inputs.tableInsertion(cellElement, InputComponentType.DEFAULT_TYPE, "New Value");
-checkboxes.tableInsertion(cellElement, CheckboxComponentType.DEFAULT_TYPE, "true");
-```
+## Selenium Package Deep Dive
 
 ### Error Handling and Logging
-```
+```java
 import io.cyborgcode.roa.ui.log.LogUi;
 
 // All component operations are automatically logged via LogUi
@@ -1004,31 +1450,47 @@ LogUi.warn("Optional field left empty: Middle Name");
 LogUi.error("Validation failed for email field");
 ```
 
-### Shadow DOM Support
+
+### Exception Handling - Automatic Recovery
+The framework provides automatic exception handling for common Selenium failures.
+
+**Handled Exceptions:**
+- `StaleElementReferenceException` - Re-locates element and retries operation
+- `ElementClickInterceptedException` - Scrolls to element and retries
+- `ElementNotInteractableException` - Waits for element to become interactable
+- `NoSuchElementException` - Logs detailed error with locator information
+
+```java
+import io.cyborgcode.roa.ui.selenium.handling.ExceptionHandlingWebElement;
+import io.cyborgcode.roa.ui.selenium.handling.ExceptionHandlingWebDriver;
+
+// Exception handling is automatic in SmartWebElement/SmartWebDriver
+// Custom handlers can be added by extending ExceptionHandlingWebElementFunctions
+
+// Example: Custom stale element handling
+public class CustomExceptionHandler {
+    public static SmartWebElement handleStaleElement(
+        WebDriver driver,
+        SmartWebElement staleElement,
+        WebElementAction action,
+        Object... params
+    ) {
+        // Custom recovery logic
+        LogUi.warn("Handling stale element for action: " + action);
+        // Re-locate and return fresh element
+        return driver.findSmartElement((By) params[0]);
+    }
+}
 ```
-// Enable Shadow DOM in configuration
-// Set use.shadow.root=true in ui-config.properties
 
-// All find operations automatically support Shadow DOM when enabled
-SmartWebElement shadowElement = driver.findSmartElement(By.cssSelector("custom-component"));
-SmartWebElement nestedElement = shadowElement.findSmartElement(By.cssSelector(".inner"));
-
-// Component services work transparently with Shadow DOM
-buttons.click("Save"); // Works inside shadow roots
-inputs.insert("Email", "user@test.com"); // Works inside shadow roots
-```
-
----
-
-## Advanced Topics
-
-### Selenium Package Deep Dive
-
-#### SmartFinder - Element Location Strategies
+### SmartFinder and Shadow DOM Support
 The `SmartFinder` utility provides unified element location with automatic Shadow DOM handling.
 
 ```java
 import io.cyborgcode.roa.ui.selenium.locating.SmartFinder;
+
+// Enable Shadow DOM in configuration
+// Set use.shadow.root=true in ui-config.properties
 
 // Find without wrapping (no waits)
 SmartWebElement element = SmartFinder.findElementNoWrap(driver, By.id("btn"));
@@ -1063,40 +1525,19 @@ List<SmartWebElement> elements = SmartFinder.findElementsNormally(
 );
 ```
 
-#### Exception Handling - Automatic Recovery
-The framework provides automatic exception handling for common Selenium failures.
-
-**Handled Exceptions:**
-- `StaleElementReferenceException` - Re-locates element and retries operation
-- `ElementClickInterceptedException` - Scrolls to element and retries
-- `ElementNotInteractableException` - Waits for element to become interactable
-- `NoSuchElementException` - Logs detailed error with locator information
-
+#### Shadow Root Utilities
 ```java
-import io.cyborgcode.roa.ui.selenium.handling.ExceptionHandlingWebElement;
-import io.cyborgcode.roa.ui.selenium.handling.ExceptionHandlingWebDriver;
+import io.cyborgcode.roa.ui.selenium.shadowroot.ShadowDomUtils;
 
-// Exception handling is automatic in SmartWebElement/SmartWebDriver
-// Custom handlers can be added by extending ExceptionHandlingWebElementFunctions
-
-// Example: Custom stale element handling
-public class CustomExceptionHandler {
-    public static SmartWebElement handleStaleElement(
-        WebDriver driver,
-        SmartWebElement staleElement,
-        WebElementAction action,
-        Object... params
-    ) {
-        // Custom recovery logic
-        LogUi.warn("Handling stale element for action: " + action);
-        // Re-locate and return fresh element
-        return driver.findSmartElement((By) params[0]);
-    }
-}
+// Shadow DOM utilities (used internally by SmartFinder)
+// Manual shadow root access
+WebElement shadowHost = driver.findElement(By.cssSelector("custom-component"));
+SearchContext shadowRoot = ShadowDomUtils.getShadowRoot(driver, shadowHost);
+WebElement shadowChild = shadowRoot.findElement(By.cssSelector(".inner-element"));
 ```
 
-#### WebElement Decorators
-```
+### WebElement Decorator (SmartWebElement)
+```java
 import io.cyborgcode.roa.ui.selenium.decorators.WebElementDecorator;
 import io.cyborgcode.roa.ui.selenium.decorators.WebDriverDecorator;
 
@@ -1126,42 +1567,39 @@ element.waitUntilAttributeValueIsChanged("class", "old-class"); // Wait for attr
 WebElement original = element.getOriginal();
 ```
 
-#### Selenium Logging
+### WebDriver Decorator (SmartWebDriver)
 ```java
-import io.cyborgcode.roa.ui.selenium.logging.SeleniumLogger;
+import io.cyborgcode.roa.ui.selenium.decorators.WebDriverDecorator;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
-// All SmartWebDriver/SmartWebElement operations are automatically logged
-// Example log output:
-// [UI] Finding element: By.id: login-btn
-// [UI] Clicking element: By.id: login-btn
-// [UI] Sending keys to element: By.id: email-input
-// [UI] Element not found after 10 seconds: By.id: missing-element
+// SmartWebDriver extends WebDriverDecorator
+// All standard WebDriver methods are available plus enhanced ones
 
-// Selenium event listeners can be registered
-import io.cyborgcode.roa.ui.selenium.listeners.CustomEventListener;
-// Listeners are automatically registered in SmartWebDriver
+SmartWebDriver driver = new SmartWebDriver(webDriver);
+
+// Element finding methods enhanced with waits
+SmartWebElement el = driver.findSmartElement(By.id("input"));
+java.util.List<SmartWebElement> rows = driver.findSmartElements(By.cssSelector("table tr"));
+
+// Wait helpers
+driver.waitUntilElementIsShown(By.id("toast"), 5);
+driver.waitUntilElementIsRemoved(By.id("loader"), 10);
+
+// Safe checks
+boolean ok = driver.checkNoException(() -> driver.findSmartElement(By.id("optional")));
+
+// Access original WebDriver if needed
+WebDriver originalDriver = driver.getOriginal();
 ```
+---
 
-#### Shadow Root Utilities
+## Util Package - Helper Utilities
+
+### Strategy Pattern for Component Selection
 ```java
-import io.cyborgcode.roa.ui.selenium.shadowroot.ShadowDomUtils;
-
-// Shadow DOM utilities (used internally by SmartFinder)
-// Manual shadow root access
-WebElement shadowHost = driver.findElement(By.cssSelector("custom-component"));
-SearchContext shadowRoot = ShadowDomUtils.getShadowRoot(driver, shadowHost);
-WebElement shadowChild = shadowRoot.findElement(By.cssSelector(".inner-element"));
-
-// Deep shadow piercing (multiple levels)
-SmartWebElement deepElement = driver.findSmartElement(
-    By.cssSelector("outer-component::shadow inner-component::shadow button")
-);
-```
-
-### Util Package - Helper Utilities
-
-#### Strategy Pattern for Component Selection
-```
 import io.cyborgcode.roa.ui.util.strategy.Strategy;
 
 // Use Strategy enum for dynamic selection in checkboxes, lists, etc.
@@ -1179,7 +1617,7 @@ radios.select(container, Strategy.LAST);
 checkboxes.select(container, Strategy.ALL);
 ```
 
-#### Functional Interfaces for Table Operations
+### Functional Interfaces
 ```java
 import io.cyborgcode.roa.ui.util.BiConsumer;
 import io.cyborgcode.roa.ui.util.BiFunction;
@@ -1189,7 +1627,7 @@ import io.cyborgcode.roa.ui.util.FourConsumer;
 import io.cyborgcode.roa.ui.util.FourFunction;
 
 // These functional interfaces support multiple parameters for complex operations
-// Used internally by table component for field mapping
+// Used internally for field mapping
 
 // BiConsumer<T, U> - 2 parameters, no return
 BiConsumer<User, String> nameSetter = (user, name) -> user.setName(name);
@@ -1204,30 +1642,12 @@ FourFunction<WebDriver, SmartWebElement, Exception, Object[], SmartWebElement> h
     (driver, element, ex, params) -> handleException(driver, element, ex, params);
 ```
 
-#### Table Utilities
+---
+
+## Advanced Driver Configuration
+
+### Custom Driver Options
 ```java
-import io.cyborgcode.roa.ui.util.table.TableUtils;
-
-// Utility methods for table operations (used internally)
-// Available for custom table implementations
-
-// Extract cell locator from field annotation
-FindBy cellLocator = TableUtils.getCellLocator(field);
-
-// Get insertion order for field
-int order = TableUtils.getInsertionOrder(field);
-
-// Check if field has filter annotation
-boolean filterable = TableUtils.isFilterable(field);
-
-// Get component type for field
-ComponentType type = TableUtils.getComponentType(field);
-```
-
-### Advanced Driver Configuration
-
-#### Custom Driver Options
-```
 import io.cyborgcode.roa.ui.drivers.base.DriverProvider;
 import io.cyborgcode.roa.ui.drivers.providers.ChromeDriverProvider;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -1265,8 +1685,8 @@ WebDriver webDriver = provider.createDriver(options);
 SmartWebDriver driver = new SmartWebDriver(webDriver);
 ```
 
-#### Remote Driver (Selenium Grid)
-```
+### Remote Driver (Selenium Grid)
+```java
 // Configure remote driver URL in ui-config.properties
 // remote.driver.url=http://localhost:4444/wd/hub
 
@@ -1285,64 +1705,35 @@ if (!getUiConfig().remoteDriverUrl().isEmpty()) {
 }
 ```
 
-#### Driver Session Management
-```
-// Keep driver for entire session
-driver.setKeepDriverForSession(true);
+---
 
-// Close after test
-if (!driver.isKeepDriverForSession()) {
-    driver.quit();
-}
+## Performance Optimization
 
-// Driver lifecycle with try-with-resources
-try (SmartWebDriver driver = new SmartWebDriver(webDriver)) {
-    // Test operations
-    driver.get("https://example.com");
-    // Driver automatically closed
-}
-```
+### Disable Wrapping for Simple Operations
 
-### Performance Optimization
+```java
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
 
-#### Minimize Element Lookups
-```
-// Bad: Multiple lookups
-driver.findSmartElement(By.id("form")).findSmartElement(By.id("name")).sendKeys("John");
-driver.findSmartElement(By.id("form")).findSmartElement(By.id("email")).sendKeys("john@example.com");
-
-// Good: Cache container
-SmartWebElement form = driver.findSmartElement(By.id("form"));
-form.findSmartElement(By.id("name")).sendKeys("John");
-form.findSmartElement(By.id("email")).sendKeys("john@example.com");
-```
-
-#### Disable Wrapping for Simple Operations
-```
-// For simple, non-critical operations, disable wrapping
+// For simple, non-critical operations, disable wrapping (using SmartWebDriver and SmartWebElement decorators)
 // Set use.wrap.selenium.function=false in config
 
 // Or use NoWrap methods directly
+SmartWebDriver driver = new SmartWebDriver(webDriver);
 SmartWebElement element = SmartFinder.findElementNoWrap(driver, By.id("simple-btn"));
-element.getOriginal().click(); // Direct Selenium call, no waits
+
+// Or use Direct original WebElement instance, with no waits
+element.getOriginal().click();
+
+// Or use Direct original WebDriver instance, with no waits
+driver.getOriginal().findElement(By.id("simple-btn"));
 ```
 
-#### Batch Element Operations
-```
-// Read multiple elements at once
-List<SmartWebElement> rows = driver.findSmartElements(By.cssSelector("table tr"));
+---
 
-// Process in parallel if operations are independent
-rows.parallelStream().forEach(row -> {
-    String text = row.getText();
-    // Process row
-});
-```
+## Troubleshooting
 
-### Troubleshooting
-
-#### Enable Debug Logging
-```
+### Enable Debug Logging
+```java
 import io.cyborgcode.roa.ui.log.LogUi;
 
 // Set logging level in configuration or programmatically
@@ -1355,7 +1746,7 @@ LogUi.setDebugMode(true);
 // - Shadow DOM traversal paths
 ```
 
-#### Common Issues and Solutions
+### Common Issues and Solutions
 
 **Issue: StaleElementReferenceException persists**
 ```java
@@ -1369,7 +1760,7 @@ SmartWebElement element = driver.findSmartElement(locator);
 ```
 
 **Issue: Element not interactable**
-```
+```java
 // Solution: Explicit wait for element state
 driver.waitUntilElementIsShown(By.id("element"), 10);
 SmartWebElement element = driver.findSmartElement(By.id("element"));
@@ -1396,13 +1787,15 @@ List<User> users = tables.readTable(User.class, nameField, emailField);
 // Faster than reading all fields
 ```
 
+---
+
 ## Configuration
-| Key | Source (Owner) | Default | Required | Example |
-|---|---|---|---|---|
-| `browser.type` | Owner | `CHROME` | No | `-Dbrowser.type=FIREFOX` |
-| `browser.version` | Owner | `` (latest) | No | `-Dbrowser.version=114.0` |
-| `headless` | Owner | `false` | No | `-Dheadless=true` |
-| `remote.driver.url` | Owner | `` (local) | No | `-Dremote.driver.url=http://localhost:4444/wd/hub` |
+| Key | Source (Owner) | Default        | Required | Example |
+|---|---|----------------|---|---|
+| `browser.type` | Owner | `CHROME`       | No | `-Dbrowser.type=FIREFOX` |
+| `browser.version` | Owner | (latest)    | No | `-Dbrowser.version=114.0` |
+| `headless` | Owner | `false`        | No | `-Dheadless=true` |
+| `remote.driver.url` | Owner | (local)     | No | `-Dremote.driver.url=http://localhost:4444/wd/hub` |
 | `wait.duration.in.seconds` | Owner | **NO DEFAULT** | **Yes** | `-Dwait.duration.in.seconds=10` |
 | `project.package` | Owner | **NO DEFAULT** | **Yes** | `-Dproject.package=io.cyborgcode` |
 | `input.default.type` | Owner | **NO DEFAULT** | If using input | class name of enum constant |
@@ -1418,16 +1811,19 @@ List<User> users = tables.readTable(User.class, nameField, emailField);
 | `tab.default.type` | Owner | **NO DEFAULT** | If using tab | class name of enum constant |
 | `modal.default.type` | Owner | **NO DEFAULT** | If using modal | class name of enum constant |
 | `accordion.default.type` | Owner | **NO DEFAULT** | If using accordion | class name of enum constant |
-| `ui.base.url` | Owner | `` (empty) | No | `-Dui.base.url=https://app.example.com` |
+| `ui.base.url` | Owner | `` (empty)     | No | `-Dui.base.url=https://app.example.com` |
 | `table.default.type` | Owner | **NO DEFAULT** | If using table | class name of enum constant |
-| `use.wrap.selenium.function` | Owner | `true` | No | `-Duse.wrap.selenium.function=false` |
-| `use.shadow.root` | Owner | `false` | No | `-Duse.shadow.root=true` |
+| `use.wrap.selenium.function` | Owner | `true`         | No | `-Duse.wrap.selenium.function=false` |
+| `use.shadow.root` | Owner | `false`        | No | `-Duse.shadow.root=true` |
 
 **Configuration Notes:**
 - Keys marked as **Required** will throw exceptions if not set
+- If browser.type and headless properties are missing, then browser.type defaults to 'CHROME' and headless defaults to false
 - Component `*.default.type` keys are required only when using that component type
 - All configurations can be set via system properties or `ui-config.properties` file
 - Load order: system properties override properties file values
+
+---
 
 ## Extensibility
 - Add a new component type: create an enum implementing `ComponentType` and a component class
@@ -1436,16 +1832,22 @@ List<User> users = tables.readTable(User.class, nameField, emailField);
   expose a minimal API interface similar to `ButtonService`.
 - Customize Selenium behavior: toggle `UiConfig.useShadowRoot()` or `UiConfig.useWrappedSeleniumFunctions()`.
 
+---
+
 ## Cross-module links
 - Used by `ui-interactor-test-framework-adapter/` to expose fluent UI rings for `test-framework`.
   See `ui-interactor-test-framework-adapter/README.md` and `test-framework/README.md`.
+
+---
 
 ## Glossary
 - **SmartWebDriver**: Decorated `WebDriver` with built-in waits, exception strategies, and Shadow DOM support.
 - **SmartWebElement**: Decorated `WebElement` adding robust actions and element discovery helpers.
 - **Component Service**: A service that delegates to UI component implementations resolved by `ComponentFactory`.
 
-## Dependencies
+---
+
+## Module Dependencies
 - `org.seleniumhq.selenium:selenium-java`
 - `org.projectlombok:lombok`
 - `org.aeonbits.owner:owner`
@@ -1455,6 +1857,8 @@ List<User> users = tables.readTable(User.class, nameField, emailField);
 - `org.mockito:mockito-core`
 - `com.github.spotbugs:spotbugs-annotations`
 - `org.junit.jupiter:junit-jupiter` (tests)
+
+---
 
 ## Author
 **Cyborg Code Syndicate 💍👨💻**
