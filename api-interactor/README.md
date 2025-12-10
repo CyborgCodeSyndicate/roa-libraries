@@ -1,7 +1,8 @@
 # api-interactor
 
 <!-- Quick jump -->
-**Start here:** [Usage - Quick Start (step-by-step)](#usage)
+> Quick jump: if you're already familiar with `api-interactor` and just want a step-by-step setup and examples,
+> go to [Usage](#usage).
 
 ## Table of Contents
 
