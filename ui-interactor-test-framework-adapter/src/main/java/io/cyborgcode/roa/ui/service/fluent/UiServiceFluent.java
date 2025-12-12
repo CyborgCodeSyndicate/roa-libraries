@@ -28,6 +28,7 @@ import io.cyborgcode.roa.ui.components.table.filters.TableFilter;
 import io.cyborgcode.roa.ui.components.table.insertion.TableInsertion;
 import io.cyborgcode.roa.ui.components.table.registry.TableServiceRegistry;
 import io.cyborgcode.roa.ui.components.table.service.TableServiceImpl;
+import io.cyborgcode.roa.ui.components.toggle.ToggleServiceImpl;
 import io.cyborgcode.roa.ui.insertion.InsertionServiceRegistry;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
 import io.cyborgcode.roa.ui.service.InsertionServiceElementImpl;
@@ -65,6 +66,7 @@ public class UiServiceFluent<T extends UiServiceFluent<?>> extends FluentService
    private LinkServiceFluent<T> linkField;
    private AlertServiceFluent<T> alertField;
    private TabServiceFluent<T> tabField;
+   private ToggleServiceFluent<T> toggleField;
    private ModalServiceFluent<T> modalField;
    private AccordionServiceFluent<T> accordionField;
    private TableServiceFluent<T> table;
@@ -126,6 +128,7 @@ public class UiServiceFluent<T extends UiServiceFluent<?>> extends FluentService
       loaderField = new LoaderServiceFluent(this, quest.getStorage(), new LoaderServiceImpl(driver), driver);
       alertField = new AlertServiceFluent(this, quest.getStorage(), new AlertServiceImpl(driver), driver);
       tabField = new TabServiceFluent(this, quest.getStorage(), new TabServiceImpl(driver), driver);
+      toggleField = new ToggleServiceFluent(this, quest.getStorage(), new ToggleServiceImpl(driver), driver);
       modalField = new ModalServiceFluent(this, quest.getStorage(), new ModalServiceImpl(driver), driver);
       accordionField = new AccordionServiceFluent(this, quest.getStorage(), new AccordionServiceImpl(driver), driver);
       validation = new ValidationServiceFluent(this, driver);
