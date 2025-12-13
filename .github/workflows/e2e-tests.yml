@@ -42,7 +42,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: CyborgCodeSyndicate/roa-example-projects
-          ref: e2e-flow
 
       - name: Setup Maven Environment
         uses: CyborgCodeSyndicate/utilities/pipelines/shared/setup-maven@v1.4.1
