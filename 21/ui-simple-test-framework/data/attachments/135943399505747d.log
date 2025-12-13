@@ -1,0 +1,24 @@
+🤖 CYBORG 🤖 2025-12-13T12:55:38,612 [scenario=GettingStartedTests.components_listRadio] INFO  [UI] - Chrome driver is downloaded with a compatible version for the installed browser
+🤖 CYBORG 🤖 2025-12-13T12:55:38,842 [scenario=GettingStartedTests.components_listRadio] INFO  [UI] - Creating driver using provider [ChromeDriverProvider]. Headless: [true], Remote: [true], Remote URL: [http://localhost:4444]
+🤖 CYBORG 🤖 2025-12-13T12:55:41,023 [scenario=GettingStartedTests.components_listRadio] INFO  [QUEST] - The quest: 'components_listRadio(Quest)' has begun and is crafted.
+🤖 CYBORG 🤖 2025-12-13T12:55:41,094 [scenario=GettingStartedTests.components_listRadio] INFO  [QUEST] - The quest has used the ring: 'io.cyborgcode.ui.simple.test.framework.ui.AppUiService'
+🤖 CYBORG 🤖 2025-12-13T12:55:41,664 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Clicking button using locator: By.id: signin_button
+🤖 CYBORG 🤖 2025-12-13T12:55:42,218 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Inserting value: 'username' into input component of type: 'BOOTSTRAP_INPUT_TYPE'.
+🤖 CYBORG 🤖 2025-12-13T12:55:42,820 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Inserting value: 'password' into input component of type: 'BOOTSTRAP_INPUT_TYPE'.
+🤖 CYBORG 🤖 2025-12-13T12:55:43,228 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Clicking button using locator: By.cssSelector: input[value='Sign in']
+🤖 CYBORG 🤖 2025-12-13T12:55:43,795 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Clicking link BOOTSTRAP_LINK_TYPE using locator By.id: transfer_funds_link
+🤖 CYBORG 🤖 2025-12-13T12:55:44,228 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Selecting items Pay Bills from list BOOTSTRAP_LIST_TYPE using locator By.className: nav-tabs
+🤖 CYBORG 🤖 2025-12-13T12:55:45,234 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Selecting items Purchase Foreign Currency from list BOOTSTRAP_LIST_TYPE using locator By.className: ui-tabs-nav
+🤖 CYBORG 🤖 2025-12-13T12:55:45,677 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Selecting option Mexico (peso) in container with locator By.id: pc_currency for select component BOOTSTRAP_SELECT_TYPE
+🤖 CYBORG 🤖 2025-12-13T12:55:45,683 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Selecting options [Mexico (peso)] in container with locator By.id: pc_currency for select component BOOTSTRAP_SELECT_TYPE
+🤖 CYBORG 🤖 2025-12-13T12:55:46,977 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Inserting value: '100' into input component of type: 'BOOTSTRAP_INPUT_TYPE'.
+🤖 CYBORG 🤖 2025-12-13T12:55:47,248 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Selecting radio button with locator By.id: pc_inDollars_true for radio component BOOTSTRAP_RADIO_TYPE
+🤖 CYBORG 🤖 2025-12-13T12:55:47,654 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Clicking button using locator: By.id: pc_calculate_costs
+🤖 CYBORG 🤖 2025-12-13T12:55:47,963 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Clicking button using locator: By.id: purchase_cash
+🤖 CYBORG 🤖 2025-12-13T12:55:48,103 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Getting value from alert located by: By.id: alert_content
+🤖 CYBORG 🤖 2025-12-13T12:55:48,275 [scenario=GettingStartedTests.components_listRadio] VALIDATION [QUEST] - Starting hard validation...
+🤖 CYBORG 🤖 2025-12-13T12:55:48,279 [scenario=GettingStartedTests.components_listRadio] VALIDATION [QUEST] - Hard validation completed successfully.
+🤖 CYBORG 🤖 2025-12-13T12:55:48,282 [scenario=GettingStartedTests.components_listRadio] INFO  [QUEST] - The quest has dropped the ring.
+🤖 CYBORG 🤖 2025-12-13T12:55:48,286 [scenario=GettingStartedTests.components_listRadio] INFO  [QUEST] - The quest has reached his end
+🤖 CYBORG 🤖 2025-12-13T12:55:48,408 [scenario=GettingStartedTests.components_listRadio] INFO  [UI] - WebDriver closed successfully.
+🤖 CYBORG 🤖 2025-12-13T12:55:48,428 [scenario=GettingStartedTests.components_listRadio] INFO  [QUEST] - The quest of 'components_listRadio(Quest)' has concluded with glory. Status: SUCCESS. Duration: 12 seconds.
