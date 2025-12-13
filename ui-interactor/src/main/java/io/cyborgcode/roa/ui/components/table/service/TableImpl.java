@@ -622,7 +622,7 @@ public abstract class TableImpl extends BaseComponent implements Table {
    private SmartWebElement findRowByCriteria(final List<?> searchCriteria, final List<SmartWebElement> rows) {
       return rows.stream()
             .filter(row -> searchCriteria.stream().allMatch(
-                  criterion -> Optional.ofNullable(row.getDomAttribute("innerText"))
+                  criterion -> Optional.ofNullable(row.getText())
                         .orElse("")
                         .contains(String.valueOf(criterion))
             ))

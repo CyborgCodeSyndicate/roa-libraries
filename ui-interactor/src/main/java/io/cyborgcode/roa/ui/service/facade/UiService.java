@@ -1,5 +1,7 @@
 package io.cyborgcode.roa.ui.service.facade;
 
+import io.cyborgcode.roa.ui.components.accordion.AccordionService;
+import io.cyborgcode.roa.ui.components.accordion.AccordionServiceImpl;
 import io.cyborgcode.roa.ui.components.alert.AlertService;
 import io.cyborgcode.roa.ui.components.alert.AlertServiceImpl;
 import io.cyborgcode.roa.ui.components.button.ButtonComponentType;
@@ -19,6 +21,8 @@ import io.cyborgcode.roa.ui.components.list.ItemListService;
 import io.cyborgcode.roa.ui.components.list.ItemListServiceImpl;
 import io.cyborgcode.roa.ui.components.loader.LoaderService;
 import io.cyborgcode.roa.ui.components.loader.LoaderServiceImpl;
+import io.cyborgcode.roa.ui.components.modal.ModalService;
+import io.cyborgcode.roa.ui.components.modal.ModalServiceImpl;
 import io.cyborgcode.roa.ui.components.radio.RadioComponentType;
 import io.cyborgcode.roa.ui.components.radio.RadioService;
 import io.cyborgcode.roa.ui.components.radio.RadioServiceImpl;
@@ -67,6 +71,8 @@ public class UiService {
    private final LinkService linkField;
    private final AlertService alertField;
    private final TabService tabField;
+   private final AccordionService accordionField;
+   private final ModalService modalField;
    private final InsertionServiceRegistry serviceRegistry;
    private final InsertionService insertionService;
    private final TableServiceRegistry tableServiceRegistry;
@@ -89,6 +95,8 @@ public class UiService {
       linkField = new LinkServiceImpl(driver);
       alertField = new AlertServiceImpl(driver);
       tabField = new TabServiceImpl(driver);
+      accordionField = new AccordionServiceImpl(driver);
+      modalField = new ModalServiceImpl(driver);
       checkboxField = new CheckboxServiceImpl(driver);
       toggleField = new ToggleServiceImpl(driver);
       serviceRegistry = new InsertionServiceRegistry();

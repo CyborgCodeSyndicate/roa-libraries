@@ -19,15 +19,19 @@ on:
 permissions:
   contents: write
   packages: write
+  actions: write
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    outputs:
+      next_version: ${{ steps.deploy.outputs.next_version }}
     steps:
       - uses: actions/checkout@v4
 
       - name: Run Deploy pipeline
-        uses: CyborgCodeSyndicate/utilities/pipelines/deploy@v1.3.3
+        id: deploy
+        uses: CyborgCodeSyndicate/utilities/pipelines/deploy@v1.4.1
         with:
           server_ids: github-roa-libraries
           version_bump: ${{ inputs.version_bump || 'none' }}
@@ -36,3 +40,15 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           github_packages_user: ${{ secrets.GH_PACKAGES_USER }}
           github_packages_token: ${{ secrets.GH_PACKAGES_PAT }}
+
+      - name: Persist deployed version
+        if: ${{ steps.deploy.outputs.next_version != '' }}
+        run: echo "${{ steps.deploy.outputs.next_version }}" > version.txt
+
+      - name: Upload deployed version artifact
+        if: ${{ steps.deploy.outputs.next_version != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployed-version
+          path: version.txt
+          retention-days: 7
