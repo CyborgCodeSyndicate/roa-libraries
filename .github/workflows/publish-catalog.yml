@@ -1,4 +1,4 @@
-name: Publish Catalog
+name: Publish Archetype Catalog
 
 on:
   workflow_run:
@@ -14,7 +14,11 @@ permissions:
 jobs:
   publish-catalog:
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.conclusion == 'success'
+    if: >
+      github.event.workflow_run.conclusion == 'success' &&
+      (github.event.workflow_run.event.inputs.version_bump == 'major' ||
+       github.event.workflow_run.event.inputs.version_bump == 'minor' ||
+       github.event.workflow_run.event.inputs.version_bump == 'patch')
 
     steps:
       - name: Checkout
