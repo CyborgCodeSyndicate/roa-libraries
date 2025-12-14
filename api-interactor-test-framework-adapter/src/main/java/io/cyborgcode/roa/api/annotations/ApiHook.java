@@ -28,8 +28,8 @@ import java.lang.annotation.Target;
 @PandoraOptions(
       exampleFilesPath = "ai/roa/api-usage.json",
       meta = {
-            @PandoraOptions.Meta(key = "type", value = "api-hook-annotation"),
-            @PandoraOptions.Meta(key = "scope", value = "class")
+         @PandoraOptions.Meta(key = "type", value = "api-hook-annotation"),
+         @PandoraOptions.Meta(key = "scope", value = "class")
       }
 )
 @Repeatable(ApiHooks.class)
@@ -53,8 +53,7 @@ public @interface ApiHook {
    /**
     * When to execute the hook relative to the test lifecycle.
     *
-    * @return {@link HookExecution#BEFORE} to run before all tests,
-    * {@link HookExecution#AFTER} to run after all tests
+    * @return {@link HookExecution#BEFORE} to run before all tests, {@link HookExecution#AFTER} to run after all tests
     */
    @Pandora(
          description = "When the hook should run relative to the test lifecycle (BEFORE or AFTER all tests)."

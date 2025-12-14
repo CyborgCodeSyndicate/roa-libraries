@@ -30,8 +30,8 @@ import org.springframework.test.annotation.DirtiesContext;
 )
 @PandoraOptions(
       meta = {
-            @PandoraOptions.Meta(key = "type", value = "base-quest"),
-            @PandoraOptions.Meta(key = "lifecycle", value = "sequential-per-class")
+         @PandoraOptions.Meta(key = "type", value = "base-quest"),
+         @PandoraOptions.Meta(key = "lifecycle", value = "sequential-per-class")
       }
 )
 public class BaseQuestSequential extends BaseQuest {

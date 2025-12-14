@@ -23,14 +23,15 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Pandora(
-      description = "Annotation added on a test or class to define post-test cleanup actions that will be executed after the test finishes.",
+      description = "Annotation added on a test or class to define "
+            + "post-test cleanup actions that will be executed after the test finishes.",
       tags = {"framework", "cleanup"},
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
       meta = {
-            @PandoraOptions.Meta(key = "level", value = "test-method-or-class"),
-            @PandoraOptions.Meta(key = "role", value = "cleanup")
+         @PandoraOptions.Meta(key = "level", value = "test-method-or-class"),
+         @PandoraOptions.Meta(key = "role", value = "cleanup")
       }
 )
 public @interface Ripper {

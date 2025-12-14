@@ -15,14 +15,15 @@ import io.cyborgcode.roa.validator.pandora.AvailableOptionsRules;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @Pandora(
-      description = "Marker interface for assertion targets (e.g. STATUS, BODY, HEADER). Implemented by enums that define where an assertion is applied.",
+      description = "Marker interface for assertion targets (e.g. STATUS, BODY, HEADER). "
+            + "Implemented by enums that define where an assertion is applied.",
       tags = {"assertion"},
       creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
       availableOptionsRule = AvailableOptionsRules.AvailableAssertionTargets.class,
       meta = {
-            @PandoraOptions.Meta(key = "type", value = "assertion-target")
+         @PandoraOptions.Meta(key = "type", value = "assertion-target")
       }
 )
 public interface AssertionTarget<T extends Enum<T>> {

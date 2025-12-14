@@ -24,13 +24,14 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @Pandora(
-      description = "Container annotation that groups multiple @Journey preconditions on a single test method.",
+      description = "Container annotation that groups "
+            + "multiple @Journey preconditions on a single test method.",
       tags = {"framework", "precondition"},
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
       meta = {
-            @PandoraOptions.Meta(key = "type", value = "journey-container-annotation")
+         @PandoraOptions.Meta(key = "type", value = "journey-container-annotation")
       }
 )
 public @interface PreQuest {

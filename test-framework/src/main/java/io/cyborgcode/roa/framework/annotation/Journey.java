@@ -25,15 +25,16 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @Pandora(
-      description = "Declares a pre-test journey (precondition step) that runs before the test body.",
+      description = "Declares a pre-test journey "
+            + "(precondition step) that runs before the test body.",
       tags = {"framework", "precondition"},
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
       meta = {
-            @PandoraOptions.Meta(key = "type", value = "journey-annotation"),
-            @PandoraOptions.Meta(key = "scope", value = "method"),
-            @PandoraOptions.Meta(key = "phase", value = "before-test")
+         @PandoraOptions.Meta(key = "type", value = "journey-annotation"),
+         @PandoraOptions.Meta(key = "scope", value = "method"),
+         @PandoraOptions.Meta(key = "phase", value = "before-test")
       }
 )
 public @interface Journey {

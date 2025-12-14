@@ -33,15 +33,17 @@ import static io.cyborgcode.roa.framework.util.PropertiesUtil.addSystemPropertie
 )
 @Tag("exclude-from-verify")
 @Pandora(
-      description = "Base test class for RoA-style quests. Provides Spring Boot test wiring, logging setup and convenience methods for retrieving data from quest storage.",
+      description = "Base test class for RoA-style quests. "
+            + "Provides Spring Boot test wiring, logging setup "
+            + "and convenience methods for retrieving data from quest storage.",
       tags = {"framework", "test-data"},
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
       exampleFilesPath = "ai/roa/api-usage.json",
       meta = {
-            @PandoraOptions.Meta(key = "type", value = "base-quest"),
-            @PandoraOptions.Meta(key = "level", value = "framework")
+         @PandoraOptions.Meta(key = "type", value = "base-quest"),
+         @PandoraOptions.Meta(key = "level", value = "framework")
       }
 )
 public class BaseQuest {
@@ -87,7 +89,8 @@ public class BaseQuest {
     * @return The stored test data from the specified sub-key.
     */
    @Pandora(
-         description = "Retrieve an object from a sub-storage (e.g. API, DB) using a subKey (namespace) and entry enum key."
+         description = "Retrieve an object from a sub-storage "
+               + "(e.g. API, DB) using a subKey (namespace) and entry enum key."
    )
    protected <T> T retrieve(
          @Pandora(

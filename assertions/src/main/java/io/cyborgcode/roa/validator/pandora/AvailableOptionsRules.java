@@ -27,6 +27,8 @@ public final class AvailableOptionsRules {
     * {@code STATUS}, {@code BODY}, and {@code HEADER}, but the rule also
     * supports additional domains (DB, UI) as long as they implement
     * {@link AssertionTarget}.</p>
+    *
+    * @author Cyborg Code Syndicate 💍👨💻
     */
    public static final class AvailableAssertionTargets extends EnumsInPackageRule {
 
@@ -49,6 +51,8 @@ public final class AvailableOptionsRules {
     * <p>This includes operations such as {@code IS}, {@code CONTAINS},
     * {@code BETWEEN}, {@code MATCHES_REGEX}, and any custom assertion type
     * enums used across ROA.</p>
+    *
+    * @author Cyborg Code Syndicate 💍👨💻
     */
    public static final class AvailableAssertionTypes extends EnumsInPackageRule {
 

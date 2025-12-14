@@ -27,14 +27,15 @@ import static io.cyborgcode.utilities.reflections.ReflectionUtil.getFieldValues;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @Pandora(
-      description = "Core RoA quest object used in tests. Holds rings (fluent services), shared storage and soft assertions for a single test run.",
+      description = "Core RoA quest object used in tests. Holds rings (fluent services), "
+            + "shared storage and soft assertions for a single test run.",
       tags = {"framework"},
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
       exampleFilesPath = "ai/roa/api-usage.json",
       meta = {
-            @PandoraOptions.Meta(key = "type", value = "quest")
+         @PandoraOptions.Meta(key = "type", value = "quest")
       }
 )
 public class Quest {
@@ -74,7 +75,8 @@ public class Quest {
     */
    @SuppressWarnings("unchecked")
    @Pandora(
-         description = "Switch the active ring (fluent service) for the current quest. Typical usage: quest.use(RING_OF_API) or quest.use(RING_OF_CUSTOM).",
+         description = "Switch the active ring (fluent service) for the current quest."
+               + " Typical usage: quest.use(RING_OF_API) or quest.use(RING_OF_CUSTOM).",
          tags = {"framework"}
    )
    @PandoraOptions(
@@ -121,7 +123,8 @@ public class Quest {
     * soft assertions collected during the test execution.
     */
    @Pandora(
-         description = "Finish the quest: log completion, clear the quest from QuestHolder and assert all collected soft assertions. Call this at the end of the test flow.",
+         description = "Finish the quest: log completion, clear the quest from "
+               + "QuestHolder and assert all collected soft assertions. Call this at the end of the test flow.",
          tags = {"framework"}
    )
    @PandoraOptions(

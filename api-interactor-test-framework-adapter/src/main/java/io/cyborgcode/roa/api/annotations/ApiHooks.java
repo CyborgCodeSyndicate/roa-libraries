@@ -18,15 +18,16 @@ import java.lang.annotation.Target;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @Pandora(
-      description = "Container annotation that holds multiple @ApiHook definitions on a single test class. Normally used implicitly by Java.",
+      description = "Container annotation that holds multiple @ApiHook "
+            + "definitions on a single test class. Normally used implicitly by Java.",
       tags = {"api", "hook", "annotation"},
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
       exampleFilesPath = "ai/roa/api-usage.json",
       meta = {
-            @PandoraOptions.Meta(key = "type", value = "api-hook-container-annotation"),
-            @PandoraOptions.Meta(key = "scope", value = "class")
+         @PandoraOptions.Meta(key = "type", value = "api-hook-container-annotation"),
+         @PandoraOptions.Meta(key = "scope", value = "class")
       }
 )
 @Retention(RetentionPolicy.RUNTIME)

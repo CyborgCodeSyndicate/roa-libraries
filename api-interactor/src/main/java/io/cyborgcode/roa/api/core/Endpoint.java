@@ -22,14 +22,15 @@ import static io.cyborgcode.roa.api.config.ApiConfigHolder.getApiConfig;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @Pandora(
-      description = "Generic API endpoint definition used by enums to describe HTTP method, path and default request parameters.",
+      description = "Generic API endpoint definition used by enums to describe HTTP method, "
+            + "path and default request parameters.",
       tags = {"api"},
       creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
       availableOptionsRule = AvailableOptionsRules.AvailableEndpoints.class,
       meta = {
-            @PandoraOptions.Meta(key = "type", value = "endpoint")
+         @PandoraOptions.Meta(key = "type", value = "endpoint")
       }
 )
 public interface Endpoint<T extends Enum<T>> {

@@ -28,7 +28,7 @@ import io.cyborgcode.roa.validator.pandora.AvailableOptionsRules;
 @PandoraOptions(
       availableOptionsRule = AvailableOptionsRules.AvailableAssertionTypes.class,
       meta = {
-            @PandoraOptions.Meta(key = "type", value = "assertion-type")
+         @PandoraOptions.Meta(key = "type", value = "assertion-type")
       }
 )
 public interface AssertionType<T extends Enum<T>> {

@@ -19,15 +19,16 @@ import java.lang.annotation.Target;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @Pandora(
-      description = "Method-level annotation that configures how API authentication is performed for a test (credentials + client + caching).",
+      description = "Method-level annotation that configures how API "
+            + "authentication is performed for a test (credentials + client + caching).",
       tags = {"api", "auth", "annotation"},
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
       exampleFilesPath = "ai/roa/api-usage.json",
       meta = {
-            @PandoraOptions.Meta(key = "type", value = "api-auth-annotation"),
-            @PandoraOptions.Meta(key = "scope", value = "method")
+         @PandoraOptions.Meta(key = "type", value = "api-auth-annotation"),
+         @PandoraOptions.Meta(key = "scope", value = "method")
       }
 )
 @Retention(RetentionPolicy.RUNTIME)
@@ -40,7 +41,8 @@ public @interface AuthenticateViaApi {
     * @return The class implementing {@link Credentials}.
     */
    @Pandora(
-         description = "Credentials provider used to supply username/password or tokens for authentication."
+         description = "Credentials provider used to supply username/password or tokens for authentication.",
+         tags = {"api", "auth", "annotation"}
    )
    Class<? extends Credentials> credentials();
 
@@ -50,7 +52,8 @@ public @interface AuthenticateViaApi {
     * @return The class extending {@link BaseAuthenticationClient}.
     */
    @Pandora(
-         description = "Authentication client implementation that knows how to perform the login call and store resulting tokens/headers."
+         description = "Authentication client implementation that knows "
+               + "how to perform the login call and store resulting tokens/headers."
    )
    Class<? extends BaseAuthenticationClient> type();
 
@@ -60,7 +63,8 @@ public @interface AuthenticateViaApi {
     * @return {@code true} if credentials should be cached, otherwise {@code false}.
     */
    @Pandora(
-         description = "Whether to cache resolved credentials (and/or tokens) across tests instead of logging in every time."
+         description = "Whether to cache resolved credentials "
+               + "(and/or tokens) across tests instead of logging in every time."
    )
    boolean cacheCredentials() default false;
 

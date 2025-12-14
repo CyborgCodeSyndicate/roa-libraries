@@ -21,13 +21,14 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
 @Pandora(
-      description = "Marks a test method parameter whose value should be auto-generated from a predefined test data model.",
+      description = "Marks a test method parameter whose value should "
+            + "be auto-generated from a predefined test data model.",
       tags = {"framework", "test-data"},
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
       meta = {
-            @PandoraOptions.Meta(key = "type", value = "parameter-annotation")
+         @PandoraOptions.Meta(key = "type", value = "parameter-annotation")
       }
 )
 public @interface Craft {

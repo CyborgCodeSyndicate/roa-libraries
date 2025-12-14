@@ -33,8 +33,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @PandoraOptions(
       exampleFilesPath = "ai/roa/api-usage.json",
       meta = {
-            @PandoraOptions.Meta(key = "type", value = "api-annotation"),
-            @PandoraOptions.Meta(key = "scope", value = "class")
+         @PandoraOptions.Meta(key = "type", value = "api-annotation"),
+         @PandoraOptions.Meta(key = "scope", value = "class")
       }
 )
 @Retention(RetentionPolicy.RUNTIME)

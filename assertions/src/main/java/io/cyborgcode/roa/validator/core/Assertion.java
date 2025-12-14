@@ -29,7 +29,7 @@ import lombok.Setter;
 @PandoraOptions(
       exampleFilesPath = "ai/roa/api-usage.json",
       meta = {
-            @PandoraOptions.Meta(key = "type", value = "assertion")
+         @PandoraOptions.Meta(key = "type", value = "assertion")
       }
 )
 public final class Assertion {
