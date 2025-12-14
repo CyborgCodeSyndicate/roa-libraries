@@ -82,7 +82,12 @@ public class Quest {
    @PandoraOptions(
          exampleFilesPath = "ai/roa/api-usage.json"
    )
-   public <T extends FluentService> T use(Class<T> ring) {
+   public <T extends FluentService> T use(
+         @Pandora(
+               description = "Fluent service ring class to activate, "
+                     + "e.g. RestServiceFluent.class or a custom @Ring service."
+         )
+         Class<T> ring) {
       Optional<Class<? extends FluentService>> match =
             rings.keySet().stream().filter(ring::isAssignableFrom).findFirst();
       if (match.isEmpty()) {

@@ -43,6 +43,9 @@ public @interface JourneyData {
     *
     * @return The name of the test data model.
     */
+   @Pandora(
+         description = "Identifier of the test data model to resolve and prepare for this journey."
+   )
    String value();
 
    /**
@@ -58,6 +61,9 @@ public @interface JourneyData {
     * @return {@code true} if the test data should be created lazily and requires
     *     explicit resolution before use, otherwise {@code false}.
     */
+   @Pandora(
+         description = "Identifier of the test data model to resolve and prepare for this journey."
+   )
    boolean late() default false;
 
 }

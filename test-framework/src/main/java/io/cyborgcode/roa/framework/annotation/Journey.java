@@ -47,6 +47,9 @@ public @interface Journey {
     *
     * @return The name of the journey.
     */
+   @Pandora(
+         description = "Identifier of the pre-test journey (precondition flow) to execute before this test."
+   )
    String value();
 
    /**
@@ -57,6 +60,9 @@ public @interface Journey {
     *
     * @return An array of {@code JourneyData} objects containing test data.
     */
+   @Pandora(
+         description = "Additional test data entries used by the journey; declared via @JourneyData."
+   )
    JourneyData[] journeyData() default {};
 
    /**
@@ -66,6 +72,9 @@ public @interface Journey {
     *
     * @return The execution order of the journey.
     */
+   @Pandora(
+         description = "Execution order among multiple @Journey entries; lower values run first."
+   )
    int order() default 0;
 
 }
