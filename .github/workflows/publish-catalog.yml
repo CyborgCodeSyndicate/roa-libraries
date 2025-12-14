@@ -1,0 +1,53 @@
+name: Publish Catalog
+
+on:
+  workflow_run:
+    workflows: ["Deploy"]
+    types:
+      - completed
+    branches:
+      - roa-archetype
+
+permissions:
+  contents: write
+
+jobs:
+  publish-catalog:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download deployed version artifact
+        uses: dawidd6/action-download-artifact@v3
+        with:
+          run_id: ${{ github.event.workflow_run.id }}
+          name: deployed-version
+          path: artifacts
+          if_no_artifact_found: ignore
+
+      - name: Check if version was deployed
+        run: |
+          if [ ! -f artifacts/deployed-version/version.txt ] && [ ! -f artifacts/version.txt ]; then
+            echo "No version artifact found - skipping catalog deployment"
+            exit 0
+          fi
+
+      - name: Setup Maven Environment
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Run Maven Filtering
+        run: mvn --batch-mode process-resources -f roa-archetype/pom.xml
+
+      - name: Deploy Catalog to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: roa-archetype/target/classes/archetype-catalog.xml
+          destination_dir: /roa-archetype
