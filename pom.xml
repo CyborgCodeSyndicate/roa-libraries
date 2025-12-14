@@ -7,12 +7,12 @@
     <parent>
         <groupId>io.cyborgcode.utilities</groupId>
         <artifactId>parent-pom</artifactId>
-        <version>1.4.0</version>
+        <version>1.4.1</version>
     </parent>
 
     <groupId>io.cyborgcode.roa</groupId>
     <artifactId>libraries</artifactId>
-    <version>1.2.2</version>
+    <version>1.2.3</version>
     <packaging>pom</packaging>
 
     <name>Ring of Automation Libraries</name>
@@ -31,7 +31,7 @@
 
     <properties>
         <github.repo.name>roa-libraries</github.repo.name>
-        <utilities.version>1.4.0</utilities.version>
+        <utilities.version>1.4.1</utilities.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
