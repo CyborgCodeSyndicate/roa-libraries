@@ -2,7 +2,7 @@ name: Publish Archetype Catalog
 
 on:
   workflow_run:
-    workflows: ["Deploy"]
+    workflows: [ "Deploy" ]
     types:
       - completed
     branches:
@@ -54,9 +54,69 @@ jobs:
           mkdir -p temp-catalog
           cp roa-archetype/target/classes/archetype-catalog.xml temp-catalog/
 
-      - name: Deploy Catalog to gh-pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: temp-catalog
-          destination_dir: /roa-archetype
+      #      - name: Deploy Catalog to gh-pages
+      #        uses: peaceiris/actions-gh-pages@v3
+      #        with:
+      #          github_token: ${{ secrets.GITHUB_TOKEN }}
+      #          publish_dir: temp-catalog
+      #          destination_dir: /roa-archetype
+
+      - name: Stage, Version, and Cleanup Catalog
+        id: versioning
+        env:
+          PUBLISH_DIR: roa-archetype/target/classes
+          DEST_SUBDIR: roa-archetype-catalogs
+          RETENTION_COUNT: 3
+        run: |
+          # --- 1. SETUP ---
+          
+          sudo apt-get update && sudo apt apt-get install -y git
+          
+          REPO_URL="https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+          
+          git clone --depth 1 --branch gh-pages ${REPO_URL} gh-pages-temp
+          cd gh-pages-temp
+          
+          # --- 2. VERSIONING & PUBLISHING ---
+          
+          mkdir -p ${DEST_SUBDIR}
+          cd ${DEST_SUBDIR}
+          
+          LAST_VERSION=$(find . -maxdepth 1 -type d -regextype posix-extended -regex './[0-9]+' -exec basename {} \; | sort -n | tail -1)
+          
+          NEXT_VERSION=$((LAST_VERSION + 1))
+          if [ -z "$LAST_VERSION" ]; then
+            NEXT_VERSION=1
+          fi
+          
+          echo "Determined next version: ${NEXT_VERSION}"
+          
+          mkdir -p ${NEXT_VERSION}
+          cp -f ../../${PUBLISH_DIR}/archetype-catalog.xml ${NEXT_VERSION}/archetype-catalog.xml
+          
+          # --- 3. CLEANUP (Keep only the last N runs) ---
+          
+          FOLDERS_TO_REMOVE=$(find . -maxdepth 1 -type d -regextype posix-extended -regex './[0-9]+' -exec basename {} \; | sort -n | head -n -${{ env.RETENTION_COUNT }})
+          
+          if [ -z "$FOLDERS_TO_REMOVE" ]; then
+            echo "No old folders to remove."
+          else
+            echo "Removing old folders: ${FOLDERS_TO_REMOVE}"
+            for FOLDER in $FOLDERS_TO_REMOVE; do
+              rm -rf $FOLDER
+            done
+          fi
+          
+          cd .. # Go back to gh-pages-temp root
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add .
+          
+          if git diff --cached --exit-code; then
+              echo "No changes detected after publishing and cleanup. Skipping commit."
+          else
+              git commit -m "Deploy archetype-catalog version ${NEXT_VERSION} (Cleanup: Retaining ${RETENTION_COUNT})"
+              git push ${REPO_URL} gh-pages
+              echo "Successfully pushed new catalog version and performed cleanup."
+          fi
+
