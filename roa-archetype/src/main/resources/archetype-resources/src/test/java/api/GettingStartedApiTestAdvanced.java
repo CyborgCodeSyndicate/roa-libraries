@@ -27,10 +27,9 @@ import static io.cyborgcode.roa.validator.core.AssertionTypes.IS;
 import static org.apache.http.HttpStatus.SC_CREATED;
 
 /**
- * Getting started API test.
- *
- * <p>Shows a slightly richer flow with crafted data and a request.
- * Replace the DTO, endpoints, auth, and assertions with your real API interactions.</p>
+ * API test showing data injection and chained requests.
+ * 
+ * Replace ExampleEndpoints and ExampleRequestDto with your own.
  */
 @API
 @DisplayName("Getting started API test class")
@@ -40,42 +39,38 @@ public class GettingStartedApiTestAdvanced extends BaseQuest {
     @Regression
     @Description("Creates two example payloads using crafted models")
     @AuthenticateViaApi(credentials = ExampleCredentials.class, type = ExampleAuthenticationClient.class)
-    @Journey("" //implement your journey here
-            /*value = Preconditions.Data.EXAMPLE_PRECONDITION, order = 1*/)
-    void exampleAPITest(Quest quest //implement your data creator here
-                                         /*,@Craft(model = DataCreator.Data.EXAMPLE_MODEL) ExampleRequestDto firstPayload,*/
-                                         /*@Craft(model = DataCreator.Data.EXAMPLE_MODEL) Late<ExampleRequestDto> secondPayload*/) {
+    @Journey("" // Add preconditions: value = Preconditions.Data.EXAMPLE_PRECONDITION, order = 1
+    )
+    void exampleAPITest(Quest quest,
+                        @Craft(model = DataCreator.Data.EXAMPLE_MODEL) ExampleRequestDto firstPayload,
+                        @Craft(model = DataCreator.Data.EXAMPLE_MODEL) Late<ExampleRequestDto> secondPayload) {
 
-        /**
-         * Example:
-         *
-         * <p>TODO: implement your API test here</p>
-         */
-//        quest.use(RING_OF_API)
-//                .requestAndValidate(
-//                        ExampleEndpoints.EXAMPLE_POST,
-//                        firstPayload,
-//                        Assertion.builder().target(STATUS).type(IS).expected(SC_CREATED).build()
-//                )
-//                .requestAndValidate(
-//                        ExampleEndpoints.EXAMPLE_POST,
-//                        secondPayload.create(),
-//                        Assertion.builder().target(STATUS).type(IS).expected(SC_CREATED).build()
-//                )
-//                .complete();
+        // @Craft injects test data, Late<T> creates it lazily when .create() is called
+        // Replace endpoints and assertions with your own
+        
+        quest.use(RING_OF_API)
+                .requestAndValidate(
+                        ExampleEndpoints.EXAMPLE_POST,
+                        firstPayload,
+                        Assertion.builder().target(STATUS).type(IS).expected(SC_CREATED).build()
+                )
+                .requestAndValidate(
+                        ExampleEndpoints.EXAMPLE_POST,
+                        secondPayload.create(),
+                        Assertion.builder().target(STATUS).type(IS).expected(SC_CREATED).build()
+                )
+                .complete();
     }
 
     @Test
     @Regression
     void customFlowDemonstration(Quest quest) {
 
-        /**
-         * Example:
-         *
-         * <p>TODO: implement your custom flow here</p>
-         */
-//        quest.use(RING_OF_CUSTOM)
-//                // .performExampleFlow(order) add custom flow here
-//                .complete();
+        // Custom flows let you bundle multiple operations together
+        // Define them in CustomService.java, then call via RING_OF_CUSTOM
+        
+        // quest.use(RING_OF_CUSTOM)
+        //         .yourCustomMethod()
+        //         .complete();
     }
 }

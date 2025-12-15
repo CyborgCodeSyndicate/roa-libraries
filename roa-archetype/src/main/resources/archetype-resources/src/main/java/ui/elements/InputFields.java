@@ -4,85 +4,94 @@ import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.components.input.InputComponentType;
 import io.cyborgcode.roa.ui.selenium.InputUiElement;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
-import ${package}.ui.functions.SharedUi;
 import ${package}.ui.types.InputFieldTypes;
 import org.openqa.selenium.By;
 
 import java.util.function.Consumer;
 
 /**
- * Example input field elements for demonstration and quick-start usage.
+ * Registry of input field elements for your UI tests.
+ * <p>
+ * Define your application's input fields here. Each enum value represents a specific input
+ * on a page (e.g., USERNAME, PASSWORD).
+ * </p>
  */
 public enum InputFields implements InputUiElement {
 
     /**
-     * Example:
-     *
-     * <p>TODO: implement your input fields here</p>
+     * Example: Username field.
+     * <p>
+     * Demonstrates a simple input field definition using a generic type.
+     * </p>
      */
-    GENERIC_INPUT(
-                    /*null, //locator
-                    InputFieldTypes.EXAMPLE_INPUT_TYPE*/   //componentType
-                    /*,webDriver -> {}, //if needed, implement your before actions here (e.g. wait for element to be present)
-                    webDriver -> {}*/ //if needed, implement your after actions here (e.g. wait for element to be removed)
-    );
+    USERNAME(
+            By.id("username-input"),
+            InputFieldTypes.EXAMPLE_INPUT_TYPE
+    ),
 
     /**
-     * Example:
-     *
-     * <p>TODO: implement your enum constructors here for different input field types</p>
+     * Example: Password field with Consumer hooks.
+     * <p>
+     * Demonstrates using 'before' and 'after' hooks.
+     * </p>
      */
-//    private final By locator;
-//    private final InputComponentType componentType;
-//    private final Consumer<SmartWebDriver> before;
-//    private final Consumer<SmartWebDriver> after;
-//
-//    InputFields(By locator, InputComponentType componentType) {
-//        this(locator, componentType, smartWebDriver -> {
-//        }, smartWebDriver -> {
-//        });
-//    }
-//
-//    InputFields(By locator,
-//                InputComponentType componentType,
-//                Consumer<SmartWebDriver> before,
-//                Consumer<SmartWebDriver> after) {
-//        this.locator = locator;
-//        this.componentType = componentType;
-//        this.before = before;
-//        this.after = after;
-//    }
+    PASSWORD(
+            By.id("password-input"),
+            InputFieldTypes.EXAMPLE_INPUT_TYPE,
+            // Before interaction hook:
+            webDriver -> {
+                // Example: webDriver.waitForElementPresent(By.id("password-input"));
+            },
+            // After interaction hook:
+            webDriver -> {
+                // Example: webDriver.takeScreenshot();
+            }
+    );
+
+    private final By locator;
+    private final InputComponentType componentType;
+    private final Consumer<SmartWebDriver> before;
+    private final Consumer<SmartWebDriver> after;
+
+    InputFields(By locator, InputComponentType componentType) {
+        this(locator, componentType, smartWebDriver -> {
+        }, smartWebDriver -> {
+        });
+    }
+
+    InputFields(By locator,
+                InputComponentType componentType,
+                Consumer<SmartWebDriver> before,
+                Consumer<SmartWebDriver> after) {
+        this.locator = locator;
+        this.componentType = componentType;
+        this.before = before;
+        this.after = after;
+    }
 
     @Override
     public By locator() {
-//        return locator;
-        return null;
+        return locator;
     }
 
     @Override
     public <T extends ComponentType> T componentType() {
-//        if (componentType == null) {
-//            return InputUiElement.super.componentType();
-//        }
-//        return (T) componentType;
-        return null;
+        //noinspection unchecked
+        return (T) componentType;
     }
 
     @Override
     public Enum<?> enumImpl() {
-//        return this;
-        return null;
+        return this;
     }
 
     @Override
     public Consumer<SmartWebDriver> before() {
-//        return before;
-        return null;
+        return before;
     }
 
     @Override
     public Consumer<SmartWebDriver> after() {
-//        return after;
-        return null;
+        return after;
     }
 }

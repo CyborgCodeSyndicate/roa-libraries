@@ -26,10 +26,9 @@ import static io.cyborgcode.roa.validator.core.AssertionTypes.CONTAINS_ALL;
 import static io.cyborgcode.roa.validator.core.AssertionTypes.IS;
 
 /**
- * Getting started DB test.
- *
- * <p>Minimal example showing a query and a single assertion.
- * Replace the query and expected values with your application's needs.</p>
+ * Database test showing query execution and validation.
+ * 
+ * Configure your database in Databases.java and config.properties first.
  */
 @DB
 @DisplayName("Getting started DB test class")
@@ -40,27 +39,23 @@ public class GettingStartedDbTestAdvanced extends BaseQuest {
     @Description("Database usage with a hook and simple validation")
     void exampleDBTest(Quest quest) {
 
-        /**
-         * Example:
-         *
-         * <p>TODO: implement your DB test here</p>
-         */
-//        quest
-//                .use(RING_OF_DB)
-//                .validate(() -> System.out.println("Replace with your custom flow, example: " + example))
-//                .drop()
-//                .use(RING_OF_DB)
-//                .query(ExampleDbQueries.SIMPLE_QUERY.withParam("id", 1))
-//                .validate(retrieve(StorageKeysDb.DB, ExampleDbQueries.SIMPLE_QUERY, QueryResponse.class),
-//                        Assertion.builder()
-//                                .target(QUERY_RESULT)
-//                                .key("$[?(@.id == %d)].example")
-//                                .type(CONTAINS_ALL)
-//                                .expected(List.of(example.getName()))
-//                                .soft(true)
-//                                .build()
-//                )
-//                .complete();
+        // Execute a query with parameters, then validate the results
+        // Requires configured DB connection (see Databases.java and config.properties)
+        
+        quest
+                .use(RING_OF_DB)
+                .validate(() -> System.out.println("Setup or logging here"))
+                .query(ExampleDbQueries.SIMPLE_QUERY.withParam("id", 1))
+                // Validation example - uncomment when your DB is ready:
+                // .validate(retrieve(StorageKeysDb.DB, ExampleDbQueries.SIMPLE_QUERY, QueryResponse.class),
+                //         Assertion.builder()
+                //                 .target(QUERY_RESULT)
+                //                 .key("$[?(@.id == 1)].columnName")
+                //                 .type(CONTAINS_ALL)
+                //                 .expected(List.of("expected value"))
+                //                 .build()
+                // )
+                .complete();
     }
 
     @Test

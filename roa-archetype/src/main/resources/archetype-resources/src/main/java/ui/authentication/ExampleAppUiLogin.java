@@ -6,9 +6,9 @@ import org.openqa.selenium.By;
 
 /**
  * Example UI login workflow used with the {@code @AuthenticateViaUi} annotation.
- *
- * <p>Replace the UI flow here with real steps required to authenticate
- * in your application (enter username/password, click login, etc.).</p>
+ * <p>
+ * This class defines HOW to log in via the UI.
+ * </p>
  */
 public class ExampleAppUiLogin extends BaseLoginClient {
 
@@ -18,18 +18,17 @@ public class ExampleAppUiLogin extends BaseLoginClient {
             String username,
             String password
     ) {
-        // TODO: Replace with real UI login logic
+        // Replace with your login steps
         // Example:
         // uiService.getNavigation().navigate("https://example.com/login");
-        // uiService.getInputField().insert("usernameLocator", username);
-        // uiService.getInputField().insert("passwordLocator", password);
-        // uiService.getButtonField().click("loginButton");
+        // uiService.getInputField().insert(InputFields.USERNAME, username);
+        // uiService.getInputField().insert(InputFields.PASSWORD, password);
+        // uiService.getButtonField().click(ButtonFields.LOGIN_BUTTON);
     }
 
     @Override
     protected By successfulLoginElementLocator() {
-        // TODO: Replace with an actual locator that appears after successful login
-//        return By.cssSelector("body");
-        return null;
+        // Replace with the element that appears after successful login
+        return By.cssSelector("body");
     }
 }

@@ -19,10 +19,9 @@ import static io.cyborgcode.roa.db.validator.DbAssertionTarget.QUERY_RESULT;
 import static io.cyborgcode.roa.validator.core.AssertionTypes.IS;
 
 /**
- * Getting started DB test.
- *
- * <p>Minimal example showing a query and a single assertion.
- * Replace the query and expected values with your application's needs.</p>
+ * Simple database query example.
+ * 
+ * Configure your database in Databases.java and config.properties first.
  */
 @DB
 public class GettingStartedDbTestBasic extends BaseQuest {
@@ -32,21 +31,13 @@ public class GettingStartedDbTestBasic extends BaseQuest {
     @Description("Basic DB flow")
     void basicDbQuery(Quest quest) {
 
-        /**
-         * Example:
-         *
-         * <p>TODO: implement your DB test here</p>
-         */
-//        quest.use(RING_OF_DB)
-//                .query(ExampleDbQueries.SIMPLE_QUERY)
-//                .validate(retrieve(StorageKeysDb.DB, ExampleDbQueries.SIMPLE_QUERY, QueryResponse.class),
-//                        Assertion.builder()
-//                                .target(QUERY_RESULT)
-//                                .expected(true)
-//                                .type(IS)
-//                                .build()
-//                )
-//                .complete();
+        // Execute a query and optionally validate results
+        // Replace ExampleDbQueries.SIMPLE_QUERY with your own
+        
+        quest.use(RING_OF_DB)
+                .query(ExampleDbQueries.SIMPLE_QUERY)
+                // .validate(...) add validation when your DB is set up
+                .complete();
     }
 
     @Test

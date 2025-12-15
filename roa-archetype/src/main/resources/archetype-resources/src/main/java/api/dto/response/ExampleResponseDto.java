@@ -6,14 +6,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Example response DTO placeholder.
- * Replace or remove when you add your real response models.
+ * Example response DTO from API calls.
+ * <p>
+ * Create response DTOs matching your API's response schemas.
+ * </p>
  */
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class ExampleResponseDto {
 
-//    private String id;
-//    private String status;
+    private String id;
+    private String status;
 }

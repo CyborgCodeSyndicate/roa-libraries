@@ -4,27 +4,37 @@ import io.cyborgcode.roa.framework.annotation.Ring;
 import io.cyborgcode.roa.framework.chain.FluentService;
 
 /**
- * Custom high-level service for application-specific actions.
- * <pre>{@code
- * quest.use(RING_OF_CUSTOM).exampleFlow();
- * }</pre>
+ * Custom service for complex, multi-step workflows.
+ * <p>
+ * Add methods here that combine UI, API, and DB operations.
+ * Example: createUserWithOrder(), setupTestEnvironment(), etc.
+ * </p>
  */
 @Ring("Custom")
 public class CustomService extends FluentService {
 
     /**
-     * Example method demonstrating how to implement a custom flow.
-     *
-     * <p>Replace this with your actual business operations (e.g., login,
-     * create user, create order, etc.).
+     * Example method demonstrating custom flow structure.
+     * <p>
+     * This shows how to orchestrate multiple operations. You can:
+     * - Call other rings (API, UI, DB) from within this method
+     * - Execute complex multi-step business logic
+     * - Return 'this' for method chaining
+     * </p>
+     * <p>
+     * TODO: Replace this with real business workflows like:
+     * - createUserWithProfile(String name, String email)
+     * - completeCheckoutFlow(Order order)
+     * - setupTestEnvironment(String scenario)
+     * </p>
      */
     public CustomService exampleFlow() {
-        // Example of orchestration:
-        // quest.use(RING_OF_UI).browser().navigate("https://example.com");
-        // quest.use(RING_OF_API).request(...);
-        // quest.use(RING_OF_DB).query(...);
+        // Example - replace with your operations:
+        // quest.use(RING_OF_UI).getNavigation().navigate("https://example.com");
+        // quest.use(RING_OF_API).request(ExampleEndpoints.EXAMPLE_POST, payload);
+        // quest.use(RING_OF_DB).query(ExampleDbQueries.VERIFY_DATA);
 
-        System.out.println("Executing example custom flow...");
+        System.out.println("Executing example custom flow");
         return this;
     }
 }

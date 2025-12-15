@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Example endpoint definition.
- *
- * <p>This is a placeholder used to demonstrate how to define endpoints
- * using the ROA {@link Endpoint} interface. Replace these examples with
- * your application's real API endpoints.</p>
+ * API endpoint definitions.
+ * <p>
+ * Define your endpoints here with HTTP method and URL path.
+ * Path is relative to the base URL in config.properties.
+ * </p>
  */
 public enum ExampleEndpoints implements Endpoint<ExampleEndpoints> {
 

@@ -15,9 +15,7 @@ public class ExampleAuthenticationClient extends BaseAuthenticationClient {
     @Override
     protected Header authenticateImpl(RestService restService, String username, String password) {
 
-        // TODO: Replace with your real authentication call.
-        // For now, return a placeholder header.
-
+        // Replace with your authentication call
         return new Header("Authorization", "Bearer example-token");
     }
 }

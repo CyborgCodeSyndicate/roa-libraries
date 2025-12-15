@@ -19,10 +19,9 @@ import static io.cyborgcode.roa.validator.core.AssertionTypes.IS;
 import static org.apache.http.HttpStatus.SC_OK;
 
 /**
- * Getting started API test.
- *
- * <p>Minimal example showing auth + request + status assertion.
- * Replace the endpoint, auth, and assertions with your application's needs.</p>
+ * Simple API test example.
+ * 
+ * Replace the endpoint and assertions with your own.
  */
 @API
 public class GettingStartedApiTestBasic extends BaseQuest {
@@ -33,17 +32,15 @@ public class GettingStartedApiTestBasic extends BaseQuest {
     @Description("Basic API flow")
     void exampleAPITest(Quest quest) {
 
-        /**
-         * Example:
-         *
-         * <p>TODO: implement your API test here</p>
-         */
-//        quest.use(RING_OF_API)
-//                .requestAndValidate(
-//                        ExampleEndpoints.EXAMPLE_GET,
-//                        Assertion.builder().target(STATUS).type(IS).expected(SC_OK).build()
-//                )
-//                .complete();
+        // Authentication happens automatically via @AuthenticateViaApi annotation
+        // Replace ExampleEndpoints.EXAMPLE_GET with your endpoint
+        
+        quest.use(RING_OF_API)
+                .requestAndValidate(
+                        ExampleEndpoints.EXAMPLE_GET,
+                        Assertion.builder().target(STATUS).type(IS).expected(SC_OK).build()
+                )
+                .complete();
     }
 
     @Test

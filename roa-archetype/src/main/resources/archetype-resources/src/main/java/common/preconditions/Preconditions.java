@@ -6,34 +6,41 @@ import io.cyborgcode.roa.framework.quest.SuperQuest;
 import java.util.function.BiConsumer;
 
 /**
- * Example registry of pre-test journeys.</p>
+ * Registry of pre-test journeys (Preconditions).
+ * <p>
+ * This enum implements {@link PreQuestJourney}. You can define setup steps here
+ * that run before your test logic. Use the {@code @PreQuest} annotation to attach
+ * them to your tests.
+ * </p>
  */
 public enum Preconditions implements PreQuestJourney<Preconditions> {
 
     /**
-     * Example:
-     *
-     * <p>TODO: implement your own precondition enums.</p>
+     * Example precondition.
+     * <p>
+     * TODO: Replace with real setup logic, like creating a user or resetting the DB.
+     * The {@code objects} array contains parameters passed from the annotation.
+     * </p>
      */
-    EXAMPLE_PRECONDITION((quest, objects) -> {});
+    EXAMPLE_PRECONDITION((quest, objects) -> {
+        // Example logic:
+        // String userType = (String) objects[0];
+        // quest.use(Rings.RING_OF_API).post("/setup", new SetupDto(userType));
+    });
 
     /**
-     * Example:
-     *
-     * <p>TODO: implement your string identifiers here so they are accessed via PreQuest annotations.</p>
+     * Constants for use in {@code @PreQuest} annotations.
+     * <p>
+     * TODO: Add matching constants for your new enum values here.
+     * </p>
      */
-//    public static final class Data {
-//        public static final String EXAMPLE_PRECONDITION = "EXAMPLE_PRECONDITION";
-//
-//        private Data() {
-//        }
-//    }
+    public static final class Data {
+        public static final String EXAMPLE_PRECONDITION = "EXAMPLE_PRECONDITION";
 
-    /**
-     * Example:
-     *
-     * <p>TODO: implement your function and reference it in the enum.</p>
-     */
+        private Data() {
+        }
+    }
+
     private final BiConsumer<SuperQuest, Object[]> function;
 
     Preconditions(BiConsumer<SuperQuest, Object[]> function) {
@@ -42,13 +49,11 @@ public enum Preconditions implements PreQuestJourney<Preconditions> {
 
     @Override
     public BiConsumer<SuperQuest, Object[]> journey() {
-//        return function;
-        return null;
+        return function;
     }
 
     @Override
     public Preconditions enumImpl() {
-//        return this;
-        return null;
+        return this;
     }
 }

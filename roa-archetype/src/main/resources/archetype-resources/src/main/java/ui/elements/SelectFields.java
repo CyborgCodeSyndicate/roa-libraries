@@ -3,52 +3,74 @@ package ${package}.ui.elements;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.components.select.SelectComponentType;
 import io.cyborgcode.roa.ui.selenium.SelectUiElement;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
 import ${package}.ui.types.SelectFieldTypes;
 import org.openqa.selenium.By;
 
+import java.util.function.Consumer;
+
 /**
- * Example button field elements for demonstration and quick-start usage.
+ * Registry of select/dropdown field elements for your UI tests.
+ * <p>
+ * Define your application's dropdowns here.
+ * </p>
  */
 public enum SelectFields implements SelectUiElement {
 
     /**
-     * Example:
-     *
-     * <p>TODO: implement your select fields here</p>
+     * Example select field.
      */
     GENERIC_SELECT(
-                    /*null, //locator
-                    SelectFieldTypes.EXAMPLE_SELECT_TYPE*/ //componentType
+            By.id("example-select"),
+            SelectFieldTypes.EXAMPLE_SELECT_TYPE,
+            // Before interaction hook:
+            webDriver -> {},
+            // After interaction hook:
+            webDriver -> {}
     );
 
-    /**
-     * Example:
-     *
-     * <p>TODO: implement your enum constructors here for different select field types</p>
-     */
-//    private final By locator;
-//    private final SelectComponentType componentType;
-//
-//    SelectFields(By locator, SelectComponentType componentType) {
-//        this.locator = locator;
-//        this.componentType = componentType;
-//    }
+    private final By locator;
+    private final SelectComponentType componentType;
+    private final Consumer<SmartWebDriver> before;
+    private final Consumer<SmartWebDriver> after;
+
+    SelectFields(By locator, SelectComponentType componentType) {
+        this(locator, componentType, smartWebDriver -> {}, smartWebDriver -> {});
+    }
+
+    SelectFields(By locator,
+                 SelectComponentType componentType,
+                 Consumer<SmartWebDriver> before,
+                 Consumer<SmartWebDriver> after) {
+        this.locator = locator;
+        this.componentType = componentType;
+        this.before = before;
+        this.after = after;
+    }
 
     @Override
     public By locator() {
-//        return locator;
-        return null;
+        return locator;
     }
 
     @Override
     public <T extends ComponentType> T componentType() {
-//        return (T) componentType;
-        return null;
+        //noinspection unchecked
+        return (T) componentType;
     }
 
     @Override
     public Enum<?> enumImpl() {
-//        return this;
-        return null;
+        return this;
+    }
+
+    @Override
+    public Consumer<SmartWebDriver> before() {
+        return before;
+    }
+
+    @Override
+    public Consumer<SmartWebDriver> after() {
+        return after;
     }
 }

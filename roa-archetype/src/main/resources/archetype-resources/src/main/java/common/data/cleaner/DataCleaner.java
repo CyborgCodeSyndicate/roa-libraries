@@ -7,34 +7,40 @@ import java.util.function.Consumer;
 
 /**
  * Defines reusable cleanup (data ripping) operations for your test suite.
+ * <p>
+ * This enum implements {@link DataRipper}, allowing you to define cleanup logic
+ * that can be attached to tests using the {@code @Ripper} annotation.
+ * </p>
  */
 public enum DataCleaner implements DataRipper<DataCleaner> {
 
     /**
-     * Example data cleaner enum:
-     *
-     * <p>TODO: implement your data cleaner enum here by adding your cleanup functions to the enum</p>
+     * Example data cleaner enum.
+     * <p>
+     * TODO: Generic example that does nothing. Replace with real cleanup logic,
+     * such as deleting a user created during the test.
+     * </p>
      */
-    EXAMPLE_CLEANUP(quest -> {});
+    EXAMPLE_CLEANUP(quest -> {
+        // Example:
+        // quest.use(Rings.RING_OF_API).delete("/users/" + quest.getData("userId"));
+    });
 
     /**
-     * Example:
-     *
-     * <p>TODO: implement your string identifiers here so they are accessed via Ripper annotations</p>
+     * Example String constants for use in annotations.
+     * <p>
+     * TODO: Define public static constants matching your enum names here.
+     * This allows you to use {@code @Ripper(DataCleaner.Data.EXAMPLE_CLEANUP)} in tests.
+     * </p>
      */
-//    public static final class Data {
-//
-//        private Data() {
-//        }
-//
-//        public static final String EXAMPLE_CLEANUP = "EXAMPLE_CLEANUP";
-//    }
+    public static final class Data {
 
-    /**
-     * Example:
-     *
-     * <p>TODO: implement your consumer and reference it in the enum</p>
-     */
+        public static final String EXAMPLE_CLEANUP = "EXAMPLE_CLEANUP";
+
+        private Data() {
+        }
+    }
+
     private final Consumer<SuperQuest> cleanUpFunction;
 
     DataCleaner(Consumer<SuperQuest> cleanUpFunction) {
@@ -43,13 +49,11 @@ public enum DataCleaner implements DataRipper<DataCleaner> {
 
     @Override
     public Consumer<SuperQuest> eliminate() {
-//        return cleanUpFunction;
-        return null;
+        return cleanUpFunction;
     }
 
     @Override
     public DataCleaner enumImpl() {
-//        return this;
-        return null;
+        return this;
     }
 }

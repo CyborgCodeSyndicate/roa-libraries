@@ -6,9 +6,11 @@ import java.sql.Driver;
 import java.sql.SQLException;
 
 /**
- *
- * TODO: implement your database enum here by adding your database types to the enum
- *
+ * Database connection registry.
+ * <p>
+ * Configure connection details in config.properties:
+ * db.{NAME}.url, db.{NAME}.username, db.{NAME}.password
+ * </p>
  */
 public enum Databases implements DbType<Databases> {
 

@@ -38,10 +38,9 @@ import static io.cyborgcode.roa.ui.config.UiConfigHolder.getUiConfig;
 import static ${package}.common.base.Rings .*;
 
 /**
- * Getting started UI test.
- *
- * <p>Includes examples for raw values, crafted data, auth, preconditions and response extractor.
- * Replace element locators, data models, and flows with your application specifics.</p>
+ * UI test showing authentication, data injection, and element interactions.
+ * 
+ * Replace element references and flows with your application's.
  */
 @UI
 @DisplayName("Getting started UI test class")
@@ -52,37 +51,29 @@ public class GettingStartedUiTestAdvanced extends BaseQuest {
     @Description("Using automatic UI authentication through @AuthenticateViaUi and combining journeys/preconditions" +
             " and crafted data")
     @AuthenticateViaUi(credentials = ExampleCredentials.class, type = ExampleAppUiLogin.class)
-    @Journey("" //implement your journey here
-            /*value = Preconditions.Data.EXAMPLE_PRECONDITION,
-            journeyData = {@JourneyData(DataCreator.Data.EXAMPLE_TABLE_MODEL)},
-            order = 1*/
+    @Journey("" // Add preconditions: value = Preconditions.Data.EXAMPLE_PRECONDITION
     )
-    void exampleUITest(Quest quest //implement your data creator here
-                                    /*,@Craft(model = DataCreator.Data.EXAMPLE_TABLE_MODEL) ExampleTableModel model*/) {
+    void exampleUITest(Quest quest,
+                       @Craft(model = DataCreator.Data.EXAMPLE_TABLE_MODEL) ExampleTableModel model) {
 
-        /**
-         * Example:
-         *
-         * <p>TODO: implement your UI test here</p>
-         */
-//        quest.use(RING_OF_UI)
-//                .getNavigation().navigate(getUiConfig().baseUrl())
+        // Login handled by @AuthenticateViaUi, data injected via @Craft
+        // Replace with your pages, elements, and workflows
+        
+        quest.use(RING_OF_UI)
+                .getNavigation().navigate(getUiConfig().baseUrl())
 #if( $ui.contains("BUTTON") )
-//                .getButtonField().click(ButtonFields.GENERIC_BUTTON)
+                .getButtonField().click(ButtonFields.LOGIN_BUTTON)
 #end
 #if( $ui.contains("INPUT") )
-//                .getInputField().insert(InputFields.GENERIC_INPUT, "example")
+                .getInputField().insert(InputFields.USERNAME, "example")
 #end
 #if( $ui.contains("SELECT") )
-//                .getSelectField().selectOption(SelectFields.GENERIC_SELECT, "example")
-//                .getSelectField().selectOption(SelectFields.GENERIC_SELECT, model.getExampleSelection())
+                // .getSelectField().selectOption(SelectFields.GENERIC_SELECT, model.getExampleSelection())
 #end
-//                .validate(() -> Assertions.assertEquals(List.of(""),
-//                        retrieve(DataExtractorFunctions
-//                                        .responseBodyExtraction(RequestsInterceptor.EXAMPLE_INTERCEPT.getEndpointSubString(),
-//                                                "$[0].example[?(@.key=='example')].value", ""),
-//                                List.class)))
-//                .complete();
+                // Validate AJAX responses if needed:
+                // .validate(() -> assertEquals(expected, 
+                //     retrieve(responseBodyExtraction(...), List.class)))
+                .complete();
     }
 
     @Test

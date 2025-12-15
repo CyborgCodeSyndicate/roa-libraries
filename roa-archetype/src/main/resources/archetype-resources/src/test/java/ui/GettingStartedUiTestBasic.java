@@ -24,9 +24,9 @@ import static ${package}.common.base.Rings.RING_OF_CUSTOM;
 import static io.cyborgcode.roa.ui.config.UiConfigHolder.getUiConfig;
 
 /**
- * Getting started UI test.
- *
- * <p>Minimal example showing raw-value interactions. Replace locators and flows with your app.</p>
+ * Simple UI test example.
+ * 
+ * Replace elements and interactions with your own.
  */
 @UI
 public class GettingStartedUiTestBasic extends BaseQuest {
@@ -36,23 +36,21 @@ public class GettingStartedUiTestBasic extends BaseQuest {
     @Description("Basic UI flow")
     void exampleUITest(Quest quest) {
 
-        /**
-         * Example:
-         *
-         * <p>TODO: implement your UI test here</p>
-         */
-//        quest.use(RING_OF_UI)
-//                .getNavigation().navigate(getUiConfig().baseUrl())
+        // Navigate and interact with elements
+        // Configure baseUrl in config.properties
+        
+        quest.use(RING_OF_UI)
+                .getNavigation().navigate(getUiConfig().baseUrl())
 #if( $ui.contains("BUTTON") )
-//                .getButtonField().click(ButtonFields.GENERIC_BUTTON)
+                .getButtonField().click(ButtonFields.LOGIN_BUTTON)
 #end
 #if( $ui.contains("INPUT") )
-//                .getInputField().insert(InputFields.GENERIC_INPUT, "example")
+                .getInputField().insert(InputFields.USERNAME, "example")
 #end
 #if( $ui.contains("SELECT") )
-//                .getSelectField().selectOption(SelectFields.GENERIC_SELECT, "example")
+                // .getSelectField().selectOption(SelectFields.GENERIC_SELECT, "example")
 #end
-//                .complete();
+                .complete();
     }
 
     @Test

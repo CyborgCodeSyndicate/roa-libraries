@@ -3,7 +3,10 @@ package ${package}.db.queries;
 import io.cyborgcode.roa.db.query.DbQuery;
 
 /**
- * Example database query definitions.
+ * SQL query definitions.
+ * <p>
+ * Use {paramName} for parameters, then .withParam("paramName", value) in tests.
+ * </p>
  */
 public enum ExampleDbQueries implements DbQuery<ExampleDbQueries> {
 

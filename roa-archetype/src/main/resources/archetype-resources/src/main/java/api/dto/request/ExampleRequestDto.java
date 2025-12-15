@@ -6,8 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Example request DTO used in archetype API tests.
- * Replace fields with your real request model when adapting the template.
+ * Example request DTO for API calls.
+ * <p>
+ * Create DTOs matching your API's request schemas.
+ * </p>
  */
 @Data
 @NoArgsConstructor
