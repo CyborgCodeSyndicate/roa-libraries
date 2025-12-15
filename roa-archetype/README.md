@@ -14,25 +14,60 @@ After generating a project, you'll have a ready-to-run test framework with:
 
 ### Key Classes (What to Customize)
 
-**API Module** (if selected):
-- `ExampleEndpoints.java` - Define your API endpoints (GET /users, POST /orders, etc.)
-- `ExampleRequestDto.java` / `ExampleResponseDto.java` - Your request/response models
-- `ExampleAuthenticationClient.java` - How to authenticate (token, cookies, etc.)
+#### API Module (if selected)
 
-**UI Module** (if selected):
-- `InputFields.java` / `ButtonFields.java` / `SelectFields.java` - Your page elements (login form, search button, etc.)
-- `ExampleAppUiLogin.java` - How to log into your app
-- `ExampleTableModel.java` - Models for auto-filling forms
+**Endpoints & Configuration**:
+- `ExampleEndpoints.java` - Registry of your API endpoints. Define HTTP method, path, headers, and defaults for each endpoint (GET /users, POST /orders, DELETE /sessions, etc.)
 
-**DB Module** (if selected):
-- `Databases.java` - Database connection config
-- `ExampleDbQueries.java` - Your SQL queries
+**Data Models**:
+- `ExampleRequestDto.java` - Request body models. Create one for each endpoint that accepts a payload (CreateUserRequest, UpdateOrderRequest, etc.)
+- `ExampleResponseDto.java` - Response body models. Map these to your API's JSON responses for type-safe access
 
-**Common to All**:
-- `DataCreator.java` - Factories for generating test data
-- `DataCleaner.java` - Cleanup operations (delete test users, reset data, etc.)
-- `Preconditions.java` - Reusable setup steps (create user, seed database, etc.)
-- `CustomService.java` - Your custom multi-step operations
+**Authentication**:
+- `ExampleAuthenticationClient.java` - Handles getting auth tokens/cookies. Implements your login flow and returns the auth header
+- `ExampleCredentials.java` - Provides username/password from config. Connects to your test data properties
+
+#### UI Module (if selected)
+
+**Page Elements** (define your app's UI):
+- `InputFields.java` - Text inputs (username field, search box, email input, etc.)
+- `ButtonFields.java` - Clickable elements (submit button, cancel link, menu items, etc.)
+- `SelectFields.java` - Dropdowns (country selector, status filter, etc.)
+
+**Element Types** (customize how elements behave):
+- `InputFieldTypes.java` - Input variants (standard text, password-masked, autocomplete, etc.)
+- `ButtonFieldTypes.java` - Button variants (primary, secondary, icon-only, etc.)
+- `SelectFieldTypes.java` - Select variants (single, multi-select, searchable, etc.)
+
+**Authentication & Flows**:
+- `ExampleAppUiLogin.java` - Your UI login workflow. Fill in the steps to log into your app through the browser
+- `ExampleCredentials.java` - UI credentials provider. Same as API but for browser login
+
+**Advanced Features**:
+- `ExampleTableModel.java` - Form auto-fill models. Annotate fields with `@InsertionElement` to auto-fill entire forms
+- `RequestsInterceptor.java` - Network capture. Intercept AJAX calls during UI tests to validate API responses
+- `SharedUi.java` - Reusable UI functions. Common operations like "wait for spinner" or "dismiss popup"
+
+#### DB Module (if selected)
+
+**Configuration**:
+- `Databases.java` - Database connection registry. Maps database names to JDBC drivers and connection strings
+
+**Queries**:
+- `ExampleDbQueries.java` - SQL query registry. Define all queries here with named parameters like `{userId}`, then use `.withParam("userId", 123)` in tests
+
+#### Common Module
+
+**Configuration & Shared Logic** (Always included):
+- `Rings.java` - Service registry. Central access to all test capabilities (RING_OF_API, RING_OF_UI, RING_OF_DB, RING_OF_CUSTOM)
+- `CustomService.java` - Complex workflows. Bundle multi-step operations that span UI, API, and DB
+- `DataProperties.java` - Strongly-typed config. Define keys for test data like usernames, API keys, feature flags
+- `Data.java` - Config accessor. Single entry point to get config values
+
+**Test Data Management** (Requires `commonFeatures=ADVANCED`):
+- `DataCreator.java` - Test data factories. Create instances of DTOs, models, or any test objects with randomized or specific values
+- `DataCleaner.java` - Cleanup operations. Delete created users, reset database state, clear caches
+- `Preconditions.java` - Setup steps. Reusable preconditions like "create admin user" or "seed product catalog"
 
 ### Example Test
 
