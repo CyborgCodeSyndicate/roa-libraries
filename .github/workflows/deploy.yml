@@ -10,7 +10,7 @@ on:
         required: true
         default: none
         type: choice
-        options: [major, minor, patch, none]
+        options: [ major, minor, patch, none ]
       modules:
         description: 'Comma-separated Maven modules to deploy (optional)'
         required: false
@@ -52,3 +52,52 @@ jobs:
           name: deployed-version
           path: version.txt
           retention-days: 7
+
+  publish-catalog:
+    needs: deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download deployed version artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: deployed-version
+          path: artifacts
+
+      - name: Check if version was deployed
+        run: |
+          # The version.txt file is placed directly in the 'artifacts' directory root
+          if [ ! -f artifacts/version.txt ]; then
+            echo "No version artifact found - skipping catalog deployment"
+            exit 0
+          fi
+
+      - name: Setup Maven Environment
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Run Maven Filtering
+        run: mvn --batch-mode process-resources -f roa-archetype/pom.xml
+
+      - name: Create Temporary Publish Directory
+        run: |
+          # Create a temp directory for the catalog file
+          mkdir -p temp-catalog 
+          
+          # Copy ONLY the desired XML file into the temp directory
+          cp roa-archetype/target/classes/archetype-catalog.xml temp-catalog/
+
+      - name: Deploy Catalog to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: temp-catalog
+          destination_dir: ${{ format('{0}/roa-archetype-catalog', github.run_number) }}
+          keep_files: true
