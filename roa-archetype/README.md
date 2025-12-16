@@ -1,83 +1,115 @@
 # ROA Test Framework Archetype
 
-Quick-start your ROA test automation project. This archetype generates a complete, working test framework with everything wired up - you just need to point it at your application.
+## Table of Contents
+- [Quick Start](#quick-start)
+- [Generation Matrix](#generation-matrix)
+- [Examples](#examples)
+- [Output Expectations](#output-expectations)
+- [What You Get](#what-you-get)
+- [Key Classes (What to Customize)](#key-classes-what-to-customize)
+- [Post-Generation Checklist](#post-generation-checklist)
+- [Example Test](#example-test)
+
+## Quick Start
+CLI (batch, API+UI+DB, advanced data, Postgres):
+```bash
+mvn archetype:generate ^
+  -DarchetypeGroupId=io.cyborgcode.roa.example ^
+  -DarchetypeArtifactId=roa-archetype ^
+  -DarchetypeVersion=1.2.0 ^
+  -DarchetypeRepository=https://maven.pkg.github.com/CyborgCodeSyndicate/roa-libraries ^
+  -DgroupId=com.mycompany ^
+  -DartifactId=my-tests ^
+  -Dversion=1.0-SNAPSHOT ^
+  -Dpackage=com.mycompany ^
+  -Dmodules=API,UI,DB ^
+  -DcommonFeatures=ADVANCED ^
+  -DdbType=POSTGRES ^
+  -DuiComponents=BUTTON,INPUT,SELECT ^
+  -B
+```
+
+IntelliJ: New Project -> Maven Archetype -> Manage Catalogs -> add catalog URL -> select `roa-archetype` -> fill properties -> Finish.
+
+## Generation Matrix
+| Property | Description | Allowed values | Default |
+| --- | --- | --- | --- |
+| modules | Capabilities to include | API, UI, DB (comma-separated) | API,UI,DB |
+| commonFeatures | Test data/preconditions bundle | BASIC, ADVANCED | BASIC |
+| dbType | DB flavor (when DB selected) | POSTGRES, MYSQL, H2, ORACLE, SQLSERVER, MARIADB | POSTGRES |
+| uiComponents | UI element families (when UI selected) | BUTTON, INPUT, SELECT (comma-separated) | BUTTON,INPUT,SELECT |
+| groupId | Maven groupId | any | (required) |
+| artifactId | Maven artifactId | any | (required) |
+| version | Project version | any | 1.0-SNAPSHOT |
+| package | Base package for sources | any | matches groupId |
+
+## Examples
+API-only, basic:
+```bash
+mvn archetype:generate -DarchetypeGroupId=io.cyborgcode.roa.example -DarchetypeArtifactId=roa-archetype -DarchetypeVersion=1.2.0 -DarchetypeRepository=https://maven.pkg.github.com/CyborgCodeSyndicate/roa-libraries -DgroupId=com.myco -DartifactId=api-tests -Dpackage=com.myco -Dmodules=API -DcommonFeatures=BASIC -B
+```
+
+UI-only with buttons+inputs:
+```bash
+mvn archetype:generate -DarchetypeGroupId=io.cyborgcode.roa.example -DarchetypeArtifactId=roa-archetype -DarchetypeVersion=1.2.0 -DarchetypeRepository=https://maven.pkg.github.com/CyborgCodeSyndicate/roa-libraries -DgroupId=com.myco -DartifactId=ui-tests -Dpackage=com.myco.ui -Dmodules=UI -DuiComponents=BUTTON,INPUT -B
+```
+
+Full stack, advanced data, MySQL:
+```bash
+mvn archetype:generate -DarchetypeGroupId=io.cyborgcode.roa.example -DarchetypeArtifactId=roa-archetype -DarchetypeVersion=1.2.0 -DarchetypeRepository=https://maven.pkg.github.com/CyborgCodeSyndicate/roa-libraries -DgroupId=com.myco -DartifactId=full-tests -Dpackage=com.myco.tests -Dmodules=API,UI,DB -DcommonFeatures=ADVANCED -DdbType=MYSQL -DuiComponents=BUTTON,INPUT,SELECT -B
+```
+
+## Output Expectations
+- Only selected modules generate code. If you omit UI, no UI packages appear. If you set `uiComponents=BUTTON`, only button-related classes are created (no input/select classes). Likewise, `modules=API,DB` skips UI entirely.
+- Package structure follows your `package` value under `src/main/java` and `src/test/java`.
+- Example tests and `Example*` classes are templates that compile; replace or delete them when wiring to a real app (they are not meant to hit real systems as-is).
 
 ## What You Get
+A compile-ready scaffold with examples you are expected to replace:
+- API example flows (request/validate/chain) targeting sample endpoints
+- UI example flows (browser control, elements, waits) using sample selectors
+- DB example flows (queries, data checks) against sample schemas
+- Custom flow samples that show how to compose API/UI/DB steps
 
-After generating a project, you'll have a ready-to-run test framework with:
+## Key Classes (What to Customize)
+### API (when API selected)
+- ExampleEndpoints.java: Registry of endpoints (method, path, headers, defaults).
+- ExampleRequestDto.java / ExampleResponseDto.java: Request/response models for your API payloads.
+- ExampleAuthenticationClient.java: How to obtain auth headers or tokens (login flow).
+- ExampleCredentials.java: Supplies credentials from config.
 
-### Test Structure
-- **API Tests**: Make HTTP requests, validate responses, chain multiple calls
-- **UI Tests**: Control browsers, interact with elements, verify page states  
-- **Database Tests**: Run queries, validate data, set up test scenarios
-- **Custom Flows**: Bundle complex operations into reusable workflows
+### UI (when UI selected)
+- InputFields.java / ButtonFields.java / SelectFields.java: Your page elements by type.
+- InputFieldTypes.java / ButtonFieldTypes.java / SelectFieldTypes.java: Behavior variants (text, password, primary, icon, single-select, multi-select, etc.).
+- ExampleAppUiLogin.java: Browser login flow steps.
+- ExampleCredentials.java: UI login credentials source.
+- ExampleTableModel.java: Form auto-fill via @InsertionElement.
+- RequestsInterceptor.java: Capture or inspect network calls during UI tests.
+- SharedUi.java: Common UI helpers (waits, popups, etc.).
 
-### Key Classes (What to Customize)
+### DB (when DB selected)
+- Databases.java: DB connection registry (driver, URL, credentials).
+- ExampleDbQueries.java: Named SQL queries with parameters like {userId}.
 
-#### API Module (if selected)
+### Common (always)
+- Rings.java: Service registry entry points (API, UI, DB, CUSTOM).
+- CustomService.java: Multi-step workflows across modules.
+- DataProperties.java / Data.java: Typed config keys and accessors.
+- DataCreator.java / DataCleaner.java / Preconditions.java (when commonFeatures=ADVANCED): Factories, cleanup hooks, reusable setup.
 
-**Endpoints & Configuration**:
-- `ExampleEndpoints.java` - Registry of your API endpoints. Define HTTP method, path, headers, and defaults for each endpoint (GET /users, POST /orders, DELETE /sessions, etc.)
+## Post-Generation Checklist
+- Set config in src/main/resources/config.properties (base URLs, DB, auth).
+- Replace ExampleEndpoints and DTOs with your real API models.
+- Update UI element classes and ExampleAppUiLogin for your app screens and auth.
+- Define real queries in ExampleDbQueries and connections in Databases.
+- Decide on data features: flesh out DataCreator/DataCleaner/Preconditions or remove if unused.
+- Remove or disable example tests until wired to real systems (@Disabled or delete).
+- Run mvn test to confirm the scaffold compiles; expect to adjust or disable examples until your real endpoints, UI locators, and DB are configured.
 
-**Data Models**:
-- `ExampleRequestDto.java` - Request body models. Create one for each endpoint that accepts a payload (CreateUserRequest, UpdateOrderRequest, etc.)
-- `ExampleResponseDto.java` - Response body models. Map these to your API's JSON responses for type-safe access
-
-**Authentication**:
-- `ExampleAuthenticationClient.java` - Handles getting auth tokens/cookies. Implements your login flow and returns the auth header
-- `ExampleCredentials.java` - Provides username/password from config. Connects to your test data properties
-
-#### UI Module (if selected)
-
-**Page Elements** (define your app's UI):
-- `InputFields.java` - Text inputs (username field, search box, email input, etc.)
-- `ButtonFields.java` - Clickable elements (submit button, cancel link, menu items, etc.)
-- `SelectFields.java` - Dropdowns (country selector, status filter, etc.)
-
-**Element Types** (customize how elements behave):
-- `InputFieldTypes.java` - Input variants (standard text, password-masked, autocomplete, etc.)
-- `ButtonFieldTypes.java` - Button variants (primary, secondary, icon-only, etc.)
-- `SelectFieldTypes.java` - Select variants (single, multi-select, searchable, etc.)
-
-**Authentication & Flows**:
-- `ExampleAppUiLogin.java` - Your UI login workflow. Fill in the steps to log into your app through the browser
-- `ExampleCredentials.java` - UI credentials provider. Same as API but for browser login
-
-**Advanced Features**:
-- `ExampleTableModel.java` - Form auto-fill models. Annotate fields with `@InsertionElement` to auto-fill entire forms
-- `RequestsInterceptor.java` - Network capture. Intercept AJAX calls during UI tests to validate API responses
-- `SharedUi.java` - Reusable UI functions. Common operations like "wait for spinner" or "dismiss popup"
-
-#### DB Module (if selected)
-
-**Configuration**:
-- `Databases.java` - Database connection registry. Maps database names to JDBC drivers and connection strings
-
-**Queries**:
-- `ExampleDbQueries.java` - SQL query registry. Define all queries here with named parameters like `{userId}`, then use `.withParam("userId", 123)` in tests
-
-#### Common Module
-
-**Configuration & Shared Logic** (Always included):
-- `Rings.java` - Service registry. Central access to all test capabilities (RING_OF_API, RING_OF_UI, RING_OF_DB, RING_OF_CUSTOM)
-- `CustomService.java` - Complex workflows. Bundle multi-step operations that span UI, API, and DB
-- `DataProperties.java` - Strongly-typed config. Define keys for test data like usernames, API keys, feature flags
-- `Data.java` - Config accessor. Single entry point to get config values
-
-**Test Data Management** (Requires `commonFeatures=ADVANCED`):
-- `DataCreator.java` - Test data factories. Create instances of DTOs, models, or any test objects with randomized or specific values
-- `DataCleaner.java` - Cleanup operations. Delete created users, reset database state, clear caches
-- `Preconditions.java` - Setup steps. Reusable preconditions like "create admin user" or "seed product catalog"
-
-### Example Test
-
-Here's what a test looks like:
-
+## Example Test
 ```java
 @Test
-void createUser(Quest quest, 
-                @Craft(model = DataCreator.Data.USER_DATA) UserDto user) {
-    
+void createUser(Quest quest, @Craft(model = DataCreator.Data.USER_DATA) UserDto user) {
     quest.use(RING_OF_API)
         .requestAndValidate(
             UserEndpoints.CREATE_USER,
@@ -87,143 +119,3 @@ void createUser(Quest quest,
         .complete();
 }
 ```
-
-## How to Generate Your Project
-
-### Option 1: Command Line (Quick)
-
-```bash
-mvn archetype:generate \
-  -DarchetypeGroupId=io.cyborgcode.roa.example \
-  -DarchetypeArtifactId=roa-archetype \
-  -DarchetypeVersion=1.2.0 \
-  -DarchetypeRepository=https://maven.pkg.github.com/CyborgCodeSyndicate/roa-libraries \
-  -DgroupId=com.mycompany \
-  -DartifactId=my-tests \
-  -Dversion=1.0-SNAPSHOT \
-  -Dpackage=com.mycompany \
-  -Dmodules=API,UI,DB \
-  -DcommonFeatures=ADVANCED \
-  -DdbType=POSTGRES \
-  -B
-```
-
-**What the parameters mean:**
-- `modules` - Which test types you need: `API`, `UI`, `DB` (comma-separated)
-- `commonFeatures` - `BASIC` or `ADVANCED` (adds data creators, preconditions, etc.)
-- `dbType` - Your database: `POSTGRES`, `MYSQL`, `H2`, `ORACLE`, `SQLSERVER`, `MARIADB`
-- `uiComponents` - UI elements to include: `BUTTON`, `INPUT`, `SELECT` (or combinations)
-- `-B` - Batch mode (no prompts, uses defaults)
-
-Drop `-B` if you want interactive prompts where you can just hit Enter to accept defaults.
-
-### Option 2: IntelliJ IDEA (Visual)
-
-1. **Set up Maven catalog**:
-   - File → New Project → Maven Archetype → Manage Catalogs
-   - Add new catalog:
-     - Name: `roa-archetype`
-     - URL: `https://cyborgcodesyndicate.github.io/roa-libraries/test/roa-archetype/archetype-catalog.xml`
-     - Type: Remote
-
-2. **Create project**:
-   - File → New Project → Maven Archetype
-   - Select `roa-archetype` from catalog dropdown
-   - Fill in your project details (groupId, artifactId, etc.)
-   - Customize properties or use defaults
-   - Click Finish
-
-## Prerequisites
-
-You'll need:
-- **Maven** installed (`mvn -v` to check)
-- **Access to ROA libraries** (GitHub Packages)
-- **Maven settings.xml** with credentials:
-
-```xml
-<settings>
-  <servers>
-    <server>
-      <id>roa-ghp</id>
-      <username>YOUR_GITHUB_USERNAME</username>
-      <password>YOUR_GITHUB_PAT</password>
-    </server>
-  </servers>
-  <profiles>
-    <profile>
-      <id>roa-ghp</id>
-      <repositories>
-        <repository>
-          <id>roa-ghp</id>
-          <url>https://maven.pkg.github.com/CyborgCodeSyndicate/roa-libraries</url>
-        </repository>
-      </repositories>
-    </profile>
-  </profiles>
-  <activeProfiles>
-    <activeProfile>roa-ghp</activeProfile>
-  </activeProfiles>
-</settings>
-```
-
-## After Generation
-
-1. **Configure your application**:
-   - Open `src/main/resources/config.properties`
-   - Set your app's base URL, database connection, etc.
-
-2. **Replace examples with your real code**:
-   - API: Update `ExampleEndpoints` with your endpoints
-   - UI: Define your elements in `InputFields`, `ButtonFields`, etc.
-   - DB: Add your queries to `ExampleDbQueries`
-
-3. **Run the example tests**:
-   ```bash
-   mvn test
-   ```
-   They'll fail (since they point to example.com) but show you the framework works.
-
-4. **Start writing your tests**:
-   - Use the `GettingStarted*Test` files as templates
-   - Create new test classes for your features
-
-## Project Structure Highlights
-
-```
-my-tests/
-├── src/main/java/
-│   ├── api/                      # API test components
-│   │   ├── ExampleEndpoints.java
-│   │   ├── dto/
-│   │   └── authentication/
-│   ├── ui/                       # UI test components
-│   │   ├── elements/             # Page elements (buttons, inputs, etc.)
-│   │   ├── types/                # Element types
-│   │   └── authentication/
-│   ├── db/                       # Database test components
-│   │   ├── Databases.java
-│   │   └── queries/
-│   └── common/                   # Shared components
-│       ├── data/                 # Data factories and cleanup
-│       ├── preconditions/        # Reusable setup steps
-│       └── service/              # Custom workflows
-└── src/test/java/
-    ├── api/
-    │   ├── GettingStartedApiTestBasic.java
-    │   └── GettingStartedApiTestAdvanced.java
-    ├── ui/
-    └── db/
-```
-
-## Tips
-
-- **Start small**: Generate with just one module (API or UI) first
-- **Use BASIC features** initially, add ADVANCED later when you need data factories
-- **The example tests won't run** against real apps - they're templates showing you the patterns
-- **Check the Javadoc** - every class has comments explaining what to do
-
-## Need Help?
-
-- Check the example test files - they show common patterns
-- Look at the Javadoc in the generated classes
-- All the `Example*` files are meant to be replaced with your own
