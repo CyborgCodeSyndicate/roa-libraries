@@ -27,9 +27,7 @@ import static io.cyborgcode.roa.validator.core.AssertionTypes.IS;
 import static org.apache.http.HttpStatus.SC_CREATED;
 
 /**
- * API test showing data injection and chained requests.
- * 
- * Replace ExampleEndpoints and ExampleRequestDto with your own.
+ * Advanced API test demonstrating data injection and chained requests.
  */
 @API
 @DisplayName("Getting started API test class")
@@ -46,7 +44,6 @@ public class GettingStartedApiTestAdvanced extends BaseQuest {
                         @Craft(model = DataCreator.Data.EXAMPLE_MODEL) Late<ExampleRequestDto> secondPayload) {
 
         // @Craft injects test data, Late<T> creates it lazily when .create() is called
-        // Replace endpoints and assertions with your own
         
         quest.use(RING_OF_API)
                 .requestAndValidate(

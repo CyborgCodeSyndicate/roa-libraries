@@ -20,9 +20,7 @@ import org.aeonbits.owner.Config;
 public interface DataProperties extends PropertyConfig {
 
     /**
-     * Example configuration entry.
-     *
-     * <p>TODO: Replace or extend with your real test data keys.</p>
+     * Retrieves the 'example.username' property.
      */
     @Key("example.username")
     String exampleUsername();

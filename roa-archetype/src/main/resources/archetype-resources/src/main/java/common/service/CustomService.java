@@ -2,6 +2,8 @@ package ${package}.common.service;
 
 import io.cyborgcode.roa.framework.annotation.Ring;
 import io.cyborgcode.roa.framework.chain.FluentService;
+import static ${package}.common.base.Rings.*;
+import ${package}.api.ExampleEndpoints;
 
 /**
  * Custom service for complex, multi-step workflows.

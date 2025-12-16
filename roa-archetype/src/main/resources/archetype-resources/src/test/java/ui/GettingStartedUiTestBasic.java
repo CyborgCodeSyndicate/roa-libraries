@@ -36,18 +36,12 @@ public class GettingStartedUiTestBasic extends BaseQuest {
     @Description("Basic UI flow")
     void exampleUITest(Quest quest) {
 
-        // Navigate and interact with elements
-        // Configure baseUrl in config.properties
+        // Navigates to the base URL and interacts with elements
         
         quest.use(RING_OF_UI)
                 .getNavigation().navigate(getUiConfig().baseUrl())
-#if( $ui.contains("BUTTON") )
-                .getButtonField().click(ButtonFields.LOGIN_BUTTON)
-#end
-#if( $ui.contains("INPUT") )
-                .getInputField().insert(InputFields.USERNAME, "example")
-#end
-#if( $ui.contains("SELECT") )
+                // .getInputField().insert(InputFields.USERNAME, "example")
+                // .getButtonField().click(ButtonFields.LOGIN_BUTTON)
                 // .getSelectField().selectOption(SelectFields.GENERIC_SELECT, "example")
 #end
                 .complete();
@@ -57,13 +51,11 @@ public class GettingStartedUiTestBasic extends BaseQuest {
     @Regression
     void customFlowDemonstration(Quest quest) {
 
-        /**
-         * Example:
-         *
-         * <p>TODO: implement your custom flow here</p>
-         */
+         /**
+          * Example of integrated custom flow execution.
+          */
 //        quest.use(RING_OF_CUSTOM)
-//                // .performExampleFlow(order) add custom flow here
+//                // .exampleFlow()
 //                .complete();
     }
 }

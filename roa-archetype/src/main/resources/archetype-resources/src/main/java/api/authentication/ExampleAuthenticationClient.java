@@ -5,17 +5,18 @@ import io.cyborgcode.roa.api.service.RestService;
 import io.restassured.http.Header;
 
 /**
- * Example authentication client.
- *
- * <p>Replace this implementation with your application's real authentication
- * logic (e.g., token retrieval, login endpoint, session cookies, API keys).</p>
+ * Implements the authentication strategy for the application.
+ * <p>
+ * This client retrieval logic returns the {@link Header} (e.g., Bearer Token) required
+ * by {@link BaseAuthenticationClient} to sign API requests.
+ * </p>
  */
 public class ExampleAuthenticationClient extends BaseAuthenticationClient {
 
     @Override
     protected Header authenticateImpl(RestService restService, String username, String password) {
 
-        // Replace with your authentication call
+        // Implementation returning the required Authorization header
         return new Header("Authorization", "Bearer example-token");
     }
 }

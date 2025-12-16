@@ -5,9 +5,10 @@ import io.cyborgcode.roa.ui.service.fluent.UiServiceFluent;
 import org.openqa.selenium.By;
 
 /**
- * Example UI login workflow used with the {@code @AuthenticateViaUi} annotation.
+ * Encapsulates the UI login workflow.
  * <p>
- * This class defines HOW to log in via the UI.
+ * This logic is executed automatically by the {@code @AuthenticateViaUi} annotation
+ * before relevant tests.
  * </p>
  */
 public class ExampleAppUiLogin extends BaseLoginClient {
@@ -18,7 +19,7 @@ public class ExampleAppUiLogin extends BaseLoginClient {
             String username,
             String password
     ) {
-        // Replace with your login steps
+        // Login workflow implementation
         // Example:
         // uiService.getNavigation().navigate("https://example.com/login");
         // uiService.getInputField().insert(InputFields.USERNAME, username);

@@ -16,10 +16,7 @@ import ${package}.ui.model.ExampleTableModel;
 public enum DataCreator implements DataForge<DataCreator> {
 
     /**
-     * Example model creator.
-     * <p>
-     * TODO: Replace with a real data factory. This example creates an API DTO.
-     * </p>
+     * Factory for creating an {@link ExampleRequestDto} with standard test values.
      */
     EXAMPLE_MODEL(() -> ExampleRequestDto.builder()
             .name("John Doe")
@@ -27,10 +24,7 @@ public enum DataCreator implements DataForge<DataCreator> {
             .build()),
 
     /**
-     * Example table model creator.
-     * <p>
-     * TODO: This creates a UI model. Useful for auto-filling forms.
-     * </p>
+     * Factory for creating an {@link ExampleTableModel} with standard test values.
      */
     EXAMPLE_TABLE_MODEL(() -> ExampleTableModel.builder()
             .exampleText("Sample Text")
@@ -39,10 +33,7 @@ public enum DataCreator implements DataForge<DataCreator> {
             .build());
 
     /**
-     * Constants for use in {@code @Craft} annotations.
-     * <p>
-     * TODO: Add matching constants for your new enum values here.
-     * </p>
+     * Constants referencing the enum names for use in {@code @Craft} annotations.
      */
     public static final class Data {
 

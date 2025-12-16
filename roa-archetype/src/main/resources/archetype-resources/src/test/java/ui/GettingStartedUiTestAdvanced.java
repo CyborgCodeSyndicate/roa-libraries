@@ -38,9 +38,14 @@ import static io.cyborgcode.roa.ui.config.UiConfigHolder.getUiConfig;
 import static ${package}.common.base.Rings .*;
 
 /**
- * UI test showing authentication, data injection, and element interactions.
- * 
- * Replace element references and flows with your application's.
+ * UI test demonstrating authentication, data injection, and element interactions.
+ *
+ * <p>This class shows how to:
+ * <ul>
+ *   <li>Authenticate automatically using {@code @AuthenticateViaUi}</li>
+ *   <li>Inject test data models using {@code @Craft}</li>
+ *   <li>Chain multiple UI interactions fluently</li>
+ * </ul>
  */
 @UI
 @DisplayName("Getting started UI test class")
@@ -56,8 +61,8 @@ public class GettingStartedUiTestAdvanced extends BaseQuest {
     void exampleUITest(Quest quest,
                        @Craft(model = DataCreator.Data.EXAMPLE_TABLE_MODEL) ExampleTableModel model) {
 
-        // Login handled by @AuthenticateViaUi, data injected via @Craft
-        // Replace with your pages, elements, and workflows
+        // Login is handled automatically by @AuthenticateViaUi
+        // Data is injected via @Craft
         
         quest.use(RING_OF_UI)
                 .getNavigation().navigate(getUiConfig().baseUrl())
@@ -70,9 +75,9 @@ public class GettingStartedUiTestAdvanced extends BaseQuest {
 #if( $ui.contains("SELECT") )
                 // .getSelectField().selectOption(SelectFields.GENERIC_SELECT, model.getExampleSelection())
 #end
-                // Validate AJAX responses if needed:
-                // .validate(() -> assertEquals(expected, 
-                //     retrieve(responseBodyExtraction(...), List.class)))
+                // Validate table or other elements:
+                // .getTable().readTable(Tables.ITEMS)
+                // .getTable().validate(...) 
                 .complete();
     }
 
@@ -81,12 +86,10 @@ public class GettingStartedUiTestAdvanced extends BaseQuest {
     void customFlowDemonstration(Quest quest) {
 
         /**
-         * Example:
-         *
-         * <p>TODO: implement your custom flow here</p>
+         * Example of integrated custom flow execution.
          */
 //        quest.use(RING_OF_CUSTOM)
-//                // .performExampleFlow(order) add custom flow here
+//                // .exampleFlow()
 //                .complete();
     }
 }

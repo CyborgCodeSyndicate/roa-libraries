@@ -9,11 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * API endpoint definitions.
- * <p>
- * Define your endpoints here with HTTP method and URL path.
- * Path is relative to the base URL in config.properties.
- * </p>
+ * Defines API resources, HTTP methods, and their default configurations.
  */
 public enum ExampleEndpoints implements Endpoint<ExampleEndpoints> {
 

@@ -2,6 +2,7 @@ package ${package}.common.data.cleaner;
 
 import io.cyborgcode.roa.framework.parameters.DataRipper;
 import io.cyborgcode.roa.framework.quest.SuperQuest;
+import ${package}.common.base.Rings;
 
 import java.util.function.Consumer;
 
@@ -15,11 +16,7 @@ import java.util.function.Consumer;
 public enum DataCleaner implements DataRipper<DataCleaner> {
 
     /**
-     * Example data cleaner enum.
-     * <p>
-     * TODO: Generic example that does nothing. Replace with real cleanup logic,
-     * such as deleting a user created during the test.
-     * </p>
+     * Example cleanup operation.
      */
     EXAMPLE_CLEANUP(quest -> {
         // Example:
@@ -27,11 +24,7 @@ public enum DataCleaner implements DataRipper<DataCleaner> {
     });
 
     /**
-     * Example String constants for use in annotations.
-     * <p>
-     * TODO: Define public static constants matching your enum names here.
-     * This allows you to use {@code @Ripper(DataCleaner.Data.EXAMPLE_CLEANUP)} in tests.
-     * </p>
+     * Constants referencing the enum names for use in {@code @Ripper} annotations.
      */
     public static final class Data {
 

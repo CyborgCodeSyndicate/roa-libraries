@@ -2,6 +2,8 @@ package ${package}.common.preconditions;
 
 import io.cyborgcode.roa.framework.parameters.PreQuestJourney;
 import io.cyborgcode.roa.framework.quest.SuperQuest;
+import ${package}.common.base.Rings;
+import ${package}.api.dto.request.ExampleRequestDto;
 
 import java.util.function.BiConsumer;
 
@@ -16,23 +18,16 @@ import java.util.function.BiConsumer;
 public enum Preconditions implements PreQuestJourney<Preconditions> {
 
     /**
-     * Example precondition.
-     * <p>
-     * TODO: Replace with real setup logic, like creating a user or resetting the DB.
-     * The {@code objects} array contains parameters passed from the annotation.
-     * </p>
+     * Example precondition used for test setup.
      */
     EXAMPLE_PRECONDITION((quest, objects) -> {
         // Example logic:
         // String userType = (String) objects[0];
-        // quest.use(Rings.RING_OF_API).post("/setup", new SetupDto(userType));
+        // quest.use(Rings.RING_OF_API).post("/setup", new ExampleRequestDto(userType));
     });
 
     /**
-     * Constants for use in {@code @PreQuest} annotations.
-     * <p>
-     * TODO: Add matching constants for your new enum values here.
-     * </p>
+     * Constants referencing the enum names for use in {@code @PreQuest} annotations.
      */
     public static final class Data {
         public static final String EXAMPLE_PRECONDITION = "EXAMPLE_PRECONDITION";
