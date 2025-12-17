@@ -1,6 +1,7 @@
 # ROA Test Framework Archetype
 
 ## Table of Contents
+- [Archetype Setup](#archetype-setup)
 - [Quick Start](#quick-start)
 - [Generation Matrix](#generation-matrix)
 - [Examples](#examples)
@@ -10,13 +11,36 @@
 - [Post-Generation Checklist](#post-generation-checklist)
 - [Example Test](#example-test)
 
+## Archetype Setup
+
+To use this archetype easily in your IDE or via CLI without remembering long repository URLs, add our remote catalog.
+
+### Stable Catalog URL
+```
+https://cyborgcodesyndicate.github.io/roa-libraries/roa-archetype-catalog/latest/archetype-catalog.xml
+```
+
+### 💻 IntelliJ Integration
+1. Go to **File** -> **New** -> **Project**
+2. Select **Maven Archetype**
+3. Click the **Manage Catalogs...** button
+4. Click **Add (+)** and paste the Stable Catalog URL above
+5. You can now search for `roa-archetype` in the list of available archetypes
+
+### ⌨️ CLI Usage (Simplified)
+If you have added the catalog to your local `~/.m2/archetype-catalog.xml`, you can simply run:
+
+```bash
+mvn archetype:generate -DarchetypeCatalog=https://cyborgcodesyndicate.github.io/roa-libraries/roa-archetype-catalog/latest/archetype-catalog.xml
+```
+
 ## Quick Start
 CLI (batch, API+UI+DB, advanced data, Postgres):
 ```bash
 mvn archetype:generate ^
   -DarchetypeGroupId=io.cyborgcode.roa.example ^
   -DarchetypeArtifactId=roa-archetype ^
-  -DarchetypeVersion=1.2.0 ^
+  -DarchetypeVersion=2.0.0 ^
   -DarchetypeRepository=https://maven.pkg.github.com/CyborgCodeSyndicate/roa-libraries ^
   -DgroupId=com.mycompany ^
   -DartifactId=my-tests ^
@@ -29,7 +53,20 @@ mvn archetype:generate ^
   -B
 ```
 
-IntelliJ: New Project -> Maven Archetype -> Manage Catalogs -> add catalog URL -> select `roa-archetype` -> fill properties -> Finish.
+Or using the catalog URL:
+```bash
+mvn archetype:generate ^
+  -DarchetypeCatalog=https://cyborgcodesyndicate.github.io/roa-libraries/roa-archetype-catalog/latest/archetype-catalog.xml ^
+  -DgroupId=com.mycompany ^
+  -DartifactId=my-tests ^
+  -Dversion=1.0-SNAPSHOT ^
+  -Dpackage=com.mycompany ^
+  -Dmodules=API,UI,DB ^
+  -DcommonFeatures=ADVANCED ^
+  -DdbType=POSTGRES ^
+  -DuiComponents=BUTTON,INPUT,SELECT ^
+  -B
+```
 
 ## Generation Matrix
 | Property | Description | Allowed values | Default |
@@ -46,17 +83,17 @@ IntelliJ: New Project -> Maven Archetype -> Manage Catalogs -> add catalog URL -
 ## Examples
 API-only, basic:
 ```bash
-mvn archetype:generate -DarchetypeGroupId=io.cyborgcode.roa.example -DarchetypeArtifactId=roa-archetype -DarchetypeVersion=1.2.0 -DarchetypeRepository=https://maven.pkg.github.com/CyborgCodeSyndicate/roa-libraries -DgroupId=com.myco -DartifactId=api-tests -Dpackage=com.myco -Dmodules=API -DcommonFeatures=BASIC -B
+mvn archetype:generate -DarchetypeGroupId=io.cyborgcode.roa.example -DarchetypeArtifactId=roa-archetype -DarchetypeVersion=2.0.0 -DarchetypeRepository=https://maven.pkg.github.com/CyborgCodeSyndicate/roa-libraries -DgroupId=com.myco -DartifactId=api-tests -Dpackage=com.myco -Dmodules=API -DcommonFeatures=BASIC -B
 ```
 
 UI-only with buttons+inputs:
 ```bash
-mvn archetype:generate -DarchetypeGroupId=io.cyborgcode.roa.example -DarchetypeArtifactId=roa-archetype -DarchetypeVersion=1.2.0 -DarchetypeRepository=https://maven.pkg.github.com/CyborgCodeSyndicate/roa-libraries -DgroupId=com.myco -DartifactId=ui-tests -Dpackage=com.myco.ui -Dmodules=UI -DuiComponents=BUTTON,INPUT -B
+mvn archetype:generate -DarchetypeGroupId=io.cyborgcode.roa.example -DarchetypeArtifactId=roa-archetype -DarchetypeVersion=2.0.0 -DarchetypeRepository=https://maven.pkg.github.com/CyborgCodeSyndicate/roa-libraries -DgroupId=com.myco -DartifactId=ui-tests -Dpackage=com.myco.ui -Dmodules=UI -DuiComponents=BUTTON,INPUT -B
 ```
 
 Full stack, advanced data, MySQL:
 ```bash
-mvn archetype:generate -DarchetypeGroupId=io.cyborgcode.roa.example -DarchetypeArtifactId=roa-archetype -DarchetypeVersion=1.2.0 -DarchetypeRepository=https://maven.pkg.github.com/CyborgCodeSyndicate/roa-libraries -DgroupId=com.myco -DartifactId=full-tests -Dpackage=com.myco.tests -Dmodules=API,UI,DB -DcommonFeatures=ADVANCED -DdbType=MYSQL -DuiComponents=BUTTON,INPUT,SELECT -B
+mvn archetype:generate -DarchetypeGroupId=io.cyborgcode.roa.example -DarchetypeArtifactId=roa-archetype -DarchetypeVersion=2.0.0 -DarchetypeRepository=https://maven.pkg.github.com/CyborgCodeSyndicate/roa-libraries -DgroupId=com.myco -DartifactId=full-tests -Dpackage=com.myco.tests -Dmodules=API,UI,DB -DcommonFeatures=ADVANCED -DdbType=MYSQL -DuiComponents=BUTTON,INPUT,SELECT -B
 ```
 
 ## Output Expectations
