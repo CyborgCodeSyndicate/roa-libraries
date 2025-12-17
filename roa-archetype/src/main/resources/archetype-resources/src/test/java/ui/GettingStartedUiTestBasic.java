@@ -36,12 +36,19 @@ public class GettingStartedUiTestBasic extends BaseQuest {
     @Description("Basic UI flow")
     void exampleUITest(Quest quest) {
 
-        // Navigates to the base URL and interacts with elements
-        
+        /**
+         * Example of navigating to the base URL and interacting with elements.
+         */
         quest.use(RING_OF_UI)
                 .getNavigation().navigate(getUiConfig().baseUrl())
-                // .getInputField().insert(InputFields.USERNAME, "example")
+#if( $ui.contains("BUTTON") )
                 // .getButtonField().click(ButtonFields.LOGIN_BUTTON)
+#end
+#if( $ui.contains("INPUT") )
+                // .getInputField().insert(InputFields.USERNAME, "example")
+                // .getInputField().insert(InputFields.PASSWORD, "example")
+#end
+#if( $ui.contains("SELECT") )
                 // .getSelectField().selectOption(SelectFields.GENERIC_SELECT, "example")
 #end
                 .complete();
