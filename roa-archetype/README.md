@@ -15,7 +15,8 @@
 
 To use this archetype easily in your IDE or via CLI without remembering long repository URLs, add our remote catalog.
 
-### Remote Catalog URL
+### Remote Catalog URL 
+`(update the {workflow.run_number} with a real number from gh-pages)`
 ```
 https://cyborgcodesyndicate.github.io/roa-libraries/{workflow.run_number}/roa-archetype-catalog/archetype-catalog.xml
 ```
@@ -63,10 +64,10 @@ mvn archetype:generate ^
   -B
 ```
 
-Or using the catalog URL:
+Or using the catalog URL (update the {workflow.run_number} with a real number from gh-pages):
 ```bash
 mvn archetype:generate ^
-  -DarchetypeCatalog=https://cyborgcodesyndicate.github.io/roa-libraries/roa-archetype-catalog/latest/archetype-catalog.xml ^
+  -DarchetypeCatalog=https://cyborgcodesyndicate.github.io/roa-libraries/{workflow.run_number}/roa-archetype-catalog/archetype-catalog.xml ^
   -DgroupId=com.mycompany ^
   -DartifactId=my-tests ^
   -Dversion=1.0-SNAPSHOT ^
