@@ -38,6 +38,7 @@ https://cyborgcodesyndicate.github.io/roa-libraries/{workflow.run_number}/roa-ar
     - **Version**: Select the desired version
     - **Additional Properties**: Customize as needed:
         - `modules`: Select which components to include (API, UI, DB)
+        - `environments`: Add your environments here or leave empty if working on only one env (ex. UAT, QA, TEST, DEV)
         - `commonFeatures`: Choose between BASIC or ADVANCED
         - `dbType`: Select your database type if using DB module
         - `uiComponents`: Choose UI components to include
