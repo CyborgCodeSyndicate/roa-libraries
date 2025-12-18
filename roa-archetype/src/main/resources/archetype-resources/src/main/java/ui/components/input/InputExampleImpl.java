@@ -11,7 +11,7 @@ import org.openqa.selenium.By;
 /**
  * Minimal example implementation of the Input component.
  */
-//@ImplementationOfType(InputFieldTypes.Data.EXAMPLE_INPUT)
+//@ImplementationOfType(InputFieldTypes.Data.EXAMPLE_INPUT_TYPE)
 public class InputExampleImpl extends BaseComponent implements Input {
 
     /**

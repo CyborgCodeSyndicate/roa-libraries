@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Minimal example implementation of the Select component.
  */
-//@ImplementationOfType(SelectFieldTypes.Data.EXAMPLE_SELECT)
+//@ImplementationOfType(SelectFieldTypes.Data.EXAMPLE_SELECT_TYPE)
 public class SelectExampleImpl extends BaseComponent implements Select {
 
     /**
