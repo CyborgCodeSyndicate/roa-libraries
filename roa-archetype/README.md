@@ -15,25 +15,34 @@
 
 To use this archetype easily in your IDE or via CLI without remembering long repository URLs, add our remote catalog.
 
-### Stable Catalog URL
+### Remote Catalog URL
 ```
-https://cyborgcodesyndicate.github.io/roa-libraries/roa-archetype-catalog/latest/archetype-catalog.xml
+https://cyborgcodesyndicate.github.io/roa-libraries/{workflow.run_number}/roa-archetype-catalog/archetype-catalog.xml
 ```
 
 ### 💻 IntelliJ Integration
 1. Go to **File** -> **New** -> **Project**
 2. Select **Maven Archetype**
 3. Click the **Manage Catalogs...** button
-4. Click **Add (+)** and paste the Stable Catalog URL above
-5. You can now search for `roa-archetype` in the list of available archetypes
-
-### ⌨️ CLI Usage (Simplified)
-If you have added the catalog to your local `~/.m2/archetype-catalog.xml`, you can simply run:
-
-```bash
-mvn archetype:generate -DarchetypeCatalog=https://cyborgcodesyndicate.github.io/roa-libraries/roa-archetype-catalog/latest/archetype-catalog.xml
-```
-
+4. In the dialog that appears:
+    - Click **Add (+)** and paste the Remote Catalog URL
+    - Give it a name (e.g., "CCS" or "ROA")
+    - Click **OK** to save the catalog
+5. Back in the "New Project" dialog:
+    - Select your newly added catalog from the **Catalog** dropdown
+    - The `roa-archetype` should appear in the list below
+    - Select it to see the available versions
+6. Configure your project:
+    - **GroupId**: Your organization's group ID (e.g., com.mycompany)
+    - **ArtifactId**: Your project's name
+    - **Version**: Select the desired version
+    - **Additional Properties**: Customize as needed:
+        - `modules`: Select which components to include (API, UI, DB)
+        - `commonFeatures`: Choose between BASIC or ADVANCED
+        - `dbType`: Select your database type if using DB module
+        - `uiComponents`: Choose UI components to include
+7. Click **Next** to proceed with project generation
+8. 
 ## Quick Start
 CLI (batch, API+UI+DB, advanced data, Postgres):
 ```bash
@@ -79,22 +88,6 @@ mvn archetype:generate ^
 | artifactId | Maven artifactId | any | (required) |
 | version | Project version | any | 1.0-SNAPSHOT |
 | package | Base package for sources | any | matches groupId |
-
-## Examples
-API-only, basic:
-```bash
-mvn archetype:generate -DarchetypeGroupId=io.cyborgcode.roa.example -DarchetypeArtifactId=roa-archetype -DarchetypeVersion=2.0.0 -DarchetypeRepository=https://maven.pkg.github.com/CyborgCodeSyndicate/roa-libraries -DgroupId=com.myco -DartifactId=api-tests -Dpackage=com.myco -Dmodules=API -DcommonFeatures=BASIC -B
-```
-
-UI-only with buttons+inputs:
-```bash
-mvn archetype:generate -DarchetypeGroupId=io.cyborgcode.roa.example -DarchetypeArtifactId=roa-archetype -DarchetypeVersion=2.0.0 -DarchetypeRepository=https://maven.pkg.github.com/CyborgCodeSyndicate/roa-libraries -DgroupId=com.myco -DartifactId=ui-tests -Dpackage=com.myco.ui -Dmodules=UI -DuiComponents=BUTTON,INPUT -B
-```
-
-Full stack, advanced data, MySQL:
-```bash
-mvn archetype:generate -DarchetypeGroupId=io.cyborgcode.roa.example -DarchetypeArtifactId=roa-archetype -DarchetypeVersion=2.0.0 -DarchetypeRepository=https://maven.pkg.github.com/CyborgCodeSyndicate/roa-libraries -DgroupId=com.myco -DartifactId=full-tests -Dpackage=com.myco.tests -Dmodules=API,UI,DB -DcommonFeatures=ADVANCED -DdbType=MYSQL -DuiComponents=BUTTON,INPUT,SELECT -B
-```
 
 ## Output Expectations
 - Only selected modules generate code. If you omit UI, no UI packages appear. If you set `uiComponents=BUTTON`, only button-related classes are created (no input/select classes). Likewise, `modules=API,DB` skips UI entirely.
