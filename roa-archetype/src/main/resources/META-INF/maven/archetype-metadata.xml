@@ -24,7 +24,7 @@
         </requiredProperty>
 
         <requiredProperty key="uiComponents">
-            <defaultValue>BUTTON,INPUT,SELECT</defaultValue>
+            <defaultValue>BUTTON,INPUT,SELECT,TABLE</defaultValue>
         </requiredProperty>
     </requiredProperties>
 

@@ -13,11 +13,12 @@ import java.util.Objects;
 /**
  * Minimal example implementation of the Button component.
  */
-//@ImplementationOfType(ButtonFieldTypes.Data.EXAMPLE_BUTTON)
+//@ImplementationOfType(ButtonFieldTypes.Data.EXAMPLE_BUTTON_TYPE)
 public class ButtonExampleImpl extends BaseComponent implements Button {
 
     /**
      * Example:
+     * a locator that can be used to find the button element in one of the overriden methods.
      *
      * <p>TODO: implement your locator here</p>
      */
@@ -34,7 +35,7 @@ public class ButtonExampleImpl extends BaseComponent implements Button {
 
     @Override
     public void click(SmartWebElement container) {
-
+//        container.findSmartElement(BUTTON_SELECTOR).click();
     }
 
     @Override

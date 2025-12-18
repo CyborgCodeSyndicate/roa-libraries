@@ -3,7 +3,6 @@ package ${package}.common.data.creator;
 import io.cyborgcode.roa.framework.parameters.DataForge;
 import io.cyborgcode.roa.framework.parameters.Late;
 import ${package}.api.dto.request.ExampleRequestDto;
-import ${package}.ui.model.ExampleTableModel;
 
 /**
  * Registry of reusable test data factories.
@@ -21,15 +20,6 @@ public enum DataCreator implements DataForge<DataCreator> {
     EXAMPLE_MODEL(() -> ExampleRequestDto.builder()
             .name("John Doe")
             .job("Engineer")
-            .build()),
-
-    /**
-     * Factory for creating an {@link ExampleTableModel} with standard test values.
-     */
-    EXAMPLE_TABLE_MODEL(() -> ExampleTableModel.builder()
-            .exampleText("Sample Text")
-            .exampleSelection("Option 1")
-            .additionalInfo("Extra Details")
             .build());
 
     /**
@@ -38,7 +28,6 @@ public enum DataCreator implements DataForge<DataCreator> {
     public static final class Data {
 
         public static final String EXAMPLE_MODEL = "EXAMPLE_MODEL";
-        public static final String EXAMPLE_TABLE_MODEL = "EXAMPLE_TABLE_MODEL";
 
         private Data() {
         }

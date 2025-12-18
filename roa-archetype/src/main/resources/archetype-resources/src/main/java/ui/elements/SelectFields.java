@@ -12,20 +12,27 @@ import java.util.function.Consumer;
 /**
  * Registry of select/dropdown field elements for your UI tests.
  * <p>
- * Define your application's dropdowns here.
+ * Define your application's dropdowns here. Each enum value
+ * represents a specific dropdown on a page.
  * </p>
  */
 public enum SelectFields implements SelectUiElement {
 
     /**
-     * Example select field.
+     * Example select field with Consumer hooks. Or can be created with only locator and component type.
+     * Example: GENERIC_SELECT(
+     *          By.id("example-select"),
+     *          SelectFieldTypes.EXAMPLE_SELECT_TYPE
+     *          );
      */
     GENERIC_SELECT(
             By.id("example-select"),
             SelectFieldTypes.EXAMPLE_SELECT_TYPE,
-            // Before interaction hook:
+            // This hook is executed before the select element is interacted with.
+            // It can be a lambda expression or a method reference for a custom action like waiting for the element to be present.
             webDriver -> {},
-            // After interaction hook:
+            // This hook is executed after the select element is interacted with.
+            // It can be a lambda expression or a method reference for a custom action like taking a screenshot.
             webDriver -> {}
     );
 

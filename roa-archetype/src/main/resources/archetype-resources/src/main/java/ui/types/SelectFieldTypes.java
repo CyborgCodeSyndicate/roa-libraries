@@ -5,8 +5,8 @@ import io.cyborgcode.roa.ui.components.select.SelectComponentType;
 /**
  * Defines supported select/dropdown component types.
  * <p>
- * TODO: If your application has custom dropdown widgets (e.g., multi-select, searchable dropdowns),
- * add them here as enum values.
+ * TODO: If your application has different front-end technologies (components) like Angular Material, Bootstrap, etc.,
+ * and add them here as enum values.
  * </p>
  */
 public enum SelectFieldTypes implements SelectComponentType {
@@ -14,8 +14,8 @@ public enum SelectFieldTypes implements SelectComponentType {
     /**
      * Example select field type.
      * <p>
-     * This is a generic select type. Replace or extend with specific types
-     * for your application.
+     * This is a generic select type. Replace or extend with specific technology type(s) (components)
+     * that exist in your application.
      * </p>
      */
     EXAMPLE_SELECT_TYPE;

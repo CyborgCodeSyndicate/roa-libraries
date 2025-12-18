@@ -86,7 +86,7 @@ mvn archetype:generate ^
 | commonFeatures | Test data/preconditions bundle | BASIC, ADVANCED | BASIC |
 | dbType | DB flavor (when DB selected) | POSTGRES, MYSQL, H2, ORACLE, SQLSERVER, MARIADB | POSTGRES |
 | environments | Target environments (comma-separated) | any string | QA,UAT |
-| uiComponents | UI element families (when UI selected) | BUTTON, INPUT, SELECT (comma-separated) | BUTTON,INPUT,SELECT |
+| uiComponents | UI element families (when UI selected) | BUTTON, INPUT, SELECT, TABLE (comma-separated) | BUTTON,INPUT,SELECT |
 | groupId | Maven groupId | any | (required) |
 | artifactId | Maven artifactId | any | (required) |
 | version | Project version | any | 1.0-SNAPSHOT |

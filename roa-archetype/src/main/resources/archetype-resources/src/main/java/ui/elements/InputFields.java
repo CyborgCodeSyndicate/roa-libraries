@@ -32,7 +32,8 @@ public enum InputFields implements InputUiElement {
     /**
      * Example: Password field with Consumer hooks.
      * <p>
-     * Demonstrates using 'before' and 'after' hooks.
+     * Demonstrates using 'before' and 'after' hooks to wait for the element to be present
+     * before interaction and to take a screenshot after interaction.
      * </p>
      */
     PASSWORD(

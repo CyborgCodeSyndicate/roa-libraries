@@ -48,7 +48,7 @@ public class InputExampleImpl extends BaseComponent implements Input {
 
     @Override
     public void clear(SmartWebElement container) {
-
+//        container.findSmartElement(INPUT_SELECTOR).clear();
     }
 
     @Override

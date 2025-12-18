@@ -43,7 +43,7 @@ if (!commonFeatures || !(commonFeatures in ['BASIC', 'ADVANCED'])) {
 }
 def isBasicCommons = commonFeatures == 'BASIC'
 
-def allowedUiComponents = ['BUTTON','INPUT','SELECT'] as Set
+def allowedUiComponents = ['BUTTON','INPUT','SELECT','TABLE'] as Set
 def selectedUI = uiComponents?.split(',')*.trim()*.toUpperCase().findAll { allowedUiComponents.contains(it) } ?: []
 
 def testDataTemplateFile = new File(resourcesDir, "test_data-template.properties")
@@ -97,6 +97,7 @@ if (!keepUI) {
     def uiBaseMain = new File(rootDir, "src/main/java/${packagePath}/ui")
     def uiBaseElements = new File(rootDir, "src/main/java/${packagePath}/ui/elements")
     def uiBaseTypes = new File(rootDir, "src/main/java/${packagePath}/ui/types")
+    def uiBaseModel = new File(rootDir, "src/main/java/${packagePath}/ui/model")
 
     componentFolders.each { key, subFolders ->
         if (!selectedUI.contains(key)) {
@@ -124,6 +125,41 @@ if (!keepUI) {
                 println "  Deleted: ${typeFile}"
             }
         }
+    }
+
+    if (!selectedUI.contains("TABLE")) {
+        println "Removing UI component: TABLE"
+        
+        def tableModelDir = new File(uiBaseModel, "table")
+        if (tableModelDir.exists()) {
+            tableModelDir.deleteDir()
+            println "  Deleted: ${tableModelDir}"
+        }
+
+        def tableExampleFile = new File(uiBaseElements, "TableExample.java")
+        if (tableExampleFile.exists()) {
+            tableExampleFile.delete()
+            println "  Deleted: ${tableExampleFile}"
+        }
+    }
+
+    // Cleanup empty directories
+    def componentsDir = new File(uiBaseMain, "components")
+    if (componentsDir.exists() && (componentsDir.list() == null || componentsDir.list().length == 0)) {
+        componentsDir.delete()
+        println "  Deleted empty dir: ${componentsDir}"
+    }
+    if (uiBaseElements.exists() && (uiBaseElements.list() == null || uiBaseElements.list().length == 0)) {
+        uiBaseElements.delete()
+        println "  Deleted empty dir: ${uiBaseElements}"
+    }
+    if (uiBaseTypes.exists() && (uiBaseTypes.list() == null || uiBaseTypes.list().length == 0)) {
+        uiBaseTypes.delete()
+        println "  Deleted empty dir: ${uiBaseTypes}"
+    }
+    if (uiBaseModel.exists() && (uiBaseModel.list() == null || uiBaseModel.list().length == 0)) {
+        uiBaseModel.delete()
+        println "  Deleted empty dir: ${uiBaseModel}"
     }
 }
 

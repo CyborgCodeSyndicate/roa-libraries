@@ -22,7 +22,7 @@ public class SelectExampleImpl extends BaseComponent implements Select {
      *
      * <p>TODO: implement your locator here</p>
      */
-//    private static final By OPTION_SELECTOR = By.tagName("option");
+//    private static final By OPTIONS_SELECTOR = By.tagName("options");
 
     public SelectExampleImpl(SmartWebDriver driver) {
         super(driver);
@@ -53,6 +53,9 @@ public class SelectExampleImpl extends BaseComponent implements Select {
 
     @Override
     public List<String> getAvailableOptions(By locator) {
+//        List<String> availableOptions = options.stream()
+//                .map(option -> option.findSmartElement(OPTIONS_SELECTOR).getText().trim()).toList();
+//        return availableOptions;
         return null;
     }
 

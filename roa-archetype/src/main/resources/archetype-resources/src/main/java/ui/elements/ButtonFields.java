@@ -12,7 +12,8 @@ import java.util.function.Consumer;
 /**
  * Registry of button elements for your UI tests.
  * <p>
- * Define your application's buttons (clickable elements) here.
+ * Define your application's buttons (clickable elements) here. Each enum value
+ * represents a specific button on a page.
  * </p>
  */
 public enum ButtonFields implements ButtonUiElement {
@@ -20,7 +21,13 @@ public enum ButtonFields implements ButtonUiElement {
     /**
      * Example: Login button.
      * <p>
-     * Demonstrates a clickable element.
+     * Demonstrates a clickable element that can be defined with hooks to wait for it to
+     * become clickable before interaction and to wait for the page to be loaded after
+     * interaction. Can be also without any hooks. Example:
+     * LOGIN_BUTTON(
+     *             By.id("login-button"),
+     *             ButtonFieldTypes.EXAMPLE_BUTTON_TYPE
+     *             );
      * </p>
      */
     LOGIN_BUTTON(

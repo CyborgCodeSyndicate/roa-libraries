@@ -15,14 +15,13 @@ import org.junit.jupiter.api.Test;
 import io.qameta.allure.Description;
 
 #set( $ui = $uiComponents.toUpperCase() )
-#if( $ui.contains("BUTTON") )
+#if( $ui.contains("BUTTON") && $ui.contains("INPUT") && $ui.contains("SELECT") )
 import ${package}.ui.elements.ButtonFields;
-#end
-#if( $ui.contains("INPUT") )
 import ${package}.ui.elements.InputFields;
-#end
-#if( $ui.contains("SELECT") )
 import ${package}.ui.elements.SelectFields;
+#end
+#if( $ui.contains("TABLE") )
+import ${package}.ui.elements.TableExample;
 #end
 import ${package}.ui.authentication.ExampleCredentials;
 import ${package}.ui.authentication.ExampleAppUiLogin;
@@ -43,7 +42,6 @@ import static ${package}.common.base.Rings .*;
  * <p>This class shows how to:
  * <ul>
  *   <li>Authenticate automatically using {@code @AuthenticateViaUi}</li>
- *   <li>Inject test data models using {@code @Craft}</li>
  *   <li>Chain multiple UI interactions fluently</li>
  * </ul>
  */
@@ -58,27 +56,24 @@ public class GettingStartedUiTestAdvanced extends BaseQuest {
     @AuthenticateViaUi(credentials = ExampleCredentials.class, type = ExampleAppUiLogin.class)
     @Journey("" // Add preconditions: value = Preconditions.Data.EXAMPLE_PRECONDITION
     )
-    void exampleUITest(Quest quest,
-                       @Craft(model = DataCreator.Data.EXAMPLE_TABLE_MODEL) ExampleTableModel model) {
+    void exampleUITest(Quest quest) {
 
+        // TODO: implement your test here
+#if( $ui.contains("BUTTON") && $ui.contains("INPUT") && $ui.contains("SELECT") )
         // Login is handled automatically by @AuthenticateViaUi
-        // Data is injected via @Craft
-        
         quest.use(RING_OF_UI)
                 .getNavigation().navigate(getUiConfig().baseUrl())
-#if( $ui.contains("BUTTON") )
                 .getButtonField().click(ButtonFields.LOGIN_BUTTON)
-#end
-#if( $ui.contains("INPUT") )
-                .getInputField().insert(InputFields.USERNAME, "example")
-#end
-#if( $ui.contains("SELECT") )
-                // .getSelectField().selectOption(SelectFields.GENERIC_SELECT, model.getExampleSelection())
-#end
-                // Validate table or other elements:
-                // .getTable().readTable(Tables.ITEMS)
-                // .getTable().validate(...) 
+                .getInputField().insert(InputFields.USERNAME, "example_username")
+                .getInputField().insert(InputFields.PASSWORD, "example_password")
+                .getSelectField().selectOption(SelectFields.GENERIC_SELECT, "example_select")
                 .complete();
+#end
+#if( $ui.contains("TABLE") )
+        // Validate table example:
+            // .getTable().readTable(TableExample.EXAMPLE_TABLE_MODEL)
+            // .getTable().validate(...).complete();
+#end
     }
 
     @Test

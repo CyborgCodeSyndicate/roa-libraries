@@ -5,8 +5,8 @@ import io.cyborgcode.roa.ui.components.button.ButtonComponentType;
 /**
  * Defines supported button component types.
  * <p>
- * TODO: If your application has custom button widgets (e.g., icon buttons, toggle buttons),
- * add them here as enum values.
+ * TODO: If your application has different front-end technologies (components) like Angular Material, Bootstrap, etc.,
+ * and add them here as enum values.
  * </p>
  */
 public enum ButtonFieldTypes implements ButtonComponentType {
@@ -14,8 +14,8 @@ public enum ButtonFieldTypes implements ButtonComponentType {
     /**
      * Example button field type.
      * <p>
-     * This is a generic button type. Replace or extend with specific types
-     * for your application.
+     * This is a generic button type. Replace or extend with specific technology type(s) (components)
+     * that exist in your application.
      * </p>
      */
     EXAMPLE_BUTTON_TYPE;
