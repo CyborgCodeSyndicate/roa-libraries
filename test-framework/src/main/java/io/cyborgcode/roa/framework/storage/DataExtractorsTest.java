@@ -1,6 +1,9 @@
 package io.cyborgcode.roa.framework.storage;
 
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import java.util.Map;
 
 /**
@@ -14,6 +17,18 @@ import java.util.Map;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Factory utility for creating DataExtractor instances that "
+            + " values from the static test data map stored in quest storage.",
+      tags = {"framework", "storage", "test-data"},
+      creation = CreationKind.STATIC_FACTORY
+)
+@PandoraOptions(
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "data-extractors-test"),
+         @PandoraOptions.Meta(key = "scope", value = "storage")
+      }
+)
 public class DataExtractorsTest {
 
    private DataExtractorsTest() {
@@ -29,7 +44,14 @@ public class DataExtractorsTest {
     * @param <T> the type of the data to be extracted
     * @return a {@code DataExtractor} that retrieves the specified value from static test data
     */
-   public static <T> DataExtractor<T> staticTestData(String key) {
+   @Pandora(
+         description = "Creates a DataExtractor that reads the STATIC_DATA map "
+               + "from storage and returns the value for the given string key."
+   )
+   public static <T> DataExtractor<T> staticTestData(
+         @Pandora(description = "String key used to fetch a value from the static "
+               + "test data map stored under StorageKeysTest.STATIC_DATA.")
+         String key) {
       return new DataExtractorImpl<>(
             StorageKeysTest.STATIC_DATA,
             raw -> {

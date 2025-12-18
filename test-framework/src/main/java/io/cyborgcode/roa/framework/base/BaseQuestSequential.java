@@ -59,6 +59,10 @@ public class BaseQuestSequential extends BaseQuest {
     *
     * @param services The test service container.
     */
+   @Pandora(
+         description = "Override this to run setup once per test class when using BaseQuestSequential. "
+               + "Called automatically by the framework before any @Test methods execute."
+   )
    protected void beforeAll(Services services) {
       //empty method for beforeAll to override if needed
    }
@@ -76,6 +80,10 @@ public class BaseQuestSequential extends BaseQuest {
     *
     * @param services The test service container.
     */
+   @Pandora(
+         description = "Override this to run cleanup once per test class when using BaseQuestSequential. "
+               + "Called automatically by the framework after all @Test methods have finished."
+   )
    protected void afterAll(Services services) {
       //empty method for beforeAll to override if needed
    }

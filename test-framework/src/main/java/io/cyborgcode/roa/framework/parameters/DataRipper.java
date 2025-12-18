@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.framework.parameters;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.quest.SuperQuest;
 import java.util.function.Consumer;
 
@@ -14,6 +17,17 @@ import java.util.function.Consumer;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Contract for post-test cleanup actions. Implementations provide a cleanup Consumer "
+            + "that runs with the current SuperQuest and expose an enum constant identifying the cleanup target.",
+      tags = {"framework", "cleanup"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "data-ripper")
+      }
+)
 public interface DataRipper<T extends Enum<T>> {
 
    /**
@@ -24,6 +38,9 @@ public interface DataRipper<T extends Enum<T>> {
     *
     * @return A {@link Consumer} responsible for executing the cleanup process.
     */
+   @Pandora(
+         description = "Returns the cleanup operation to execute after the test (runs with the current SuperQuest)."
+   )
    Consumer<SuperQuest> eliminate();
 
    /**
@@ -34,6 +51,9 @@ public interface DataRipper<T extends Enum<T>> {
     *
     * @return An {@link Enum} instance representing the cleanup operation.
     */
+   @Pandora(
+         description = "Returns the enum constant that identifies this cleanup target (used by @Ripper selection)."
+   )
    T enumImpl();
 
 }
