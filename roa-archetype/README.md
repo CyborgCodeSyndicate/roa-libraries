@@ -83,11 +83,81 @@ mvn archetype:generate ^
 | modules | Capabilities to include | API, UI, DB (comma-separated) | API,UI,DB |
 | commonFeatures | Test data/preconditions bundle | BASIC, ADVANCED | BASIC |
 | dbType | DB flavor (when DB selected) | POSTGRES, MYSQL, H2, ORACLE, SQLSERVER, MARIADB | POSTGRES |
+| environments | Target environments (comma-separated) | any string | QA,UAT |
 | uiComponents | UI element families (when UI selected) | BUTTON, INPUT, SELECT (comma-separated) | BUTTON,INPUT,SELECT |
 | groupId | Maven groupId | any | (required) |
 | artifactId | Maven artifactId | any | (required) |
 | version | Project version | any | 1.0-SNAPSHOT |
 | package | Base package for sources | any | matches groupId |
+
+## Environment Configuration
+
+When you specify environments (e.g., `-Denvironments=QA,UAT`), the following files are generated for each environment:
+- `config-{env}.properties` - Environment-specific configuration
+- `test-data-{env}.properties` - Environment-specific test data
+
+### Configuration Properties (`config-{env}.properties`)
+
+The configuration properties vary based on the selected modules:
+
+#### Common Properties
+- `project.package` - Base package for the project
+
+#### API Module (included when `modules` includes `API`)
+- `api.restassured.logging.enabled` - Enable/disable REST Assured logging
+- `api.restassured.logging.level` - Logging level for REST Assured
+- `api.base.url` - Base URL for API endpoints
+
+#### DB Module (included when `modules` includes `DB`)
+- `db.default.name` - Default database name
+- `db.default.type` - Database type (H2, MYSQL, POSTGRES, etc.)
+- `db.default.username` - Database username
+- `db.default.password` - Database password
+- `db.full.connection.string` - Full JDBC connection string
+
+#### UI Module (included when `modules` includes `UI`)
+- `ui.base.url` - Base URL for the web application
+- `browser.type` - Browser type (e.g., CHROME, FIREFOX)
+- `browser.version` - Browser version (optional)
+- `headless` - Run browser in headless mode
+- `wait.duration.in.seconds` - Default wait timeout
+- `remote.driver.url` - URL for remote WebDriver
+- `screenshot.on.passed.test` - Take screenshots on test pass
+- `use.shadow.root` - Enable/disable Shadow DOM support
+- `use.wrap.selenium.function` - Enable/disable Selenium function wrapping
+
+#### UI Components (included based on `uiComponents` selection)
+- `input.default.type` - Default input type (if INPUT component is selected)
+- `button.default.type` - Default button type (if BUTTON component is selected)
+- `select.default.type` - Default select type (if SELECT component is selected)
+- `table.default.type` - Default table type
+
+### Test Data (`test-data-{env}.properties`)
+
+The test data properties file includes environment-specific test data. The default template includes:
+
+- `example.username` - Example username
+- `example.value` - Example value
+
+You can add your own test data properties as needed for your tests. These properties can be accessed in your tests using the `DataProperties` class.
+
+### Example Environment Files
+
+For `QA` environment with all modules enabled:
+
+```properties
+# config-qa.properties
+project.package=com.mycompany
+api.restassured.logging.enabled=true
+api.base.url=https://qa-api.example.com
+db.default.name=qa_database
+db.default.type=MYSQL
+db.default.username=qa_user
+db.default.password=qa_password
+ui.base.url=https://qa-ui.example.com
+browser.type=CHROME
+headless=true
+```
 
 ## Output Expectations
 - Only selected modules generate code. If you omit UI, no UI packages appear. If you set `uiComponents=BUTTON`, only button-related classes are created (no input/select classes). Likewise, `modules=API,DB` skips UI entirely.
