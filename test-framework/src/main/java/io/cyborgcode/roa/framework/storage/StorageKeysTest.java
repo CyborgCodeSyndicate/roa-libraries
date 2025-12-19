@@ -21,8 +21,8 @@ import io.cyborgcode.pandora.model.CreationKind;
 )
 @PandoraOptions(
       meta = {
-            @PandoraOptions.Meta(key = "type", value = "storage-keys"),
-            @PandoraOptions.Meta(key = "scope", value = "test-runtime")
+         @PandoraOptions.Meta(key = "type", value = "storage-keys"),
+         @PandoraOptions.Meta(key = "scope", value = "test-runtime")
       }
 )
 public enum StorageKeysTest {

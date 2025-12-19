@@ -19,7 +19,7 @@ import io.cyborgcode.pandora.model.CreationKind;
 )
 @PandoraOptions(
       meta = {
-            @PandoraOptions.Meta(key = "type", value = "api-storage-key")
+         @PandoraOptions.Meta(key = "type", value = "api-storage-key")
       }
 )
 public enum StorageKeysApi {

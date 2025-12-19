@@ -24,7 +24,7 @@ import lombok.Data;
 )
 @PandoraOptions(
       meta = {
-            @PandoraOptions.Meta(key = "type", value = "authentication-key")
+         @PandoraOptions.Meta(key = "type", value = "authentication-key")
       }
 )
 public class AuthenticationKey {

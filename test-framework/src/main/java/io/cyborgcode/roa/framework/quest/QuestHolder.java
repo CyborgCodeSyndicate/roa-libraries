@@ -58,6 +58,7 @@ public class QuestHolder {
    public static SuperQuest get() {
       return THREAD_LOCAL_QUEST.get();
    }
+
    /**
     * Clears the current test execution context from thread-local storage.
     */

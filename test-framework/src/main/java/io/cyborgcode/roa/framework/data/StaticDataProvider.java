@@ -27,8 +27,8 @@ import java.util.Map;
 )
 @PandoraOptions(
       meta = {
-            @PandoraOptions.Meta(key = "type", value = "static-data-provider"),
-            @PandoraOptions.Meta(key = "usedBy", value = "StaticTestData")
+         @PandoraOptions.Meta(key = "type", value = "static-data-provider"),
+         @PandoraOptions.Meta(key = "usedBy", value = "StaticTestData")
       }
 )
 public interface StaticDataProvider {

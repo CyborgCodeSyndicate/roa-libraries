@@ -37,7 +37,8 @@ public interface AuthenticationClient {
     * @return The {@link AuthenticationKey} representing the authenticated session.
     */
    @Pandora(
-         description = "Perform authentication using username/password and return an AuthenticationKey used to look up the cached auth header."
+         description = "Perform authentication using username/password and return an AuthenticationKey "
+               + "used to look up the cached auth header."
    )
    AuthenticationKey authenticate(@NonNull RestService restService,
                                   @Pandora(

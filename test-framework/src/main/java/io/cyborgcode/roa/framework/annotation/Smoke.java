@@ -33,9 +33,9 @@ import org.junit.jupiter.api.Tag;
 )
 @PandoraOptions(
       meta = {
-            @PandoraOptions.Meta(key = "type", value = "junit-tag-annotation"),
-            @PandoraOptions.Meta(key = "tag", value = "Smoke"),
-            @PandoraOptions.Meta(key = "scope", value = "class-or-method")
+         @PandoraOptions.Meta(key = "type", value = "junit-tag-annotation"),
+         @PandoraOptions.Meta(key = "tag", value = "Smoke"),
+         @PandoraOptions.Meta(key = "scope", value = "class-or-method")
       }
 )
 public @interface Smoke {

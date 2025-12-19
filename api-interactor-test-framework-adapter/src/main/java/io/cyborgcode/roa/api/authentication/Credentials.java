@@ -13,7 +13,8 @@ import io.cyborgcode.pandora.model.CreationKind;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @Pandora(
-      description = "Contract for API authentication credentials. Implementations provide username/password used by API auth flows.",
+      description = "Contract for API authentication credentials. "
+            + "Implementations provide username/password used by API auth flows.",
       tags = {"api", "auth"},
       creation = CreationKind.PROVIDED
 )

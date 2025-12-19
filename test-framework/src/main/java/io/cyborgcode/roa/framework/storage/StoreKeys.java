@@ -22,8 +22,8 @@ import lombok.Getter;
 )
 @PandoraOptions(
       meta = {
-            @PandoraOptions.Meta(key = "type", value = "store-keys"),
-            @PandoraOptions.Meta(key = "scope", value = "global-execution")
+         @PandoraOptions.Meta(key = "type", value = "store-keys"),
+         @PandoraOptions.Meta(key = "scope", value = "global-execution")
       }
 )
 public enum StoreKeys {

@@ -13,15 +13,16 @@ import io.cyborgcode.pandora.model.CreationKind;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @Pandora(
-      description = "Defines when a hook executes relative to the test lifecycle (before all tests or after all tests). "
+      description = "Defines when a hook executes relative to "
+            + "the test lifecycle (before all tests or after all tests). "
             + "Used by hook annotations such as @ApiHook.when().",
       tags = {"framework", "hook"},
       creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
       meta = {
-            @PandoraOptions.Meta(key = "type", value = "hook-execution"),
-            @PandoraOptions.Meta(key = "usedBy", value = "ApiHook.when")
+         @PandoraOptions.Meta(key = "type", value = "hook-execution"),
+         @PandoraOptions.Meta(key = "usedBy", value = "ApiHook.when")
       }
 )
 public enum HookExecution {
