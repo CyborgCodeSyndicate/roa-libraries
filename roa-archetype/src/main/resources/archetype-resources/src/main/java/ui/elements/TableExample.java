@@ -71,7 +71,7 @@ public enum TableExample implements TableElement<TableExample> {
     }
 
     @Override
-    public ExampleTable enumImpl() {
+    public TableExample enumImpl() {
         return this;
     }
 

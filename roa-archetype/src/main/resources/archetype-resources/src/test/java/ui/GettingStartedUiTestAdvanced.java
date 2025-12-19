@@ -26,7 +26,6 @@ import ${package}.ui.elements.TableExample;
 import ${package}.ui.authentication.ExampleCredentials;
 import ${package}.ui.authentication.ExampleAppUiLogin;
 import ${package}.ui.interceptor.RequestsInterceptor;
-import ${package}.ui.model.ExampleTableModel;
 import ${package}.common.data.creator.DataCreator;
 import ${package}.common.preconditions.Preconditions;
 import static ${package}.common.base.Rings.RING_OF_CUSTOM;
