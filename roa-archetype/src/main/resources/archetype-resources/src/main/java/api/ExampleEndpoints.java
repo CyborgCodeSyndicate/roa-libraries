@@ -40,12 +40,6 @@ public enum ExampleEndpoints implements Endpoint<ExampleEndpoints> {
     }
 
     @Override
-    public RequestSpecification defaultConfiguration() {
-        return Endpoint.super.defaultConfiguration()
-                .contentType(ContentType.JSON);
-    }
-
-    @Override
     public Map<String, List<String>> headers() {
         return Map.of(
                 "Accept", List.of("application/json")

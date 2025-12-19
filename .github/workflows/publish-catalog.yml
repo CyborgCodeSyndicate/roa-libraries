@@ -1,106 +1,106 @@
-#name: Publish Archetype Catalog
-#
-#on:
-#  workflow_run:
-#    workflows: [ "Deploy" ]
-#    types:
-#      - completed
-#    branches:
-#      - main
-#
-#permissions:
-#  contents: write
-#
-#jobs:
-#  publish-catalog:
-#    runs-on: ubuntu-latest
-#    if: >
-#      github.event.workflow_run.conclusion == 'success' &&
-#      (github.event.workflow_run.event.inputs.version_bump == 'major' ||
-#       github.event.workflow_run.event.inputs.version_bump == 'minor' ||
-#       github.event.workflow_run.event.inputs.version_bump == 'patch')
-#
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v4
-#
-#      - name: Download deployed version artifact
-#        uses: dawidd6/action-download-artifact@v3
-#        with:
-#          run_id: ${{ github.event.workflow_run.id }}
-#          name: deployed-version
-#          path: artifacts
-#          if_no_artifact_found: ignore
-#
-#      - name: Read version file
-#        id: read
-#        shell: bash
-#        run: |
-#          if [ -f artifacts/deployed-version/version.txt ]; then
-#            ver=$(cat artifacts/deployed-version/version.txt)
-#          elif [ -f artifacts/version.txt ]; then
-#            ver=$(cat artifacts/version.txt)
-#          fi
-#          if [ ! -z "$ver" ]; then
-#            echo "deployed_version=${ver}" >> "$GITHUB_ENV"
-#          fi
-#
-#      - name: Setup Maven Environment
-#        if: ${{ env.deployed_version != '' }}
-#        uses: actions/setup-java@v4
-#        with:
-#          java-version: '17'
-#          distribution: 'temurin'
-#          cache: maven
-#
-#      - name: Run Maven Filtering
-#        if: ${{ env.deployed_version != '' }}
-#        run: mvn --batch-mode process-resources -f roa-archetype/pom.xml
-#
-#      - name: Prepare Clean Catalog Folder
-#        if: ${{ env.deployed_version != '' }}
-#        run: |
-#          mkdir -p temp-catalog
-#          cp roa-archetype/target/classes/archetype-catalog.xml temp-catalog/
-#          echo "Cleaned catalog folder created with archetype-catalog.xml"
-#
-#      - name: Deploy Catalog to gh-pages
-#        if: ${{ env.deployed_version != '' }}
-#        uses: peaceiris/actions-gh-pages@v3
-#        with:
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
-#          publish_branch: gh-pages
-#          publish_dir: temp-catalog
-#          destination_dir: roa-archetype-catalog/${{ env.deployed_version }}
-#          keep_files: true
-#
-#      - name: Checkout gh-pages for indexing
-#        if: ${{ env.deployed_version != '' }}
-#        uses: actions/checkout@v4
-#        with:
-#          ref: gh-pages
-#          path: gh-pages-branch
-#
-#      - name: Generate Directory Index
-#        if: ${{ env.deployed_version != '' }}
-#        uses: gacts/directory-listing@v1
-#        with:
-#          target: gh-pages-branch/roa-archetype-catalog
-#          overwrite: true
-#
-#      - name: Push Directory Index
-#        if: ${{ env.deployed_version != '' }}
-#        run: |
-#          cd gh-pages-branch
-#          git config user.name "github-actions[bot]"
-#          git config user.email "github-actions[bot]@users.noreply.github.com"
-#          git add roa-archetype-catalog/index.html
-#          git commit -m "Update catalog directory listing for version ${{ env.deployed_version }}"
-#          git push origin gh-pages
-#
-#      - name: Update Deployment Summary
-#        if: ${{ env.deployed_version != '' }}
-#        run: |
-#          echo "### Catalog Deployment Success 🚀" >> $GITHUB_STEP_SUMMARY
-#          echo "ROA Archetype Catalog (Browsable): https://cyborgcodesyndicate.github.io/roa-libraries/roa-archetype-catalog/" >> $GITHUB_STEP_SUMMARY
-#          echo "Direct Link (${{ env.deployed_version }}): https://cyborgcodesyndicate.github.io/roa-libraries/roa-archetype-catalog/${{ env.deployed_version }}/archetype-catalog.xml" >> $GITHUB_STEP_SUMMARY
+name: Publish Archetype Catalog
+
+on:
+  workflow_run:
+    workflows: [ "Deploy" ]
+    types:
+      - completed
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  publish-catalog:
+    runs-on: ubuntu-latest
+    if: >
+      github.event.workflow_run.conclusion == 'success' &&
+      (github.event.workflow_run.event.inputs.version_bump == 'major' ||
+       github.event.workflow_run.event.inputs.version_bump == 'minor' ||
+       github.event.workflow_run.event.inputs.version_bump == 'patch')
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download deployed version artifact
+        uses: dawidd6/action-download-artifact@v3
+        with:
+          run_id: ${{ github.event.workflow_run.id }}
+          name: deployed-version
+          path: artifacts
+          if_no_artifact_found: ignore
+
+      - name: Read version file
+        id: read
+        shell: bash
+        run: |
+          if [ -f artifacts/deployed-version/version.txt ]; then
+            ver=$(cat artifacts/deployed-version/version.txt)
+          elif [ -f artifacts/version.txt ]; then
+            ver=$(cat artifacts/version.txt)
+          fi
+          if [ ! -z "$ver" ]; then
+            echo "deployed_version=${ver}" >> "$GITHUB_ENV"
+          fi
+
+      - name: Setup Maven Environment
+        if: ${{ env.deployed_version != '' }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Run Maven Filtering
+        if: ${{ env.deployed_version != '' }}
+        run: mvn --batch-mode process-resources -f roa-archetype/pom.xml
+
+      - name: Prepare Clean Catalog Folder
+        if: ${{ env.deployed_version != '' }}
+        run: |
+          mkdir -p temp-catalog
+          cp roa-archetype/target/classes/archetype-catalog.xml temp-catalog/
+          echo "Cleaned catalog folder created with archetype-catalog.xml"
+
+      - name: Deploy Catalog to gh-pages
+        if: ${{ env.deployed_version != '' }}
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: temp-catalog
+          destination_dir: roa-archetype-catalog/${{ env.deployed_version }}
+          keep_files: true
+
+      - name: Checkout gh-pages for indexing
+        if: ${{ env.deployed_version != '' }}
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages-branch
+
+      - name: Generate Directory Index
+        if: ${{ env.deployed_version != '' }}
+        uses: gacts/directory-listing@v1
+        with:
+          target: gh-pages-branch/roa-archetype-catalog
+          overwrite: true
+
+      - name: Push Directory Index
+        if: ${{ env.deployed_version != '' }}
+        run: |
+          cd gh-pages-branch
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add roa-archetype-catalog/index.html
+          git commit -m "Update catalog directory listing for version ${{ env.deployed_version }}"
+          git push origin gh-pages
+
+      - name: Update Deployment Summary
+        if: ${{ env.deployed_version != '' }}
+        run: |
+          echo "### Catalog Deployment Success 🚀" >> $GITHUB_STEP_SUMMARY
+          echo "ROA Archetype Catalog (Browsable): https://cyborgcodesyndicate.github.io/roa-libraries/roa-archetype-catalog/" >> $GITHUB_STEP_SUMMARY
+          echo "Direct Link (${{ env.deployed_version }}): https://cyborgcodesyndicate.github.io/roa-libraries/roa-archetype-catalog/${{ env.deployed_version }}/archetype-catalog.xml" >> $GITHUB_STEP_SUMMARY
