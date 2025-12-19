@@ -52,3 +52,76 @@ jobs:
           name: deployed-version
           path: version.txt
           retention-days: 7
+
+  publish-catalog:
+    needs: deploy
+    runs-on: ubuntu-latest
+    if: always() && needs.deploy.result == 'success'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Determine Version for Catalog
+        id: get_ver
+        run: |
+          # Use pipeline output if available, otherwise extract from POM
+          IF_VER="${{ needs.deploy.outputs.next_version }}"
+          if [ -z "$IF_VER" ]; then
+            # Extract version from roa-archetype/pom.xml as fallback
+            IF_VER=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout -f roa-archetype/pom.xml)
+          fi
+          echo "use_version=$IF_VER" >> $GITHUB_OUTPUT
+          echo "Target Version for Catalog: $IF_VER"
+
+      - name: Setup Maven Environment
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Run Maven Filtering
+        run: mvn --batch-mode process-resources -f roa-archetype/pom.xml
+
+      - name: Prepare Clean Catalog Folder
+        run: |
+          mkdir -p temp-catalog
+          cp roa-archetype/target/classes/archetype-catalog.xml temp-catalog/
+          echo "Cleaned catalog folder created."
+
+      - name: Deploy Catalog to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: temp-catalog
+          # Using the version we determined in the 'get_ver' step
+          destination_dir: roa-archetype-catalog/${{ steps.get_ver.outputs.use_version }}
+          keep_files: true
+
+      - name: Checkout gh-pages for indexing
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages-branch
+
+      - name: Generate Directory Index
+        uses: gacts/directory-listing@v1
+        with:
+          target: gh-pages-branch/roa-archetype-catalog
+          overwrite: true
+
+      - name: Push Directory Index
+        run: |
+          cd gh-pages-branch
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add roa-archetype-catalog/index.html
+          git commit -m "Update catalog index for version ${{ steps.get_ver.outputs.use_version }}"
+          git push origin gh-pages
+
+      - name: Update Deployment Summary
+        run: |
+          echo "### Catalog Deployment Success 🚀" >> $GITHUB_STEP_SUMMARY
+          echo "**Version Deployed:** ${{ steps.get_ver.outputs.use_version }}" >> $GITHUB_STEP_SUMMARY
+          echo "Browsable Catalog: https://cyborgcodesyndicate.github.io/roa-libraries/roa-archetype-catalog/" >> $GITHUB_STEP_SUMMARY
