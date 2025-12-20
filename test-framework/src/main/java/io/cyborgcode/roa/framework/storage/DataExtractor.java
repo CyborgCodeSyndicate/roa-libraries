@@ -1,5 +1,9 @@
 package io.cyborgcode.roa.framework.storage;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
+
 /**
  * Defines a contract for extracting typed data from a raw object retrieved from storage.
  *
@@ -15,6 +19,18 @@ package io.cyborgcode.roa.framework.storage;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @SuppressWarnings("java:S1452")
+@Pandora(
+      description = "Storage extraction contract: defines how to locate a "
+            + "stored item by keys and transform a raw stored object into a typed value.",
+      tags = {"framework", "storage"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "data-extractor"),
+         @PandoraOptions.Meta(key = "scope", value = "storage")
+      }
+)
 public interface DataExtractor<T> {
 
    /**
@@ -24,6 +40,10 @@ public interface DataExtractor<T> {
     *
     * @return An {@link Enum} representing the sub-key, or {@code null} if not applicable.
     */
+   @Pandora(
+         description = "Optional top-level sub-storage key (namespace) used to select a nested storage context "
+               + "(e.g. API, DB). Null means default storage."
+   )
    Enum<?> getSubKey();
 
    /**
@@ -33,6 +53,10 @@ public interface DataExtractor<T> {
     *
     * @return An {@link Enum} representing the primary key.
     */
+   @Pandora(
+         description = "Primary storage key that identifies the stored "
+               + "entry to extract (within the chosen sub-storage if present)."
+   )
    Enum<?> getKey();
 
    /**
@@ -43,6 +67,10 @@ public interface DataExtractor<T> {
     * @param rawObject The raw object retrieved from storage.
     * @return The extracted data of type {@code T}.
     */
+   @Pandora(
+         description = "Transforms a raw stored object (e.g., Response, DB row, file content) "
+               + "into a typed value used by tests or services."
+   )
    T extract(Object rawObject);
 
 }

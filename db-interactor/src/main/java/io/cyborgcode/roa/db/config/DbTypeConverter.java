@@ -29,15 +29,15 @@ public class DbTypeConverter implements Converter<DbType<?>> {
     */
    @Override
    public DbType<?> convert(Method method, String input) {
-      try {
-         return ReflectionUtil.findEnumImplementationsOfInterface(DbType.class, input, getDbConfig().projectPackages());
-      } catch (Exception e) {
-         if (e.getMessage().contains("more than one enum")) {
-            return ReflectionUtil.findEnumImplementationsOfInterface(DbType.class, input,
-               getDbConfig().projectPackages()[0]);
-         } else {
-            throw e;
-         }
+
+      List<Class<? extends Enum>> enumClassImplementationsOfInterface =
+            ReflectionUtil.findEnumClassImplementationsOfInterface(
+                  DbType.class, getDbConfig().projectPackages()
+            );
+
+      if (enumClassImplementationsOfInterface.size() > 1) {
+         throw new IllegalStateException(
+               "There is more than one enum for representing different types of databases. Only 1 is allowed");
       }
    }
 }

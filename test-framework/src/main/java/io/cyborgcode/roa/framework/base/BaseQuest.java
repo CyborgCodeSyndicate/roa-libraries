@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.framework.base;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.annotation.Odyssey;
 import io.cyborgcode.roa.framework.config.TestConfig;
 import io.cyborgcode.roa.framework.log.LogQuest;
@@ -29,6 +32,20 @@ import static io.cyborgcode.roa.framework.util.PropertiesUtil.addSystemPropertie
       webEnvironment = SpringBootTest.WebEnvironment.NONE
 )
 @Tag("exclude-from-verify")
+@Pandora(
+      description = "Base test class for RoA-style quests. "
+            + "Provides Spring Boot test wiring, logging setup "
+            + "and convenience methods for retrieving data from quest storage.",
+      tags = {"framework", "test-data"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/api-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "base-quest"),
+         @PandoraOptions.Meta(key = "level", value = "framework")
+      }
+)
 public class BaseQuest {
 
    private static final String RETRIEVAL_LOG_TEMPLATE = "Fetching data from storage by key: '{}' and type: '{}'";
@@ -49,7 +66,14 @@ public class BaseQuest {
     * @param <T>   The type parameter corresponding to the retrieved object.
     * @return The stored test data of the specified type.
     */
-   protected <T> T retrieve(Enum<?> key, Class<T> clazz) {
+   @Pandora(
+         description = "Retrieve an object from quest storage by a single enum key in the default storage namespace."
+   )
+   protected <T> T retrieve(
+         @Pandora(
+               description = "Enum key under which the test data was stored in the default storage."
+         ) Enum<?> key,
+         Class<T> clazz) {
       SuperQuest quest = QuestHolder.get();
       LogQuest.extended(RETRIEVAL_LOG_TEMPLATE, key.name(), clazz.getName());
       return quest.getStorage().get(key, clazz);
@@ -64,7 +88,18 @@ public class BaseQuest {
     * @param <T>    The type parameter corresponding to the retrieved object.
     * @return The stored test data from the specified sub-key.
     */
-   protected <T> T retrieve(Enum<?> subKey, Enum<?> key, Class<T> clazz) {
+   @Pandora(
+         description = "Retrieve an object from a sub-storage "
+               + "(e.g. API, DB) using a subKey (namespace) and entry enum key."
+   )
+   protected <T> T retrieve(
+         @Pandora(
+               description = "Top-level sub-storage key (e.g. API, DB) selecting a logical storage namespace."
+         ) Enum<?> subKey,
+         @Pandora(
+               description = "Entry key inside the chosen sub-storage under which the object was stored."
+         ) Enum<?> key,
+         Class<T> clazz) {
       SuperQuest quest = QuestHolder.get();
       LogQuest.extended(RETRIEVAL_LOG_TEMPLATE, key.name(), clazz.getName());
       return quest.getStorage().sub(subKey).get(key, clazz);
@@ -78,10 +113,16 @@ public class BaseQuest {
     * @param <T>       The type parameter corresponding to the retrieved object.
     * @return The extracted test data of the specified type.
     */
-   protected <T> T retrieve(DataExtractor<T> extractor, Class<T> clazz) {
+   @Pandora(
+         description = "Retrieve an object using a DataExtractor abstraction (e.g. JSON path, DB selector)."
+   )
+   protected <T> T retrieve(
+         @Pandora(
+               description = "Extractor describing how to locate the data (JSON path, DB row selector, etc.)."
+         ) DataExtractor<T> extractor,
+         Class<T> clazz) {
       SuperQuest quest = QuestHolder.get();
-      LogQuest.extended(RETRIEVAL_LOG_TEMPLATE, extractor.getKey().name(),
-            clazz.getName());
+      LogQuest.extended(RETRIEVAL_LOG_TEMPLATE, extractor.getKey().name(), clazz.getName());
       return quest.getStorage().get(extractor, clazz);
    }
 
@@ -94,10 +135,17 @@ public class BaseQuest {
     * @param <T>       The type parameter corresponding to the retrieved object.
     * @return The extracted test data of the specified type at the given index.
     */
-   protected <T> T retrieve(DataExtractor<T> extractor, int index, Class<T> clazz) {
+   @Pandora(
+         description = "Retrieve an indexed element produced by a DataExtractor (e.g. element N in a list)."
+   )
+   protected <T> T retrieve(
+         @Pandora(
+               description = "Extractor describing how to locate the collection from which an element will be taken."
+         ) DataExtractor<T> extractor,
+         int index,
+         Class<T> clazz) {
       SuperQuest quest = QuestHolder.get();
-      LogQuest.extended(RETRIEVAL_LOG_TEMPLATE, extractor.getKey().name(),
-            clazz.getName());
+      LogQuest.extended(RETRIEVAL_LOG_TEMPLATE, extractor.getKey().name(), clazz.getName());
       return quest.getStorage().get(extractor, clazz, index);
    }
 
@@ -112,10 +160,16 @@ public class BaseQuest {
     * @param <T>   the type parameter of the returned data
     * @return the hook-stored data, cast to {@code T}
     */
-   protected <T> T hookData(Object value, Class<T> clazz) {
+   @Pandora(
+         description = "Retrieve data written by framework hooks (e.g. ApiHook or DbHook) by their key object."
+   )
+   protected <T> T hookData(
+         @Pandora(
+               description = "Key object used by hooks when storing data (often an enum or dedicated key type)."
+         ) Object value,
+         Class<T> clazz) {
       SuperQuest quest = QuestHolder.get();
-      LogQuest.extended(RETRIEVAL_LOG_TEMPLATE, value,
-            clazz.getName());
+      LogQuest.extended(RETRIEVAL_LOG_TEMPLATE, value, clazz.getName());
       return quest.getStorage().getHookData(value, clazz);
    }
 
@@ -125,7 +179,6 @@ public class BaseQuest {
     * @author Cyborg Code Syndicate 💍👨💻
     */
    public static final class DefaultStorage {
-
 
       private DefaultStorage() {
       }

@@ -1,5 +1,9 @@
 package io.cyborgcode.roa.framework.parameters;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
+
 /**
  * Represents a deferred or lazy evaluation of an object.
  *
@@ -15,6 +19,17 @@ package io.cyborgcode.roa.framework.parameters;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @FunctionalInterface
+@Pandora(
+      description = "Lazy/deferred value wrapper. The contained object is only materialized when create() is called "
+            + "(commonly used for on-demand @Craft test data).",
+      tags = {"framework", "test-data"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "late")
+      }
+)
 public interface Late<T> {
 
    /**
@@ -25,6 +40,10 @@ public interface Late<T> {
     *
     * @return The instantiated object of type {@code T}.
     */
+   @Pandora(
+         description = "Materialize and return the underlying value on demand. "
+               + "May create a new instance or return a cached one, depending on implementation."
+   )
    T create();
 
 }

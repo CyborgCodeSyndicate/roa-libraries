@@ -87,7 +87,7 @@ class ComponentFactoryTest extends BaseUnitUITest {
       reflectionMock = mockStatic(ReflectionUtil.class);
       uiConfigHolderMock = mockStatic(UiConfigHolder.class);
 
-      lenient().when(uiConfig.projectPackages()).thenReturn(new String[] {TEST_PACKAGE});
+      lenient().when(uiConfig.projectPackages()).thenReturn(new String[]{TEST_PACKAGE});
       when(UiConfigHolder.getUiConfig()).thenReturn(uiConfig);
    }
 
@@ -113,8 +113,7 @@ class ComponentFactoryTest extends BaseUnitUITest {
       var result = ComponentFactory.getInputComponent(componentType, smartWebDriver);
 
       // Then
-      assertThat(result).isNotNull();
-      assertThat(result).isInstanceOf(MockInputImpl.class);
+      assertThat(result).isNotNull().isInstanceOf(MockInputImpl.class);
       reflectionMock.verify(() -> ReflectionUtil.findImplementationsOfInterface(eq(Input.class), eq(TEST_PACKAGE)));
       reflectionMock.verify(() -> ReflectionUtil.findImplementationsOfInterface(eq(Input.class), eq(FRAMEWORK_PACKAGE)));
    }

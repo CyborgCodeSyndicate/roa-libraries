@@ -156,33 +156,36 @@ public class UiTestExtension implements BeforeTestExecutionCallback, AfterTestEx
                   ReflectionUtil.findEnumClassImplementationsOfInterface(
                      DataIntercept.class, getFrameworkConfig().projectPackages());
 
-               if (enumClassImplementations.isEmpty()) {
-                  urlsForIntercepting = intercept.requestUrlSubStrings();
-               } else {
+               if (enumClassImplementations.size() > 1) {
+                  throw new IllegalStateException(
+                     "There is more than one enum for representing different types of databases. "
+                        + "Only 1 is allowed");
+               }
+
+               if (enumClassImplementations.size() == 1) {
+                  Class<? extends Enum> enumClass = enumClassImplementations.get(0);
+
                   List<String> resolvedEndpoints = Arrays.stream(intercept.requestUrlSubStrings())
-                     .map(target -> {
-                        for (Class<? extends Enum> enumClass : enumClassImplementations) {
-                           try {
-                              @SuppressWarnings("rawtypes")
-                              Enum enumValue = Enum.valueOf((Class) enumClass, target);
-                              return ((DataIntercept<?>) enumValue).getEndpointSubString();
-                           } catch (IllegalArgumentException ignore) {
-                              //ignore
-                           }
-                        }
-                        return target;
-                     })
+                     .map(target -> ((DataIntercept<?>) Enum.valueOf(enumClass,
+                        target))
+                        .getEndpointSubString())
                      .toList();
 
-                  urlsForIntercepting = resolvedEndpoints.toArray(new String[0]);
+                  if (resolvedEndpoints.isEmpty()) {
+                     urlsForIntercepting = intercept.requestUrlSubStrings();
+                  } else {
+                     urlsForIntercepting = resolvedEndpoints.toArray(new String[0]);
+                  }
+               } else {
+                  urlsForIntercepting = intercept.requestUrlSubStrings();
                }
             } catch (Exception e) {
                urlsForIntercepting = intercept.requestUrlSubStrings();
             }
 
             final String[] finalUrlsForIntercepting = urlsForIntercepting;
-            Consumer<SuperQuest> questConsumer =
-               quest -> postQuestCreationIntercept(quest, finalUrlsForIntercepting);
+            Consumer<SuperQuest> questConsumer = quest -> postQuestCreationIntercept(quest,
+               finalUrlsForIntercepting);
             addQuestConsumer(context, questConsumer);
          });
    }

@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.framework.annotation;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -17,6 +20,17 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
+@Pandora(
+      description = "Marks a test method parameter whose value should "
+            + "be auto-generated from a predefined test data model.",
+      tags = {"framework", "test-data"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "parameter-annotation")
+      }
+)
 public @interface Craft {
 
    /**
@@ -27,6 +41,9 @@ public @interface Craft {
     *
     * @return The name of the test data model.
     */
+   @Pandora(
+         description = "Identifier of the test data model to use when generating the parameter instance."
+   )
    String model();
 
 }

@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.framework.annotation;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
@@ -21,6 +24,19 @@ import java.lang.annotation.Target;
 @Repeatable(PreQuest.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
+@Pandora(
+      description = "Declares a pre-test journey "
+            + "(precondition step) that runs before the test body.",
+      tags = {"framework", "precondition"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "journey-annotation"),
+         @PandoraOptions.Meta(key = "scope", value = "method"),
+         @PandoraOptions.Meta(key = "phase", value = "before-test")
+      }
+)
 public @interface Journey {
 
    /**
@@ -31,6 +47,9 @@ public @interface Journey {
     *
     * @return The name of the journey.
     */
+   @Pandora(
+         description = "Identifier of the pre-test journey (precondition flow) to execute before this test."
+   )
    String value();
 
    /**
@@ -41,6 +60,9 @@ public @interface Journey {
     *
     * @return An array of {@code JourneyData} objects containing test data.
     */
+   @Pandora(
+         description = "Additional test data entries used by the journey; declared via @JourneyData."
+   )
    JourneyData[] journeyData() default {};
 
    /**
@@ -50,6 +72,9 @@ public @interface Journey {
     *
     * @return The execution order of the journey.
     */
+   @Pandora(
+         description = "Execution order among multiple @Journey entries; lower values run first."
+   )
    int order() default 0;
 
 }

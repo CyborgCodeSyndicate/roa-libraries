@@ -91,7 +91,7 @@ class DbTypeConverterTest {
              var refl = mockStatic(ReflectionUtil.class)) {
 
             dbConfigHolder.when(DbConfigHolder::getDbConfig).thenReturn(mockDbConfig);
-            when(mockDbConfig.projectPackages()).thenReturn(new String[]{"first.pkg", "second.pkg"});
+            when(mockDbConfig.projectPackages()).thenReturn(new String[]{"multi.pkg"});
 
             // First call with all packages throws "more than one enum" exception
             refl.when(() ->

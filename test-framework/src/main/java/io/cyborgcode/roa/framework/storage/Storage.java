@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.framework.storage;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.parameters.Late;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.lang.reflect.ParameterizedType;
@@ -28,6 +31,19 @@ import static io.cyborgcode.roa.framework.config.FrameworkConfigHolder.getFramew
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Thread-safe in-memory storage used during a single quest execution. "
+            + "Stores values under enum keys, supports sub-storages (namespaces), "
+            + "Late value materialization, hook-scoped data, and typed retrieval by class/type reference.",
+      tags = {"framework", "storage"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "storage"),
+         @PandoraOptions.Meta(key = "scope", value = "quest")
+      }
+)
 public class Storage {
 
    private final Map<Enum<?>, LinkedList<Object>> data = new ConcurrentHashMap<>();
@@ -40,7 +56,12 @@ public class Storage {
     * @param value The data value to store.
     * @param <T>   The type of the data.
     */
-   public <T> void put(Enum<?> key, T value) {
+   @Pandora(description = "Store a value under an enum key in the current storage namespace.")
+   public <T> void put(
+         @Pandora(description = "Enum key under which the value will be stored.")
+         Enum<?> key,
+         @Pandora(description = "Value to store (latest value is retrieved first).")
+         T value) {
       data.computeIfAbsent(key, k -> new LinkedList<>()).add(value);
    }
 
@@ -52,7 +73,12 @@ public class Storage {
     * @param <T>   The type of the data.
     * @return The most recent value of type {@code T}, or {@code null} if not found.
     */
-   public <T> T get(Enum<?> key, Class<T> clazz) {
+   @Pandora(description = "Retrieve the latest stored value for a key and cast it to the provided class.")
+   public <T> T get(
+         @Pandora(description = "Enum key identifying the stored values list.")
+         Enum<?> key,
+         @Pandora(description = "Expected Java class of the returned value.")
+         Class<T> clazz) {
       return getLatestValue(key, clazz, null);
    }
 
@@ -64,7 +90,12 @@ public class Storage {
     * @param <T>           The type of the data.
     * @return The most recent value of type {@code T}, or {@code null} if not found.
     */
-   public <T> T get(Enum<?> key, ParameterizedTypeReference<T> typeReference) {
+   @Pandora(description = "Retrieve the latest stored value for a key using a parameterized type reference.")
+   public <T> T get(
+         @Pandora(description = "Enum key identifying the stored values list.")
+         Enum<?> key,
+         @Pandora(description = "Type reference used to validate/compare the stored value's type at runtime.")
+         ParameterizedTypeReference<T> typeReference) {
       return getLatestValue(key, null, typeReference);
    }
 
@@ -77,7 +108,15 @@ public class Storage {
     * @param <T>       The type of the data.
     * @return The extracted value of type {@code T}.
     */
-   public <T> T get(DataExtractor<T> extractor, Class<T> clazz, int index) {
+   @Pandora(description = "Retrieve a stored value by index, then transform it via a DataExtractor.")
+   public <T> T get(
+         @Pandora(description = "Extractor describing which key/subKey "
+               + "to read and how to transform the raw stored value.")
+         DataExtractor<T> extractor,
+         @Pandora(description = "Expected Java class of the extracted result.")
+         Class<T> clazz,
+         @Pandora(description = "1-based index from the end (1 = latest, 2 = previous, etc.).")
+         int index) {
       Object result = (extractor.getSubKey() != null)
             ? sub(extractor.getSubKey()).getByIndex(extractor.getKey(), index, Object.class)
             : getByIndex(extractor.getKey(), index, Object.class);
@@ -93,7 +132,13 @@ public class Storage {
     * @param <T>       The type of the data.
     * @return The extracted value of type {@code T}.
     */
-   public <T> T get(DataExtractor<T> extractor, Class<T> clazz) {
+   @Pandora(description = "Retrieve the latest stored value and transform it via a DataExtractor.")
+   public <T> T get(
+         @Pandora(description = "Extractor describing which key/subKey to"
+               + " read and how to transform the raw stored value.")
+         DataExtractor<T> extractor,
+         @Pandora(description = "Expected Java class of the extracted result.")
+         Class<T> clazz) {
       Object result = (extractor.getSubKey() != null)
             ? sub(extractor.getSubKey()).get(extractor.getKey(), Object.class)
             : get(extractor.getKey(), Object.class);
@@ -110,7 +155,13 @@ public class Storage {
     * @param <T>   The type of the value.
     * @return The value at the specified index, or {@code null} if not found.
     */
-   public <T> T getByIndex(Enum<?> key, int index, Class<T> clazz) {
+   public <T> T getByIndex(
+         @Pandora(description = "Enum key identifying the stored values list.")
+         Enum<?> key,
+         @Pandora(description = "1-based index from the end (1 = latest).")
+         int index,
+         @Pandora(description = "Expected Java class of the returned value.")
+         Class<T> clazz) {
       return getValueByIndex(key, index, clazz, null);
    }
 
@@ -123,7 +174,14 @@ public class Storage {
     * @param <T>           The type of the value.
     * @return The value at the specified index, or {@code null} if not found.
     */
-   public <T> T getByIndex(Enum<?> key, int index, ParameterizedTypeReference<T> typeReference) {
+   @Pandora(description = "Retrieve a value by index for a key using a parameterized type reference.")
+   public <T> T getByIndex(
+         @Pandora(description = "Enum key identifying the stored values list.")
+         Enum<?> key,
+         @Pandora(description = "1-based index from the end (1 = latest).")
+         int index,
+         @Pandora(description = "Type reference used to validate/compare the stored value's type at runtime.")
+         ParameterizedTypeReference<T> typeReference) {
       return getValueByIndex(key, index, null, typeReference);
    }
 
@@ -135,7 +193,13 @@ public class Storage {
     * @param <T>   The type of the value.
     * @return The most recent value of type {@code T}, or {@code null} if not found.
     */
-   public <T> T getByClass(Enum<?> key, Class<T> clazz) {
+   @Pandora(description = "Retrieve the latest stored value for a key"
+         + " that matches the provided class (searching from newest to oldest).")
+   public <T> T getByClass(
+         @Pandora(description = "Enum key identifying the stored values list.")
+         Enum<?> key,
+         @Pandora(description = "Class used as a filter to find the latest matching stored value.")
+         Class<T> clazz) {
       return findByClass(key, clazz, null);
    }
 
@@ -147,7 +211,13 @@ public class Storage {
     * @param <T>           The type of the value.
     * @return The most recent value of type {@code T}, or {@code null} if not found.
     */
-   public <T> T getByClass(Enum<?> key, ParameterizedTypeReference<T> typeReference) {
+   @Pandora(description = "Retrieve the latest stored value for a key that "
+         + "matches the provided type reference (searching from newest to oldest).")
+   public <T> T getByClass(
+         @Pandora(description = "Enum key identifying the stored values list.")
+         Enum<?> key,
+         @Pandora(description = "Type reference used as a filter to find the latest matching stored value.")
+         ParameterizedTypeReference<T> typeReference) {
       return findByClass(key, null, typeReference);
    }
 
@@ -159,7 +229,12 @@ public class Storage {
     * @param <T>   The type of the values.
     * @return A list of all values of type {@code T} associated with the key.
     */
-   public <T> List<T> getAllByClass(Enum<?> key, Class<T> clazz) {
+   @Pandora(description = "Retrieve all stored values for a key that match the provided class.")
+   public <T> List<T> getAllByClass(
+         @Pandora(description = "Enum key identifying the stored values list.")
+         Enum<?> key,
+         @Pandora(description = "Class used as a filter to collect matching stored values.")
+         Class<T> clazz) {
       return findAllByClass(key, clazz, null);
    }
 
@@ -171,7 +246,12 @@ public class Storage {
     * @param <T>           The type of the values.
     * @return A list of all values of type {@code T} associated with the key.
     */
-   public <T> List<T> getAllByClass(Enum<?> key, ParameterizedTypeReference<T> typeReference) {
+   @Pandora(description = "Retrieve all stored values for a key that match the provided type reference.")
+   public <T> List<T> getAllByClass(
+         @Pandora(description = "Enum key identifying the stored values list.")
+         Enum<?> key,
+         @Pandora(description = "Type reference used as a filter to collect matching stored values.")
+         ParameterizedTypeReference<T> typeReference) {
       return findAllByClass(key, null, typeReference);
    }
 
@@ -189,7 +269,10 @@ public class Storage {
          justification = "This write is intentional for initializing defaultStorageEnum under controlled conditions."
    )
    @SuppressWarnings("java:S2696")
-   public Storage sub(Enum<?> subKey) {
+   @Pandora(description = "Get (or lazily create) a sub-storage (namespace) under the provided enum key.")
+   public Storage sub(
+         @Pandora(description = "Enum key acting as a namespace for a nested Storage instance (e.g. API, DB).")
+         Enum<?> subKey) {
 
       List<Object> values = data.get(subKey);
       if (values == null || values.isEmpty()) {
@@ -219,6 +302,8 @@ public class Storage {
     * @return The default {@code Storage} instance.
     * @throws IllegalStateException if no default storage is initialized.
     */
+   @Pandora(description = "Get the default sub-storage namespace "
+         + "configured by the framework (throws if not initialized).")
    public Storage sub() {
       if (defaultStorageEnum == null) {
          throw new IllegalStateException("There is no default storage initialized");
@@ -230,6 +315,8 @@ public class Storage {
     * Resolves any stored deferred values (instances of {@link Late}) by replacing them
     * with their actual evaluated objects.
     */
+   @Pandora(description = "Materialize any stored Late<?> values by calling create() "
+         + "and replacing them with the created objects.")
    public void createLateArguments() {
       data.replaceAll((key, objects) -> {
          LinkedList<Object> updatedObjects = new LinkedList<>();
@@ -259,7 +346,13 @@ public class Storage {
     * @param <T>   the type of the returned object
     * @return the hook-stored value cast to {@code T}, or {@code null} if not present
     */
-   public <T> T getHookData(Object value, Class<T> clazz) {
+   @Pandora(description = "Retrieve hook-scoped data stored under StorageKeysTest.HOOKS "
+         + "map using an arbitrary key object.")
+   public <T> T getHookData(
+         @Pandora(description = "Hook key object used when storing data (often an enum or dedicated key type).")
+         Object value,
+         @Pandora(description = "Expected Java class of the returned value.")
+         Class<T> clazz) {
       Map<Object, Object> values = get(StorageKeysTest.HOOKS, Map.class);
       if (values == null || values.get(value) == null) {
          return null;
@@ -277,6 +370,7 @@ public class Storage {
     * @return a snapshot of the entire storage contents
     */
    @SuppressWarnings("java:S1452")
+   @Pandora(description = "Return a deep copy snapshot of the raw storage map (keys and their stored values lists).")
    public Map<Enum<?>, List<Object>> getData() {
       Map<Enum<?>, List<Object>> copy = new HashMap<>();
       for (Map.Entry<Enum<?>, LinkedList<Object>> entry : data.entrySet()) {
