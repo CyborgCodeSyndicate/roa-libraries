@@ -1,0 +1,23 @@
+🤖 CYBORG 🤖 2025-12-23T13:40:04,803 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] INFO  [UI] - Creating driver using provider [ChromeDriverProvider]. Headless: [true], Remote: [true], Remote URL: [http://localhost:4444]
+🤖 CYBORG 🤖 2025-12-23T13:40:06,785 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] INFO  [QUEST] - The quest: 'components_browserButtonInputLinkSelectAlert(Quest)' has begun and is crafted.
+🤖 CYBORG 🤖 2025-12-23T13:40:06,871 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] INFO  [QUEST] - The quest has used the ring: 'io.cyborgcode.ui.simple.test.framework.ui.AppUiService'
+🤖 CYBORG 🤖 2025-12-23T13:40:07,817 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] STEP  [UI] - Clicking button using locator: By.id: signin_button
+🤖 CYBORG 🤖 2025-12-23T13:40:08,327 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] STEP  [UI] - Inserting value: 'username' into input component of type: 'BOOTSTRAP_INPUT_TYPE'.
+🤖 CYBORG 🤖 2025-12-23T13:40:08,899 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] STEP  [UI] - Inserting value: 'password' into input component of type: 'BOOTSTRAP_INPUT_TYPE'.
+🤖 CYBORG 🤖 2025-12-23T13:40:09,316 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] STEP  [UI] - Clicking button using locator: By.cssSelector: input[value='Sign in']
+🤖 CYBORG 🤖 2025-12-23T13:40:10,254 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] STEP  [UI] - Clicking link BOOTSTRAP_LINK_TYPE using locator By.id: transfer_funds_link
+🤖 CYBORG 🤖 2025-12-23T13:40:10,676 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] STEP  [UI] - Selecting option Loan(Avail. balance = $ 780) in container with locator By.id: tf_fromAccountId for select component BOOTSTRAP_SELECT_TYPE
+🤖 CYBORG 🤖 2025-12-23T13:40:10,683 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] STEP  [UI] - Selecting options [Loan(Avail. balance = $ 780)] in container with locator By.id: tf_fromAccountId for select component BOOTSTRAP_SELECT_TYPE
+🤖 CYBORG 🤖 2025-12-23T13:40:11,400 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] STEP  [UI] - Selecting option Credit Card(Avail. balance = $ -265) in container with locator By.id: tf_toAccountId for select component BOOTSTRAP_SELECT_TYPE
+🤖 CYBORG 🤖 2025-12-23T13:40:11,405 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] STEP  [UI] - Selecting options [Credit Card(Avail. balance = $ -265)] in container with locator By.id: tf_toAccountId for select component BOOTSTRAP_SELECT_TYPE
+🤖 CYBORG 🤖 2025-12-23T13:40:11,875 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] STEP  [UI] - Inserting value: '100' into input component of type: 'BOOTSTRAP_INPUT_TYPE'.
+🤖 CYBORG 🤖 2025-12-23T13:40:12,172 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] STEP  [UI] - Inserting value: 'Transfer Amount from Loan to Credit Card' into input component of type: 'BOOTSTRAP_INPUT_TYPE'.
+🤖 CYBORG 🤖 2025-12-23T13:40:12,459 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] STEP  [UI] - Clicking button using locator: By.id: btn_submit
+🤖 CYBORG 🤖 2025-12-23T13:40:12,689 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] STEP  [UI] - Clicking button using locator: By.id: btn_submit
+🤖 CYBORG 🤖 2025-12-23T13:40:12,908 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] STEP  [UI] - Getting value from alert located by: By.className: alert
+🤖 CYBORG 🤖 2025-12-23T13:40:13,100 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] VALIDATION [QUEST] - Starting hard validation...
+🤖 CYBORG 🤖 2025-12-23T13:40:13,106 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] VALIDATION [QUEST] - Hard validation completed successfully.
+🤖 CYBORG 🤖 2025-12-23T13:40:13,115 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] INFO  [QUEST] - The quest has dropped the ring.
+🤖 CYBORG 🤖 2025-12-23T13:40:13,118 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] INFO  [QUEST] - The quest has reached his end
+🤖 CYBORG 🤖 2025-12-23T13:40:13,272 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] INFO  [UI] - WebDriver closed successfully.
+🤖 CYBORG 🤖 2025-12-23T13:40:13,327 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] INFO  [QUEST] - The quest of 'components_browserButtonInputLinkSelectAlert(Quest)' has concluded with glory. Status: SUCCESS. Duration: 11 seconds.
