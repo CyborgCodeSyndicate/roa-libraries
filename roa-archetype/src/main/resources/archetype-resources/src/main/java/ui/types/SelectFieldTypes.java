@@ -22,9 +22,6 @@ public enum SelectFieldTypes implements SelectComponentType {
 
     /**
      * Constants for use in {@code @ImplementationOfType} annotations.
-     * <p>
-     * TODO: Add matching constants for your new enum values here.
-     * </p>
      */
     public static final class Data {
 

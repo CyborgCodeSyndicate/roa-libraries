@@ -15,29 +15,28 @@ import java.sql.SQLException;
 public enum Databases implements DbType<Databases> {
 
 #if ( $dbType.equalsIgnoreCase("H2") || $dbType == ""  || $dbType == "/" )
-    H2(new org.h2.Driver(), "jdbc:h2") // H2 driver constructor does not throw SQLException, so no wrapper needed
+    H2(new org.h2.Driver(), "jdbc:h2");
 #end
 
 #if ( $dbType.equalsIgnoreCase("POSTGRES") )
-    POSTGRES(createDriver("PostgreSQL", () -> new org.postgresql.Driver()), "jdbc:postgresql")
+    POSTGRES(createDriver("PostgreSQL", () -> new org.postgresql.Driver()), "jdbc:postgresql");
 #end
 
 #if ( $dbType.equalsIgnoreCase("MYSQL") )
-    MYSQL(createDriver("MySQL", com.mysql.cj.jdbc.Driver::new), "jdbc:mysql")
+    MYSQL(createDriver("MySQL", com.mysql.cj.jdbc.Driver::new), "jdbc:mysql");
 #end
 
 #if ( $dbType.equalsIgnoreCase("ORACLE") )
-    ORACLE(createDriver("Oracle", () -> new oracle.jdbc.OracleDriver()), "jdbc:oracle:thin")
+    ORACLE(createDriver("Oracle", () -> new oracle.jdbc.OracleDriver()), "jdbc:oracle:thin");
 #end
 
 #if ( $dbType.equalsIgnoreCase("SQLSERVER") )
-    SQLSERVER(createDriver("SQL Server", () -> new com.microsoft.sqlserver.jdbc.SQLServerDriver()), "jdbc:sqlserver")
+    SQLSERVER(createDriver("SQL Server", () -> new com.microsoft.sqlserver.jdbc.SQLServerDriver()), "jdbc:sqlserver");
 #end
 
 #if ( $dbType.equalsIgnoreCase("MARIADB") )
-    MARIADB(createDriver("MariaDB", () -> new org.mariadb.jdbc.Driver()), "jdbc:mariadb")
+    MARIADB(createDriver("MariaDB", () -> new org.mariadb.jdbc.Driver()), "jdbc:mariadb");
 #end
-    ;
 
     @FunctionalInterface
     private interface DriverSupplier {

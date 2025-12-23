@@ -11,7 +11,7 @@
             <defaultValue>API,UI,DB</defaultValue>
         </requiredProperty>
 
-        <requiredProperty key="commonFeatures">
+        <requiredProperty key="implementationStyle">
             <defaultValue>ADVANCED</defaultValue>
         </requiredProperty>
 

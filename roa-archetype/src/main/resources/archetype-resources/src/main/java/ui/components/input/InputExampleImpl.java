@@ -15,9 +15,7 @@ import org.openqa.selenium.By;
 public class InputExampleImpl extends BaseComponent implements Input {
 
     /**
-     * Example:
-     *
-     * <p>TODO: implement your locator here</p>
+     * Example locator that can be used in the methods:
      */
 //    private static final By INPUT_SELECTOR = By.tagName("input");
 

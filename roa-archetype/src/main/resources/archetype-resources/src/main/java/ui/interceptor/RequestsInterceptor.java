@@ -12,12 +12,21 @@ import io.cyborgcode.roa.ui.parameters.DataIntercept;
 public enum RequestsInterceptor implements DataIntercept<RequestsInterceptor> {
 
     /**
-     * Example interception pattern.
-     * <p>
-     * TODO: Replace this with a real pattern such as "/api/orders" or "?ajax=true".
-     * </p>
+     * Example interception pattern:
      */
     EXAMPLE_INTERCEPT("/example-endpoint");
+
+    /**
+     * Constants referencing the enum names for use in {@code @InterceptRequests} annotations.
+     *
+     * Example in tests:
+     *
+     * @InterceptRequests(requestUrlSubStrings = {RequestsInterceptor.Data.EXAMPLE_INTERCEPT})
+     */
+    public static final class Data {
+
+        public static final String EXAMPLE_INTERCEPT = "EXAMPLE_INTERCEPT";
+    }
 
     private final String endpointSubString;
 

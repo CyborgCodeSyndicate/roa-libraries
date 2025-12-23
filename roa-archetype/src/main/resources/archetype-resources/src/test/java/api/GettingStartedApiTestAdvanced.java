@@ -2,9 +2,11 @@ package ${package}.api;
 
 import io.cyborgcode.roa.api.annotations.API;
 import io.cyborgcode.roa.api.annotations.AuthenticateViaApi;
+import io.cyborgcode.roa.example.project.common.data.cleaner.DataCleaner;
 import io.cyborgcode.roa.framework.annotation.Craft;
 import io.cyborgcode.roa.framework.annotation.Journey;
 import io.cyborgcode.roa.framework.annotation.Regression;
+import io.cyborgcode.roa.framework.annotation.Ripper;
 import io.cyborgcode.roa.framework.base.BaseQuest;
 import io.cyborgcode.roa.framework.parameters.Late;
 import io.cyborgcode.roa.framework.quest.Quest;
@@ -25,7 +27,8 @@ import static io.cyborgcode.roa.validator.core.AssertionTypes.IS;
 import static org.apache.http.HttpStatus.SC_CREATED;
 
 /**
- * API test demonstrating data injection and chained requests.
+ * API test demonstrating data injection/creation, late creation during test execution, deletion (cleanup),
+ * precondition method execution and chained requests.
  */
 @API
 @DisplayName("Getting started API test class")
@@ -33,19 +36,15 @@ public class GettingStartedApiTestAdvanced extends BaseQuest {
 
     @Test
     @Regression
-    @Description("Creates two example payloads using crafted models")
+    @Description("Using automatic API authentication through @AuthenticateViaApi, combining journeys/preconditions," +
+            " data creation and deletion")
     @AuthenticateViaApi(credentials = ExampleCredentials.class, type = ExampleAuthenticationClient.class)
-    /*
-     * The @Journey annotation is optional and should be used only when a test flow
-     * requires one or more preconditions.
-     */
     @Journey(value = Preconditions.Data.EXAMPLE_PRECONDITION, order = 1)
+    @Ripper(targets = {DataCleaner.Data.EXAMPLE_CLEANUP})
     void exampleAPITest(Quest quest,
                         @Craft(model = DataCreator.Data.EXAMPLE_MODEL) ExampleRequestDto firstPayload,
                         @Craft(model = DataCreator.Data.EXAMPLE_MODEL) Late<ExampleRequestDto> secondPayload) {
 
-        // @Craft injects test data, Late<T> creates it lazily when .create() is called
-        
         quest.use(RING_OF_API)
                 .requestAndValidate(
                         ExampleEndpoints.EXAMPLE_POST,
@@ -63,9 +62,6 @@ public class GettingStartedApiTestAdvanced extends BaseQuest {
     @Test
     @Regression
     void customFlowDemonstration(Quest quest) {
-
-        // Custom flows let you bundle multiple operations together
-        // Define them in CustomService.java, then call via RING_OF_CUSTOM
         
         // quest.use(RING_OF_CUSTOM)
         //         .yourCustomMethod()

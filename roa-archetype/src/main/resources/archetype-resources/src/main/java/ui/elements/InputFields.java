@@ -11,10 +11,6 @@ import java.util.function.Consumer;
 
 /**
  * Registry of input field elements for your UI tests.
- * <p>
- * Define your application's input fields here. Each enum value represents a specific input
- * on a page (e.g., USERNAME, PASSWORD).
- * </p>
  */
 public enum InputFields implements InputUiElement {
 
@@ -77,7 +73,6 @@ public enum InputFields implements InputUiElement {
 
     @Override
     public <T extends ComponentType> T componentType() {
-        //noinspection unchecked
         return (T) componentType;
     }
 

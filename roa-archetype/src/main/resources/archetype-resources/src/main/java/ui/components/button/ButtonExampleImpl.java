@@ -17,10 +17,7 @@ import java.util.Objects;
 public class ButtonExampleImpl extends BaseComponent implements Button {
 
     /**
-     * Example:
-     * a locator that can be used to find the button element in one of the overriden methods.
-     *
-     * <p>TODO: implement your locator here</p>
+     * Example locator that can be used in the methods:
      */
 //    private static final By BUTTON_SELECTOR = By.tagName("button");
 

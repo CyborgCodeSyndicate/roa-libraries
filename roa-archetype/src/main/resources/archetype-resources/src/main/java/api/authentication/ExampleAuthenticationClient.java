@@ -6,9 +6,11 @@ import io.restassured.http.Header;
 
 /**
  * Implements the authentication strategy for the application.
- * <p>
  * This client retrieval logic returns the {@link Header} (e.g., Bearer Token) required
  * by {@link BaseAuthenticationClient} to sign API requests.
+ * <p>
+ * This logic is executed automatically by the {@code @AuthenticateViaApi} annotation
+ * before relevant tests.
  * </p>
  */
 public class ExampleAuthenticationClient extends BaseAuthenticationClient {

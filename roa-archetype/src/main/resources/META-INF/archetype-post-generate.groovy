@@ -9,9 +9,9 @@ if (environmentsRaw == 'true') environmentsRaw = ''
 
 def baseUrlsRaw = request.properties['baseUrls'] ?: ''
 if (baseUrlsRaw == 'true') baseUrlsRaw = ''
-def commonFeaturesRaw = request.properties['commonFeatures']
-if (!commonFeaturesRaw || commonFeaturesRaw.trim().isEmpty()) {
-    commonFeaturesRaw = 'ADVANCED'
+def implementationStyleRaw = request.properties['implementationStyle']
+if (!implementationStyleRaw || implementationStyleRaw.trim().isEmpty()) {
+    implementationStyleRaw = 'ADVANCED'
 }
 
 def packageName = request.properties['package']
@@ -20,14 +20,14 @@ def resourcesDir = new File(rootDir, "src/main/resources")
 def configTemplateFile = new File(resourcesDir, "config-template.properties")
 
 println "=== ROA Archetype Post-Generation Script ==="
-println "Input hints -> modules: API,UI,DB (comma-separated). commonFeatures: BASIC or ADVANCED. uiComponents: BUTTON,INPUT,SELECT."
+println "Input hints -> modules: API,UI,DB (comma-separated). implementationStyle: BASIC, ADVANCED, or AI. uiComponents: BUTTON,INPUT,SELECT."
 println "Selected modules: ${modulesRaw}"
 println "Root directory: ${rootDir}"
 println "Package path: ${packagePath}"
 println "Selected UI components: ${uiComponents}"
 
 println "Creating config files for environments: ${environmentsRaw}"
-println "Common features level (set -DcommonFeatures=BASIC or ADVANCED): ${commonFeaturesRaw}"
+println "Implementation style (set -DimplementationStyle=BASIC, ADVANCED, or AI): ${implementationStyleRaw}"
 
 def allowedModules = ['API','UI','DB'] as Set
 def selectedModules = modulesRaw?.split(',')*.trim()*.toUpperCase().findAll { allowedModules.contains(it) } ?: []
@@ -36,12 +36,13 @@ if (selectedModules.isEmpty()) {
     selectedModules = ['API','UI','DB']
 }
 
-def commonFeatures = commonFeaturesRaw?.trim()?.toUpperCase()
-if (!commonFeatures || !(commonFeatures in ['BASIC', 'ADVANCED'])) {
-    println "  WARNING: Invalid or missing commonFeatures '${commonFeaturesRaw}'. Defaulting to BASIC."
-    commonFeatures = 'BASIC'
+def implementationStyle = implementationStyleRaw?.trim()?.toUpperCase()
+if (!implementationStyle || !(implementationStyle in ['BASIC', 'ADVANCED', 'AI'])) {
+    println "  WARNING: Invalid or missing implementationStyle '${implementationStyleRaw}'. Defaulting to BASIC."
+    implementationStyle = 'BASIC'
 }
-def isBasicCommons = commonFeatures == 'BASIC'
+def isBasicCommons = implementationStyle == 'BASIC'
+def isAiCommons = implementationStyle == 'AI'
 
 def allowedUiComponents = ['BUTTON','INPUT','SELECT','TABLE'] as Set
 def selectedUI = uiComponents?.split(',')*.trim()*.toUpperCase().findAll { allowedUiComponents.contains(it) } ?: []
@@ -223,20 +224,119 @@ if (isBasicCommons) {
     }
 }
 
-Closure selectTestVariant = { String baseName, String basicName, String advancedName, String basicClass, String advancedClass, String targetClass ->
+if (isAiCommons) {
+    println "Applying AI/Skeleton mode..."
+
+    def aiReplacements = [
+        "src/main/java/${packagePath}/common/preconditions/Preconditions.java": "src/main/java/${packagePath}/common/preconditions/PreconditionsAI.java",
+        "src/main/java/${packagePath}/common/data/creator/DataCreator.java": "src/main/java/${packagePath}/common/data/creator/DataCreatorAI.java",
+        "src/main/java/${packagePath}/common/data/cleaner/DataCleaner.java": "src/main/java/${packagePath}/common/data/cleaner/DataCleanerAI.java",
+        
+        "src/main/java/${packagePath}/api/ExampleEndpoints.java": "src/main/java/${packagePath}/api/ExampleEndpointsAI.java",
+        "src/main/java/${packagePath}/api/authentication/ExampleAuthenticationClient.java": "src/main/java/${packagePath}/api/authentication/ExampleAuthenticationClientAI.java",
+        "src/main/java/${packagePath}/api/dto/request/ExampleRequestDto.java": "src/main/java/${packagePath}/api/dto/request/ExampleRequestDtoAI.java",
+        "src/main/java/${packagePath}/api/dto/response/ExampleResponseDto.java": "src/main/java/${packagePath}/api/dto/response/ExampleResponseDtoAI.java",
+        
+        "src/main/java/${packagePath}/db/Databases.java": "src/main/java/${packagePath}/db/DatabasesAI.java",
+        "src/main/java/${packagePath}/db/queries/ExampleDbQueries.java": "src/main/java/${packagePath}/db/queries/ExampleDbQueriesAI.java",
+        
+        "src/main/java/${packagePath}/ui/components/button/ButtonExampleImpl.java": "src/main/java/${packagePath}/ui/components/button/ButtonExampleImplAI.java",
+        "src/main/java/${packagePath}/ui/components/input/InputExampleImpl.java": "src/main/java/${packagePath}/ui/components/input/InputExampleImplAI.java",
+        "src/main/java/${packagePath}/ui/components/select/SelectExampleImpl.java": "src/main/java/${packagePath}/ui/components/select/SelectExampleImplAI.java",
+        
+        "src/main/java/${packagePath}/ui/elements/ButtonFields.java": "src/main/java/${packagePath}/ui/elements/ButtonFieldsAI.java",
+        "src/main/java/${packagePath}/ui/elements/InputFields.java": "src/main/java/${packagePath}/ui/elements/InputFieldsAI.java",
+        "src/main/java/${packagePath}/ui/elements/SelectFields.java": "src/main/java/${packagePath}/ui/elements/SelectFieldsAI.java",
+        "src/main/java/${packagePath}/ui/elements/TableExample.java": "src/main/java/${packagePath}/ui/elements/TableExampleAI.java",
+        
+        "src/main/java/${packagePath}/ui/types/ButtonFieldTypes.java": "src/main/java/${packagePath}/ui/types/ButtonFieldTypesAI.java",
+        "src/main/java/${packagePath}/ui/types/InputFieldTypes.java": "src/main/java/${packagePath}/ui/types/InputFieldTypesAI.java",
+        "src/main/java/${packagePath}/ui/types/SelectFieldTypes.java": "src/main/java/${packagePath}/ui/types/SelectFieldTypesAI.java",
+        
+        "src/main/java/${packagePath}/ui/authentication/ExampleAppUiLogin.java": "src/main/java/${packagePath}/ui/authentication/ExampleAppUiLoginAI.java",
+        "src/main/java/${packagePath}/ui/interceptor/RequestsInterceptor.java": "src/main/java/${packagePath}/ui/interceptor/RequestsInterceptorAI.java",
+        "src/main/java/${packagePath}/ui/model/table/ExampleTableModel.java": "src/main/java/${packagePath}/ui/model/table/ExampleTableModelAI.java"
+    ]
+
+    aiReplacements.each { originalPath, aiPath ->
+        def originalFile = new File(rootDir, originalPath)
+        def aiFile = new File(rootDir, aiPath)
+        
+        if (originalFile.exists()) {
+             originalFile.delete()
+        }
+        
+        if (aiFile.exists()) {
+            aiFile.renameTo(originalFile)
+            
+            def text = originalFile.text
+            def aiClassName = aiFile.name.replace('.java', '')
+            def originalClassName = originalFile.name.replace('.java', '')
+            
+            text = text.replaceAll(aiClassName, originalClassName)
+            
+            originalFile.text = text
+            println "  Swapped AI skeleton: ${originalFile.name}"
+        }
+    }
+} else {
+    def aiFiles = [
+        "src/main/java/${packagePath}/common/preconditions/PreconditionsAI.java",
+        "src/main/java/${packagePath}/common/data/creator/DataCreatorAI.java",
+        "src/main/java/${packagePath}/common/data/cleaner/DataCleanerAI.java",
+        "src/main/java/${packagePath}/api/ExampleEndpointsAI.java",
+        "src/main/java/${packagePath}/api/authentication/ExampleAuthenticationClientAI.java",
+        "src/main/java/${packagePath}/api/dto/request/ExampleRequestDtoAI.java",
+        "src/main/java/${packagePath}/api/dto/response/ExampleResponseDtoAI.java",
+        "src/main/java/${packagePath}/db/DatabasesAI.java",
+        "src/main/java/${packagePath}/db/queries/ExampleDbQueriesAI.java",
+        "src/main/java/${packagePath}/ui/components/button/ButtonExampleImplAI.java",
+        "src/main/java/${packagePath}/ui/components/input/InputExampleImplAI.java",
+        "src/main/java/${packagePath}/ui/components/select/SelectExampleImplAI.java",
+        "src/main/java/${packagePath}/ui/elements/ButtonFieldsAI.java",
+        "src/main/java/${packagePath}/ui/elements/InputFieldsAI.java",
+        "src/main/java/${packagePath}/ui/elements/SelectFieldsAI.java",
+        "src/main/java/${packagePath}/ui/elements/TableExampleAI.java",
+        "src/main/java/${packagePath}/ui/types/ButtonFieldTypesAI.java",
+        "src/main/java/${packagePath}/ui/types/InputFieldTypesAI.java",
+        "src/main/java/${packagePath}/ui/types/SelectFieldTypesAI.java",
+        "src/main/java/${packagePath}/ui/authentication/ExampleAppUiLoginAI.java",
+        "src/main/java/${packagePath}/ui/interceptor/RequestsInterceptorAI.java",
+        "src/main/java/${packagePath}/ui/model/table/ExampleTableModelAI.java"
+    ]
+    
+    aiFiles.each { aiPath ->
+        def aiFile = new File(rootDir, aiPath)
+        if (aiFile.exists()) {
+            aiFile.delete()
+        }
+    }
+}
+
+Closure selectTestVariant = { String baseName, String basicName, String advancedName, String aiName, String basicClass, String advancedClass, String aiClass, String targetClass ->
     def baseFile = new File(rootDir, baseName)
     def basicFile = new File(rootDir, basicName)
     def advancedFile = new File(rootDir, advancedName)
+    def aiFile = new File(rootDir, aiName)
 
     if (baseFile.exists()) {
         baseFile.delete()
     }
 
-    if (isBasicCommons) {
-        if (advancedFile.exists()) {
-            advancedFile.delete()
-            println "  Deleted advanced test: ${advancedFile}"
+    if (isAiCommons) {
+        if (basicFile.exists()) basicFile.delete()
+        if (advancedFile.exists()) advancedFile.delete()
+        
+        if (aiFile.exists()) {
+            aiFile.renameTo(baseFile)
+            def text = baseFile.text.replaceAll(aiClass, targetClass)
+            baseFile.text = text
+            println "  Selected AI test: ${baseFile}"
         }
+    } else if (isBasicCommons) {
+        if (advancedFile.exists()) advancedFile.delete()
+        if (aiFile.exists()) aiFile.delete()
+
         if (basicFile.exists()) {
             basicFile.renameTo(baseFile)
             def text = baseFile.text.replaceAll(basicClass, targetClass)
@@ -244,10 +344,9 @@ Closure selectTestVariant = { String baseName, String basicName, String advanced
             println "  Selected basic test: ${baseFile}"
         }
     } else {
-        if (basicFile.exists()) {
-            basicFile.delete()
-            println "  Deleted basic test: ${basicFile}"
-        }
+        if (basicFile.exists()) basicFile.delete()
+        if (aiFile.exists()) aiFile.delete()
+
         if (advancedFile.exists()) {
             advancedFile.renameTo(baseFile)
             def text = baseFile.text.replaceAll(advancedClass, targetClass)
@@ -261,24 +360,30 @@ selectTestVariant(
       "src/test/java/${packagePath}/api/GettingStartedApiTest.java",
       "src/test/java/${packagePath}/api/GettingStartedApiTestBasic.java",
       "src/test/java/${packagePath}/api/GettingStartedApiTestAdvanced.java",
+      "src/test/java/${packagePath}/api/GettingStartedApiTestAI.java",
       "GettingStartedApiTestBasic",
       "GettingStartedApiTestAdvanced",
+      "GettingStartedApiTestAI",
       "GettingStartedApiTest"
 )
 selectTestVariant(
       "src/test/java/${packagePath}/db/GettingStartedDbTest.java",
       "src/test/java/${packagePath}/db/GettingStartedDbTestBasic.java",
       "src/test/java/${packagePath}/db/GettingStartedDbTestAdvanced.java",
+      "src/test/java/${packagePath}/db/GettingStartedDbTestAI.java",
       "GettingStartedDbTestBasic",
       "GettingStartedDbTestAdvanced",
+      "GettingStartedDbTestAI",
       "GettingStartedDbTest"
 )
 selectTestVariant(
       "src/test/java/${packagePath}/ui/GettingStartedUiTest.java",
       "src/test/java/${packagePath}/ui/GettingStartedUiTestBasic.java",
       "src/test/java/${packagePath}/ui/GettingStartedUiTestAdvanced.java",
+      "src/test/java/${packagePath}/ui/GettingStartedUiTestAI.java",
       "GettingStartedUiTestBasic",
       "GettingStartedUiTestAdvanced",
+      "GettingStartedUiTestAI",
       "GettingStartedUiTest"
 )
 

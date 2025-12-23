@@ -40,7 +40,7 @@ https://cyborgcodesyndicate.github.io/roa-libraries/{workflow.run_number}/roa-ar
     - **Additional Properties**: Customize as needed:
         - `modules`: Select which components to include (API, UI, DB)
         - `environments`: Add your environments here or leave empty if working on only one env (ex. UAT, QA, TEST, DEV)
-        - `commonFeatures`: Choose between BASIC or ADVANCED
+        - `implementationStyle`: Choose between BASIC, ADVANCED, or AI
         - `dbType`: Select your database type if using DB module
         - `uiComponents`: Choose UI components to include
 7. Click **Next** to proceed with project generation
@@ -58,7 +58,7 @@ mvn archetype:generate ^
   -Dversion=1.0-SNAPSHOT ^
   -Dpackage=com.mycompany ^
   -Dmodules=API,UI,DB ^
-  -DcommonFeatures=ADVANCED ^
+  -DimplementationStyle=ADVANCED ^
   -DdbType=POSTGRES ^
   -DuiComponents=BUTTON,INPUT,SELECT ^
   -B
@@ -73,7 +73,7 @@ mvn archetype:generate ^
   -Dversion=1.0-SNAPSHOT ^
   -Dpackage=com.mycompany ^
   -Dmodules=API,UI,DB ^
-  -DcommonFeatures=ADVANCED ^
+  -DimplementationStyle=ADVANCED ^
   -DdbType=POSTGRES ^
   -DuiComponents=BUTTON,INPUT,SELECT ^
   -B
@@ -83,7 +83,7 @@ mvn archetype:generate ^
 | Property | Description | Allowed values | Default |
 | --- | --- | --- | --- |
 | modules | Capabilities to include | API, UI, DB (comma-separated) | API,UI,DB |
-| commonFeatures | Test data/preconditions bundle | BASIC, ADVANCED | BASIC |
+| implementationStyle | Test data/preconditions bundle | BASIC, ADVANCED, AI | BASIC |
 | dbType | DB flavor (when DB selected) | POSTGRES, MYSQL, H2, ORACLE, SQLSERVER, MARIADB | POSTGRES |
 | environments | Target environments (comma-separated) | any string | QA,UAT |
 | uiComponents | UI element families (when UI selected) | BUTTON, INPUT, SELECT, TABLE (comma-separated) | BUTTON,INPUT,SELECT |
@@ -197,7 +197,7 @@ A compile-ready scaffold with examples you are expected to replace:
 - Rings.java: Service registry entry points (API, UI, DB, CUSTOM).
 - CustomService.java: Multi-step workflows across modules.
 - DataProperties.java / Data.java: Typed config keys and accessors.
-- DataCreator.java / DataCleaner.java / Preconditions.java (when commonFeatures=ADVANCED): Factories, cleanup hooks, reusable setup.
+- DataCreator.java / DataCleaner.java / Preconditions.java (when implementationStyle=ADVANCED): Factories, cleanup hooks, reusable setup.
 
 ## Post-Generation Checklist
 - Set config in src/main/resources/config.properties (base URLs, DB, auth).

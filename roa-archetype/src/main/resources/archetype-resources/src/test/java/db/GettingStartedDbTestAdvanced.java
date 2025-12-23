@@ -32,9 +32,6 @@ public class GettingStartedDbTestAdvanced extends BaseQuest {
     @Regression
     @Description("Database usage with a hook and simple validation")
     void exampleDBTest(Quest quest) {
-
-        // Execute a query with parameters, then validate the results
-        // Requires configured DB connection (see Databases.java and config.properties)
         
         quest.use(RING_OF_DB)
                 .query(ExampleDbQueries.SIMPLE_QUERY.withParam("id", 1))
@@ -54,11 +51,6 @@ public class GettingStartedDbTestAdvanced extends BaseQuest {
     @Regression
     void customFlowDemonstration(Quest quest) {
 
-        /**
-         * Example:
-         *
-         * <p>TODO: implement your custom flow here</p>
-         */
 //        quest.use(RING_OF_CUSTOM)
 //                // .performExampleFlow(order) add custom flow here
 //                .complete();

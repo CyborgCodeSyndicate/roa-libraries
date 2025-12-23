@@ -19,7 +19,7 @@ import static io.cyborgcode.roa.validator.core.AssertionTypes.IS;
 import static org.apache.http.HttpStatus.SC_OK;
 
 /**
- * Demonstrates a basic API test flow using the ROA framework.
+ * Demonstrates a basic API test flow, chaining a request with validation.
  */
 @API
 public class GettingStartedApiTestBasic extends BaseQuest {
@@ -27,11 +27,9 @@ public class GettingStartedApiTestBasic extends BaseQuest {
     @Test
     @Regression
     @AuthenticateViaApi(credentials = ExampleCredentials.class, type = ExampleAuthenticationClient.class)
-    @Description("Basic API flow")
+    @Description("Basic API test flow")
     void exampleAPITest(Quest quest) {
 
-        // Authentication is handled automatically by the @AuthenticateViaApi annotation
-        
         quest.use(RING_OF_API)
                 .requestAndValidate(
                         ExampleEndpoints.EXAMPLE_GET,
@@ -44,11 +42,6 @@ public class GettingStartedApiTestBasic extends BaseQuest {
     @Regression
     void customFlowDemonstration(Quest quest) {
 
-        /**
-         * Example:
-         *
-         * <p>TODO: implement your custom flow here</p>
-         */
 //        quest.use(RING_OF_CUSTOM)
 //                // .performExampleFlow(order) add custom flow here
 //                .complete();

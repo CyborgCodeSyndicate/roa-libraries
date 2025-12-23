@@ -18,9 +18,7 @@ import java.util.List;
 public class SelectExampleImpl extends BaseComponent implements Select {
 
     /**
-     * Example:
-     *
-     * <p>TODO: implement your locator here</p>
+     * Example locator that can be used in the methods:
      */
 //    private static final By OPTIONS_SELECTOR = By.tagName("options");
 

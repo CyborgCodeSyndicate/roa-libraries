@@ -11,15 +11,12 @@ import java.util.function.Consumer;
 
 /**
  * Registry of select/dropdown field elements for your UI tests.
- * <p>
- * Define your application's dropdowns here. Each enum value
- * represents a specific dropdown on a page.
- * </p>
  */
 public enum SelectFields implements SelectUiElement {
 
     /**
      * Example select field with Consumer hooks. Or can be created with only locator and component type.
+     *
      * Example: GENERIC_SELECT(
      *          By.id("example-select"),
      *          SelectFieldTypes.EXAMPLE_SELECT_TYPE
@@ -62,7 +59,6 @@ public enum SelectFields implements SelectUiElement {
 
     @Override
     public <T extends ComponentType> T componentType() {
-        //noinspection unchecked
         return (T) componentType;
     }
 

@@ -2,6 +2,8 @@ package ${package}.ui.authentication;
 
 import io.cyborgcode.roa.ui.authentication.BaseLoginClient;
 import io.cyborgcode.roa.ui.service.fluent.UiServiceFluent;
+import io.cyborgcode.roa.example.project.ui.elements.ButtonFields;
+import io.cyborgcode.roa.example.project.ui.elements.InputFields;
 import org.openqa.selenium.By;
 
 /**
@@ -21,10 +23,10 @@ public class ExampleAppUiLogin extends BaseLoginClient {
     ) {
         // Login workflow implementation
         // Example:
-        // uiService.getNavigation().navigate("https://example.com/login");
-        // uiService.getInputField().insert(InputFields.USERNAME, username);
-        // uiService.getInputField().insert(InputFields.PASSWORD, password);
-        // uiService.getButtonField().click(ButtonFields.LOGIN_BUTTON);
+//        uiService.getNavigation().navigate("https://example.com/login")
+//                .getInputField().insert(InputFields.USERNAME, username)
+//                .getInputField().insert(InputFields.PASSWORD, password)
+//                .getButtonField().click(ButtonFields.LOGIN_BUTTON);
     }
 
     @Override

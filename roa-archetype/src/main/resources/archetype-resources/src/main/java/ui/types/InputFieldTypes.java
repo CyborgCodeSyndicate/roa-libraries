@@ -21,10 +21,7 @@ public enum InputFieldTypes implements InputComponentType {
     EXAMPLE_INPUT_TYPE;
 
     /**
-     * Constants for use in annotations.
-     * <p>
-     * TODO: Add matching constants for your new enum values here.
-     * </p>
+     * Constants for use in {@code @ImplementationOfType} annotations.
      */
     public static final class Data {
 

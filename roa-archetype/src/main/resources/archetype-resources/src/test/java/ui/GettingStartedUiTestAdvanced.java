@@ -3,8 +3,11 @@ package ${package}.ui;
 import io.cyborgcode.roa.ui.annotations.AuthenticateViaUi;
 import io.cyborgcode.roa.framework.annotation.Journey;
 import io.cyborgcode.roa.framework.annotation.Regression;
+import io.cyborgcode.roa.example.project.common.data.cleaner.DataCleaner;
+import io.cyborgcode.ui.complex.test.framework.ui.interceptor.RequestsInterceptor;
 import io.cyborgcode.roa.framework.base.BaseQuest;
 import io.cyborgcode.roa.framework.quest.Quest;
+import io.cyborgcode.roa.framework.annotation.Ripper;
 import io.cyborgcode.roa.ui.annotations.UI;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,7 +33,8 @@ import static io.cyborgcode.roa.ui.config.UiConfigHolder.getUiConfig;
 import java.util.List;
 
 /**
- * UI test demonstrating authentication, data injection, and element interactions.
+ * UI test demonstrating authentication, deletion (cleanup), precondition method execution,
+ * element interactions and requests interceptor.
  */
 @UI
 @DisplayName("Getting started UI test class")
@@ -38,20 +42,16 @@ public class GettingStartedUiTestAdvanced extends BaseQuest {
 
     @Test
     @Regression
-    @Description("Using automatic UI authentication through @AuthenticateViaUi and combining journeys/preconditions" +
-            " and crafted data")
+    @Description("Using automatic UI authentication through @AuthenticateViaUi, combining journeys/preconditions," +
+            " data deletion and request interceptor with validation")
     @AuthenticateViaUi(credentials = ExampleCredentials.class, type = ExampleAppUiLogin.class)
-    /*
-     * The @Journey annotation is optional and should be used only when a test flow
-     * requires one or more preconditions.
-     */
+    @InterceptRequests(requestUrlSubStrings = {RequestsInterceptor.Data.EXAMPLE_INTERCEPT})
     @Journey(value = Preconditions.Data.EXAMPLE_PRECONDITION, option = 1)
+    @Ripper(targets = {DataCleaner.Data.EXAMPLE_CLEANUP})
     void exampleUITest(Quest quest) {
 
-        // TODO: implement your test here
         quest.use(RING_OF_UI)
 #if( $ui.contains("BUTTON") && $ui.contains("INPUT") && $ui.contains("SELECT") )
-        // Login is handled automatically by @AuthenticateViaUi
                 .getNavigation().navigate(getUiConfig().baseUrl())
                 .getButtonField().click(ButtonFields.LOGIN_BUTTON)
                 .getInputField().insert(InputFields.USERNAME, "example_username")
@@ -64,6 +64,8 @@ public class GettingStartedUiTestAdvanced extends BaseQuest {
             // .getTable().validate(TableExample.EXAMPLE_TABLE_MODEL,
             // Assertion.builder().type(TABLE_NOT_EMPTY).expected(true).soft(true).build())
 #end
+                .interceptor().validateResponseHaveStatus(
+                        RequestsInterceptor.EXAMPLE_INTERCEPT.getEndpointSubString(), 2, true)
                 .complete();
     }
 
@@ -71,9 +73,6 @@ public class GettingStartedUiTestAdvanced extends BaseQuest {
     @Regression
     void customFlowDemonstration(Quest quest) {
 
-        /**
-         * Example of integrated custom flow execution.
-         */
 //        quest.use(RING_OF_CUSTOM)
 //                // .exampleFlow()
 //                .complete();

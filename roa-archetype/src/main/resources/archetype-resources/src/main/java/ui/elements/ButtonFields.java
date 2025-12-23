@@ -11,10 +11,6 @@ import java.util.function.Consumer;
 
 /**
  * Registry of button elements for your UI tests.
- * <p>
- * Define your application's buttons (clickable elements) here. Each enum value
- * represents a specific button on a page.
- * </p>
  */
 public enum ButtonFields implements ButtonUiElement {
 
@@ -71,7 +67,6 @@ public enum ButtonFields implements ButtonUiElement {
 
     @Override
     public <T extends ComponentType> T componentType() {
-        //noinspection unchecked
         return (T) componentType;
     }
 

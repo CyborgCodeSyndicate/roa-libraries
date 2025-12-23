@@ -24,21 +24,17 @@ import static ${package}.common.base.Rings.RING_OF_CUSTOM;
 import static io.cyborgcode.roa.ui.config.UiConfigHolder.getUiConfig;
 
 /**
- * Simple UI test example.
- * 
- * Replace elements and interactions with your own.
+ * UI test demonstrating UI login flow using element interactions.
  */
 @UI
+@DisplayName("Getting started UI test class")
 public class GettingStartedUiTestBasic extends BaseQuest {
 
     @Test
     @Regression
-    @Description("Basic UI flow")
+    @Description("Basic UI test flow")
     void exampleUITest(Quest quest) {
 
-        /**
-         * Example of navigating to the base URL and interacting with elements.
-         */
         quest.use(RING_OF_UI)
                 .getNavigation().navigate(getUiConfig().baseUrl())
 #if( $ui.contains("BUTTON") )
@@ -58,9 +54,6 @@ public class GettingStartedUiTestBasic extends BaseQuest {
     @Regression
     void customFlowDemonstration(Quest quest) {
 
-         /**
-          * Example of integrated custom flow execution.
-          */
 //        quest.use(RING_OF_CUSTOM)
 //                // .exampleFlow()
 //                .complete();
