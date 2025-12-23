@@ -9,7 +9,7 @@ import ${package}.api.ExampleEndpoints;
  * Custom service for complex, multi-step workflows.
  * <p>
  * Add methods here that combine UI, API, and DB operations.
- * Example: createUserWithOrder(), setupTestEnvironment(), etc.
+ * Example: createUserWithOrder(), completeCheckoutFlow(), etc.
  * </p>
  */
 @Ring("Custom")
@@ -18,16 +18,15 @@ public class CustomService extends FluentService {
     /**
      * Example method demonstrating custom flow structure.
      * <p>
-     * This shows how to orchestrate multiple operations. You can:
-     * - Call other rings (API, UI, DB) from within this method
+     * This example shows how to orchestrate multiple operations. You can:
+     * - Call rings (API, UI, DB) from within this method
      * - Execute complex multi-step business logic
      * - Return 'this' for method chaining
      * </p>
      * <p>
-     * TODO: Replace this with real business workflows like:
+     * TODO: Replace exampleFlow() with methods reflecting real business workflows like:
      * - createUserWithProfile(String name, String email)
      * - completeCheckoutFlow(Order order)
-     * - setupTestEnvironment(String scenario)
      * </p>
      */
     public CustomService exampleFlow() {
