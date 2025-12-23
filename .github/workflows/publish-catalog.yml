@@ -52,12 +52,10 @@ jobs:
           fi
 
       - name: Setup Maven Environment
-        if: ${{ env.deployed_version != '' }}
-        uses: actions/setup-java@v4
+        uses: CyborgCodeSyndicate/utilities/pipelines/shared/setup-maven@v1.4.1
         with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: maven
+          github_packages_user: ${{ secrets.GH_PACKAGES_USER }}
+          github_packages_token: ${{ secrets.GH_PACKAGES_PAT }}
 
       - name: Bump version and build module (runtime only)
         if: ${{ env.deployed_version != '' }}
