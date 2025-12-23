@@ -3,11 +3,11 @@ name: Publish Archetype Catalog
 on:
   workflow_run:
     workflows: [ "Deploy" ]
-    types:
-      - completed
+    types: [ completed ]
 
 permissions:
   contents: write
+  actions: read
 
 jobs:
   publish-catalog:
