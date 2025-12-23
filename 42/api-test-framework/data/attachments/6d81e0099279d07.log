@@ -1,0 +1,26 @@
+🤖 CYBORG 🤖 2025-12-23T22:08:08,727 [scenario=AdvancedExamplesTest.showsChainedRequestsAndUsingStorage] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2025-12-23T22:08:08,731 [scenario=AdvancedExamplesTest.showsChainedRequestsAndUsingStorage] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2025-12-23T22:08:08,734 [scenario=AdvancedExamplesTest.showsChainedRequestsAndUsingStorage] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2025-12-23T22:08:08,740 [scenario=AdvancedExamplesTest.showsChainedRequestsAndUsingStorage] INFO  [QUEST] - The quest: 'showsChainedRequestsAndUsingStorage(Quest)' has begun and is crafted.
+🤖 CYBORG 🤖 2025-12-23T22:08:08,748 [scenario=AdvancedExamplesTest.showsChainedRequestsAndUsingStorage] INFO  [QUEST] - The quest has used the ring: 'API'
+🤖 CYBORG 🤖 2025-12-23T22:08:08,760 [scenario=AdvancedExamplesTest.showsChainedRequestsAndUsingStorage] INFO  [API] - Prepared RequestSpecification with pathParams: {}, queryParams: {page=2}, headers: {}
+🤖 CYBORG 🤖 2025-12-23T22:08:08,764 [scenario=AdvancedExamplesTest.showsChainedRequestsAndUsingStorage] STEP  [API] - Sending request to endpoint GET-https://reqres.in/api/users?page=2.
+🤖 CYBORG 🤖 2025-12-23T22:08:08,767 [scenario=AdvancedExamplesTest.showsChainedRequestsAndUsingStorage] EXTENDED [API] - Request body: .
+🤖 CYBORG 🤖 2025-12-23T22:08:08,773 [scenario=AdvancedExamplesTest.showsChainedRequestsAndUsingStorage] EXTENDED [API] - Request headers: Content-Type=application/json
+🤖 CYBORG 🤖 2025-12-23T22:08:08,840 [scenario=AdvancedExamplesTest.showsChainedRequestsAndUsingStorage] STEP  [API] - Response with status: 200 received from endpoint: GET-https://reqres.in/api/users?page=2 in 62ms.
+🤖 CYBORG 🤖 2025-12-23T22:08:08,850 [scenario=AdvancedExamplesTest.showsChainedRequestsAndUsingStorage] EXTENDED [API] - Response body: {
+🤖 CYBORG 🤖 2025-12-23T22:08:08,856 [scenario=AdvancedExamplesTest.showsChainedRequestsAndUsingStorage] EXTENDED [API] - Response headers: Date=Tue, 23 Dec 2025 22:08:08 GMT
+🤖 CYBORG 🤖 2025-12-23T22:08:08,870 [scenario=AdvancedExamplesTest.showsChainedRequestsAndUsingStorage] EXTENDED [QUEST] - Fetching data from storage by key: 'GET_ALL_USERS' and type: 'io.restassured.response.Response'
+🤖 CYBORG 🤖 2025-12-23T22:08:08,889 [scenario=AdvancedExamplesTest.showsChainedRequestsAndUsingStorage] INFO  [API] - Prepared RequestSpecification with pathParams: {id=7}, queryParams: {}, headers: {}
+🤖 CYBORG 🤖 2025-12-23T22:08:08,895 [scenario=AdvancedExamplesTest.showsChainedRequestsAndUsingStorage] STEP  [API] - Sending request to endpoint GET-https://reqres.in/api/users/7.
+🤖 CYBORG 🤖 2025-12-23T22:08:08,898 [scenario=AdvancedExamplesTest.showsChainedRequestsAndUsingStorage] EXTENDED [API] - Request body: .
+🤖 CYBORG 🤖 2025-12-23T22:08:08,901 [scenario=AdvancedExamplesTest.showsChainedRequestsAndUsingStorage] EXTENDED [API] - Request headers: Content-Type=application/json
+🤖 CYBORG 🤖 2025-12-23T22:08:09,135 [scenario=AdvancedExamplesTest.showsChainedRequestsAndUsingStorage] STEP  [API] - Response with status: 200 received from endpoint: GET-https://reqres.in/api/users/7 in 224ms.
+🤖 CYBORG 🤖 2025-12-23T22:08:09,141 [scenario=AdvancedExamplesTest.showsChainedRequestsAndUsingStorage] EXTENDED [API] - Response body: {
+🤖 CYBORG 🤖 2025-12-23T22:08:09,146 [scenario=AdvancedExamplesTest.showsChainedRequestsAndUsingStorage] EXTENDED [API] - Response headers: Date=Tue, 23 Dec 2025 22:08:09 GMT
+🤖 CYBORG 🤖 2025-12-23T22:08:09,154 [scenario=AdvancedExamplesTest.showsChainedRequestsAndUsingStorage] INFO  [API] - Starting response validation with 1 assertion(s).
+🤖 CYBORG 🤖 2025-12-23T22:08:09,162 [scenario=AdvancedExamplesTest.showsChainedRequestsAndUsingStorage] EXTENDED [API] - Validation target: [{AssertionKeyForStatus=200}]
+🤖 CYBORG 🤖 2025-12-23T22:08:09,165 [scenario=AdvancedExamplesTest.showsChainedRequestsAndUsingStorage] VALIDATION [QUEST] - ✔ Validation passed: IS (Expected: 200, Actual: 200)
+🤖 CYBORG 🤖 2025-12-23T22:08:09,167 [scenario=AdvancedExamplesTest.showsChainedRequestsAndUsingStorage] INFO  [QUEST] - The quest has dropped the ring.
+🤖 CYBORG 🤖 2025-12-23T22:08:09,170 [scenario=AdvancedExamplesTest.showsChainedRequestsAndUsingStorage] INFO  [QUEST] - The quest has reached his end
+🤖 CYBORG 🤖 2025-12-23T22:08:09,179 [scenario=AdvancedExamplesTest.showsChainedRequestsAndUsingStorage] INFO  [QUEST] - The quest of 'showsChainedRequestsAndUsingStorage(Quest)' has concluded with glory. Status: SUCCESS. Duration: 0 seconds.
