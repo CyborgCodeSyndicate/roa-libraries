@@ -1,1 +1,12 @@
+name: Publish Archetype Catalog
 
+on:
+  workflow_run:
+    workflows: ["Deploy"]
+    types: [completed]
+
+jobs:
+  noop:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "workflow_run listener present on main"
