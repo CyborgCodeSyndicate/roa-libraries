@@ -10,7 +10,7 @@ import java.util.function.Consumer;
  * Defines reusable cleanup (data ripping) operations for your test suite.
  * <p>
  * This enum implements {@link DataRipper}, allowing you to define cleanup logic
- * that can be attached to tests using the {@code @Ripper} annotation.
+ * that can be attached to tests using the {@code @Ripper} annotation in tests.
  * </p>
  */
 public enum DataCleaner implements DataRipper<DataCleaner> {
@@ -25,6 +25,10 @@ public enum DataCleaner implements DataRipper<DataCleaner> {
 
     /**
      * Constants referencing the enum names for use in {@code @Ripper} annotations.
+     *
+     * Example in tests:
+     *
+     * @Ripper(targets = {DataCleaner.Data.EXAMPLE_CLEANUP})
      */
     public static final class Data {
 

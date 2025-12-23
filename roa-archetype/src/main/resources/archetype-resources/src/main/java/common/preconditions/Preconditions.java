@@ -11,8 +11,7 @@ import java.util.function.BiConsumer;
  * Registry of pre-test journeys (Preconditions).
  * <p>
  * This enum implements {@link PreQuestJourney}. You can define setup steps here
- * that run before your test logic. Use the {@code @PreQuest} annotation to attach
- * them to your tests.
+ * that run before your test logic. Use the {@code @Journey} annotation in tests.
  * </p>
  */
 public enum Preconditions implements PreQuestJourney<Preconditions> {
@@ -27,7 +26,11 @@ public enum Preconditions implements PreQuestJourney<Preconditions> {
     });
 
     /**
-     * Constants referencing the enum names for use in {@code @PreQuest} annotations.
+     * Constants referencing the enum names for use in {@code @Journey} annotations.
+     *
+     * Example in tests:
+     *
+     * @Journey(value = Precondition.Data.EXAMPLE_PRECONDITION)
      */
     public static final class Data {
         public static final String EXAMPLE_PRECONDITION = "EXAMPLE_PRECONDITION";
