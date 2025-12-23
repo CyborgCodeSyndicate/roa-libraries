@@ -348,6 +348,18 @@ if (generatedPom.exists()) {
     }
 }
 
+def systemPropsFile = new File(resourcesDir, "system.properties")
+if (systemPropsFile.exists()) {
+    def sysPropsText = systemPropsFile.text
+    def replacedSysProps = sysPropsText.replaceFirst(/test\.data\.file=.*/, "test.data.file=${selectedTestDataFile}")
+    if (sysPropsText != replacedSysProps) {
+        systemPropsFile.text = replacedSysProps
+        println "  Updated system.properties test.data.file to ${selectedTestDataFile}"
+    } else {
+        println "  WARNING: Could not update test.data.file in system.properties"
+    }
+}
+
 configTemplateFile.delete()
 testDataTemplateFile.delete()
 println "  Removed template files"
