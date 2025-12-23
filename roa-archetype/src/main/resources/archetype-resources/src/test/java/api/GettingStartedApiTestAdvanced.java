@@ -4,7 +4,6 @@ import io.cyborgcode.roa.api.annotations.API;
 import io.cyborgcode.roa.api.annotations.AuthenticateViaApi;
 import io.cyborgcode.roa.framework.annotation.Craft;
 import io.cyborgcode.roa.framework.annotation.Journey;
-import io.cyborgcode.roa.framework.annotation.JourneyData;
 import io.cyborgcode.roa.framework.annotation.Regression;
 import io.cyborgcode.roa.framework.base.BaseQuest;
 import io.cyborgcode.roa.framework.parameters.Late;
@@ -14,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import io.qameta.allure.Description;
 import org.junit.jupiter.api.DisplayName;
 
-import ${package}.api.ExampleEndpoints;
 import ${package}.api.authentication.ExampleCredentials;
 import ${package}.api.authentication.ExampleAuthenticationClient;
 import ${package}.api.dto.request.ExampleRequestDto;
@@ -27,7 +25,7 @@ import static io.cyborgcode.roa.validator.core.AssertionTypes.IS;
 import static org.apache.http.HttpStatus.SC_CREATED;
 
 /**
- * Advanced API test demonstrating data injection and chained requests.
+ * API test demonstrating data injection and chained requests.
  */
 @API
 @DisplayName("Getting started API test class")
@@ -37,8 +35,11 @@ public class GettingStartedApiTestAdvanced extends BaseQuest {
     @Regression
     @Description("Creates two example payloads using crafted models")
     @AuthenticateViaApi(credentials = ExampleCredentials.class, type = ExampleAuthenticationClient.class)
-    @Journey("" // Add preconditions: value = Preconditions.Data.EXAMPLE_PRECONDITION, order = 1
-    )
+    /*
+     * The @Journey annotation is optional and should be used only when a test flow
+     * requires one or more preconditions.
+     */
+    @Journey(value = Preconditions.Data.EXAMPLE_PRECONDITION, order = 1)
     void exampleAPITest(Quest quest,
                         @Craft(model = DataCreator.Data.EXAMPLE_MODEL) ExampleRequestDto firstPayload,
                         @Craft(model = DataCreator.Data.EXAMPLE_MODEL) Late<ExampleRequestDto> secondPayload) {
