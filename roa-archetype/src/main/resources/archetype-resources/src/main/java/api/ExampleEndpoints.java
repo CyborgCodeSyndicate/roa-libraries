@@ -38,11 +38,4 @@ public enum ExampleEndpoints implements Endpoint<ExampleEndpoints> {
     public ExampleEndpoints enumImpl() {
         return this;
     }
-
-    @Override
-    public Map<String, List<String>> headers() {
-        return Map.of(
-                "Accept", List.of("application/json")
-        );
-    }
 }
