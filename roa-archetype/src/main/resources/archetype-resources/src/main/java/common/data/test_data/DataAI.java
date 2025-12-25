@@ -4,7 +4,7 @@ import org.aeonbits.owner.ConfigCache;
 
 public final class DataAI {
 
-    private Data() {
+    private DataAI() {
     }
 
     public static DataProperties testData() {

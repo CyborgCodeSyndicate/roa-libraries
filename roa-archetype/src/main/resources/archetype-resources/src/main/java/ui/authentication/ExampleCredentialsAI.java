@@ -7,12 +7,12 @@ public class ExampleCredentialsAI implements LoginCredentials {
 
     @Override
     public String username() {
-        return Data.testData().exampleUsername();
+        return null;
     }
 
     @Override
     public String password() {
-        return Data.testData().exampleValue();
+        return null;
     }
 
 }

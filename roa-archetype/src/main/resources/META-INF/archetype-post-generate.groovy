@@ -228,12 +228,18 @@ if (isAiCommons) {
     println "Applying AI/Skeleton mode..."
 
     def aiReplacements = [
+        "src/main/java/${packagePath}/common/base/Rings.java": "src/main/java/${packagePath}/common/base/RingsAI.java",
+        "src/main/java/${packagePath}/common/data/test_data/Data.java": "src/main/java/${packagePath}/common/data/test_data/DataAI.java",
+        "src/main/java/${packagePath}/common/data/test_data/DataProperties.java": "src/main/java/${packagePath}/common/data/test_data/DataPropertiesAI.java",
+        "src/main/java/${packagePath}/common/service/CustomService.java": "src/main/java/${packagePath}/common/service/CustomServiceAI.java",
+        
         "src/main/java/${packagePath}/common/preconditions/Preconditions.java": "src/main/java/${packagePath}/common/preconditions/PreconditionsAI.java",
         "src/main/java/${packagePath}/common/data/creator/DataCreator.java": "src/main/java/${packagePath}/common/data/creator/DataCreatorAI.java",
         "src/main/java/${packagePath}/common/data/cleaner/DataCleaner.java": "src/main/java/${packagePath}/common/data/cleaner/DataCleanerAI.java",
         
         "src/main/java/${packagePath}/api/ExampleEndpoints.java": "src/main/java/${packagePath}/api/ExampleEndpointsAI.java",
         "src/main/java/${packagePath}/api/authentication/ExampleAuthenticationClient.java": "src/main/java/${packagePath}/api/authentication/ExampleAuthenticationClientAI.java",
+        "src/main/java/${packagePath}/api/authentication/ExampleCredentials.java": "src/main/java/${packagePath}/api/authentication/ExampleCredentialsAI.java",
         "src/main/java/${packagePath}/api/dto/request/ExampleRequestDto.java": "src/main/java/${packagePath}/api/dto/request/ExampleRequestDtoAI.java",
         "src/main/java/${packagePath}/api/dto/response/ExampleResponseDto.java": "src/main/java/${packagePath}/api/dto/response/ExampleResponseDtoAI.java",
         
@@ -254,6 +260,7 @@ if (isAiCommons) {
         "src/main/java/${packagePath}/ui/types/SelectFieldTypes.java": "src/main/java/${packagePath}/ui/types/SelectFieldTypesAI.java",
         
         "src/main/java/${packagePath}/ui/authentication/ExampleAppUiLogin.java": "src/main/java/${packagePath}/ui/authentication/ExampleAppUiLoginAI.java",
+        "src/main/java/${packagePath}/ui/authentication/ExampleCredentials.java": "src/main/java/${packagePath}/ui/authentication/ExampleCredentialsAI.java",
         "src/main/java/${packagePath}/ui/interceptor/RequestsInterceptor.java": "src/main/java/${packagePath}/ui/interceptor/RequestsInterceptorAI.java",
         "src/main/java/${packagePath}/ui/model/table/ExampleTableModel.java": "src/main/java/${packagePath}/ui/model/table/ExampleTableModelAI.java"
     ]
@@ -264,28 +271,40 @@ if (isAiCommons) {
         
         if (originalFile.exists()) {
              originalFile.delete()
-        }
-        
-        if (aiFile.exists()) {
-            aiFile.renameTo(originalFile)
-            
-            def text = originalFile.text
-            def aiClassName = aiFile.name.replace('.java', '')
-            def originalClassName = originalFile.name.replace('.java', '')
-            
-            text = text.replaceAll(aiClassName, originalClassName)
-            
-            originalFile.text = text
-            println "  Swapped AI skeleton: ${originalFile.name}"
+             
+             if (aiFile.exists()) {
+                aiFile.renameTo(originalFile)
+                
+                def text = originalFile.text
+                def aiClassName = aiFile.name.replace('.java', '')
+                def originalClassName = originalFile.name.replace('.java', '')
+                
+                text = text.replaceAll(aiClassName, originalClassName)
+                
+                originalFile.text = text
+                println "  Swapped AI skeleton: ${originalFile.name}"
+             }
+        } else {
+             // Original file was deleted by previous logic (e.g. UI feature selection)
+             // So we should delete the AI skeleton to completely remove the feature
+             if (aiFile.exists()) {
+                 aiFile.delete()
+                 println "  Deleted zombie AI skeleton: ${aiFile.name}"
+             }
         }
     }
 } else {
     def aiFiles = [
+        "src/main/java/${packagePath}/common/base/RingsAI.java",
+        "src/main/java/${packagePath}/common/data/test_data/DataAI.java",
+        "src/main/java/${packagePath}/common/data/test_data/DataPropertiesAI.java",
+        "src/main/java/${packagePath}/common/service/CustomServiceAI.java",
         "src/main/java/${packagePath}/common/preconditions/PreconditionsAI.java",
         "src/main/java/${packagePath}/common/data/creator/DataCreatorAI.java",
         "src/main/java/${packagePath}/common/data/cleaner/DataCleanerAI.java",
         "src/main/java/${packagePath}/api/ExampleEndpointsAI.java",
         "src/main/java/${packagePath}/api/authentication/ExampleAuthenticationClientAI.java",
+        "src/main/java/${packagePath}/api/authentication/ExampleCredentialsAI.java",
         "src/main/java/${packagePath}/api/dto/request/ExampleRequestDtoAI.java",
         "src/main/java/${packagePath}/api/dto/response/ExampleResponseDtoAI.java",
         "src/main/java/${packagePath}/db/DatabasesAI.java",
@@ -301,6 +320,7 @@ if (isAiCommons) {
         "src/main/java/${packagePath}/ui/types/InputFieldTypesAI.java",
         "src/main/java/${packagePath}/ui/types/SelectFieldTypesAI.java",
         "src/main/java/${packagePath}/ui/authentication/ExampleAppUiLoginAI.java",
+        "src/main/java/${packagePath}/ui/authentication/ExampleCredentialsAI.java",
         "src/main/java/${packagePath}/ui/interceptor/RequestsInterceptorAI.java",
         "src/main/java/${packagePath}/ui/model/table/ExampleTableModelAI.java"
     ]

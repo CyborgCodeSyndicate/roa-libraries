@@ -10,9 +10,4 @@ import org.aeonbits.owner.Config;
 })
 public interface DataPropertiesAI extends PropertyConfig {
 
-    @Key("example.username")
-    String exampleUsername();
-
-    @Key("example.value")
-    String exampleValue();
 }

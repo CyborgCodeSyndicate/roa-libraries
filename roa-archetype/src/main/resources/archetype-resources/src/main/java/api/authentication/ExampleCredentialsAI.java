@@ -6,16 +6,13 @@ import org.aeonbits.owner.ConfigCache;
 
 public class ExampleCredentialsAI implements Credentials {
 
-    private static final DataProperties DATA_PROPERTIES =
-            ConfigCache.getOrCreate(DataProperties.class);
-
     @Override
     public String username() {
-        return DATA_PROPERTIES.exampleUsername();
+        return null;
     }
 
     @Override
     public String password() {
-        return DATA_PROPERTIES.exampleValue();
+        return null;
     }
 }
