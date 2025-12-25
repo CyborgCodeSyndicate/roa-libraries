@@ -38,19 +38,6 @@ public enum Databases implements DbType<Databases> {
     MARIADB(createDriver("MariaDB", () -> new org.mariadb.jdbc.Driver()), "jdbc:mariadb");
 #end
 
-    @FunctionalInterface
-    private interface DriverSupplier {
-        Driver get() throws SQLException;
-    }
-
-    private static Driver createDriver(String dbType, DriverSupplier supplier) {
-        try {
-            return supplier.get();
-        } catch (SQLException e) {
-            throw new RuntimeException("Failed to initialize " + dbType + " driver", e);
-        }
-    }
-
     private final Driver driver;
     private final String protocol;
 
@@ -75,5 +62,18 @@ public enum Databases implements DbType<Databases> {
     @Override
     public Databases enumImpl() {
         return this;
+    }
+
+    @FunctionalInterface
+    private interface DriverSupplier {
+        Driver get() throws SQLException;
+    }
+
+    private static Driver createDriver(String dbType, DriverSupplier supplier) {
+        try {
+            return supplier.get();
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to initialize " + dbType + " driver", e);
+        }
     }
 }

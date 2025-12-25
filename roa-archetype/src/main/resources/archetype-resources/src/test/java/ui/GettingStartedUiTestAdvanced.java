@@ -24,7 +24,7 @@ import ${package}.ui.elements.InputFields;
 import ${package}.ui.elements.SelectFields;
 #end
 #if( $ui.contains("TABLE") )
-import ${package}.ui.elements.TableExample;
+import ${package}.ui.elements.Tables;
 import static io.cyborgcode.roa.ui.validator.TableAssertionTypes.TABLE_NOT_EMPTY;
 #end
 import static ${package}.common.base.Rings .*;
@@ -60,8 +60,8 @@ public class GettingStartedUiTestAdvanced extends BaseQuest {
 #end
 #if( $ui.contains("TABLE") )
         // Validate table example:
-            // .getTable().readTable(TableExample.EXAMPLE_TABLE_MODEL)
-            // .getTable().validate(TableExample.EXAMPLE_TABLE_MODEL,
+            // .getTable().readTable(Tables.EXAMPLE_TABLE_MODEL)
+            // .getTable().validate(Tables.EXAMPLE_TABLE_MODEL,
             // Assertion.builder().type(TABLE_NOT_EMPTY).expected(true).soft(true).build())
 #end
                 .interceptor().validateResponseHaveStatus(

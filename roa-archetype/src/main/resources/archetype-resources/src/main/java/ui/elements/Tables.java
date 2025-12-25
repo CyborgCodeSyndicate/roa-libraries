@@ -15,7 +15,7 @@ import java.util.function.Consumer;
  * and synchronization logic, allowing for strongly-typed table interactions.
  * </p>
  */
-public enum TableExample implements TableElement<TableExample> {
+public enum Tables implements TableElement<Tables> {
 
     /**
      * A sample table definition mapping the UI table to the {@link ExampleTableModel} row class.
@@ -39,7 +39,7 @@ public enum TableExample implements TableElement<TableExample> {
     private final Consumer<SmartWebDriver> before;
     private final Consumer<SmartWebDriver> after;
 
-    <T> TableExample(final Class<T> rowRepresentationClass) {
+    <T> Tables(final Class<T> rowRepresentationClass) {
         this(rowRepresentationClass, null, smartWebDriver -> {
         }, smartWebDriver -> {
         });
@@ -48,7 +48,7 @@ public enum TableExample implements TableElement<TableExample> {
     /**
      * Configures the table definition with optional component table type and synchronization hooks.
      */
-    <T> TableExample(final Class<T> rowRepresentationClass, TableComponentType tableType,
+    <T> Tables(final Class<T> rowRepresentationClass, TableComponentType tableType,
                      Consumer<SmartWebDriver> before, Consumer<SmartWebDriver> after) {
         this.rowRepresentationClass = rowRepresentationClass;
         this.tableType = tableType;
@@ -71,7 +71,7 @@ public enum TableExample implements TableElement<TableExample> {
     }
 
     @Override
-    public TableExample enumImpl() {
+    public Tables enumImpl() {
         return this;
     }
 

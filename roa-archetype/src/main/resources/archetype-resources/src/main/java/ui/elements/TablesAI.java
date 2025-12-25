@@ -5,20 +5,20 @@ import io.cyborgcode.roa.ui.service.tables.TableElement;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
 import java.util.function.Consumer;
 
-public enum TableExampleAI implements TableElement<TableExampleAI> {
+public enum TablesAI implements TableElement<TablesAI> {
 
-    // TODO: Define your table elements
+    // TODO: Define your tables
     EXAMPLE_TABLE(ExampleTableModel.class);
 
     private final Class<?> rowRepresentationClass;
     private final Consumer<SmartWebDriver> before;
     private final Consumer<SmartWebDriver> after;
 
-    TableExampleAI(final Class<?> rowRepresentationClass) {
+    TablesAI(final Class<?> rowRepresentationClass) {
         this(rowRepresentationClass, d -> {}, d -> {});
     }
 
-    TableExampleAI(final Class<?> rowRepresentationClass,
+    TablesAI(final Class<?> rowRepresentationClass,
                    Consumer<SmartWebDriver> before, Consumer<SmartWebDriver> after) {
         this.rowRepresentationClass = rowRepresentationClass;
         this.before = before;
@@ -31,7 +31,7 @@ public enum TableExampleAI implements TableElement<TableExampleAI> {
     }
 
     @Override
-    public TableExampleAI enumImpl() {
+    public TablesAI enumImpl() {
         return this;
     }
 

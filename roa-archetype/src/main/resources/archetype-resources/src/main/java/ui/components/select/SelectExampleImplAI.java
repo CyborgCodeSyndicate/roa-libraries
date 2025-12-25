@@ -8,6 +8,8 @@ import org.openqa.selenium.By;
 import java.util.List;
 import java.util.Collections;
 
+//TODO: Add the input type in the @ImplementationOfType applicable to the app
+//@ImplementationOfType(SelectFieldTypes.Data.EXAMPLE_SELECT_TYPE)
 public class SelectExampleImplAI extends BaseComponent implements Select {
 
     public SelectExampleImplAI(SmartWebDriver driver) {
@@ -15,62 +17,60 @@ public class SelectExampleImplAI extends BaseComponent implements Select {
     }
 
     @Override
-    public void selectOption(SmartWebElement container, String option) {}
+    public void selectOptions(SmartWebElement container, String... values) {
+    }
 
     @Override
-    public void selectOption(SmartWebElement container, String label, String option) {}
+    public void selectOptions(By containerLocator, String... values) {
+    }
 
     @Override
-    public void selectOption(String label, String option) {}
+    public List<String> selectOptions(SmartWebElement container, Strategy strategy) {
+        return null;
+    }
 
     @Override
-    public void selectOption(By locator, String option) {}
+    public List<String> selectOptions(By containerLocator, Strategy strategy) {
+        return null;
+    }
 
     @Override
-    public String getSelectedOption(SmartWebElement container) { return ""; }
+    public List<String> getAvailableOptions(SmartWebElement container) {
+        return null;
+    }
 
     @Override
-    public String getSelectedOption(SmartWebElement container, String label) { return ""; }
+    public List<String> getAvailableOptions(By locator) {
+        return null;
+    }
 
     @Override
-    public String getSelectedOption(String label) { return ""; }
+    public List<String> getSelectedOptions(SmartWebElement container) {
+        return null;
+    }
 
     @Override
-    public String getSelectedOption(By locator) { return ""; }
+    public List<String> getSelectedOptions(By locator) {
+        return null;
+    }
 
     @Override
-    public List<String> getAvailableOptions(SmartWebElement container) { return Collections.emptyList(); }
+    public boolean isOptionVisible(SmartWebElement container, String value) {
+        return false;
+    }
 
     @Override
-    public List<String> getAvailableOptions(SmartWebElement container, String label) { return Collections.emptyList(); }
+    public boolean isOptionEnabled(By locator, String visibleText) {
+        return false;
+    }
 
     @Override
-    public List<String> getAvailableOptions(String label) { return Collections.emptyList(); }
+    public boolean isOptionVisible(By locator, String visibleText) {
+        return false;
+    }
 
     @Override
-    public List<String> getAvailableOptions(By locator) { return Collections.emptyList(); }
-
-    @Override
-    public boolean isEnabled(SmartWebElement container) { return false; }
-
-    @Override
-    public boolean isEnabled(SmartWebElement container, String label) { return false; }
-
-    @Override
-    public boolean isEnabled(String label) { return false; }
-
-    @Override
-    public boolean isEnabled(By locator) { return false; }
-
-    @Override
-    public String getErrorMessage(SmartWebElement container) { return ""; }
-
-    @Override
-    public String getErrorMessage(SmartWebElement container, String label) { return ""; }
-
-    @Override
-    public String getErrorMessage(String label) { return ""; }
-
-    @Override
-    public String getErrorMessage(By locator) { return ""; }
+    public boolean isOptionEnabled(SmartWebElement container, String value) {
+        return false;
+    }
 }

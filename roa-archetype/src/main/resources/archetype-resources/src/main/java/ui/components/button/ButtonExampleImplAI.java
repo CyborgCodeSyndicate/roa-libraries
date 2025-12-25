@@ -6,6 +6,8 @@ import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
 import org.openqa.selenium.By;
 
+//TODO: Add the button type in the @ImplementationOfType applicable to the app
+//@ImplementationOfType(ButtonFieldTypes.Data.EXAMPLE_BUTTON_TYPE)
 public class ButtonExampleImplAI extends BaseComponent implements Button {
 
     public ButtonExampleImplAI(SmartWebDriver driver) {

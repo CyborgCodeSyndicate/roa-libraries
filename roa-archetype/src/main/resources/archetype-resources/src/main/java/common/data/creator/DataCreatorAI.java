@@ -5,6 +5,7 @@ import io.cyborgcode.roa.framework.parameters.Late;
 
 public enum DataCreatorAI implements DataForge<DataCreatorAI> {
 
+    //TODO: Add your data creation logic for test usage here, applicable to the app behaviour
     EXAMPLE_CREATOR(() -> null);
 
     private final Late<Object> createDataFunction;

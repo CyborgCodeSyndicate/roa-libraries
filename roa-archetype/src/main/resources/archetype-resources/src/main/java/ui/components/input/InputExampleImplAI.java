@@ -6,6 +6,8 @@ import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
 import org.openqa.selenium.By;
 
+//TODO: Add the input type in the @ImplementationOfType applicable to the app
+//@ImplementationOfType(InputFieldTypes.Data.EXAMPLE_INPUT_TYPE)
 public class InputExampleImplAI extends BaseComponent implements Input {
 
     public InputExampleImplAI(SmartWebDriver driver) {

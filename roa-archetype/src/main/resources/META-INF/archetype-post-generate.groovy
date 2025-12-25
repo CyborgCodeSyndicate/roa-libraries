@@ -137,7 +137,7 @@ if (!keepUI) {
             println "  Deleted: ${tableModelDir}"
         }
 
-        def tableExampleFile = new File(uiBaseElements, "TableExample.java")
+        def tableExampleFile = new File(uiBaseElements, "Tables.java")
         if (tableExampleFile.exists()) {
             tableExampleFile.delete()
             println "  Deleted: ${tableExampleFile}"
@@ -247,7 +247,7 @@ if (isAiCommons) {
         "src/main/java/${packagePath}/ui/elements/ButtonFields.java": "src/main/java/${packagePath}/ui/elements/ButtonFieldsAI.java",
         "src/main/java/${packagePath}/ui/elements/InputFields.java": "src/main/java/${packagePath}/ui/elements/InputFieldsAI.java",
         "src/main/java/${packagePath}/ui/elements/SelectFields.java": "src/main/java/${packagePath}/ui/elements/SelectFieldsAI.java",
-        "src/main/java/${packagePath}/ui/elements/TableExample.java": "src/main/java/${packagePath}/ui/elements/TableExampleAI.java",
+        "src/main/java/${packagePath}/ui/elements/Tables.java": "src/main/java/${packagePath}/ui/elements/TablesAI.java",
         
         "src/main/java/${packagePath}/ui/types/ButtonFieldTypes.java": "src/main/java/${packagePath}/ui/types/ButtonFieldTypesAI.java",
         "src/main/java/${packagePath}/ui/types/InputFieldTypes.java": "src/main/java/${packagePath}/ui/types/InputFieldTypesAI.java",
@@ -296,7 +296,7 @@ if (isAiCommons) {
         "src/main/java/${packagePath}/ui/elements/ButtonFieldsAI.java",
         "src/main/java/${packagePath}/ui/elements/InputFieldsAI.java",
         "src/main/java/${packagePath}/ui/elements/SelectFieldsAI.java",
-        "src/main/java/${packagePath}/ui/elements/TableExampleAI.java",
+        "src/main/java/${packagePath}/ui/elements/TablesAI.java",
         "src/main/java/${packagePath}/ui/types/ButtonFieldTypesAI.java",
         "src/main/java/${packagePath}/ui/types/InputFieldTypesAI.java",
         "src/main/java/${packagePath}/ui/types/SelectFieldTypesAI.java",

@@ -2,11 +2,12 @@ package ${package}.db;
 
 import io.cyborgcode.roa.db.config.DbType;
 import java.sql.Driver;
+import java.sql.SQLException;
 
 public enum DatabasesAI implements DbType<DatabasesAI> {
 
     // TODO: Add your database connections here
-    EXAMPLE_DB(null, "jdbc:example");
+    EXAMPLE_DB(createDriver("exampleDB", () -> {}), "jdbc:example");
 
     private final Driver driver;
     private final String protocol;
@@ -18,6 +19,9 @@ public enum DatabasesAI implements DbType<DatabasesAI> {
 
     @Override
     public Driver driver() {
+        if (this.driver == null) {
+            throw new IllegalStateException("Driver not initialized for " + this.name());
+        }
         return driver;
     }
 
@@ -29,5 +33,18 @@ public enum DatabasesAI implements DbType<DatabasesAI> {
     @Override
     public DatabasesAI enumImpl() {
         return this;
+    }
+
+    @FunctionalInterface
+    private interface DriverSupplier {
+        Driver get() throws SQLException;
+    }
+
+    private static Driver createDriver(String dbType, DriverSupplier supplier) {
+        try {
+            return supplier.get();
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to initialize " + dbType + " driver", e);
+        }
     }
 }

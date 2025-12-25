@@ -6,8 +6,8 @@ import java.util.function.Consumer;
 
 public enum DataCleanerAI implements DataRipper<DataCleanerAI> {
 
-    EXAMPLE_CLEANUP(quest -> {
-    });
+    //TODO: Add your clean up data logic for test usage here, applicable to the app behaviour
+    EXAMPLE_CLEANUP(quest -> {});
 
     private final Consumer<SuperQuest> cleanUpFunction;
 
