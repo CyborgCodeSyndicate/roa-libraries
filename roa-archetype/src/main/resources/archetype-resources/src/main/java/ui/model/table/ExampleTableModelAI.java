@@ -14,7 +14,7 @@ import org.openqa.selenium.support.FindBy;
 @Getter
 public class ExampleTableModelAI {
 
-// TODO: Add table cells using @TableCellLocator
+    // TODO: Add table cells using @TableCellLocator
 //    @TableCellLocator(cellLocator = @FindBy(tagName = "td"), headerCellLocator = @FindBy(tagName = "th"))
 //    private TableCell row;
 }

@@ -6,6 +6,7 @@ import java.util.function.BiConsumer;
 
 public enum PreconditionsAI implements PreQuestJourney<PreconditionsAI> {
 
+    //TODO: Add your test preconditions here, applicable to the app behaviour
     EXAMPLE_PRECONDITION((quest, objects) -> {
     });
 

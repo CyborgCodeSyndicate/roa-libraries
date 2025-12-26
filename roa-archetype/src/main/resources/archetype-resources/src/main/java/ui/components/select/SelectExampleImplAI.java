@@ -4,9 +4,9 @@ import io.cyborgcode.roa.ui.components.base.BaseComponent;
 import io.cyborgcode.roa.ui.components.select.Select;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import io.cyborgcode.roa.ui.util.strategy.Strategy;
 import org.openqa.selenium.By;
 import java.util.List;
-import java.util.Collections;
 
 //TODO: Add the input type in the @ImplementationOfType applicable to the app
 //@ImplementationOfType(SelectFieldTypes.Data.EXAMPLE_SELECT_TYPE)

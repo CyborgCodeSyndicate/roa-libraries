@@ -422,7 +422,12 @@ def testDataTemplateContent = testDataTemplateFile.text
 def envList = environmentsRaw.split(',')*.trim().findAll { it }
 def urlList = baseUrlsRaw.split(',')*.trim()
 
-def selectedTestDataFile = envList ? "test_data-${envList[0]}" : "test_data"
+def selectedTestDataFile
+if (isAiCommons) {
+    selectedTestDataFile = "test_data"
+} else {
+    selectedTestDataFile = envList ? "test_data-${envList[0]}" : "test_data"
+}
 
 Closure generateConfigFile = { File targetFile, String baseUrl ->
     def processedTemplate = configTemplateContent
@@ -439,7 +444,50 @@ Closure generateTestDataFile = { File targetFile ->
     println "  Created: ${targetFile.name}"
 }
 
-if (envList && envList.size() > 0) {
+if (isAiCommons) {
+    println "AI/Skeleton Mode: Generating simplified config and test_data properties..."
+    
+    def aiConfig = new StringBuilder()
+    aiConfig.append("project.package=${packageName}\n")
+
+    if (keepAPI) {
+        aiConfig.append("api.restassured.logging.enabled=false\n")
+        aiConfig.append("api.restassured.logging.level=\n")
+        aiConfig.append("api.base.url=\n")
+    }
+
+    if (keepDB) {
+        aiConfig.append("db.default.name=\n")
+        aiConfig.append("db.default.type=\n")
+        aiConfig.append("db.default.username=\n")
+        aiConfig.append("db.default.password=\n")
+        aiConfig.append("db.full.connection.string=\n")
+    }
+
+    if (keepUI) {
+        aiConfig.append("ui.base.url=\n")
+        aiConfig.append("browser.type=\n")
+        aiConfig.append("browser.version=\n")
+        aiConfig.append("headless=true\n")
+        aiConfig.append("wait.duration.in.seconds=\n")
+        aiConfig.append("input.default.type=EXAMPLE_INPUT_TYPE\n")
+        aiConfig.append("button.default.type=EXAMPLE_BUTTON_TYPE\n")
+        aiConfig.append("select.default.type=EXAMPLE_SELECT_TYPE\n")
+        aiConfig.append("table.default.type=DEFAULT\n")
+        aiConfig.append("default.storage=UI\n")
+        aiConfig.append("use.shadow.root=true\n")
+        aiConfig.append("use.wrap.selenium.function=true\n")
+        aiConfig.append("remote.driver.url=\n")
+        aiConfig.append("shorten.body=100000\n")
+        aiConfig.append("screenshot.on.passed.test=true\n")
+    }
+
+    new File(resourcesDir, "config.properties").text = aiConfig.toString()
+    new File(resourcesDir, "test_data.properties").text = ""
+    println "  Created: config.properties (AI Defaults)"
+    println "  Created: test_data.properties (Empty)"
+
+} else if (envList && envList.size() > 0) {
     envList.eachWithIndex { env, index ->
         def baseUrl
         if (index < urlList.size() && urlList[index]) {
