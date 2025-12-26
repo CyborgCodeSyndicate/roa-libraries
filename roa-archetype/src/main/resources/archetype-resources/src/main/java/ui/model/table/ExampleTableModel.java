@@ -11,7 +11,6 @@ import org.openqa.selenium.support.FindBy;
  * Represents a single row in the example table.
  * <p>
  * This class maps table columns to strongly-typed {@link TableCell} fields using ROA annotations.
- * It is used by the {@link TableExample} to read and validate table content in a structured way.
  * </p>
  */
 @TableInfo(
