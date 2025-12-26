@@ -2,7 +2,6 @@ package ${package}.api;
 
 import io.cyborgcode.roa.api.annotations.API;
 import io.cyborgcode.roa.api.annotations.AuthenticateViaApi;
-import io.cyborgcode.roa.example.project.common.data.cleaner.DataCleaner;
 import io.cyborgcode.roa.framework.annotation.Craft;
 import io.cyborgcode.roa.framework.annotation.Journey;
 import io.cyborgcode.roa.framework.annotation.Regression;
@@ -15,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import io.qameta.allure.Description;
 import org.junit.jupiter.api.DisplayName;
 
+import ${package}.common.data.cleaner.DataCleaner;
 import ${package}.api.authentication.ExampleCredentials;
 import ${package}.api.authentication.ExampleAuthenticationClient;
 import ${package}.api.dto.request.ExampleRequestDto;

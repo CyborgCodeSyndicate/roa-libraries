@@ -3,14 +3,15 @@ package ${package}.ui;
 import io.cyborgcode.roa.ui.annotations.AuthenticateViaUi;
 import io.cyborgcode.roa.framework.annotation.Journey;
 import io.cyborgcode.roa.framework.annotation.Regression;
-import io.cyborgcode.roa.example.project.common.data.cleaner.DataCleaner;
-import io.cyborgcode.ui.complex.test.framework.ui.interceptor.RequestsInterceptor;
 import io.cyborgcode.roa.framework.base.BaseQuest;
 import io.cyborgcode.roa.framework.quest.Quest;
 import io.cyborgcode.roa.framework.annotation.Ripper;
+import io.cyborgcode.roa.ui.annotations.InterceptRequests;
 import io.cyborgcode.roa.ui.annotations.UI;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import ${package}.ui.interceptor.RequestsInterceptor;
+import ${package}.common.data.cleaner.DataCleaner;
 import ${package}.ui.authentication.ExampleCredentials;
 import ${package}.ui.authentication.ExampleAppUiLogin;
 import ${package}.common.preconditions.Preconditions;
@@ -46,7 +47,7 @@ public class GettingStartedUiTestAdvanced extends BaseQuest {
             " data deletion and request interceptor with validation")
     @AuthenticateViaUi(credentials = ExampleCredentials.class, type = ExampleAppUiLogin.class)
     @InterceptRequests(requestUrlSubStrings = {RequestsInterceptor.Data.EXAMPLE_INTERCEPT})
-    @Journey(value = Preconditions.Data.EXAMPLE_PRECONDITION, option = 1)
+    @Journey(value = Preconditions.Data.EXAMPLE_PRECONDITION, order = 1)
     @Ripper(targets = {DataCleaner.Data.EXAMPLE_CLEANUP})
     void exampleUITest(Quest quest) {
 
@@ -64,7 +65,7 @@ public class GettingStartedUiTestAdvanced extends BaseQuest {
             // .getTable().validate(Tables.EXAMPLE_TABLE_MODEL,
             // Assertion.builder().type(TABLE_NOT_EMPTY).expected(true).soft(true).build())
 #end
-                .interceptor().validateResponseHaveStatus(
+                .getInterceptor().validateResponseHaveStatus(
                         RequestsInterceptor.EXAMPLE_INTERCEPT.getEndpointSubString(), 2, true)
                 .complete();
     }
