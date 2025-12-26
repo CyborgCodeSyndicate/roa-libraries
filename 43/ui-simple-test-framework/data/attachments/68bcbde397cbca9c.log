@@ -1,0 +1,16 @@
+🤖 CYBORG 🤖 2025-12-26T07:52:48,387 [scenario=TableComponentExampleTests.readTableWithRowRange_validateCell] INFO  [UI] - Creating driver using provider [ChromeDriverProvider]. Headless: [true], Remote: [true], Remote URL: [http://localhost:4444]
+🤖 CYBORG 🤖 2025-12-26T07:52:51,522 [scenario=TableComponentExampleTests.readTableWithRowRange_validateCell] INFO  [QUEST] - The quest: 'readTableWithRowRange_validateCell(Quest)' has begun and is crafted.
+🤖 CYBORG 🤖 2025-12-26T07:52:51,605 [scenario=TableComponentExampleTests.readTableWithRowRange_validateCell] INFO  [QUEST] - The quest has used the ring: 'io.cyborgcode.ui.simple.test.framework.ui.AppUiService'
+🤖 CYBORG 🤖 2025-12-26T07:52:52,881 [scenario=TableComponentExampleTests.readTableWithRowRange_validateCell] STEP  [UI] - Clicking button using locator: By.id: signin_button
+🤖 CYBORG 🤖 2025-12-26T07:52:53,651 [scenario=TableComponentExampleTests.readTableWithRowRange_validateCell] STEP  [UI] - Inserting value: 'username' into input component of type: 'BOOTSTRAP_INPUT_TYPE'.
+🤖 CYBORG 🤖 2025-12-26T07:52:54,503 [scenario=TableComponentExampleTests.readTableWithRowRange_validateCell] STEP  [UI] - Inserting value: 'password' into input component of type: 'BOOTSTRAP_INPUT_TYPE'.
+🤖 CYBORG 🤖 2025-12-26T07:52:55,203 [scenario=TableComponentExampleTests.readTableWithRowRange_validateCell] STEP  [UI] - Clicking button using locator: By.cssSelector: input[value='Sign in']
+🤖 CYBORG 🤖 2025-12-26T07:52:56,292 [scenario=TableComponentExampleTests.readTableWithRowRange_validateCell] STEP  [UI] - Clicking button using locator: By.id: online-banking
+🤖 CYBORG 🤖 2025-12-26T07:52:56,979 [scenario=TableComponentExampleTests.readTableWithRowRange_validateCell] STEP  [UI] - Clicking link BOOTSTRAP_LINK_TYPE using locator By.id: money_map_link
+🤖 CYBORG 🤖 2025-12-26T07:52:59,561 [scenario=TableComponentExampleTests.readTableWithRowRange_validateCell] STEP  [UI] - Reading table rows from 3 to 5 as class 'OutFlow'
+🤖 CYBORG 🤖 2025-12-26T07:53:01,090 [scenario=TableComponentExampleTests.readTableWithRowRange_validateCell] VALIDATION [QUEST] - Starting hard validation...
+🤖 CYBORG 🤖 2025-12-26T07:53:01,098 [scenario=TableComponentExampleTests.readTableWithRowRange_validateCell] VALIDATION [QUEST] - Hard validation completed successfully.
+🤖 CYBORG 🤖 2025-12-26T07:53:01,109 [scenario=TableComponentExampleTests.readTableWithRowRange_validateCell] INFO  [QUEST] - The quest has dropped the ring.
+🤖 CYBORG 🤖 2025-12-26T07:53:01,121 [scenario=TableComponentExampleTests.readTableWithRowRange_validateCell] INFO  [QUEST] - The quest has reached his end
+🤖 CYBORG 🤖 2025-12-26T07:53:01,268 [scenario=TableComponentExampleTests.readTableWithRowRange_validateCell] INFO  [UI] - WebDriver closed successfully.
+🤖 CYBORG 🤖 2025-12-26T07:53:01,289 [scenario=TableComponentExampleTests.readTableWithRowRange_validateCell] INFO  [QUEST] - The quest of 'readTableWithRowRange_validateCell(Quest)' has concluded with glory. Status: SUCCESS. Duration: 15 seconds.
