@@ -470,10 +470,20 @@ if (isAiCommons) {
         aiConfig.append("browser.version=\n")
         aiConfig.append("headless=true\n")
         aiConfig.append("wait.duration.in.seconds=\n")
-        aiConfig.append("input.default.type=EXAMPLE_INPUT_TYPE\n")
-        aiConfig.append("button.default.type=EXAMPLE_BUTTON_TYPE\n")
-        aiConfig.append("select.default.type=EXAMPLE_SELECT_TYPE\n")
-        aiConfig.append("table.default.type=DEFAULT\n")
+        
+        if (selectedUI.contains('INPUT')) {
+            aiConfig.append("input.default.type=EXAMPLE_INPUT_TYPE\n")
+        }
+        if (selectedUI.contains('BUTTON')) {
+            aiConfig.append("button.default.type=EXAMPLE_BUTTON_TYPE\n")
+        }
+        if (selectedUI.contains('SELECT')) {
+            aiConfig.append("select.default.type=EXAMPLE_SELECT_TYPE\n")
+        }
+        if (selectedUI.contains('TABLE')) {
+            aiConfig.append("table.default.type=DEFAULT\n")
+        }
+        
         aiConfig.append("default.storage=UI\n")
         aiConfig.append("use.shadow.root=true\n")
         aiConfig.append("use.wrap.selenium.function=true\n")
