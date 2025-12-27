@@ -9,6 +9,8 @@ import java.util.function.Consumer;
 
 public enum ButtonFieldsAI implements ButtonUiElement {
 
+    // TODO: Add your ui button elements here, if needed, add a selenium action
+    // before or after locating the element depending on app behaviour
     ;
 
     private final By locator;

@@ -7,6 +7,8 @@ import java.util.function.Consumer;
 
 public enum TablesAI implements TableElement<TablesAI> {
 
+    // TODO: Define your tables here by providing the class representing the table row,
+    // or with hooks (before/after consumers)
     ;
 
     private final Class<?> rowRepresentationClass;

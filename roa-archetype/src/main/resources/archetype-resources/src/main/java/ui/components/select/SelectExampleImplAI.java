@@ -9,7 +9,6 @@ import org.openqa.selenium.By;
 import java.util.List;
 
 //TODO: Add the input type in the @ImplementationOfType applicable to the app
-//@ImplementationOfType(SelectFieldTypes.Data.EXAMPLE_SELECT_TYPE)
 public class SelectExampleImplAI extends BaseComponent implements Select {
 
     public SelectExampleImplAI(SmartWebDriver driver) {
