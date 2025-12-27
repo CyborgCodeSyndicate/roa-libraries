@@ -9,9 +9,7 @@ import java.util.function.Consumer;
 
 public enum ButtonFieldsAI implements ButtonUiElement {
 
-    //TODO: add your ui button elements here, if needed, add a selenium action
-    // before or after locating the element depending on app behaviour
-    LOGIN_BUTTON(By.id(""), ButtonFieldTypes.EXAMPLE_BUTTON_TYPE);
+    ;
 
     private final By locator;
     private final ButtonFieldTypes componentType;

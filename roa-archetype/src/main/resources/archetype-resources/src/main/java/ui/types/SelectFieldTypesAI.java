@@ -4,8 +4,7 @@ import io.cyborgcode.roa.ui.components.select.SelectComponentType;
 
 public enum SelectFieldTypesAI implements SelectComponentType {
 
-    // TODO: Add your select (ddl) types here (Bootsrap, Material Design, Vaadin...)
-    EXAMPLE_SELECT_TYPE;
+    ;
 
     public static final class Data {
 

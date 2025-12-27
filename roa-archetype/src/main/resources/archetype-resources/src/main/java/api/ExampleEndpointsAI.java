@@ -5,8 +5,7 @@ import io.restassured.http.Method;
 
 public enum ExampleEndpointsAI implements Endpoint<ExampleEndpointsAI> {
 
-    //TODO: Add your app specific endpoints in this manner
-    EXAMPLE_ENDPOINT(Method.GET, "/example");
+    ;
 
     private final Method method;
     private final String url;

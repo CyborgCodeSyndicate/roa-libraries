@@ -9,9 +9,7 @@ import java.util.function.Consumer;
 
 public enum SelectFieldsAI implements SelectUiElement {
 
-    //TODO: add your ui select (ddl) elements here, if needed, add a selenium action
-    // before or after locating the element depending on app behaviour
-    EXAMPLE_SELECT(By.id("select"), SelectFieldTypes.EXAMPLE_SELECT_TYPE);
+    ;
 
     private final By locator;
     private final SelectFieldTypes componentType;

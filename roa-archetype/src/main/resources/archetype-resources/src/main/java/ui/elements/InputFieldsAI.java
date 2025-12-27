@@ -9,9 +9,7 @@ import java.util.function.Consumer;
 
 public enum InputFieldsAI implements InputUiElement {
 
-    //TODO: add your ui input elements here, if needed, add a selenium action
-    // before or after locating the element depending on app behaviour
-    USERNAME(By.id("username"), InputFieldTypes.EXAMPLE_INPUT_TYPE);
+    ;
 
     private final By locator;
     private final InputFieldTypes componentType;

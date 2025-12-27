@@ -4,8 +4,7 @@ import io.cyborgcode.roa.ui.parameters.DataIntercept;
 
 public enum RequestsInterceptorAI implements DataIntercept<RequestsInterceptorAI> {
 
-    // TODO: Add requests to intercept
-    EXAMPLE_INTERCEPT("/example");
+    ;
 
     private final String endpointSubString;
 

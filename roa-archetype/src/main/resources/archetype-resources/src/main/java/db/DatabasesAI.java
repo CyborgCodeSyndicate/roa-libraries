@@ -6,8 +6,7 @@ import java.sql.SQLException;
 
 public enum DatabasesAI implements DbType<DatabasesAI> {
 
-    // TODO: Add your database connections here
-    EXAMPLE_DB(createDriver("exampleDB", () -> null), "jdbc:example");
+    ;
 
     private final Driver driver;
     private final String protocol;

@@ -7,8 +7,7 @@ import java.util.function.Consumer;
 
 public enum TablesAI implements TableElement<TablesAI> {
 
-    // TODO: Define your tables
-    EXAMPLE_TABLE(ExampleTableModel.class);
+    ;
 
     private final Class<?> rowRepresentationClass;
     private final Consumer<SmartWebDriver> before;

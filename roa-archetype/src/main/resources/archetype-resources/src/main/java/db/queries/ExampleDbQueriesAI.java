@@ -4,8 +4,7 @@ import io.cyborgcode.roa.db.query.DbQuery;
 
 public enum ExampleDbQueriesAI implements DbQuery<ExampleDbQueriesAI> {
 
-    // TODO: Add your queries here
-    EXAMPLE_QUERY("SELECT 1");
+    ;
 
     private final String query;
 
