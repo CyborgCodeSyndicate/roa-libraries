@@ -1,0 +1,16 @@
+🤖 CYBORG 🤖 2025-12-27T09:21:35,377 [scenario=TableComponentExampleTests.readTableRowBySearchCriteria_validateCell] INFO  [UI] - Creating driver using provider [ChromeDriverProvider]. Headless: [true], Remote: [true], Remote URL: [http://localhost:4444]
+🤖 CYBORG 🤖 2025-12-27T09:21:36,160 [scenario=TableComponentExampleTests.readTableRowBySearchCriteria_validateCell] INFO  [QUEST] - The quest: 'readTableRowBySearchCriteria_validateCell(Quest)' has begun and is crafted.
+🤖 CYBORG 🤖 2025-12-27T09:21:36,251 [scenario=TableComponentExampleTests.readTableRowBySearchCriteria_validateCell] INFO  [QUEST] - The quest has used the ring: 'io.cyborgcode.ui.simple.test.framework.ui.AppUiService'
+🤖 CYBORG 🤖 2025-12-27T09:21:36,732 [scenario=TableComponentExampleTests.readTableRowBySearchCriteria_validateCell] STEP  [UI] - Clicking button using locator: By.id: signin_button
+🤖 CYBORG 🤖 2025-12-27T09:21:37,330 [scenario=TableComponentExampleTests.readTableRowBySearchCriteria_validateCell] STEP  [UI] - Inserting value: 'username' into input component of type: 'BOOTSTRAP_INPUT_TYPE'.
+🤖 CYBORG 🤖 2025-12-27T09:21:37,982 [scenario=TableComponentExampleTests.readTableRowBySearchCriteria_validateCell] STEP  [UI] - Inserting value: 'password' into input component of type: 'BOOTSTRAP_INPUT_TYPE'.
+🤖 CYBORG 🤖 2025-12-27T09:21:38,389 [scenario=TableComponentExampleTests.readTableRowBySearchCriteria_validateCell] STEP  [UI] - Clicking button using locator: By.cssSelector: input[value='Sign in']
+🤖 CYBORG 🤖 2025-12-27T09:21:38,871 [scenario=TableComponentExampleTests.readTableRowBySearchCriteria_validateCell] STEP  [UI] - Clicking button using locator: By.id: online-banking
+🤖 CYBORG 🤖 2025-12-27T09:21:39,190 [scenario=TableComponentExampleTests.readTableRowBySearchCriteria_validateCell] STEP  [UI] - Clicking link BOOTSTRAP_LINK_TYPE using locator By.id: money_map_link
+🤖 CYBORG 🤖 2025-12-27T09:21:40,917 [scenario=TableComponentExampleTests.readTableRowBySearchCriteria_validateCell] STEP  [UI] - Reading row matching criteria [Retail] as class 'OutFlow'
+🤖 CYBORG 🤖 2025-12-27T09:21:41,561 [scenario=TableComponentExampleTests.readTableRowBySearchCriteria_validateCell] VALIDATION [QUEST] - Starting hard validation...
+🤖 CYBORG 🤖 2025-12-27T09:21:41,572 [scenario=TableComponentExampleTests.readTableRowBySearchCriteria_validateCell] VALIDATION [QUEST] - Hard validation completed successfully.
+🤖 CYBORG 🤖 2025-12-27T09:21:41,582 [scenario=TableComponentExampleTests.readTableRowBySearchCriteria_validateCell] INFO  [QUEST] - The quest has dropped the ring.
+🤖 CYBORG 🤖 2025-12-27T09:21:41,586 [scenario=TableComponentExampleTests.readTableRowBySearchCriteria_validateCell] INFO  [QUEST] - The quest has reached his end
+🤖 CYBORG 🤖 2025-12-27T09:21:41,746 [scenario=TableComponentExampleTests.readTableRowBySearchCriteria_validateCell] INFO  [UI] - WebDriver closed successfully.
+🤖 CYBORG 🤖 2025-12-27T09:21:41,764 [scenario=TableComponentExampleTests.readTableRowBySearchCriteria_validateCell] INFO  [QUEST] - The quest of 'readTableRowBySearchCriteria_validateCell(Quest)' has concluded with glory. Status: SUCCESS. Duration: 6 seconds.
