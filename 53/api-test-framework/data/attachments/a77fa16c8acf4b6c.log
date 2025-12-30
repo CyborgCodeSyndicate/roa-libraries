@@ -1,0 +1,25 @@
+🤖 CYBORG 🤖 2025-12-30T10:07:45,424 [scenario=AdvancedExamplesTest.showsTokenReuseFromStorageAcrossRequests] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2025-12-30T10:07:45,428 [scenario=AdvancedExamplesTest.showsTokenReuseFromStorageAcrossRequests] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2025-12-30T10:07:45,435 [scenario=AdvancedExamplesTest.showsTokenReuseFromStorageAcrossRequests] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2025-12-30T10:07:45,441 [scenario=AdvancedExamplesTest.showsTokenReuseFromStorageAcrossRequests] INFO  [QUEST] - The quest: 'showsTokenReuseFromStorageAcrossRequests(Quest, LoginDto)' has begun and is crafted.
+🤖 CYBORG 🤖 2025-12-30T10:07:45,499 [scenario=AdvancedExamplesTest.showsTokenReuseFromStorageAcrossRequests] INFO  [QUEST] - The quest has used the ring: 'API'
+🤖 CYBORG 🤖 2025-12-30T10:07:45,511 [scenario=AdvancedExamplesTest.showsTokenReuseFromStorageAcrossRequests] STEP  [API] - Sending request to endpoint POST-https://reqres.in/api/login.
+🤖 CYBORG 🤖 2025-12-30T10:07:45,514 [scenario=AdvancedExamplesTest.showsTokenReuseFromStorageAcrossRequests] EXTENDED [API] - Request body: {
+🤖 CYBORG 🤖 2025-12-30T10:07:45,522 [scenario=AdvancedExamplesTest.showsTokenReuseFromStorageAcrossRequests] EXTENDED [API] - Request headers: Content-Type=application/json
+🤖 CYBORG 🤖 2025-12-30T10:07:45,665 [scenario=AdvancedExamplesTest.showsTokenReuseFromStorageAcrossRequests] STEP  [API] - Response with status: 200 received from endpoint: POST-https://reqres.in/api/login in 130ms.
+🤖 CYBORG 🤖 2025-12-30T10:07:45,671 [scenario=AdvancedExamplesTest.showsTokenReuseFromStorageAcrossRequests] EXTENDED [API] - Response body: {
+🤖 CYBORG 🤖 2025-12-30T10:07:45,676 [scenario=AdvancedExamplesTest.showsTokenReuseFromStorageAcrossRequests] EXTENDED [API] - Response headers: Date=Tue, 30 Dec 2025 10:07:45 GMT
+🤖 CYBORG 🤖 2025-12-30T10:07:45,683 [scenario=AdvancedExamplesTest.showsTokenReuseFromStorageAcrossRequests] EXTENDED [QUEST] - Fetching data from storage by key: 'POST_LOGIN_USER' and type: 'io.restassured.response.Response'
+🤖 CYBORG 🤖 2025-12-30T10:07:45,700 [scenario=AdvancedExamplesTest.showsTokenReuseFromStorageAcrossRequests] INFO  [API] - Prepared RequestSpecification with pathParams: {id=3}, queryParams: {}, headers: {ExampleHeader=[QpwL5tke4Pnpja7X4]}
+🤖 CYBORG 🤖 2025-12-30T10:07:45,705 [scenario=AdvancedExamplesTest.showsTokenReuseFromStorageAcrossRequests] STEP  [API] - Sending request to endpoint GET-https://reqres.in/api/users/3.
+🤖 CYBORG 🤖 2025-12-30T10:07:45,708 [scenario=AdvancedExamplesTest.showsTokenReuseFromStorageAcrossRequests] EXTENDED [API] - Request body: .
+🤖 CYBORG 🤖 2025-12-30T10:07:45,714 [scenario=AdvancedExamplesTest.showsTokenReuseFromStorageAcrossRequests] EXTENDED [API] - Request headers: Content-Type=application/json
+🤖 CYBORG 🤖 2025-12-30T10:07:45,785 [scenario=AdvancedExamplesTest.showsTokenReuseFromStorageAcrossRequests] STEP  [API] - Response with status: 200 received from endpoint: GET-https://reqres.in/api/users/3 in 65ms.
+🤖 CYBORG 🤖 2025-12-30T10:07:45,789 [scenario=AdvancedExamplesTest.showsTokenReuseFromStorageAcrossRequests] EXTENDED [API] - Response body: {
+🤖 CYBORG 🤖 2025-12-30T10:07:45,791 [scenario=AdvancedExamplesTest.showsTokenReuseFromStorageAcrossRequests] EXTENDED [API] - Response headers: Date=Tue, 30 Dec 2025 10:07:45 GMT
+🤖 CYBORG 🤖 2025-12-30T10:07:45,798 [scenario=AdvancedExamplesTest.showsTokenReuseFromStorageAcrossRequests] INFO  [API] - Starting response validation with 1 assertion(s).
+🤖 CYBORG 🤖 2025-12-30T10:07:45,800 [scenario=AdvancedExamplesTest.showsTokenReuseFromStorageAcrossRequests] EXTENDED [API] - Validation target: [{AssertionKeyForStatus=200}]
+🤖 CYBORG 🤖 2025-12-30T10:07:45,803 [scenario=AdvancedExamplesTest.showsTokenReuseFromStorageAcrossRequests] VALIDATION [QUEST] - ✔ Validation passed: IS (Expected: 200, Actual: 200)
+🤖 CYBORG 🤖 2025-12-30T10:07:45,805 [scenario=AdvancedExamplesTest.showsTokenReuseFromStorageAcrossRequests] INFO  [QUEST] - The quest has dropped the ring.
+🤖 CYBORG 🤖 2025-12-30T10:07:45,808 [scenario=AdvancedExamplesTest.showsTokenReuseFromStorageAcrossRequests] INFO  [QUEST] - The quest has reached his end
+🤖 CYBORG 🤖 2025-12-30T10:07:45,814 [scenario=AdvancedExamplesTest.showsTokenReuseFromStorageAcrossRequests] INFO  [QUEST] - The quest of 'showsTokenReuseFromStorageAcrossRequests(Quest, LoginDto)' has concluded with glory. Status: SUCCESS. Duration: 0 seconds.

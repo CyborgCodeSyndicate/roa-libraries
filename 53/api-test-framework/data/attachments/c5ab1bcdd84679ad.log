@@ -1,0 +1,55 @@
+🤖 CYBORG 🤖 2025-12-30T10:07:42,806 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2025-12-30T10:07:42,830 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2025-12-30T10:07:42,845 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2025-12-30T10:07:42,859 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] INFO  [QUEST] - The quest: 'showsAuthenticateViaApiWithJourneySetupAndRipperCleanup(Quest)' has begun and is crafted.
+🤖 CYBORG 🤖 2025-12-30T10:07:42,876 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] EXTENDED [API] - Updated quest storage with credentials for username: eve.holt@reqres.in
+🤖 CYBORG 🤖 2025-12-30T10:07:42,901 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] INFO  [QUEST] - The quest has used the ring: 'API'
+🤖 CYBORG 🤖 2025-12-30T10:07:43,543 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] STEP  [API] - Sending request to endpoint POST-https://reqres.in/api/login.
+🤖 CYBORG 🤖 2025-12-30T10:07:43,549 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] EXTENDED [API] - Request body: {
+🤖 CYBORG 🤖 2025-12-30T10:07:43,562 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] EXTENDED [API] - Request headers: Content-Type=application/json
+🤖 CYBORG 🤖 2025-12-30T10:07:44,278 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] STEP  [API] - Response with status: 200 received from endpoint: POST-https://reqres.in/api/login in 705ms.
+🤖 CYBORG 🤖 2025-12-30T10:07:44,313 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] EXTENDED [API] - Response body: {
+🤖 CYBORG 🤖 2025-12-30T10:07:44,319 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] EXTENDED [API] - Response headers: Date=Tue, 30 Dec 2025 10:07:44 GMT
+🤖 CYBORG 🤖 2025-12-30T10:07:44,810 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] INFO  [API] - Successfully authenticated user: eve.holt@reqres.in
+🤖 CYBORG 🤖 2025-12-30T10:07:44,935 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] EXTENDED [QUEST] - Creating data for: USER_LEADER
+🤖 CYBORG 🤖 2025-12-30T10:07:44,944 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] INFO  [QUEST] - The quest has used the ring: 'API'
+🤖 CYBORG 🤖 2025-12-30T10:07:44,965 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] STEP  [API] - Sending request to endpoint POST-https://reqres.in/api/users.
+🤖 CYBORG 🤖 2025-12-30T10:07:44,971 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] EXTENDED [API] - Request body: {
+🤖 CYBORG 🤖 2025-12-30T10:07:44,978 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] EXTENDED [API] - Request headers: Content-Type=application/json
+🤖 CYBORG 🤖 2025-12-30T10:07:45,211 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] STEP  [API] - Response with status: 201 received from endpoint: POST-https://reqres.in/api/users in 224ms.
+🤖 CYBORG 🤖 2025-12-30T10:07:45,214 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] EXTENDED [API] - Response body: {
+🤖 CYBORG 🤖 2025-12-30T10:07:45,224 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] EXTENDED [API] - Response headers: Date=Tue, 30 Dec 2025 10:07:45 GMT
+🤖 CYBORG 🤖 2025-12-30T10:07:45,235 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] INFO  [API] - Starting response validation with 1 assertion(s).
+🤖 CYBORG 🤖 2025-12-30T10:07:45,241 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] EXTENDED [API] - Validation target: [{AssertionKeyForStatus=201}]
+🤖 CYBORG 🤖 2025-12-30T10:07:45,248 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] VALIDATION [QUEST] - ✔ Validation passed: IS (Expected: 201, Actual: 201)
+🤖 CYBORG 🤖 2025-12-30T10:07:45,399 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] EXTENDED [QUEST] - Creating data for: USER_INTERMEDIATE
+🤖 CYBORG 🤖 2025-12-30T10:07:45,406 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] INFO  [QUEST] - The quest has used the ring: 'API'
+🤖 CYBORG 🤖 2025-12-30T10:07:45,420 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] STEP  [API] - Sending request to endpoint POST-https://reqres.in/api/users.
+🤖 CYBORG 🤖 2025-12-30T10:07:45,426 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] EXTENDED [API] - Request body: {
+🤖 CYBORG 🤖 2025-12-30T10:07:45,431 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] EXTENDED [API] - Request headers: Content-Type=application/json
+🤖 CYBORG 🤖 2025-12-30T10:07:45,574 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] STEP  [API] - Response with status: 201 received from endpoint: POST-https://reqres.in/api/users in 138ms.
+🤖 CYBORG 🤖 2025-12-30T10:07:45,579 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] EXTENDED [API] - Response body: {
+🤖 CYBORG 🤖 2025-12-30T10:07:45,582 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] EXTENDED [API] - Response headers: Date=Tue, 30 Dec 2025 10:07:45 GMT
+🤖 CYBORG 🤖 2025-12-30T10:07:45,586 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] INFO  [API] - Starting response validation with 1 assertion(s).
+🤖 CYBORG 🤖 2025-12-30T10:07:45,591 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] EXTENDED [API] - Validation target: [{AssertionKeyForStatus=201}]
+🤖 CYBORG 🤖 2025-12-30T10:07:45,594 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] VALIDATION [QUEST] - ✔ Validation passed: IS (Expected: 201, Actual: 201)
+🤖 CYBORG 🤖 2025-12-30T10:07:45,599 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] INFO  [QUEST] - The quest has used the ring: 'API'
+🤖 CYBORG 🤖 2025-12-30T10:07:45,602 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] VALIDATION [QUEST] - Starting hard validation...
+🤖 CYBORG 🤖 2025-12-30T10:07:45,605 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] EXTENDED [QUEST] - Fetching data from storage by key: 'POST_CREATE_USER' and type: 'io.restassured.response.Response'
+🤖 CYBORG 🤖 2025-12-30T10:07:45,619 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] VALIDATION [QUEST] - Hard validation completed successfully.
+🤖 CYBORG 🤖 2025-12-30T10:07:45,623 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] INFO  [QUEST] - The quest has dropped the ring.
+🤖 CYBORG 🤖 2025-12-30T10:07:45,627 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] INFO  [QUEST] - The quest has reached his end
+🤖 CYBORG 🤖 2025-12-30T10:07:45,632 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] INFO  [QUEST] - The ripper has arrived
+🤖 CYBORG 🤖 2025-12-30T10:07:45,689 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] INFO  [QUEST] - The quest has used the ring: 'API'
+🤖 CYBORG 🤖 2025-12-30T10:07:45,696 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] INFO  [API] - Prepared RequestSpecification with pathParams: {id=3}, queryParams: {}, headers: {}
+🤖 CYBORG 🤖 2025-12-30T10:07:45,702 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] STEP  [API] - Sending request to endpoint DELETE-https://reqres.in/api/users/3.
+🤖 CYBORG 🤖 2025-12-30T10:07:45,707 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] EXTENDED [API] - Request body: .
+🤖 CYBORG 🤖 2025-12-30T10:07:45,713 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] EXTENDED [API] - Request headers: Content-Type=application/json
+🤖 CYBORG 🤖 2025-12-30T10:07:45,869 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] STEP  [API] - Response with status: 204 received from endpoint: DELETE-https://reqres.in/api/users/3 in 146ms.
+🤖 CYBORG 🤖 2025-12-30T10:07:45,873 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] EXTENDED [API] - Response body: .
+🤖 CYBORG 🤖 2025-12-30T10:07:45,875 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] EXTENDED [API] - Response headers: Date=Tue, 30 Dec 2025 10:07:45 GMT
+🤖 CYBORG 🤖 2025-12-30T10:07:45,878 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] INFO  [API] - Starting response validation with 1 assertion(s).
+🤖 CYBORG 🤖 2025-12-30T10:07:45,881 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] EXTENDED [API] - Validation target: [{AssertionKeyForStatus=204}]
+🤖 CYBORG 🤖 2025-12-30T10:07:45,883 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] VALIDATION [QUEST] - ✔ Validation passed: IS (Expected: 204, Actual: 204)
+🤖 CYBORG 🤖 2025-12-30T10:07:45,886 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] INFO  [QUEST] - DataRipper processed target: 'DELETE_ADMIN_USER'.
+🤖 CYBORG 🤖 2025-12-30T10:07:45,890 [scenario=AdvancedExamplesTest.showsAuthenticateViaApiWithJourneySetupAndRipperCleanup] INFO  [QUEST] - The quest of 'showsAuthenticateViaApiWithJourneySetupAndRipperCleanup(Quest)' has concluded with glory. Status: SUCCESS. Duration: 3 seconds.
