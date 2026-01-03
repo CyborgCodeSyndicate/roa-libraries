@@ -26,6 +26,7 @@
         <module>db-interactor-test-framework-adapter</module>
         <module>ui-interactor-test-framework-adapter</module>
         <module>roa-parent</module>
+        <module>roa-archetype</module>
     </modules>
 
     <properties>

@@ -10,7 +10,7 @@ on:
         required: true
         default: none
         type: choice
-        options: [major, minor, patch, none]
+        options: [ major, minor, patch, none ]
       modules:
         description: 'Comma-separated Maven modules to deploy (optional)'
         required: false
