@@ -63,6 +63,11 @@
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs-annotations</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.cyborgcode.pandora</groupId>
+            <artifactId>pandora-core</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
 </project>

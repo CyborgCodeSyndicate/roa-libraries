@@ -1,6 +1,10 @@
 package io.cyborgcode.roa.ui.service.tables;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.components.table.base.TableComponentType;
+import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
 import java.util.function.Consumer;
 
@@ -15,6 +19,18 @@ import java.util.function.Consumer;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "UI table element descriptor: type, row model class, and lifecycle hooks (before/after).",
+      tags = {"ui", "table", "table-element"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      availableOptionsRule = AvailableOptionsRules.AvailableTableUiElements.class,
+      exampleFilesPath = "ai/roa/ui-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "table-element")
+      }
+)
 public interface TableElement<K extends Enum<K>> {
 
    /**
@@ -27,6 +43,13 @@ public interface TableElement<K extends Enum<K>> {
     * @return The table type associated with this table element.
     */
    @SuppressWarnings("unchecked")
+   @Pandora(
+         description = "Retrieve the table component type used to operate on this table.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    default <T extends TableComponentType> T tableType() {
       return (T) DefaultTableTypes.DEFAULT;
    }
@@ -37,6 +60,13 @@ public interface TableElement<K extends Enum<K>> {
     * @param <T> The type of the row representation class.
     * @return The {@link Class} representing the table rows.
     */
+   @Pandora(
+         description = "Get the class representing the row model for this table.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    <T> Class<T> rowsRepresentationClass();
 
    /**
@@ -44,6 +74,13 @@ public interface TableElement<K extends Enum<K>> {
     *
     * @return An {@link Enum} instance associated with this table element.
     */
+   @Pandora(
+         description = "Get the enum constant representing this table element.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    K enumImpl();
 
    /**
@@ -54,6 +91,13 @@ public interface TableElement<K extends Enum<K>> {
     *
     * @return A {@link Consumer} accepting {@link SmartWebDriver} for executing preconditions.
     */
+   @Pandora(
+         description = "Before-action hook executed prior to interacting with the table.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    default Consumer<SmartWebDriver> before() {
       return smartWebDriver -> {
       };
@@ -67,6 +111,13 @@ public interface TableElement<K extends Enum<K>> {
     *
     * @return A {@link Consumer} accepting {@link SmartWebDriver} for executing postconditions.
     */
+   @Pandora(
+         description = "After-action hook executed after interacting with the table.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    default Consumer<SmartWebDriver> after() {
       return smartWebDriver -> {
       };
