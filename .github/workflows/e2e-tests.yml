@@ -42,9 +42,10 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: CyborgCodeSyndicate/roa-example-projects
+          ref: main
 
       - name: Setup Maven Environment
-        uses: CyborgCodeSyndicate/utilities/pipelines/shared/setup-maven@v1.4.1
+        uses: CyborgCodeSyndicate/utilities/pipelines/shared/setup-maven@v1.4.2
         with:
           server_ids: github-roa-libraries,github-roa-plugins
           github_packages_user: ${{ secrets.GH_PACKAGES_USER }}

@@ -10,7 +10,7 @@ on:
         required: true
         default: none
         type: choice
-        options: [major, minor, patch, none]
+        options: [ major, minor, patch, none ]
       modules:
         description: 'Comma-separated Maven modules to deploy (optional)'
         required: false
@@ -31,7 +31,7 @@ jobs:
 
       - name: Run Deploy pipeline
         id: deploy
-        uses: CyborgCodeSyndicate/utilities/pipelines/deploy@v1.4.1
+        uses: CyborgCodeSyndicate/utilities/pipelines/deploy@v1.4.2
         with:
           server_ids: github-roa-libraries
           version_bump: ${{ inputs.version_bump || 'none' }}
