@@ -13,10 +13,7 @@ jobs:
   publish-catalog:
     runs-on: ubuntu-latest
     if: >
-      github.event.workflow_run.conclusion == 'success' &&
-      (github.event.workflow_run.event.inputs.version_bump == 'major' ||
-       github.event.workflow_run.event.inputs.version_bump == 'minor' ||
-       github.event.workflow_run.event.inputs.version_bump == 'patch')
+      github.event.workflow_run.conclusion == 'success'
 
     steps:
       - name: Checkout
@@ -41,13 +38,12 @@ jobs:
             ver=$(cat artifacts/deployed-version/version.txt)
           elif [ -f artifacts/version.txt ]; then
             ver=$(cat artifacts/version.txt)
+          else
+            ver=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           fi
 
           if [ -n "$ver" ]; then
             echo "deployed_version=${ver}" >> "$GITHUB_ENV"
-            echo "Deployed version: ${ver}"
-          else
-            echo "No deployed version found."
           fi
 
       - name: Setup Maven Environment
