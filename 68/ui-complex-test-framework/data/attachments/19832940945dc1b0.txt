@@ -1,0 +1,12 @@
+Server=nginx
+Date=Wed, 07 Jan 2026 17:30:20 GMT
+Content-Length=0
+Connection=keep-alive
+Set-Cookie=JSESSIONID=327AB89E6D47C5E874D48F1D683C0491; Path=/; HttpOnly
+X-Content-Type-Options=nosniff
+X-XSS-Protection=1; mode=block
+Cache-Control=no-cache, no-store, max-age=0, must-revalidate
+Pragma=no-cache
+Expires=0
+X-Frame-Options=DENY
+Location=https://bakery-flow.demo.vaadin.com/login
