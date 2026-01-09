@@ -540,17 +540,26 @@ if (systemPropsFile.exists()) {
     def configVal = hasEnvs ? "config-${envList[0].toLowerCase()}" : "config"
     def testDataVal = hasEnvs ? "test_data-${envList[0].toLowerCase()}" : "test_data"
     
-    def newSysProps = """project.packages=io.cyborgcode.roa
-ui.config.file=${configVal}
-api.config.file=${configVal}
-db.config.file=${configVal}
-framework.config.file=${configVal}
-test.data.file=${testDataVal}
-logFileName=logs/log.log
-log4j2.scriptEnableLanguages=javascript
-extended.logging=false
-"""
-    systemPropsFile.text = newSysProps
+    def newSysProps = new StringBuilder()
+    newSysProps.append("project.packages=io.cyborgcode.roa\n")
+    
+    if (keepUI) {
+        newSysProps.append("ui.config.file=${configVal}\n")
+    }
+    if (keepAPI) {
+        newSysProps.append("api.config.file=${configVal}\n")
+    }
+    if (keepDB) {
+        newSysProps.append("db.config.file=${configVal}\n")
+    }
+    
+    newSysProps.append("framework.config.file=${configVal}\n")
+    newSysProps.append("test.data.file=${testDataVal}\n")
+    newSysProps.append("logFileName=logs/log.log\n")
+    newSysProps.append("log4j2.scriptEnableLanguages=javascript\n")
+    newSysProps.append("extended.logging=false\n")
+
+    systemPropsFile.text = newSysProps.toString()
     println "  Updated system.properties content"
 }
 
