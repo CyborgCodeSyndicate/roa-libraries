@@ -1,0 +1,17 @@
+🤖 CYBORG 🤖 2026-01-09T18:51:43,232 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingCustomInsertion] INFO  [UI] - Creating driver using provider [ChromeDriverProvider]. Headless: [true], Remote: [true], Remote URL: [http://localhost:4444]
+🤖 CYBORG 🤖 2026-01-09T18:51:44,085 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingCustomInsertion] INFO  [QUEST] - The quest: 'clickButtonInCertainCell_usingCustomInsertion(Quest)' has begun and is crafted.
+🤖 CYBORG 🤖 2026-01-09T18:51:44,154 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingCustomInsertion] INFO  [QUEST] - The quest has used the ring: 'io.cyborgcode.ui.simple.test.framework.ui.AppUiService'
+🤖 CYBORG 🤖 2026-01-09T18:51:44,690 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingCustomInsertion] STEP  [UI] - Clicking button using locator: By.id: signin_button
+🤖 CYBORG 🤖 2026-01-09T18:51:45,218 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingCustomInsertion] STEP  [UI] - Inserting value: 'username' into input component of type: 'BOOTSTRAP_INPUT_TYPE'.
+🤖 CYBORG 🤖 2026-01-09T18:51:45,826 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingCustomInsertion] STEP  [UI] - Inserting value: 'password' into input component of type: 'BOOTSTRAP_INPUT_TYPE'.
+🤖 CYBORG 🤖 2026-01-09T18:51:46,272 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingCustomInsertion] STEP  [UI] - Clicking button using locator: By.cssSelector: input[value='Sign in']
+🤖 CYBORG 🤖 2026-01-09T18:51:46,840 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingCustomInsertion] STEP  [UI] - Clicking button using locator: By.id: online-banking
+🤖 CYBORG 🤖 2026-01-09T18:51:47,271 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingCustomInsertion] STEP  [UI] - Clicking link BOOTSTRAP_LINK_TYPE using locator By.id: money_map_link
+🤖 CYBORG 🤖 2026-01-09T18:51:49,061 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingCustomInsertion] STEP  [UI] - Inserting cell value in row 4 for class 'OutFlow', field 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$2362/0x00007f339c8a1518@1ca2c399', cell index 1
+🤖 CYBORG 🤖 2026-01-09T18:51:49,638 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingCustomInsertion] STEP  [UI] - Reading entire table as class 'DetailedReport'
+🤖 CYBORG 🤖 2026-01-09T18:51:50,526 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingCustomInsertion] VALIDATION [QUEST] - Starting hard validation...
+🤖 CYBORG 🤖 2026-01-09T18:51:50,530 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingCustomInsertion] VALIDATION [QUEST] - Hard validation completed successfully.
+🤖 CYBORG 🤖 2026-01-09T18:51:50,535 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingCustomInsertion] INFO  [QUEST] - The quest has dropped the ring.
+🤖 CYBORG 🤖 2026-01-09T18:51:50,537 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingCustomInsertion] INFO  [QUEST] - The quest has reached his end
+🤖 CYBORG 🤖 2026-01-09T18:51:50,692 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingCustomInsertion] INFO  [UI] - WebDriver closed successfully.
+🤖 CYBORG 🤖 2026-01-09T18:51:50,717 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingCustomInsertion] INFO  [QUEST] - The quest of 'clickButtonInCertainCell_usingCustomInsertion(Quest)' has concluded with glory. Status: SUCCESS. Duration: 7 seconds.
