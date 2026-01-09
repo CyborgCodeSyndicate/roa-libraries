@@ -239,7 +239,6 @@ if (isAiCommons) {
         "src/main/java/${packagePath}/common/data/creator/DataCreator.java": "src/main/java/${packagePath}/common/data/creator/DataCreatorAI.java",
         "src/main/java/${packagePath}/common/data/cleaner/DataCleaner.java": "src/main/java/${packagePath}/common/data/cleaner/DataCleanerAI.java",
         
-        "src/main/java/${packagePath}/api/ExampleEndpoints.java": "src/main/java/${packagePath}/api/EndpointsAI.java",
         "src/main/java/${packagePath}/api/authentication/ExampleAuthenticationClient.java": "src/main/java/${packagePath}/api/authentication/ExampleAuthenticationClientAI.java",
         "src/main/java/${packagePath}/api/authentication/ExampleCredentials.java": "src/main/java/${packagePath}/api/authentication/ExampleCredentialsAI.java",
         "src/main/java/${packagePath}/api/dto/request/ExampleRequestDto.java": "src/main/java/${packagePath}/api/dto/request/ExampleRequestDtoAI.java",
@@ -290,13 +289,17 @@ if (isAiCommons) {
                 println "  Swapped AI skeleton: ${originalFile.name}"
              }
         } else {
-             // Original file was deleted by previous logic (e.g. UI feature selection)
-             // So we should delete the AI skeleton to completely remove the feature
              if (aiFile.exists()) {
                  aiFile.delete()
                  println "  Deleted zombie AI skeleton: ${aiFile.name}"
              }
         }
+    }
+    
+    def exampleEndpoints = new File(rootDir, "src/main/java/${packagePath}/api/ExampleEndpoints.java")
+    if (exampleEndpoints.exists()) {
+        exampleEndpoints.delete()
+        println "  Deleted ExampleEndpoints.java for AI mode"
     }
     
 } else {
@@ -307,7 +310,6 @@ if (isAiCommons) {
         "src/main/java/${packagePath}/common/preconditions/PreconditionsAI.java",
         "src/main/java/${packagePath}/common/data/creator/DataCreatorAI.java",
         "src/main/java/${packagePath}/common/data/cleaner/DataCleanerAI.java",
-        "src/main/java/${packagePath}/api/EndpointsAI.java",
         "src/main/java/${packagePath}/db/DatabasesAI.java",
         "src/main/java/${packagePath}/db/queries/DbQueriesAI.java",
         "src/main/java/${packagePath}/ui/elements/ButtonFieldsAI.java",
@@ -449,8 +451,13 @@ Closure generateConfigFile = { File targetFile, String baseUrl ->
 }
 
 Closure generateTestDataFile = { File targetFile ->
-    targetFile.text = testDataTemplateContent
-    println "  Created: ${targetFile.name}"
+    if (isAiCommons) {
+        targetFile.text = "" // Empty file for AI mode
+        println "  Created empty test_data file (AI mode): ${targetFile.name}"
+    } else {
+        targetFile.text = testDataTemplateContent
+        println "  Created: ${targetFile.name}"
+    }
 }
 
 if (envList && envList.size() > 0) {
@@ -533,17 +540,26 @@ if (systemPropsFile.exists()) {
     def configVal = hasEnvs ? "config-${envList[0].toLowerCase()}" : "config"
     def testDataVal = hasEnvs ? "test_data-${envList[0].toLowerCase()}" : "test_data"
     
-    def newSysProps = """project.packages=io.cyborgcode.roa
-ui.config.file=${configVal}
-api.config.file=${configVal}
-db.config.file=${configVal}
-framework.config.file=${configVal}
-test.data.file=${testDataVal}
-logFileName=logs/log.log
-log4j2.scriptEnableLanguages=javascript
-extended.logging=false
-"""
-    systemPropsFile.text = newSysProps
+    def newSysProps = new StringBuilder()
+    newSysProps.append("project.packages=io.cyborgcode.roa\n")
+    
+    if (keepUI) {
+        newSysProps.append("ui.config.file=${configVal}\n")
+    }
+    if (keepAPI) {
+        newSysProps.append("api.config.file=${configVal}\n")
+    }
+    if (keepDB) {
+        newSysProps.append("db.config.file=${configVal}\n")
+    }
+    
+    newSysProps.append("framework.config.file=${configVal}\n")
+    newSysProps.append("test.data.file=${testDataVal}\n")
+    newSysProps.append("logFileName=logs/log.log\n")
+    newSysProps.append("log4j2.scriptEnableLanguages=javascript\n")
+    newSysProps.append("extended.logging=false\n")
+
+    systemPropsFile.text = newSysProps.toString()
     println "  Updated system.properties content"
 }
 

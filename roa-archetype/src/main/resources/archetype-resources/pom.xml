@@ -13,11 +13,17 @@
     <groupId>${groupId}</groupId>
     <artifactId>${artifactId}</artifactId>
     <version>${version}</version>
-
+#set( $mods = $modules.toUpperCase() )
     <properties>
+#if( $mods.contains("UI") )
         <ui.config.file>config</ui.config.file>
+#end
+#if( $mods.contains("API") )
         <api.config.file>config</api.config.file>
+#end
+#if( $mods.contains("DB") )
         <db.config.file>config</db.config.file>
+#end
         <test.data.file>test_data</test.data.file>
         <framework.config.file>config</framework.config.file>
         <include.tags></include.tags>
@@ -27,7 +33,6 @@
         <extended.logging>false</extended.logging>
     </properties>
 
-#set( $mods = $modules.toUpperCase() )
     <dependencies>
 #if( $mods.contains("UI") )
         <dependency>
