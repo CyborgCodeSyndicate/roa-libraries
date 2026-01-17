@@ -2,8 +2,8 @@ package ${package}.ui.authentication;
 
 import io.cyborgcode.roa.ui.authentication.BaseLoginClient;
 import io.cyborgcode.roa.ui.service.fluent.UiServiceFluent;
-import io.cyborgcode.roa.example.project.ui.elements.ButtonFields;
-import io.cyborgcode.roa.example.project.ui.elements.InputFields;
+import ${package}.ui.elements.ButtonFields;
+import ${package}.ui.elements.InputFields;
 import org.openqa.selenium.By;
 
 // TODO implement login logic on ui side and return indicator element for successful login
