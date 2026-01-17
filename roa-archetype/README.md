@@ -20,10 +20,14 @@ To use this archetype easily in your IDE or via CLI without remembering long rep
 You can find all deployed versions under the` **roa-archetype-catalog** `folder.
 Select one and then populate {version} in the url below when creating the remote catalog.`
 
+**Example Version Format:** `1.2.3`, `1.0.0`, `2.0.0` ...
+
 **REMOTE CATALOG URL**
 ```
 https://cyborgcodesyndicate.github.io/roa-libraries/roa-archetype-catalog/{version}/archetype-catalog.xml
 ```
+**Example (with real version):**
+`https://cyborgcodesyndicate.github.io/roa-libraries/roa-archetype-catalog/1.2.4/archetype-catalog.xml`
 
 ### 💻 Instructions how to create a new project from archetype via IntelliJ
 1. Go to **File** -> **New** -> **Project**
@@ -42,7 +46,7 @@ https://cyborgcodesyndicate.github.io/roa-libraries/roa-archetype-catalog/{versi
     - **ArtifactId**: Your project's name
     - **Version**: Select the desired version
     - **Additional Properties**: Customize as needed:
-        - `modules`: Select which components to include (API, UI, DB)
+        - `modules`: Select which testing technologies to include (API, UI, DB). Can be a combination of them or a single one.
         - `environments`: Add your environments here or leave empty if working on only one env (ex. uat, qa, test, dev)
         - `implementationStyle`: Choose between BASIC, ADVANCED, or AI
         - `dbType`: Select your database type if using DB module (ex. H2, POSTGRES, MYSQL...)
@@ -52,37 +56,63 @@ https://cyborgcodesyndicate.github.io/roa-libraries/roa-archetype-catalog/{versi
 
 
 ## Instructions on how to create project from archetype via command line
-CLI (batch, API+UI+DB, advanced data, Postgres):
+**Using Remote Catalog (Recommended):**
+Replace `{version}` with the actual version from gh-pages (e.g., 1.2.3):
+
+**Windows (Powershell):**
 ```bash
-mvn archetype:generate ^
-  -DarchetypeGroupId=io.cyborgcode.roa.example ^
-  -DarchetypeArtifactId=roa-archetype ^
-  -DarchetypeVersion=2.0.0 ^
-  -DarchetypeRepository=https://maven.pkg.github.com/CyborgCodeSyndicate/roa-libraries ^
-  -DgroupId=com.mycompany ^
-  -DartifactId=my-tests ^
-  -Dversion=1.0-SNAPSHOT ^
-  -Dpackage=com.mycompany ^
-  -Dmodules=API,UI,DB ^
-  -DimplementationStyle=ADVANCED ^
-  -DdbType=POSTGRES ^
-  -DuiComponents=BUTTON,INPUT,SELECT,TABLE ^
+mvn "archetype:generate" `
+  "-DarchetypeGroupId=io.cyborgcode.roa" `
+  "-DarchetypeArtifactId=roa-archetype" `
+  "-DarchetypeVersion={version}" `
+  "-DgroupId=com.mycompany" `
+  "-DartifactId=my-tests" `
+  "-Dversion=1.0-SNAPSHOT" `
+  "-Dpackage=com.mycompany" `
+  "-Dmodules=API,UI,DB" `
+  "-Denvironments=qa,uat" `
+  "-DimplementationStyle=ADVANCED" `
+  "-DdbType=POSTGRES" `
+  "-DuiComponents=BUTTON,INPUT,SELECT,TABLE" `
+  "-B"
+
+```
+
+**Linux/Mac (Bash):**
+```bash
+mvn archetype:generate \
+  -DarchetypeGroupId=io.cyborgcode.roa \
+  -DarchetypeArtifactId=roa-archetype \
+  -DarchetypeVersion={version} \
+  -DgroupId=com.mycompany \
+  -DartifactId=my-tests \
+  -Dversion=1.0-SNAPSHOT \
+  -Dpackage=com.mycompany \
+  -Dmodules=API,UI,DB \
+  -Denvironments=qa,uat \
+  -DimplementationStyle=ADVANCED \
+  -DdbType=POSTGRES \
+  -DuiComponents=BUTTON,INPUT,SELECT,TABLE \
   -B
 ```
 
-Or using the catalog URL (update the {workflow.run_number} with a real number from gh-pages):
+**Example Command (with real version):**
+`Replace {version} with 1.2.3:`
 ```bash
-mvn archetype:generate ^
-  -DarchetypeCatalog=https://cyborgcodesyndicate.github.io/roa-libraries/{workflow.run_number}/roa-archetype-catalog/archetype-catalog.xml ^
-  -DgroupId=com.mycompany ^
-  -DartifactId=my-tests ^
-  -Dversion=1.0-SNAPSHOT ^
-  -Dpackage=com.mycompany ^
-  -Dmodules=API,UI,DB ^
-  -DimplementationStyle=ADVANCED ^
-  -DdbType=POSTGRES ^
-  -DuiComponents=BUTTON,INPUT,SELECT ^
-  -B
+mvn "archetype:generate" `
+  "-DarchetypeGroupId=io.cyborgcode.roa" `
+  "-DarchetypeArtifactId=roa-archetype" `
+  "-DarchetypeVersion=1.2.3" `
+  "-DgroupId=com.mycompany" `
+  "-DartifactId=my-tests" `
+  "-Dversion=1.0-SNAPSHOT" `
+  "-Dpackage=com.mycompany" `
+  "-Dmodules=API,UI,DB" `
+  "-Denvironments=qa,uat" `
+  "-DimplementationStyle=ADVANCED" `
+  "-DdbType=POSTGRES" `
+  "-DuiComponents=BUTTON,INPUT,SELECT,TABLE" `
+  "-B"
 ```
 
 ## Generation Matrix
@@ -103,6 +133,12 @@ mvn archetype:generate ^
 When you specify environments (e.g., `-Denvironments=qa,uat`), the following files are generated for each environment:
 - `config-{env}.properties` - Environment-specific configuration
 - `test-data-{env}.properties` - Environment-specific test data
+
+**Example:** `For -Denvironments=qa,uat, you get:`
+* config-qa.properties, config-uat.properties
+* test-data-qa.properties, test-data-uat.properties
+
+
 
 ## What You Get
 A compile-ready scaffold with examples you are expected to replace:

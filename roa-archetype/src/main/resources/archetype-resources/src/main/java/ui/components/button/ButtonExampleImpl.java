@@ -8,8 +8,6 @@ import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
 import ${package}.ui.types.ButtonFieldTypes;
 import org.openqa.selenium.By;
 
-import java.util.Objects;
-
 // TODO: Replace this dummy example implementation with your real Button component implementation
 //       (update @ImplementationOfType target + implement methods).
 @ImplementationOfType(ButtonFieldTypes.Data.EXAMPLE_BUTTON_TYPE)

@@ -16,6 +16,7 @@ import java.util.List;
 @ImplementationOfType(SelectFieldTypes.Data.EXAMPLE_SELECT_TYPE)
 public class SelectExampleImpl extends BaseComponent implements Select {
 
+//    private static final By OPTIONS_SELECTOR = By.tagName("option");
 
     public SelectExampleImpl(SmartWebDriver driver) {
         super(driver);
@@ -49,9 +50,12 @@ public class SelectExampleImpl extends BaseComponent implements Select {
     @Override
     public List<String> getAvailableOptions(By locator) {
         // Example:
-        // List<String> availableOptions = options.stream()
-        //         .map(option -> option.findSmartElement(OPTIONS_SELECTOR).getText().trim()).toList();
-        // return availableOptions;
+        // return driver.findSmartElement(locator)
+        //   .findSmartElements(OPTIONS_SELECTOR)
+        //   .stream()
+        //   .map(option -> option.getText().trim())
+        //   .filter(text -> !text.isEmpty())
+        //   .toList();
         return null;
     }
 
