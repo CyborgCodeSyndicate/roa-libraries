@@ -1,0 +1,18 @@
+🤖 CYBORG 🤖 2026-01-19T22:13:02,352 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingDataObject] INFO  [UI] - Creating driver using provider [ChromeDriverProvider]. Headless: [true], Remote: [true], Remote URL: [http://localhost:4444]
+🤖 CYBORG 🤖 2026-01-19T22:13:05,399 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingDataObject] INFO  [QUEST] - The quest: 'clickButtonInCertainCell_usingDataObject(Quest, OutFlow)' has begun and is crafted.
+🤖 CYBORG 🤖 2026-01-19T22:13:05,560 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingDataObject] INFO  [QUEST] - The quest has used the ring: 'io.cyborgcode.ui.simple.test.framework.ui.AppUiService'
+🤖 CYBORG 🤖 2026-01-19T22:13:06,450 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingDataObject] STEP  [UI] - Clicking button using locator: By.id: signin_button
+🤖 CYBORG 🤖 2026-01-19T22:13:07,159 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingDataObject] STEP  [UI] - Inserting value: 'username' into input component of type: 'BOOTSTRAP_INPUT_TYPE'.
+🤖 CYBORG 🤖 2026-01-19T22:13:08,148 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingDataObject] STEP  [UI] - Inserting value: 'password' into input component of type: 'BOOTSTRAP_INPUT_TYPE'.
+🤖 CYBORG 🤖 2026-01-19T22:13:08,829 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingDataObject] STEP  [UI] - Clicking button using locator: By.cssSelector: input[value='Sign in']
+🤖 CYBORG 🤖 2026-01-19T22:13:09,781 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingDataObject] STEP  [UI] - Clicking button using locator: By.id: online-banking
+🤖 CYBORG 🤖 2026-01-19T22:13:10,339 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingDataObject] STEP  [UI] - Clicking link BOOTSTRAP_LINK_TYPE using locator By.id: money_map_link
+🤖 CYBORG 🤖 2026-01-19T22:13:12,778 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingDataObject] STEP  [UI] - Inserting cell value(s) using data for row 4 for class 'OutFlow'
+🤖 CYBORG 🤖 2026-01-19T22:13:12,796 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingDataObject] STEP  [UI] - Inserting cell value in row 4 for class 'OutFlow', field 'io.cyborgcode.roa.ui.components.table.service.TableImpl$$Lambda$2462/0x00007f7e58903220@4446bee2', cell index 1
+🤖 CYBORG 🤖 2026-01-19T22:13:13,593 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingDataObject] STEP  [UI] - Reading entire table as class 'DetailedReport'
+🤖 CYBORG 🤖 2026-01-19T22:13:14,814 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingDataObject] VALIDATION [QUEST] - Starting hard validation...
+🤖 CYBORG 🤖 2026-01-19T22:13:14,833 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingDataObject] VALIDATION [QUEST] - Hard validation completed successfully.
+🤖 CYBORG 🤖 2026-01-19T22:13:14,852 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingDataObject] INFO  [QUEST] - The quest has dropped the ring.
+🤖 CYBORG 🤖 2026-01-19T22:13:14,872 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingDataObject] INFO  [QUEST] - The quest has reached his end
+🤖 CYBORG 🤖 2026-01-19T22:13:15,078 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingDataObject] INFO  [UI] - WebDriver closed successfully.
+🤖 CYBORG 🤖 2026-01-19T22:13:15,132 [scenario=TableComponentExampleTests.clickButtonInCertainCell_usingDataObject] INFO  [QUEST] - The quest of 'clickButtonInCertainCell_usingDataObject(Quest, OutFlow)' has concluded with glory. Status: SUCCESS. Duration: 15 seconds.
