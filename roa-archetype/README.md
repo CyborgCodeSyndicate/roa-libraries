@@ -20,7 +20,9 @@
     - [Common Components](#common-always-generated)
 - [Post-Generation Checklist](#post-generation-checklist)
 - [Example Tests](#example-tests)
-
+    - [Example API Tests](#api-tests-gettingstartedapitestjava)
+    - [Example UI Tests](#ui-tests-gettingstarteduitestjava)
+    - [Example DB Tests](#db-tests-gettingstarteddbtestjava)
 ---
 
 ## Archetype Setup
