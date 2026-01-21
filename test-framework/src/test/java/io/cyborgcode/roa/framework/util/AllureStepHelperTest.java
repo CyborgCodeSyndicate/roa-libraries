@@ -7,25 +7,28 @@ import io.cyborgcode.roa.framework.config.FrameworkConfigHolder;
 import io.cyborgcode.roa.framework.log.LogQuest;
 import io.cyborgcode.utilities.reflections.ReflectionUtil;
 import io.qameta.allure.Allure;
+import java.nio.charset.StandardCharsets;
 import org.aeonbits.owner.Config;
 import org.aeonbits.owner.ConfigCache;
 import org.apache.logging.log4j.ThreadContext;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ExtensionContext;
+import org.mockito.InOrder;
 import org.mockito.Mock;
-import org.mockito.MockedConstruction;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.*;
 import java.lang.annotation.*;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static io.cyborgcode.roa.framework.storage.StoreKeys.HTML;
 import static org.junit.jupiter.api.Assertions.*;
@@ -39,6 +42,15 @@ public class AllureStepHelperTest {
 
     @Mock
     private ExtensionContext.Store mockStore;
+
+    @BeforeEach
+    void resetEnvironmentInitializationFlag() throws Exception {
+        Field field = AllureStepHelper.class.getDeclaredField("ENV_INITIALIZED");
+        field.setAccessible(true);
+        AtomicBoolean flag = (AtomicBoolean) field.get(null);
+        flag.set(false);
+        System.clearProperty("allure.results.directory");
+    }
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.METHOD})
@@ -427,7 +439,7 @@ public class AllureStepHelperTest {
     //initializeTestEnvironment - START
     @Test
     @DisplayName("Should initialize test environment with mocked ReflectionUtil and ConfigCache")
-    void shouldInitializeTestEnvironment_WhenReflectionAndConfigAreMocked() {
+    void shouldInitializeTestEnvironment_WhenReflectionAndConfigAreMocked() throws Exception {
         try (MockedStatic<ReflectionUtil> mockedReflectionUtil = mockStatic(ReflectionUtil.class);
              MockedStatic<ConfigCache> mockedConfigCache = mockStatic(ConfigCache.class)) {
 
@@ -448,63 +460,45 @@ public class AllureStepHelperTest {
 
             // When / Then
             AllureStepHelper.initializeTestEnvironment();
+
+            // Then
+            mockedConfigCache.verify(() -> ConfigCache.getOrCreate(BasicPropertyConfig.class), atLeastOnce());
+            mockedConfigCache.verify(() -> ConfigCache.getOrCreate(FrameworkConfig.class));
+            Field field = AllureStepHelper.class.getDeclaredField("ENV_INITIALIZED");
+            field.setAccessible(true);
+            AtomicBoolean flag = (AtomicBoolean) field.get(null);
+            assertTrue(flag.get());
         }
     }
 
     @Test
-    @DisplayName("Should write environment properties and skip directory creation if directory exists")
-    void shouldWriteEnvironmentPropertiesWithoutCreatingDirectory_WhenDirectoryAlreadyExists() {
+    @DisplayName("Should use allure results directory from system property when writing environment properties")
+    void shouldWriteEnvironmentProperties_UsesSystemPropertyDirectory() throws Exception {
         // Given
+        String customResultsDir = "build/allure-results";
+        System.setProperty("allure.results.directory", customResultsDir);
+
         Map<String, List<String>> propertiesMap = Map.of(
                 "key1", List.of("value1"),
                 "key2", List.of("value2")
         );
 
-        File allureResultsDir = mock(File.class);
-//        File environmentFile = mock(File.class);
+        Path resultsDir = Path.of(customResultsDir);
+        Path environmentFile = resultsDir.resolve("environment.properties");
+        BufferedWriter writer = mock(BufferedWriter.class);
 
-        try (MockedStatic<ReflectionUtil> mockedReflectionUtil = mockStatic(ReflectionUtil.class);
-             MockedStatic<FrameworkConfigHolder> mockedFrameworkConfigHolder = mockStatic(FrameworkConfigHolder.class);
-             MockedStatic<ConfigCache> mockedConfigCache = mockStatic(ConfigCache.class)) {
+        try (MockedStatic<Files> mockedFiles = mockStatic(Files.class)) {
+            mockedFiles.when(() -> Files.createDirectories(resultsDir)).thenReturn(resultsDir);
+            mockedFiles.when(() -> Files.newBufferedWriter(environmentFile, StandardCharsets.UTF_8)).thenReturn(writer);
 
-            try (MockedConstruction<FileWriter> mockFileWriter = mockConstruction(FileWriter.class,
-                    (mock, context) -> {
-                        try {
-                            mock.write("key1=value1\n");
-                            mock.write("key2=value2\n");
-                        } catch (IOException ignored) {
-                        }
-                    })) {
+            // When
+            Method method = AllureStepHelper.class.getDeclaredMethod("writeEnvironmentProperties", Map.class);
+            method.setAccessible(true);
+            method.invoke(null, propertiesMap);
 
-                // Set up mocks
-                lenient().when(allureResultsDir.exists()).thenReturn(true);
-
-                BasicPropertyConfig dummyConfig = new BasicPropertyConfig();
-                mockedConfigCache.when(() -> ConfigCache.getOrCreate(BasicPropertyConfig.class))
-                        .thenReturn(dummyConfig);
-
-                FrameworkConfig mockConfig = mock(FrameworkConfig.class);
-                when(mockConfig.projectPackages()).thenReturn(new String[]{"io.cyborgcode.roa"});
-                mockedFrameworkConfigHolder.when(FrameworkConfigHolder::getFrameworkConfig)
-                        .thenReturn(mockConfig);
-
-                FrameworkConfig dummyFrameworkConfig = mock(FrameworkConfig.class);
-                lenient().when(dummyFrameworkConfig.projectPackages()).thenReturn(new String[]{"io.cyborgcode.roa"});
-
-                // When
-                AllureStepHelper.initializeTestEnvironment();
-
-                // Then
-                verify(allureResultsDir, never()).mkdirs();
-
-                mockFileWriter.constructed().forEach(mockWriter -> {
-                    try {
-                        verify(mockWriter).write("key1=value1\n");
-                        verify(mockWriter).write("key2=value2\n");
-                    } catch (IOException ignored) {
-                    }
-                });
-            }
+            // Then
+            mockedFiles.verify(() -> Files.createDirectories(resultsDir));
+            mockedFiles.verify(() -> Files.newBufferedWriter(environmentFile, StandardCharsets.UTF_8));
         }
     }
     //initializeTestEnvironment - END
@@ -672,34 +666,33 @@ public class AllureStepHelperTest {
     //writeEnvironmentProperties - START
     @Test
     @DisplayName("Should write key-value pairs to the environment file")
-    void testWriteEnvironmentProperties_writeKeyValues() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    void testWriteEnvironmentProperties_writeKeyValues() throws Exception {
         // Given
-        Map<String, List<String>> propertiesMap = Map.of(
-                "key1", List.of("value1", "value2"),
-                "key2", List.of("value3")
-        );
+        Map<String, List<String>> propertiesMap = new LinkedHashMap<>();
+        propertiesMap.put("key1", List.of("value1", "value2"));
+        propertiesMap.put("key2", List.of("value3"));
 
-        File allureResultsDir = mock(File.class);
-        File environmentFile = mock(File.class);
+        Path resultsDir = Path.of("target/allure-results");
+        Path environmentFile = resultsDir.resolve("environment.properties");
+        BufferedWriter writer = mock(BufferedWriter.class);
 
-        lenient().when(allureResultsDir.exists()).thenReturn(true);
+        try (MockedStatic<Files> mockedFiles = mockStatic(Files.class)) {
+            mockedFiles.when(() -> Files.createDirectories(resultsDir)).thenReturn(resultsDir);
+            mockedFiles.when(() -> Files.newBufferedWriter(environmentFile, StandardCharsets.UTF_8)).thenReturn(writer);
 
-        // When
-        try (MockedConstruction<FileWriter> mockFileWriter = mockConstruction(FileWriter.class)) {
             Method method = AllureStepHelper.class.getDeclaredMethod("writeEnvironmentProperties", Map.class);
             method.setAccessible(true);
             method.invoke(null, propertiesMap);
 
             // Then
-            verify(allureResultsDir, never()).mkdirs();
+            mockedFiles.verify(() -> Files.createDirectories(resultsDir));
+            mockedFiles.verify(() -> Files.newBufferedWriter(environmentFile, StandardCharsets.UTF_8));
 
-            mockFileWriter.constructed().forEach(mockWriter -> {
-                try {
-                    verify(mockWriter).write("key1=value1; value2\n");
-                    verify(mockWriter).write("key2=value3\n");
-                } catch (IOException e) {
-                }
-            });
+            InOrder inOrder = inOrder(writer);
+            inOrder.verify(writer).write("key1=value1, value2");
+            inOrder.verify(writer).write(System.lineSeparator());
+            inOrder.verify(writer).write("key2=value3");
+            inOrder.verify(writer).write(System.lineSeparator());
         }
     }
 
