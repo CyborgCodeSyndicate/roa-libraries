@@ -20,6 +20,7 @@ import io.cyborgcode.utilities.logging.LogCore;
       creation = CreationKind.SINGLETON
 )
 @PandoraOptions(
+      exampleFilesPath = "ai/roa/api-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "api-logger")
       }

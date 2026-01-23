@@ -40,6 +40,7 @@ import org.springframework.stereotype.Service;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
+      exampleFilesPath = "ai/roa/api-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "rest-service"),
          @PandoraOptions.Meta(key = "scope", value = "spring-prototype")

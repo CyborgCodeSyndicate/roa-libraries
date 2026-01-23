@@ -19,6 +19,7 @@ import io.cyborgcode.pandora.model.CreationKind;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
+      exampleFilesPath = "ai/roa/api-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "credentials-provider")
       }

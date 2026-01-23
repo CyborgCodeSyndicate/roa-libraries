@@ -25,6 +25,7 @@ import lombok.NonNull;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
+      exampleFilesPath = "ai/roa/api-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "authentication-client-base")
       }

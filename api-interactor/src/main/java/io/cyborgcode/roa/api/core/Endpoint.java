@@ -28,6 +28,7 @@ import static io.cyborgcode.roa.api.config.ApiConfigHolder.getApiConfig;
       creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
+      exampleFilesPath = "ai/roa/api-usage.json",
       availableOptionsRule = AvailableOptionsRules.AvailableEndpoints.class,
       meta = {
          @PandoraOptions.Meta(key = "type", value = "endpoint")

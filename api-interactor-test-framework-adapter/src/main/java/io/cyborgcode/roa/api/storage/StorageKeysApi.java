@@ -18,6 +18,7 @@ import io.cyborgcode.pandora.model.CreationKind;
       creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
+      exampleFilesPath = "ai/roa/api-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "api-storage-key")
       }

@@ -29,6 +29,7 @@ import org.apache.logging.log4j.util.TriConsumer;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
+      exampleFilesPath = "ai/roa/api-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "api-hook-flow")
       }
