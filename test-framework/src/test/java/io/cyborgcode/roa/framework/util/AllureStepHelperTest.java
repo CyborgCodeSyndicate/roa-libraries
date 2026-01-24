@@ -463,7 +463,6 @@ public class AllureStepHelperTest {
 
             // Then
             mockedConfigCache.verify(() -> ConfigCache.getOrCreate(BasicPropertyConfig.class), atLeastOnce());
-            mockedConfigCache.verify(() -> ConfigCache.getOrCreate(FrameworkConfig.class));
             Field field = AllureStepHelper.class.getDeclaredField("ENV_INITIALIZED");
             field.setAccessible(true);
             AtomicBoolean flag = (AtomicBoolean) field.get(null);

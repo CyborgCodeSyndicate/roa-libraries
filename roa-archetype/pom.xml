@@ -7,19 +7,69 @@
     <artifactId>roa-archetype</artifactId>
     <version>1.2.3</version>
     <packaging>maven-archetype</packaging>
+    <name>Ring of Automation Archetype</name>
+    <description>Archetype for quick setup and start of roa project.</description>
+
+    <url>https://github.com/CyborgCodeSyndicate/roa-libraries</url>
+
+    <organization>
+        <name>Cyborg Code Syndicate</name>
+        <url>https://cyborgcode.io</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>cyborgcodesyndicate</id>
+            <name>Cyborg Code Syndicate</name>
+            <email>operator@cyborgcode.io</email>
+            <organization>Cyborg Code Syndicate</organization>
+            <organizationUrl>https://cyborgcode.io</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://github.com/CyborgCodeSyndicate/roa-libraries</url>
+        <connection>scm:git:https://github.com/CyborgCodeSyndicate/roa-libraries.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/CyborgCodeSyndicate/roa-libraries.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/CyborgCodeSyndicate/roa-libraries/issues</url>
+    </issueManagement>
+
+    <ciManagement>
+        <system>GitHub Actions</system>
+        <url>https://github.com/CyborgCodeSyndicate/roa-libraries/actions</url>
+    </ciManagement>
 
     <properties>
-        <archetype.packaging.version>3.4.1</archetype.packaging.version>
-        <maven-archetype-plugin.version>3.2.0</maven-archetype-plugin.version>
-        <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
         <github.repo.owner>CyborgCodeSyndicate</github.repo.owner>
+        <github.repo.name>roa-libraries</github.repo.name>
+        <archetype.packaging.version>3.4.1</archetype.packaging.version>
+        <maven-archetype-plugin.version>3.4.1</maven-archetype-plugin.version>
+        <maven-resources-plugin.version>3.4.0</maven-resources-plugin.version>
+        <central-publishing-maven-plugin.version>0.10.0</central-publishing-maven-plugin.version>
+        <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
+        <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
+        <groovy.version>5.0.4</groovy.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.groovy</groupId>
             <artifactId>groovy</artifactId>
-            <version>5.0.1</version>
+            <version>${groovy.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
@@ -80,6 +130,78 @@
                 <artifactId>maven-archetype-plugin</artifactId>
                 <version>${maven-archetype-plugin.version}</version>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven-source-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
+                <configuration>
+                    <failOnError>false</failOnError>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
+
+    <profiles>
+
+        <profile>
+            <id>central</id>
+            <build>
+                <plugins>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven-gpg-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>${central-publishing-maven-plugin.version}</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <publishingServerId>central</publishingServerId>
+                            <autoPublish>true</autoPublish>
+                        </configuration>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
+
 </project>
