@@ -141,3 +141,5 @@ sequenceDiagram
 
 ## Author
 **Cyborg Code Syndicate 💍👨💻**
+
+Licensed under Apache-2.0
