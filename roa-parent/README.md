@@ -73,7 +73,7 @@ mvn clean test -Dinclude.tags=Regression -Dextended.logging=true
 - Allure integration
 - Configuration file system properties injection
 
-### test-allocator-maven-plugin (1.0.5)
+### test-allocator-maven-plugin (1.1.1)
 - Test distribution for CI/CD pipelines
 - Activated via `execution-setup` profile
 

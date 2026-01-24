@@ -31,7 +31,7 @@ jobs:
 
       - name: Run Deploy pipeline
         id: deploy
-        uses: CyborgCodeSyndicate/utilities/pipelines/deploy@v1.5.1
+        uses: CyborgCodeSyndicate/utilities/pipelines/deploy@v1.5.2
         with:
           server_ids: github-roa-libraries
           version_bump: ${{ inputs.version_bump || 'none' }}
