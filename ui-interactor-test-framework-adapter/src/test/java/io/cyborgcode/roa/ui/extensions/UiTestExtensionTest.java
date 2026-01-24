@@ -62,10 +62,10 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.devtools.DevTools;
-import org.openqa.selenium.devtools.v141.network.Network;
-import org.openqa.selenium.devtools.v141.network.model.RequestId;
-import org.openqa.selenium.devtools.v141.network.model.RequestWillBeSent;
-import org.openqa.selenium.devtools.v141.network.model.ResponseReceived;
+import org.openqa.selenium.devtools.v144.network.Network;
+import org.openqa.selenium.devtools.v144.network.model.RequestId;
+import org.openqa.selenium.devtools.v144.network.model.RequestWillBeSent;
+import org.openqa.selenium.devtools.v144.network.model.ResponseReceived;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.ParameterizedTypeReference;
@@ -1197,7 +1197,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
          // now simulate a request event
          var fakeReqEvent = mock(RequestWillBeSent.class);
-         var fakeReq = mock(org.openqa.selenium.devtools.v141.network.model.Request.class);
+         var fakeReq = mock(org.openqa.selenium.devtools.v144.network.model.Request.class);
          when(fakeReq.getMethod()).thenReturn("GET");
          when(fakeReqEvent.getRequest()).thenReturn(fakeReq);
          RequestId rid = new RequestId("rid-1");
@@ -1207,7 +1207,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
          // simulate a matching response event
          var fakeRespEvent = mock(ResponseReceived.class);
-         var fakeResp = mock(org.openqa.selenium.devtools.v141.network.model.Response.class);
+         var fakeResp = mock(org.openqa.selenium.devtools.v144.network.model.Response.class);
          when(fakeResp.getStatus()).thenReturn(200);
          when(fakeResp.getUrl()).thenReturn("https://example.com/foo");
          when(fakeRespEvent.getResponse()).thenReturn(fakeResp);
@@ -1260,7 +1260,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
             (Consumer<ResponseReceived>) listenerCaptor.getAllValues().get(1);
 
          // fire a fake request so we map rid → method
-         var fakeReq = mock(org.openqa.selenium.devtools.v141.network.model.Request.class);
+         var fakeReq = mock(org.openqa.selenium.devtools.v144.network.model.Request.class);
          when(fakeReq.getMethod()).thenReturn("DELETE");
          var fakeReqEvent = mock(RequestWillBeSent.class);
          when(fakeReqEvent.getRequest()).thenReturn(fakeReq);
@@ -1269,7 +1269,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
          reqListener.accept(fakeReqEvent);
 
          // now fire a fake response whose URL contains "foo"
-         var fakeResp = mock(org.openqa.selenium.devtools.v141.network.model.Response.class);
+         var fakeResp = mock(org.openqa.selenium.devtools.v144.network.model.Response.class);
          when(fakeResp.getStatus()).thenReturn(500);
          when(fakeResp.getUrl()).thenReturn("https://error/foo");
          var fakeRespEvent = mock(ResponseReceived.class);
@@ -1320,7 +1320,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
          // simulate the request
          var reqEvent = mock(RequestWillBeSent.class);
-         var req = mock(org.openqa.selenium.devtools.v141.network.model.Request.class);
+         var req = mock(org.openqa.selenium.devtools.v144.network.model.Request.class);
          when(req.getMethod()).thenReturn("PATCH");
          when(reqEvent.getRequest()).thenReturn(req);
          RequestId rid = new RequestId("x");
@@ -1329,7 +1329,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
          // simulate a response whose URL does *not* contain "nomatch"
          var resEvent = mock(ResponseReceived.class);
-         var res = mock(org.openqa.selenium.devtools.v141.network.model.Response.class);
+         var res = mock(org.openqa.selenium.devtools.v144.network.model.Response.class);
          when(res.getStatus()).thenReturn(418);
          when(res.getUrl()).thenReturn("https://example.com/foo");
          when(resEvent.getResponse()).thenReturn(res);
@@ -1372,7 +1372,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
          // fire the request → method mapping
          var reqEvent = mock(RequestWillBeSent.class);
-         var req = mock(org.openqa.selenium.devtools.v141.network.model.Request.class);
+         var req = mock(org.openqa.selenium.devtools.v144.network.model.Request.class);
          when(req.getMethod()).thenReturn("HEAD");
          when(reqEvent.getRequest()).thenReturn(req);
          RequestId rid = new RequestId("y");
@@ -1381,7 +1381,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
          // fire a matching response
          var resEvent = mock(ResponseReceived.class);
-         var res = mock(org.openqa.selenium.devtools.v141.network.model.Response.class);
+         var res = mock(org.openqa.selenium.devtools.v144.network.model.Response.class);
          when(res.getStatus()).thenReturn(307);
          when(res.getUrl()).thenReturn("https://example.com/null");
          when(resEvent.getResponse()).thenReturn(res);

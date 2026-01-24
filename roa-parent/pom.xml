@@ -8,9 +8,55 @@
     <artifactId>roa-parent</artifactId>
     <version>1.2.3</version>
     <packaging>pom</packaging>
-    <name>Ring of Automation Parent</name>
+    <name>Ring of Automation Parent Pom</name>
+    <description>Parent POM and dependency management for all repositories using ROA framework.</description>
+
+    <url>https://github.com/CyborgCodeSyndicate/roa-libraries</url>
+
+    <organization>
+        <name>Cyborg Code Syndicate</name>
+        <url>https://cyborgcode.io</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>cyborgcodesyndicate</id>
+            <name>Cyborg Code Syndicate</name>
+            <email>operator@cyborgcode.io</email>
+            <organization>Cyborg Code Syndicate</organization>
+            <organizationUrl>https://cyborgcode.io</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://github.com/CyborgCodeSyndicate/roa-libraries</url>
+        <connection>scm:git:https://github.com/CyborgCodeSyndicate/roa-libraries.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/CyborgCodeSyndicate/roa-libraries.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/CyborgCodeSyndicate/roa-libraries/issues</url>
+    </issueManagement>
+
+    <ciManagement>
+        <system>GitHub Actions</system>
+        <url>https://github.com/CyborgCodeSyndicate/roa-libraries/actions</url>
+    </ciManagement>
+
 
     <properties>
+        <github.repo.owner>CyborgCodeSyndicate</github.repo.owner>
+        <github.repo.name>roa-libraries</github.repo.name>
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -36,15 +82,18 @@
 
         <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
-        <parent-pom.version>1.4.2</parent-pom.version>
+        <parent-pom.version>1.5.1</parent-pom.version>
 
         <logFileName>roa.log</logFileName>
         <log4j2.scriptEnableLanguages>javascript</log4j2.scriptEnableLanguages>
         <extended.logging>false</extended.logging>
         <silent.mode>false</silent.mode>
 
-        <github.repo.owner>CyborgCodeSyndicate</github.repo.owner>
-        <roa-plugins.version>1.0.3</roa-plugins.version>
+        <roa-plugins.version>1.0.5</roa-plugins.version>
+        <central-publishing-maven-plugin.version>0.10.0</central-publishing-maven-plugin.version>
+        <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
+        <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -204,78 +253,153 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>github</id>
+
+            <activation>
+                <property>
+                    <name>env.GITHUB_PACKAGES_TOKEN</name>
+                </property>
+            </activation>
+
+            <repositories>
+                <repository>
+                    <id>github-utilities</id>
+                    <name>GitHub Packages for Utilities</name>
+                    <url>https://maven.pkg.github.com/${github.repo.owner}/utilities</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>github-roa-libraries</id>
+                    <name>GitHub Packages for ROA Libraries</name>
+                    <url>https://maven.pkg.github.com/${github.repo.owner}/roa-libraries</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>github-roa-plugins</id>
+                    <name>GitHub Packages for ROA Plugins</name>
+                    <url>https://maven.pkg.github.com/${github.repo.owner}/roa-plugins</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>github-roa-libraries</id>
+                    <name>GitHub Packages for ROA Libraries</name>
+                    <url>https://maven.pkg.github.com/${github.repo.owner}/roa-libraries</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>github-utilities</id>
+                    <name>GitHub for ROA Utilities</name>
+                    <url>https://maven.pkg.github.com/${github.repo.owner}/utilities</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>github-roa-plugins</id>
+                    <name>GitHub Packages for ROA Plugins</name>
+                    <url>https://maven.pkg.github.com/${github.repo.owner}/roa-plugins</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+
+        </profile>
+        <profile>
+            <id>central</id>
+            <build>
+                <plugins>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>${maven-source-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>${maven-javadoc-plugin.version}</version>
+                        <configuration>
+                            <failOnError>false</failOnError>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven-gpg-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>${central-publishing-maven-plugin.version}</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <publishingServerId>central</publishingServerId>
+                            <autoPublish>true</autoPublish>
+                        </configuration>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
     </profiles>
-
-    <repositories>
-        <repository>
-            <id>github-utilities</id>
-            <name>GitHub Packages for Utilities</name>
-            <url>https://maven.pkg.github.com/${github.repo.owner}/utilities</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>github-roa-libraries</id>
-            <name>GitHub Packages for ROA Libraries</name>
-            <url>https://maven.pkg.github.com/${github.repo.owner}/roa-libraries</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>github-roa-plugins</id>
-            <name>GitHub Packages for ROA Plugins</name>
-            <url>https://maven.pkg.github.com/${github.repo.owner}/roa-plugins</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>github-roa-libraries</id>
-            <name>GitHub Packages for ROA Libraries</name>
-            <url>https://maven.pkg.github.com/${github.repo.owner}/roa-libraries</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-            <id>github-utilities</id>
-            <name>GitHub for ROA Utilities</name>
-            <url>https://maven.pkg.github.com/${github.repo.owner}/utilities</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-            <id>github-roa-plugins</id>
-            <name>GitHub Packages for ROA Plugins</name>
-            <url>https://maven.pkg.github.com/${github.repo.owner}/roa-plugins</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
 
 </project>

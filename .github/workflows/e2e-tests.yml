@@ -45,7 +45,7 @@ jobs:
           ref: main
 
       - name: Setup Maven Environment
-        uses: CyborgCodeSyndicate/utilities/pipelines/shared/setup-maven@v1.4.2
+        uses: CyborgCodeSyndicate/utilities/pipelines/shared/setup-maven@v1.5.1
         with:
           server_ids: github-roa-libraries,github-roa-plugins
           github_packages_user: ${{ secrets.GH_PACKAGES_USER }}
@@ -66,7 +66,7 @@ jobs:
 
   e2e-api:
     needs: setup
-    uses: CyborgCodeSyndicate/roa-github-workflows/.github/workflows/roa-tests.yml@v1.0.4
+    uses: CyborgCodeSyndicate/roa-github-workflows/.github/workflows/roa-tests.yml@v1.0.5
     with:
       kind: api
       project_module: api-test-framework
@@ -80,7 +80,7 @@ jobs:
 
   e2e-ui-simple:
     needs: setup
-    uses: CyborgCodeSyndicate/roa-github-workflows/.github/workflows/roa-tests.yml@v1.0.4
+    uses: CyborgCodeSyndicate/roa-github-workflows/.github/workflows/roa-tests.yml@v1.0.5
     with:
       kind: ui
       project_module: ui-simple-test-framework
@@ -94,7 +94,7 @@ jobs:
 
   e2e-ui-complex:
     needs: setup
-    uses: CyborgCodeSyndicate/roa-github-workflows/.github/workflows/roa-tests.yml@v1.0.4
+    uses: CyborgCodeSyndicate/roa-github-workflows/.github/workflows/roa-tests.yml@v1.0.5
     with:
       kind: ui
       project_module: ui-complex-test-framework

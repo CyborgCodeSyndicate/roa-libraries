@@ -4,14 +4,25 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>io.cyborgcode.roa</groupId>
-        <artifactId>libraries</artifactId>
-        <version>1.2.3</version>
-        <relativePath>../pom.xml</relativePath>
+        <groupId>io.cyborgcode.utilities</groupId>
+        <artifactId>parent-pom</artifactId>
+        <version>1.5.1</version>
     </parent>
 
+    <groupId>io.cyborgcode.roa</groupId>
     <artifactId>api-interactor</artifactId>
+    <version>1.2.3</version>
     <name>Ring of Automation Api Library</name>
+    <description>Library part of Ring of Automation that enables interaction via api.</description>
+
+    <properties>
+        <github.repo.name>roa-libraries</github.repo.name>
+        <utilities.version>1.5.1</utilities.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <shared-static-data.version>${utilities.version}</shared-static-data.version>
+    </properties>
 
     <dependencies>
         <dependency>

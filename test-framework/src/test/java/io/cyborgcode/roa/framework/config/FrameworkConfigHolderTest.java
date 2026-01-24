@@ -75,7 +75,7 @@ class FrameworkConfigHolderTest {
    @DisplayName("getFrameworkConfig should return real config instance when not mocked")
    void testGetFrameworkConfig_RealConfig() {
       // Given - System property for testing
-      System.setProperty("project.packages", "com.test.package");
+      System.setProperty("project.packages", "io.cyborgcode.roa");
       System.setProperty("default.storage", "test.storage");
 
       try {
@@ -85,7 +85,7 @@ class FrameworkConfigHolderTest {
          // Then
          assertNotNull(config, "Should return a real config instance");
          // Test real config behavior with system properties
-         assertEquals("com.test.package", config.projectPackages()[0],
+         assertEquals("io.cyborgcode.roa", config.projectPackages()[0],
                "Should read project.packages from system properties");
          assertEquals("test.storage", config.defaultStorage(),
                "Should read default.storage from system properties");
