@@ -25,6 +25,7 @@
 ---
 
 ## Overview
+
 The **assertions** module is a domain-agnostic, pluggable validation engine for the Ring of Automation (ROA) framework. It provides a **strongly-typed validation language** that can be applied across various domains: API responses, database records, UI states, and more.
 
 The module is **framework-independent** and designed to be extended or reused across adapters (`api-interactor`, `db-interactor`, `ui-interactor`).
@@ -46,6 +47,7 @@ The module is **framework-independent** and designed to be extended or reused ac
 - **Test-engine agnostic:** Works seamlessly with JUnit, TestNG, and other test runners
 
 ## Features
+
 - **Fluent Builder API:** Create assertions with `Assertion.builder()` pattern
 - **19 built-in assertion types:** Comprehensive coverage for common scenarios
 - **Soft vs. Hard assertions:** Control test execution flow
@@ -79,7 +81,9 @@ The module is **framework-independent** and designed to be extended or reused ac
 
 ## Architecture
 
-### Class Diagram
+<details>
+<summary>Class Diagram (Mermaid)</summary>
+
 ```mermaid
 classDiagram
   direction TB
@@ -143,7 +147,11 @@ classDiagram
   AssertionRegistry --> AssertionFunctions
 ```
 
-### Execution Flow
+</details>
+
+<details>
+<summary>Execution Flow (Mermaid)</summary>
+
 ```mermaid
 sequenceDiagram
   autonumber
@@ -165,6 +173,8 @@ sequenceDiagram
   end
   U-->>C: List<AssertionResult>
 ```
+
+</details>
 
 #### Core Validation Engine
 - **Entry point:** `AssertionUtil.validate(data, assertions)` processes a batch via stream mapping.
@@ -196,6 +206,10 @@ sequenceDiagram
 ## Usage
 
 ### Step 1 — Add dependency
+
+<details>
+<summary>Maven dependency</summary>
+
 ```xml
 <dependency>
   <groupId>io.cyborgcode.roa</groupId>
@@ -204,7 +218,13 @@ sequenceDiagram
 </dependency>
 ```
 
+</details>
+
 ### Step 2 — Create Assertions
+
+<details>
+<summary>Example: Build assertions</summary>
+
 ```java
 import io.cyborgcode.roa.validator.core.Assertion;
 import static io.cyborgcode.roa.validator.core.AssertionTypes.*;
@@ -253,8 +273,13 @@ Assertion assertion4 = Assertion.builder()
     .build();
 ```
 
+</details>
+
 ### Step 3 — Create Custom Validation Function (Optional)
 For domain-specific validation, create a custom function that uses the target to extract and prepare data:
+
+<details>
+<summary>Example: Custom validator</summary>
 
 ```java
 import io.cyborgcode.roa.validator.util.AssertionUtil;
@@ -300,7 +325,13 @@ public class UserValidator {
 }
 ```
 
+</details>
+
 ### Step 4 — Validate Data
+
+<details>
+<summary>Example: Validate data</summary>
+
 ```java
 import io.cyborgcode.roa.validator.util.AssertionUtil;
 
@@ -326,7 +357,13 @@ List<AssertionResult<Object>> results = validator.validateUser(
 );
 ```
 
+</details>
+
 ### Step 5 — Process Results
+
+<details>
+<summary>Example: Process validation results</summary>
+
 ```
 // Check if all passed
 boolean allPassed = results.stream().allMatch(AssertionResult::isPassed);
@@ -354,7 +391,13 @@ if (!hardFailures.isEmpty()) {
 }
 ```
 
+</details>
+
 #### JUnit 5 Example
+
+<details>
+<summary>JUnit 5 example</summary>
+
 ```java
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -370,7 +413,13 @@ void should_validate_user_assertions() {
 }
 ```
 
+</details>
+
 #### TestNG Example
+
+<details>
+<summary>TestNG example</summary>
+
 ```java
 import static org.testng.Assert.assertTrue;
 
@@ -386,7 +435,13 @@ public void shouldValidateUserAssertions() {
 }
 ```
 
+</details>
+
 ### Step 6 — Custom Assertions
+
+<details>
+<summary>Example: Register and use a custom assertion type</summary>
+
 ```java
 import io.cyborgcode.roa.validator.registry.AssertionRegistry;
 
@@ -418,6 +473,8 @@ Assertion custom = Assertion.builder()
     .expected(true)
     .build();
 ```
+
+</details>
 
 ## Assertion Types Reference
 
@@ -505,6 +562,10 @@ Assertion custom = Assertion.builder()
 ## Integration Examples
 
 ### API Response Validation
+
+<details>
+<summary>API Response Validation example</summary>
+
 ```java
 public class RestResponseValidatorImpl {
     
@@ -527,7 +588,13 @@ Assertion[] apiAssertions = {
 };
 ```
 
+</details>
+
 ### Database Query Validation
+
+<details>
+<summary>Database Query Validation example</summary>
+
 ```java
 public class QueryResponseValidatorImpl {
     
@@ -543,7 +610,13 @@ public class QueryResponseValidatorImpl {
 }
 ```
 
+</details>
+
 ### UI Element Validation
+
+<details>
+<summary>UI Element Validation example</summary>
+
 ```java
 public class UiValidatorImpl {
     
@@ -559,9 +632,15 @@ public class UiValidatorImpl {
 }
 ```
 
+</details>
+
 ## Custom Assertion Types
 
 ### Example: API-Specific Assertions
+
+<details>
+<summary>API-specific assertion types example</summary>
+
 ```java
 // Define custom types
 public enum ApiAssertionTypes implements AssertionType<ApiAssertionTypes> {
@@ -597,6 +676,8 @@ Assertion assertion = Assertion.builder()
     .expected(1000)
     .build();
 ```
+
+</details>
 
 ## Dependencies
 - `org.projectlombok:lombok` — Boilerplate reduction

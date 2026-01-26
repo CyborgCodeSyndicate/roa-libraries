@@ -15,6 +15,9 @@ This parent POM provides:
 
 Add as parent in your test framework POM:
 
+<details>
+<summary>Maven parent</summary>
+
 ```xml
 <parent>
     <groupId>io.cyborgcode.roa</groupId>
@@ -23,7 +26,12 @@ Add as parent in your test framework POM:
 </parent>
 ```
 
+</details>
+
 All ROA library versions are automatically managed. Simply declare dependencies without versions:
+
+<details>
+<summary>Maven dependency</summary>
 
 ```xml
 <dependencies>
@@ -37,6 +45,8 @@ All ROA library versions are automatically managed. Simply declare dependencies 
     </dependency>
 </dependencies>
 ```
+
+</details>
 
 ## Key Properties
 
@@ -55,9 +65,14 @@ All ROA library versions are automatically managed. Simply declare dependencies 
 
 Override any property via `-D` flag or in your POM:
 
+<details>
+<summary>Run command</summary>
+
 ```bash
 mvn clean test -Dinclude.tags=Regression -Dextended.logging=true
 ```
+
+</details>
 
 ## Configured Plugins
 
@@ -73,7 +88,7 @@ mvn clean test -Dinclude.tags=Regression -Dextended.logging=true
 - Allure integration
 - Configuration file system properties injection
 
-### test-allocator-maven-plugin (1.1.3)
+### test-allocator-maven-plugin (1.1.4)
 - Test distribution for CI/CD pipelines
 - Activated via `execution-setup` profile
 
@@ -81,15 +96,25 @@ mvn clean test -Dinclude.tags=Regression -Dextended.logging=true
 
 ### e2e
 Executes all tests (clears `exclude.tags`):
+<details>
+<summary>Run command</summary>
+
 ```bash
 mvn clean test -Pe2e
 ```
 
+</details>
+
 ### execution-setup
 Activates test-allocator-maven-plugin for distributed test execution:
+<details>
+<summary>Run command</summary>
+
 ```bash
 mvn clean test -Pexecution-setup
 ```
+
+</details>
 
 ## Managed Dependencies
 
@@ -111,6 +136,9 @@ Pre-configured repositories:
 
 **Authentication required:** Configure GitHub token in `~/.m2/settings.xml`:
 
+<details>
+<summary>Maven settings.xml</summary>
+
 ```xml
 <servers>
     <server>
@@ -120,6 +148,8 @@ Pre-configured repositories:
     </server>
 </servers>
 ```
+
+</details>
 
 ## Author
 **Cyborg Code Syndicate 💍👨💻**

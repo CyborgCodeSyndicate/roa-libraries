@@ -199,6 +199,9 @@ The **db-interactor** module is the database engine of ROA (Ring of Automation).
 
 ### Class Diagram
 
+<details>
+<summary>Class Diagram (Mermaid)</summary>
+
 ```mermaid
 classDiagram
   direction LR
@@ -264,8 +267,15 @@ classDiagram
   DbTypeConverter ..> DbType : converts
 ```
 
+</details>
+
 ### Execution Flow
+
 #### Core Request Flow
+
+<details>
+<summary>Core Request Flow (Mermaid)</summary>
+
 ```mermaid
 sequenceDiagram
   autonumber
@@ -288,12 +298,16 @@ sequenceDiagram
   Service-->>Test: QueryResponse
 ```
 
+</details>
+
 #### Parameterized Query Processing
+
 - **DbQuery.withParam(name, value):** creates a new immutable `ParametrizedQuery` copying existing params and adding the new one.
 - **ParametrizedQuery.query():** performs placeholder substitution on the original SQL using the parameters map.
 - The final SQL string is then sent through the standard `DatabaseService.query(...)` execution path.
 
 #### Validation Flow
+
 - **DatabaseService.validate(queryResponse, assertions):** delegates to `QueryResponseValidatorImpl`.
 - **Targets:**
   - `NUMBER_ROWS` - counts rows in `QueryResponse`.
@@ -313,7 +327,8 @@ In most setups, **`db-interactor`** is consumed from your **test module** (e.g. 
 
 #### 1.1. Standard Maven dependency
 
-Add the following snippet to the `dependencies` section of your module's `pom.xml`:
+<details>
+<summary>Maven dependency</summary>
 
 ```xml
 <dependency>
@@ -323,7 +338,12 @@ Add the following snippet to the `dependencies` section of your module's `pom.xm
 </dependency>
 ```
 
+</details>
+
 **Note:** You'll also need to add the JDBC driver for your database:
+
+<details>
+<summary>JDBC driver dependencies</summary>
 
 ```xml
 <!-- For PostgreSQL -->
@@ -341,6 +361,8 @@ Add the following snippet to the `dependencies` section of your module's `pom.xm
   <scope>test</scope>
 </dependency>
 ```
+
+</details>
 
 ---
 
@@ -360,15 +382,23 @@ Typical setup:
 1. Create `db-config.properties` under `src/test/resources` or `src/main/resources`.
 2. Run tests/application with:
 
+<details>
+<summary>Run with configuration file system property</summary>
+
 ```bash
 -Ddb.config.file=db-config
 ```
+
+</details>
 
 `db-interactor` will then load `classpath:db-config.properties` plus any system properties.
 
 #### 2.2 PostgreSQL configuration example
 
 Create `db-config.properties`:
+
+<details>
+<summary>PostgreSQL db-config.properties</summary>
 
 ```properties
 # Required: packages to scan for your DbType enum
@@ -388,9 +418,14 @@ db.default.password=secret123
 # db.full.connection.string=jdbc:postgresql://localhost:5432/appdb?ssl=true
 ```
 
+</details>
+
 #### 2.3 H2 (in-memory) configuration example
 
 For testing with H2 in-memory database:
+
+<details>
+<summary>H2 (in-memory) db-config.properties</summary>
 
 ```properties
 # Required: packages to scan for your DbType enum
@@ -408,6 +443,8 @@ db.default.username=sa
 db.default.password=
 ```
 
+</details>
+
 **H2 connection string options:**
 - `mem:testdb` - in-memory database named "testdb"
 - `DB_CLOSE_DELAY=-1` - keep database open as long as VM is alive
@@ -417,16 +454,26 @@ db.default.password=
 
 - **System properties override** values from the properties file:
 
+<details>
+<summary>Override configuration via system properties</summary>
+
 ```bash
 -Ddb.default.host=staging-db.example.com
 -Ddb.default.password=staging-secret
 ```
 
+</details>
+
 - `project.packages` is used for classpath scanning to find your `DbType` enum implementation; multiple packages are separated with `;`:
+
+<details>
+<summary>Multiple packages configuration example</summary>
 
 ```properties
 project.packages=com.mycompany.myapp;com.mycompany.shared
 ```
+
+</details>
 
 - Treat `project.packages` and `db.default.type` as **required** – without them, database connection resolution will fail.
 
@@ -437,12 +484,17 @@ project.packages=com.mycompany.myapp;com.mycompany.shared
 
 - If you need direct access to configuration, you can obtain it via:
 
+<details>
+<summary>Access DbConfig programmatically</summary>
+
 ```java
 import io.cyborgcode.roa.db.config.DbConfigHolder;
 import io.cyborgcode.roa.db.config.DbConfig;
 
 DbConfig dbConfig = DbConfigHolder.getDbConfig();
 ```
+
+</details>
 
 ---
 
@@ -462,6 +514,9 @@ Your `DbType` enum specifies the JDBC driver and protocol for each database you 
 #### 3.1 PostgreSQL DbType implementation
 
 A minimal PostgreSQL implementation:
+
+<details>
+<summary>PostgreSQL DbType implementation</summary>
 
 ```java
 package com.mycompany.myapp.db;
@@ -489,6 +544,8 @@ public enum MyDbType implements DbType<MyDbType> {
 }
 ```
 
+</details>
+
 **Key points:**
 * **`driver()`** – Returns the JDBC driver instance (e.g., `org.postgresql.Driver`)
 * **`protocol()`** – JDBC protocol string (e.g., `"postgresql"` for `jdbc:postgresql://...`)
@@ -497,6 +554,9 @@ public enum MyDbType implements DbType<MyDbType> {
 #### 3.2 H2 DbType implementation
 
 For H2 in-memory testing:
+
+<details>
+<summary>H2 DbType implementation</summary>
 
 ```java
 package com.mycompany.myapp.test.db;
@@ -524,9 +584,14 @@ public enum TestDbType implements DbType<TestDbType> {
 }
 ```
 
+</details>
+
 #### 3.3 Multi-database DbType enum
 
 You can support multiple database types in a single enum:
+
+<details>
+<summary>Example: Multi-database DbType enum</summary>
 
 ```java
 package com.mycompany.myapp.db;
@@ -565,7 +630,12 @@ public enum AppDbType implements DbType<AppDbType> {
 }
 ```
 
+</details>
+
 Then configure which one to use in `db-config.properties`:
+
+<details>
+<summary>Example: Select DbType via configuration</summary>
 
 ```properties
 # Use PostgreSQL in production
@@ -574,6 +644,8 @@ db.default.type=POSTGRES
 # Override to H2 for tests via system property
 # -Ddb.default.type=H2
 ```
+
+</details>
 
 ---
 
@@ -591,6 +663,9 @@ The enum gives you a fixed, type-safe list of queries (e.g. `GET_USER_BY_ID`, `I
 #### 4.1 Basic query enum
 
 Keep queries as SQL strings. Use `{paramName}` placeholders for parameterization.
+
+<details>
+<summary>Example: DbQuery enum implementation</summary>
 
 ```java
 package com.mycompany.myapp.db.queries;
@@ -655,6 +730,8 @@ public enum UserQueries implements DbQuery<UserQueries> {
 }
 ```
 
+</details>
+
 **Key points:**
 * Use `{paramName}` for numeric parameters (e.g., `{id}`)
 * Use `'{paramName}'` for string parameters (e.g., `'{email}'`) – quotes are included in the query
@@ -663,6 +740,9 @@ public enum UserQueries implements DbQuery<UserQueries> {
 #### 4.2 Parameterized queries
 
 At runtime, add parameters via `withParam(name, value)`:
+
+<details>
+<summary>Example: Parameterized queries</summary>
 
 ```java
 // Without parameters
@@ -677,6 +757,8 @@ DbQuery<UserQueries> insertQuery = UserQueries.INSERT_USER
     .withParam("email", "john@example.com")
     .withParam("passwordHash", "hashed_password_123");
 ```
+
+</details>
 
 **Parameter substitution:**
 - `withParam("id", 42)` → replaces `{id}` with `42`
@@ -718,6 +800,9 @@ That entry point is `DatabaseService`.
 #### 5.2 Plain Java / test setup
 
 In a simple test project or standalone application, you can instantiate `DatabaseService` directly:
+
+<details>
+<summary>Example: Plain Java test setup (DbTestSupport)</summary>
 
 ```java
 package com.mycompany.myapp.test.support;
@@ -765,7 +850,10 @@ public class DbTestSupport {
 }
 ```
 
-You can then use this helper from your tests:
+</details>
+
+<details>
+<summary>Example: Use DatabaseService helper in tests</summary>
 
 ```java
 import org.junit.jupiter.api.Test;
@@ -794,9 +882,14 @@ class UserDatabaseTests {
 }
 ```
 
+</details>
+
 #### 5.3 Spring setup (auto-configuration)
 
 When using Spring Boot, **`db-interactor`** provides auto-configuration via `DbInteractionAutoConfiguration`:
+
+<details>
+<summary>Example: Spring auto-configuration (DbInteractionAutoConfiguration)</summary>
 
 ```java
 package io.cyborgcode.roa.db.config;
@@ -824,9 +917,14 @@ public class DbInteractionAutoConfiguration {
 }
 ```
 
+</details>
+
 **Note:** `DbInteractionAutoConfiguration` provides supporting beans (`ObjectMapper`, `JsonPathExtractor`). `DatabaseService` itself is annotated with `@Service`, so Spring will automatically detect and create it via component scanning if it's in your application's scan path. You'll also need to ensure other dependencies (`DbClientManager`, `BaseDbConnectorService`, `QueryResponseValidatorImpl`) are available as beans or create them manually as shown in section 5.2.
 
 For a typical Spring Boot setup where all ROA components are in the scan path, you can inject `DatabaseService`:
+
+<details>
+<summary>Example: Inject DatabaseService in Spring Boot tests</summary>
 
 ```java
 import org.springframework.beans.factory.annotation.Autowired;
@@ -848,6 +946,8 @@ class UserDatabaseTests {
 }
 ```
 
+</details>
+
 ---
 
 ### Step 6: Basic usage (execute queries)
@@ -856,7 +956,8 @@ This section shows how to use `DatabaseService` and your `DbQuery<T>` definition
 
 #### 6.1 Simple SELECT query
 
-Execute a query without parameters:
+<details>
+<summary>Example: Execute query and inspect QueryResponse</summary>
 
 ```java
 import io.cyborgcode.roa.db.query.QueryResponse;
@@ -883,9 +984,14 @@ if (!response.rows().isEmpty()) {
 }
 ```
 
+</details>
+
 #### 6.2 Query with parameters
 
 Execute a parameterized query:
+
+<details>
+<summary>Example: Query with parameters</summary>
 
 ```java
 // Single parameter
@@ -912,6 +1018,8 @@ QueryResponse updated = db().query(
 );
 ```
 
+</details>
+
 **Parameter types:**
 - Numbers (int, long, etc.) → `{paramName}`
 - Strings → `'{paramName}'` (quotes in query)
@@ -921,6 +1029,9 @@ QueryResponse updated = db().query(
 #### 6.3 INSERT/UPDATE/DELETE operations
 
 DML operations work the same way:
+
+<details>
+<summary>Example: INSERT/UPDATE/DELETE operations</summary>
 
 ```java
 // INSERT
@@ -952,9 +1063,12 @@ QueryResponse deleteResult = db().query(
 System.out.println("Rows deleted: " + deleteResult.rows().size());
 ```
 
+</details>
+
 #### 6.4 Using queryAndValidate for one-shot checks
 
-Execute and validate in a single call:
+<details>
+<summary>Example: queryAndValidate (Db assertions)</summary>
 
 ```java
 import io.cyborgcode.roa.assertions.Assertion;
@@ -988,11 +1102,16 @@ List<AssertionResult<?>> fieldResults = db().queryAndValidate(
 boolean allPassed = results.stream().allMatch(AssertionResult::passed);
 ```
 
+</details>
+
 ---
 
 ### Step 7: Extract values with JSONPath
 
 `DatabaseService` integrates **Jayway JSONPath** to extract specific values from query results without manual map navigation. Use the three-argument `query` method to execute a query and extract a value in one call:
+
+<details>
+<summary>Example: Extract values with JSONPath</summary>
 
 ```java
 // Extract single field from first row
@@ -1009,7 +1128,13 @@ List<String> allUsernames = db().query(
     List.class
 );
 ```
+
+</details>
+
 **JSONPath with assertions**
+
+<details>
+<summary>Example: JSONPath helper + usage</summary>
 
 ```java
 // Store JSONPath expressions as constants
@@ -1035,6 +1160,8 @@ db().queryAndValidate(
 );
 ```
 
+</details>
+
 **Common JSONPath patterns:**
 - `$[0].fieldName` - field from first row
 - `$[*].fieldName` - all values of a field
@@ -1052,6 +1179,9 @@ For complete JSONPath syntax, see [Jayway JSONPath documentation](https://github
 
 Assertions are built with `Assertion.builder()`:
 
+<details>
+<summary>Example: Assertion model basics</summary>
+
 ```java
 import io.cyborgcode.roa.assertions.Assertion;
 import io.cyborgcode.roa.assertions.AssertionType;
@@ -1064,6 +1194,8 @@ Assertion assertion = Assertion.builder()
     .soft(false)                            // Hard (throws) or soft
     .build();
 ```
+
+</details>
 
 **Assertion targets** (`DbAssertionTarget`):
 - `NUMBER_ROWS` - validates row count
@@ -1080,6 +1212,9 @@ Assertion assertion = Assertion.builder()
 #### 8.2 Row count validation
 
 Validate the number of rows returned:
+
+<details>
+<summary>Example: Row count validation</summary>
 
 ```java
 // Validate exact count
@@ -1117,9 +1252,14 @@ db().queryAndValidate(
 );
 ```
 
+</details>
+
 #### 8.3 Query result validation
 
 Validate extracted values using JSONPath:
+
+<details>
+<summary>Example: Query result validation</summary>
 
 ```java
 // Validate single field
@@ -1180,9 +1320,14 @@ db().queryAndValidate(
 );
 ```
 
+</details>
+
 #### 8.4 Column validation
 
 Validate that expected columns exist in the result:
+
+<details>
+<summary>Example: Column validation</summary>
 
 ```java
 QueryResponse response = db().query(UserQueries.GET_ALL_USERS);
@@ -1198,9 +1343,14 @@ db().validate(
 );
 ```
 
+</details>
+
 #### 8.5 Soft assertions
 
 Soft assertions collect failures without throwing, useful for validating multiple conditions:
+
+<details>
+<summary>Example: Soft assertions</summary>
 
 ```java
 import io.cyborgcode.roa.db.query.QueryResponse;
@@ -1247,6 +1397,8 @@ if (failedCount > 0) {
 }
 ```
 
+</details>
+
 ---
 
 ## Advanced Topics
@@ -1254,6 +1406,9 @@ if (failedCount > 0) {
 ### Connection pooling and management
 
 `db-interactor` manages connections via `BaseDbConnectorService` with built-in connection caching:
+
+<details>
+<summary>Example: Connection caching and manual cleanup</summary>
 
 ```java
 // Connections are cached per DatabaseConfiguration
@@ -1271,6 +1426,8 @@ BaseDbConnectorService connector = new BaseDbConnectorService();
 connector.closeConnections();
 ```
 
+</details>
+
 **Connection lifecycle:**
 
 1. First query → new connection created and cached
@@ -1287,6 +1444,9 @@ connector.closeConnections();
 ### Multiple database configurations
 
 Support multiple databases simultaneously:
+
+<details>
+<summary>Example: Multiple database configurations</summary>
 
 ```java
 // Define configuration builder
@@ -1329,9 +1489,14 @@ public enum MyQueries implements DbQuery<MyQueries> {
 DbQuery<MyQueries> query = MyQueries.GET_USERS.withConfig(testDb);
 ```
 
+</details>
+
 ### Custom DbClient implementations
 
 Extend `DbClient` for custom behavior:
+
+<details>
+<summary>Example: Custom DbClient (logging wrapper)</summary>
 
 ```java
 import io.cyborgcode.roa.db.client.DbClient;
@@ -1367,6 +1532,8 @@ public class LoggingDbClient implements DbClient {
     }
 }
 ```
+
+</details>
 
 ### Slow query detection
 

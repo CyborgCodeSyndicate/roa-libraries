@@ -24,6 +24,7 @@
 - [Assertions](./assertions/README.md)
 - [Test Framework](./test-framework/README.md)
 - [ROA Parent POM](./roa-parent/README.md)    
+ - [ROA Archetype](./roa-archetype/README.md)
 
 ---
 
@@ -40,9 +41,17 @@
 | **assertions** | Core **assertion/validation** library (assertion types, targets, builders, result model) used by API/DB/UI interactors. | [README](./assertions/README.md) |
 | **test-framework** | Test orchestration primitives (runners, lifecycles, DSL entry points) that the adapters plug into to provide fluent scenarios. | [README](./test-framework/README.md) |
 | **roa-parent** | Maven parent POM providing centralized dependency management, plugin configuration, and default properties for all ROA-based testing frameworks. | [README](./roa-parent/README.md) |
+| **roa-archetype** | Maven archetype for quickly generating a ready-to-run ROA project skeleton (API/DB/UI modules, configuration, and sample tests). | [README](./roa-archetype/README.md) |
 
 
 ---
+
+## Maven Central
+
+All modules in this repository are published to **Maven Central**, so you can consume them directly from your `pom.xml`.
+
+For complete framework documentation and demo videos, see:
+https://www.cyborgcode.io/roa
 
 ## Real Usage Examples
 
@@ -55,6 +64,9 @@ Explore runnable example projects that exercise the libraries: [ROA Example Proj
 ## Core Architecture & Execution Flows
 
 ### API Request Execution
+<details>
+<summary>API Request Execution (Mermaid)</summary>
+
 ```mermaid
 sequenceDiagram
   autonumber
@@ -73,7 +85,12 @@ sequenceDiagram
   A-->>F: List<AssertionResult>
 ```
 
+</details>
+
 ### Database Query Execution
+<details>
+<summary>Database Query Execution (Mermaid)</summary>
+
 ```mermaid
 sequenceDiagram
   autonumber
@@ -90,7 +107,12 @@ sequenceDiagram
   R-->>D: QueryResponse
 ```
 
+</details>
+
 ### UI Component Interaction
+<details>
+<summary>UI Component Interaction (Mermaid)</summary>
+
 ```mermaid
 sequenceDiagram
   autonumber
@@ -109,7 +131,12 @@ sequenceDiagram
   BF->>WD: element.after().accept(driver)
 ```
 
+</details>
+
 ### Quest Orchestration
+<details>
+<summary>Quest Orchestration (Mermaid)</summary>
+
 ```mermaid
 sequenceDiagram
   autonumber
@@ -124,7 +151,12 @@ sequenceDiagram
   Q->>Q: complete() → finalize, clear state, run soft assertions
 ```
 
+</details>
+
 ### Shared Assertion Validation Engine
+<details>
+<summary>Shared Assertion Validation Engine (Mermaid)</summary>
+
 ```mermaid
 sequenceDiagram
   autonumber
@@ -138,6 +170,8 @@ sequenceDiagram
   AU->>AU: validator.test(actual, expected)
   AU-->>V: List<AssertionResult>
 ```
+
+</details>
 
 ## Author
 **Cyborg Code Syndicate 💍👨💻**

@@ -12,10 +12,10 @@
     - [Class Diagram](#class-diagram)
     - [Package Diagram](#package-diagram)
     - [Execution Flow](#execution-flow)
-      - [Test Bootstrap & Extensions](#test-bootstrap--extensions)
-      - [Fluent Service Initialization](#fluent-service-initialization)
-      - [Authentication with Session Caching](#authentication-with-session-caching)
-      - [Network Interception (CDP)](#network-interception-cdp)
+        - [Test Bootstrap & Extensions](#test-bootstrap--extensions)
+        - [Fluent Service Initialization](#fluent-service-initialization)
+        - [Authentication with Session Caching](#authentication-with-session-caching)
+        - [Network Interception (CDP)](#network-interception-cdp)
 - [Component Interaction Flow](#component-interaction-flow)
 - [Usage](#usage)
     - [Step 1 - Add dependency](#step-1---add-dependency)
@@ -47,15 +47,15 @@ The **ui-interactor-test-framework-adapter** layers **test-facing ergonomics** o
 - **name:** Ring of Automation UI Test Framework
 - **artifactId:** ui-interactor-test-framework-adapter
 - **direct dependencies (from pom.xml):**
-  - org.seleniumhq.selenium:selenium-java
-  - io.cyborgcode.roa:test-framework
-  - io.cyborgcode.roa:ui-interactor
-  - com.jayway.jsonpath:json-path
-  - org.projectlombok:lombok
-  - org.springframework.boot:spring-boot-starter
-  - org.junit.platform:junit-platform-launcher
-  - io.qameta.allure:allure-java-commons
-  - com.github.spotbugs:spotbugs-annotations
+    - org.seleniumhq.selenium:selenium-java
+    - io.cyborgcode.roa:test-framework
+    - io.cyborgcode.roa:ui-interactor
+    - com.jayway.jsonpath:json-path
+    - org.projectlombok:lombok
+    - org.springframework.boot:spring-boot-starter
+    - org.junit.platform:junit-platform-launcher
+    - io.qameta.allure:allure-java-commons
+    - com.github.spotbugs:spotbugs-annotations
 
 ---
 
@@ -90,6 +90,9 @@ The **ui-interactor-test-framework-adapter** layers **test-facing ergonomics** o
 ## Architecture
 
 ### Class Diagram
+<details>
+<summary>Class Diagram (Mermaid)</summary>
+
 ```mermaid
 classDiagram
     direction TB
@@ -167,20 +170,25 @@ classDiagram
     UiServiceFluent --> NavigationServiceFluent : has
     UiServiceFluent --> ValidationServiceFluent : has
     UiServiceFluent --> SmartWebDriver : uses
-    
+
     ButtonServiceFluent --> UiServiceFluent : returns for chaining
     ButtonServiceFluent --> ButtonService : delegates to
     ButtonServiceFluent --> ButtonUiElement : operates on
-    
+
     UiElement <|.. ButtonUiElement : implements
     UiElement <|.. InputUiElement : implements
-    
+
     UiTestExtension ..> UiServiceFluent : creates/manages
     UiTestExtension ..> BaseLoginClient : uses for auth
     BaseLoginClient ..> SuperUiServiceFluent : receives
 ```
 
+</details>
+
 ### Package Diagram
+<details>
+<summary>Package Diagram (Mermaid)</summary>
+
 ```mermaid
 flowchart TB
     annotations((annotations))
@@ -193,39 +201,44 @@ flowchart TB
     service((service))
     storage((storage))
     util((util))
-    
+
     framework[test-framework]
     uiinteractor[ui-interactor]
     spring[Spring Boot]
     junit[JUnit 5]
     allure[Allure]
-    
+
     extensions --> annotations
     extensions --> authentication
     extensions --> fluent
     extensions --> storage
     extensions --> junit
     extensions --> allure
-    
+
     fluent --> service
     fluent --> tables
     fluent --> selenium
     fluent --> storage
     fluent --> uiinteractor
     fluent --> framework
-    
+
     authentication --> fluent
     config --> spring
-    
+
     selenium --> uiinteractor
     tables --> uiinteractor
     service --> uiinteractor
-    
+
     annotations --> extensions
     annotations --> junit
 ```
 
+</details>
+
 ### Execution Flow
+<details>
+<summary>Execution Flow (Mermaid)</summary>
+
 ```mermaid
 sequenceDiagram
     autonumber
@@ -243,7 +256,7 @@ sequenceDiagram
     Ext->>UF: Instantiate UiServiceFluent(driver)
     Ext->>UF: Initialize all component services
     Ext-->>Test: Inject UiServiceFluent
-    
+
     Test->>UF: getButtonField()
     UF-->>Test: ButtonServiceFluent
     Test->>BF: click(ButtonUiElement)
@@ -254,18 +267,20 @@ sequenceDiagram
     BF->>Elem: element.after().accept(driver)
     BF->>Quest: Store result in storage
     BF-->>Test: return uiServiceFluent (for chaining)
-    
+
     Test->>Ext: Test completes
     Ext->>Driver: Take screenshot if failed
     Ext->>Driver: Close/quit if not cached
 ```
 
+</details>
+
 #### Test Bootstrap & Extensions
 - **@UI** applies `UiTestExtension` (JUnit 5) to manage quest lifecycle, storage, and driver.
 - `beforeTestExecution()` processes annotations:
-  - `@InterceptRequests` -> sets up Chrome DevTools (DevTools.createSession, Network.enable, listeners).
-  - Registers assertion consumer and custom services.
-  - `@AuthenticateViaUi` -> triggers login client setup.
+    - `@InterceptRequests` -> sets up Chrome DevTools (DevTools.createSession, Network.enable, listeners).
+    - Registers assertion consumer and custom services.
+    - `@AuthenticateViaUi` -> triggers login client setup.
 - `afterTestExecution()` captures screenshots on failure and cleans up WebDriver (unless kept).
 
 #### Fluent Service Initialization
@@ -276,15 +291,15 @@ sequenceDiagram
 #### Authentication with Session Caching
 - `@AuthenticateViaUi(credentials, type, cacheCredentials)` handled by `UiTestExtension`.
 - `BaseLoginClient.login()`:
-  - Builds `LoginKey(username, password, clientClass)`.
-  - If not cached -> `performLoginAndCache()` calls `loginImpl()`, waits for success element, captures cookies + localStorage, stores `SessionInfo`.
-  - If cached -> restores session (inject cookies + localStorage) and optionally keeps a driver per credentials.
+    - Builds `LoginKey(username, password, clientClass)`.
+    - If not cached -> `performLoginAndCache()` calls `loginImpl()`, waits for success element, captures cookies + localStorage, stores `SessionInfo`.
+    - If cached -> restores session (inject cookies + localStorage) and optionally keeps a driver per credentials.
 
 #### Network Interception (CDP)
 - `@InterceptRequests` enables DevTools via ChromeDriver:
-  - `createSession()`, `Network.enable(...)`.
-  - Listeners capture request/response metadata and bodies (truncated if large).
-  - Responses are stored in quest storage via `addResponseInStorage(...)` for later validation.
+    - `createSession()`, `Network.enable(...)`.
+    - Listeners capture request/response metadata and bodies (truncated if large).
+    - Responses are stored in quest storage via `addResponseInStorage(...)` for later validation.
 
 ---
 
@@ -296,6 +311,9 @@ Each fluent action follows the same lifecycle:
 - store — Optional data is persisted to Storage (dropdown options, table rows, last response, etc).
 
 Concrete example from ButtonServiceFluent.isEnabled(...):
+<details>
+<summary>Java snippet</summary>
+
 ```java
 public T isEnabled(final ButtonUiElement element) {
    Allure.step(String.format("[UI - Button] Checking if button is enabled with componentType: %s, locator: %s",
@@ -308,6 +326,8 @@ public T isEnabled(final ButtonUiElement element) {
 }
 ```
 
+</details>
+
 What happens step-by-step:
 - Allure.step(...) — logs a readable step with component type and locator for the report.
 - element.before().accept(driver) — runs the element’s pre-hook (e.g., wait until visible/clickable) using SmartWebDriver.
@@ -317,12 +337,17 @@ What happens step-by-step:
 - return uiServiceFluent — returns the fluent parent to continue the chain.
 
 Usage in a test:
+<details>
+<summary>Java snippet</summary>
+
 ```java
 quest
   .use(RING_OF_UI)
   .button().isEnabled(ButtonFields.NEW_ORDER_BUTTON)
   .complete();
 ```
+
+</details>
 
 ---
 
@@ -331,6 +356,9 @@ quest
 > Follow these steps in your **app-specific test module**. Examples avoid external DSLs; only the adapter and `ui-interactor` are required.
 
 ### Step 1 - Add dependency
+<details>
+<summary>Maven dependency</summary>
+
 ```xml
 <dependency>
   <groupId>io.cyborgcode.roa</groupId>
@@ -339,6 +367,8 @@ quest
 </dependency>
 ```
 
+</details>
+
 ### Step 2 - Configure environment
 This adapter does not introduce new Owner keys.
 It reuses `UiConfig` from `ui-interactor` and primarily needs your project package/s for reflection:
@@ -346,6 +376,9 @@ It reuses `UiConfig` from `ui-interactor` and primarily needs your project packa
 **Load order:** `classpath:system.properties` + `classpath:config.properties`
 
 - system.properties - sets which config files to use (indirection).
+<details>
+<summary>Properties example</summary>
+
 ```properties
 project.packages=your.base.package
 ui.config.file=config
@@ -356,7 +389,12 @@ log4j2.scriptEnableLanguages=javascript
 extended.logging=false
 ```
 
+</details>
+
 - config.properties - the actual UI config used by the adapter.
+<details>
+<summary>Properties example</summary>
+
 ```properties
 ui.base.url=https://your-ui.example.com/
 browser.type=CHROME
@@ -365,6 +403,8 @@ wait.duration.in.seconds=10
 use.shadow.root=true
 screenshot.on.passed.test=true
 ```
+
+</details>
 
 How it works:
 - The framework reads defaults from `system.properties`. The `ui.config.file` points to `config.properties` (without extension).
@@ -383,6 +423,9 @@ Annotate your test class with `@UI` and inject `Quest` into test methods.
 - Scans packages under `project.packages` from `system.properties` for components and rings.
 
 #### Minimal class setup and usage:
+<details>
+<summary>JUnit example</summary>
+
 ```java
 @UI
 class MyUiTests extends BaseQuest {
@@ -398,6 +441,8 @@ class MyUiTests extends BaseQuest {
 }
 ```
 
+</details>
+
 #### Notes:
 - Use `quest.use(RING_OF_UI)` to access the UI ring.
 - The ring instance is a typed façade (e.g., `AppUiService`) exposing either:
@@ -409,6 +454,9 @@ class MyUiTests extends BaseQuest {
 This module provides you the ability to define an application-specific façade, `AppUiService`, extending `UiServiceFluent`. It centralizes UI component services and provides a cohesive, readable DSL. (**Note: `AppUiService` is not part of `ui-interactor-test-framework-adapter` module, it's shown here as an example pattern you can implement in your project**)
 
 - AppUiService (example):
+<details>
+<summary>Java example</summary>
+
 ```java
 public class AppUiService extends UiServiceFluent<AppUiService> {
 
@@ -428,7 +476,12 @@ public class AppUiService extends UiServiceFluent<AppUiService> {
 }
 ```
 
+</details>
+
 - Using it in tests as a “UI ring”:
+<details>
+<summary>JUnit example</summary>
+
 ```java
 @Test
 void transferFunds(Quest quest) {
@@ -442,10 +495,15 @@ void transferFunds(Quest quest) {
     .complete();
 }
 ```
+
+</details>
 This approach cleanly separates test intent from selectors and low-level waits.
 
 ### Step 5 - Authentication
 Use `@AuthenticateViaUi(credentials, type, cacheCredentials)`, on method (quest) level, to log in automatically as a precondition.
+<details>
+<summary>JUnit example</summary>
+
 ```java
 @UI
 class AuthenticatedTests extends BaseQuest {
@@ -460,6 +518,8 @@ class AuthenticatedTests extends BaseQuest {
    }
 }
 ```
+
+</details>
 Set `cacheCredentials = true` to reuse login between tests for the same credentials:
 The framework stores cookies/local-storage and restores them against compatible drivers/sessions, reducing login overhead.
 
@@ -467,6 +527,9 @@ The framework stores cookies/local-storage and restores them against compatible 
 Enable interception at method level and then validate captured responses via the fluent `interceptor()` or by extracting data from storage.
 
 - Interception targets (enum implementing `DataIntercept`):
+<details>
+<summary>Enum example</summary>
+
 ```java
 public enum RequestsInterceptor implements DataIntercept<RequestsInterceptor> {
   INTERCEPT_REQUEST_AUTH("?v-r=uidl"),
@@ -486,7 +549,12 @@ public enum RequestsInterceptor implements DataIntercept<RequestsInterceptor> {
 }
 ```
 
+</details>
+
 - Validating the status of intercepted responses:
+<details>
+<summary>JUnit example</summary>
+
 ```java
 @Test
 @InterceptRequests(requestUrlSubStrings = { RequestsInterceptor.Data.INTERCEPT_REQUEST_AUTH })
@@ -503,7 +571,12 @@ void validateInterceptedResponses(Quest quest) {
 }
 ```
 
+</details>
+
 - Extracting values from intercepted bodies for assertions:
+<details>
+<summary>JUnit example</summary>
+
 ```java
 @Test
 @InterceptRequests(requestUrlSubStrings = { RequestsInterceptor.Data.INTERCEPT_REQUEST_AUTH })
@@ -524,6 +597,8 @@ void extractFromInterceptedResponse(Quest quest, @Craft(model = DataCreator.Data
     .complete();
 }
 ```
+
+</details>
 
 ---
 
@@ -565,6 +640,9 @@ void extractFromInterceptedResponse(Quest quest, @Craft(model = DataCreator.Data
 The adapter uses a type-safe element definition pattern via `UiElement` interfaces. This allows you to define UI elements as enums with locators and component types.
 
 ### Defining UI Elements
+
+<details>
+<summary>Example: Defining UI elements (enum)</summary>
 
 ```java
 import io.cyborgcode.roa.ui.selenium.ButtonUiElement;
@@ -615,8 +693,13 @@ public enum LoginPageElements implements ButtonUiElement, InputUiElement {
 }
 ```
 
+</details>
+
 ### Using UI Elements
 Use `Quest` and the UI ring to interact with typed enums instead of raw locators:
+<details>
+<summary>JUnit example</summary>
+
 ```java
 @Test
 void testLogin(Quest quest) {
@@ -630,6 +713,8 @@ void testLogin(Quest quest) {
 }
 ```
 
+</details>
+
 ### Benefits
 
 - **Type safety** - Compile-time checking of element types
@@ -641,10 +726,13 @@ void testLogin(Quest quest) {
 ---
 
 ## Storage Integration
-Storage is per-Quest (method-level), thread-local and safe for parallel execution. 
+Storage is per-Quest (method-level), thread-local and safe for parallel execution.
 
 Examples:
 - Using values captured during steps:
+<details>
+<summary>Java snippet</summary>
+
 ```java
 quest
   .use(RING_OF_UI)
@@ -657,7 +745,12 @@ quest
   .complete();
 ```
 
+</details>
+
 - Using precondition data stored as pre-arguments:
+<details>
+<summary>JUnit example</summary>
+
 ```java
 @Journey(value = Preconditions.Data.ORDER_PRECONDITION, journeyData = {@JourneyData(DataCreator.Data.ORDER)})
 @Test
@@ -668,6 +761,8 @@ void usesPreconditionData(Quest quest) {
     .complete();
 }
 ```
+
+</details>
 
 Best practices:
 - Prefer typed keys (enums, element enums) for storage.
@@ -695,6 +790,9 @@ Override either bean in your Spring test context if you need custom driver optio
 ## Table Element Pattern
 
 Define a typed enum that implements `TableElement<T>` for your table, then use that enum with the fluent `table()` methods.
+
+<details>
+<summary>Example: TableElement enum + usage</summary>
 
 ```java
 // Row representation (typed model for each table row)
@@ -745,10 +843,15 @@ void readsAndValidatesTransactions(Quest quest) {
 }
 ```
 
+</details>
+
 ## @InsertionElement and InsertionService
 Annotate model fields with `@InsertionElement` to map them to UI elements. The insertion service fills the form in one operation.
 
 - Model:
+<details>
+<summary>Enum example</summary>
+
 ```java
 public class Seller {
 
@@ -763,7 +866,12 @@ public class Seller {
 }
 ```
 
+</details>
+
 - Flow using insertion service:
+<details>
+<summary>Java snippet</summary>
+
 ```java
 public CustomService loginUsingInsertion(Seller seller) {
   quest
@@ -777,6 +885,8 @@ public CustomService loginUsingInsertion(Seller seller) {
   return this;
 }
 ```
+
+</details>
 
 ---
 

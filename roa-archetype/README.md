@@ -37,15 +37,25 @@ Select one and then populate {version} in the url below when creating the remote
 
 **REMOTE CATALOG URL:**
 
+<details>
+<summary>URL</summary>
+
 ```
 https://cyborgcodesyndicate.github.io/roa-libraries/roa-archetype-catalog/{version}/archetype-catalog.xml
 ```
 
+</details>
+
 **Example (with real version):**
+
+<details>
+<summary>URL</summary>
 
 ```
 https://cyborgcodesyndicate.github.io/roa-libraries/roa-archetype-catalog/1.2.4/archetype-catalog.xml
 ```
+
+</details>
 
 ---
 
@@ -87,6 +97,9 @@ Replace `{version}` with the actual version from gh-pages (e.g., 1.2.3):
 
 **Windows (Powershell):**
 
+<details>
+<summary>Command: Windows (Powershell) archetype:generate</summary>
+
 ```bash
 mvn "archetype:generate" `
   "-DarchetypeGroupId=io.cyborgcode.roa" `
@@ -104,7 +117,12 @@ mvn "archetype:generate" `
   "-B"
 ```
 
+</details>
+
 **Linux/Mac (Bash):**
+
+<details>
+<summary>Command: Linux/Mac (Bash) archetype:generate</summary>
 
 ```bash
 mvn archetype:generate \
@@ -123,9 +141,14 @@ mvn archetype:generate \
   -B
 ```
 
+</details>
+
 **Example Command (with real version):**
 
 Replace `{version}` with `1.2.3`:
+
+<details>
+<summary>Command: Example (with real version)</summary>
 
 ```bash
 mvn "archetype:generate" `
@@ -143,6 +166,8 @@ mvn "archetype:generate" `
   "-DuiComponents=BUTTON,INPUT,SELECT,TABLE" `
   "-B"
 ```
+
+</details>
 
 ---
 
@@ -208,6 +233,9 @@ The implementation style determines the data management structure and example co
 
 **Structure:**
 
+<details>
+<summary>Generated structure: BASIC</summary>
+
 ```
 common/
   ├── base/
@@ -219,6 +247,8 @@ common/
           ├── Data.java
           └── DataProperties.java
 ```
+
+</details>
 
 **Use when:** You only need simple test data from properties files without data factories
 
@@ -234,6 +264,9 @@ common/
 #### ADVANCED (Default)
 
 **Structure:**
+
+<details>
+<summary>Generated structure: ADVANCED</summary>
 
 ```
 common/
@@ -253,6 +286,8 @@ common/
           └── DataProperties.java
 ```
 
+</details>
+
 **Use when:** You need full test data management with factories, cleanup hooks, and reusable precondition flows
 
 **You get:**
@@ -267,6 +302,9 @@ common/
 #### AI
 
 **Structure:**
+
+<details>
+<summary>Generated structure: AI</summary>
 
 ```
 common/
@@ -283,6 +321,8 @@ common/
           ├── Data.java
           └── DataProperties.java
 ```
+
+</details>
 
 **Use when:** You want AI to generate implementations from instructions for your Application Under Test
 
@@ -346,11 +386,19 @@ UI component generation is **optional and selective**. You only get classes for 
 
 **Only INPUT and BUTTON (ADVANCED style):**
 
+<details>
+<summary>Run command</summary>
+
 ```bash
 -DuiComponents=INPUT,BUTTON -DimplementationStyle=ADVANCED
 ```
 
+</details>
+
 **Result:**
+
+<details>
+<summary>Resulting structure (ADVANCED)</summary>
 
 ```
 ui/
@@ -367,15 +415,25 @@ ui/
           └── ButtonExampleImpl.java
 ```
 
+</details>
+
 **Only INPUT and BUTTON (AI style):**
+
+<details>
+<summary>Run command</summary>
 
 ```bash
 -DuiComponents=INPUT,BUTTON -DimplementationStyle=AI
 ```
 
+</details>
+
 **Result:**
 
-```
+<details>
+<summary>Resulting structure (AI)</summary>
+
+```bash
 ui/
   ├── elements/
   │   ├── InputFields.java
@@ -388,19 +446,31 @@ ui/
       └── button/    (empty folder)
 ```
 
+</details>
+
 **No UI components (just authentication/service):**
+
+<details>
+<summary>Run command</summary>
 
 ```bash
 -DuiComponents=
 ```
 
+</details>
+
 **Result:** Only `AppUiService.java` and authentication classes, no element enums
 
 **All components (default):**
 
+<details>
+<summary>Run command</summary>
+
 ```bash
 -DuiComponents=BUTTON,INPUT,SELECT,TABLE
 ```
+
+</details>
 
 **Result:** All element enums, types, and component implementations (or empty folders for AI style)
 
@@ -524,33 +594,38 @@ Shows how to:
 - Validate status, headers, and response bodies
 
 **Example structure:**
+<details>
+<summary>Example test: GettingStartedApiTest.java</summary>
+
 ```java
 @API
 @DisplayName("EXAMPLE - Getting started API test (delete me)")
 public class GettingStartedApiTest extends BaseQuest {
 
-    @Test
-    @Regression
-    @AuthenticateViaApi(credentials = ExampleCredentials.class, type = ExampleAuthenticationClient.class)
-    @Journey(value = Preconditions.Data.EXAMPLE_PRECONDITION, order = 1)
-    @Ripper(targets = {DataCleaner.Data.EXAMPLE_CLEANUP})
-    void exampleAPITest(Quest quest,
-                        @Craft(model = DataCreator.Data.EXAMPLE_MODEL) ExampleRequestDto payload) {
-        quest.use(RING_OF_API)
-            .requestAndValidate(
-                ExampleEndpoints.EXAMPLE_POST,
-                payload,
-                Assertion.builder().target(STATUS).type(IS).expected(SC_CREATED).build()
-            )
-            .complete();
-    }
+   @Test
+   @Regression
+   @AuthenticateViaApi(credentials = ExampleCredentials.class, type = ExampleAuthenticationClient.class)
+   @Journey(value = Preconditions.Data.EXAMPLE_PRECONDITION, order = 1)
+   @Ripper(targets = {DataCleaner.Data.EXAMPLE_CLEANUP})
+   void exampleAPITest(Quest quest,
+                       @Craft(model = DataCreator.Data.EXAMPLE_MODEL) ExampleRequestDto payload) {
+      quest.use(RING_OF_API)
+         .requestAndValidate(
+            ExampleEndpoints.EXAMPLE_POST,
+            payload,
+            Assertion.builder().target(STATUS).type(IS).expected(SC_CREATED).build()
+         )
+         .complete();
+   }
 
-    @Test
-    void customFlowDemonstration(Quest quest) {
-        // Commented example showing RING_OF_CUSTOM usage
-    }
+   @Test
+   void customFlowDemonstration(Quest quest) {
+      // Commented example showing RING_OF_CUSTOM usage
+   }
 }
 ```
+
+</details>
 
 ---
 
@@ -566,34 +641,39 @@ Shows how to:
 - Validate intercepted requests
 
 **Example structure:**
+<details>
+<summary>Example test: GettingStartedUiTest.java</summary>
+
 ```java
 @UI
 @DisplayName("EXAMPLE - Getting started UI test (delete me)")
 public class GettingStartedUiTest extends BaseQuest {
 
-    @Test
-    @Regression
-    @AuthenticateViaUi(credentials = ExampleCredentials.class, type = ExampleAppUiLogin.class)
-    @InterceptRequests(requestUrlSubStrings = {RequestsInterceptor.Data.EXAMPLE_INTERCEPT})
-    @Journey(value = Preconditions.Data.EXAMPLE_PRECONDITION, order = 1)
-    @Ripper(targets = {DataCleaner.Data.EXAMPLE_CLEANUP})
-    void exampleUITest(Quest quest) {
-        quest.use(RING_OF_UI)
-            .browser().navigate(getUiConfig().baseUrl())
-            .button().click(ButtonFields.LOGIN_BUTTON)
-            .input().insert(InputFields.USERNAME, "example_username")
-            .select().selectOption(SelectFields.GENERIC_SELECT, "example_select")
-            .getInterceptor().validateResponseHaveStatus(
-                RequestsInterceptor.EXAMPLE_INTERCEPT.getEndpointSubString(), 2, true)
-            .complete();
-    }
+   @Test
+   @Regression
+   @AuthenticateViaUi(credentials = ExampleCredentials.class, type = ExampleAppUiLogin.class)
+   @InterceptRequests(requestUrlSubStrings = {RequestsInterceptor.Data.EXAMPLE_INTERCEPT})
+   @Journey(value = Preconditions.Data.EXAMPLE_PRECONDITION, order = 1)
+   @Ripper(targets = {DataCleaner.Data.EXAMPLE_CLEANUP})
+   void exampleUITest(Quest quest) {
+      quest.use(RING_OF_UI)
+         .browser().navigate(getUiConfig().baseUrl())
+         .button().click(ButtonFields.LOGIN_BUTTON)
+         .input().insert(InputFields.USERNAME, "example_username")
+         .select().selectOption(SelectFields.GENERIC_SELECT, "example_select")
+         .getInterceptor().validateResponseHaveStatus(
+            RequestsInterceptor.EXAMPLE_INTERCEPT.getEndpointSubString(), 2, true)
+         .complete();
+   }
 
-    @Test
-    void customFlowDemonstration(Quest quest) {
-        // Commented example showing RING_OF_CUSTOM usage
-    }
+   @Test
+   void customFlowDemonstration(Quest quest) {
+      // Commented example showing RING_OF_CUSTOM usage
+   }
 }
 ```
+
+</details>
 
 ---
 
@@ -607,25 +687,30 @@ Shows how to:
 - Access query responses from storage
 
 **Example structure:**
+<details>
+<summary>Example test: GettingStartedDbTest.java</summary>
+
 ```java
 @DB
 @DisplayName("EXAMPLE - Getting started DB test (delete me)")
 public class GettingStartedDbTest extends BaseQuest {
 
-    @Test
-    @Regression
-    void exampleDBTest(Quest quest) {
-        quest.use(RING_OF_DB)
-            .query(ExampleDbQueries.SIMPLE_QUERY.withParam("id", 1))
-            .complete();
-    }
+   @Test
+   @Regression
+   void exampleDBTest(Quest quest) {
+      quest.use(RING_OF_DB)
+         .query(ExampleDbQueries.SIMPLE_QUERY.withParam("id", 1))
+         .complete();
+   }
 
-    @Test
-    void customFlowDemonstration(Quest quest) {
-        // Commented example showing RING_OF_CUSTOM usage
-    }
+   @Test
+   void customFlowDemonstration(Quest quest) {
+      // Commented example showing RING_OF_CUSTOM usage
+   }
 }
 ```
+
+</details>
 
 ---
 

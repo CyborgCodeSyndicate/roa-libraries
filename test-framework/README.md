@@ -60,6 +60,9 @@ At the center sits `Quest`: a lightweight execution context with data storage (`
 - Rings for cross-ring communication
 - The complete Quest API
 
+<details>
+<summary>Example: Access QuestHolder from anywhere</summary>
+
 ```java
 public final class DataCreatorFunctions {
     public static CreateUserDto juniorUser() {
@@ -74,6 +77,8 @@ public final class DataCreatorFunctions {
 }
 ```
 
+</details>
+
 **Everything Goes to Storage:** All test artifacts, API responses, created data, and journey outputs are stored in the `Storage` system. Storage is organized hierarchically:
 - **Root storage** - directly accessible via `quest.getStorage()`
 - **Sub-storages** - isolated buckets per module/ring (e.g., `quest.getStorage().sub(StorageKeys.API)`)
@@ -87,6 +92,9 @@ This means you can fetch the **latest state** of any test artifact from anywhere
 
 **Fluent Chaining is Core:** The framework is designed around fluent method chaining. Tests should compose complex flows by chaining ring methods together without breaking the chain:
 
+<details>
+<summary>Example: Fluent chaining across rings</summary>
+
 ```java
 quest.use(UserRing.class)
     .createUser(userData)
@@ -97,6 +105,8 @@ quest.use(UserRing.class)
     .validateOrderCreated()
     .complete();  // Finalize and run soft assertions
 ```
+
+</details>
 
 ## Module metadata
 - **Name:** Ring of Automation Core Test Framework
@@ -165,6 +175,9 @@ quest.use(UserRing.class)
 ## Architecture
 
 ### Class Diagram
+<details>
+<summary>Class Diagram (Mermaid)</summary>
+
 ```mermaid
 classDiagram
     direction TB
@@ -245,7 +258,12 @@ classDiagram
     FluentService --> RetryCondition : uses for polling
 ```
 
+</details>
+
 ### Execution Flow
+<details>
+<summary>Execution Flow (Mermaid)</summary>
+
 ```mermaid
 sequenceDiagram
     autonumber
@@ -267,9 +285,14 @@ sequenceDiagram
     Quest->>Quest: clear QuestHolder
 ```
 
+</details>
+
 ### Core Execution & Integration Flows
 
 #### Test Method Execution via JUnit Extensions
+<details>
+<summary>Test Method Execution via JUnit Extensions (Mermaid)</summary>
+
 ```mermaid
 sequenceDiagram
     autonumber
@@ -288,7 +311,12 @@ sequenceDiagram
     Oracle-->>JUnit: Quest injected into test
 ```
 
+</details>
+
 #### Fluent Chain Execution & Validation
+<details>
+<summary>Fluent Chain Execution & Validation (Mermaid)</summary>
+
 ```mermaid
 graph TB
     A["Test code"] --> B["quest.use(Ring.class)"]
@@ -302,7 +330,12 @@ graph TB
     H --> I["softAssertions.assertAll() and cleanup"]
 ```
 
+</details>
+
 #### Pre-Quest Journey Processing System
+<details>
+<summary>Pre-Quest Journey Processing System (Mermaid)</summary>
+
 ```mermaid
 sequenceDiagram
     autonumber
@@ -316,7 +349,12 @@ sequenceDiagram
     Initiator-->>Test: proceed with invocation
 ```
 
+</details>
+
 #### Storage System & Data Flow
+<details>
+<summary>Storage System & Data Flow (Mermaid)</summary>
+
 ```mermaid
 graph TB
     S[Storage] -->|"put (key, value)"| L[LinkedList per key]
@@ -326,7 +364,12 @@ graph TB
     New --> Put[Store new sub-storage]
 ```
 
+</details>
+
 #### Adapter Service Integration (example)
+<details>
+<summary>Adapter Service Integration (example) (Mermaid)</summary>
+
 ```mermaid
 sequenceDiagram
     autonumber
@@ -339,7 +382,12 @@ sequenceDiagram
     Ring->>Store: sub(API).put(endpoint.enumImpl(), response)
 ```
 
+</details>
+
 #### Service Decoration & Extension
+<details>
+<summary>Service Decoration & Extension (Mermaid)</summary>
+
 ```mermaid
 sequenceDiagram
     autonumber
@@ -356,7 +404,12 @@ sequenceDiagram
     Factory->>Quest: registerRing(provider)
 ```
 
+</details>
+
 #### Extension Lifecycle Flow
+<details>
+<summary>Extension Lifecycle Flow (Mermaid)</summary>
+
 ```mermaid
 sequenceDiagram
     autonumber
@@ -413,18 +466,25 @@ sequenceDiagram
     Epi-->>JUnit: reporting finalized
 ```
 
+</details>
+
 ## Usage
 
-> Follow these steps in your **test module**. The framework is designed for JUnit 5 with Spring DI support.
+ > Follow these steps in your **test module**. The framework is designed for JUnit 5 with Spring DI support.
 
 ### Step 1 - Add dependency
-```xml
-<dependency>
-  <groupId>io.cyborgcode.roa</groupId>
-  <artifactId>test-framework</artifactId>
-  <version>${revision}</version>
-</dependency>
-```
+ <details>
+ <summary>Maven dependency</summary>
+ 
+ ```xml
+ <dependency>
+   <groupId>io.cyborgcode.roa</groupId>
+   <artifactId>test-framework</artifactId>
+   <version>${revision}</version>
+ </dependency>
+ ```
+ 
+ </details>
 
 ### Step 2 - Enable the framework
 The framework integrates via JUnit 5 extensions and Spring. Enable it by:
@@ -432,83 +492,108 @@ The framework integrates via JUnit 5 extensions and Spring. Enable it by:
 2. Alternatively, annotate your test class with `@Odyssey` and your own Spring test configuration so the framework extensions (`Oracle`, `Prologue`, `Initiator`, `Craftsman`, `RipperMan`, `Epilogue`) are registered.
 3. Expose your rings as Spring beans via `@Ring` so `QuestFactory` can wire them automatically, then accept a `Quest` parameter in your test method (resolved by the `Oracle` extension).
 
-```java
-class UserJourneyTest extends BaseQuest {
+ <details>
+ <summary>Example: Enable the framework (JUnit 5)</summary>
+ 
+ ```java
+ class UserJourneyTest extends BaseQuest {
+ 
+   @Test
+   void userCanLoginAndViewProfile(Quest quest) {
+     // Quest automatically injected, rings registered
+     quest.use(AuthRing.class)
+         .login("user", "pass")
+         .validate(soft -> soft.assertThat(true).isTrue())
+         .complete();
+   }
+ }
+ ```
+ 
+ </details>
 
-  @Test
-  void userCanLoginAndViewProfile(Quest quest) {
-    // Quest automatically injected, rings registered
-    quest.use(AuthRing.class)
-        .login("user", "pass")
-        .validate(soft -> soft.assertThat(true).isTrue())
-        .complete();
-  }
-}
-```
+ ### Step 3 - Compose a fluent chain
+ Create your rings (services) by extending `FluentService`:
+ 
+ <details>
+ <summary>Example: Create a ring (FluentService)</summary>
+ 
+ ```java
+ enum AuthArtifacts {
+   AUTH_TOKEN
+ }
+ 
+ @Component
+ @Ring("Auth Service")
+ public class AuthRing extends FluentService {
+ 
+   private final AuthClient authClient;
+ 
+   public AuthRing(AuthClient authClient) {
+     this.authClient = authClient;
+   }
+ 
+   public FluentChain login(String username, String password) {
+     Response response = authClient.login(username, password);
+ 
+     // Store token in Storage for later validations
+     quest.getStorage().put(AuthArtifacts.AUTH_TOKEN, response.getToken());
+ 
+     return this;
+   }
+ }
+ ```
+ 
+ </details>
 
-### Step 3 - Compose a fluent chain
-Create your rings (services) by extending `FluentService`:
+ Use the ring in a test:
+ <details>
+ <summary>Example: Use a ring in a test</summary>
+ 
+ ```java
+ class AuthJourneyTest extends BaseQuest {
+ 
+   @Test
+   void loginJourney(Quest quest) {
+     quest.use(AuthRing.class)
+         .login("admin", "password")
+         .validate(soft -> {
+             String token = QuestHolder.get().getStorage().get(AuthArtifacts.AUTH_TOKEN, String.class);
+             soft.assertThat(token).isNotBlank();
+         })
+         .complete();
+   }
+ }
+ ```
+ 
+ </details>
 
-```java
-enum AuthArtifacts {
-  AUTH_TOKEN
-}
+ ### Step 4 - (Optional) Register rings with Spring
+ Rings are auto-registered when they are Spring beans. `QuestFactory` collects every `FluentService` bean:
+ 
+ <details>
+ <summary>Example: Register a ring with Spring</summary>
+ 
+ ```java
+ @Component
+ @Ring("User Service")
+ public class UserRing extends FluentService {
+   // automatically registered by QuestFactory
+ }
+ ```
+ 
+ </details>
 
-@Component
-@Ring("Auth Service")
-public class AuthRing extends FluentService {
-
-  private final AuthClient authClient;
-
-  public AuthRing(AuthClient authClient) {
-    this.authClient = authClient;
-  }
-
-  public FluentChain login(String username, String password) {
-    Response response = authClient.login(username, password);
-
-    // Store token in Storage for later validations
-    quest.getStorage().put(AuthArtifacts.AUTH_TOKEN, response.getToken());
-
-    return this;
-  }
-}
-```
-
-Use the ring in a test:
-```java
-class AuthJourneyTest extends BaseQuest {
-
-  @Test
-  void loginJourney(Quest quest) {
-    quest.use(AuthRing.class)
-        .login("admin", "password")
-        .validate(soft -> {
-            String token = QuestHolder.get().getStorage().get(AuthArtifacts.AUTH_TOKEN, String.class);
-            soft.assertThat(token).isNotBlank();
-        })
-        .complete();
-  }
-}
-```
-
-### Step 4 - (Optional) Register rings with Spring
-Rings are auto-registered when they are Spring beans. `QuestFactory` collects every `FluentService` bean:
-
-```java
-@Component
-@Ring("User Service")
-public class UserRing extends FluentService {
-  // automatically registered by QuestFactory
-}
-```
-
-If your ring beans live outside the default component scan, add a `@FrameworkAdapter` with the additional packages so Spring picks them up:
-
-```java
-@FrameworkAdapter(basePackages = "com.mycompany.test.rings")
-public @interface ProjectRings {}
-```
+ If your ring beans live outside the default component scan, add a `@FrameworkAdapter` with the additional packages so Spring picks them up:
+ 
+ <details>
+ <summary>Example: FrameworkAdapter for custom component scan</summary>
+ 
+ ```java
+ @FrameworkAdapter(basePackages = "com.mycompany.test.rings")
+ public @interface ProjectRings {}
+ ```
+ 
+ </details>
 
 Apply the adapter (directly or through your own meta-annotation) on the test class. Manual quest wiring is intentionally not exposed because `QuestFactory` manages ring registration for you.
 
@@ -523,6 +608,9 @@ The `Storage` system is a thread-safe, hierarchical key-value store that enables
 #### Storage Capabilities
 
 **Basic Operations:**
+<details>
+<summary>Example: Storage basic operations</summary>
+
 ```java
 // Store data
 quest.getStorage().put(MyKeys.USER_ID, "12345");
@@ -540,9 +628,14 @@ Response lastResponse = quest.getStorage().getByIndex(MyKeys.RESPONSES, 0, Respo
 User user = quest.getStorage().getByClass(MyKeys.DATA, User.class);
 ```
 
+</details>
+
 **Sub-Storage (Hierarchical Organization):**
 
 Sub-storage creates isolated storage buckets per key, enabling modular data organization:
+
+<details>
+<summary>Example: Storage sub-storages</summary>
 
 ```java
 // Create/get sub-storage for API module
@@ -557,6 +650,8 @@ authStorage.put(AuthKeys.TOKEN, token);
 quest.getStorage().sub(ModuleKeys.API).get(ApiKeys.RESPONSE, Response.class);
 ```
 
+</details>
+
 #### DataExtractors
 
 `DataExtractor` provides fluent utilities to extract and transform data from Storage without manual type casting. DataExtractors can be used anywhere via `QuestHolder.get()` to access the current test's storage.
@@ -566,6 +661,9 @@ quest.getStorage().sub(ModuleKeys.API).get(ApiKeys.RESPONSE, Response.class);
 The framework provides `DataExtractorImpl<T>` with three constructors:
 
 1. **Simple extraction** (by storage key and type):
+<details>
+<summary>Example: DataExtractor simple extraction</summary>
+
 ```java
 DataExtractor<Response> responseExtractor = new DataExtractorImpl<>(
     quest.getStorage(), 
@@ -578,7 +676,12 @@ Response specific = responseExtractor.extractByIndex(2); // By index
 List<Response> all = responseExtractor.extractAll();     // All values
 ```
 
+</details>
+
 2. **Sub-storage extraction** (from specific sub-storage):
+<details>
+<summary>Example: DataExtractor sub-storage extraction</summary>
+
 ```java
 DataExtractor<Response> apiResponseExtractor = new DataExtractorImpl<>(
     StorageKeys.API,           // Sub-storage key
@@ -587,7 +690,12 @@ DataExtractor<Response> apiResponseExtractor = new DataExtractorImpl<>(
 );
 ```
 
+</details>
+
 3. **Transformation extraction** (with custom mapping):
+<details>
+<summary>Example: DataExtractor transformation extraction</summary>
+
 ```java
 // Extract and transform - e.g., JSON path extraction from API response
 public static <T> DataExtractor<T> responseBodyExtraction(Enum<?> key, String jsonPath) {
@@ -606,9 +714,14 @@ DataExtractor<String> userIdExtractor = responseBodyExtraction(ApiKeys.CREATE_US
 String userId = userIdExtractor.extract();
 ```
 
+</details>
+
 **Custom DataExtractors with QuestHolder:**
 
 Create reusable extractors as static methods accessible from anywhere:
+
+<details>
+<summary>Example: Custom DataExtractors with QuestHolder</summary>
 
 ```java
 public final class DataExtractorsApi {
@@ -647,22 +760,28 @@ quest.use(UserRing.class)
     .complete();
 ```
 
+</details>
+
 **Usage in Tests:**
+<details>
+<summary>Example: Use DataExtractors in tests</summary>
 
 ```java
 import static DataExtractorsApi.*;
-
+ 
 class UserValidationTest extends BaseQuest {
-    
-    @Test
-    void validateUserFromExtractedData(Quest quest) {
-        quest.use(UserRing.class)
-            .createUser(userData)
-            .validateUser(extractUserId().extract())
-            .complete();
-    }
-}
+     
+     @Test
+     void validateUserFromExtractedData(Quest quest) {
+         quest.use(UserRing.class)
+             .createUser(userData)
+             .validateUser(extractUserId().extract())
+             .complete();
+     }
+ }
 ```
+
+</details>
 
 Note: `BaseQuest` provides the necessary framework context, and static imports make extractors readily available in test methods.
 
@@ -673,6 +792,9 @@ The `DataForge` system enables declarative test data creation with support for i
 #### DataForge Interface
 
 Implement `DataForge<T>` to define data creation strategies:
+
+<details>
+<summary>Example: DataForge enum</summary>
 
 ```java
 public enum UserDataForge implements DataForge<CreateUserDto> {
@@ -704,6 +826,8 @@ public enum UserDataForge implements DataForge<CreateUserDto> {
 }
 ```
 
+</details>
+
 #### @Craft - Immediate Data Injection
 
 The `@Craft` annotation with `Craftsman` extension resolves data at parameter injection time.
@@ -713,6 +837,9 @@ The `@Craft` annotation with `Craftsman` extension resolves data at parameter in
 - `late` (optional, default = `false`) - When `true`, returns `Late<T>` wrapper for deferred creation; when `false`, creates data immediately
 
 **Usage:**
+<details>
+<summary>Example: @Craft usage (immediate)</summary>
+
 ```java
 @Test
 void createUserWithCraftedData(
@@ -727,6 +854,8 @@ void createUserWithCraftedData(
 }
 ```
 
+</details>
+
 **How it works:**
 1. `Craftsman` extension intercepts `@Craft` parameters
 2. Resolves `DataForge` enum by name from `project.packages`
@@ -738,6 +867,9 @@ void createUserWithCraftedData(
 `Late<T>` wraps a `DataCreator<T>` supplier for deferred instantiation, useful when data must be created at execution time (not parameter resolution time).
 
 **@Craft with late = true:**
+<details>
+<summary>Example: @Craft with late = true</summary>
+
 ```java
 @Test
 void createUserWithLateData(
@@ -753,7 +885,12 @@ void createUserWithLateData(
 }
 ```
 
+</details>
+
 **Real-world example with intercepted data:**
+<details>
+<summary>Example: Late data creation with intercepted data</summary>
+
 ```java
 @Test
 @Regression
@@ -774,6 +911,8 @@ void interceptorFeatureUsedForLateDataCreation(
 }
 ```
 
+</details>
+
 **When to use `Late<T>`:**
 - Data depends on runtime state
 - Data must be fresh (e.g., timestamp-based unique values)
@@ -792,6 +931,9 @@ void interceptorFeatureUsedForLateDataCreation(
 6. Proceeds with test invocation
 
 **Flow:**
+<details>
+<summary>Flow: Initiator extension</summary>
+
 ```
 Test Method Invocation
   ↓
@@ -808,6 +950,8 @@ Execute: journey().accept(quest, new Object[]{userData})
 Test Method Executes (data already in Storage)
 ```
 
+</details>
+
 ### PreQuest, Journey & JourneyData System
 
 The Journey system enables reusable precondition flows executed before test methods.
@@ -817,6 +961,9 @@ The Journey system enables reusable precondition flows executed before test meth
 **Step 1: Create Precondition Functions**
 
 Centralize reusable logic in a functions class:
+
+<details>
+<summary>Example: Precondition functions</summary>
 
 ```java
 public final class PreconditionFunctions {
@@ -845,9 +992,14 @@ public final class PreconditionFunctions {
 }
 ```
 
+</details>
+
 **Step 2: Map Functions to Enum**
 
 Implement `PreQuestJourney<T>` to expose functions as declarative journeys:
+
+<details>
+<summary>Example: PreQuestJourney enum (Preconditions)</summary>
 
 ```java
 public enum Preconditions implements PreQuestJourney<Preconditions> {
@@ -881,6 +1033,8 @@ public enum Preconditions implements PreQuestJourney<Preconditions> {
 }
 ```
 
+</details>
+
 **Step 3: Use in Tests**
 
 Reference journeys declaratively via `@Journey`.
@@ -897,6 +1051,9 @@ Reference journeys declaratively via `@Journey`.
 - **No fields** - Marker annotation that enables journey processing. **Note:** Not required when using `@Journey` - the framework automatically processes multiple `@Journey` annotations without `@PreQuest`.
 
 **Usage:**
+<details>
+<summary>Example: @Journey usage</summary>
+
 ```java
 @Test
 @Journey(
@@ -916,9 +1073,14 @@ void testWithPreconditions(Quest quest) {
 }
 ```
 
+</details>
+
 #### Multiple Journeys with Ordered Execution
 
 Journeys execute in `order` (ascending). Use this for dependency chains:
+
+<details>
+<summary>Example: Multiple journeys with ordered execution</summary>
 
 ```java
 @Test
@@ -941,14 +1103,21 @@ void testWithMultipleUsers(Quest quest) {
 }
 ```
 
+</details>
+
 #### JourneyData
 
 `@JourneyData` specifies data to pass to the journey function. Data is resolved from `DataForge` enums:
+
+<details>
+<summary>Example: JourneyData</summary>
 
 ```java
 @JourneyData(UserDataForge.Data.USER_ADMIN)  // Resolves UserDataForge.USER_ADMIN
 @JourneyData(OrderDataForge.Data.ORDER_STANDARD)  // Resolves OrderDataForge.ORDER_STANDARD
 ```
+
+</details>
 
 The resolved data objects are passed as `Object[]` to the journey's `BiConsumer<SuperQuest, Object[]>`.
 
@@ -959,6 +1128,9 @@ The `Ripper` system provides declarative cleanup of test data after execution.
 #### DataRipper Interface
 
 Implement `DataRipper<T>` to define cleanup logic:
+
+<details>
+<summary>Example: DataRipper enum (DataCleaners)</summary>
 
 ```java
 public enum DataCleaners implements DataRipper<DataCleaners> {
@@ -997,6 +1169,8 @@ public enum DataCleaners implements DataRipper<DataCleaners> {
 }
 ```
 
+</details>
+
 #### @Ripper Annotation
 
 Declare cleanup targets via `@Ripper`.
@@ -1006,6 +1180,9 @@ Declare cleanup targets via `@Ripper`.
 - Cleanup executes **after** test completes, regardless of pass/fail status
 
 **Usage:**
+<details>
+<summary>Example: @Ripper usage</summary>
+
 ```java
 @Test
 @Ripper(targets = {DataCleaners.Data.DELETE_USER, DataCleaners.Data.DELETE_ORDER})
@@ -1021,7 +1198,12 @@ void testUserOrderFlow(Quest quest) {
 }
 ```
 
+</details>
+
 **Real-world example with Journey:**
+<details>
+<summary>Example: @Ripper with Journey</summary>
+
 ```java
 @Test
 @Regression
@@ -1038,6 +1220,8 @@ void ripperFeature(Quest quest) {
 }
 ```
 
+</details>
+
 #### RipperMan Extension
 
 `RipperMan` is an `AfterTestExecutionCallback` that:
@@ -1047,6 +1231,9 @@ void ripperFeature(Quest quest) {
 4. Executes **after** test completion (success or failure)
 
 **Execution Order:**
+<details>
+<summary>Execution order: RipperMan</summary>
+
 ```
 Test Executes
   ↓
@@ -1061,7 +1248,11 @@ Execute DataCleaners.DELETE_USER.eliminate().clean(quest)
 Cleanup Complete
 ```
 
+</details>
+
 **Common Pattern:**
+<details>
+<summary>Example: Cleanup functions + DataRipper enum</summary>
 
 ```java
 public final class CleanupFunctions {
@@ -1091,11 +1282,16 @@ public enum DataCleaners implements DataRipper<DataCleaners> {
 }
 ```
 
+</details>
+
 ### Custom Soft Assertion Registration
 
 `CustomSoftAssertion` extends AssertJ's `SoftAssertions` and allows custom failure handlers for specific types. This enables domain-specific behavior when soft assertions fail (e.g., taking screenshots on UI failures).
 
 **Method Signature:**
+<details>
+<summary>Method signature: CustomSoftAssertion registration</summary>
+
 ```java
 CustomSoftAssertion.registerCustomAssertion(
     Class<T> targetClass,                      // Type to match
@@ -1104,7 +1300,12 @@ CustomSoftAssertion.registerCustomAssertion(
 );
 ```
 
+</details>
+
 **Example - Screenshot on UI Assertion Failure:**
+
+<details>
+<summary>Example: CustomSoftAssertion registration</summary>
 
 ```java
 public class TestSetup {
@@ -1137,6 +1338,8 @@ public class TestSetup {
 }
 ```
 
+</details>
+
 **Execution Flow:**
 1. Soft assertion fails
 2. Framework checks if failure context matches registered `targetClass`
@@ -1151,6 +1354,9 @@ Test classes can control parallel vs sequential execution via base class selecti
 #### BaseQuest - Parallel Execution (Default)
 
 Extending `BaseQuest` enables **per-method test instances** with parallel execution:
+
+<details>
+<summary>Example: BaseQuest (parallel execution)</summary>
 
 ```java
 @SpringBootTest
@@ -1168,6 +1374,8 @@ class UserFlowTests extends BaseQuest {
 }
 ```
 
+</details>
+
 **Characteristics:**
 - Lifecycle: `@TestInstance(Lifecycle.PER_METHOD)` (default JUnit behavior)
 - New test class instance per test method
@@ -1182,6 +1390,9 @@ class UserFlowTests extends BaseQuest {
 #### BaseQuestSequential - Sequential Execution
 
 Extending `BaseQuestSequential` enforces **one test at a time** with shared class instance:
+
+<details>
+<summary>Example: BaseQuestSequential (sequential execution)</summary>
 
 ```java
 @SpringBootTest
@@ -1210,6 +1421,8 @@ class OrderedDataFlowTests extends BaseQuestSequential {
 }
 ```
 
+</details>
+
 **Characteristics:**
 - Lifecycle: `@TestInstance(Lifecycle.PER_CLASS)`
 - Single test class instance for all tests
@@ -1237,6 +1450,9 @@ Both classes apply:
 
 Create a class implementing `StaticDataProvider`:
 
+<details>
+<summary>Example: StaticDataProvider implementation</summary>
+
 ```java
 public class StaticData implements StaticDataProvider {
 
@@ -1262,6 +1478,8 @@ public class StaticData implements StaticDataProvider {
 }
 ```
 
+</details>
+
 #### Usage with @StaticTestData
 
 **Annotation Fields:**
@@ -1269,6 +1487,9 @@ public class StaticData implements StaticDataProvider {
 - Data is loaded into Storage **before** test parameter resolution and journey execution
 
 **Usage:**
+<details>
+<summary>Example: @StaticTestData usage</summary>
+
 ```java
 @Test
 @Regression
@@ -1286,7 +1507,12 @@ void staticDataFeatureUsingStorageData(Quest quest) {
 }
 ```
 
+</details>
+
 #### Execution Flow
+
+<details>
+<summary>Flow: @StaticTestData execution</summary>
 
 ```
 @StaticTestData(StaticData.class) detected
@@ -1303,6 +1529,8 @@ Quest injected into test
   ↓
 Test executes with preloaded data
 ```
+
+</details>
 
 **When to use:**
 - Commonly reused test data across multiple tests
@@ -1322,7 +1550,9 @@ Test executes with preloaded data
 - **`@Regression`, `@Smoke`** - Test categorization markers for Allure labels and filtering.
 - **`@FrameworkAdapter`** - Enables project-level Spring customization.
 
-Example:
+<details>
+<summary>Example: Annotations & Hooks</summary>
+
 ```java
 @Journey(value = "SETUP_ENV", order = 1)
 @Ripper(targets = {"CLEANUP_USER"})
@@ -1334,9 +1564,14 @@ void complexFlow(Quest quest, @Craft(model = "UserRequest") UserRequest user) {
 }
 ```
 
+</details>
+
 ## Retry Helpers
 
 `RetryCondition<T>` and `RetryConditionImpl<T>` enable polling:
+
+<details>
+<summary>Example: Retry helpers</summary>
 
 ```java
 RetryCondition<Response> condition = new RetryConditionImpl<>(
@@ -1346,6 +1581,8 @@ RetryCondition<Response> condition = new RetryConditionImpl<>(
 
 retryUntil(condition, Duration.ofSeconds(60), Duration.ofSeconds(5), this);
 ```
+
+</details>
 
 Key methods:
 - `function()` - returns `Function<Object, T>` that produces the value to test
@@ -1372,11 +1609,16 @@ Extends `AllureJunit5` to provide step tracking with status types.
 - `stopStep()` - stops the most recent step
 - `isStepActive(String stepName)` - checks if step is active
 
-**Setup:**
+ **Setup:**
 Create `src/test/resources/META-INF/services/org.junit.platform.launcher.TestExecutionListener`:
-```
-io.cyborgcode.roa.framework.allure.CustomAllureListener
-```
+<details>
+<summary>Allure listener registration file</summary>
+ 
+ ```
+ io.cyborgcode.roa.framework.allure.CustomAllureListener
+ ```
+ 
+</details>
 
 ### AllureStepHelper
 Utility methods for Allure integration:
@@ -1396,22 +1638,34 @@ The framework uses the Owner library for configuration. Define these keys (via a
 - `defaultStorage()` - enum name used as the default storage bucket when calling `Storage.sub()`. Set `default.storage=<ENUM_CONSTANT>`.
 - `testEnv()` - optional label surfaced in reporting (e.g. `qa`, `staging`).
 
-Example `config.properties`:
-```
-project.package=com.mycompany.automation
-default.storage=DEFAULT_STORAGE
-test.env=qa
-```
+ <details>
+ <summary>Example: config.properties</summary>
+ 
+ Example `config.properties`:
+ 
+ ```
+ project.package=com.mycompany.automation
+ default.storage=DEFAULT_STORAGE
+ test.env=qa
+ ```
+ 
+ </details>
 
 **TestConfig interface:**
 - Provides the Spring component scan for `io.cyborgcode.roa.framework` and `${project.packages}`.
 - Extend this configuration if you need additional Spring context customisation for tests.
 
-Configuration loading:
-```java
-FrameworkConfig config = FrameworkConfigHolder.getFrameworkConfig();
-String projectPkg = config.projectPackages();
-```
+ <details>
+ <summary>Example: Load FrameworkConfig</summary>
+ 
+ Configuration loading:
+ 
+ ```java
+ FrameworkConfig config = FrameworkConfigHolder.getFrameworkConfig();
+ String projectPkg = config.projectPackages();
+ ```
+ 
+ </details>
 
 ## Dependencies
 

@@ -196,6 +196,9 @@ fluent test adapter on top in a separate module.
 
 ### Class Diagram
 
+<details>
+<summary>Class Diagram (Mermaid)</summary>
+
 ```mermaid
 classDiagram
     direction LR
@@ -243,9 +246,14 @@ classDiagram
     ParametrizedEndpoint --> Endpoint: wraps
 ```
 
+</details>
+
 ### Execution Flow
 
 #### Core Request Flow
+
+<details>
+<summary>Core Request Flow (Mermaid)</summary>
 
 ```mermaid
 sequenceDiagram
@@ -264,7 +272,12 @@ sequenceDiagram
     RS -->> Test: Response / Validation results
 ```
 
+</details>
+
 #### Detailed Request Execution
+
+<details>
+<summary>Detailed Request Execution (Mermaid)</summary>
 
 ```mermaid
 sequenceDiagram
@@ -280,6 +293,8 @@ sequenceDiagram
     RC -->> RS: Response (with duration + slow-call warning)
 ```
 
+</details>
+
 #### Response Validation Flow
 
 - **RestService.validate(response, assertions):** delegates to `RestResponseValidatorImpl`.
@@ -288,6 +303,9 @@ sequenceDiagram
     - `BODY` – `handleBodyAssertion(...)` with JsonPath extraction.
     - `HEADER` – `handleHeaderAssertion(...)`.
 - Final validation via `AssertionUtil.validate(...)`.
+
+<details>
+<summary>Response Validation Flow (Mermaid)</summary>
 
 ```mermaid
 sequenceDiagram
@@ -318,7 +336,12 @@ sequenceDiagram
     RS -->> Test: List<AssertionResult<?>>
 ```
 
+</details>
+
 #### Authentication Cache Semantics
+
+<details>
+<summary>Authentication Cache Semantics (Mermaid)</summary>
 
 ```mermaid
 flowchart TB
@@ -328,6 +351,8 @@ flowchart TB
     X -->|cache = true| A
     X -->|cache = false| B
 ```
+
+</details>
 ---
 ## Usage
 
@@ -339,23 +364,24 @@ In most setups, **`api-interactor`** is consumed from your **test module** (e.g.
 automated tests.
 
 ---
-
 #### 1.1. Standard Maven dependency
+
+<details>
+<summary>Maven dependency</summary>
 
 Add the following snippet to the `dependencies` section of your test module’s `pom.xml`:
 
 ```xml
-
 <dependency>
     <groupId>io.cyborgcode.roa</groupId>
     <artifactId>api-interactor</artifactId>
     <version>${roa.version}</version>
 </dependency>
-
 ```
 
----
+</details>
 
+---
 ### Step 2: Configure ApiConfig
 
 Before using *`api-interactor`*, you need to provide base configuration via `ApiConfig` (backed by **Owner**) and load
@@ -375,15 +401,23 @@ Typical setup:
 1. Create `api-config.properties` under `src/test/resources` or `src/main/resources`.
 2. Run tests with:
 
+<details>
+<summary>Run tests with config file system property</summary>
+
 ```bash
   -Dapi.config.file=api-config
 ```
+
+</details>
 
 `api-interactor` will then load `classpath:api-config.properties` plus any system properties.
 
 ---
 
 #### 2.2 Minimal configuration example
+
+<details>
+<summary>Minimal api-config.properties example</summary>
 
 ```properties
 # Required: packages to scan (your app + test support)
@@ -398,25 +432,40 @@ log.full.body=false                 # if false, body is truncated
 shorten.body=800                    # max chars when truncated
 ```
 
+</details>
+
 ---
 
 #### 2.3 Behaviour & priorities
 
 - **System properties override** values from the properties file:
 
+<details>
+<summary>Override base URL via system property</summary>
+
 ```bash
   -Dapi.base.url=https://staging.example.com
 ```
 
+</details>
+
 - `project.packages` is used for internal classpath scanning; multiple packages are separated with `;`:
+
+<details>
+<summary>Multiple packages configuration example</summary>
 
 ```properties
 project.packages=your.project.package;your.project.tests
 ```
 
+</details>
+
 - Treat `project.packages` and `api.base.url` as **required** – without them, endpoint resolution and request execution will not behave correctly.
 - Logging keys (`api.restassured.logging.*`, `log.full.body`, `shorten.body`) are optional and have safe defaults; adjust them per environment (local vs CI) as needed.
 - If you ever need direct access, you can obtain the configuration via:
+
+<details>
+<summary>Access ApiConfig programmatically</summary>
 
 ```java
 import io.cyborgcode.roa.api.config.ApiConfigHolder;
@@ -425,8 +474,9 @@ import io.cyborgcode.roa.api.config.ApiConfig;
 ApiConfig apiConfig = ApiConfigHolder.getApiConfig();
 ```
 
----
+</details>
 
+---
 ### Step 3: Define endpoints (`Endpoint<T>`)
 
 The **core idea** of `api-interactor` is:
@@ -445,6 +495,9 @@ The enum gives you a fixed, type-safe list of endpoints (e.g. `GET_USER`, `CREAT
 
 Keep the URL as a **clean path** (no base URL, no query params).
 Use `withPathParam(...)`, `withQueryParam(...)` and `withHeader(...)` at call time.
+
+<details>
+<summary>Example: Endpoint enum implementation</summary>
 
 ```java
 import io.cyborgcode.roa.api.core.Endpoint;
@@ -505,6 +558,8 @@ public enum ApiEndpoints implements Endpoint<ApiEndpoints> {
 }
 ```
 
+</details>
+
 Key points:
 
 * **`method()`** – HTTP verb (`GET`, `POST`, etc.), usually `io.restassured.http.Method`.
@@ -519,6 +574,9 @@ Key points:
 
 At runtime you never change the enum itself – instead you build a **`ParametrizedEndpoint<ApiEndpoints>`**:
 
+<details>
+<summary>Example: Parameterize endpoints at runtime</summary>
+
 ```java
 // Examples – these are not executed here, just showing how endpoints are meant to be used:
 ApiEndpoints.GET_SAMPLE_BY_ID
@@ -531,6 +589,8 @@ ApiEndpoints.GET_SAMPLE
 ApiEndpoints.CREATE_SAMPLE
     .withHeader("X-Correlation-Id", "123-abc");
 ```
+
+</details>
 
 ---
 
@@ -565,6 +625,9 @@ That entry point is `RestService`.
 
 In a simple test project, you can instantiate `RestService` directly:
 
+<details>
+<summary>Example: Create RestService in plain Java</summary>
+
 ```java
 import io.cyborgcode.roa.api.client.RestClientImpl;
 import io.cyborgcode.roa.api.service.RestService;
@@ -585,7 +648,12 @@ public class ApiTestSupport {
 }
 ```
 
+</details>
+
 You can then use this helper from your tests:
+
+<details>
+<summary>Example: Use RestService in tests</summary>
 
 ```java
 import io.restassured.response.Response;
@@ -610,6 +678,8 @@ class SampleApiTests {
 }
 ```
 
+</details>
+
 > 📝 **Note**
 > `rest().request(...)` accepts both "raw" `Endpoint<T>` values (like `GET_SAMPLE`) and parameterized ones (like `GET_SAMPLE_BY_ID.withPathParam("id", 123)`).
 > In the next steps we’ll show how to parameterize endpoints and validate responses using `RestService`.
@@ -625,6 +695,9 @@ simple GET/POST calls. We’ll start without validation and then show how to plu
 For the examples below, assume:
 
 * You defined your endpoints as in **Step 3**, e.g.:
+
+<details>
+<summary>Example: Endpoint enum used in examples</summary>
 
 ```java
 import io.cyborgcode.roa.api.core.Endpoint;
@@ -670,7 +743,12 @@ public enum SampleApiEndpoint implements Endpoint<SampleApiEndpoint> {
 }
 ```
 
+</details>
+
 * You have a small helper that exposes a shared `RestService` instance (from **Step 4**):
+
+<details>
+<summary>Example: Shared RestService helper</summary>
 
 ```java
 import io.cyborgcode.roa.api.client.RestClientImpl;
@@ -691,6 +769,8 @@ public class ApiTestSupport {
 }
 ```
 
+</details>
+
 We’ll use these in the examples below.
 
 ---
@@ -698,6 +778,9 @@ We’ll use these in the examples below.
 #### 5.1 Simple GET request
 
 The simplest usage is a GET request without a body, using a plain `Endpoint<T>` constant.
+
+<details>
+<summary>Example: Simple GET request</summary>
 
 ```java
 import io.restassured.response.Response;
@@ -722,6 +805,8 @@ class SimpleGetTests {
 }
 ```
 
+</details>
+
 What happens internally:
 
 * `RestService` calls `GET_SAMPLE.prepareRequestSpec(null)`.
@@ -738,6 +823,9 @@ What happens internally:
 
 To call dynamic URLs or filtered resources, you use `ParametrizedEndpoint<T>` via the
 fluent methods on your endpoint:
+
+<details>
+<summary>Example: GET with path/query parameters</summary>
 
 ```java
 import io.restassured.response.Response;
@@ -774,6 +862,8 @@ class ParameterizedGetTests {
 }
 ```
 
+</details>
+
 Key points:
 
 * `withPathParam(...)` and `withQueryParam(...)` **do not mutate** the original enum value –
@@ -787,6 +877,9 @@ Key points:
 
 For POST/PUT/PATCH calls, pass the request body as a second argument. The body can be
 a `Map`, a POJO, or any object supported by Rest Assured serialization.
+
+<details>
+<summary>Example: Simple POST with body</summary>
 
 ```java
 import io.restassured.response.Response;
@@ -839,12 +932,17 @@ class SimplePostTests {
 }
 ```
 
+</details>
+
 ---
 
 #### 5.4 Using requestAndValidate for one-shot checks
 
 Instead of manually asserting on `Response`, you can use `requestAndValidate(...)`
 and the shared assertion layer from `io.cyborgcode.roa:assertions`.
+
+<details>
+<summary>Example: requestAndValidate for one-shot checks</summary>
 
 ```java
 import io.cyborgcode.roa.api.validator.RestAssertionTarget;
@@ -905,6 +1003,8 @@ class RequestAndValidateTests {
 }
 ```
 
+</details>
+
 Here:
 
 * `RestService.requestAndValidate(...)` internally calls:
@@ -932,6 +1032,9 @@ You decide in your tests **how** to fail (hard vs soft, custom messages, additio
 
 Assertions are defined using the fluent `Assertion.builder()` API from the `assertions` module.
 
+<details>
+<summary>Example: Basic assertion definition</summary>
+
 ```java
 import io.cyborgcode.roa.api.validator.RestAssertionTarget;
 import io.cyborgcode.roa.validator.core.Assertion;
@@ -943,6 +1046,8 @@ Assertion statusOk = Assertion.builder()
     .expected(200)
     .build();
 ```
+
+</details>
 
 The key pieces are:
 
@@ -974,6 +1079,9 @@ At runtime:
 #### 6.2 Status-only validation
 
 A common pattern is to assert only the HTTP status code:
+
+<details>
+<summary>Example: Status-only validation</summary>
 
 ```java
 import io.cyborgcode.roa.api.validator.RestAssertionTarget;
@@ -1011,11 +1119,16 @@ class StatusValidationTests {
 }
 ```
 
+</details>
+
 ---
 
 #### 6.3 Body & header validation
 
 You can combine multiple assertions for **status**, **headers**, and **JSON body** in a single call:
+
+<details>
+<summary>Example: Body & header validation</summary>
 
 ```java
 import io.cyborgcode.roa.api.validator.RestAssertionTarget;
@@ -1084,6 +1197,9 @@ class HeaderAndBodyValidationTests {
     }
 }
 ```
+
+</details>
+
 Key points:
 
 * **Body keys** such as `"items.size()"`, `"data[0].id"`, `"user.email"` are **JsonPath expressions** evaluated against the response body.
@@ -1095,6 +1211,9 @@ Key points:
 #### 6.4 When to use `validate(...)` directly
 
 If you already have a `Response` (e.g. you want to do manual checks first or reuse the same response multiple times), you can use `validate(...)` directly:
+
+<details>
+<summary>Example: Use validate(...) directly</summary>
 
 ```java
 import io.cyborgcode.roa.api.validator.RestAssertionTarget;
@@ -1146,6 +1265,8 @@ class SeparateValidateExample {
 }
 ```
 
+</details>
+
 Use `validate(...)` when you need **more control** over when/how you assert
 (e.g. logging, conditional assertions, or multiple validation passes on the same response).
 
@@ -1154,6 +1275,9 @@ Use `validate(...)` when you need **more control** over when/how you assert
 #### 6.5 Soft assertions (`soft(true)`)
 
 The `Assertion` model also supports a `soft` flag:
+
+<details>
+<summary>Example: Soft assertions</summary>
 
 ```java
 import static io.cyborgcode.roa.api.validator.RestAssertionTarget.BODY;
@@ -1171,6 +1295,8 @@ List<AssertionResult<?>> results = rest()
             .build()
     );
 ```
+
+</details>
 
 At **api-interactor level**:
 
@@ -1224,6 +1350,9 @@ So **all you need to provide** is: *How do we log in and build the header?* — 
 Below is a typical “login-once, reuse token” implementation.
 Assume you have a `LOGIN` endpoint (defined in your `Endpoint<T>` enum) that returns JSON with a `"token"` field.
 
+<details>
+<summary>Example: BaseAuthenticationClient implementation</summary>
+
 ```java
 package your.project.api.auth;
 
@@ -1262,6 +1391,8 @@ public class SampleAuthClient extends BaseAuthenticationClient {
 }
 ```
 
+</details>
+
 Key points:
 
 * Your class **must have a public no-arg constructor** (so `RestService` can instantiate it via reflection).
@@ -1277,6 +1408,9 @@ Key points:
 #### 7.3 Using authentication in tests
 
 You normally authenticate once per test class / suite and then call protected endpoints as usual.
+
+<details>
+<summary>Example: Authentication usage in tests</summary>
 
 ```java
 package your.project.tests;
@@ -1295,8 +1429,7 @@ import java.util.List;
 
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static your.project.api.SampleApiEndpoint.GET_SAMPLE;
-import static your.project.api.SampleApiEndpoint.LOGIN; // defined in your enum
+import static your.project.api.SampleApiEndpoint.*;
 import static your.project.test.ApiTestSupport.rest;
 
 class AuthenticatedApiTests {
@@ -1332,6 +1465,8 @@ class AuthenticatedApiTests {
     }
 }
 ```
+
+</details>
 
 What happens here:
 

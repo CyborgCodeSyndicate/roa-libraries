@@ -23,48 +23,48 @@
         - [Retry for Eventual Consistency](#retry-for-eventual-consistency)
 - [Usage](#usage)
     - [Step 1: Add the adapter dependency](#step-1-add-the-adapter-dependency)
-      - [1.1. Standard Maven dependency](#11-standard-maven-dependency)
+        - [1.1. Standard Maven dependency](#11-standard-maven-dependency)
     - [Step 2: Configure the API environment (`ApiConfig` / Owner properties)](#step-2-configure-the-api-environment-apiconfig--owner-properties)
-      - [2.1. Create the `ApiConfig` properties file](#21-create-the-apiconfig-properties-file)
-      - [2.2. Select the config file at runtime](#22-select-the-config-file-at-runtime)
-      - [2.3. Configuration precedence](#23-configuration-precedence)
+        - [2.1. Create the `ApiConfig` properties file](#21-create-the-apiconfig-properties-file)
+        - [2.2. Select the config file at runtime](#22-select-the-config-file-at-runtime)
+        - [2.3. Configuration precedence](#23-configuration-precedence)
     - [Step 3: Enable the API adapter and expose the API ring (@API + RING_OF_API)](#step-3-enable-the-api-adapter-and-expose-the-api-ring-api--ring_of_api)
-      - [3.1. Annotate your test class](#31-annotate-your-test-class)
-      - [3.2. Define your API ring in the test module](#32-define-your-api-ring-in-the-test-module)
+        - [3.1. Annotate your test class](#31-annotate-your-test-class)
+        - [3.2. Define your API ring in the test module](#32-define-your-api-ring-in-the-test-module)
     - [Step 4: Perform basic API requests with `RestServiceFluent`](#step-4-perform-basic-api-requests-with-restservicefluent)
-      - [4.1 Define your endpoints (typical enum-based usage)](#41-define-your-endpoints-typical-enum-based-usage)
-      - [4.2 Minimal GET with status check](#42-minimal-get-with-status-check)
-      - [4.3 GET with query parameters](#43-get-with-query-parameters)
-      - [4.4 GET with path parameters](#44-get-with-path-parameters)
-      - [4.5 POST with a request body](#45-post-with-a-request-body)
+        - [4.1 Define your endpoints (typical enum-based usage)](#41-define-your-endpoints-typical-enum-based-usage)
+        - [4.2 Minimal GET with status check](#42-minimal-get-with-status-check)
+        - [4.3 GET with query parameters](#43-get-with-query-parameters)
+        - [4.4 GET with path parameters](#44-get-with-path-parameters)
+        - [4.5 POST with a request body](#45-post-with-a-request-body)
     - [Step 5: Validate API responses using the assertions module](#step-5-validate-api-responses-using-the-assertions-module)
-      - [5.1. Assertion basics](#51-assertion-basics)
-      - [5.2. Status + header validation](#52-status--header-validation)
-      - [5.3. Body field validation with JSONPath](#53-body-field-validation-with-jsonpath)
+        - [5.1. Assertion basics](#51-assertion-basics)
+        - [5.2. Status + header validation](#52-status--header-validation)
+        - [5.3. Body field validation with JSONPath](#53-body-field-validation-with-jsonpath)
     - [Step 6: Authenticate API tests with `@AuthenticateViaApi`](#step-6-authenticate-api-tests-with-authenticateviaapi)
-      - [6.1. What `@AuthenticateViaApi` actually does](#61-what-authenticateviaapi-actually-does)
-      - [6.2. Define a `Credentials` class](#62-define-a-credentials-class)
-      - [6.3. Implement an authentication client (`BaseAuthenticationClient`)](#63-implement-an-authentication-client-baseauthenticationclient)
-      - [6.4. Use `@AuthenticateViaApi` in tests](#64-use-authenticateviaapi-in-tests)
-      - [6.5. Caching behaviour (`cacheCredentials`)](#65-caching-behaviour-cachecredentials)
+        - [6.1. What `@AuthenticateViaApi` actually does](#61-what-authenticateviaapi-actually-does)
+        - [6.2. Define a `Credentials` class](#62-define-a-credentials-class)
+        - [6.3. Implement an authentication client (`BaseAuthenticationClient`)](#63-implement-an-authentication-client-baseauthenticationclient)
+        - [6.4. Use `@AuthenticateViaApi` in tests](#64-use-authenticateviaapi-in-tests)
+        - [6.5. Caching behaviour (`cacheCredentials`)](#65-caching-behaviour-cachecredentials)
     - [Step 7: Run BEFORE/AFTER API hooks with `@ApiHook`](#step-7-run-beforeafter-api-hooks-with-apihook)
-      - [7.1. Define a simple hook enum](#71-define-a-simple-hook-enum)
-      - [7.2. Use the hook in a test class](#72-use-the-hook-in-a-test-class)
+        - [7.1. Define a simple hook enum](#71-define-a-simple-hook-enum)
+        - [7.2. Use the hook in a test class](#72-use-the-hook-in-a-test-class)
     - [Step 8: Retry until conditions are met (`RetryConditionApi` + `retryUntil`)](#step-8-retry-until-conditions-are-met-retryconditionapi--retryuntil)
-      - [8.1. Import the retry helpers](#81-import-the-retry-helpers)
-      - [8.2. Basic example: wait until status code matches](#82-basic-example-wait-until-status-code-matches)
-      - [8.3. Body-based example: wait until a JSON field changes](#83-body-based-example-wait-until-a-json-field-changes)
-      - [8.4. Variants with request body and null checks](#84-variants-with-request-body-and-null-checks)
-      - [8.5. When to use `retryUntil`](#85-when-to-use-retryuntil)
+        - [8.1. Import the retry helpers](#81-import-the-retry-helpers)
+        - [8.2. Basic example: wait until status code matches](#82-basic-example-wait-until-status-code-matches)
+        - [8.3. Body-based example: wait until a JSON field changes](#83-body-based-example-wait-until-a-json-field-changes)
+        - [8.4. Variants with request body and null checks](#84-variants-with-request-body-and-null-checks)
+        - [8.5. When to use `retryUntil`](#85-when-to-use-retryuntil)
     - [Step 9: Extract and store response data with `DataExtractorsApi`](#step-9-extract-and-store-response-data-with-dataextractorsapi)
-      - [9.1. Concept: `responseBodyExtraction` and `statusExtraction`](#91-concept-responsebodyextraction-and-statusextraction)
-      - [9.2. Inline usage: extract a field from the last response](#92-inline-usage-extract-a-field-from-the-last-response)
-      - [9.3. Using a small extractor registry (optional, but handy)](#93-using-a-small-extractor-registry-optional-but-handy)
-      - [9.4. Extracting the status code with `statusExtraction`](#94-extracting-the-status-code-with-statusextraction)
+        - [9.1. Concept: `responseBodyExtraction` and `statusExtraction`](#91-concept-responsebodyextraction-and-statusextraction)
+        - [9.2. Inline usage: extract a field from the last response](#92-inline-usage-extract-a-field-from-the-last-response)
+        - [9.3. Using a small extractor registry (optional, but handy)](#93-using-a-small-extractor-registry-optional-but-handy)
+        - [9.4. Extracting the status code with `statusExtraction`](#94-extracting-the-status-code-with-statusextraction)
     - [Step 10: Compose with ROA lifecycle annotations (`@Craft`, `@Journey`, `@Ripper`)](#step-10-compose-with-roa-lifecycle-annotations-craft-journey-ripper)
-      - [10.1. `@Craft` – inject API DTOs (including “late” / dynamic data)](#101-craft--inject-api-dtos-including-late--dynamic-data)
-      - [10.2. `@Journey` – reusable pre-test flows with `Preconditions` (and `journeyData` actually used)](#102-journey--reusable-pre-test-flows-with-preconditions-and-journeydata-actually-used)
-      - [10.3. `@Ripper` – centralized API cleanup via `DataCleaner`](#103-ripper--centralized-api-cleanup-via-datacleaner)
+        - [10.1. `@Craft` – inject API DTOs (including “late” / dynamic data)](#101-craft--inject-api-dtos-including-late--dynamic-data)
+        - [10.2. `@Journey` – reusable pre-test flows with `Preconditions` (and `journeyData` actually used)](#102-journey--reusable-pre-test-flows-with-preconditions-and-journeydata-actually-used)
+        - [10.3. `@Ripper` – centralized API cleanup via `DataCleaner`](#103-ripper--centralized-api-cleanup-via-datacleaner)
 - [Troubleshooting](#troubleshooting)
 - [Dependencies](#dependencies)
 - [Author](#author)
@@ -262,9 +262,12 @@ Quest/test-framework layer, while still relying on `api-interactor` for the core
 ## Architecture
 
 > This section dives deep into how requests, hooks, and retries are wired internally.
-> If you only care about writing tests, you can skip this section and go straight to [Usage](#usage). 
+> If you only care about writing tests, you can skip this section and go straight to [Usage](#usage).
 
 ### Class Diagram
+
+<details>
+<summary>Class Diagram (Mermaid)</summary>
 
 ```mermaid
 classDiagram
@@ -317,9 +320,14 @@ classDiagram
     }
 ```
 
+</details>
+
 ### Execution Flow
 
 #### Adapter Runtime Flow
+
+<details>
+<summary>Adapter Runtime Flow (Mermaid)</summary>
 
 ```mermaid
 sequenceDiagram
@@ -366,7 +374,12 @@ sequenceDiagram
     SQ -->> JUnit: success / aggregated failures
 ```
 
+</details>
+
 #### Authentication Handling
+
+<details>
+<summary>Authentication Handling (Mermaid)</summary>
 
 ```mermaid
 sequenceDiagram
@@ -404,6 +417,8 @@ sequenceDiagram
         RS ->> RS: store header\n(and cache if enabled)
     end
 ```
+
+</details>
 
 * **`@AuthenticateViaApi(credentials, type, cacheCredentials)`** on a test method:
 
@@ -576,6 +591,9 @@ automated tests.
 
 Add the following snippet to the `dependencies` section of your test module’s `pom.xml`:
 
+<details>
+<summary>Maven dependency</summary>
+
 ```xml
 <dependency>
     <groupId>io.cyborgcode.roa</groupId>
@@ -583,6 +601,8 @@ Add the following snippet to the `dependencies` section of your test module’s 
     <version>${roa.version}</version>
 </dependency>
 ```
+
+</details>
 
 This single dependency brings in both **`test-framework`** and **`api-interactor`** transitively, so you typically do **not**
 need to declare them separately in your app-specific test module.
@@ -604,17 +624,30 @@ You configure this via a standard `.properties` file on the **test classpath** a
 
 Create a file on the **test classpath** (for example):
 
+<details>
+<summary>Path example</summary>
+
 ```text
 src/test/resources/api-config.properties
 ```
 
+</details>
+
 or
+
+<details>
+<summary>Path example</summary>
 
 ```text
 src/main/resources/api-config.properties
 ```
 
+</details>
+
 Minimal example:
+
+<details>
+<summary>Properties example</summary>
 
 ```properties
 # Which packages should be scanned for endpoints, hooks, etc.
@@ -628,6 +661,8 @@ api.restassured.logging.level=ALL
 log.full.body=false
 shorten.body=800
 ```
+
+</details>
 
 Key points:
 
@@ -643,17 +678,30 @@ Key points:
 
 At test runtime, `ApiConfig` resolves the file via the system property `api.config.file`:
 
+<details>
+<summary>Run command</summary>
+
 ```bash
   mvn -q test -Dapi.config.file=api-config
 ```
 
+</details>
+
 This tells Owner to load:
+
+<details>
+<summary>Path example</summary>
 
 ```text
 classpath:api-config.properties
 ```
 
+</details>
+
 You can keep multiple env-specific files and switch between them with the same flag. For example, place:
+
+<details>
+<summary>Path example</summary>
 
 ```text
 src/test/resources/api-config-dev.properties
@@ -661,9 +709,14 @@ src/test/resources/api-config-staging.properties
 src/test/resources/api-config-prod.properties
 ```
 
+</details>
+
 or the same files under `src/main/resources`.
 
 Run with:
+
+<details>
+<summary>Run command</summary>
 
 ```bash
 # dev
@@ -675,6 +728,8 @@ mvn -q test -Dapi.config.file=api-config-staging
 # prod
 mvn -q test -Dapi.config.file=api-config-prod
 ```
+
+</details>
 
 ---
 
@@ -712,6 +767,9 @@ To actually *use* the adapter in your tests, you mark the test class with the `@
 
 A typical API test class looks like this:
 
+<details>
+<summary>Test example</summary>
+
 ```java
 import io.cyborgcode.roa.api.annotations.API;
 import io.cyborgcode.roa.framework.base.BaseQuest;
@@ -727,6 +785,8 @@ class UsersRestTests extends BaseQuest {
    }
 }
 ```
+
+</details>
 
 Key points:
 
@@ -745,6 +805,9 @@ In your app-specific test module, you normally expose it as a **ring constant** 
 
 A common pattern is to keep all rings in a central `Rings` utility class and define something like:
 
+<details>
+<summary>Java example</summary>
+
 ```java
 import io.cyborgcode.roa.api.service.fluent.RestServiceFluent;
 import io.cyborgcode.roa.framework.quest.Quest;
@@ -761,7 +824,12 @@ public class Rings {
 }
 ```
 
+</details>
+
 Then, in your tests, you use the ring like this:
+
+<details>
+<summary>Test example</summary>
 
 ```java
 import static io.cyborgcode.api.test.framework.base.Rings.RING_OF_API;
@@ -783,6 +851,8 @@ class UsersRestTests extends BaseQuest {
    }
 }
 ```
+
+</details>
 
 This pattern is consistent with the rest of RoA:
 
@@ -808,7 +878,8 @@ you can start calling your API through the fluent service `RestServiceFluent`.
 The adapter uses the `Endpoint<?>` interface (from **`api-interactor`**) to describe endpoints.
 You are **not forced** to use enums – classes are also possible – but the **typical and recommended** approach is an enum that implements `Endpoint`.
 
-A generic example in your **app-specific test module**:
+<details>
+<summary>Example: Endpoint enum implementation</summary>
 
 ```java
 package com.example.tests.api;
@@ -816,6 +887,7 @@ package com.example.tests.api;
 import io.cyborgcode.roa.api.core.Endpoint;
 import io.restassured.http.ContentType;
 import io.restassured.http.Method;
+
 import io.restassured.specification.RequestSpecification;
 
 /**
@@ -864,6 +936,8 @@ public enum ExampleEndpoints implements Endpoint<ExampleEndpoints> {
 }
 ```
 
+</details>
+
 Key points:
 
 * Each enum constant is **one endpoint** (HTTP method + relative URL).
@@ -880,6 +954,9 @@ Path parameters (like `/resource/{id}`) and query parameters are typically handl
 
 With `@API` enabled and your ring constant defined (for example in a `Rings` utility):
 
+<details>
+<summary>Java example</summary>
+
 ```java
 package com.example.tests.base;
 
@@ -894,7 +971,12 @@ public class Rings {
 }
 ```
 
+</details>
+
 A minimal “hello world” GET looks like this:
+
+<details>
+<summary>Test example</summary>
 
 ```java
 import com.example.tests.api.ExampleEndpoints;
@@ -929,6 +1011,8 @@ class BasicApiTests extends BaseQuest {
 }
 ```
 
+</details>
+
 What happens here:
 
 * `quest.use(Rings.RING_OF_API)` → obtains a `RestServiceFluent` instance from the Quest.
@@ -944,6 +1028,9 @@ We’ll go deeper into assertion targets/types in Step 5 – Validate API respon
 If your endpoint supports query parameters (for example `GET /resource?page=2`), your `Endpoint` implementation will usually offer a helper to add query parameters. The exact method name depends on your implementation (e.g. `withQueryParam`, `withQueryParams`, etc.).
 
 Conceptually:
+
+<details>
+<summary>Test example</summary>
 
 ```java
 import com.example.tests.api.ExampleEndpoints;
@@ -988,6 +1075,8 @@ class QueryParamExamples extends BaseQuest {
 }
 ```
 
+</details>
+
 Important idea:
 
 * The enum definition stays simple (`"/resource"`).
@@ -1000,6 +1089,9 @@ Important idea:
 For endpoints like `/resource/{id}`, you again bind the actual value at call time using a helper method on `Endpoint`. You still define the template once (`"/resource/{id}"`) in the enum.
 
 Conceptual example:
+
+<details>
+<summary>Test example</summary>
 
 ```java
 import com.example.tests.api.ExampleEndpoints;
@@ -1035,6 +1127,8 @@ class PathParamExamples extends BaseQuest {
 }
 ```
 
+</details>
+
 > Use whatever helper your `Endpoint` interface provides for binding path variables (for example a method that accepts a key/value and returns a new, bound `Endpoint`). The core pattern is: **template in the enum**, **binding per request**.
 
 ---
@@ -1042,6 +1136,9 @@ class PathParamExamples extends BaseQuest {
 #### 4.5 POST with a request body
 
 For create/update operations, use the overload that accepts a body object. The body is typically a DTO defined in your test module.
+
+<details>
+<summary>Test example</summary>
 
 ```java
 import com.example.tests.api.ExampleEndpoints;
@@ -1104,6 +1201,8 @@ class CreateResourceExamples extends BaseQuest {
 }
 ```
 
+</details>
+
 Notes:
 
 * `request` is any serializable DTO (Jackson, etc.).
@@ -1133,6 +1232,9 @@ You do this with the `Assertion` builder plus assertion targets and types.
 
 A single assertion looks like this:
 
+<details>
+<summary>Java snippet</summary>
+
 ```java
 import io.cyborgcode.roa.validator.core.Assertion;
 
@@ -1146,6 +1248,8 @@ Assertion statusIsOk = Assertion.builder()
       .expected(SC_OK)      // value we expect
       .build();
 ```
+
+</details>
 
 Key pieces:
 
@@ -1169,6 +1273,9 @@ Key pieces:
 
 Optionally, you can mark an assertion as **soft**:
 
+<details>
+<summary>Java snippet</summary>
+
 ```java
 Assertion softStatusCheck = Assertion.builder()
       .target(STATUS)
@@ -1178,6 +1285,8 @@ Assertion softStatusCheck = Assertion.builder()
       .build();
 ```
 
+</details>
+
 Soft assertions are aggregated and raised at `.complete()` time.
 
 ---
@@ -1185,6 +1294,9 @@ Soft assertions are aggregated and raised at `.complete()` time.
 #### 5.2. Status + header validation
 
 A typical “basic API test” validates both the status and a header:
+
+<details>
+<summary>Test example</summary>
 
 ```java
 import io.cyborgcode.roa.validator.core.Assertion;
@@ -1221,6 +1333,8 @@ class BasicApiTests extends BaseQuest {
 }
 ```
 
+</details>
+
 What happens:
 
 * `requestAndValidate(...)` sends the request, gets a `Response`, then:
@@ -1235,7 +1349,8 @@ What happens:
 Body assertions target `BODY` and use `key(...)` for a JSONPath expression.
 You can hardcode the JSONPath or centralize them in an enum (recommended).
 
-Example with a **JSONPath registry enum**:
+<details>
+<summary>Example: JSONPath registry enum</summary>
 
 ```java
 public enum ApiResponsesJsonPaths {
@@ -1255,7 +1370,12 @@ public enum ApiResponsesJsonPaths {
 }
 ```
 
+</details>
+
 And then use it in assertions:
+
+<details>
+<summary>Test example</summary>
 
 ```java
 import io.cyborgcode.roa.validator.core.Assertion;
@@ -1300,6 +1420,8 @@ class CreateUserTests extends BaseQuest {
 }
 ```
 
+</details>
+
 Here you get:
 
 * status verification (`201 Created`)
@@ -1309,7 +1431,6 @@ Here you get:
     * `$.role == "admin"`
 
 More advanced patterns—like mapping the stored response to a DTO and asserting on it from storage—are covered later when we introduce **Quest storage** and `DataExtractorsApi`.
-
 
 ---
 
@@ -1346,6 +1467,9 @@ From the test’s point of view, you just write an authenticated test – no man
 
 First, implement the adapter’s `Credentials` interface:
 
+<details>
+<summary>Example: Credentials implementation</summary>
+
 ```java
 import io.cyborgcode.roa.api.authentication.Credentials;
 
@@ -1364,6 +1488,8 @@ public class AdminCredentials implements Credentials {
 }
 ```
 
+</details>
+
 In practice you would usually read these from Owner config, environment variables, or a test data provider.
 
 ---
@@ -1373,7 +1499,8 @@ In practice you would usually read these from Owner config, environment variable
 Next, implement the actual login logic by extending `BaseAuthenticationClient`.
 The adapter will call your `authenticateImpl(...)` hook once it’s time to authenticate.
 
-A minimal, concrete example:
+<details>
+<summary>Example: BaseAuthenticationClient implementation</summary>
 
 ```java
 // DTO used as login request body
@@ -1425,6 +1552,8 @@ public class ApiLoginClient extends BaseAuthenticationClient {
 }
 ```
 
+</details>
+
 Key points:
 
 * `BaseAuthenticationClient` gives you a single override point: `authenticateImpl(...)`.
@@ -1436,6 +1565,9 @@ Key points:
 #### 6.4. Use `@AuthenticateViaApi` in tests
 
 With `AdminCredentials` and `ApiLoginClient` in place, you can write authenticated tests like this:
+
+<details>
+<summary>Test example</summary>
 
 ```java
 import io.cyborgcode.roa.api.annotations.API;
@@ -1475,6 +1607,8 @@ class SecuredApiTests extends BaseQuest {
    }
 }
 ```
+
+</details>
 
 What happens behind the scenes:
 
@@ -1542,6 +1676,9 @@ If you want to see how this is executed under the hood, check
 Create an enum in your **test module**, in a package that is listed in `project.packages` (from Step 2).
 This is the *minimal* example: one hook that calls a “reset state” endpoint before tests.
 
+<details>
+<summary>Java snippet</summary>
+
 ```java
 import io.cyborgcode.roa.api.service.RestService;
 import io.cyborgcode.roa.api.hooks.ApiHookFlow;
@@ -1572,6 +1709,8 @@ public enum SimpleApiHooks implements ApiHookFlow<SimpleApiHooks> {
 }
 ```
 
+</details>
+
 Notes:
 
 * The **enum constant name** (`RESET_API_STATE`) is what you will put into `@ApiHook(type = "RESET_API_STATE")`.
@@ -1587,6 +1726,9 @@ Notes:
 #### 7.2. Use the hook in a test class
 
 Now annotate your test class so the hook runs **once before all tests** in this class:
+
+<details>
+<summary>Test example</summary>
 
 ```java
 import io.cyborgcode.roa.api.annotations.API;
@@ -1613,6 +1755,8 @@ class ApiWithHooksTests extends BaseQuest {
    }
 }
 ```
+
+</details>
 
 What happens:
 
@@ -1651,6 +1795,9 @@ The lower-level mechanics of this are described in
 
 In your test class:
 
+<details>
+<summary>Java snippet</summary>
+
 ```java
 import static io.cyborgcode.roa.api.retry.RetryConditionApi.responseFieldEqualsTo;
 import static io.cyborgcode.roa.api.retry.RetryConditionApi.statusEquals;
@@ -1658,18 +1805,28 @@ import static io.cyborgcode.roa.api.retry.RetryConditionApi.statusEquals;
 import java.time.Duration;
 ```
 
+</details>
+
 You can also statically import other helpers as needed:
+
+<details>
+<summary>Java snippet</summary>
 
 ```java
 // Also available:
 import static io.cyborgcode.roa.api.retry.RetryConditionApi.responseFieldNonNull;
 ```
 
+</details>
+
 ---
 
 #### 8.2. Basic example: wait until status code matches
 
 Example test that polls an endpoint until it returns `201 Created` (or times out):
+
+<details>
+<summary>Test example</summary>
 
 ```java
 @API
@@ -1688,6 +1845,8 @@ class AsyncStatusTests extends BaseQuest {
    }
 }
 ```
+
+</details>
 
 What happens here:
 
@@ -1709,6 +1868,9 @@ You only specify **what** should become true and **how long** you’re willing t
 #### 8.3. Body-based example: wait until a JSON field changes
 
 You can also wait for a specific JSON field in the response body to reach a value:
+
+<details>
+<summary>Test example</summary>
 
 ```java
 @API
@@ -1732,6 +1894,8 @@ class AsyncBodyTests extends BaseQuest {
 }
 ```
 
+</details>
+
 How this condition behaves:
 
 * On each attempt it:
@@ -1749,19 +1913,32 @@ How this condition behaves:
 
 * **Include a request body** (for polling endpoints that require a payload):
 
+  <details>
+  <summary>Java snippet</summary>
+
   ```java
   statusEquals(MyEndpoints.CHECK_TASK, taskRequestBody, 200);
   responseFieldEqualsTo(MyEndpoints.CHECK_TASK, taskRequestBody, "$.progress", 100);
   ```
 
+  </details>
+
 * **Check only for non-null fields** (useful when you don’t care about the exact value yet):
+
+  <details>
+  <summary>Java snippet</summary>
 
   ```java
   responseFieldNonNull(MyEndpoints.GET_REPORT, "$.downloadUrl");
   responseFieldNonNull(MyEndpoints.GET_REPORT, reportRequestBody, "$.downloadUrl");
   ```
 
+  </details>
+
 All of these are used in the same way:
+
+<details>
+<summary>Java snippet</summary>
 
 ```java
 quest
@@ -1773,6 +1950,8 @@ quest
       )
       .complete();
 ```
+
+</details>
 
 ---
 
@@ -1801,12 +1980,17 @@ another ring). The internal mechanics of how responses are stored are described 
 
 Behind the scenes, every call like:
 
+<details>
+<summary>Java snippet</summary>
+
 ```java
 quest
       .use(RING_OF_API)
       .request(MyEndpoints.CREATE_USER, body)
       // or requestAndValidate(...)
 ```
+
+</details>
 
 stores the last `Response` for that endpoint in RoA Storage under the API namespace (`StorageKeysApi.API`).
 `DataExtractorsApi` lets you **pull specific values out of that stored response** using JsonPath.
@@ -1817,10 +2001,15 @@ stores the last `Response` for that endpoint in RoA Storage under the API namesp
 
 `DataExtractorsApi` exposes two helpers:
 
+<details>
+<summary>Java snippet</summary>
+
 ```java
 DataExtractor<T> responseBodyExtraction(Enum<?> key, String jsonPath);
 DataExtractor<Integer> statusExtraction(Enum<?> key);
 ```
+
+</details>
 
 * `key` – usually your endpoint enum constant (e.g. `MyEndpoints.CREATE_USER`).
 * `jsonPath` – a JsonPath expression evaluated against the stored response body.
@@ -1837,6 +2026,9 @@ High-level flow:
 #### 9.2. Inline usage: extract a field from the last response
 
 Example: create a user, then read its `id` field from the response and assert on it.
+
+<details>
+<summary>Test example</summary>
 
 ```java
 import io.cyborgcode.roa.validator.core.AssertionTypes;
@@ -1875,6 +2067,8 @@ class ExtractResponseDataTests extends BaseQuest {
 }
 ```
 
+</details>
+
 Notes:
 
 * `responseBodyExtraction(MyEndpoints.CREATE_USER, "$.id")` tells the framework:
@@ -1894,6 +2088,9 @@ You can use any JsonPath that RestAssured supports, for example:
 #### 9.3. Using a small extractor registry (optional, but handy)
 
 For larger suites, you may want to centralize common extractors in an enum:
+
+<details>
+<summary>Java snippet</summary>
 
 ```java
 import io.cyborgcode.roa.framework.storage.DataExtractor;
@@ -1917,11 +2114,18 @@ public enum ApiResponseExtractors {
 }
 ```
 
+</details>
+
 Usage in a test:
+
+<details>
+<summary>Java snippet</summary>
 
 ```java
 String userId = retrieve(ApiResponseExtractors.CREATED_USER_ID.extractor(), String.class);
 ```
+
+</details>
 
 This keeps JsonPaths centralized and discoverable, similar to how you centralize endpoints.
 
@@ -1930,6 +2134,9 @@ This keeps JsonPaths centralized and discoverable, similar to how you centralize
 #### 9.4. Extracting the status code with `statusExtraction`
 
 If you want to reuse the **status code** from a previous call (for logging, branching logic, or additional checks), use `statusExtraction`:
+
+<details>
+<summary>Test example</summary>
 
 ```java
 import static io.cyborgcode.roa.api.storage.DataExtractorsApi.statusExtraction;
@@ -1955,6 +2162,8 @@ class StatusExtractionTests extends BaseQuest {
    }
 }
 ```
+
+</details>
 
 Again, the pattern is the same:
 
@@ -1995,6 +2204,9 @@ You define a `DataCreator` enum (implementing `DataForge<DataCreator>`) and dele
 
 The enum lives in your test module:
 
+<details>
+<summary>Java example</summary>
+
 ```java
 public enum DataCreator implements DataForge<DataCreator> {
 
@@ -2027,10 +2239,15 @@ public enum DataCreator implements DataForge<DataCreator> {
 }
 ```
 
+</details>
+
 > **Note:** You don’t manually implement `Late` here.
 > The method references (`DataCreatorFunctions::staticUser`) are adapted by the framework.
 
 The corresponding factory methods are **plain functions returning DTOs** – even for “late/dynamic” cases:
+
+<details>
+<summary>Java example</summary>
 
 ```java
 public final class DataCreatorFunctions {
@@ -2056,6 +2273,8 @@ public final class DataCreatorFunctions {
 }
 ```
 
+</details>
+
 * `staticUser()` is a fixed model.
 * `dynamicUser()` is a trivial “late/dynamic” example (based on timestamp) – no complex storage/Quest logic needed to illustrate the concept.
 
@@ -2065,6 +2284,9 @@ At the **test parameter** level you decide:
 
 * inject the **concrete DTO** ⇒ factory is called before the test body;
 * inject a **`Late<T>`** ⇒ you get a wrapper and decide *when* to call `create()`.
+
+<details>
+<summary>Test example</summary>
 
 ```java
 @API
@@ -2105,6 +2327,8 @@ class CreateUserTests extends BaseQuest {
 }
 ```
 
+</details>
+
 Pattern recap:
 
 * You define `DataCreator` + `DataCreatorFunctions` in your own test module.
@@ -2119,6 +2343,9 @@ Pattern recap:
 Each entry points to a method in `PreconditionFunctions` that receives the active `SuperQuest` and any **journey data** (e.g. a crafted user).
 
 Registry (your code):
+
+<details>
+<summary>Java example</summary>
 
 ```java
 public enum Preconditions implements PreQuestJourney<Preconditions> {
@@ -2150,7 +2377,12 @@ public enum Preconditions implements PreQuestJourney<Preconditions> {
 }
 ```
 
+</details>
+
 Precondition implementation that **actually uses the `journeyData`**:
+
+<details>
+<summary>Java example</summary>
 
 ```java
 public final class PreconditionFunctions {
@@ -2171,7 +2403,12 @@ public final class PreconditionFunctions {
 }
 ```
 
+</details>
+
 Usage in a test, combining `@Journey` and `@Craft`:
+
+<details>
+<summary>Test example</summary>
 
 ```java
 @API
@@ -2200,6 +2437,8 @@ class JourneyExampleTests extends BaseQuest {
 }
 ```
 
+</details>
+
 Key points:
 
 * `journeyData = {@JourneyData(DataCreator.Data.USER_STATIC)}` tells the framework:
@@ -2217,6 +2456,9 @@ So the `journeyData` created is explicitly used inside the journey implementatio
 Each entry is backed by a function in `DataCleanerFunctions` that receives the active `SuperQuest`.
 
 Cleanup registry:
+
+<details>
+<summary>Java example</summary>
 
 ```java
 public enum DataCleaner implements DataRipper<DataCleaner> {
@@ -2248,7 +2490,12 @@ public enum DataCleaner implements DataRipper<DataCleaner> {
 }
 ```
 
+</details>
+
 Cleanup implementation (simple, focused):
+
+<details>
+<summary>Java example</summary>
 
 ```java
 public final class DataCleanerFunctions {
@@ -2265,7 +2512,12 @@ public final class DataCleanerFunctions {
 }
 ```
 
+</details>
+
 Usage in a test:
+
+<details>
+<summary>Test example</summary>
 
 ```java
 @API
@@ -2289,6 +2541,8 @@ class CleanupExampleTests extends BaseQuest {
    }
 }
 ```
+
+</details>
 
 Pattern recap:
 
@@ -2348,6 +2602,9 @@ This module (`api-interactor-test-framework-adapter`) has two direct dependencie
 
 From the point of view of your **app-specific test module**, you normally just declare the adapter:
 
+<details>
+<summary>Maven dependency</summary>
+
 ```xml
 <dependency>
   <groupId>io.cyborgcode.roa</groupId>
@@ -2355,6 +2612,8 @@ From the point of view of your **app-specific test module**, you normally just d
   <version>${roa.version}</version>
 </dependency>
 ```
+
+</details>
 
 ---
 
