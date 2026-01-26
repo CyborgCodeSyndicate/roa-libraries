@@ -1,0 +1,24 @@
+{
+    "error": "rate_limit_exceeded",
+    "message": "You've hit today's Free request limit.",
+    "limit": 100,
+    "remaining": 0,
+    "reset_at": 1769472000,
+    "upgrade_url": "https://app.reqres.in/upgrade",
+    "recommended_plan": "dev",
+    "why_this_happened": "Free usage is designed for trying things out. Paid plans unlock higher limits and longer logs.",
+    "tier": "free",
+    "_meta": {
+        "powered_by": "ReqRes",
+        "docs_url": "https://app.reqres.in/documentation",
+        "upgrade_url": "https://app.reqres.in/upgrade",
+        "example_url": "https://app.reqres.in/examples/notes-app",
+        "variant": "v1_a",
+        "message": "Rate limited to keep ReqRes free. Projects unlock higher limits + logs.",
+        "cta": {
+            "label": "Upgrade",
+            "url": "https://app.reqres.in/upgrade"
+        },
+        "context": "rate_limited"
+    }
+}
