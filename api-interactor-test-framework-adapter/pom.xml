@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.cyborgcode.utilities</groupId>
+        <artifactId>parent-pom</artifactId>
+        <version>1.0.0-rc-1</version>
+    </parent>
+
+    <groupId>io.cyborgcode.roa</groupId>
+    <artifactId>api-interactor-test-framework-adapter</artifactId>
+    <version>0.0.0</version>
+    <name>Ring of Automation Api Test Framework</name>
+    <description>Library part of Ring of Automation that adopts the api library to the test framework.</description>
+
+    <properties>
+        <github.repo.name>roa-libraries</github.repo.name>
+        <utilities.version>1.0.0-rc-1</utilities.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <shared-static-data.version>${utilities.version}</shared-static-data.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.cyborgcode.roa</groupId>
+            <artifactId>test-framework</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cyborgcode.roa</groupId>
+            <artifactId>api-interactor</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

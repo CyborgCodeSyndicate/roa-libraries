@@ -1,0 +1,79 @@
+package io.cyborgcode.roa.framework.extension;
+
+import io.cyborgcode.utilities.config.PropertyConfig;
+import io.cyborgcode.roa.framework.config.FrameworkConfig;
+import io.cyborgcode.roa.framework.util.AllureStepHelperTest;
+import io.cyborgcode.utilities.reflections.ReflectionUtil;
+import org.aeonbits.owner.ConfigCache;
+import org.apache.logging.log4j.ThreadContext;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.mockito.MockedStatic;
+
+import java.util.List;
+import java.util.Optional;
+
+import static io.cyborgcode.roa.framework.storage.StoreKeys.START_TIME;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
+
+@DisplayName("Prologue Extension Tests")
+class PrologueTest {
+
+    private static final String TEST_NAME = "testName";
+    private static final String DEFAULT_DISPLAY_NAME = "DefaultDisplayName";
+    private static final String TEST_DISPLAY_NAME = "TestDisplayName";
+
+
+    @Nested
+    @DisplayName("Test Execution Setup")
+    class TestExecutionSetup {
+
+        @Test
+        @DisplayName("Should use unknown values when class and method are not available")
+        void beforeTestExecution_UsesUnknownValuesWhenAbsent() {
+            // Arrange
+            Prologue prologue = new Prologue();
+            ExtensionContext context = mock(ExtensionContext.class);
+            ExtensionContext.Store store = mock(ExtensionContext.Store.class);
+            when(context.getStore(ExtensionContext.Namespace.GLOBAL)).thenReturn(store);
+
+            // No class or method available
+            when(context.getTestClass()).thenReturn(Optional.empty());
+            when(context.getTestMethod()).thenReturn(Optional.empty());
+            when(context.getDisplayName()).thenReturn(DEFAULT_DISPLAY_NAME);
+
+            // Act & Assert
+            try (MockedStatic<ReflectionUtil> mockedReflectionUtil = mockStatic(ReflectionUtil.class);
+                 MockedStatic<ThreadContext> threadContext = mockStatic(ThreadContext.class);
+                 MockedStatic<ConfigCache> mockedConfigCache = mockStatic(ConfigCache.class)) {
+
+                // Given
+                List<Class<? extends PropertyConfig>> dummyConfigs = List.of(AllureStepHelperTest.BasicPropertyConfig.class);
+                mockedReflectionUtil.when(() ->
+                        ReflectionUtil.findImplementationsOfInterface(any(), any())
+                ).thenReturn(dummyConfigs);
+
+                AllureStepHelperTest.BasicPropertyConfig dummyConfig = new AllureStepHelperTest.BasicPropertyConfig();
+                mockedConfigCache.when(() -> ConfigCache.getOrCreate(AllureStepHelperTest.BasicPropertyConfig.class))
+                        .thenReturn(dummyConfig);
+
+                FrameworkConfig dummyFrameworkConfig = mock(FrameworkConfig.class);
+                lenient().when(dummyFrameworkConfig.projectPackages()).thenReturn(new String[]{"io.cyborgcode.roa"});
+                mockedConfigCache.when(() -> ConfigCache.getOrCreate(FrameworkConfig.class))
+                        .thenReturn(dummyFrameworkConfig);
+                prologue.beforeTestExecution(context);
+
+                // Verify thread context uses fallback values
+                threadContext.verify(() ->
+                        ThreadContext.put(eq(TEST_NAME), eq("UnknownClass.UnknownMethod")));
+
+                // Verify start time is still stored
+                verify(store).put(eq(START_TIME), anyLong());
+            }
+        }
+    }
+}
