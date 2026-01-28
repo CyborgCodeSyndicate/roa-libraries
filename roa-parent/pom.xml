@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.cyborgcode.roa</groupId>
+    <artifactId>roa-parent</artifactId>
+    <version>0.0.0</version>
+    <packaging>pom</packaging>
+    <name>Ring of Automation Parent Pom</name>
+    <description>Parent POM and dependency management for all repositories using ROA framework.</description>
+
+    <url>https://github.com/CyborgCodeSyndicate/roa-libraries</url>
+
+    <organization>
+        <name>Cyborg Code Syndicate</name>
+        <url>https://cyborgcode.io</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>cyborgcodesyndicate</id>
+            <name>Cyborg Code Syndicate</name>
+            <email>operator@cyborgcode.io</email>
+            <organization>Cyborg Code Syndicate</organization>
+            <organizationUrl>https://cyborgcode.io</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://github.com/CyborgCodeSyndicate/roa-libraries</url>
+        <connection>scm:git:https://github.com/CyborgCodeSyndicate/roa-libraries.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/CyborgCodeSyndicate/roa-libraries.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/CyborgCodeSyndicate/roa-libraries/issues</url>
+    </issueManagement>
+
+    <ciManagement>
+        <system>GitHub Actions</system>
+        <url>https://github.com/CyborgCodeSyndicate/roa-libraries/actions</url>
+    </ciManagement>
+
+
+    <properties>
+        <github.repo.owner>CyborgCodeSyndicate</github.repo.owner>
+        <github.repo.name>roa-libraries</github.repo.name>
+        <java.version>17</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <skipTests>false</skipTests>
+        <include.tags></include.tags>
+        <exclude.tags>exclude-from-verify</exclude.tags>
+
+        <api.config.file>config</api.config.file>
+        <db.config.file>config</db.config.file>
+        <ui.config.file>config</ui.config.file>
+        <test.data.file>test_data</test.data.file>
+        <framework.config.file>config</framework.config.file>
+
+        <test.env></test.env>
+
+        <surefire.forkCount>1C</surefire.forkCount>
+        <surefire.reuseForks>true</surefire.reuseForks>
+
+        <allure.results.dir>${project.build.directory}/allure-results</allure.results.dir>
+        <allure.report.dir>${project.build.directory}/allure-report</allure.report.dir>
+        <allure.link.issue.pattern></allure.link.issue.pattern>
+        <allure.link.tms.pattern></allure.link.tms.pattern>
+
+        <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
+        <parent-pom.version>1.0.0-rc-2</parent-pom.version>
+
+        <logFileName>roa.log</logFileName>
+        <log4j2.scriptEnableLanguages>javascript</log4j2.scriptEnableLanguages>
+        <extended.logging>false</extended.logging>
+        <silent.mode>false</silent.mode>
+
+        <roa-plugins.version>1.0.0-rc-2</roa-plugins.version>
+        <central-publishing-maven-plugin.version>0.10.0</central-publishing-maven-plugin.version>
+        <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
+        <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.cyborgcode.utilities</groupId>
+                <artifactId>parent-pom</artifactId>
+                <version>${parent-pom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.cyborgcode.roa</groupId>
+                <artifactId>assertions</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cyborgcode.roa</groupId>
+                <artifactId>api-interactor</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cyborgcode.roa</groupId>
+                <artifactId>db-interactor</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cyborgcode.roa</groupId>
+                <artifactId>ui-interactor</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cyborgcode.roa</groupId>
+                <artifactId>test-framework</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cyborgcode.roa</groupId>
+                <artifactId>api-interactor-test-framework-adapter</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cyborgcode.roa</groupId>
+                <artifactId>db-interactor-test-framework-adapter</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cyborgcode.roa</groupId>
+                <artifactId>ui-interactor-test-framework-adapter</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <release>${java.version}</release>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                        <parameters>true</parameters>
+                        <showWarnings>true</showWarnings>
+                        <showDeprecation>true</showDeprecation>
+                        <compilerReuseStrategy>reuseCreated</compilerReuseStrategy>
+                        <fork>true</fork>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                    <configuration>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                        <skipTests>${skipTests}</skipTests>
+                        <failIfNoTests>false</failIfNoTests>
+                        <useModulePath>false</useModulePath>
+                        <trimStackTrace>true</trimStackTrace>
+                        <forkCount>${surefire.forkCount}</forkCount>
+                        <reuseForks>${surefire.reuseForks}</reuseForks>
+                        <printSummary>true</printSummary>
+
+                        <groups>${include.tags}</groups>
+                        <excludedGroups>${exclude.tags}</excludedGroups>
+
+
+                        <systemPropertyVariables>
+                            <allure.results.directory>${allure.results.dir}</allure.results.directory>
+                            <allure.link.issue.pattern>${allure.link.issue.pattern}</allure.link.issue.pattern>
+                            <allure.link.tms.pattern>${allure.link.tms.pattern}</allure.link.tms.pattern>
+                            <junit.jupiter.extensions.autodetection.enabled>true
+                            </junit.jupiter.extensions.autodetection.enabled>
+
+                            <ui.config.file>${ui.config.file}</ui.config.file>
+                            <api.config.file>${api.config.file}</api.config.file>
+                            <db.config.file>${db.config.file}</db.config.file>
+                            <framework.config.file>${framework.config.file}</framework.config.file>
+                            <test.data.file>${test.data.file}</test.data.file>
+                            <logFileName>${logFileName}</logFileName>
+                            <log4j2.scriptEnableLanguages>${log4j2.scriptEnableLanguages}</log4j2.scriptEnableLanguages>
+                            <extended.logging>${extended.logging}</extended.logging>
+                            <silent.mode>${silent.mode}</silent.mode>
+                        </systemPropertyVariables>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>io.cyborgcode.roa.plugins</groupId>
+                    <artifactId>test-allocator-maven-plugin</artifactId>
+                    <version>${roa-plugins.version}</version>
+                    <executions>
+                        <execution>
+                            <id>split-tests</id>
+                            <phase>test-compile</phase>
+                            <goals>
+                                <goal>split</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>e2e</id>
+            <properties>
+                <exclude.tags></exclude.tags>
+            </properties>
+        </profile>
+        <profile>
+            <id>execution-setup</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.cyborgcode.roa.plugins</groupId>
+                        <artifactId>test-allocator-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>github</id>
+
+            <activation>
+                <property>
+                    <name>env.GITHUB_PACKAGES_TOKEN</name>
+                </property>
+            </activation>
+
+            <repositories>
+                <repository>
+                    <id>github-utilities</id>
+                    <name>GitHub Packages for Utilities</name>
+                    <url>https://maven.pkg.github.com/${github.repo.owner}/utilities</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>github-roa-libraries</id>
+                    <name>GitHub Packages for ROA Libraries</name>
+                    <url>https://maven.pkg.github.com/${github.repo.owner}/roa-libraries</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>github-roa-plugins</id>
+                    <name>GitHub Packages for ROA Plugins</name>
+                    <url>https://maven.pkg.github.com/${github.repo.owner}/roa-plugins</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>github-roa-libraries</id>
+                    <name>GitHub Packages for ROA Libraries</name>
+                    <url>https://maven.pkg.github.com/${github.repo.owner}/roa-libraries</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>github-utilities</id>
+                    <name>GitHub for ROA Utilities</name>
+                    <url>https://maven.pkg.github.com/${github.repo.owner}/utilities</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>github-roa-plugins</id>
+                    <name>GitHub Packages for ROA Plugins</name>
+                    <url>https://maven.pkg.github.com/${github.repo.owner}/roa-plugins</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+
+        </profile>
+        <profile>
+            <id>central</id>
+            <build>
+                <plugins>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>${maven-source-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>${maven-javadoc-plugin.version}</version>
+                        <configuration>
+                            <failOnError>false</failOnError>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven-gpg-plugin.version}</version>
+                        <configuration>
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>${central-publishing-maven-plugin.version}</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <publishingServerId>central</publishingServerId>
+                            <autoPublish>true</autoPublish>
+                        </configuration>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>

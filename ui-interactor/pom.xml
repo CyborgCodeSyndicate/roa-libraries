@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.cyborgcode.utilities</groupId>
+        <artifactId>parent-pom</artifactId>
+        <version>1.0.0-rc-2</version>
+    </parent>
+
+    <groupId>io.cyborgcode.roa</groupId>
+    <artifactId>ui-interactor</artifactId>
+    <version>0.0.0</version>
+    <name>Ring of Automation UI Library</name>
+    <description>Library part of Ring of Automation that enables interaction via UI.</description>
+
+    <properties>
+        <github.repo.name>roa-libraries</github.repo.name>
+        <utilities.version>1.0.0-rc-2</utilities.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <shared-static-data.version>${utilities.version}</shared-static-data.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.aeonbits.owner</groupId>
+            <artifactId>owner</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.cyborgcode.utilities</groupId>
+            <artifactId>commons</artifactId>
+            <version>${utilities.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cyborgcode.roa</groupId>
+            <artifactId>assertions</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-annotations</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
