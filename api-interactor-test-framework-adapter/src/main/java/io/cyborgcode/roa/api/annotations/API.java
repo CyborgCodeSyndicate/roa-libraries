@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.api.annotations;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.api.extensions.ApiHookExtension;
 import io.cyborgcode.roa.api.extensions.ApiTestExtension;
 import io.cyborgcode.roa.framework.annotation.FrameworkAdapter;
@@ -22,6 +25,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Marks a JUnit test class as an API test and wires ROA's API extensions and configuration.",
+      tags = {"api", "annotation"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/api-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "api-annotation"),
+         @PandoraOptions.Meta(key = "scope", value = "class")
+      }
+)
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
 @FrameworkAdapter(basePackages = {"io.cyborgcode.roa.api"})

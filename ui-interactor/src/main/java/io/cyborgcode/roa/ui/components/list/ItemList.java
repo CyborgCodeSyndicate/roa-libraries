@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.ui.components.list;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
 import io.cyborgcode.roa.ui.util.strategy.Strategy;
 import java.util.List;
@@ -14,6 +17,18 @@ import org.openqa.selenium.By;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Represents a list-based component allowing items to be selected, deselected, verified, "
+            + "or retrieved with various interaction methods.",
+      tags = {"ui", "component-contract", "list"},
+      creation = CreationKind.AUTO
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/ui-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "ui-component")
+      }
+)
 public interface ItemList {
 
    /**
@@ -22,6 +37,10 @@ public interface ItemList {
     * @param container the container element holding the item list.
     * @param itemText  one or more text labels identifying the items to select.
     */
+   @Pandora(
+         description = "Selects one or more items, identified by the provided text, within the specified container.",
+         tags = {"component-contract", "item-list"}
+   )
    void select(SmartWebElement container, String... itemText);
 
    /**
@@ -30,6 +49,11 @@ public interface ItemList {
     * @param containerLocator the locator used to find the container element.
     * @param itemText         one or more text labels identifying the items to select.
     */
+   @Pandora(
+         description = "Selects one or more items, identified by the provided text, within the container "
+               + "located by the specified locator.",
+         tags = {"component-contract", "item-list"}
+   )
    void select(By containerLocator, String... itemText);
 
    /**
@@ -39,6 +63,10 @@ public interface ItemList {
     * @param strategy  the strategy defining how the items should be selected.
     * @return a string representation of the selection result, if applicable.
     */
+   @Pandora(
+         description = "Selects items in the specified container using a custom strategy.",
+         tags = {"component-contract", "item-list"}
+   )
    String select(SmartWebElement container, Strategy strategy);
 
    /**
@@ -48,6 +76,10 @@ public interface ItemList {
     * @param strategy         the strategy defining how the items should be selected.
     * @return a string representation of the selection result, if applicable.
     */
+   @Pandora(
+         description = "Selects items within the container located by the specified locator, using a custom strategy.",
+         tags = {"component-contract", "item-list"}
+   )
    String select(By containerLocator, Strategy strategy);
 
    /**
@@ -55,6 +87,11 @@ public interface ItemList {
     *
     * @param itemText one or more text labels identifying the items to select.
     */
+   @Pandora(
+         description = "Selects one or more items by text without specifying a container, if the "
+               + "default container is implicitly known.",
+         tags = {"component-contract", "item-list"}
+   )
    void select(String... itemText);
 
    /**
@@ -62,6 +99,10 @@ public interface ItemList {
     *
     * @param itemListLocator one or more locators identifying the items to select.
     */
+   @Pandora(
+         description = "Selects items via one or more locators.",
+         tags = {"component-contract", "item-list"}
+   )
    void select(By... itemListLocator);
 
    /**
@@ -70,6 +111,10 @@ public interface ItemList {
     * @param container the container element holding the item list.
     * @param itemText  one or more text labels identifying the items to deselect.
     */
+   @Pandora(
+         description = "Deselects one or more items, identified by the provided text, within the specified container.",
+         tags = {"component-contract", "item-list"}
+   )
    void deSelect(SmartWebElement container, String... itemText);
 
    /**
@@ -79,6 +124,11 @@ public interface ItemList {
     * @param containerLocator the locator used to find the container element.
     * @param itemText         one or more text labels identifying the items to deselect.
     */
+   @Pandora(
+         description = "Deselects one or more items, identified by the provided text, within "
+               + "the container located by the specified locator.",
+         tags = {"component-contract", "item-list"}
+   )
    void deSelect(By containerLocator, String... itemText);
 
    /**
@@ -88,6 +138,10 @@ public interface ItemList {
     * @param strategy  the strategy defining how the items should be deselected.
     * @return a string representation of the deselection result, if applicable.
     */
+   @Pandora(
+         description = "Deselects items in the specified container using a custom strategy.",
+         tags = {"component-contract", "item-list"}
+   )
    String deSelect(SmartWebElement container, Strategy strategy);
 
    /**
@@ -97,6 +151,11 @@ public interface ItemList {
     * @param strategy         the strategy defining how the items should be deselected.
     * @return a string representation of the deselection result, if applicable.
     */
+   @Pandora(
+         description = "Deselects items within the container located by the specified locator, "
+               + "using a custom strategy.",
+         tags = {"component-contract", "item-list"}
+   )
    String deSelect(By containerLocator, Strategy strategy);
 
    /**
@@ -104,6 +163,11 @@ public interface ItemList {
     *
     * @param itemText one or more text labels identifying the items to deselect.
     */
+   @Pandora(
+         description = "Deselects one or more items by text without specifying a container, if the "
+               + "default container is implicitly known.",
+         tags = {"component-contract", "item-list"}
+   )
    void deSelect(String... itemText);
 
    /**
@@ -111,6 +175,10 @@ public interface ItemList {
     *
     * @param itemListLocator one or more locators identifying the items to deselect.
     */
+   @Pandora(
+         description = "Deselects items identified by one or more locators.",
+         tags = {"component-contract", "item-list"}
+   )
    void deSelect(By... itemListLocator);
 
    /**
@@ -120,6 +188,11 @@ public interface ItemList {
     * @param itemText  one or more text labels identifying the items to check.
     * @return true if all specified items are selected, otherwise false.
     */
+   @Pandora(
+         description = "Determines if the specified items, identified by text, are selected within "
+               + "the specified container.",
+         tags = {"component-contract", "item-list"}
+   )
    boolean areSelected(SmartWebElement container, String... itemText);
 
    /**
@@ -130,6 +203,11 @@ public interface ItemList {
     * @param itemText         one or more text labels identifying the items to check.
     * @return true if all specified items are selected, otherwise false.
     */
+   @Pandora(
+         description = "Determines if the specified items, identified by text, are selected within "
+               + "the container located by the specified locator.",
+         tags = {"component-contract", "item-list"}
+   )
    boolean areSelected(By containerLocator, String... itemText);
 
    /**
@@ -138,6 +216,11 @@ public interface ItemList {
     * @param itemText one or more text labels identifying the items to check.
     * @return true if all specified items are selected, otherwise false.
     */
+   @Pandora(
+         description = "Determines if the specified items, identified by text, are selected without "
+               + "specifying a container.",
+         tags = {"component-contract", "item-list"}
+   )
    boolean areSelected(String... itemText);
 
    /**
@@ -146,6 +229,10 @@ public interface ItemList {
     * @param itemListLocator one or more locators identifying the items to check.
     * @return true if all located items are selected, otherwise false.
     */
+   @Pandora(
+         description = "Determines if the specified items are selected using one or more locators.",
+         tags = {"component-contract", "item-list"}
+   )
    boolean areSelected(By... itemListLocator);
 
    /**
@@ -155,6 +242,11 @@ public interface ItemList {
     * @param itemText  one or more text labels identifying the items to check.
     * @return true if all specified items are enabled, otherwise false.
     */
+   @Pandora(
+         description = "Determines if the specified items, identified by text, are enabled within "
+               + "the specified container.",
+         tags = {"component-contract", "item-list"}
+   )
    boolean areEnabled(SmartWebElement container, String... itemText);
 
    /**
@@ -165,6 +257,11 @@ public interface ItemList {
     * @param itemText         one or more text labels identifying the items to check.
     * @return true if all specified items are enabled, otherwise false.
     */
+   @Pandora(
+         description = "Determines if the specified items, identified by text, are enabled within "
+               + "the container located by the specified locator.",
+         tags = {"component-contract", "item-list"}
+   )
    boolean areEnabled(By containerLocator, String... itemText);
 
    /**
@@ -173,6 +270,11 @@ public interface ItemList {
     * @param itemText one or more text labels identifying the items to check.
     * @return true if all specified items are enabled, otherwise false.
     */
+   @Pandora(
+         description = "Determines if the specified items, identified by text, are enabled without "
+               + "specifying a container.",
+         tags = {"component-contract", "item-list"}
+   )
    boolean areEnabled(String... itemText);
 
    /**
@@ -181,6 +283,10 @@ public interface ItemList {
     * @param itemLocator one or more locators identifying the items to check.
     * @return true if all located items are enabled, otherwise false.
     */
+   @Pandora(
+         description = "Determines if items identified by one or more locators are enabled.",
+         tags = {"component-contract", "item-list"}
+   )
    boolean areEnabled(By... itemLocator);
 
    /**
@@ -190,6 +296,11 @@ public interface ItemList {
     * @param itemText  one or more text labels identifying the items to check.
     * @return true if all specified items are visible, otherwise false.
     */
+   @Pandora(
+         description = "Determines if the specified items, identified by text, are visible within "
+               + "the specified container.",
+         tags = {"component-contract", "item-list"}
+   )
    boolean areVisible(SmartWebElement container, String... itemText);
 
    /**
@@ -200,6 +311,11 @@ public interface ItemList {
     * @param itemText         one or more text labels identifying the items to check.
     * @return true if all specified items are visible, otherwise false.
     */
+   @Pandora(
+         description = "Determines if the specified items, identified by text, are visible within "
+               + "the container located by the specified locator.",
+         tags = {"component-contract", "item-list"}
+   )
    boolean areVisible(By containerLocator, String... itemText);
 
    /**
@@ -208,6 +324,11 @@ public interface ItemList {
     * @param itemText one or more text labels identifying the items to check.
     * @return true if all specified items are visible, otherwise false.
     */
+   @Pandora(
+         description = "Determines if the specified items, identified by text, are visible without "
+               + "specifying a container.",
+         tags = {"component-contract", "item-list"}
+   )
    boolean areVisible(String... itemText);
 
    /**
@@ -216,6 +337,10 @@ public interface ItemList {
     * @param itemLocator one or more locators identifying the items to check.
     * @return true if all located items are visible, otherwise false.
     */
+   @Pandora(
+         description = "Determines if items identified by one or more locators are visible.",
+         tags = {"component-contract", "item-list"}
+   )
    boolean areVisible(By... itemLocator);
 
    /**
@@ -224,6 +349,10 @@ public interface ItemList {
     * @param container the container element holding the item list.
     * @return a list of text values for the selected items.
     */
+   @Pandora(
+         description = "Retrieves the currently selected items as text from the specified container.",
+         tags = {"component-contract", "item-list"}
+   )
    List<String> getSelected(SmartWebElement container);
 
    /**
@@ -232,6 +361,11 @@ public interface ItemList {
     * @param containerLocator the locator used to find the container element.
     * @return a list of text values for the selected items.
     */
+   @Pandora(
+         description = "Retrieves the currently selected items as text from the container located "
+               + "by the specified locator.",
+         tags = {"component-contract", "item-list"}
+   )
    List<String> getSelected(By containerLocator);
 
    /**
@@ -240,6 +374,10 @@ public interface ItemList {
     * @param container the container element holding the item list.
     * @return a list of all item text values.
     */
+   @Pandora(
+         description = "Retrieves all items as text from the specified container.",
+         tags = {"component-contract", "item-list"}
+   )
    List<String> getAll(SmartWebElement container);
 
    /**
@@ -248,6 +386,10 @@ public interface ItemList {
     * @param containerLocator the locator used to find the container element.
     * @return a list of all item text values.
     */
+   @Pandora(
+         description = "Retrieves all items as text from the container located by the specified locator.",
+         tags = {"component-contract", "item-list"}
+   )
    List<String> getAll(By containerLocator);
 
 }

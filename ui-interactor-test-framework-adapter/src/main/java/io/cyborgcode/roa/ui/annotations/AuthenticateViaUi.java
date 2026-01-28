@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.ui.annotations;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.authentication.BaseLoginClient;
 import io.cyborgcode.roa.ui.authentication.LoginCredentials;
 import java.lang.annotation.ElementType;
@@ -16,6 +19,19 @@ import java.lang.annotation.Target;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Method-level annotation that configures how UI authentication is performed for a test "
+            + "(credentials + client + caching).",
+      tags = {"ui", "auth", "annotation"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/ui-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "ui-auth-annotation"),
+         @PandoraOptions.Meta(key = "scope", value = "method")
+      }
+)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface AuthenticateViaUi {
@@ -25,6 +41,9 @@ public @interface AuthenticateViaUi {
     *
     * @return The class that provides login credentials.
     */
+   @Pandora(
+         description = "Credentials provider used to supply username/password or tokens for UI login."
+   )
    Class<? extends LoginCredentials> credentials();
 
    /**
@@ -32,6 +51,10 @@ public @interface AuthenticateViaUi {
     *
     * @return The class implementing the authentication logic.
     */
+   @Pandora(
+         description = "UI login client implementation that performs the login flow and stores "
+               + "resulting session/tokens."
+   )
    Class<? extends BaseLoginClient> type();
 
    /**
@@ -42,6 +65,10 @@ public @interface AuthenticateViaUi {
     *
     * @return {@code true} if credentials should be cached, {@code false} otherwise.
     */
+   @Pandora(
+         description = "Whether to cache resolved credentials (and/or tokens) across tests instead of "
+               + "logging in every time."
+   )
    boolean cacheCredentials() default false;
 
 }

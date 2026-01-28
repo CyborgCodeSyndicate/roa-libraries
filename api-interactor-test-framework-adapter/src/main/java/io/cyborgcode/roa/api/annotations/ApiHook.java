@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.api.annotations;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.hooks.HookExecution;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Repeatable;
@@ -17,6 +20,18 @@ import java.lang.annotation.Target;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Declares a class-level API hook flow to run before or after all tests in a JUnit class.",
+      tags = {"api", "hook", "annotation"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/api-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "api-hook-annotation"),
+         @PandoraOptions.Meta(key = "scope", value = "class")
+      }
+)
 @Repeatable(ApiHooks.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
@@ -30,15 +45,19 @@ public @interface ApiHook {
     *
     * @return the hook flow type name
     */
+   @Pandora(
+         description = "Identifier of the hook flow implementation to execute (typically an enum name)."
+   )
    String type();
 
    /**
     * When to execute the hook relative to the test lifecycle.
     *
-    * @return {
-    *     @link HookExecution#BEFORE} to run before all tests,
-    *     {@link HookExecution#AFTER} to run after all tests
+    * @return {@link HookExecution#BEFORE} to run before all tests, {@link HookExecution#AFTER} to run after all tests
     */
+   @Pandora(
+         description = "When the hook should run relative to the test lifecycle (BEFORE or AFTER all tests)."
+   )
    HookExecution when();
 
    /**
@@ -46,6 +65,9 @@ public @interface ApiHook {
     *
     * @return an array of {@code String} arguments
     */
+   @Pandora(
+         description = "Optional string arguments that will be passed to the hook flow."
+   )
    String[] arguments() default {};
 
    /**
@@ -55,6 +77,9 @@ public @interface ApiHook {
     *
     * @return an integer defining the sort order
     */
+   @Pandora(
+         description = "Execution order among hooks with the same timing; lower values are executed first."
+   )
    int order() default 0;
 
 }

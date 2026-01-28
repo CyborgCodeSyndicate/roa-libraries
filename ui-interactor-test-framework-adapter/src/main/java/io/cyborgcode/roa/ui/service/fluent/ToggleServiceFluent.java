@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.ui.service.fluent;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.storage.Storage;
 import io.cyborgcode.roa.ui.components.toggle.ToggleService;
 import io.cyborgcode.roa.ui.selenium.ToggleUiElement;
@@ -16,6 +19,18 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @SuppressWarnings({"java:S5960", "unchecked"})
+@Pandora(
+      description = "Fluent UI service for interacting with toggles: activate/deactivate, "
+            + "activation/visibility/enablement checks and validations.",
+      tags = {"ui", "fluent", "toggle"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/ui-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "fluent-service")
+      }
+)
 public class ToggleServiceFluent<T extends UiServiceFluent<?>> {
 
    private final ToggleService toggleService;
@@ -44,6 +59,13 @@ public class ToggleServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link ToggleUiElement} representing the toggle component.
     * @return The fluent UI service instance.
     */
+   @Pandora(
+         description = "Activate the toggle UI element and continue the fluent UI flow.",
+         tags = {"ui", "toggle"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T activate(final ToggleUiElement element) {
       Allure.step("[UI - Toggle] Activating the toggle element: " + element);
       element.before().accept(driver);
@@ -58,6 +80,13 @@ public class ToggleServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link ToggleUiElement} representing the toggle component.
     * @return The fluent UI service instance.
     */
+   @Pandora(
+         description = "Deactivate the toggle UI element and continue the fluent UI flow.",
+         tags = {"ui", "toggle"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T deactivate(final ToggleUiElement element) {
       Allure.step("[UI - Toggle] Deactivating the toggle element: " + element);
       element.before().accept(driver);
@@ -72,6 +101,13 @@ public class ToggleServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link ToggleUiElement} representing the toggle component.
     * @return The fluent UI service instance.
     */
+   @Pandora(
+         description = "Evaluate whether the toggle is enabled and store the result in quest storage.",
+         tags = {"ui", "toggle"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T isEnabled(final ToggleUiElement element) {
       Allure.step("[UI - Toggle] Checking if the toggle element is enabled: " + element);
       element.before().accept(driver);
@@ -87,6 +123,13 @@ public class ToggleServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link ToggleUiElement} representing the toggle component.
     * @return The fluent UI service instance.
     */
+   @Pandora(
+         description = "Validate that the toggle is enabled (hard assertion).",
+         tags = {"ui", "toggle"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T validateIsEnabled(final ToggleUiElement element) {
       return validateIsEnabled(element, true, false);
    }
@@ -98,7 +141,17 @@ public class ToggleServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft    If true, performs a soft assertion; otherwise, performs a hard assertion.
     * @return The fluent UI service instance.
     */
-   public T validateIsEnabled(final ToggleUiElement element, boolean soft) {
+   @Pandora(
+         description = "Validate that the toggle is enabled, optionally using a soft assertion.",
+         tags = {"ui", "toggle"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateIsEnabled(final ToggleUiElement element,
+         @Pandora(
+               description = "When true, use soft assertions (don't fail immediately)."
+         ) boolean soft) {
       return validateIsEnabled(element, true, soft);
    }
 
@@ -142,6 +195,13 @@ public class ToggleServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link ToggleUiElement} representing the toggle component.
     * @return The fluent UI service instance.
     */
+   @Pandora(
+         description = "Validate that the toggle is disabled (hard assertion).",
+         tags = {"ui", "toggle"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T validateIsDisabled(final ToggleUiElement element) {
       return validateIsEnabled(element, false, false);
    }
@@ -153,7 +213,17 @@ public class ToggleServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft    If true, performs a soft assertion; otherwise, performs a hard assertion.
     * @return The fluent UI service instance.
     */
-   public T validateIsDisabled(final ToggleUiElement element, boolean soft) {
+   @Pandora(
+         description = "Validate that the toggle is disabled, optionally using a soft assertion.",
+         tags = {"ui", "toggle"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateIsDisabled(final ToggleUiElement element,
+         @Pandora(
+               description = "When true, use soft assertions (don't fail immediately)."
+         ) boolean soft) {
       return validateIsEnabled(element, false, soft);
    }
 
@@ -163,6 +233,13 @@ public class ToggleServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link ToggleUiElement} representing the toggle component.
     * @return The fluent UI service instance.
     */
+   @Pandora(
+         description = "Evaluate whether the toggle is activated and store the result in quest storage.",
+         tags = {"ui", "toggle"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T isActivated(final ToggleUiElement element) {
       Allure.step("[UI - Toggle] Checking if the toggle element is activated: " + element);
       boolean enabled = toggleService.isActivated(element.componentType(), element.locator());
@@ -176,6 +253,13 @@ public class ToggleServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link ToggleUiElement} representing the toggle component.
     * @return The fluent UI service instance.
     */
+   @Pandora(
+         description = "Validate that the toggle is activated (hard assertion).",
+         tags = {"ui", "toggle"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T validateIsActivated(final ToggleUiElement element) {
       return validateIsActivated(element, true, false);
    }
@@ -187,7 +271,17 @@ public class ToggleServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft    If true, performs a soft assertion; otherwise, performs a hard assertion.
     * @return The fluent UI service instance.
     */
-   public T validateIsActivated(final ToggleUiElement element, boolean soft) {
+   @Pandora(
+         description = "Validate that the toggle is activated, optionally using a soft assertion.",
+         tags = {"ui", "toggle"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateIsActivated(final ToggleUiElement element,
+         @Pandora(
+               description = "When true, use soft assertions (don't fail immediately)."
+         ) boolean soft) {
       return validateIsActivated(element, true, soft);
    }
 
@@ -231,6 +325,13 @@ public class ToggleServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link ToggleUiElement} representing the toggle component.
     * @return The fluent UI service instance.
     */
+   @Pandora(
+         description = "Validate that the toggle is deactivated (hard assertion).",
+         tags = {"ui", "toggle"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T validateIsDeactivated(final ToggleUiElement element) {
       return validateIsActivated(element, false, false);
    }
@@ -242,7 +343,17 @@ public class ToggleServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft    If true, performs a soft assertion; otherwise, performs a hard assertion.
     * @return The fluent UI service instance.
     */
-   public T validateIsDeactivated(final ToggleUiElement element, boolean soft) {
+   @Pandora(
+         description = "Validate that the toggle is deactivated, optionally using a soft assertion.",
+         tags = {"ui", "toggle"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateIsDeactivated(final ToggleUiElement element,
+         @Pandora(
+               description = "When true, use soft assertions (don't fail immediately)."
+         ) boolean soft) {
       return validateIsActivated(element, false, soft);
    }
 

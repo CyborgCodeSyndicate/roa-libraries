@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.framework.annotation;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -25,6 +28,19 @@ import org.springframework.stereotype.Service;
 @Service
 @Scope("prototype")
 @Lazy
+@Pandora(
+      description = "Marks a class as a ROA Ring: a Spring-managed (@Service) test service "
+            + "with prototype scope and lazy initialization. Rings are activated via quest.use(<RingClass>).",
+      tags = {"framework", "ring", "annotation"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "ring-annotation"),
+         @PandoraOptions.Meta(key = "scope", value = "class"),
+         @PandoraOptions.Meta(key = "spring", value = "service-prototype-lazy")
+      }
+)
 public @interface Ring {
 
    /**
@@ -34,5 +50,9 @@ public @interface Ring {
     *
     * @return The name of the test service category.
     */
+   @Pandora(
+         description = "Logical ring category identifier (e.g. \"API\", \"DB\", \"UI\", \"CUSTOM\"). "
+               + "Used for ring identification/categorization."
+   )
    String value();
 }

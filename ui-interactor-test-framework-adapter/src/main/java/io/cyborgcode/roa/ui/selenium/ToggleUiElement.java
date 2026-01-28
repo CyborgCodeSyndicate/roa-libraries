@@ -1,7 +1,11 @@
 package io.cyborgcode.roa.ui.selenium;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.components.toggle.ToggleService;
+import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
 
 /**
  * Represents a UI element for toggle switch components within the framework.
@@ -16,6 +20,18 @@ import io.cyborgcode.roa.ui.components.toggle.ToggleService;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Toggle UI element descriptor used with the ToggleService.",
+      tags = {"ui", "ui-element", "toggle"},
+      creation = CreationKind.AUTO
+)
+@PandoraOptions(
+      availableOptionsRule = AvailableOptionsRules.AvailableToggleUiElements.class,
+      exampleFilesPath = "ai/roa/ui-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "ui-element")
+      }
+)
 public interface ToggleUiElement extends UiElement {
 
    /**
