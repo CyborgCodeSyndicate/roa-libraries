@@ -1,7 +1,11 @@
 package io.cyborgcode.roa.ui.selenium;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.components.list.ItemListService;
+import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
 
 /**
  * Represents a list UI element that integrates with the {@link ItemListService}.
@@ -15,6 +19,18 @@ import io.cyborgcode.roa.ui.components.list.ItemListService;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "List UI element descriptor used with the ItemListService.",
+      tags = {"ui", "ui-element", "list"},
+      creation = CreationKind.AUTO
+)
+@PandoraOptions(
+      availableOptionsRule = AvailableOptionsRules.AvailableListUiElements.class,
+      exampleFilesPath = "ai/roa/ui-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "ui-element")
+      }
+)
 public interface ListUiElement extends UiElement {
 
    /**

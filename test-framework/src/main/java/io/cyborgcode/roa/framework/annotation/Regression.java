@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.framework.annotation;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -25,5 +28,18 @@ import org.junit.jupiter.api.Tag;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Tag("Regression")
+@Pandora(
+      description = "JUnit tag annotation for regression suite. "
+            + "Apply on test classes or test methods to mark them as Regression.",
+      tags = {"framework", "annotation"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "junit-tag-annotation"),
+         @PandoraOptions.Meta(key = "tag", value = "Regression"),
+         @PandoraOptions.Meta(key = "scope", value = "class-or-method")
+      }
+)
 public @interface Regression {
 }

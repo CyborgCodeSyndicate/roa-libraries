@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.framework.base;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.log.LogQuest;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +26,19 @@ import static io.cyborgcode.utilities.reflections.ReflectionUtil.getFieldValues;
  */
 @Component
 @Lazy
+@Pandora(
+      description = "Spring-managed service container used by the framework to access underlying service beans "
+            + "from a specific Ring (fluent service). It resolves the fluent service from the Spring context, "
+            + "extracts a matching field by type, and caches the result for reuse.",
+      tags = {"framework"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "services-container"),
+         @PandoraOptions.Meta(key = "scope", value = "spring-context")
+      }
+)
 public class Services {
 
    /**
@@ -58,8 +74,17 @@ public class Services {
     * @return The requested service instance.
     * @throws IllegalStateException if no matching service bean is found.
     */
-   public <T extends ClassLevelHook, K> K service(Class<T> fluentServiceClass, Class<K> serviceClass) {
-
+   @Pandora(
+         description = "Retrieve an underlying service from a specific Ring (fluent service) by type. "
+               + "The service is resolved from the Ring instance via reflection and then cached."
+   )
+   public <T extends ClassLevelHook, K> K service(@Pandora(description = "Ring (fluent service) class that "
+                                                        + "contains the desired service as a field, "
+                                                        + "e.g. RestServiceFluent.class.")
+                                                  Class<T> fluentServiceClass,
+                                                  @Pandora(description = "Type of the service to "
+                                                        + "extract from the Ring, e.g. RestService.class.")
+                                                  Class<K> serviceClass) {
       return serviceClass.cast(serviceCache.computeIfAbsent(serviceClass, key -> {
          ClassLevelHook fluentService = applicationContext.getBeansOfType(ClassLevelHook.class)
                .values().stream()

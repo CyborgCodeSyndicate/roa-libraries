@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.ui.service.fluent;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.storage.Storage;
 import io.cyborgcode.roa.ui.components.alert.AlertService;
 import io.cyborgcode.roa.ui.selenium.AlertUiElement;
@@ -22,6 +25,17 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @SuppressWarnings({"java:S5960", "unchecked"})
+@Pandora(
+      description = "Fluent UI service for interacting with alerts: get value, visibility checks and validations.",
+      tags = {"ui", "fluent", "alert"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/ui-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "fluent-service")
+      }
+)
 public class AlertServiceFluent<T extends UiServiceFluent<?>> {
 
    private final AlertService alertService;
@@ -51,6 +65,13 @@ public class AlertServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The alert UI element.
     * @return The current fluent service instance for method chaining.
     */
+   @Pandora(
+        description = "Retrieve the current value from the alert element and store it in quest storage.",
+        tags = {"ui", "alert"}
+   )
+   @PandoraOptions(
+        exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T getValue(final AlertUiElement element) {
       Allure.step(String.format("[UI - Alert] Retrieving value for alert with componentType: %s, locator: %s",
             element.componentType(), element.locator()));
@@ -68,7 +89,17 @@ public class AlertServiceFluent<T extends UiServiceFluent<?>> {
     * @param expectedValue The expected value of the alert.
     * @return The current fluent service instance for method chaining.
     */
-   public T validateValue(final AlertUiElement element, String expectedValue) {
+   @Pandora(
+        description = "Validate that the alert value equals the expected value (hard assertion).",
+        tags = {"ui", "alert"}
+   )
+   @PandoraOptions(
+        exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateValue(final AlertUiElement element,
+          @Pandora(
+                description = "Expected alert value."
+          ) String expectedValue) {
       return validateValue(element, expectedValue, false);
    }
 
@@ -80,7 +111,20 @@ public class AlertServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft          Whether to perform a soft assertion.
     * @return The current fluent service instance for method chaining.
     */
-   public T validateValue(final AlertUiElement element, String expectedValue, boolean soft) {
+   @Pandora(
+        description = "Validate that the alert value equals the expected value, optionally using a soft assertion.",
+        tags = {"ui", "alert"}
+   )
+   @PandoraOptions(
+        exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateValue(final AlertUiElement element,
+         @Pandora(
+               description = "Expected alert value."
+         ) String expectedValue,
+         @Pandora(
+               description = "When true, use soft assertions (don't fail immediately)."
+         ) boolean soft) {
       Allure.step(String.format("[UI - Alert] Validating value for alert with componentType: %s, locator: %s",
             element.componentType(), element.locator()));
       element.before().accept(driver);
@@ -104,6 +148,13 @@ public class AlertServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The alert UI element.
     * @return The current fluent service instance for method chaining.
     */
+   @Pandora(
+        description = "Evaluate whether the alert is visible and store the result in quest storage.",
+        tags = {"ui", "alert"}
+   )
+   @PandoraOptions(
+        exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T isVisible(final AlertUiElement element) {
       Allure.step(String.format("[UI - Alert] Checking visibility for alert with componentType: %s, locator: %s",
             element.componentType(), element.locator()));
@@ -120,6 +171,13 @@ public class AlertServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The alert UI element.
     * @return The current fluent service instance for method chaining.
     */
+   @Pandora(
+        description = "Validate that the alert is visible (hard assertion).",
+        tags = {"ui", "alert"}
+   )
+   @PandoraOptions(
+        exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T validateIsVisible(final AlertUiElement element) {
       return validateIsVisible(element, true, false);
    }
@@ -131,7 +189,17 @@ public class AlertServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft    Whether to perform a soft assertion.
     * @return The current fluent service instance for method chaining.
     */
-   public T validateIsVisible(final AlertUiElement element, boolean soft) {
+   @Pandora(
+        description = "Validate that the alert is visible, optionally using a soft assertion.",
+        tags = {"ui", "alert"}
+   )
+   @PandoraOptions(
+        exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateIsVisible(final AlertUiElement element,
+          @Pandora(
+                description = "When true, use soft assertions (don't fail immediately)."
+          ) boolean soft) {
       return validateIsVisible(element, true, soft);
    }
 
@@ -184,6 +252,13 @@ public class AlertServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The alert UI element.
     * @return The current fluent service instance for method chaining.
     */
+   @Pandora(
+        description = "Validate that the alert is hidden (hard assertion).",
+        tags = {"ui", "alert"}
+   )
+   @PandoraOptions(
+        exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T validateIsHidden(final AlertUiElement element) {
       return validateIsVisible(element, false, false);
    }
@@ -195,7 +270,17 @@ public class AlertServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft    Whether to perform a soft assertion.
     * @return The current fluent service instance for method chaining.
     */
-   public T validateIsHidden(final AlertUiElement element, boolean soft) {
+   @Pandora(
+        description = "Validate that the alert is hidden, optionally using a soft assertion.",
+        tags = {"ui", "alert"}
+   )
+   @PandoraOptions(
+        exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateIsHidden(final AlertUiElement element,
+         @Pandora(
+               description = "When true, use soft assertions (don't fail immediately)."
+         ) boolean soft) {
       return validateIsVisible(element, false, soft);
    }
 }

@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.ui.service.fluent;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.storage.Storage;
 import io.cyborgcode.roa.ui.components.link.LinkService;
 import io.cyborgcode.roa.ui.selenium.LinkUiElement;
@@ -21,6 +24,18 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @SuppressWarnings({"java:S5960", "unchecked"})
+@Pandora(
+      description = "Fluent UI service for interacting with links: click/doubleClick, and "
+            + "enablement/visibility checks.",
+      tags = {"ui", "fluent", "link"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/ui-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "fluent-service")
+      }
+)
 public class LinkServiceFluent<T extends UiServiceFluent<?>> {
 
    private final LinkService linkService;
@@ -50,6 +65,13 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link LinkUiElement} to be clicked.
     * @return The current {@link UiServiceFluent} instance for method chaining.
     */
+   @Pandora(
+         description = "Click the given link UI element and continue the fluent UI flow.",
+         tags = {"ui", "link"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T click(final LinkUiElement element) {
       Allure.step("[UI - Link] Clicking on the link element: " + element);
       element.before().accept(driver);
@@ -64,6 +86,13 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link LinkUiElement} to be double-clicked.
     * @return The current {@link UiServiceFluent} instance for method chaining.
     */
+   @Pandora(
+         description = "Double-click the given link UI element and continue the fluent UI flow.",
+         tags = {"ui", "link"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T doubleClick(final LinkUiElement element) {
       Allure.step("[UI - Link] Double-clicking on the link element: " + element);
       element.before().accept(driver);
@@ -78,6 +107,13 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link LinkUiElement} to check.
     * @return The current {@link UiServiceFluent} instance for method chaining.
     */
+   @Pandora(
+         description = "Evaluate whether the link is enabled and store the result in quest storage.",
+         tags = {"ui", "link"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T isEnabled(final LinkUiElement element) {
       Allure.step("[UI - Link] Checking if the link element is enabled: " + element);
       element.before().accept(driver);
@@ -93,6 +129,13 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link LinkUiElement} to validate.
     * @return The current {@link UiServiceFluent} instance for method chaining.
     */
+   @Pandora(
+         description = "Validate that the link is enabled (hard assertion).",
+         tags = {"ui", "link"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T validateIsEnabled(final LinkUiElement element) {
       return validateIsEnabled(element, true, false);
    }
@@ -104,7 +147,17 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft    {@code true} to perform a soft assertion.
     * @return The current {@link UiServiceFluent} instance for method chaining.
     */
-   public T validateIsEnabled(final LinkUiElement element, boolean soft) {
+   @Pandora(
+         description = "Validate that the link is enabled, optionally using a soft assertion.",
+         tags = {"ui", "link"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateIsEnabled(final LinkUiElement element,
+         @Pandora(
+               description = "When true, use soft assertions (don't fail immediately)."
+         ) boolean soft) {
       return validateIsEnabled(element, true, soft);
    }
 
@@ -150,6 +203,13 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link LinkUiElement} to validate.
     * @return The current {@link UiServiceFluent} instance for method chaining.
     */
+   @Pandora(
+         description = "Validate that the link is disabled (hard assertion).",
+         tags = {"ui", "link"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T validateIsDisabled(final LinkUiElement element) {
       return validateIsEnabled(element, false, false);
    }
@@ -161,7 +221,17 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft    {@code true} to perform a soft assertion.
     * @return The current {@link UiServiceFluent} instance for method chaining.
     */
-   public T validateIsDisabled(final LinkUiElement element, boolean soft) {
+   @Pandora(
+         description = "Validate that the link is disabled, optionally using a soft assertion.",
+         tags = {"ui", "link"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateIsDisabled(final LinkUiElement element,
+         @Pandora(
+               description = "When true, use soft assertions (don't fail immediately)."
+         ) boolean soft) {
       return validateIsEnabled(element, false, soft);
    }
 
@@ -171,6 +241,13 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link LinkUiElement} to check.
     * @return The current {@link UiServiceFluent} instance for method chaining.
     */
+   @Pandora(
+         description = "Evaluate whether the link is visible and store the result in quest storage.",
+         tags = {"ui", "link"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T isVisible(final LinkUiElement element) {
       Allure.step("[UI - Link] Checking if the link element is visible: " + element);
       element.before().accept(driver);
@@ -186,6 +263,13 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link LinkUiElement} to validate.
     * @return The current {@link UiServiceFluent} instance for method chaining.
     */
+   @Pandora(
+         description = "Validate that the link is visible (hard assertion).",
+         tags = {"ui", "link"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T validateIsVisible(final LinkUiElement element) {
       return validateIsVisible(element, true, false);
    }
@@ -197,7 +281,17 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft    {@code true} to perform a soft assertion.
     * @return The current {@link UiServiceFluent} instance for method chaining.
     */
-   public T validateIsVisible(final LinkUiElement element, boolean soft) {
+   @Pandora(
+         description = "Validate that the link is visible, optionally using a soft assertion.",
+         tags = {"ui", "link"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateIsVisible(final LinkUiElement element,
+         @Pandora(
+               description = "When true, use soft assertions (don't fail immediately)."
+         ) boolean soft) {
       return validateIsVisible(element, true, soft);
    }
 
@@ -243,6 +337,13 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link LinkUiElement} to validate.
     * @return The current {@link UiServiceFluent} instance for method chaining.
     */
+   @Pandora(
+         description = "Validate that the link is hidden (hard assertion).",
+         tags = {"ui", "link"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T validateIsHidden(final LinkUiElement element) {
       return validateIsVisible(element, false, false);
    }
@@ -254,7 +355,17 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft    {@code true} to perform a soft assertion.
     * @return The current {@link UiServiceFluent} instance for method chaining.
     */
-   public T validateIsHidden(final LinkUiElement element, boolean soft) {
+   @Pandora(
+         description = "Validate that the link is hidden, optionally using a soft assertion.",
+         tags = {"ui", "link"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateIsHidden(final LinkUiElement element,
+         @Pandora(
+               description = "When true, use soft assertions (don't fail immediately)."
+         ) boolean soft) {
       return validateIsVisible(element, false, soft);
    }
 

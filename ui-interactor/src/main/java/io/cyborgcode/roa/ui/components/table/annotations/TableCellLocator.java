@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.ui.components.table.annotations;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -23,6 +26,17 @@ import org.openqa.selenium.support.FindBy;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Annotation defining locators for identifying a specific table cell and related elements.",
+      tags = {"ui", "annotation", "table-cell-locator"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/ui-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "annotation")
+      }
+)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface TableCellLocator {
@@ -32,6 +46,10 @@ public @interface TableCellLocator {
     *
     * @return the {@link FindBy} annotation specifying the cell locator.
     */
+   @Pandora(
+         description = "Locator for identifying the cell within a table row.",
+         tags = {"annotation", "table-cell-locator"}
+   )
    FindBy cellLocator();
 
    /**
@@ -39,6 +57,10 @@ public @interface TableCellLocator {
     *
     * @return the name of the table section, default is an empty string.
     */
+   @Pandora(
+         description = "Optional table section name when a table consists of multiple sections.",
+         tags = {"annotation", "table-cell-locator"}
+   )
    String tableSection() default "";
 
    /**
@@ -47,6 +69,10 @@ public @interface TableCellLocator {
     *
     * @return the {@link FindBy} annotation specifying the text locator.
     */
+   @Pandora(
+         description = "Optional locator for extracting text content inside the cell (defaults to current element).",
+         tags = {"annotation", "table-cell-locator"}
+   )
    FindBy cellTextLocator() default @FindBy(xpath = ".");
 
    /**
@@ -54,6 +80,10 @@ public @interface TableCellLocator {
     *
     * @return the {@link FindBy} annotation specifying the header locator.
     */
+   @Pandora(
+         description = "Locator for identifying the corresponding column header.",
+         tags = {"annotation", "table-cell-locator"}
+   )
    FindBy headerCellLocator() default @FindBy(xpath = ".");
 
 }

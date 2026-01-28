@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.api.service;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.api.authentication.AuthenticationKey;
 import io.cyborgcode.roa.api.authentication.BaseAuthenticationClient;
 import io.cyborgcode.roa.api.client.RestClient;
@@ -29,6 +32,20 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Scope("prototype")
+@Pandora(
+      description = "Internal Spring-managed service that executes API requests (via RestClient), "
+            + "applies authentication headers and validates responses (via RestResponseValidator). "
+            + "Not obtained from Quest directly.",
+      tags = {"api"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/api-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "rest-service"),
+         @PandoraOptions.Meta(key = "scope", value = "spring-prototype")
+      }
+)
 public class RestService {
 
    private final RestClient restClient;
@@ -71,6 +88,9 @@ public class RestService {
     * @param endpoint The API endpoint to call.
     * @return The response from the API.
     */
+   @Pandora(
+         description = "Execute an API request without a request body using the provided Endpoint definition."
+   )
    public Response request(Endpoint<?> endpoint) {
       return executeRequest(endpoint, null);
    }
@@ -82,7 +102,16 @@ public class RestService {
     * @param body     The request body.
     * @return The response from the API.
     */
-   public Response request(Endpoint<?> endpoint, Object body) {
+   @Pandora(
+         description = "Execute an API request with a request payload. "
+               + "The body is serialized by the endpoint's RequestSpecification."
+   )
+   public Response request(Endpoint<?> endpoint,
+                           @Pandora(
+                                 description = "Request payload to send as "
+                                       + "body (will be serialized by RestAssured/spec)."
+                           )
+                           Object body) {
       return executeRequest(endpoint, body);
    }
 
@@ -95,7 +124,15 @@ public class RestService {
     * @return A list of assertion results.
     * @throws IllegalArgumentException if the response or assertions are null.
     */
-   public <T> List<AssertionResult<T>> validate(Response response, Assertion... assertions) {
+   @Pandora(
+         description = "Validate an existing Response using one or more "
+               + "Assertion rules and return the collected AssertionResult entries."
+   )
+   public <T> List<AssertionResult<T>> validate(@Pandora(
+                                                      description = "Response instance to validate."
+                                                )
+                                                Response response,
+                                                Assertion... assertions) {
       if (response == null) {
          throw new IllegalArgumentException("Response cannot be null for validation.");
       }
@@ -113,6 +150,10 @@ public class RestService {
     * @param <T>        The type of the assertion results.
     * @return A list of assertion results.
     */
+   @Pandora(
+         description = "Execute a request (no body) and immediately "
+               + "validate the response using the provided Assertion rules."
+   )
    public <T> List<AssertionResult<T>> requestAndValidate(Endpoint<?> endpoint, Assertion... assertions) {
       return requestAndValidate(endpoint, null, assertions);
    }
@@ -126,7 +167,15 @@ public class RestService {
     * @param <T>        The type of the assertion results.
     * @return A list of assertion results.
     */
-   public <T> List<AssertionResult<T>> requestAndValidate(Endpoint<?> endpoint, Object body, Assertion... assertions) {
+   @Pandora(
+         description = "Execute a request with a body and immediately "
+               + "validate the response using the provided Assertion rules."
+   )
+   public <T> List<AssertionResult<T>> requestAndValidate(Endpoint<?> endpoint,
+                                                          @Pandora(description = "Request payload to send as body "
+                                                                + "(will be serialized by RestAssured/spec).")
+                                                          Object body,
+                                                          Assertion... assertions) {
       return validate(request(endpoint, body), assertions);
    }
 
@@ -138,7 +187,22 @@ public class RestService {
     * @param authenticationClientClass The authentication client class to use.
     * @throws RestServiceException if authentication fails.
     */
-   public void authenticate(String username, String password,
+   @Pandora(
+         description = "Authenticate using a BaseAuthenticationClient implementation. "
+               + "Stores an AuthenticationKey internally so subsequent requests can attach the cached auth header."
+   )
+   public void authenticate(@Pandora(
+                                  description = "Username for authentication."
+                            )
+                            String username,
+                            @Pandora(
+                                  description = "Password for authentication."
+                            )
+                            String password,
+                            @Pandora(
+                                  description = "Concrete BaseAuthenticationClient class "
+                                        + "that performs the login and provides the auth header."
+                            )
                             Class<? extends BaseAuthenticationClient> authenticationClientClass) {
       Objects.requireNonNull(username, "Username must not be null");
       Objects.requireNonNull(password, "Password must not be null");

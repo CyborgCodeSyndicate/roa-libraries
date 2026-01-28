@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.framework.annotation;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -20,6 +23,17 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
+@Pandora(
+      description = "Container annotation that groups "
+            + "multiple @Journey preconditions on a single test method.",
+      tags = {"framework", "precondition"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "journey-container-annotation")
+      }
+)
 public @interface PreQuest {
 
    /**

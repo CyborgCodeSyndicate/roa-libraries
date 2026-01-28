@@ -1,6 +1,9 @@
 package io.cyborgcode.roa.ui.service.tables;
 
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.decorators.DecoratorsFactory;
 import io.cyborgcode.roa.framework.storage.Storage;
 import io.cyborgcode.roa.ui.components.table.base.TableField;
@@ -26,6 +29,18 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
  * @param <T> The type of {@link UiServiceFluent} for chaining fluent methods.
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Fluent UI service for interacting with tables: read, insert, filter, sort, "
+            + "and validate table data.",
+      tags = {"ui", "fluent", "table"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/ui-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "fluent-service")
+      }
+)
 public class TableServiceFluent<T extends UiServiceFluent<?>> {
 
    private static final String UI_TABLE_CLICKING_ELEMENT_IN_CELL_AT_ROW =
@@ -65,6 +80,13 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param tableElement The table element to be read.
     * @return The fluent UI service instance.
     */
+   @Pandora(
+         description = "Read the entire table and store the result in quest storage.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public final <K> T readTable(TableElement<?> tableElement) {
       Allure.step("[UI - Table] Reading the table: " + tableElement);
       tableElement.before().accept(driver);
@@ -83,6 +105,13 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @return The fluent UI service instance.
     */
    @SafeVarargs
+   @Pandora(
+         description = "Read specific fields from the table and store the result in quest storage.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public final <K> T readTable(TableElement<?> tableElement, TableField<K>... fields) {
       Allure.step("[UI - Table] Reading the table with specific fields: " + tableElement);
       validateArguments(fields[0], tableElement.rowsRepresentationClass());
@@ -101,7 +130,20 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param end          The ending row index (exclusive).
     * @return The fluent UI service instance.
     */
-   public final T readTable(TableElement<?> tableElement, int start, int end) {
+   @Pandora(
+         description = "Read a range of rows from the table and store the result in quest storage.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public final T readTable(TableElement<?> tableElement,
+         @Pandora(
+               description = "Starting row index (inclusive)."
+         ) int start,
+         @Pandora(
+               description = "Ending row index (exclusive)."
+         ) int end) {
       Allure.step("[UI - Table] Reading a range of rows from the table: " + tableElement + " from "
             + start + " to " + end);
       tableElement.before().accept(driver);
@@ -122,8 +164,21 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @return The fluent UI service instance for method chaining.
     */
    @SafeVarargs
-   public final <K> T readTable(TableElement<?> tableElement, int start, int end,
-                                TableField<K>... fields) {
+   @Pandora(
+         description = "Read a range of rows with specific fields and store the result in quest storage.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public final <K> T readTable(TableElement<?> tableElement,
+         @Pandora(
+               description = "Starting row index (inclusive)."
+         ) int start,
+         @Pandora(
+               description = "Ending row index (exclusive)."
+         ) int end,
+         TableField<K>... fields) {
       Allure.step("[UI - Table] Reading a range of rows with specific fields from the table: " + tableElement
             + " from " + start + " to " + end);
       validateArguments(fields[0], tableElement.rowsRepresentationClass());
@@ -141,7 +196,17 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param row          The index of the row to read.
     * @return The fluent UI service instance.
     */
-   public final T readRow(TableElement<?> tableElement, int row) {
+   @Pandora(
+         description = "Read a specific row from the table and store the result in quest storage.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public final T readRow(TableElement<?> tableElement,
+         @Pandora(
+               description = "Row index (1-based)."
+         ) int row) {
       Allure.step("[UI - Table] Reading a specific row from the table: " + tableElement + " at row index: " + row);
       tableElement.before().accept(driver);
       tableElement.after().accept(driver);
@@ -157,7 +222,17 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param searchCriteria A list of values that must be matched within the row.
     * @return The fluent UI service instance for method chaining.
     */
-   public final T readRow(TableElement<?> tableElement, List<String> searchCriteria) {
+   @Pandora(
+         description = "Read a single row by search criteria and store the result in quest storage.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public final T readRow(TableElement<?> tableElement,
+         @Pandora(
+               description = "Values used to identify the target row."
+         ) List<String> searchCriteria) {
       Allure.step("[UI - Table] Reading a specific row from the table by search criteria: " + tableElement
             + " with criteria: " + searchCriteria);
       tableElement.before().accept(driver);
@@ -177,8 +252,18 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @return The fluent UI service instance for method chaining.
     */
    @SafeVarargs
-   public final <K> T readRow(TableElement<?> tableElement, int row,
-                              TableField<K>... fields) {
+   @Pandora(
+         description = "Read a row with specific fields and store the result in quest storage.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public final <K> T readRow(TableElement<?> tableElement,
+         @Pandora(
+               description = "Row index (1-based)."
+         ) int row,
+         TableField<K>... fields) {
       Allure.step("[UI - Table] Reading a specific row from the table with specific fields: " + tableElement
             + " at row index: " + row);
       tableElement.before().accept(driver);
@@ -198,8 +283,18 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @return The fluent UI service instance for method chaining.
     */
    @SafeVarargs
-   public final <K> T readRow(TableElement<?> tableElement, List<String> searchCriteria,
-                              TableField<K>... fields) {
+   @Pandora(
+         description = "Read a row by search criteria with specific fields and store the result in quest storage.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public final <K> T readRow(TableElement<?> tableElement,
+         @Pandora(
+               description = "Values used to identify the target row."
+         ) List<String> searchCriteria,
+         TableField<K>... fields) {
       Allure.step("[UI - Table] Reading a row with search criteria and specific fields: " + tableElement
             + " with criteria: " + searchCriteria);
       validateArguments(fields[0], tableElement.rowsRepresentationClass());
@@ -220,8 +315,21 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param values       The values to insert.
     * @return The fluent UI service instance.
     */
-   public final <K> T insertCellValue(TableElement<?> tableElement, int row,
-                                      TableField<K> field, String... values) {
+   @Pandora(
+         description = "Insert values into a cell by row index.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public final <K> T insertCellValue(TableElement<?> tableElement,
+         @Pandora(
+               description = "Row index (1-based)."
+         ) int row,
+         TableField<K> field,
+         @Pandora(
+               description = "Values to insert into the cell."
+         ) String... values) {
       Allure.step("[UI - Table] Inserting value into cell in row: " + row + " for field: " + field);
       validateArguments(field, tableElement.rowsRepresentationClass());
       tableElement.before().accept(driver);
@@ -242,9 +350,24 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param value        The values to be inserted into the specified cell.
     * @return The fluent UI service instance for method chaining.
     */
-   public final <K> T insertCellValue(TableElement<?> tableElement, int row,
-                                      TableField<K> field,
-                                      int index, String... value) {
+   @Pandora(
+         description = "Insert values into a specific cell (by index) within a row.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public final <K> T insertCellValue(TableElement<?> tableElement,
+         @Pandora(
+               description = "Row index (1-based)."
+         ) int row,
+         TableField<K> field,
+         @Pandora(
+               description = "Cell index within the row (1-based)."
+         ) int index,
+         @Pandora(
+               description = "Values to insert into the cell."
+         ) String... value) {
       Allure.step("[UI - Table] Inserting cell value into row: " + row + FIELD + field + INDEX + index);
       validateArguments(field, tableElement.rowsRepresentationClass());
       tableElement.before().accept(driver);
@@ -265,9 +388,21 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param values         The values to be inserted into the specified field.
     * @return The fluent UI service instance for method chaining.
     */
-   public final <K> T insertCellValue(TableElement<?> tableElement, List<String> searchCriteria,
-                                      TableField<K> field,
-                                      String... values) {
+   @Pandora(
+         description = "Insert values into a cell by locating the row via search criteria.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public final <K> T insertCellValue(TableElement<?> tableElement,
+         @Pandora(
+               description = "Values used to identify the target row."
+         ) List<String> searchCriteria,
+         TableField<K> field,
+         @Pandora(
+               description = "Values to insert into the cell."
+         ) String... values) {
       Allure.step("[UI - Table] Inserting cell value for search criteria: " + searchCriteria + FIELD + field);
       validateArguments(field, tableElement.rowsRepresentationClass());
       tableElement.before().accept(driver);
@@ -289,9 +424,24 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param values         The values to be inserted into the specified field.
     * @return The fluent UI service instance for method chaining.
     */
-   public final <K> T insertCellValue(TableElement<?> tableElement, List<String> searchCriteria,
-                                      TableField<K> field,
-                                      int index, String... values) {
+   @Pandora(
+         description = "Insert values into a specific cell (by index) by locating the row via search criteria.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public final <K> T insertCellValue(TableElement<?> tableElement,
+         @Pandora(
+               description = "Values used to identify the target row."
+         ) List<String> searchCriteria,
+         TableField<K> field,
+         @Pandora(
+               description = "Cell index within the row (1-based)."
+         ) int index,
+         @Pandora(
+               description = "Values to insert into the cell."
+         ) String... values) {
       Allure.step("[UI - Table] Inserting cell value at index: " + index + " for search criteria: "
             + searchCriteria + FIELD + field);
       validateArguments(field, tableElement.rowsRepresentationClass());
@@ -312,7 +462,20 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param data         The object containing values to be inserted into the row.
     * @return The fluent UI service instance for method chaining.
     */
-   public final <K> T insertCellValueAsData(TableElement<?> tableElement, int row, K data) {
+   @Pandora(
+         description = "Insert a full data object into a specific row.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public final <K> T insertCellValueAsData(TableElement<?> tableElement,
+         @Pandora(
+               description = "Row index (1-based)."
+         ) int row,
+         @Pandora(
+               description = "Data object representing the row values."
+         ) K data) {
       Allure.step("[UI - Table] Inserting data into row: " + row + USING_DATA + data);
       if (!tableElement.rowsRepresentationClass().equals(data.getClass())) {
          throw new IllegalArgumentException(
@@ -337,7 +500,20 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param data           The object containing values to be inserted into the row.
     * @return The fluent UI service instance for method chaining.
     */
-   public final <K> T insertCellValueAsData(TableElement<?> tableElement, List<String> searchCriteria, K data) {
+   @Pandora(
+         description = "Insert a full data object into a row located by search criteria.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public final <K> T insertCellValueAsData(TableElement<?> tableElement,
+         @Pandora(
+               description = "Values used to identify the target row."
+         ) List<String> searchCriteria,
+         @Pandora(
+               description = "Data object representing the row values."
+         ) K data) {
       Allure.step("[UI - Table] Inserting data for search criteria: " + searchCriteria + USING_DATA + data);
       if (!tableElement.rowsRepresentationClass().equals(data.getClass())) {
          throw new IllegalArgumentException(
@@ -361,9 +537,21 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param values         The values to filter by.
     * @return The fluent UI service instance.
     */
+   @Pandora(
+         description = "Filter a table column using the provided filter strategy and values.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public final <K> T filterTable(TableElement<?> tableElement,
-                                  TableField<K> column,
-                                  FilterStrategy filterStrategy, String... values) {
+         TableField<K> column,
+         @Pandora(
+               description = "Filtering strategy to apply."
+         ) FilterStrategy filterStrategy,
+         @Pandora(
+               description = "Values to filter by."
+         ) String... values) {
       Allure.step("[UI - Table] Filtering table using column: " + column + " with strategy: " + filterStrategy
             + " and values: " + Arrays.toString(values));
       validateArguments(column, tableElement.rowsRepresentationClass());
@@ -384,8 +572,17 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param sortingStrategy The sorting strategy to apply.
     * @return The fluent UI service instance.
     */
+   @Pandora(
+         description = "Sort a table column using the provided sorting strategy.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public final <K> T sortTable(TableElement<?> tableElement, TableField<K> column,
-                                SortingStrategy sortingStrategy) {
+         @Pandora(
+               description = "Sorting strategy to apply."
+         ) SortingStrategy sortingStrategy) {
       Allure.step("[UI - Table] Sorting table using column: " + column + " with strategy: " + sortingStrategy);
       validateArguments(column, tableElement.rowsRepresentationClass());
       tableElement.before().accept(driver);
@@ -405,8 +602,18 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param field        The field within the row that should be clicked.
     * @return The fluent UI service instance for method chaining.
     */
-   public final <K> T clickElementInCell(TableElement<?> tableElement, int row,
-                                         TableField<K> field) {
+   @Pandora(
+         description = "Click an element inside a cell identified by row index.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public final <K> T clickElementInCell(TableElement<?> tableElement,
+         @Pandora(
+               description = "Row index (1-based)."
+         ) int row,
+         TableField<K> field) {
       Allure.step(UI_TABLE_CLICKING_ELEMENT_IN_CELL_AT_ROW + row + FIELD + field);
       return insertCellValue(tableElement, row, field);
    }
@@ -421,7 +628,21 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param index        The index of the cell within the row (1-based index).
     * @return The fluent UI service instance for method chaining.
     */
-   public final <K> T clickElementInCell(TableElement<?> tableElement, int row, TableField<K> field, int index) {
+   @Pandora(
+         description = "Click an element inside a specific cell (by index) in the given row.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public final <K> T clickElementInCell(TableElement<?> tableElement,
+         @Pandora(
+               description = "Row index (1-based)."
+         ) int row,
+         TableField<K> field,
+         @Pandora(
+               description = "Cell index within the row (1-based)."
+         ) int index) {
       Allure.step(UI_TABLE_CLICKING_ELEMENT_IN_CELL_AT_ROW + row + FIELD + field + INDEX + index);
       return insertCellValue(tableElement, row, field, index);
    }
@@ -435,8 +656,18 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param field          The field within the row that should be clicked.
     * @return The fluent UI service instance for method chaining.
     */
-   public final <K> T clickElementInCell(TableElement<?> tableElement, List<String> searchCriteria,
-                                         TableField<K> field) {
+   @Pandora(
+         description = "Click an element inside a cell by locating the row via search criteria.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public final <K> T clickElementInCell(TableElement<?> tableElement,
+         @Pandora(
+               description = "Values used to identify the target row."
+         ) List<String> searchCriteria,
+         TableField<K> field) {
       Allure.step(
             UI_TABLE_CLICKING_ELEMENT_IN_CELL_FOR_SEARCH_CRITERIA + searchCriteria + FIELD + field);
       return insertCellValue(tableElement, searchCriteria, field);
@@ -452,8 +683,21 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param index          The index of the cell within the row (1-based index).
     * @return The fluent UI service instance for method chaining.
     */
-   public final <K> T clickElementInCell(TableElement<?> tableElement, List<String> searchCriteria,
-                                         TableField<K> field, int index) {
+   @Pandora(
+         description = "Click an element inside a specific cell (by index) in a row located by search criteria.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public final <K> T clickElementInCell(TableElement<?> tableElement,
+         @Pandora(
+               description = "Values used to identify the target row."
+         ) List<String> searchCriteria,
+         TableField<K> field,
+         @Pandora(
+               description = "Cell index within the row (1-based)."
+         ) int index) {
       Allure.step(UI_TABLE_CLICKING_ELEMENT_IN_CELL_FOR_SEARCH_CRITERIA + searchCriteria + FIELD + field
             + INDEX + index);
       return insertCellValue(tableElement, searchCriteria, field, index);
@@ -468,7 +712,20 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param data         The object containing values to locate and interact with elements inside the row.
     * @return The fluent UI service instance for method chaining.
     */
-   public final <K> T clickElementInCell(TableElement<?> tableElement, int row, K data) {
+   @Pandora(
+         description = "Click an element inside a row using a data object to locate/interact.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public final <K> T clickElementInCell(TableElement<?> tableElement,
+         @Pandora(
+               description = "Row index (1-based)."
+         ) int row,
+         @Pandora(
+               description = "Data object used to locate and interact within the row."
+         ) K data) {
       Allure.step(UI_TABLE_CLICKING_ELEMENT_IN_CELL_AT_ROW + row + USING_DATA + data);
       return insertCellValueAsData(tableElement, row, data);
    }
@@ -482,7 +739,20 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param data           The object containing values to locate and interact with elements inside the row.
     * @return The fluent UI service instance for method chaining.
     */
-   public final <K> T clickElementInCell(TableElement<?> tableElement, List<String> searchCriteria, K data) {
+   @Pandora(
+         description = "Click an element inside a row located by search criteria using a data object.",
+         tags = {"ui", "table"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public final <K> T clickElementInCell(TableElement<?> tableElement,
+         @Pandora(
+               description = "Values used to identify the target row."
+         ) List<String> searchCriteria,
+         @Pandora(
+               description = "Data object used to locate and interact within the row."
+         ) K data) {
       Allure.step(UI_TABLE_CLICKING_ELEMENT_IN_CELL_FOR_SEARCH_CRITERIA + searchCriteria + USING_DATA + data);
       return insertCellValueAsData(tableElement, searchCriteria, data);
    }
@@ -504,7 +774,17 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @return The fluent UI service instance.
     */
    @SuppressWarnings("java:S1854")
-   public T validate(TableElement<?> tableElement, Assertion... assertions) {
+   @Pandora(
+         description = "Validate table contents saved in storage against provided assertions.",
+         tags = {"ui", "table", "validation"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validate(TableElement<?> tableElement,
+         @Pandora(
+               description = "Assertions to verify against stored table data."
+         ) Assertion... assertions) {
       Allure.step("[UI - Table] Validating table element: " + tableElement + " with assertions: "
             + Arrays.toString(assertions));
       Object tableData = storage.sub(UI).get(tableElement.enumImpl(), Object.class);

@@ -1,6 +1,10 @@
 package io.cyborgcode.roa.ui.components.button;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
+import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
 
 /**
  * Identifies a specific type of button component.
@@ -12,5 +16,18 @@ import io.cyborgcode.roa.ui.components.base.ComponentType;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Component type marker for Button components; enums implement this to declare "
+            + "available button types.",
+      tags = {"ui", "ui-component-type", "button"},
+      creation = CreationKind.AUTO
+)
+@PandoraOptions(
+      availableOptionsRule = AvailableOptionsRules.AvailableButtonComponentTypes.class,
+      exampleFilesPath = "ai/roa/ui-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "ui-component-type")
+      }
+)
 public interface ButtonComponentType extends ComponentType {
 }

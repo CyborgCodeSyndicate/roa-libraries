@@ -1,6 +1,8 @@
 package io.cyborgcode.roa.ui.service.fluent;
 
-
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.storage.Storage;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.components.radio.RadioService;
@@ -26,6 +28,18 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @SuppressWarnings({"java:S5960", "unchecked"})
+@Pandora(
+      description = "Fluent UI service for interacting with radio inputs: select, "
+            + "visibility/enablement checks, retrievals and validations.",
+      tags = {"ui", "fluent", "radio"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/ui-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "fluent-service")
+      }
+)
 public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Insertion {
 
    private static final String UI_RADIO_VALIDATING_IF_RADIO_BUTTON_IS = "[UI - Radio] Validating if radio button is ";
@@ -57,6 +71,13 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param element The {@link RadioUiElement} representing the radio button.
     * @return The fluent UI service instance.
     */
+   @Pandora(
+         description = "Select the given radio UI element and continue the fluent UI flow.",
+         tags = {"ui", "radio"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T select(final RadioUiElement element) {
       Allure.step("[UI - Radio] Selecting radio button: " + element.enumImpl());
       element.before().accept(driver);
@@ -71,6 +92,13 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param element The {@link RadioUiElement} to check.
     * @return The fluent UI service instance.
     */
+   @Pandora(
+         description = "Evaluate whether the radio input is enabled and store the result in quest storage.",
+         tags = {"ui", "radio"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T isEnabled(final RadioUiElement element) {
       Allure.step("[UI - Radio] Checking if radio button is enabled: " + element.enumImpl());
       element.before().accept(driver);
@@ -86,6 +114,13 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param element The {@link RadioUiElement} representing the radio button.
     * @return The fluent UI service instance.
     */
+   @Pandora(
+         description = "Validate that the radio input is enabled (hard assertion).",
+         tags = {"ui", "radio"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T validateIsEnabled(final RadioUiElement element) {
       return validateIsEnabled(element, true, false);
    }
@@ -97,7 +132,17 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param soft    Whether to perform a soft assertion.
     * @return The fluent UI service instance.
     */
-   public T validateIsEnabled(final RadioUiElement element, boolean soft) {
+   @Pandora(
+         description = "Validate that the radio input is enabled, optionally using a soft assertion.",
+         tags = {"ui", "radio"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateIsEnabled(final RadioUiElement element,
+                              @Pandora(
+                                    description = "When true, use soft assertions (don't fail immediately)."
+                              ) boolean soft) {
       return validateIsEnabled(element, true, soft);
    }
 
@@ -142,6 +187,13 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param element The {@link RadioUiElement} representing the radio button.
     * @return The fluent UI service instance.
     */
+   @Pandora(
+         description = "Validate that the radio input is disabled (hard assertion).",
+         tags = {"ui", "radio"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T validateIsDisabled(final RadioUiElement element) {
       return validateIsEnabled(element, false, false);
    }
@@ -153,7 +205,17 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param soft    Whether to perform a soft assertion.
     * @return The fluent UI service instance.
     */
-   public T validateIsDisabled(final RadioUiElement element, boolean soft) {
+   @Pandora(
+         description = "Validate that the radio input is disabled, optionally using a soft assertion.",
+         tags = {"ui", "radio"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateIsDisabled(final RadioUiElement element,
+                               @Pandora(
+                                     description = "When true, use soft assertions (don't fail immediately)."
+                               ) boolean soft) {
       return validateIsEnabled(element, false, soft);
    }
 
@@ -163,6 +225,13 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param element The {@link RadioUiElement} to check.
     * @return The fluent UI service instance.
     */
+   @Pandora(
+         description = "Evaluate whether the radio input is selected and store the result in quest storage.",
+         tags = {"ui", "radio"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T isSelected(final RadioUiElement element) {
       Allure.step("[UI - Radio] Checking if radio button is selected: " + element.enumImpl());
       element.before().accept(driver);
@@ -178,6 +247,13 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param element The {@link RadioUiElement} representing the radio button.
     * @return The fluent UI service instance.
     */
+   @Pandora(
+         description = "Validate that the radio input is selected (hard assertion).",
+         tags = {"ui", "radio"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T validateIsSelected(final RadioUiElement element) {
       return validateIsSelected(element, true, false);
    }
@@ -190,7 +266,17 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     *                If {@code true}, failures will be collected rather than throwing an exception immediately.
     * @return The fluent UI service instance.
     */
-   public T validateIsSelected(final RadioUiElement element, boolean soft) {
+   @Pandora(
+         description = "Validate that the radio input is selected, optionally using a soft assertion.",
+         tags = {"ui", "radio"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateIsSelected(final RadioUiElement element,
+                               @Pandora(
+                                     description = "When true, use soft assertions (don't fail immediately)."
+                               ) boolean soft) {
       return validateIsSelected(element, true, soft);
    }
 
@@ -235,6 +321,13 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param element The {@link RadioUiElement} representing the radio button.
     * @return The fluent UI service instance.
     */
+   @Pandora(
+         description = "Validate that the radio input is not selected (hard assertion).",
+         tags = {"ui", "radio"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T validateIsNotSelected(final RadioUiElement element) {
       return validateIsSelected(element, false, false);
    }
@@ -247,7 +340,17 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     *                If {@code true}, failures will be collected rather than throwing an exception immediately.
     * @return The fluent UI service instance.
     */
-   public T validateIsNotSelected(final RadioUiElement element, boolean soft) {
+   @Pandora(
+         description = "Validate that the radio input is not selected, optionally using a soft assertion.",
+         tags = {"ui", "radio"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateIsNotSelected(final RadioUiElement element,
+                                  @Pandora(
+                                        description = "When true, use soft assertions (don't fail immediately)."
+                                  ) boolean soft) {
       return validateIsSelected(element, false, soft);
    }
 
@@ -257,6 +360,13 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param element The {@link RadioUiElement} representing the radio button.
     * @return The fluent UI service instance.
     */
+   @Pandora(
+         description = "Evaluate whether the radio input is visible and store the result in quest storage.",
+         tags = {"ui", "radio"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T isVisible(final RadioUiElement element) {
       Allure.step("[UI - Radio] Checking if radio button is visible: " + element.enumImpl());
       element.before().accept(driver);
@@ -272,6 +382,13 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param element The {@link RadioUiElement} representing the radio button.
     * @return The fluent UI service instance.
     */
+   @Pandora(
+         description = "Validate that the radio input is visible (hard assertion).",
+         tags = {"ui", "radio"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T validateIsVisible(final RadioUiElement element) {
       return validateIsVisible(element, true, false);
    }
@@ -284,7 +401,17 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     *                If {@code true}, failures will be collected rather than throwing an exception immediately.
     * @return The fluent UI service instance.
     */
-   public T validateIsVisible(final RadioUiElement element, boolean soft) {
+   @Pandora(
+         description = "Validate that the radio input is visible, optionally using a soft assertion.",
+         tags = {"ui", "radio"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateIsVisible(final RadioUiElement element,
+                              @Pandora(
+                                    description = "When true, use soft assertions (don't fail immediately)."
+                              ) boolean soft) {
       return validateIsVisible(element, true, soft);
    }
 
@@ -329,6 +456,13 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param element The {@link RadioUiElement} representing the radio button.
     * @return The fluent UI service instance.
     */
+   @Pandora(
+         description = "Validate that the radio input is hidden (hard assertion).",
+         tags = {"ui", "radio"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T validateIsHidden(final RadioUiElement element) {
       return validateIsVisible(element, false, false);
    }
@@ -341,7 +475,17 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     *                If {@code true}, failures will be collected rather than throwing an exception immediately.
     * @return The fluent UI service instance.
     */
-   public T validateIsHidden(final RadioUiElement element, boolean soft) {
+   @Pandora(
+         description = "Validate that the radio input is hidden, optionally using a soft assertion.",
+         tags = {"ui", "radio"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateIsHidden(final RadioUiElement element,
+                             @Pandora(
+                                   description = "When true, use soft assertions (don't fail immediately)."
+                             ) boolean soft) {
       return validateIsVisible(element, false, soft);
    }
 
@@ -351,6 +495,13 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param element The {@link RadioUiElement} to check.
     * @return The fluent UI service instance.
     */
+   @Pandora(
+         description = "Retrieve the selected radio value and store it in quest storage.",
+         tags = {"ui", "radio"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T getSelected(final RadioUiElement element) {
       Allure.step("[UI - Radio] Retrieving selected value for radio button: " + element.enumImpl());
       element.before().accept(driver);
@@ -367,7 +518,17 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param expected The expected value of the selected radio button.
     * @return The fluent UI service instance.
     */
-   public T validateSelected(final RadioUiElement element, String expected) {
+   @Pandora(
+         description = "Validate that the selected radio value equals the expected value (hard assertion).",
+         tags = {"ui", "radio"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateSelected(final RadioUiElement element,
+                             @Pandora(
+                                   description = "Expected selected radio value."
+                             ) String expected) {
       Allure.step("[UI - Radio] Validating selected value for radio button: " + element.enumImpl()
             + " (Expected: " + expected + ")");
       return validateSelected(element, expected, false);
@@ -381,7 +542,21 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param soft     Whether to perform a soft assertion.
     * @return The fluent UI service instance.
     */
-   public T validateSelected(final RadioUiElement element, String expected, boolean soft) {
+   @Pandora(
+         description = "Validate that the selected radio value equals the expected value, "
+               + "optionally using a soft assertion.",
+         tags = {"ui", "radio"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateSelected(final RadioUiElement element,
+                             @Pandora(
+                                   description = "Expected selected radio value."
+                             ) String expected,
+                             @Pandora(
+                                   description = "When true, use soft assertions (don't fail immediately)."
+                             ) boolean soft) {
       Allure.step("[UI - Radio] Validating selected value for radio button: " + element.enumImpl()
             + " (Expected: " + expected + ", Soft: " + soft + ")");
       element.before().accept(driver);
@@ -408,6 +583,13 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param element The {@link RadioUiElement} representing the radio button group.
     * @return The fluent UI service instance.
     */
+   @Pandora(
+         description = "Retrieve all radio options and store them in quest storage.",
+         tags = {"ui", "radio"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T getAll(final RadioUiElement element) {
       Allure.step("[UI - Radio] Retrieving all radio button options for: " + element.enumImpl());
       element.before().accept(driver);
@@ -424,7 +606,17 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param expectedValues The expected values of all selectable radio inputs.
     * @return The fluent UI service instance.
     */
-   public T validateAllRadioInputs(final RadioUiElement element, final String... expectedValues) {
+   @Pandora(
+         description = "Validate that all available radio inputs match the expected values (hard assertion).",
+         tags = {"ui", "radio"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateAllRadioInputs(final RadioUiElement element,
+                                   @Pandora(
+                                         description = "Expected radio inputs."
+                                   ) final String... expectedValues) {
       Allure.step("[UI - Radio] Validating all radio inputs for: " + element.enumImpl() + " (Expected Values: "
             + Arrays.toString(expectedValues) + ")");
       return validateAllRadioInputs(element, false, expectedValues);
@@ -438,8 +630,21 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param soft           Whether to perform a soft assertion.
     * @return The fluent UI service instance.
     */
-   public T validateAllRadioInputs(final RadioUiElement element, boolean soft,
-                                   final String... expectedValues) {
+   @Pandora(
+         description = "Validate that all available radio inputs match the expected values, "
+               + "optionally using a soft assertion.",
+         tags = {"ui", "radio"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateAllRadioInputs(final RadioUiElement element,
+                                   @Pandora(
+                                         description = "When true, use soft assertions (don't fail immediately)."
+                                   ) boolean soft,
+                                   @Pandora(
+                                         description = "Expected radio inputs."
+                                   ) final String... expectedValues) {
       Allure.step("[UI - Radio] Validating all radio inputs for: " + element.enumImpl() + " (Soft: " + soft
             + ", Expected Values: " + Arrays.toString(expectedValues) + ")");
       element.before().accept(driver);
@@ -468,7 +673,20 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param values        The values to insert.
     */
    @Override
-   public void insertion(final ComponentType componentType, final By locator, final Object... values) {
+   @Pandora(
+         description = "Insertion hook for radio values using component type and locator.",
+         tags = {"ui", "radio", "insertion"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public void insertion(final ComponentType componentType,
+                         @Pandora(
+                               description = "Locator identifying the radio element."
+                         ) final By locator,
+                         @Pandora(
+                               description = "Values to insert into the radio group."
+                         ) final Object... values) {
       Allure.step("[UI - Radio] Performing insertion on radio button (ComponentType: " + componentType
             + ", Locator: " + locator + ")");
       radioService.insertion(componentType, locator, values);

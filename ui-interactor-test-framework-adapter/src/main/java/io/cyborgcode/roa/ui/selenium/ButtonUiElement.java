@@ -1,7 +1,11 @@
 package io.cyborgcode.roa.ui.selenium;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.components.button.ButtonService;
+import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
 
 /**
  * Represents a Button UI element that integrates with the {@link ButtonService}.
@@ -12,6 +16,18 @@ import io.cyborgcode.roa.ui.components.button.ButtonService;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Button UI element descriptor used with the ButtonService.",
+      tags = {"ui", "ui-element", "button"},
+      creation = CreationKind.AUTO
+)
+@PandoraOptions(
+      availableOptionsRule = AvailableOptionsRules.AvailableButtonUiElements.class,
+      exampleFilesPath = "ai/roa/ui-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "ui-element")
+      }
+)
 public interface ButtonUiElement extends UiElement {
 
    /**

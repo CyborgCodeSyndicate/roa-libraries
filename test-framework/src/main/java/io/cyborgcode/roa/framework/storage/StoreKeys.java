@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.framework.storage;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import lombok.Getter;
 
 /**
@@ -11,6 +14,18 @@ import lombok.Getter;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @Getter
+@Pandora(
+      description = "Global store keys used by the framework to keep execution-wide objects "
+            + "(quest instance, quest consumers, start time, HTML fragments, hook parameters).",
+      tags = {"framework", "storage"},
+      creation = CreationKind.ENUM_CONSTANT
+)
+@PandoraOptions(
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "store-keys"),
+         @PandoraOptions.Meta(key = "scope", value = "global-execution")
+      }
+)
 public enum StoreKeys {
 
    /**

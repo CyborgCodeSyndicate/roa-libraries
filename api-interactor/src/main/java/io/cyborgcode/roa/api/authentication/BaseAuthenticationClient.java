@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.api.authentication;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.api.log.LogApi;
 import io.cyborgcode.roa.api.service.RestService;
 import io.restassured.http.Header;
@@ -15,6 +18,18 @@ import lombok.NonNull;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Base implementation of AuthenticationClient that "
+            + "adds caching for authentication headers and a template method for the actual login call.",
+      tags = {"api", "auth"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/api-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "authentication-client-base")
+      }
+)
 public abstract class BaseAuthenticationClient implements AuthenticationClient {
 
    /**
@@ -32,9 +47,22 @@ public abstract class BaseAuthenticationClient implements AuthenticationClient {
     * @return The generated {@code AuthenticationKey}.
     */
    @Override
+   @Pandora(
+         description = "Authenticate a user and optionally cache "
+               + "the resulting auth header under the returned AuthenticationKey."
+   )
    public AuthenticationKey authenticate(final @NonNull RestService restService,
+                                         @Pandora(
+                                               description = "Username used for authenticating the user."
+                                         )
                                          @NonNull final String username,
-                                         final String password,
+                                         @Pandora(
+                                               description = "Password used for authenticating the user."
+                                         ) final String password,
+                                         @Pandora(
+                                               description = "If true, reuse a cached authentication header "
+                                                     + "when available; otherwise always perform a fresh login."
+                                         )
                                          boolean cache) {
       AuthenticationKey authenticationKey = new AuthenticationKey(username, password, this.getClass());
 
@@ -58,6 +86,10 @@ public abstract class BaseAuthenticationClient implements AuthenticationClient {
     * @param authenticationKey The authentication key identifying the session.
     * @return The corresponding authentication header, or {@code null} if not found.
     */
+   @Pandora(
+         description = "Retrieve the cached authentication header "
+               + "for a previously authenticated session identified by AuthenticationKey."
+   )
    public Header getAuthentication(final AuthenticationKey authenticationKey) {
       if (authenticationKey == null) {
          LogApi.error("AuthenticationKey is null. Cannot retrieve authentication header.");
@@ -74,5 +106,17 @@ public abstract class BaseAuthenticationClient implements AuthenticationClient {
     * @param password    The password for authentication.
     * @return The authentication header containing credentials.
     */
-   protected abstract Header authenticateImpl(RestService restService, String username, String password);
+   @Pandora(
+         description = "Template method to be implemented by concrete "
+               + "authentication clients; performs the real login call and returns the auth header."
+   )
+   protected abstract Header authenticateImpl(RestService restService,
+                                              @Pandora(
+                                                    description = "Username passed into the login request."
+                                              )
+                                              String username,
+                                              @Pandora(
+                                                    description = "Password passed into the login request."
+                                              )
+                                              String password);
 }

@@ -1,7 +1,11 @@
 package io.cyborgcode.roa.ui.selenium;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.components.loader.LoaderService;
+import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
 
 /**
  * Represents a UI element for loaders within the framework.
@@ -15,6 +19,18 @@ import io.cyborgcode.roa.ui.components.loader.LoaderService;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Loader UI element descriptor used with the LoaderService.",
+      tags = {"ui", "ui-element", "loader"},
+      creation = CreationKind.AUTO
+)
+@PandoraOptions(
+      availableOptionsRule = AvailableOptionsRules.AvailableLoaderUiElements.class,
+      exampleFilesPath = "ai/roa/ui-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "ui-element")
+      }
+)
 public interface LoaderUiElement extends UiElement {
 
    /**

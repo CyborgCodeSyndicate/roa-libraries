@@ -1,5 +1,9 @@
 package io.cyborgcode.roa.framework.storage;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
+
 /**
  * Defines keys used for organizing test data within the storage system.
  *
@@ -8,6 +12,19 @@ package io.cyborgcode.roa.framework.storage;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Storage namespaces/keys used by the framework test runtime. "
+            + "These enum constants identify logical groups inside Storage "
+            + "(arguments, pre-arguments, static data, hooks).",
+      tags = {"framework", "storage"},
+      creation = CreationKind.ENUM_CONSTANT
+)
+@PandoraOptions(
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "storage-keys"),
+         @PandoraOptions.Meta(key = "scope", value = "test-runtime")
+      }
+)
 public enum StorageKeysTest {
 
    /**

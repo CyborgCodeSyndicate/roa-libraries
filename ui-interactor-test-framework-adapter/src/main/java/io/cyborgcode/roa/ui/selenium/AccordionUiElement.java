@@ -1,7 +1,11 @@
 package io.cyborgcode.roa.ui.selenium;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.components.accordion.AccordionService;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
+import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
 
 /**
  * Represents an Accordion UI element that integrates with the {@link AccordionService}.
@@ -12,6 +16,18 @@ import io.cyborgcode.roa.ui.components.base.ComponentType;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Accordion UI element descriptor used with the AccordionService.",
+      tags = {"ui", "ui-element", "accordion"},
+      creation = CreationKind.AUTO
+)
+@PandoraOptions(
+      availableOptionsRule = AvailableOptionsRules.AvailableAccordionUiElements.class,
+      exampleFilesPath = "ai/roa/ui-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "ui-element")
+      }
+)
 public interface AccordionUiElement extends UiElement {
 
    /**

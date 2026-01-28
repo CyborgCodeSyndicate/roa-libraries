@@ -1,6 +1,8 @@
 package io.cyborgcode.roa.validator.core;
 
-
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,32 +19,58 @@ import lombok.Setter;
  */
 @Getter
 @SuppressWarnings("java:S3740")
+@Pandora(
+      description = "Single validation rule describing what to assert, how to compare it and what value is expected.",
+      tags = {"assertion"},
+      creation = CreationKind.BUILDER
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/api-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "assertion")
+      }
+)
 public final class Assertion {
 
    /**
     * The subject of the assertion, specifying what is being validated.
     */
+   @Pandora(
+      description = "What part of the response/data is being asserted (e.g. STATUS, BODY, HEADER)."
+   )
    private final AssertionTarget target;
 
    /**
     * Provides a supplementary identifier for targeted validation.
     */
+   @Pandora(
+      description = "Optional key that refines the target, such as JSON path, header name or locator."
+   )
    @Setter
    private String key;
 
    /**
     * Indicates the logical operation for this validation.
     */
+   @Pandora(
+      description = "How the value is validated (IS, CONTAINS, BETWEEN, etc.)."
+   )
    private final AssertionType<?> type;
 
    /**
     * The reference value expected by this assertion.
     */
+   @Pandora(
+      description = "Expected reference value used by the assertion operator."
+   )
    private final Object expected;
 
    /**
     * Determines if the assertion is a soft assertion.
     */
+   @Pandora(
+      description = "Whether this assertion is soft (do not fail immediately, collect in soft-assertions)."
+   )
    private final boolean soft;
 
    @Builder
@@ -74,6 +102,4 @@ public final class Assertion {
       this.expected = expected;
       this.soft = soft;
    }
-
-
 }

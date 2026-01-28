@@ -1,5 +1,10 @@
 package io.cyborgcode.roa.validator.core;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.roa.validator.pandora.AvailableOptionsRules;
+
 /**
  * Represents a type of assertion used for validation.
  *
@@ -15,6 +20,17 @@ package io.cyborgcode.roa.validator.core;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Describes *how* a value is validated (e.g. equals, contains, between, matches regex).",
+      tags = {"assertion"},
+      creation = CreationKind.ENUM_CONSTANT
+)
+@PandoraOptions(
+      availableOptionsRule = AvailableOptionsRules.AvailableAssertionTypes.class,
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "assertion-type")
+      }
+)
 public interface AssertionType<T extends Enum<T>> {
 
    /**

@@ -69,6 +69,11 @@
             <artifactId>junit-jupiter-params</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.cyborgcode.pandora</groupId>
+            <artifactId>pandora-core</artifactId>
+            <version>1.0.0-SNAPSHOT-bb460f6-21438619106</version>
+        </dependency>
     </dependencies>
 
 </project>

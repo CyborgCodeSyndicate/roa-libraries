@@ -1,5 +1,9 @@
 package io.cyborgcode.roa.api.storage;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
+
 /**
  * Defines storage keys for API-related data.
  *
@@ -8,6 +12,17 @@ package io.cyborgcode.roa.api.storage;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Storage keys for API-related data in quest storage (API namespace, username, password).",
+      tags = {"api", "storage"},
+      creation = CreationKind.ENUM_CONSTANT
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/api-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "api-storage-key")
+      }
+)
 public enum StorageKeysApi {
 
    /**

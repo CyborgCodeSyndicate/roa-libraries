@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.ui.service.fluent;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.storage.Storage;
 import io.cyborgcode.roa.ui.components.button.ButtonService;
 import io.cyborgcode.roa.ui.selenium.ButtonUiElement;
@@ -23,6 +26,18 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @SuppressWarnings({"java:S5960", "unchecked"})
+@Pandora(
+      description = "Fluent UI service for interacting with buttons: click, enablement/visibility checks "
+            + "and validations.",
+      tags = {"ui", "fluent", "button"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/ui-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "fluent-service")
+      }
+)
 public class ButtonServiceFluent<T extends UiServiceFluent<?>> {
 
    private final ButtonService buttonService;
@@ -52,6 +67,13 @@ public class ButtonServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The button element to click
     * @return The fluent UI service instance
     */
+   @Pandora(
+         description = "Click the given button UI element and continue the fluent UI flow.",
+         tags = {"ui", "button"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T click(final ButtonUiElement element) {
       Allure.step(String.format("[UI - Button] Clicking button with componentType: %s, locator: %s",
             element.componentType(), element.locator()));
@@ -67,6 +89,13 @@ public class ButtonServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The button element
     * @return The fluent UI service instance
     */
+   @Pandora(
+         description = "Evaluate whether the button is enabled and store the result in quest storage.",
+         tags = {"ui", "button"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T isEnabled(final ButtonUiElement element) {
       Allure.step(String.format("[UI - Button] Checking if button is enabled with componentType: %s, locator: %s",
             element.componentType(), element.locator()));
@@ -83,6 +112,13 @@ public class ButtonServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The button element
     * @return The fluent UI service instance
     */
+   @Pandora(
+         description = "Validate that the button is enabled (hard assertion).",
+         tags = {"ui", "button"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T validateIsEnabled(final ButtonUiElement element) {
       return validateIsEnabled(element, true, false);
    }
@@ -94,7 +130,17 @@ public class ButtonServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft    Whether to perform a soft assertion
     * @return The fluent UI service instance
     */
-   public T validateIsEnabled(final ButtonUiElement element, boolean soft) {
+   @Pandora(
+         description = "Validate that the button is enabled, optionally using a soft assertion.",
+         tags = {"ui", "button"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateIsEnabled(final ButtonUiElement element,
+         @Pandora(
+               description = "When true, use soft assertions (don't fail immediately)."
+         ) boolean soft) {
       return validateIsEnabled(element, true, soft);
    }
 
@@ -139,6 +185,13 @@ public class ButtonServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The button element
     * @return The fluent UI service instance
     */
+   @Pandora(
+         description = "Validate that the button is disabled (hard assertion).",
+         tags = {"ui", "button"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T validateIsDisabled(final ButtonUiElement element) {
       return validateIsEnabled(element, false, false);
    }
@@ -150,7 +203,17 @@ public class ButtonServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft    Whether to perform a soft assertion
     * @return The fluent UI service instance
     */
-   public T validateIsDisabled(final ButtonUiElement element, boolean soft) {
+   @Pandora(
+         description = "Validate that the button is disabled, optionally using a soft assertion.",
+         tags = {"ui", "button"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateIsDisabled(final ButtonUiElement element,
+         @Pandora(
+               description = "When true, use soft assertions (don't fail immediately)."
+         ) boolean soft) {
       return validateIsEnabled(element, false, soft);
    }
 
@@ -160,6 +223,13 @@ public class ButtonServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The button element
     * @return The fluent UI service instance
     */
+   @Pandora(
+         description = "Evaluate whether the button is visible and store the result in quest storage.",
+         tags = {"ui", "button"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T isVisible(final ButtonUiElement element) {
       Allure.step(String.format("[UI - Button] Checking if button is visible with componentType: %s, locator: %s",
             element.componentType(), element.locator()));
@@ -176,6 +246,13 @@ public class ButtonServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The button element
     * @return The fluent UI service instance
     */
+   @Pandora(
+         description = "Validate that the button is visible (hard assertion).",
+         tags = {"ui", "button"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T validateIsVisible(final ButtonUiElement element) {
       return validateIsVisible(element, true, false);
    }
@@ -187,7 +264,17 @@ public class ButtonServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft    If {@code true}, the validation will be performed as a soft assertion.
     * @return The instance of {@link UiServiceFluent} to allow method chaining.
     */
-   public T validateIsVisible(final ButtonUiElement element, boolean soft) {
+   @Pandora(
+         description = "Validate that the button is visible, optionally using a soft assertion.",
+         tags = {"ui", "button"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateIsVisible(final ButtonUiElement element,
+         @Pandora(
+               description = "When true, use soft assertions (don't fail immediately)."
+         ) boolean soft) {
       Allure.step(String.format("[UI - Button] Validating if button is visible with componentType: %s, locator: %s",
             element.componentType(), element.locator()));
       return validateIsVisible(element, true, soft);
@@ -234,6 +321,13 @@ public class ButtonServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The button element
     * @return The fluent UI service instance
     */
+   @Pandora(
+         description = "Validate that the button is hidden (hard assertion).",
+         tags = {"ui", "button"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T validateIsHidden(final ButtonUiElement element) {
       return validateIsVisible(element, false, false);
    }
@@ -245,7 +339,17 @@ public class ButtonServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft    If {@code true}, the validation will be performed as a soft assertion.
     * @return The instance of {@link UiServiceFluent} to allow method chaining.
     */
-   public T validateIsHidden(final ButtonUiElement element, boolean soft) {
+   @Pandora(
+         description = "Validate that the button is hidden, optionally using a soft assertion.",
+         tags = {"ui", "button"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateIsHidden(final ButtonUiElement element,
+         @Pandora(
+               description = "When true, use soft assertions (don't fail immediately)."
+         ) boolean soft) {
       return validateIsVisible(element, false, soft);
    }
 }

@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.ui.components.table.annotations;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -17,6 +20,17 @@ import java.lang.annotation.Target;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Annotation indicating a table cell supports value insertion using a specified component type.",
+      tags = {"ui", "annotation", "cell-insertion"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/ui-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "annotation")
+      }
+)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface CellInsertion {
@@ -26,6 +40,10 @@ public @interface CellInsertion {
     *
     * @return the class representing the component type.
     */
+   @Pandora(
+         description = "The UI component type class that performs the insertion.",
+         tags = {"annotation", "cell-insertion"}
+   )
    Class<? extends ComponentType> type();
 
    /**
@@ -33,6 +51,10 @@ public @interface CellInsertion {
     *
     * @return a string representing the component type.
     */
+   @Pandora(
+         description = "The specific component type identifier used for insertion.",
+         tags = {"annotation", "cell-insertion"}
+   )
    String componentType();
 
    /**
@@ -41,6 +63,10 @@ public @interface CellInsertion {
     *
     * @return the insertion order.
     */
+   @Pandora(
+         description = "Execution order for the insertion when multiple exist in a row (lower runs earlier).",
+         tags = {"annotation", "cell-insertion"}
+   )
    int order() default 0;
 
 }

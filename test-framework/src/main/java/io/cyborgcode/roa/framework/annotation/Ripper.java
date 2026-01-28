@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.framework.annotation;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -19,6 +22,18 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
+@Pandora(
+      description = "Annotation added on a test or class to define "
+            + "post-test cleanup actions that will be executed after the test finishes.",
+      tags = {"framework", "cleanup"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      meta = {
+         @PandoraOptions.Meta(key = "level", value = "test-method-or-class"),
+         @PandoraOptions.Meta(key = "role", value = "cleanup")
+      }
+)
 public @interface Ripper {
 
    /**
@@ -29,6 +44,9 @@ public @interface Ripper {
     *
     * @return An array of target identifiers specifying cleanup actions.
     */
+   @Pandora(
+         description = "One or more cleanup targets (usually enum constants) that should be executed after the test."
+   )
    String[] targets();
 
 }

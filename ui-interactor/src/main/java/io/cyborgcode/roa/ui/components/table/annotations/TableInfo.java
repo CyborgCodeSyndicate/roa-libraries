@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.ui.components.table.annotations;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -25,6 +28,17 @@ import org.openqa.selenium.support.FindBy;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
+@Pandora(
+      description = "Annotation defining the locators and structure for a UI table.",
+      tags = {"ui", "annotation", "table-info"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/ui-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "annotation")
+      }
+)
 public @interface TableInfo {
 
    /**
@@ -32,13 +46,21 @@ public @interface TableInfo {
     *
     * @return the {@link FindBy} annotation specifying the table container locator.
     */
+   @Pandora(
+         description = "Locator for identifying the table container element.",
+         tags = {"annotation", "table-info"}
+   )
    FindBy tableContainerLocator();
 
    /**
     * Locator for identifying the rows inside the table.
     *
-    * @return the {@link FindBy} annotation specifying the rows locator.
+    * @return the {@link FindBy} annotation specifying the row's locator.
     */
+   @Pandora(
+         description = "Locator for identifying the rows inside the table.",
+         tags = {"annotation", "table-info"}
+   )
    FindBy rowsLocator();
 
    /**
@@ -46,6 +68,10 @@ public @interface TableInfo {
     *
     * @return the {@link FindBy} annotation specifying the header row locator.
     */
+   @Pandora(
+         description = "Locator for identifying the table's header row.",
+         tags = {"annotation", "table-info"}
+   )
    FindBy headerRowLocator();
 
 }

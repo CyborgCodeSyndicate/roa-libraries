@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.db.hooks;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.db.service.DatabaseService;
 import java.util.Map;
 import org.apache.logging.log4j.util.TriConsumer;
@@ -18,6 +21,17 @@ import org.apache.logging.log4j.util.TriConsumer;
  * @param <T> the enum type used to identify hook implementations
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Contract for defining database hook logic that can be executed "
+            + "before or after all tests in a class via the @DbHook annotation.",
+      tags = {"db", "hook"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "db-hook-flow")
+      }
+)
 public interface DbHookFlow<T extends Enum<T>> {
 
    /**
@@ -32,6 +46,10 @@ public interface DbHookFlow<T extends Enum<T>> {
     *
     * @return a three-argument consumer executing the hook flow
     */
+   @Pandora(
+         description = "Executable database hook logic that receives a DatabaseService, "
+               + "a shared parameters map, and hook arguments."
+   )
    TriConsumer<DatabaseService, Map<Object, Object>, String[]> flow();
 
    /**
@@ -42,6 +60,10 @@ public interface DbHookFlow<T extends Enum<T>> {
     *
     * @return the enum identifying this hook
     */
+   @Pandora(
+         description = "Enum constant identifying this database hook implementation, "
+               + "matched against the type defined in the @DbHook annotation."
+   )
    T enumImpl();
 
 }

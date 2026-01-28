@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.ui.storage;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import com.jayway.jsonpath.JsonPath;
 import io.cyborgcode.roa.framework.storage.DataExtractor;
 import io.cyborgcode.roa.framework.storage.DataExtractorImpl;
@@ -22,6 +25,19 @@ import java.util.List;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Utilities to build DataExtractor instances for UI flows (API response JSON paths and "
+            + "table row retrieval).",
+      tags = {"ui", "data", "extractor", "utility"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/ui-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "ui-data-extractors"),
+         @PandoraOptions.Meta(key = "scope", value = "type")
+      }
+)
 public class DataExtractorsUi {
 
    private DataExtractorsUi() {
@@ -35,6 +51,10 @@ public class DataExtractorsUi {
     * @param <T>            The expected return type of the extracted data.
     * @return A {@link DataExtractor} that retrieves the specified value from the API response.
     */
+   @Pandora(
+         description = "Builds a DataExtractor that reads a value from the most recent matching API response "
+               + "using a JSONPath."
+   )
    public static <T> DataExtractor<T> responseBodyExtraction(String responsePrefix, String jsonPath) {
       return responseBodyExtraction(responsePrefix, jsonPath, 1);
    }
@@ -49,6 +69,10 @@ public class DataExtractorsUi {
     * @return A {@link DataExtractor} that retrieves the specified value from the API response.
     * @throws IllegalArgumentException If the provided index is out of range.
     */
+   @Pandora(
+         description = "Builds a DataExtractor that reads a value from the Nth most recent matching API "
+               + "response using a JSONPath."
+   )
    public static <T> DataExtractor<T> responseBodyExtraction(String responsePrefix, String jsonPath, int index) {
       return new DataExtractorImpl<>(
             StorageKeysUi.UI,
@@ -85,6 +109,10 @@ public class DataExtractorsUi {
     * @param <T>        The expected return type of the extracted table row.
     * @return A {@link DataExtractor} that retrieves the matching row from the table.
     */
+   @Pandora(
+         description = "Builds a DataExtractor that finds the first table row whose values include all given "
+               + "indicators (case-insensitive)."
+   )
    public static <T> DataExtractor<T> tableRowExtractor(Enum<?> key, String... indicators) {
       return new DataExtractorImpl<>(
             StorageKeysUi.UI,
@@ -116,6 +144,9 @@ public class DataExtractorsUi {
     * @return A {@link DataExtractor} that retrieves the row at the specified index.
     * @throws IndexOutOfBoundsException If the index is out of range.
     */
+   @Pandora(
+         description = "Builds a DataExtractor that returns the table row at the given index from storage."
+   )
    public static <T> DataExtractor<T> tableRowExtractor(Enum<?> key, int index) {
       return new DataExtractorImpl<>(
             StorageKeysUi.UI,

@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.api.log;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.utilities.logging.LogCore;
 
 /**
@@ -10,6 +13,18 @@ import io.cyborgcode.utilities.logging.LogCore;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Central API logger facade for ROA. "
+            + "Use it to log API flow steps, validation messages and debug information.",
+      tags = {"api", "logging"},
+      creation = CreationKind.SINGLETON
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/api-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "api-logger")
+      }
+)
 public final class LogApi extends LogCore {
 
    private static LogApi instance;
@@ -24,7 +39,14 @@ public final class LogApi extends LogCore {
     * @param message The message to log.
     * @param args    Optional arguments to format the message.
     */
-   public static void info(String message, Object... args) {
+   public static void info(@Pandora(
+                                 description = "Log message template (may contain placeholders like {})."
+                           )
+                           String message,
+                           @Pandora(
+                                 description = "Optional arguments used to format the message template."
+                           )
+                           Object... args) {
       getInstance().infoLog(message, args);
    }
 
@@ -34,7 +56,15 @@ public final class LogApi extends LogCore {
     * @param message The warning message.
     * @param args    Optional arguments to format the message.
     */
-   public static void warn(String message, Object... args) {
+
+   public static void warn(@Pandora(
+                                 description = "Log message template (may contain placeholders like {})."
+                           )
+                           String message,
+                           @Pandora(
+                                 description = "Optional arguments used to format the message template."
+                           )
+                           Object... args) {
       getInstance().warnLog(message, args);
    }
 
@@ -44,7 +74,14 @@ public final class LogApi extends LogCore {
     * @param message The error message.
     * @param args    Optional arguments to format the message.
     */
-   public static void error(String message, Object... args) {
+   public static void error(@Pandora(
+                                  description = "Log message template (may contain placeholders like {})."
+                            )
+                            String message,
+                            @Pandora(
+                                  description = "Optional arguments used to format the message template."
+                            )
+                            Object... args) {
       getInstance().errorLog(message, args);
    }
 
@@ -54,7 +91,14 @@ public final class LogApi extends LogCore {
     * @param message The debug message.
     * @param args    Optional arguments to format the message.
     */
-   public static void debug(String message, Object... args) {
+   public static void debug(@Pandora(
+                                  description = "Log message template (may contain placeholders like {})."
+                            )
+                            String message,
+                            @Pandora(
+                                  description = "Optional arguments used to format the message template."
+                            )
+                            Object... args) {
       getInstance().debugLog(message, args);
    }
 
@@ -64,7 +108,14 @@ public final class LogApi extends LogCore {
     * @param message The trace message.
     * @param args    Optional arguments to format the message.
     */
-   public static void trace(String message, Object... args) {
+   public static void trace(@Pandora(
+                                  description = "Log message template (may contain placeholders like {})."
+                            )
+                            String message,
+                            @Pandora(
+                                  description = "Optional arguments used to format the message template."
+                            )
+                            Object... args) {
       getInstance().traceLog(message, args);
    }
 
@@ -74,7 +125,14 @@ public final class LogApi extends LogCore {
     * @param message The step description.
     * @param args    Optional arguments to format the message.
     */
-   public static void step(String message, Object... args) {
+   public static void step(@Pandora(
+                                 description = "Step message template describing the current API flow action."
+                           )
+                           String message,
+                           @Pandora(
+                                 description = "Optional arguments used to format the step message."
+                           )
+                           Object... args) {
       getInstance().stepLog(message, args);
    }
 
@@ -84,7 +142,15 @@ public final class LogApi extends LogCore {
     * @param message The validation message.
     * @param args    Optional arguments to format the message.
     */
-   public static void validation(String message, Object... args) {
+   public static void validation(@Pandora(
+                                       description = "Validation message template "
+                                             + "describing what is being asserted/validated."
+                                 )
+                                 String message,
+                                 @Pandora(
+                                       description = "Optional arguments used to format the validation message."
+                                 )
+                                 Object... args) {
       getInstance().validationLog(message, args);
    }
 
@@ -94,7 +160,14 @@ public final class LogApi extends LogCore {
     * @param message The extended log message.
     * @param args    Optional arguments to format the message.
     */
-   public static void extended(String message, Object... args) {
+   public static void extended(@Pandora(
+                                     description = "Extended debug message template (usually verbose details)."
+                               )
+                               String message,
+                               @Pandora(
+                                     description = "Optional arguments used to format the extended message."
+                               )
+                               Object... args) {
       getInstance().extendedLog(message, args);
    }
 
@@ -104,7 +177,9 @@ public final class LogApi extends LogCore {
     * @param instance The custom log instance to extend.
     * @param <T>      A subclass of {@link LogCore}.
     */
-   public static <T extends LogCore> void extend(final T instance) {
+   public static <T extends LogCore> void extend(@Pandora(
+         description = "Custom LogCore instance to use as the underlying API logger implementation."
+   ) final T instance) {
       LogApi.instance = (LogApi) instance;
    }
 

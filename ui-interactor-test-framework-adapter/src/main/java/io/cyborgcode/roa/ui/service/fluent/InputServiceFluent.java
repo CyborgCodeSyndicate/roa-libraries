@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.ui.service.fluent;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.storage.Storage;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.components.input.InputService;
@@ -25,6 +28,18 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @SuppressWarnings({"java:S5960", "unchecked"})
+@Pandora(
+      description = "Fluent UI service for interacting with inputs: insert/clear/get, enablement "
+            + "checks and validations.",
+      tags = {"ui", "fluent", "input"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/ui-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "fluent-service")
+      }
+)
 public class InputServiceFluent<T extends UiServiceFluent<?>> implements Insertion {
 
    private final InputService inputService;
@@ -55,7 +70,17 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param value   The value to insert.
     * @return The UI service fluent instance for method chaining.
     */
-   public T insert(final InputUiElement element, final String value) {
+   @Pandora(
+        description = "Insert the given value into the input element and continue the fluent UI flow.",
+        tags = {"ui", "input"}
+   )
+   @PandoraOptions(
+        exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T insert(final InputUiElement element,
+         @Pandora(
+               description = "Value to insert into the input."
+         ) final String value) {
       Allure.step("[UI - Input] Insert value '" + value + "' into input element: " + element);
       element.before().accept(driver);
       inputService.insert(element.componentType(), element.locator(), value);
@@ -69,6 +94,13 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param element The {@link InputUiElement} representing the input field.
     * @return The UI service fluent instance for method chaining.
     */
+   @Pandora(
+        description = "Clear the input element and continue the fluent UI flow.",
+        tags = {"ui", "input"}
+   )
+   @PandoraOptions(
+        exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T clear(final InputUiElement element) {
       Allure.step("[UI - Input] Clear input element: " + element);
       element.before().accept(driver);
@@ -83,6 +115,13 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param element The {@link InputUiElement} representing the input field.
     * @return The UI service fluent instance for method chaining.
     */
+   @Pandora(
+        description = "Retrieve the input value and store it in quest storage.",
+        tags = {"ui", "input"}
+   )
+   @PandoraOptions(
+        exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T getValue(final InputUiElement element) {
       Allure.step("[UI - Input] Get value from input element: " + element);
       element.before().accept(driver);
@@ -99,7 +138,17 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param expectedValue The expected value to validate.
     * @return The UI service fluent instance for method chaining.
     */
-   public T validateValue(final InputUiElement element, String expectedValue) {
+   @Pandora(
+        description = "Validate that the input value equals the expected value (hard assertion).",
+        tags = {"ui", "input"}
+   )
+   @PandoraOptions(
+        exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateValue(final InputUiElement element,
+         @Pandora(
+               description = "Expected input value."
+         ) String expectedValue) {
       return validateValue(element, expectedValue, false);
    }
 
@@ -111,7 +160,20 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param soft          Whether to use soft assertions.
     * @return The UI service fluent instance for method chaining.
     */
-   public T validateValue(final InputUiElement element, String expectedValue, boolean soft) {
+   @Pandora(
+        description = "Validate that the input value equals the expected value, optionally using a soft assertion.",
+        tags = {"ui", "input"}
+   )
+   @PandoraOptions(
+        exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateValue(final InputUiElement element,
+         @Pandora(
+               description = "Expected input value."
+         ) String expectedValue,
+         @Pandora(
+               description = "When true, use soft assertions (don't fail immediately)."
+         ) boolean soft) {
       Allure.step("[UI - Input] Validate value of input element: " + element + " is equal to: " + expectedValue);
       element.before().accept(driver);
       String value = inputService.getValue(element.componentType(), element.locator());
@@ -134,6 +196,13 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param element The {@link InputUiElement} representing the input field.
     * @return The UI service fluent instance for method chaining.
     */
+   @Pandora(
+        description = "Evaluate whether the input is enabled and store the result in quest storage.",
+        tags = {"ui", "input"}
+   )
+   @PandoraOptions(
+        exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T isEnabled(final InputUiElement element) {
       Allure.step("[UI - Input] Check if input element is enabled: " + element);
       element.before().accept(driver);
@@ -149,6 +218,13 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param element The {@link InputUiElement} representing the input field.
     * @return The UI service fluent instance for method chaining.
     */
+   @Pandora(
+        description = "Validate that the input is enabled (hard assertion).",
+        tags = {"ui", "input"}
+   )
+   @PandoraOptions(
+        exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T validateIsEnabled(final InputUiElement element) {
       return validateIsEnabled(element, true, false);
    }
@@ -160,7 +236,17 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param soft    Whether to use soft assertions.
     * @return The UI service fluent instance for method chaining.
     */
-   public T validateIsEnabled(final InputUiElement element, boolean soft) {
+   @Pandora(
+        description = "Validate that the input is enabled, optionally using a soft assertion.",
+        tags = {"ui", "input"}
+   )
+   @PandoraOptions(
+        exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateIsEnabled(final InputUiElement element,
+         @Pandora(
+               description = "When true, use soft assertions (don't fail immediately)."
+         ) boolean soft) {
       return validateIsEnabled(element, true, soft);
    }
 
@@ -205,6 +291,13 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param element The {@link InputUiElement} representing the input field.
     * @return The UI service fluent instance for method chaining.
     */
+   @Pandora(
+        description = "Validate that the input is disabled (hard assertion).",
+        tags = {"ui", "input"}
+   )
+   @PandoraOptions(
+        exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T validateIsDisabled(final InputUiElement element) {
       return validateIsEnabled(element, false, false);
    }
@@ -216,7 +309,17 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param soft    Whether to use soft assertions.
     * @return The UI service fluent instance for method chaining.
     */
-   public T validateIsDisabled(final InputUiElement element, boolean soft) {
+   @Pandora(
+        description = "Validate that the input is disabled, optionally using a soft assertion.",
+        tags = {"ui", "input"}
+   )
+   @PandoraOptions(
+        exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateIsDisabled(final InputUiElement element,
+         @Pandora(
+               description = "When true, use soft assertions (don't fail immediately)."
+         ) boolean soft) {
       return validateIsEnabled(element, false, soft);
    }
 
@@ -226,6 +329,13 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param element The {@link InputUiElement} representing the input field.
     * @return The UI service fluent instance for method chaining.
     */
+   @Pandora(
+        description = "Retrieve the input error message and store it in quest storage.",
+        tags = {"ui", "input"}
+   )
+   @PandoraOptions(
+        exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    public T getErrorMessage(final InputUiElement element) {
       Allure.step("[UI - Input] Get error message for input element: " + element);
       element.before().accept(driver);
@@ -242,7 +352,17 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param expectedMessage The expected error message.
     * @return The UI service fluent instance for method chaining.
     */
-   public T validateErrorMessage(final InputUiElement element, String expectedMessage) {
+   @Pandora(
+        description = "Validate that the input error message equals the expected value (hard assertion).",
+        tags = {"ui", "input"}
+   )
+   @PandoraOptions(
+        exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateErrorMessage(final InputUiElement element,
+         @Pandora(
+               description = "Expected error message."
+         ) String expectedMessage) {
       return validateErrorMessage(element, expectedMessage, false);
    }
 
@@ -254,7 +374,21 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param soft            Whether to use soft assertions (non-blocking validation).
     * @return The UI service fluent instance for method chaining.
     */
-   public T validateErrorMessage(final InputUiElement element, String expectedMessage, boolean soft) {
+   @Pandora(
+        description = "Validate that the input error message equals the expected value, optionally using "
+              + "a soft assertion.",
+        tags = {"ui", "input"}
+   )
+   @PandoraOptions(
+        exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateErrorMessage(final InputUiElement element,
+         @Pandora(
+               description = "Expected error message."
+         ) String expectedMessage,
+         @Pandora(
+               description = "When true, use soft assertions (don't fail immediately)."
+         ) boolean soft) {
       Allure.step(
             "[UI - Input] Validate error message for input element: " + element + " is equal to: " + expectedMessage);
       element.before().accept(driver);
@@ -281,7 +415,20 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
     * @param values        The values to be inserted.
     */
    @Override
-   public void insertion(final ComponentType componentType, final By locator, final Object... values) {
+   @Pandora(
+        description = "Insertion hook for input values using component type and locator.",
+        tags = {"ui", "input", "insertion"}
+   )
+   @PandoraOptions(
+        exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public void insertion(final ComponentType componentType,
+         @Pandora(
+               description = "Locator identifying the input element."
+         ) final By locator,
+         @Pandora(
+               description = "Values to insert into the input."
+         ) final Object... values) {
       Allure.step("[UI - Input] Insert values into input field with locator: " + locator);
       inputService.insertion(componentType, locator, values);
    }

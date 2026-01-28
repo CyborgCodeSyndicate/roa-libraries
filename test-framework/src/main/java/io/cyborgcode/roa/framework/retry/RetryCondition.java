@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.framework.retry;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -19,6 +22,19 @@ import java.util.function.Predicate;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Retry condition abstraction: combines a value-producing function and a success predicate. "
+            + "Used by retry utilities to repeatedly invoke an operation "
+            + "(function) until the predicate passes or a timeout occurs.",
+      tags = {"framework", "retry"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "retry-condition"),
+         @PandoraOptions.Meta(key = "role", value = "function-plus-predicate")
+      }
+)
 public interface RetryCondition<T> {
 
    /**
@@ -30,6 +46,10 @@ public interface RetryCondition<T> {
     * @return a {@link Function} that takes an {@code Object} (e.g., a service or context)
     *     and returns a value of type {@code T} for evaluation.
     */
+   @Pandora(
+         description = "Operation to execute on each retry attempt. "
+               + "Receives a service/context object and returns a value to evaluate."
+   )
    Function<Object, T> function();
 
    /**
@@ -40,6 +60,10 @@ public interface RetryCondition<T> {
     *
     * @return a {@link Predicate} that tests the value of type {@code T} for success.
     */
+   @Pandora(
+         description = "Success predicate applied to the value returned by function(). "
+               + "When true, the retry loop stops."
+   )
    Predicate<T> condition();
 
 }

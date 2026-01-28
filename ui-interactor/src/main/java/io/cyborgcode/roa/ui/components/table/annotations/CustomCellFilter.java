@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.ui.components.table.annotations;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.components.table.filters.CellFilterFunction;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -19,6 +22,18 @@ import java.lang.annotation.Target;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Annotation defining a custom filtering mechanism for a table cell using a "
+            + "function implementation.",
+      tags = {"ui", "annotation", "custom-cell-filter"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/ui-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "annotation")
+      }
+)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface CustomCellFilter {
@@ -28,5 +43,9 @@ public @interface CustomCellFilter {
     *
     * @return the class implementing {@link CellFilterFunction}.
     */
+   @Pandora(
+         description = "The filtering function class used to filter table data dynamically.",
+         tags = {"annotation", "custom-cell-filter"}
+   )
    Class<? extends CellFilterFunction> cellFilterFunction();
 }
