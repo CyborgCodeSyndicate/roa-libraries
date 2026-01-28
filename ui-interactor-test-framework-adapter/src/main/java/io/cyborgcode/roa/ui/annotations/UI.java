@@ -1,0 +1,30 @@
+package io.cyborgcode.roa.ui.annotations;
+
+import io.cyborgcode.roa.framework.annotation.FrameworkAdapter;
+import io.cyborgcode.roa.ui.extensions.UiTestExtension;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import org.junit.jupiter.api.extension.ExtendWith;
+
+/**
+ * Marks a test class as a UI test.
+ *
+ * <p>This annotation enables UI testing by applying the {@link UiTestExtension} and
+ * integrating UI-related framework functionalities. It ensures that necessary UI
+ * configurations, drivers, and interactions are properly managed during test execution.
+ *
+ * <p>Applying this annotation to a test class automatically enables UI-specific features
+ * such as UI element handling, request interception, and authentication mechanisms.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@ExtendWith(UiTestExtension.class)
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE})
+@FrameworkAdapter(basePackages = {"io.cyborgcode.roa.ui"})
+@SuppressWarnings("checkstyle:AbbreviationAsWordInName")
+public @interface UI {
+
+}
