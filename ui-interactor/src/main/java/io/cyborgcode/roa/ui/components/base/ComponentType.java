@@ -1,0 +1,26 @@
+package io.cyborgcode.roa.ui.components.base;
+
+/**
+ * Represents a UI component type.
+ *
+ * <p>This interface is used to define various types of UI components such as
+ * buttons, checkboxes, dropdowns, accordions, and more.
+ *
+ * <p>Each specific component type extends this interface and provides
+ * its own enumeration values representing available component variations.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@SuppressWarnings("java:S1452")
+public interface ComponentType {
+
+   /**
+    * Retrieves the enum representation of the component type.
+    *
+    * <p>This method is used to determine the specific type of a UI component,
+    * allowing for dynamic handling within the framework.
+    *
+    * @return The enum value representing the component type.
+    */
+   Enum<?> getType();
+}
