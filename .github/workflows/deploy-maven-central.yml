@@ -1,0 +1,61 @@
+name: Deploy to Maven Central
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to deploy (must match an existing git tag. Example: 1.0.0)'
+        required: true
+        type: string
+
+jobs:
+  deploy-central:
+    name: Deploy to Maven Central
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Use the composite action to deploy to Maven Central
+      - name: Deploy ROA Libraries to Maven Central
+        uses: CyborgCodeSyndicate/utilities/pipelines/deploy-maven-central@v1.0.0-rc-1
+        with:
+          version: ${{ inputs.version }}
+          # Do NOT deploy roa-libraries (root)
+          modules: "assertions,api-interactor,db-interactor,ui-interactor,test-framework,api-interactor-test-framework-adapter,
+          db-interactor-test-framework-adapter,ui-interactor-test-framework-adapter,roa-parent,roa-archetype"
+          java_version: "17"
+          maven_central_username: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          maven_central_token: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg_passphrase: ${{ secrets.GPG_PASSPHRASE }}
+
+      - name: Create GitHub Release
+        if: success()
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: "v${{ inputs.version }}"
+          release_name: "Release v${{ inputs.version }} - Maven Central"
+          body: |
+            ## 📦 Maven Central Release
+            
+            Version `${{ inputs.version }}` has been deployed to Maven Central.
+            
+            ### Deployed Modules
+            - `io.cyborgcode.roa:assertions:${{ inputs.version }}`
+            - `io.cyborgcode.roa:api-interactor:${{ inputs.version }}`
+            - `io.cyborgcode.roa:db-interactor:${{ inputs.version }}`
+            - `io.cyborgcode.roa:ui-interactor:${{ inputs.version }}`
+            - `io.cyborgcode.roa:test-framework:${{ inputs.version }}`
+            - `io.cyborgcode.roa:api-interactor-test-framework-adapter:${{ inputs.version }}`
+            - `io.cyborgcode.roa:db-interactor-test-framework-adapter:${{ inputs.version }}`
+            - `io.cyborgcode.roa:ui-interactor-test-framework-adapter:${{ inputs.version }}`
+            - `io.cyborgcode.roa:roa-parent:${{ inputs.version }}`
+            - `io.cyborgcode.roa:roa-archetype:${{ inputs.version }}`
+            
+          
+            ### Notes
+            - Artifacts may take up to 30 minutes to appear in Maven Central
+            - Search for artifacts: https://search.maven.org/search?q=g:io.cyborgcode.utilities
+          draft: false
+          prerelease: false
