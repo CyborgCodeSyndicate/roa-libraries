@@ -1,7 +1,10 @@
 package io.cyborgcode.roa.api.core;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.roa.api.pandora.AvailableOptionsRules;
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import io.restassured.http.Method;
 import io.restassured.specification.RequestSpecification;
 import java.util.Collections;
@@ -18,6 +21,19 @@ import static io.cyborgcode.roa.api.config.ApiConfigHolder.getApiConfig;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Generic API endpoint definition used by enums to describe HTTP method, "
+            + "path and default request parameters.",
+      tags = {"api"},
+      creation = CreationKind.ENUM_CONSTANT
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/api-usage.json",
+      availableOptionsRule = AvailableOptionsRules.AvailableEndpoints.class,
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "endpoint")
+      }
+)
 public interface Endpoint<T extends Enum<T>> {
 
    /**
@@ -70,10 +86,8 @@ public interface Endpoint<T extends Enum<T>> {
     */
    default RequestSpecification defaultConfiguration() {
       RequestSpecification spec = RestAssured.given()
-         .baseUri(baseUrl())
-         .contentType(ContentType.JSON)
-         .accept(ContentType.JSON)
-         .headers(headers());
+            .baseUri(baseUrl())
+            .headers(headers());
 
       if (getApiConfig().restAssuredLoggingEnabled()) {
          switch (getApiConfig().restAssuredLoggingLevel()) {
@@ -109,6 +123,10 @@ public interface Endpoint<T extends Enum<T>> {
     * @param value The query parameter value.
     * @return A new instance of the endpoint with the query parameter added.
     */
+   @Pandora(
+         description = "Return a new endpoint instance with an extra query parameter added.",
+         tags = {"api"}
+   )
    default Endpoint<T> withQueryParam(String key, Object value) {
       return new ParametrizedEndpoint<T>(this).withQueryParam(key, value);
    }
@@ -120,6 +138,10 @@ public interface Endpoint<T extends Enum<T>> {
     * @param value The path parameter value.
     * @return A new instance of the endpoint with the path parameter added.
     */
+   @Pandora(
+         description = "Return a new endpoint instance with an extra path parameter added.",
+         tags = {"api"}
+   )
    default Endpoint<T> withPathParam(String key, Object value) {
       return new ParametrizedEndpoint<T>(this).withPathParam(key, value);
    }
@@ -131,6 +153,10 @@ public interface Endpoint<T extends Enum<T>> {
     * @param value The header value.
     * @return A new instance of the endpoint with the header added.
     */
+   @Pandora(
+         description = "Return a new endpoint instance with an extra header added.",
+         tags = {"api"}
+   )
    default Endpoint<T> withHeader(String key, String value) {
       return new ParametrizedEndpoint<T>(this).withHeader(key, value);
    }
@@ -142,6 +168,10 @@ public interface Endpoint<T extends Enum<T>> {
     * @param values A list of values for the header.
     * @return A new instance of the endpoint with the multi-value header added.
     */
+   @Pandora(
+         description = "Return a new endpoint instance with an extra header that has multiple values.",
+         tags = {"api"}
+   )
    default Endpoint<T> withHeader(String key, List<String> values) {
       return new ParametrizedEndpoint<T>(this).withHeader(key, values);
    }

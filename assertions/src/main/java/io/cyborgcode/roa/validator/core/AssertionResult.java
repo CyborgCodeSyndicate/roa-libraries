@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.validator.core;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
@@ -18,6 +21,18 @@ import lombok.NonNull;
  */
 @Getter
 @AllArgsConstructor
+@Pandora(
+      description = "Immutable outcome of evaluating a single Assertion. "
+            + "Contains pass/fail status, a human-readable description, expected vs actual values, "
+            + "and whether the check is soft (collected) or hard (fails immediately).",
+      tags = {"assertion"},
+      creation = CreationKind.CONSTRUCTOR
+)
+@PandoraOptions(
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "assertion-result")
+      }
+)
 public final class AssertionResult<T> {
 
    /**
@@ -52,6 +67,9 @@ public final class AssertionResult<T> {
     *
     * @return A descriptive summary of the assertion result.
     */
+   @Pandora(
+         description = "Formats this AssertionResult into a single human-readable line used in logs and Allure steps."
+   )
    @Override
    public String toString() {
       return passed

@@ -1,8 +1,12 @@
 package io.cyborgcode.roa.db.query;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.db.config.DatabaseConfiguration;
 import io.cyborgcode.roa.db.config.DbConfig;
 import io.cyborgcode.roa.db.config.DbConfigHolder;
+import io.cyborgcode.roa.db.pandora.AvailableOptionsRules;
 
 import static io.cyborgcode.roa.db.config.DbConfigHolder.getDbConfig;
 
@@ -14,6 +18,19 @@ import static io.cyborgcode.roa.db.config.DbConfigHolder.getDbConfig;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Semantic representation of a database query. "
+            + "Implementations define executable SQL queries that can be selected, "
+            + "parameterized, and executed within database test flows.",
+      tags = {"db", "query"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      availableOptionsRule = AvailableOptionsRules.AvailableDbQueries.class,
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "db-query")
+      }
+)
 public interface DbQuery<T extends Enum<T>> {
 
    /**
@@ -21,6 +38,9 @@ public interface DbQuery<T extends Enum<T>> {
     *
     * @return The SQL query as a {@code String}.
     */
+   @Pandora(
+         description = "Returns the raw SQL query string associated with this database query."
+   )
    String query();
 
    /**
@@ -49,6 +69,9 @@ public interface DbQuery<T extends Enum<T>> {
     *
     * @return The query's enum representation.
     */
+   @Pandora(
+         description = "Returns the enum constant identifying this database query implementation."
+   )
    T enumImpl();
 
    /**
@@ -61,6 +84,10 @@ public interface DbQuery<T extends Enum<T>> {
     * @param value The value to assign to the parameter.
     * @return A new {@code DbQuery} instance with the applied parameter.
     */
+   @Pandora(
+         description = "Creates a parameterized variant of this database query by "
+               + "replacing a named placeholder with the provided value."
+   )
    default DbQuery<T> withParam(String name, Object value) {
       return new ParametrizedQuery<>(this).withParam(name, value);
    }

@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.ui.components.tab;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.components.button.Button;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
 import org.openqa.selenium.By;
@@ -15,6 +18,18 @@ import org.openqa.selenium.By;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Interface contract for tab components, enabling click actions and selection checks "
+            + "by text or locator, optionally within a container.",
+      tags = {"ui", "component-contract", "tab"},
+      creation = CreationKind.AUTO
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/ui-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "ui-component")
+      }
+)
 public interface Tab extends Button {
 
    /**
@@ -24,6 +39,10 @@ public interface Tab extends Button {
     * @param buttonText the text of the tab to check.
     * @return true if the tab is selected, otherwise false.
     */
+   @Pandora(
+         description = "Checks if the tab identified by text is selected within the specified container.",
+         tags = {"component-contract", "tab"}
+   )
    boolean isSelected(SmartWebElement container, String buttonText);
 
    /**
@@ -32,6 +51,10 @@ public interface Tab extends Button {
     * @param container the container holding the tab elements.
     * @return true if the tab is selected, otherwise false.
     */
+   @Pandora(
+         description = "Checks if a tab is selected within the specified container.",
+         tags = {"component-contract", "tab"}
+   )
    boolean isSelected(SmartWebElement container);
 
    /**
@@ -40,6 +63,10 @@ public interface Tab extends Button {
     * @param buttonText the text of the tab to check.
     * @return true if the tab is selected, otherwise false.
     */
+   @Pandora(
+         description = "Checks if the tab identified by text is selected (no container).",
+         tags = {"component-contract", "tab"}
+   )
    boolean isSelected(String buttonText);
 
    /**
@@ -48,5 +75,9 @@ public interface Tab extends Button {
     * @param buttonLocator the locator referencing the tab.
     * @return true if the tab is selected, otherwise false.
     */
+   @Pandora(
+         description = "Checks if the tab identified by a locator is selected.",
+         tags = {"component-contract", "tab"}
+   )
    boolean isSelected(By buttonLocator);
 }

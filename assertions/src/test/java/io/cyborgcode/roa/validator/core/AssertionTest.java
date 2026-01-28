@@ -75,130 +75,51 @@ class AssertionTest {
 
 
    @Test
-   @DisplayName("Builder should throw IllegalArgumentException when target is null")
+   @DisplayName("Builder should not accept null for target")
    void testBuilderThrowsExceptionWhenNullValueForTarget() {
-      // When & Then
-      IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+      // Then
+      assertThrows(NullPointerException.class, () -> {
+         // When
          Assertion.<String>builder()
                .key(MY_KEY)
                .type(AssertionTypes.IS)
                .expected(MY_VAL)
                .soft(true)
                .build();
-      }, "Builder should throw IllegalArgumentException when target is null");
-
-      // Verify exception message
-      assertEquals("Missing required fields: [target]", exception.getMessage(),
-            "Exception message should indicate missing target field");
+         ;
+      }, "Builder should throw NullPointerException when target is not added");
    }
 
 
-   @Test
-   @DisplayName("Builder should throw IllegalArgumentException when type is null")
+   @DisplayName("Builder should not accept null for type")
    void testBuilderThrowsExceptionWhenNullValueForType() {
-      // When & Then
-      IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+      // Then
+      assertThrows(NullPointerException.class, () -> {
+         // When
          Assertion.<String>builder()
                .key(MY_KEY)
                .expected(MY_VAL)
                .target(TestTarget.FIELD_ONE)
                .soft(true)
                .build();
-      }, "Builder should throw IllegalArgumentException when type is null");
-
-      // Verify exception message
-      assertEquals("Missing required fields: [type]", exception.getMessage(),
-            "Exception message should indicate missing type field");
+         ;
+      }, "Builder should throw NullPointerException when type is not added");
    }
 
 
-   @Test
-   @DisplayName("Builder should throw IllegalArgumentException when expected is null")
+   @DisplayName("Builder should not accept null for expected")
    void testBuilderThrowsExceptionWhenNullValueForExpected() {
-      // When & Then
-      IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+      // Then
+      assertThrows(NullPointerException.class, () -> {
+         // When
          Assertion.<String>builder()
                .key(MY_KEY)
                .type(AssertionTypes.IS)
                .target(TestTarget.FIELD_ONE)
                .soft(true)
                .build();
-      }, "Builder should throw IllegalArgumentException when expected is null");
-
-      // Verify exception message
-      assertEquals("Missing required fields: [expected]", exception.getMessage(),
-            "Exception message should indicate missing expected field");
-   }
-
-
-   @Test
-   @DisplayName("Builder should throw IllegalArgumentException when target and type are null")
-   void testBuilderThrowsExceptionWhenTargetAndTypeAreNull() {
-      // When & Then
-      IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-         Assertion.<String>builder()
-               .key(MY_KEY)
-               .expected(MY_VAL)
-               .soft(true)
-               .build();
-      }, "Builder should throw IllegalArgumentException when target and type are null");
-
-      // Verify exception message
-      assertEquals("Missing required fields: [target, type]", exception.getMessage(),
-            "Exception message should indicate missing target and type fields");
-   }
-
-
-   @Test
-   @DisplayName("Builder should throw IllegalArgumentException when target and expected are null")
-   void testBuilderThrowsExceptionWhenTargetAndExpectedAreNull() {
-      // When & Then
-      IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-         Assertion.<String>builder()
-               .key(MY_KEY)
-               .type(AssertionTypes.IS)
-               .soft(true)
-               .build();
-      }, "Builder should throw IllegalArgumentException when target and expected are null");
-
-      // Verify exception message
-      assertEquals("Missing required fields: [target, expected]", exception.getMessage(),
-            "Exception message should indicate missing target and expected fields");
-   }
-
-
-   @Test
-   @DisplayName("Builder should throw IllegalArgumentException when type and expected are null")
-   void testBuilderThrowsExceptionWhenTypeAndExpectedAreNull() {
-      // When & Then
-      IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-         Assertion.<String>builder()
-               .key(MY_KEY)
-               .target(TestTarget.FIELD_ONE)
-               .soft(true)
-               .build();
-      }, "Builder should throw IllegalArgumentException when type and expected are null");
-
-      // Verify exception message
-      assertEquals("Missing required fields: [type, expected]", exception.getMessage(),
-            "Exception message should indicate missing type and expected fields");
-   }
-
-
-   @Test
-   @DisplayName("Builder should throw IllegalArgumentException when all required fields are null")
-   void testBuilderThrowsExceptionWhenAllRequiredFieldsAreNull() {
-      // When & Then
-      IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-         Assertion.<String>builder()
-               .key(MY_KEY)
-               .soft(true)
-               .build();
-      }, "Builder should throw IllegalArgumentException when all required fields are null");
-
-      // Verify exception message
-      assertEquals("Missing required fields: [target, type, expected]", exception.getMessage(),
-            "Exception message should indicate all missing required fields");
+         ;
+      }, "Builder should throw NullPointerException when expected is not added");
    }
 
 

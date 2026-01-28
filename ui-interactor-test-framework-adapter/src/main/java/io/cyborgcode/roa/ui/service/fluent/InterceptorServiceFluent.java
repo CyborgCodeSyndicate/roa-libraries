@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.ui.service.fluent;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.storage.Storage;
 import io.cyborgcode.roa.ui.components.interceptor.ApiResponse;
 import io.cyborgcode.roa.ui.storage.StorageKeysUi;
@@ -18,6 +21,17 @@ import java.util.List;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Fluent UI service for validating intercepted API responses from UI flows.",
+      tags = {"ui", "fluent", "interceptor"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/ui-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "fluent-service")
+      }
+)
 public class InterceptorServiceFluent<T extends UiServiceFluent<?>> {
 
    private final T uiServiceFluent;
@@ -42,7 +56,21 @@ public class InterceptorServiceFluent<T extends UiServiceFluent<?>> {
     * @param statusPrefix        The expected status code prefix (e.g., 2 for 200-level responses).
     * @return The current {@link UiServiceFluent} instance for method chaining.
     */
-   public T validateResponseHaveStatus(final String requestUrlSubString, int statusPrefix) {
+   @Pandora(
+         description = "Validate that all intercepted API responses matching the URL substring have the "
+               + "given status prefix (hard assertion).",
+         tags = {"ui", "interceptor"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateResponseHaveStatus(
+         @Pandora(
+               description = "Substring to match against API response URLs."
+         ) final String requestUrlSubString,
+         @Pandora(
+               description = "Expected HTTP status code prefix, e.g. 2 for 2xx."
+         ) int statusPrefix) {
       Allure.step(
             "Validate that all API responses containing URL substring: " + requestUrlSubString + " have status prefix: "
                   + statusPrefix);
@@ -59,8 +87,24 @@ public class InterceptorServiceFluent<T extends UiServiceFluent<?>> {
     *                            allowing the test to continue even if it fails.
     * @return The current {@link UiServiceFluent} instance for method chaining.
     */
-   public T validateResponseHaveStatus(final String requestUrlSubString, int statusPrefix,
-                                       boolean soft) {
+   @Pandora(
+         description = "Validate that all intercepted API responses matching the URL substring have "
+               + "the given status prefix, optionally using a soft assertion.",
+         tags = {"ui", "interceptor"}
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
+   public T validateResponseHaveStatus(
+         @Pandora(
+               description = "Substring to match against API response URLs."
+         ) final String requestUrlSubString,
+         @Pandora(
+               description = "Expected HTTP status code prefix, e.g. 2 for 2xx."
+         ) int statusPrefix,
+         @Pandora(
+               description = "When true, use soft assertions (don't fail immediately)."
+         ) boolean soft) {
       List<ApiResponse> apiResponses = (List<ApiResponse>) storage.sub(StorageKeysUi.UI)
             .getByClass(StorageKeysUi.RESPONSES, Object.class);
 

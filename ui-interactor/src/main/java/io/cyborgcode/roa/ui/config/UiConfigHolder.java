@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.ui.config;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import org.aeonbits.owner.ConfigCache;
 
 /**
@@ -17,6 +20,17 @@ import org.aeonbits.owner.ConfigCache;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Singleton holder providing a lazily-initialized global UiConfig instance.",
+      tags = {"ui", "config", "ui-config"},
+      creation = CreationKind.AUTO
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/ui-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "ui-config")
+      }
+)
 public class UiConfigHolder {
 
    private UiConfigHolder() {
@@ -35,6 +49,10 @@ public class UiConfigHolder {
     *
     * @return The singleton instance of {@link UiConfig}.
     */
+   @Pandora(
+         description = "Retrieves the global UiConfig instance, creating it via ConfigCache if uninitialized.",
+         tags = {"ui-config"}
+   )
    public static UiConfig getUiConfig() {
       if (config == null) {
          config = ConfigCache.getOrCreate(UiConfig.class);

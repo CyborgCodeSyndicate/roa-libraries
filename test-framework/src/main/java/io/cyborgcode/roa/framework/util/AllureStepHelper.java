@@ -16,15 +16,12 @@ import java.io.UncheckedIOException;
 import java.io.Writer;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import org.aeonbits.owner.Config;
 import org.aeonbits.owner.ConfigCache;
@@ -67,12 +64,11 @@ public class AllureStepHelper {
    private AllureStepHelper() {
    }
 
-   private static final String ALLURE_RESULTS_DIR = "target/allure-results";
+   private static final String ALLURE_RESULTS_DIR = "allure-results";
    private static final String ENVIRONMENT_PROPERTIES_FILE = "environment.properties";
    private static final String CATEGORIES_JSON_PATH = "allure/json/categories.json";
    private static final String FRAMEWORK_PACKAGE = "io.cyborgcode.roa";
    private static final String CATEGORIES_JSON = "categories.json";
-   private static final AtomicBoolean ENV_INITIALIZED = new AtomicBoolean(false);
 
    /**
     * Sets an HTML description for the test execution in Allure reports.
@@ -196,9 +192,6 @@ public class AllureStepHelper {
     * </ul>
     */
    public static void initializeTestEnvironment() {
-      if (!ENV_INITIALIZED.compareAndSet(false, true)) {
-         return;
-      }
       Map<String, List<String>> propertiesMap = collectConfigurationProperties();
       writeEnvironmentProperties(propertiesMap);
       writeCategoriesJson();
@@ -284,34 +277,22 @@ public class AllureStepHelper {
     * @throws RuntimeException if writing to the file fails.
     */
    private static void writeEnvironmentProperties(Map<String, List<String>> propertiesMap) {
-      Path resultsDir = allureResultsPath();
+      File allureResultsDir = new File(ALLURE_RESULTS_DIR);
 
-      try {
-         Files.createDirectories(resultsDir);
-         Path environmentFile = resultsDir.resolve(ENVIRONMENT_PROPERTIES_FILE);
+      if (!allureResultsDir.exists() && !allureResultsDir.mkdirs()) {
+         throw new UncheckedIOException(new IOException("Failed to create allure results directory: "
+               + allureResultsDir.getAbsolutePath()));
+      }
 
-         try (Writer writer = Files.newBufferedWriter(environmentFile, StandardCharsets.UTF_8)) {
-            for (Map.Entry<String, List<String>> entry : propertiesMap.entrySet()) {
-               writer.write(entry.getKey() + "=" + String.join(", ", entry.getValue()));
-               writer.write(System.lineSeparator());
-            }
+      File environmentFile = new File(allureResultsDir, ENVIRONMENT_PROPERTIES_FILE);
+      try (Writer writer = new OutputStreamWriter(new FileOutputStream(environmentFile), StandardCharsets.UTF_8)) {
+         for (Map.Entry<String, List<String>> entry : propertiesMap.entrySet()) {
+            String combinedValues = String.join(", ", entry.getValue());
+            writer.write(entry.getKey() + "=" + combinedValues + "\n");
          }
       } catch (IOException e) {
-         throw new UncheckedIOException("Failed to write environment.properties in: " + resultsDir.toAbsolutePath(), e);
+         throw new UncheckedIOException("Failed to write environment.properties file", e);
       }
-   }
-
-   /**
-    * Resolves the Allure results directory path.
-    *
-    * <p>This method respects the {@code allure.results.directory} system property when present,
-    * and falls back to {@code target/allure-results} when it is not set.
-    *
-    * @return The resolved path to the Allure results directory.
-    */
-   private static Path allureResultsPath() {
-      String dir = System.getProperty("allure.results.directory", ALLURE_RESULTS_DIR);
-      return Path.of(dir);
    }
 
    /**

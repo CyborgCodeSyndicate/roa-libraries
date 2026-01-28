@@ -1,5 +1,9 @@
 package io.cyborgcode.roa.framework.parameters;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
+
 /**
  * Defines a contract for dynamically generating test data within the framework.
  *
@@ -13,6 +17,17 @@ package io.cyborgcode.roa.framework.parameters;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Contract for lazily generating test data models. Implementations return a Late creator "
+            + "and expose an enum constant that uniquely identifies the model.",
+      tags = {"framework", "test-data"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "data-forge")
+      }
+)
 public interface DataForge<T extends Enum<T>> {
 
    /**
@@ -24,6 +39,9 @@ public interface DataForge<T extends Enum<T>> {
     *
     * @return A {@link Late} instance responsible for creating test data objects.
     */
+   @Pandora(
+         description = "Returns the deferred creator (Late) that materializes the test data object on demand."
+   )
    Late<Object> dataCreator();
 
    /**
@@ -34,6 +52,9 @@ public interface DataForge<T extends Enum<T>> {
     *
     * @return An {@link Enum} instance representing the test data definition.
     */
+   @Pandora(
+         description = "Returns the deferred creator (Late) that materializes the test data object on demand."
+   )
    T enumImpl();
 
 }

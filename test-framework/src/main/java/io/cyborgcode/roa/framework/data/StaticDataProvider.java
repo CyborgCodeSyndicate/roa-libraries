@@ -1,5 +1,8 @@
 package io.cyborgcode.roa.framework.data;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import java.util.Map;
 
 /**
@@ -14,6 +17,20 @@ import java.util.Map;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Contract for providing static key-value test "
+            + "data that the framework loads before test execution. "
+            + "Used together with @StaticTestData to dynamically "
+            + "instantiate a provider and inject its data into the test context.",
+      tags = {"framework", "test-data"},
+      creation = CreationKind.PROVIDED
+)
+@PandoraOptions(
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "static-data-provider"),
+         @PandoraOptions.Meta(key = "usedBy", value = "StaticTestData")
+      }
+)
 public interface StaticDataProvider {
 
    /**
@@ -24,6 +41,10 @@ public interface StaticDataProvider {
     *
     * @return A map containing static test data.
     */
+   @Pandora(
+         description = "Returns a map of static test data entries "
+               + "(key-value pairs) that will be loaded into the test context."
+   )
    Map<String, Object> staticTestData();
 
 }

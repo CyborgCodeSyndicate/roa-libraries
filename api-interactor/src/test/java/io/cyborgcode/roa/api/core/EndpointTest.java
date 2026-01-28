@@ -36,7 +36,6 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyMap;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.argThat;
-import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
@@ -171,7 +170,7 @@ class EndpointTest {
             String expectedLogMethod,
             boolean shouldThrow
       ) {
-         RequestSpecification mockSpec = mock(RequestSpecification.class, org.mockito.Answers.RETURNS_DEEP_STUBS);
+         RequestSpecification mockSpec = mock(RequestSpecification.class);
          RequestLogSpecification mockLogSpec = mock(RequestLogSpecification.class);
 
          try (
@@ -184,9 +183,10 @@ class EndpointTest {
             when(mockConfig.baseUrl()).thenReturn(TEST_BASE_URL);
             mockedApiConfig.when(ApiConfigHolder::getApiConfig).thenReturn(mockConfig);
 
-            // Setup fluent RestAssured mocks with deep stubs for chained calls
+            // Setup fluent RestAssured mocks
             mockedRestAssured.when(RestAssured::given).thenReturn(mockSpec);
-            when(mockSpec.baseUri(anyString()).contentType(io.restassured.http.ContentType.JSON).accept(io.restassured.http.ContentType.JSON).headers(anyMap())).thenReturn(mockSpec);
+            when(mockSpec.baseUri(anyString())).thenReturn(mockSpec);
+            when(mockSpec.headers(anyMap())).thenReturn(mockSpec);
             when(mockSpec.log()).thenReturn(mockLogSpec);
             when(mockLogSpec.all()).thenReturn(mockSpec);
             when(mockLogSpec.ifValidationFails()).thenReturn(mockSpec);
@@ -216,6 +216,7 @@ class EndpointTest {
                assertNotNull(spec, "Request specification should not be null");
 
                verify(mockSpec).baseUri(TEST_BASE_URL);
+               verify(mockSpec).headers(anyMap());
 
                boolean shouldLog = enabled && (level.equals("ALL") || level.equals("BASIC"));
                if (shouldLog) {

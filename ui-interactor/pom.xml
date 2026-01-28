@@ -5,25 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.cyborgcode.utilities</groupId>
-        <artifactId>parent-pom</artifactId>
-        <version>1.0.0-rc-1</version>
+        <groupId>io.cyborgcode.roa</groupId>
+        <artifactId>libraries</artifactId>
+        <version>1.1.5-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>io.cyborgcode.roa</groupId>
     <artifactId>ui-interactor</artifactId>
-    <version>0.0.0</version>
     <name>Ring of Automation UI Library</name>
-    <description>Library part of Ring of Automation that enables interaction via UI.</description>
-
-    <properties>
-        <github.repo.name>roa-libraries</github.repo.name>
-        <utilities.version>1.0.0-rc-1</utilities.version>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <shared-static-data.version>${utilities.version}</shared-static-data.version>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -73,6 +62,11 @@
         <dependency>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs-annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.cyborgcode.pandora</groupId>
+            <artifactId>pandora-core</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 

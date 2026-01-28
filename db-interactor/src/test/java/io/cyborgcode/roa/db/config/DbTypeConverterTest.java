@@ -1,7 +1,6 @@
 package io.cyborgcode.roa.db.config;
 
 import io.cyborgcode.utilities.reflections.ReflectionUtil;
-import java.sql.Driver;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,10 +8,10 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
+import java.sql.Driver;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
 
@@ -51,22 +50,26 @@ class DbTypeConverterTest {
         try (MockedStatic<DbConfigHolder> dbConfigHolder = mockStatic(DbConfigHolder.class);
              MockedStatic<ReflectionUtil> refl = mockStatic(ReflectionUtil.class)) {
 
+            // 1) Stub DbConfigHolder to return our mock config
             dbConfigHolder.when(DbConfigHolder::getDbConfig).thenReturn(mockDbConfig);
             when(mockDbConfig.projectPackages()).thenReturn(new String[]{"any.pkg"});
 
+            // 2) Stub ReflectionUtil to return exactly one implementing enum
             refl.when(() ->
-                    ReflectionUtil.findEnumImplementationsOfInterface(
-                            any(), any(String.class), any(String[].class))
-            ).thenReturn(DummyDbType.ALPHA);
+                    ReflectionUtil.findEnumClassImplementationsOfInterface(
+                            eq(DbType.class), eq("any.pkg"))
+            ).thenReturn(List.of(DummyDbType.class));
 
-            DbType result = converter.convert(null, "ALPHA");
+            // Act
+            DbType result = converter.convert(/*method*/ null, "ALPHA");
 
+            // Assert
             assertSame(DummyDbType.ALPHA, result);
         }
     }
 
     @Test
-    @DisplayName("convert() throws exception when no enums found")
+    @DisplayName("convert() throws IndexOutOfBounds when no enums found")
     void convertThrowsWhenNoEnums() {
         try (MockedStatic<DbConfigHolder> dbConfigHolder = mockStatic(DbConfigHolder.class);
              MockedStatic<ReflectionUtil> refl = mockStatic(ReflectionUtil.class)) {
@@ -75,44 +78,40 @@ class DbTypeConverterTest {
             when(mockDbConfig.projectPackages()).thenReturn(new String[]{"none.pkg"});
 
             refl.when(() ->
-                    ReflectionUtil.findEnumImplementationsOfInterface(
-                            any(), any(String.class), any(String[].class))
-            ).thenThrow(new IllegalStateException("No enum implementing DbType found"));
+                    ReflectionUtil.findEnumClassImplementationsOfInterface(
+                            eq(DbType.class), eq("none.pkg"))
+            ).thenReturn(List.of());  // empty
 
-            assertThrows(IllegalStateException.class,
+            assertThrows(IndexOutOfBoundsException.class,
                     () -> converter.convert(null, "ANY"));
         }
     }
 
     @Test
-    @DisplayName("convert() falls back to first package when multiple enums found")
-    void convertFallsBackToFirstPackage() {
+    @DisplayName("convert() throws IllegalStateException when multiple enums found")
+    void convertThrowsWhenMultipleEnums() {
         try (var dbConfigHolder = mockStatic(DbConfigHolder.class);
              var refl = mockStatic(ReflectionUtil.class)) {
 
             dbConfigHolder.when(DbConfigHolder::getDbConfig).thenReturn(mockDbConfig);
-            when(mockDbConfig.projectPackages()).thenReturn(new String[]{"first.pkg", "second.pkg"});
+            when(mockDbConfig.projectPackages()).thenReturn(new String[]{"multi.pkg"});
 
-            // First call with all packages throws "more than one enum" exception
             refl.when(() ->
-                    ReflectionUtil.findEnumImplementationsOfInterface(
-                            any(), any(String.class), any(String[].class))
-            ).thenThrow(new IllegalStateException("Found more than one enum implementing DbType"));
+                    ReflectionUtil.findEnumClassImplementationsOfInterface(
+                            eq(DbType.class), eq("multi.pkg"))
+            ).thenReturn(List.of(DummyDbType.class, DummyDbType.class));
 
-            // Second call with only first package succeeds
-            refl.when(() ->
-                    ReflectionUtil.findEnumImplementationsOfInterface(
-                            any(), any(String.class), any(String.class))
-            ).thenReturn(DummyDbType.ALPHA);
-
-            DbType result = converter.convert(null, "ALPHA");
-
-            assertSame(DummyDbType.ALPHA, result);
+            IllegalStateException ex = assertThrows(
+                    IllegalStateException.class,
+                    () -> converter.convert(null, "ALPHA"),
+                    "Should reject multiple enums"
+            );
+            assertTrue(ex.getMessage().contains("Only 1 is allowed"));
         }
     }
 
     @Test
-    @DisplayName("convert() throws exception on bad enum name")
+    @DisplayName("convert() throws IllegalArgumentException on bad enum name")
     void convertThrowsOnInvalidName() {
         try (MockedStatic<DbConfigHolder> dbConfigHolder = mockStatic(DbConfigHolder.class);
              MockedStatic<ReflectionUtil> refl = mockStatic(ReflectionUtil.class)) {
@@ -121,35 +120,12 @@ class DbTypeConverterTest {
             when(mockDbConfig.projectPackages()).thenReturn(new String[]{"any.pkg"});
 
             refl.when(() ->
-                    ReflectionUtil.findEnumImplementationsOfInterface(
-                            any(), any(String.class), any(String[].class))
-            ).thenThrow(new IllegalArgumentException("No constant GAMMA"));
+                    ReflectionUtil.findEnumClassImplementationsOfInterface(
+                            eq(DbType.class), eq("any.pkg"))
+            ).thenReturn(List.of(DummyDbType.class));
 
             assertThrows(IllegalArgumentException.class,
                     () -> converter.convert(null, "GAMMA"));
-        }
-    }
-
-    @Test
-    @DisplayName("convert() throws when multiple enums found even after fallback")
-    void convertThrowsWhenFallbackStillFindsMultiple() {
-        try (var dbConfigHolder = mockStatic(DbConfigHolder.class);
-             var refl = mockStatic(ReflectionUtil.class)) {
-
-            dbConfigHolder.when(DbConfigHolder::getDbConfig).thenReturn(mockDbConfig);
-            when(mockDbConfig.projectPackages()).thenReturn(new String[]{"first.pkg"});
-
-            // Both calls throw "more than one enum" - even the fallback
-            refl.when(() ->
-                    ReflectionUtil.findEnumImplementationsOfInterface(
-                            any(), any(String.class), any())
-            ).thenThrow(new IllegalStateException("Found more than one enum implementing DbType"));
-
-            IllegalStateException ex = assertThrows(
-                    IllegalStateException.class,
-                    () -> converter.convert(null, "ALPHA")
-            );
-            assertTrue(ex.getMessage().contains("more than one enum"));
         }
     }
 }

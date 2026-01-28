@@ -85,13 +85,13 @@ public class Oracle implements ParameterResolver {
       addHooksDataInTestStorage(storage, extensionContext);
       LogQuest.info("The quest: '{}' has begun and is crafted.", extensionContext.getDisplayName());
       ExtensionContext.Store store = extensionContext.getStore(GLOBAL);
-      store.put(QUEST, quest);
       @SuppressWarnings("unchecked")
       List<Consumer<SuperQuest>> consumers = (List<Consumer<SuperQuest>>) store.get(StoreKeys.QUEST_CONSUMERS);
       if (Objects.nonNull(consumers)) {
          consumers.forEach(
                questConsumer -> questConsumer.accept(decoratorsFactory.decorate(quest, SuperQuest.class)));
       }
+      store.put(QUEST, quest);
       return quest;
    }
 

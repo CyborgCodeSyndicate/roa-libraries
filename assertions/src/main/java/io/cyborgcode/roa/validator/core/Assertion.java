@@ -1,8 +1,11 @@
 package io.cyborgcode.roa.validator.core;
 
-
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 /**
@@ -16,64 +19,63 @@ import lombok.Setter;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @Getter
+@Builder
 @SuppressWarnings("java:S3740")
+@Pandora(
+      description = "Single validation rule describing what to assert, how to compare it and what value is expected.",
+      tags = {"assertion"},
+      creation = CreationKind.BUILDER
+)
+@PandoraOptions(
+      exampleFilesPath = "ai/roa/api-usage.json",
+      meta = {
+         @PandoraOptions.Meta(key = "type", value = "assertion")
+      }
+)
 public final class Assertion {
 
    /**
     * The subject of the assertion, specifying what is being validated.
     */
+   @Pandora(
+         description = "What part of the response/data is being asserted (e.g. STATUS, BODY, HEADER)."
+   )
+   @NonNull
    private final AssertionTarget target;
 
    /**
     * Provides a supplementary identifier for targeted validation.
     */
+   @Pandora(
+         description = "Optional key that refines the target, such as JSON path, header name or locator."
+   )
    @Setter
    private String key;
 
    /**
     * Indicates the logical operation for this validation.
     */
+   @Pandora(
+         description = "How the value is validated (IS, CONTAINS, BETWEEN, etc.)."
+   )
+   @NonNull
    private final AssertionType<?> type;
 
    /**
     * The reference value expected by this assertion.
     */
+   @Pandora(
+         description = "Expected reference value used by the assertion operator."
+   )
+   @NonNull
    private final Object expected;
 
    /**
     * Determines if the assertion is a soft assertion.
     */
+   @Pandora(
+         description = "Whether this assertion is soft (do not fail immediately, collect in soft-assertions)."
+   )
    private final boolean soft;
-
-   @Builder
-   private Assertion(AssertionTarget target,
-                     String key,
-                     AssertionType<?> type,
-                     Object expected,
-                     boolean soft) {
-
-      StringBuilder missing = new StringBuilder();
-      if (target == null) {
-         missing.append("target, ");
-      }
-      if (type == null) {
-         missing.append("type, ");
-      }
-      if (expected == null) {
-         missing.append("expected, ");
-      }
-
-      if (!missing.isEmpty()) {
-         missing.setLength(missing.length() - 2);
-         throw new IllegalArgumentException("Missing required fields: [" + missing + "]");
-      }
-
-      this.target = target;
-      this.key = key;
-      this.type = type;
-      this.expected = expected;
-      this.soft = soft;
-   }
-
 
 }

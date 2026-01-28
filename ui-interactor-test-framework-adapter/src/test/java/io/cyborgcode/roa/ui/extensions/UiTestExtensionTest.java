@@ -62,10 +62,10 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.devtools.DevTools;
-import org.openqa.selenium.devtools.v144.network.Network;
-import org.openqa.selenium.devtools.v144.network.model.RequestId;
-import org.openqa.selenium.devtools.v144.network.model.RequestWillBeSent;
-import org.openqa.selenium.devtools.v144.network.model.ResponseReceived;
+import org.openqa.selenium.devtools.v141.network.Network;
+import org.openqa.selenium.devtools.v141.network.model.RequestId;
+import org.openqa.selenium.devtools.v141.network.model.RequestWillBeSent;
+import org.openqa.selenium.devtools.v141.network.model.ResponseReceived;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.ParameterizedTypeReference;
@@ -86,15 +86,16 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.nullable;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -147,7 +148,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
          reflectionMock = mockStatic(ReflectionUtil.class);
          reflectionMock
             .when(() -> ReflectionUtil.findImplementationsOfInterface(
-               eq(UiServiceFluent.class), any(String[].class)))
+               eq(UiServiceFluent.class), anyString()))
             .thenReturn(List.of());
       }
 
@@ -315,7 +316,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
       @Test
       @DisplayName("– no enums found → use raw substrings")
-      void interceptRequestsNoEnumsUsesRaw() throws Exception {
+      void interceptRequests_NoEnums_UsesRaw() throws Exception {
          Method m = UiTestExtension.class
             .getDeclaredMethod("processInterceptRequestsAnnotation",
                ExtensionContext.class, Method.class);
@@ -355,7 +356,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
       @Test
       @DisplayName("– one enum, no match → fallback to raw")
-      void interceptRequestsOneEnumNoMatchUsesRaw() throws Exception {
+      void interceptRequests_OneEnum_NoMatch_UsesRaw() throws Exception {
          Method m = UiTestExtension.class
             .getDeclaredMethod("processInterceptRequestsAnnotation",
                ExtensionContext.class, Method.class);
@@ -392,7 +393,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
       @Test
       @DisplayName("– one enum, match found → use resolved endpoints")
-      void interceptRequestsOneEnumMatchUsesResolved() throws Exception {
+      void interceptRequests_OneEnum_Match_UsesResolved() throws Exception {
          Method m = UiTestExtension.class
             .getDeclaredMethod("processInterceptRequestsAnnotation", ExtensionContext.class, Method.class);
          m.setAccessible(true);
@@ -402,7 +403,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
          // stub to return our single enum
          reflectionMock
             .when(() -> ReflectionUtil.findEnumClassImplementationsOfInterface(
-               eq(DataIntercept.class), any(String[].class)))
+               eq(DataIntercept.class), anyString()))
             .thenReturn(List.of(TestInterceptEnum.class));
 
          // call
@@ -419,36 +420,11 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
          // since the annotation was {"ONE"}, resolvedEndpoints == List.of("/bar")
          assertArrayEquals(new String[] {"/bar"}, got);
-
-         // --------- NEW PART: execute the consumer to cover the lambda ---------
-         SuperQuest quest = mock(SuperQuest.class);
-         SmartWebDriver smart = mock(SmartWebDriver.class);
-         HasOriginal proxy = mock(HasOriginal.class);
-         ChromeDriver chrome = mock(ChromeDriver.class);
-         DevTools devTools = mock(DevTools.class);
-         Storage root = mock(Storage.class);
-         Storage ui = mock(Storage.class);
-
-         // quest -> SmartWebDriver -> HasOriginal -> ChromeDriver -> DevTools
-         when(quest.artifact(eq(UiServiceFluent.class), eq(SmartWebDriver.class)))
-            .thenReturn(smart);
-         when(smart.getOriginal()).thenReturn(proxy);
-         when(proxy.getOriginal()).thenReturn(chrome);
-         when(chrome.getDevTools()).thenReturn(devTools);
-
-         // storage wiring so postQuestCreationIntercept doesn't NPE
-         when(quest.getStorage()).thenReturn(root);
-         when(root.sub(UI)).thenReturn(ui);
-         when(ui.get(eq(RESPONSES), any(ParameterizedTypeReference.class)))
-            .thenReturn(null);
-
-         // this actually runs: quest -> postQuestCreationIntercept(...)
-         assertDoesNotThrow(() -> c.accept(quest));
       }
 
       @Test
       @DisplayName("– reflection throws → use raw substrings")
-      void interceptRequestsReflectionThrowsUsesRaw() throws Exception {
+      void interceptRequests_ReflectionThrows_UsesRaw() throws Exception {
          // 1) grab the private method
          Method process = UiTestExtension.class
             .getDeclaredMethod("processInterceptRequestsAnnotation",
@@ -488,7 +464,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
       @Test
       @DisplayName("– multiple enums → fallback to raw annotation values")
-      void interceptRequestsMultipleEnumsFallbackToRaw() throws Exception {
+      void interceptRequests_MultipleEnums_FallbackToRaw() throws Exception {
          // 1) grab the private method
          Method process = UiTestExtension.class
             .getDeclaredMethod("processInterceptRequestsAnnotation",
@@ -529,7 +505,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
       @Test
       @DisplayName("– multiple enum impls → fallback to raw substrings")
-      void interceptRequestsMultipleEnumsUsesRaw() throws Exception {
+      void interceptRequests_MultipleEnums_UsesRaw() throws Exception {
          // 1) reflectively grab the private method
          Method proc = UiTestExtension.class
             .getDeclaredMethod("processInterceptRequestsAnnotation",
@@ -570,7 +546,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
       @Test
       @DisplayName("– one enum, empty annotation → fallback to raw substrings")
-      void interceptRequestsOneEnumEmptyAnnotationUsesRaw() throws Exception {
+      void interceptRequests_OneEnum_EmptyAnnotation_UsesRaw() throws Exception {
          Method proc = UiTestExtension.class
             .getDeclaredMethod("processInterceptRequestsAnnotation",
                ExtensionContext.class, Method.class);
@@ -646,7 +622,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
       @Test
       @DisplayName("postQuestCreationIntercept — full Chrome path executes without error")
-      void postQuestCreationInterceptfullChromePathnoException() throws Exception {
+      void postQuestCreationIntercept_fullChromePath_noException() throws Exception {
          // 1) grab the private helper
          Method helper = UiTestExtension.class
             .getDeclaredMethod("postQuestCreationIntercept", SuperQuest.class, String[].class);
@@ -685,7 +661,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
       }
 
       @Test
-      void postQuestCreationInterceptnonChromeDriverThrows() throws Exception {
+      void postQuestCreationIntercept_nonChromeDriver_throws() throws Exception {
          Method helper = UiTestExtension.class
             .getDeclaredMethod("postQuestCreationIntercept", SuperQuest.class, String[].class);
          helper.setAccessible(true);
@@ -1197,7 +1173,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
          // now simulate a request event
          var fakeReqEvent = mock(RequestWillBeSent.class);
-         var fakeReq = mock(org.openqa.selenium.devtools.v144.network.model.Request.class);
+         var fakeReq = mock(org.openqa.selenium.devtools.v141.network.model.Request.class);
          when(fakeReq.getMethod()).thenReturn("GET");
          when(fakeReqEvent.getRequest()).thenReturn(fakeReq);
          RequestId rid = new RequestId("rid-1");
@@ -1207,7 +1183,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
          // simulate a matching response event
          var fakeRespEvent = mock(ResponseReceived.class);
-         var fakeResp = mock(org.openqa.selenium.devtools.v144.network.model.Response.class);
+         var fakeResp = mock(org.openqa.selenium.devtools.v141.network.model.Response.class);
          when(fakeResp.getStatus()).thenReturn(200);
          when(fakeResp.getUrl()).thenReturn("https://example.com/foo");
          when(fakeRespEvent.getResponse()).thenReturn(fakeResp);
@@ -1260,7 +1236,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
             (Consumer<ResponseReceived>) listenerCaptor.getAllValues().get(1);
 
          // fire a fake request so we map rid → method
-         var fakeReq = mock(org.openqa.selenium.devtools.v144.network.model.Request.class);
+         var fakeReq = mock(org.openqa.selenium.devtools.v141.network.model.Request.class);
          when(fakeReq.getMethod()).thenReturn("DELETE");
          var fakeReqEvent = mock(RequestWillBeSent.class);
          when(fakeReqEvent.getRequest()).thenReturn(fakeReq);
@@ -1269,7 +1245,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
          reqListener.accept(fakeReqEvent);
 
          // now fire a fake response whose URL contains "foo"
-         var fakeResp = mock(org.openqa.selenium.devtools.v144.network.model.Response.class);
+         var fakeResp = mock(org.openqa.selenium.devtools.v141.network.model.Response.class);
          when(fakeResp.getStatus()).thenReturn(500);
          when(fakeResp.getUrl()).thenReturn("https://error/foo");
          var fakeRespEvent = mock(ResponseReceived.class);
@@ -1320,7 +1296,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
          // simulate the request
          var reqEvent = mock(RequestWillBeSent.class);
-         var req = mock(org.openqa.selenium.devtools.v144.network.model.Request.class);
+         var req = mock(org.openqa.selenium.devtools.v141.network.model.Request.class);
          when(req.getMethod()).thenReturn("PATCH");
          when(reqEvent.getRequest()).thenReturn(req);
          RequestId rid = new RequestId("x");
@@ -1329,7 +1305,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
          // simulate a response whose URL does *not* contain "nomatch"
          var resEvent = mock(ResponseReceived.class);
-         var res = mock(org.openqa.selenium.devtools.v144.network.model.Response.class);
+         var res = mock(org.openqa.selenium.devtools.v141.network.model.Response.class);
          when(res.getStatus()).thenReturn(418);
          when(res.getUrl()).thenReturn("https://example.com/foo");
          when(resEvent.getResponse()).thenReturn(res);
@@ -1372,7 +1348,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
          // fire the request → method mapping
          var reqEvent = mock(RequestWillBeSent.class);
-         var req = mock(org.openqa.selenium.devtools.v144.network.model.Request.class);
+         var req = mock(org.openqa.selenium.devtools.v141.network.model.Request.class);
          when(req.getMethod()).thenReturn("HEAD");
          when(reqEvent.getRequest()).thenReturn(req);
          RequestId rid = new RequestId("y");
@@ -1381,7 +1357,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
          // fire a matching response
          var resEvent = mock(ResponseReceived.class);
-         var res = mock(org.openqa.selenium.devtools.v144.network.model.Response.class);
+         var res = mock(org.openqa.selenium.devtools.v141.network.model.Response.class);
          when(res.getStatus()).thenReturn(307);
          when(res.getUrl()).thenReturn("https://example.com/null");
          when(resEvent.getResponse()).thenReturn(res);
@@ -1439,7 +1415,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
       }
 
       @Test
-      void afterTestExecutioNoResponsesTakesScreenshotAndCloses() {
+      void afterTestExecution_noResponses_takesScreenshotAndCloses() {
          // 1) test passed → no exception
          when(context.getExecutionException()).thenReturn(Optional.empty());
 
@@ -1475,7 +1451,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
       @Test
       @DisplayName("when exception present → skip screenshot, still close/quit")
-      void afterTestExecutionWithExceptionSkipsScreenshotButCloses() {
+      void afterTestExecution_withException_skipsScreenshot_butCloses() {
          // 1) executionException.isPresent()
          when(context.getExecutionException()).thenReturn(Optional.of(new RuntimeException("boom")));
 
@@ -1513,7 +1489,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
       @Test
       @DisplayName("when keepDriverForSession=true → skip close/quit entirely")
-      void afterTestExecutionKeepDriverForSessionSkipsCloseAndQuit() {
+      void afterTestExecution_keepDriverForSession_skipsCloseAndQuit() {
          // 1) no exception
          when(context.getExecutionException()).thenReturn(Optional.empty());
 
@@ -1551,7 +1527,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
    @Nested
    @DisplayName("afterTestExecution – non-empty responses")
-   class AfterTestExecutionNonEmptyResponses {
+   class AfterTestExecution_NonEmptyResponses {
 
       @Mock
       ExtensionContext context;
@@ -1652,7 +1628,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
       @Test
       @DisplayName("should attach intercepted-requests when storage is non-empty")
-      void afterTestExecutionWithNonEmptyResponsesAttaches() {
+      void afterTestExecution_withNonEmptyResponses_attaches() {
          new UiTestExtension().afterTestExecution(context);
 
          // verify that we attached the HTML
@@ -1740,7 +1716,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
       @Test
       @DisplayName("captures screenshot, closes+quits driver, and rethrows")
-      void handleTestExecutionExceptionClosesAndQuitsWhenNotKeepingDriver() {
+      void handleTestExecutionException_closesAndQuits_whenNotKeepingDriver() {
          // branch: driver should NOT be kept
          when(smartWebDriver.isKeepDriverForSession()).thenReturn(false);
 
@@ -1771,7 +1747,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
       @Test
       @DisplayName("when keepDriverForSession=true → skip close/quit but still rethrow")
-      void handleTestExecutionExceptionKeepsDriverSkipsCloseQuit() {
+      void handleTestExecutionException_keepsDriver_skipsCloseQuit() {
          // branch: driver should be kept for session
          when(smartWebDriver.isKeepDriverForSession()).thenReturn(true);
 
@@ -1802,7 +1778,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
       @Test
       @DisplayName("when parent TEST_EXECUTION step is active it stops it and starts TEAR_DOWN")
-      void handleTestExecutionExceptionSwitchesParentStepWhenParentStepActive() throws Throwable {
+      void handleTestExecutionException_switchesParentStep_whenParentStepActive() throws Throwable {
          when(smartWebDriver.isKeepDriverForSession()).thenReturn(false);
          RuntimeException boom = new RuntimeException("boom!");
 
@@ -2032,7 +2008,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
       void noImpls() throws Exception {
          try (var ref = mockStatic(ReflectionUtil.class)) {
             ref.when(() ->
-               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), any(String[].class))
+               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), anyString())
             ).thenReturn(List.of());
 
             Method m = UiTestExtension.class
@@ -2049,7 +2025,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
       void multipleImpls() throws Exception {
          try (var ref = mockStatic(ReflectionUtil.class)) {
             ref.when(() ->
-               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), any(String[].class))
+               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), anyString())
             ).thenReturn(List.of(DummyService.class, AnotherService.class));
 
             Method m = UiTestExtension.class
@@ -2069,7 +2045,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
       void ctorBlowsUp() throws Exception {
          try (var ref = mockStatic(ReflectionUtil.class)) {
             ref.when(() ->
-               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), any(String[].class))
+               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), anyString())
             ).thenReturn(List.of(BadService.class));
 
             Method m = UiTestExtension.class
@@ -2089,7 +2065,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
       void singleImpl() throws Exception {
          try (var ref = mockStatic(ReflectionUtil.class)) {
             ref.when(() ->
-               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), any(String[].class))
+               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), anyString())
             ).thenReturn(List.of(DummyService.class));
 
             Method m = UiTestExtension.class
@@ -2441,7 +2417,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
          // Mock the ReflectionUtil to return null (no custom class found)
          try (var reflectionUtilMock = mockStatic(ReflectionUtil.class)) {
             reflectionUtilMock.when(() ->
-                  ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), any(String[].class)))
+                  ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), anyString()))
                .thenReturn(List.of());
 
             // Execute the method
@@ -2449,7 +2425,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
 
             // Verify the lookup was attempted
             reflectionUtilMock.verify(() ->
-               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), any(String[].class)));
+               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), nullable(String.class)));
          }
       }
    }
@@ -2588,21 +2564,26 @@ class UiTestExtensionTest extends BaseUnitUITest {
             configHolder.when(io.cyborgcode.roa.ui.config.UiConfigHolder::getUiConfig).thenReturn(uiConfig);
             when(uiConfig.projectPackages()).thenReturn(new String[]{"io.cyborgcode.roa"});
             
-            // Use consecutive returns: first call returns 2 from different sources, second call returns 1
+            // First call with varargs returns 2 implementations from different sources
             ref.when(() ->
                ReflectionUtil.findImplementationsOfInterface(
                   eq(UiServiceFluent.class), 
-                  any(String[].class)
+                  eq("io.cyborgcode.roa")
                )
-            ).thenReturn(
-               List.of(
-                  PostQuestCreationRegisterCustomServicesTests.DummyService.class,
-                  Test.class
-               ),
-               List.of(
-                  PostQuestCreationRegisterCustomServicesTests.DummyService.class
+            ).thenReturn(List.of(
+               PostQuestCreationRegisterCustomServicesTests.DummyService.class,
+               Test.class
+            ));
+
+            // Second call (narrowed to first package) returns just one
+            ref.when(() ->
+               ReflectionUtil.findImplementationsOfInterface(
+                  eq(UiServiceFluent.class), 
+                  eq("io.cyborgcode.roa")
                )
-            );
+            ).thenReturn(List.of(
+               PostQuestCreationRegisterCustomServicesTests.DummyService.class
+            ));
 
             Method m = UiTestExtension.class
                .getDeclaredMethod("postQuestCreationRegisterCustomServices", SuperQuest.class);
@@ -2619,7 +2600,7 @@ class UiTestExtensionTest extends BaseUnitUITest {
          try (MockedStatic<ReflectionUtil> ref = mockStatic(ReflectionUtil.class)) {
             // Both from same code source (same test class)
             ref.when(() ->
-               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), any(String[].class))
+               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), anyString())
             ).thenReturn(List.of(
                PostQuestCreationRegisterCustomServicesTests.DummyService.class,
                PostQuestCreationRegisterCustomServicesTests.AnotherService.class
@@ -2641,27 +2622,22 @@ class UiTestExtensionTest extends BaseUnitUITest {
       @Test
       @DisplayName("multiple implementations, narrowing still yields multiple → throws")
       void multipleImplsAfterNarrowing() throws Exception {
-         try (MockedStatic<ReflectionUtil> ref = mockStatic(ReflectionUtil.class);
-              MockedStatic<io.cyborgcode.roa.ui.config.UiConfigHolder> configHolder = mockStatic(io.cyborgcode.roa.ui.config.UiConfigHolder.class)) {
-            
-            // Mock UiConfig to return project packages
-            io.cyborgcode.roa.ui.config.UiConfig uiConfig = mock(io.cyborgcode.roa.ui.config.UiConfig.class);
-            configHolder.when(io.cyborgcode.roa.ui.config.UiConfigHolder::getUiConfig).thenReturn(uiConfig);
-            when(uiConfig.projectPackages()).thenReturn(new String[]{"io.cyborgcode.roa"});
-            
-            // Use consecutive returns: first returns 2 from different sources, second still returns 2
+         try (MockedStatic<ReflectionUtil> ref = mockStatic(ReflectionUtil.class)) {
+            // First call returns 2 from different sources
             ref.when(() ->
-               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), any(String[].class))
-            ).thenReturn(
-               List.of(
-                  PostQuestCreationRegisterCustomServicesTests.DummyService.class,
-                  Test.class
-               ),
-               List.of(
-                  PostQuestCreationRegisterCustomServicesTests.DummyService.class,
-                  PostQuestCreationRegisterCustomServicesTests.AnotherService.class
-               )
-            );
+               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), anyString())
+            ).thenReturn(List.of(
+               PostQuestCreationRegisterCustomServicesTests.DummyService.class,
+               Test.class
+            ));
+
+            // After narrowing, still returns 2 (both from same package now)
+            ref.when(() ->
+               ReflectionUtil.findImplementationsOfInterface(eq(UiServiceFluent.class), eq("com.example"))
+            ).thenReturn(List.of(
+               PostQuestCreationRegisterCustomServicesTests.DummyService.class,
+               PostQuestCreationRegisterCustomServicesTests.AnotherService.class
+            ));
 
             Method m = UiTestExtension.class
                .getDeclaredMethod("postQuestCreationRegisterCustomServices", SuperQuest.class);
