@@ -25,6 +25,11 @@
             <artifactId>db-interactor</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.cyborgcode.pandora</groupId>
+            <artifactId>pandora-core</artifactId>
+            <version>1.0.0-SNAPSHOT-d5de9a8-20197409932</version>
+        </dependency>
     </dependencies>
 
 </project>
