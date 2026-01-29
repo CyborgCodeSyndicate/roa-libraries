@@ -1,0 +1,8 @@
+🤖 CYBORG 🤖 2026-01-29T13:19:23,724 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] INFO  [UI] - Creating driver using provider [ChromeDriverProvider]. Headless: [true], Remote: [true], Remote URL: [http://localhost:4444]
+🤖 CYBORG 🤖 2026-01-29T13:19:25,977 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] INFO  [QUEST] - The quest: 'components_browserButtonInputLinkSelectAlert(Quest)' has begun and is crafted.
+🤖 CYBORG 🤖 2026-01-29T13:19:26,055 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] INFO  [QUEST] - The quest has used the ring: 'io.cyborgcode.ui.simple.test.framework.ui.AppUiService'
+🤖 CYBORG 🤖 2026-01-29T13:22:26,137 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] INFO  [UI] - No implementation in framework for exception handling in this method
+🤖 CYBORG 🤖 2026-01-29T13:22:26,155 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] ERROR [UI] - Unhandled exception during UI test execution (components_browserButtonInputLinkSelectAlert(Quest)).
+🤖 CYBORG 🤖 2026-01-29T13:22:26,426 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] INFO  [QUEST] - Screenshot taken and stored for: components_browserButtonInputLinkSelectAlert(Quest)
+🤖 CYBORG 🤖 2026-01-29T13:22:26,674 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] INFO  [UI] - No implementation in framework for exception handling in this method
+🤖 CYBORG 🤖 2026-01-29T13:22:26,700 [scenario=GettingStartedTests.components_browserButtonInputLinkSelectAlert] INFO  [QUEST] - The quest of 'components_browserButtonInputLinkSelectAlert(Quest)' has ended in defeat. Status: FAILED. Duration: 185 seconds.

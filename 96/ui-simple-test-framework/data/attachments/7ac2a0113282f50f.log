@@ -1,0 +1,9 @@
+🤖 CYBORG 🤖 2026-01-29T13:19:23,547 [scenario=GettingStartedTests.components_validateUsingMixedAssertions] INFO  [UI] - Chrome driver is downloaded with a compatible version for the installed browser
+🤖 CYBORG 🤖 2026-01-29T13:19:23,721 [scenario=GettingStartedTests.components_validateUsingMixedAssertions] INFO  [UI] - Creating driver using provider [ChromeDriverProvider]. Headless: [true], Remote: [true], Remote URL: [http://localhost:4444]
+🤖 CYBORG 🤖 2026-01-29T13:19:25,977 [scenario=GettingStartedTests.components_validateUsingMixedAssertions] INFO  [QUEST] - The quest: 'components_validateUsingMixedAssertions(Quest)' has begun and is crafted.
+🤖 CYBORG 🤖 2026-01-29T13:19:26,058 [scenario=GettingStartedTests.components_validateUsingMixedAssertions] INFO  [QUEST] - The quest has used the ring: 'io.cyborgcode.ui.simple.test.framework.ui.AppUiService'
+🤖 CYBORG 🤖 2026-01-29T13:22:26,195 [scenario=GettingStartedTests.components_validateUsingMixedAssertions] INFO  [UI] - No implementation in framework for exception handling in this method
+🤖 CYBORG 🤖 2026-01-29T13:22:26,206 [scenario=GettingStartedTests.components_validateUsingMixedAssertions] ERROR [UI] - Unhandled exception during UI test execution (components_validateUsingMixedAssertions(Quest)).
+🤖 CYBORG 🤖 2026-01-29T13:22:26,506 [scenario=GettingStartedTests.components_validateUsingMixedAssertions] INFO  [QUEST] - Screenshot taken and stored for: components_validateUsingMixedAssertions(Quest)
+🤖 CYBORG 🤖 2026-01-29T13:22:26,663 [scenario=GettingStartedTests.components_validateUsingMixedAssertions] INFO  [UI] - No implementation in framework for exception handling in this method
+🤖 CYBORG 🤖 2026-01-29T13:22:26,705 [scenario=GettingStartedTests.components_validateUsingMixedAssertions] INFO  [QUEST] - The quest of 'components_validateUsingMixedAssertions(Quest)' has ended in defeat. Status: FAILED. Duration: 185 seconds.

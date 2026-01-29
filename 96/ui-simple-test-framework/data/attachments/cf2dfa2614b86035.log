@@ -1,0 +1,8 @@
+🤖 CYBORG 🤖 2026-01-29T13:19:23,726 [scenario=GettingStartedTests.components_listRadio] INFO  [UI] - Creating driver using provider [ChromeDriverProvider]. Headless: [true], Remote: [true], Remote URL: [http://localhost:4444]
+🤖 CYBORG 🤖 2026-01-29T13:19:25,977 [scenario=GettingStartedTests.components_listRadio] INFO  [QUEST] - The quest: 'components_listRadio(Quest)' has begun and is crafted.
+🤖 CYBORG 🤖 2026-01-29T13:19:26,037 [scenario=GettingStartedTests.components_listRadio] INFO  [QUEST] - The quest has used the ring: 'io.cyborgcode.ui.simple.test.framework.ui.AppUiService'
+🤖 CYBORG 🤖 2026-01-29T13:22:26,162 [scenario=GettingStartedTests.components_listRadio] INFO  [UI] - No implementation in framework for exception handling in this method
+🤖 CYBORG 🤖 2026-01-29T13:22:26,171 [scenario=GettingStartedTests.components_listRadio] ERROR [UI] - Unhandled exception during UI test execution (components_listRadio(Quest)).
+🤖 CYBORG 🤖 2026-01-29T13:22:26,494 [scenario=GettingStartedTests.components_listRadio] INFO  [QUEST] - Screenshot taken and stored for: components_listRadio(Quest)
+🤖 CYBORG 🤖 2026-01-29T13:22:26,644 [scenario=GettingStartedTests.components_listRadio] INFO  [UI] - No implementation in framework for exception handling in this method
+🤖 CYBORG 🤖 2026-01-29T13:22:26,686 [scenario=GettingStartedTests.components_listRadio] INFO  [QUEST] - The quest of 'components_listRadio(Quest)' has ended in defeat. Status: FAILED. Duration: 185 seconds.
