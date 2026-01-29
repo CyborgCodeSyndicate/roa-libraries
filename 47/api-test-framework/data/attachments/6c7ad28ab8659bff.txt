@@ -1,6 +1,0 @@
-{
-    "name": "Michael suffix",
-    "job": "Junior Lawson worker",
-    "id": "563",
-    "createdAt": "2025-12-27T09:21:08.646Z"
-}

@@ -1,4 +1,0 @@
-header-key=header-value
-Cookie=JSESSIONID=CC9E93230E6EF0BEBE649BEF991F8BB9; path=/; domain=bakery-flow.demo.vaadin.com; sameSite=Lax
-Accept=application/json
-Content-Type=application/json

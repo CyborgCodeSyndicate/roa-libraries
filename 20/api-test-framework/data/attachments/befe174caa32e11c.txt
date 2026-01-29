@@ -1,6 +1,0 @@
-{
-    "name": "Morpheus",
-    "job": "Leader",
-    "id": "278",
-    "createdAt": "2025-12-13T10:39:38.288Z"
-}

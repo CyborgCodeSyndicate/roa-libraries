@@ -1,5 +1,0 @@
-Server=nginx
-Date=Wed, 07 Jan 2026 17:30:01 GMT
-Content-Type=text/html
-Content-Length=150
-Connection=keep-alive

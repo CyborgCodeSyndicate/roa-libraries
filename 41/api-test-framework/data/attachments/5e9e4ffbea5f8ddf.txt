@@ -1,4 +1,0 @@
-{
-    "name": "Michael suffix",
-    "job": "Junior Lawson worker"
-}

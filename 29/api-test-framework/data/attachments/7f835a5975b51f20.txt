@@ -1,7 +1,0 @@
-Processed Journey Data:
--------------------
-Journey: USER_INTERMEDIATE
-  {
-    "name" : "Mr. Morpheus",
-    "job" : "Intermediate Leader"
-  }
