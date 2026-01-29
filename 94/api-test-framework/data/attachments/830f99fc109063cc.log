@@ -1,0 +1,26 @@
+🤖 CYBORG 🤖 2026-01-29T12:47:10,349 [scenario=AdvancedExamplesTest.showsSoftAssertionsAfterFindingUserByFirstNameFromStorage] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2026-01-29T12:47:10,423 [scenario=AdvancedExamplesTest.showsSoftAssertionsAfterFindingUserByFirstNameFromStorage] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2026-01-29T12:47:10,433 [scenario=AdvancedExamplesTest.showsSoftAssertionsAfterFindingUserByFirstNameFromStorage] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2026-01-29T12:47:10,441 [scenario=AdvancedExamplesTest.showsSoftAssertionsAfterFindingUserByFirstNameFromStorage] INFO  [QUEST] - The quest: 'showsSoftAssertionsAfterFindingUserByFirstNameFromStorage(Quest)' has begun and is crafted.
+🤖 CYBORG 🤖 2026-01-29T12:47:10,451 [scenario=AdvancedExamplesTest.showsSoftAssertionsAfterFindingUserByFirstNameFromStorage] INFO  [QUEST] - The quest has used the ring: 'API'
+🤖 CYBORG 🤖 2026-01-29T12:47:10,714 [scenario=AdvancedExamplesTest.showsSoftAssertionsAfterFindingUserByFirstNameFromStorage] INFO  [API] - Prepared RequestSpecification with pathParams: {}, queryParams: {page=2}, headers: {}
+🤖 CYBORG 🤖 2026-01-29T12:47:10,996 [scenario=AdvancedExamplesTest.showsSoftAssertionsAfterFindingUserByFirstNameFromStorage] STEP  [API] - Sending request to endpoint GET-https://reqres.in/api/users?page=2.
+🤖 CYBORG 🤖 2026-01-29T12:47:11,007 [scenario=AdvancedExamplesTest.showsSoftAssertionsAfterFindingUserByFirstNameFromStorage] EXTENDED [API] - Request body: .
+🤖 CYBORG 🤖 2026-01-29T12:47:11,013 [scenario=AdvancedExamplesTest.showsSoftAssertionsAfterFindingUserByFirstNameFromStorage] EXTENDED [API] - Request headers: Content-Type=application/json
+🤖 CYBORG 🤖 2026-01-29T12:47:12,049 [scenario=AdvancedExamplesTest.showsSoftAssertionsAfterFindingUserByFirstNameFromStorage] STEP  [API] - Response with status: 200 received from endpoint: GET-https://reqres.in/api/users?page=2 in 1023ms.
+🤖 CYBORG 🤖 2026-01-29T12:47:12,076 [scenario=AdvancedExamplesTest.showsSoftAssertionsAfterFindingUserByFirstNameFromStorage] EXTENDED [API] - Response body: {
+🤖 CYBORG 🤖 2026-01-29T12:47:12,093 [scenario=AdvancedExamplesTest.showsSoftAssertionsAfterFindingUserByFirstNameFromStorage] EXTENDED [API] - Response headers: Date=Thu, 29 Jan 2026 12:47:12 GMT
+🤖 CYBORG 🤖 2026-01-29T12:47:12,109 [scenario=AdvancedExamplesTest.showsSoftAssertionsAfterFindingUserByFirstNameFromStorage] EXTENDED [QUEST] - Fetching data from storage by key: 'GET_ALL_USERS' and type: 'io.restassured.response.Response'
+🤖 CYBORG 🤖 2026-01-29T12:47:12,209 [scenario=AdvancedExamplesTest.showsSoftAssertionsAfterFindingUserByFirstNameFromStorage] INFO  [API] - Prepared RequestSpecification with pathParams: {id=9}, queryParams: {}, headers: {}
+🤖 CYBORG 🤖 2026-01-29T12:47:12,221 [scenario=AdvancedExamplesTest.showsSoftAssertionsAfterFindingUserByFirstNameFromStorage] STEP  [API] - Sending request to endpoint GET-https://reqres.in/api/users/9.
+🤖 CYBORG 🤖 2026-01-29T12:47:12,225 [scenario=AdvancedExamplesTest.showsSoftAssertionsAfterFindingUserByFirstNameFromStorage] EXTENDED [API] - Request body: .
+🤖 CYBORG 🤖 2026-01-29T12:47:12,228 [scenario=AdvancedExamplesTest.showsSoftAssertionsAfterFindingUserByFirstNameFromStorage] EXTENDED [API] - Request headers: Content-Type=application/json
+🤖 CYBORG 🤖 2026-01-29T12:47:12,587 [scenario=AdvancedExamplesTest.showsSoftAssertionsAfterFindingUserByFirstNameFromStorage] STEP  [API] - Response with status: 200 received from endpoint: GET-https://reqres.in/api/users/9 in 353ms.
+🤖 CYBORG 🤖 2026-01-29T12:47:12,592 [scenario=AdvancedExamplesTest.showsSoftAssertionsAfterFindingUserByFirstNameFromStorage] EXTENDED [API] - Response body: {
+🤖 CYBORG 🤖 2026-01-29T12:47:12,599 [scenario=AdvancedExamplesTest.showsSoftAssertionsAfterFindingUserByFirstNameFromStorage] EXTENDED [API] - Response headers: Date=Thu, 29 Jan 2026 12:47:12 GMT
+🤖 CYBORG 🤖 2026-01-29T12:47:12,614 [scenario=AdvancedExamplesTest.showsSoftAssertionsAfterFindingUserByFirstNameFromStorage] INFO  [QUEST] - The quest has dropped the ring.
+🤖 CYBORG 🤖 2026-01-29T12:47:12,622 [scenario=AdvancedExamplesTest.showsSoftAssertionsAfterFindingUserByFirstNameFromStorage] VALIDATION [QUEST] - Starting soft validation.
+🤖 CYBORG 🤖 2026-01-29T12:47:12,631 [scenario=AdvancedExamplesTest.showsSoftAssertionsAfterFindingUserByFirstNameFromStorage] EXTENDED [QUEST] - Fetching data from storage by key: 'GET_USER' and type: 'io.restassured.response.Response'
+🤖 CYBORG 🤖 2026-01-29T12:47:13,496 [scenario=AdvancedExamplesTest.showsSoftAssertionsAfterFindingUserByFirstNameFromStorage] INFO  [QUEST] - The quest has dropped the ring.
+🤖 CYBORG 🤖 2026-01-29T12:47:13,506 [scenario=AdvancedExamplesTest.showsSoftAssertionsAfterFindingUserByFirstNameFromStorage] INFO  [QUEST] - The quest has reached his end
+🤖 CYBORG 🤖 2026-01-29T12:47:13,515 [scenario=AdvancedExamplesTest.showsSoftAssertionsAfterFindingUserByFirstNameFromStorage] INFO  [QUEST] - The quest of 'showsSoftAssertionsAfterFindingUserByFirstNameFromStorage(Quest)' has concluded with glory. Status: SUCCESS. Duration: 3 seconds.
