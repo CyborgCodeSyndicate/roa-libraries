@@ -1,0 +1,18 @@
+🤖 CYBORG 🤖 2026-01-29T11:25:59,001 [scenario=AdvancedExamplesTest.showsCraftModelAsRequestWithSoftAssertion] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2026-01-29T11:25:59,047 [scenario=AdvancedExamplesTest.showsCraftModelAsRequestWithSoftAssertion] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2026-01-29T11:25:59,064 [scenario=AdvancedExamplesTest.showsCraftModelAsRequestWithSoftAssertion] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2026-01-29T11:25:59,086 [scenario=AdvancedExamplesTest.showsCraftModelAsRequestWithSoftAssertion] INFO  [QUEST] - The quest: 'showsCraftModelAsRequestWithSoftAssertion(Quest, CreateUserDto)' has begun and is crafted.
+🤖 CYBORG 🤖 2026-01-29T11:25:59,318 [scenario=AdvancedExamplesTest.showsCraftModelAsRequestWithSoftAssertion] INFO  [QUEST] - The quest has used the ring: 'API'
+🤖 CYBORG 🤖 2026-01-29T11:26:00,038 [scenario=AdvancedExamplesTest.showsCraftModelAsRequestWithSoftAssertion] STEP  [API] - Sending request to endpoint POST-https://reqres.in/api/users.
+🤖 CYBORG 🤖 2026-01-29T11:26:00,045 [scenario=AdvancedExamplesTest.showsCraftModelAsRequestWithSoftAssertion] EXTENDED [API] - Request body: {
+🤖 CYBORG 🤖 2026-01-29T11:26:00,056 [scenario=AdvancedExamplesTest.showsCraftModelAsRequestWithSoftAssertion] EXTENDED [API] - Request headers: Content-Type=application/json
+🤖 CYBORG 🤖 2026-01-29T11:26:01,100 [scenario=AdvancedExamplesTest.showsCraftModelAsRequestWithSoftAssertion] STEP  [API] - Response with status: 201 received from endpoint: POST-https://reqres.in/api/users in 1033ms.
+🤖 CYBORG 🤖 2026-01-29T11:26:01,109 [scenario=AdvancedExamplesTest.showsCraftModelAsRequestWithSoftAssertion] EXTENDED [API] - Response body: {
+🤖 CYBORG 🤖 2026-01-29T11:26:01,119 [scenario=AdvancedExamplesTest.showsCraftModelAsRequestWithSoftAssertion] EXTENDED [API] - Response headers: Date=Thu, 29 Jan 2026 11:26:01 GMT
+🤖 CYBORG 🤖 2026-01-29T11:26:01,127 [scenario=AdvancedExamplesTest.showsCraftModelAsRequestWithSoftAssertion] INFO  [API] - Starting response validation with 2 assertion(s).
+🤖 CYBORG 🤖 2026-01-29T11:26:01,583 [scenario=AdvancedExamplesTest.showsCraftModelAsRequestWithSoftAssertion] EXTENDED [API] - Validation target: [{name=Morpheus, AssertionKeyForStatus=201}]
+🤖 CYBORG 🤖 2026-01-29T11:26:01,604 [scenario=AdvancedExamplesTest.showsCraftModelAsRequestWithSoftAssertion] VALIDATION [QUEST] - ✔ Validation passed: IS (Expected: 201, Actual: 201)
+🤖 CYBORG 🤖 2026-01-29T11:26:01,670 [scenario=AdvancedExamplesTest.showsCraftModelAsRequestWithSoftAssertion] VALIDATION [QUEST] - ✔ Validation passed: IS (Expected: Morpheus, Actual: Morpheus)
+🤖 CYBORG 🤖 2026-01-29T11:26:01,945 [scenario=AdvancedExamplesTest.showsCraftModelAsRequestWithSoftAssertion] INFO  [QUEST] - The quest has dropped the ring.
+🤖 CYBORG 🤖 2026-01-29T11:26:01,948 [scenario=AdvancedExamplesTest.showsCraftModelAsRequestWithSoftAssertion] INFO  [QUEST] - The quest has reached his end
+🤖 CYBORG 🤖 2026-01-29T11:26:01,969 [scenario=AdvancedExamplesTest.showsCraftModelAsRequestWithSoftAssertion] INFO  [QUEST] - The quest of 'showsCraftModelAsRequestWithSoftAssertion(Quest, CreateUserDto)' has concluded with glory. Status: SUCCESS. Duration: 2 seconds.
