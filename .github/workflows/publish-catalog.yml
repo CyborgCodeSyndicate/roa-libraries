@@ -22,7 +22,7 @@ jobs:
           ref: ${{ github.event.workflow_run.head_sha }}
 
       - name: Download deployed version artifact
-        uses: dawidd6/action-download-artifact@v3
+        uses: dawidd6/action-download-artifact@v6
         with:
           run_id: ${{ github.event.workflow_run.id }}
           name: deployed-version
