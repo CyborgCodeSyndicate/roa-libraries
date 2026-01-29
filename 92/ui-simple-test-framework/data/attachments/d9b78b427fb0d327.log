@@ -1,0 +1,18 @@
+🤖 CYBORG 🤖 2026-01-29T11:26:38,308 [scenario=TableComponentExampleTests.clickLinkInCertainCell_usingCellInsertion] INFO  [UI] - Creating driver using provider [ChromeDriverProvider]. Headless: [true], Remote: [true], Remote URL: [http://localhost:4444]
+🤖 CYBORG 🤖 2026-01-29T11:26:39,011 [scenario=TableComponentExampleTests.clickLinkInCertainCell_usingCellInsertion] INFO  [QUEST] - The quest: 'clickLinkInCertainCell_usingCellInsertion(Quest)' has begun and is crafted.
+🤖 CYBORG 🤖 2026-01-29T11:26:39,082 [scenario=TableComponentExampleTests.clickLinkInCertainCell_usingCellInsertion] INFO  [QUEST] - The quest has used the ring: 'io.cyborgcode.ui.simple.test.framework.ui.AppUiService'
+🤖 CYBORG 🤖 2026-01-29T11:26:39,704 [scenario=TableComponentExampleTests.clickLinkInCertainCell_usingCellInsertion] STEP  [UI] - Clicking button using locator: By.id: signin_button
+🤖 CYBORG 🤖 2026-01-29T11:26:40,100 [scenario=TableComponentExampleTests.clickLinkInCertainCell_usingCellInsertion] STEP  [UI] - Inserting value: 'username' into input component of type: 'BOOTSTRAP_INPUT_TYPE'.
+🤖 CYBORG 🤖 2026-01-29T11:26:40,808 [scenario=TableComponentExampleTests.clickLinkInCertainCell_usingCellInsertion] STEP  [UI] - Inserting value: 'password' into input component of type: 'BOOTSTRAP_INPUT_TYPE'.
+🤖 CYBORG 🤖 2026-01-29T11:26:41,392 [scenario=TableComponentExampleTests.clickLinkInCertainCell_usingCellInsertion] STEP  [UI] - Clicking button using locator: By.cssSelector: input[value='Sign in']
+🤖 CYBORG 🤖 2026-01-29T11:26:42,025 [scenario=TableComponentExampleTests.clickLinkInCertainCell_usingCellInsertion] STEP  [UI] - Clicking button using locator: By.id: online-banking
+🤖 CYBORG 🤖 2026-01-29T11:26:42,330 [scenario=TableComponentExampleTests.clickLinkInCertainCell_usingCellInsertion] STEP  [UI] - Clicking link BOOTSTRAP_LINK_TYPE using locator By.id: account_summary_link
+🤖 CYBORG 🤖 2026-01-29T11:26:42,989 [scenario=TableComponentExampleTests.clickLinkInCertainCell_usingCellInsertion] STEP  [UI] - Inserting cell value in row 1 for class 'CreditAccounts', field 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$2233/0x00007f4a348b35f0@4667a325', cell index 1
+🤖 CYBORG 🤖 2026-01-29T11:26:43,262 [scenario=TableComponentExampleTests.clickLinkInCertainCell_usingCellInsertion] STEP  [UI] - Inserting values  in cell for link BOOTSTRAP_LINK_TYPE
+🤖 CYBORG 🤖 2026-01-29T11:26:43,665 [scenario=TableComponentExampleTests.clickLinkInCertainCell_usingCellInsertion] STEP  [UI] - Reading entire table as class 'AllTransactionEntry'
+🤖 CYBORG 🤖 2026-01-29T11:26:45,401 [scenario=TableComponentExampleTests.clickLinkInCertainCell_usingCellInsertion] VALIDATION [QUEST] - Starting hard validation...
+🤖 CYBORG 🤖 2026-01-29T11:26:45,404 [scenario=TableComponentExampleTests.clickLinkInCertainCell_usingCellInsertion] VALIDATION [QUEST] - Hard validation completed successfully.
+🤖 CYBORG 🤖 2026-01-29T11:26:45,407 [scenario=TableComponentExampleTests.clickLinkInCertainCell_usingCellInsertion] INFO  [QUEST] - The quest has dropped the ring.
+🤖 CYBORG 🤖 2026-01-29T11:26:45,411 [scenario=TableComponentExampleTests.clickLinkInCertainCell_usingCellInsertion] INFO  [QUEST] - The quest has reached his end
+🤖 CYBORG 🤖 2026-01-29T11:26:45,547 [scenario=TableComponentExampleTests.clickLinkInCertainCell_usingCellInsertion] INFO  [UI] - WebDriver closed successfully.
+🤖 CYBORG 🤖 2026-01-29T11:26:45,556 [scenario=TableComponentExampleTests.clickLinkInCertainCell_usingCellInsertion] INFO  [QUEST] - The quest of 'clickLinkInCertainCell_usingCellInsertion(Quest)' has concluded with glory. Status: SUCCESS. Duration: 7 seconds.
