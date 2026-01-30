@@ -3,6 +3,7 @@ package io.cyborgcode.roa.framework.annotation;
 import io.cyborgcode.pandora.annotation.Pandora;
 import io.cyborgcode.pandora.annotation.PandoraOptions;
 import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.roa.framework.pandora.AvailableOptionsRules;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
@@ -25,12 +26,14 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @Pandora(
-      description = "Declares a pre-test journey "
-            + "(precondition step) that runs before the test body.",
+      description = "Declares a pre-test journey (precondition) executed before the test body by resolving a "
+            + "project-defined PreQuestJourney key; can be repeated and ordered, and can receive crafted "
+            + "inputs via journeyData.",
       tags = {"framework", "precondition"},
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
+      exampleFilesPath = "ai/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "journey-annotation"),
          @PandoraOptions.Meta(key = "scope", value = "method"),
@@ -48,7 +51,11 @@ public @interface Journey {
     * @return The name of the journey.
     */
    @Pandora(
-         description = "Identifier of the pre-test journey (precondition flow) to execute before this test."
+         description = "PreQuestJourney key to execute before this test. Must match an enum constant name "
+               + "from a project enum implementing PreQuestJourney (e.g., \"USER_LOGIN_PRECONDITION\")."
+   )
+   @PandoraOptions(
+         availableOptionsRule = AvailableOptionsRules.AvailablePreQuestJourneyOptions.class
    )
    String value();
 
@@ -60,9 +67,6 @@ public @interface Journey {
     *
     * @return An array of {@code JourneyData} objects containing test data.
     */
-   @Pandora(
-         description = "Additional test data entries used by the journey; declared via @JourneyData."
-   )
    JourneyData[] journeyData() default {};
 
    /**
@@ -73,7 +77,8 @@ public @interface Journey {
     * @return The execution order of the journey.
     */
    @Pandora(
-         description = "Execution order among multiple @Journey entries; lower values run first."
+         description = "Optional execution order when multiple @Journey annotations are present; lower "
+               + "values run first (default: 0)."
    )
    int order() default 0;
 

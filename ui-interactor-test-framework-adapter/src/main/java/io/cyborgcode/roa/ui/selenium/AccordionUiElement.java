@@ -19,7 +19,7 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
 @Pandora(
       description = "Accordion UI element descriptor used with the AccordionService.",
       tags = {"ui", "ui-element", "accordion"},
-      creation = CreationKind.AUTO
+      creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
       availableOptionsRule = AvailableOptionsRules.AvailableAccordionUiElements.class,

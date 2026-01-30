@@ -23,7 +23,7 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
 @Pandora(
       description = "Modal UI element descriptor used with the ModalService.",
       tags = {"ui", "ui-element", "modal"},
-      creation = CreationKind.AUTO
+      creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
       availableOptionsRule = AvailableOptionsRules.AvailableModalUiElements.class,

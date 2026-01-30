@@ -4,6 +4,7 @@ import io.cyborgcode.pandora.options.EnumsInPackageRule;
 import io.cyborgcode.pandora.options.RuleContext;
 import io.cyborgcode.roa.ui.components.accordion.AccordionComponentType;
 import io.cyborgcode.roa.ui.components.alert.AlertComponentType;
+import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.components.button.ButtonComponentType;
 import io.cyborgcode.roa.ui.components.checkbox.CheckboxComponentType;
 import io.cyborgcode.roa.ui.components.input.InputComponentType;
@@ -214,6 +215,19 @@ public final class AvailableOptionsRules {
       @Override
       public Class<?> getInterface(RuleContext ctx) {
          return ToggleComponentType.class;
+      }
+   }
+
+   /**
+    * Exposes all enums implementing {@link ComponentType} as available options for Pandora.
+    *
+    * @author Cyborg Code Syndicate 💍👨💻
+    */
+   public static class AvailableComponentTypes extends EnumsInPackageRule {
+
+      @Override
+      public Class<?> getInterface(RuleContext ctx) {
+         return ComponentType.class;
       }
    }
 }

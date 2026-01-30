@@ -23,7 +23,7 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
 @Pandora(
       description = "Toggle UI element descriptor used with the ToggleService.",
       tags = {"ui", "ui-element", "toggle"},
-      creation = CreationKind.AUTO
+      creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
       availableOptionsRule = AvailableOptionsRules.AvailableToggleUiElements.class,

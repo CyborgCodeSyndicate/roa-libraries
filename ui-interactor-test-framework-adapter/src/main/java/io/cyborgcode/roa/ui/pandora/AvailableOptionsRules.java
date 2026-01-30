@@ -2,6 +2,7 @@ package io.cyborgcode.roa.ui.pandora;
 
 import io.cyborgcode.pandora.options.EnumsInPackageRule;
 import io.cyborgcode.pandora.options.RuleContext;
+import io.cyborgcode.roa.ui.parameters.DataIntercept;
 import io.cyborgcode.roa.ui.selenium.AccordionUiElement;
 import io.cyborgcode.roa.ui.selenium.AlertUiElement;
 import io.cyborgcode.roa.ui.selenium.ButtonUiElement;
@@ -16,7 +17,6 @@ import io.cyborgcode.roa.ui.selenium.SelectUiElement;
 import io.cyborgcode.roa.ui.selenium.TabUiElement;
 import io.cyborgcode.roa.ui.selenium.ToggleUiElement;
 import io.cyborgcode.roa.ui.service.tables.TableElement;
-import java.util.List;
 
 /**
  * Provides Pandora option rules used to resolve available UI element descriptors.
@@ -45,15 +45,6 @@ public final class AvailableOptionsRules {
       @Override
       public Class<?> getInterface(RuleContext ruleContext) {
          return AccordionUiElement.class;
-      }
-
-      @Override
-      public List<String> findAvailableOptions(RuleContext ruleContext) {
-         try {
-            return super.findAvailableOptions(ruleContext);
-         } catch (Exception e) {
-            return List.of();
-         }
       }
    }
 
@@ -223,6 +214,19 @@ public final class AvailableOptionsRules {
       @Override
       public Class<?> getInterface(RuleContext ruleContext) {
          return ToggleUiElement.class;
+      }
+   }
+
+   /**
+    * Exposes all enums implementing {@link DataIntercept} as available options for Pandora.
+    *
+    * @author Cyborg Code Syndicate 💍👨💻
+    */
+   public static class AvailableDataInterceptOptions extends EnumsInPackageRule {
+
+      @Override
+      public Class<?> getInterface(RuleContext ruleContext) {
+         return DataIntercept.class;
       }
    }
 

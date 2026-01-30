@@ -3,6 +3,7 @@ package io.cyborgcode.roa.ui.annotations;
 import io.cyborgcode.pandora.annotation.Pandora;
 import io.cyborgcode.pandora.annotation.PandoraOptions;
 import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -44,6 +45,10 @@ public @interface InterceptRequests {
     */
    @Pandora(
          description = "List of URL substrings; any matching network request will be intercepted during the test."
+   )
+   @PandoraOptions(
+         availableOptionsRule = AvailableOptionsRules.AvailableDataInterceptOptions.class,
+         exampleFilesPath = "ai/roa/ui-usage.json"
    )
    String[] requestUrlSubStrings() default {};
 }

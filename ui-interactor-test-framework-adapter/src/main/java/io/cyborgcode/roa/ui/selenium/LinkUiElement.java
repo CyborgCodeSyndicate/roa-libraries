@@ -22,7 +22,7 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
 @Pandora(
       description = "Link UI element descriptor used with the LinkService.",
       tags = {"ui", "ui-element", "link"},
-      creation = CreationKind.AUTO
+      creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
       availableOptionsRule = AvailableOptionsRules.AvailableLinkUiElements.class,

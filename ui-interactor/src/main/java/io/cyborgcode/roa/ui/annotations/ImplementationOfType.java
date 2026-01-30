@@ -3,6 +3,7 @@ package io.cyborgcode.roa.ui.annotations;
 import io.cyborgcode.pandora.annotation.Pandora;
 import io.cyborgcode.pandora.annotation.PandoraOptions;
 import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -37,9 +38,21 @@ import java.lang.annotation.Target;
 public @interface ImplementationOfType {
 
    /**
-    * Specifies the component type this implementation corresponds to.
+    * Identifier that binds this concrete component implementation to a logical {@code ComponentType}.
+    * ROA matches this value against the project-declared component type (typically an enum constant name or a
+    * shared key used by {@code *ComponentType} registries) to resolve and instantiate the correct implementation
+    * at runtime; the match must be exact.
     *
-    * @return The type identifier for the UI component.
+    * @return the component-type identifier for this implementation
     */
+   @Pandora(
+         description = "ComponentType identifier key used by ROA to resolve this implementation at runtime.",
+         tags = {"ui", "annotation", "component-type", "resolution"},
+         creation = CreationKind.PROVIDED
+   )
+   @PandoraOptions(
+         availableOptionsRule = AvailableOptionsRules.AvailableComponentTypes.class,
+         exampleFilesPath = "ai/roa/ui-usage.json"
+   )
    String value();
 }

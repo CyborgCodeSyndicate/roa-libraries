@@ -23,7 +23,7 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
 @Pandora(
       description = "Radio UI element descriptor used with the RadioService.",
       tags = {"ui", "ui-element", "radio"},
-      creation = CreationKind.AUTO
+      creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
       availableOptionsRule = AvailableOptionsRules.AvailableRadioUiElements.class,

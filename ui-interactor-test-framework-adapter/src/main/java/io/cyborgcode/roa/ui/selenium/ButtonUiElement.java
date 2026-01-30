@@ -19,7 +19,7 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
 @Pandora(
       description = "Button UI element descriptor used with the ButtonService.",
       tags = {"ui", "ui-element", "button"},
-      creation = CreationKind.AUTO
+      creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
       availableOptionsRule = AvailableOptionsRules.AvailableButtonUiElements.class,

@@ -19,7 +19,7 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
 @Pandora(
       description = "Checkbox UI element descriptor used with the CheckboxService.",
       tags = {"ui", "element", "checkbox"},
-      creation = CreationKind.AUTO
+      creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
       availableOptionsRule = AvailableOptionsRules.AvailableCheckboxUiElements.class,

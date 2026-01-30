@@ -23,7 +23,7 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
 @Pandora(
       description = "Tab UI element descriptor used with the TabService.",
       tags = {"ui", "ui-element", "tab"},
-      creation = CreationKind.AUTO
+      creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
       availableOptionsRule = AvailableOptionsRules.AvailableTabUiElements.class,

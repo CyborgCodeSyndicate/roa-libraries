@@ -19,7 +19,7 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
 @Pandora(
       description = "Alert UI element descriptor used with the AlertService.",
       tags = {"ui", "ui-element", "alert"},
-      creation = CreationKind.AUTO
+      creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
       availableOptionsRule = AvailableOptionsRules.AvailableAlertUiElements.class,

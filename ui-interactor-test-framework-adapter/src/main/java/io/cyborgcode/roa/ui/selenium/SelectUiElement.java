@@ -23,7 +23,7 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
 @Pandora(
       description = "Select UI element descriptor used with the SelectService.",
       tags = {"ui", "ui-element", "select"},
-      creation = CreationKind.AUTO
+      creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
       availableOptionsRule = AvailableOptionsRules.AvailableSelectUiElements.class,

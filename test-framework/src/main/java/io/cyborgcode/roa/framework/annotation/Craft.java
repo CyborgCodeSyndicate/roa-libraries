@@ -3,6 +3,7 @@ package io.cyborgcode.roa.framework.annotation;
 import io.cyborgcode.pandora.annotation.Pandora;
 import io.cyborgcode.pandora.annotation.PandoraOptions;
 import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.roa.framework.pandora.AvailableOptionsRules;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -21,12 +22,13 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
 @Pandora(
-      description = "Marks a test method parameter whose value should "
-            + "be auto-generated from a predefined test data model.",
+      description = "Parameter annotation that injects crafted test data into a @Test method by resolving a "
+            + "project-defined DataForge model key and creating the requested object type.",
       tags = {"framework", "test-data"},
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
+      exampleFilesPath = "ai/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "parameter-annotation")
       }
@@ -42,7 +44,11 @@ public @interface Craft {
     * @return The name of the test data model.
     */
    @Pandora(
-         description = "Identifier of the test data model to use when generating the parameter instance."
+         description = "DataForge model key to craft for this parameter. Must match an enum constant name from a "
+               + "project enum implementing DataForge (e.g., \"CREATE_ORDER\")."
+   )
+   @PandoraOptions(
+         availableOptionsRule = AvailableOptionsRules.AvailableDataForgeOptions.class
    )
    String model();
 

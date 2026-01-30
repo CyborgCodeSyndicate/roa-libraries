@@ -3,6 +3,7 @@ package io.cyborgcode.roa.framework.annotation;
 import io.cyborgcode.pandora.annotation.Pandora;
 import io.cyborgcode.pandora.annotation.PandoraOptions;
 import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.roa.framework.pandora.AvailableOptionsRules;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -22,13 +23,13 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({})
 @Pandora(
-      description = "Annotation used inside @Journey to "
-            + "declare which test data models should be prepared "
-            +  "as part of a pre-test setup (eager or lazy).",
+      description = "Used inside @Journey(journeyData=...) to declare which DataForge model(s) should be "
+            + "crafted and passed into the journey before the test body runs.",
       tags = {"framework", "test-data"},
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
+      exampleFilesPath = "ai/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "journey-data-annotation")
       }
@@ -44,7 +45,11 @@ public @interface JourneyData {
     * @return The name of the test data model.
     */
    @Pandora(
-         description = "Identifier of the test data model to resolve and prepare for this journey."
+         description = "DataForge model key to craft for this journey argument. Must match an enum constant name "
+               + "from a project enum implementing DataForge (e.g., \"CREATE_ORDER\")."
+   )
+   @PandoraOptions(
+         availableOptionsRule = AvailableOptionsRules.AvailableDataForgeOptions.class
    )
    String value();
 
@@ -62,7 +67,8 @@ public @interface JourneyData {
     *     explicit resolution before use, otherwise {@code false}.
     */
    @Pandora(
-         description = "Identifier of the test data model to resolve and prepare for this journey."
+         description = "If true, the journey receives a deferred model (Late<T>) instead of an eager instance, "
+               + "so creation can be triggered later inside the journey flow (default: false)."
    )
    boolean late() default false;
 

@@ -22,7 +22,7 @@ import org.openqa.selenium.By;
       description = "Base interface modeling a UI element: locator, component type, enum impl, and "
             + "pre/post interaction hooks.",
       tags = {"ui", "ui-element", "interface"},
-      creation = CreationKind.AUTO
+      creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
       exampleFilesPath = "ai/roa/ui-usage.json",

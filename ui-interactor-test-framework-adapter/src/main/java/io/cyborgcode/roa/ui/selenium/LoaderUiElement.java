@@ -22,7 +22,7 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
 @Pandora(
       description = "Loader UI element descriptor used with the LoaderService.",
       tags = {"ui", "ui-element", "loader"},
-      creation = CreationKind.AUTO
+      creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
       availableOptionsRule = AvailableOptionsRules.AvailableLoaderUiElements.class,

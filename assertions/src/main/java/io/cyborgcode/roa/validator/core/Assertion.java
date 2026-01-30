@@ -35,9 +35,6 @@ public final class Assertion {
    /**
     * The subject of the assertion, specifying what is being validated.
     */
-   @Pandora(
-      description = "What part of the response/data is being asserted (e.g. STATUS, BODY, HEADER)."
-   )
    private final AssertionTarget target;
 
    /**
@@ -52,9 +49,6 @@ public final class Assertion {
    /**
     * Indicates the logical operation for this validation.
     */
-   @Pandora(
-      description = "How the value is validated (IS, CONTAINS, BETWEEN, etc.)."
-   )
    private final AssertionType<?> type;
 
    /**
