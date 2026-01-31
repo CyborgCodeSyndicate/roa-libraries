@@ -29,7 +29,7 @@ import lombok.NonNull;
       creation = CreationKind.CONSTRUCTOR
 )
 @PandoraOptions(
-      exampleFilesPath = "docs/usage/roa/api-usage.json",
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "assertion-result")
       }
@@ -72,7 +72,7 @@ public final class AssertionResult<T> {
          description = "Formats this AssertionResult into a single human-readable line used in logs and Allure steps."
    )
    @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    @Override
    public String toString() {

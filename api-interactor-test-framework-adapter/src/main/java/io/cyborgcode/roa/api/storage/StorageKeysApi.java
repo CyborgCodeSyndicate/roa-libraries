@@ -3,6 +3,7 @@ package io.cyborgcode.roa.api.storage;
 import io.cyborgcode.pandora.annotation.Pandora;
 import io.cyborgcode.pandora.annotation.PandoraOptions;
 import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.roa.api.pandora.AvailableOptionsApiAdapterRules;
 
 /**
  * Defines storage keys for API-related data.
@@ -19,6 +20,7 @@ import io.cyborgcode.pandora.model.CreationKind;
 )
 @PandoraOptions(
       exampleFilesPath = "docs/usage/roa/api-usage.json",
+      availableOptionsRule = AvailableOptionsApiAdapterRules.AvailableStorageKeysApiOptions.class,
       meta = {
          @PandoraOptions.Meta(key = "type", value = "api-storage-key")
       }

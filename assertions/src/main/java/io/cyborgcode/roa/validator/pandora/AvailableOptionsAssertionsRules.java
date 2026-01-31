@@ -14,9 +14,9 @@ import io.cyborgcode.roa.validator.core.AssertionType;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public final class AvailableOptionsRules {
+public final class AvailableOptionsAssertionsRules {
 
-   private AvailableOptionsRules() {
+   private AvailableOptionsAssertionsRules() {
    }
 
    /**
@@ -56,16 +56,16 @@ public final class AvailableOptionsRules {
     */
    public static final class AvailableAssertionTypes extends EnumsInPackageRule {
 
-      /**
-       * Returns the marker interface used to discover assertion type enums.
-       *
-       * @param ruleContext the Pandora rule context (unused here but part of the contract)
-       * @return {@link AssertionType} as the interface to scan for enums
-       */
       @Override
       public Class<?> getInterface(final RuleContext ruleContext) {
          return AssertionType.class;
       }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
+      }
+
    }
 
 }

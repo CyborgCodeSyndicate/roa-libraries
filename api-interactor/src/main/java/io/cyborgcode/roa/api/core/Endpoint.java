@@ -3,7 +3,7 @@ package io.cyborgcode.roa.api.core;
 import io.cyborgcode.pandora.annotation.Pandora;
 import io.cyborgcode.pandora.annotation.PandoraOptions;
 import io.cyborgcode.pandora.model.CreationKind;
-import io.cyborgcode.roa.api.pandora.AvailableOptionsRules;
+import io.cyborgcode.roa.api.pandora.AvailableOptionsApiInteractorRules;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.http.Method;
@@ -30,7 +30,7 @@ import static io.cyborgcode.roa.api.config.ApiConfigHolder.getApiConfig;
 )
 @PandoraOptions(
       exampleFilesPath = "docs/usage/roa/api-usage.json",
-      availableOptionsRule = AvailableOptionsRules.AvailableEndpoints.class,
+      availableOptionsRule = AvailableOptionsApiInteractorRules.AvailableEndpoints.class,
       meta = {
          @PandoraOptions.Meta(key = "type", value = "endpoint")
       }

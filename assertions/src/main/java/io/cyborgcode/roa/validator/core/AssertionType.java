@@ -3,7 +3,7 @@ package io.cyborgcode.roa.validator.core;
 import io.cyborgcode.pandora.annotation.Pandora;
 import io.cyborgcode.pandora.annotation.PandoraOptions;
 import io.cyborgcode.pandora.model.CreationKind;
-import io.cyborgcode.roa.validator.pandora.AvailableOptionsRules;
+import io.cyborgcode.roa.validator.pandora.AvailableOptionsAssertionsRules;
 
 /**
  * Represents a type of assertion used for validation.
@@ -26,7 +26,8 @@ import io.cyborgcode.roa.validator.pandora.AvailableOptionsRules;
       creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
-      availableOptionsRule = AvailableOptionsRules.AvailableAssertionTypes.class,
+      availableOptionsRule = AvailableOptionsAssertionsRules.AvailableAssertionTypes.class,
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "assertion-type")
       }

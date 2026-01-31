@@ -13,9 +13,9 @@ import io.cyborgcode.roa.api.core.Endpoint;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public final class AvailableOptionsRules {
+public final class AvailableOptionsApiInteractorRules {
 
-   private AvailableOptionsRules() {
+   private AvailableOptionsApiInteractorRules() {
    }
 
    /**

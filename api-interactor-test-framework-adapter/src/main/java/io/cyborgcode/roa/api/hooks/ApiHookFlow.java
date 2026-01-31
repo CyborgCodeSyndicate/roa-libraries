@@ -3,7 +3,7 @@ package io.cyborgcode.roa.api.hooks;
 import io.cyborgcode.pandora.annotation.Pandora;
 import io.cyborgcode.pandora.annotation.PandoraOptions;
 import io.cyborgcode.pandora.model.CreationKind;
-import io.cyborgcode.roa.api.pandora.AvailableOptionsRules;
+import io.cyborgcode.roa.api.pandora.AvailableOptionsApiAdapterRules;
 import io.cyborgcode.roa.api.service.RestService;
 import java.util.Map;
 import org.apache.logging.log4j.util.TriConsumer;
@@ -31,7 +31,7 @@ import org.apache.logging.log4j.util.TriConsumer;
 )
 @PandoraOptions(
       exampleFilesPath = "docs/usage/roa/api-usage.json",
-      availableOptionsRule = AvailableOptionsRules.AvailableApiHookFlows.class,
+      availableOptionsRule = AvailableOptionsApiAdapterRules.AvailableApiHookFlows.class,
       meta = {
          @PandoraOptions.Meta(key = "type", value = "api-hook-flow")
       }

@@ -3,7 +3,7 @@ package io.cyborgcode.roa.api.annotations;
 import io.cyborgcode.pandora.annotation.Pandora;
 import io.cyborgcode.pandora.annotation.PandoraOptions;
 import io.cyborgcode.pandora.model.CreationKind;
-import io.cyborgcode.roa.api.pandora.AvailableOptionsRules;
+import io.cyborgcode.roa.api.pandora.AvailableOptionsApiAdapterRules;
 import io.cyborgcode.roa.framework.hooks.HookExecution;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Repeatable;
@@ -51,7 +51,7 @@ public @interface ApiHook {
    )
    @PandoraOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json",
-         availableOptionsRule = AvailableOptionsRules.AvailableApiHookFlows.class
+         availableOptionsRule = AvailableOptionsApiAdapterRules.AvailableApiHookFlows.class
    )
    String type();
 
