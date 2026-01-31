@@ -5,7 +5,7 @@ import io.cyborgcode.pandora.annotation.PandoraOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.components.checkbox.CheckboxService;
-import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
+import io.cyborgcode.roa.ui.pandora.AvailableOptionsUiRules;
 
 /**
  * Represents a Checkbox UI element that integrates with the {@link CheckboxService}.
@@ -17,13 +17,14 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @Pandora(
-      description = "Checkbox UI element descriptor used with the CheckboxService.",
+      description = "Checkbox UI element enum contract (locator + component type + hooks) consumed by CheckboxService "
+            + "for standardized checkbox interactions.",
       tags = {"ui", "element", "checkbox"},
       creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
-      availableOptionsRule = AvailableOptionsRules.AvailableCheckboxUiElements.class,
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      availableOptionsRule = AvailableOptionsUiRules.AvailableCheckboxUiElements.class,
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "ui-element")
       }

@@ -36,7 +36,7 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "fluent-service")
       }
@@ -78,7 +78,7 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
          tags = {"ui", "select"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T selectOptions(final SelectUiElement element,
                           @Pandora(
@@ -103,7 +103,7 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
          tags = {"ui", "select"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T selectOptions(final SelectUiElement element,
                           @Pandora(
@@ -129,7 +129,7 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
          tags = {"ui", "select"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T selectOption(final SelectUiElement element,
                          @Pandora(
@@ -153,7 +153,7 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
          tags = {"ui", "select"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getAvailableOptions(final SelectUiElement element) {
       Allure.step("[UI - Select] Retrieving available options in dropdown: " + element.enumImpl());
@@ -176,7 +176,7 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
          tags = {"ui", "select"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAvailableOptions(final SelectUiElement element,
                                      @Pandora(
@@ -203,7 +203,7 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
          tags = {"ui", "select"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAvailableOptions(final SelectUiElement element,
                                      @Pandora(
@@ -244,7 +244,7 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
          tags = {"ui", "select"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAvailableOptions(final SelectUiElement element,
                                      @Pandora(
@@ -271,7 +271,7 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
          tags = {"ui", "select"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAvailableOptions(final SelectUiElement element,
                                      @Pandora(
@@ -311,7 +311,7 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
          tags = {"ui", "select"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getSelectedOptions(final SelectUiElement element) {
       Allure.step("[UI - Select] Retrieving selected options in dropdown: " + element.enumImpl());
@@ -334,7 +334,7 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
          tags = {"ui", "select"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateSelectedOptions(final SelectUiElement element,
                                     @Pandora(
@@ -360,7 +360,7 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
          tags = {"ui", "select"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateSelectedOptions(final SelectUiElement element,
                                     @Pandora(
@@ -401,7 +401,7 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
          tags = {"ui", "select"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isOptionVisible(final SelectUiElement element,
                             @Pandora(
@@ -427,7 +427,7 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
          tags = {"ui", "select"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsOptionVisible(final SelectUiElement element,
                                     @Pandora(
@@ -450,7 +450,7 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
          tags = {"ui", "select"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsOptionVisible(final SelectUiElement element,
                                     @Pandora(

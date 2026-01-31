@@ -21,7 +21,7 @@ import io.cyborgcode.pandora.model.CreationKind;
       description = "Contract for lazily generating test data models. Implementations return a Late creator "
             + "and expose an enum constant that uniquely identifies the model.",
       tags = {"framework", "test-data"},
-      creation = CreationKind.PROVIDED
+      creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
       meta = {

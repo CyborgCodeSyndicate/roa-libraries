@@ -18,11 +18,11 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
       description = "Component type marker for Input components; enums implement this to declare "
             + "available input types.",
       tags = {"ui", "ui-component-type", "input"},
-      creation = CreationKind.AUTO
+      creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
       availableOptionsRule = AvailableOptionsRules.AvailableInputComponentTypes.class,
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "ui-component-type")
       }

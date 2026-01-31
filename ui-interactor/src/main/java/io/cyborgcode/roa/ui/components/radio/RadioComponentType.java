@@ -23,11 +23,11 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
       description = "Component type marker for Radio components; enums implement this to declare "
             + "available radio types.",
       tags = {"ui", "ui-component-type", "radio"},
-      creation = CreationKind.AUTO
+      creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
       availableOptionsRule = AvailableOptionsRules.AvailableRadioComponentTypes.class,
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "ui-component-type")
       }

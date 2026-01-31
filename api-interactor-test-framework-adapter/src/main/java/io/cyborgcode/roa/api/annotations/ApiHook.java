@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/api-usage.json",
+      exampleFilesPath = "docs/usage/roa/api-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "api-hook-annotation"),
          @PandoraOptions.Meta(key = "scope", value = "class")
@@ -50,7 +50,7 @@ public @interface ApiHook {
          description = "Identifier of the hook flow implementation to execute (typically an enum name)."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json",
+         exampleFilesPath = "docs/usage/roa/api-usage.json",
          availableOptionsRule = AvailableOptionsRules.AvailableApiHookFlows.class
    )
    String type();
@@ -64,7 +64,7 @@ public @interface ApiHook {
          description = "When the hook should run relative to the test lifecycle (BEFORE or AFTER all tests)."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    HookExecution when();
 
@@ -77,7 +77,7 @@ public @interface ApiHook {
          description = "Optional string arguments that will be passed to the hook flow."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    String[] arguments() default {};
 
@@ -92,7 +92,7 @@ public @interface ApiHook {
          description = "Execution order among hooks with the same timing; lower values are executed first."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    int order() default 0;
 

@@ -102,7 +102,7 @@ public class UiServiceFluent<T extends UiServiceFluent<?>> extends FluentService
          tags = {"ui", "validation"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validate(Runnable assertion) {
       return (T) super.validate(assertion);
@@ -120,7 +120,7 @@ public class UiServiceFluent<T extends UiServiceFluent<?>> extends FluentService
          tags = {"ui", "validation"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validate(Consumer<SoftAssertions> assertion) {
       return (T) super.validate(assertion);

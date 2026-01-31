@@ -23,7 +23,7 @@ import java.util.Map;
             + "Used together with @StaticTestData to dynamically "
             + "instantiate a provider and inject its data into the test context.",
       tags = {"framework", "test-data"},
-      creation = CreationKind.PROVIDED
+      creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
       meta = {

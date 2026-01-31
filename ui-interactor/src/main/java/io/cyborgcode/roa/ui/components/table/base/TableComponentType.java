@@ -23,11 +23,11 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
       description = "Component type marker for Table components; enums implement this to declare "
             + "available table types.",
       tags = {"ui", "ui-component-type", "table"},
-      creation = CreationKind.AUTO
+      creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
       availableOptionsRule = AvailableOptionsRules.AvailableTableComponentTypes.class,
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "ui-component-type")
       }

@@ -31,7 +31,7 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "fluent-service")
       }
@@ -70,7 +70,7 @@ public class AlertServiceFluent<T extends UiServiceFluent<?>> {
         tags = {"ui", "alert"}
    )
    @PandoraOptions(
-        exampleFilesPath = "ai/roa/ui-usage.json"
+        exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getValue(final AlertUiElement element) {
       Allure.step(String.format("[UI - Alert] Retrieving value for alert with componentType: %s, locator: %s",
@@ -94,7 +94,7 @@ public class AlertServiceFluent<T extends UiServiceFluent<?>> {
         tags = {"ui", "alert"}
    )
    @PandoraOptions(
-        exampleFilesPath = "ai/roa/ui-usage.json"
+        exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateValue(final AlertUiElement element,
           @Pandora(
@@ -116,7 +116,7 @@ public class AlertServiceFluent<T extends UiServiceFluent<?>> {
         tags = {"ui", "alert"}
    )
    @PandoraOptions(
-        exampleFilesPath = "ai/roa/ui-usage.json"
+        exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateValue(final AlertUiElement element,
          @Pandora(
@@ -153,7 +153,7 @@ public class AlertServiceFluent<T extends UiServiceFluent<?>> {
         tags = {"ui", "alert"}
    )
    @PandoraOptions(
-        exampleFilesPath = "ai/roa/ui-usage.json"
+        exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isVisible(final AlertUiElement element) {
       Allure.step(String.format("[UI - Alert] Checking visibility for alert with componentType: %s, locator: %s",
@@ -176,7 +176,7 @@ public class AlertServiceFluent<T extends UiServiceFluent<?>> {
         tags = {"ui", "alert"}
    )
    @PandoraOptions(
-        exampleFilesPath = "ai/roa/ui-usage.json"
+        exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsVisible(final AlertUiElement element) {
       return validateIsVisible(element, true, false);
@@ -194,7 +194,7 @@ public class AlertServiceFluent<T extends UiServiceFluent<?>> {
         tags = {"ui", "alert"}
    )
    @PandoraOptions(
-        exampleFilesPath = "ai/roa/ui-usage.json"
+        exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsVisible(final AlertUiElement element,
           @Pandora(
@@ -257,7 +257,7 @@ public class AlertServiceFluent<T extends UiServiceFluent<?>> {
         tags = {"ui", "alert"}
    )
    @PandoraOptions(
-        exampleFilesPath = "ai/roa/ui-usage.json"
+        exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsHidden(final AlertUiElement element) {
       return validateIsVisible(element, false, false);

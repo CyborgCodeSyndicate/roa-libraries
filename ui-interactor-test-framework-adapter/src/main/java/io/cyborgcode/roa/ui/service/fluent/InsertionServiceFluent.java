@@ -24,7 +24,7 @@ import io.qameta.allure.Allure;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "fluent-service")
       }
@@ -60,7 +60,7 @@ public class InsertionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "insertion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T insertData(
          @Pandora(

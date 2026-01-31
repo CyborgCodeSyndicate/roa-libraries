@@ -20,11 +20,11 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
       description = "Component type marker for Loader components; enums implement this to declare "
             + "available loader types.",
       tags = {"ui", "ui-component-type", "loader"},
-      creation = CreationKind.AUTO
+      creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
       availableOptionsRule = AvailableOptionsRules.AvailableLoaderComponentTypes.class,
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "ui-component-type")
       }

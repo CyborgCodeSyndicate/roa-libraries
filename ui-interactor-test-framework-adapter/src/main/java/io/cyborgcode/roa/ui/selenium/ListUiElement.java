@@ -5,7 +5,7 @@ import io.cyborgcode.pandora.annotation.PandoraOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.components.list.ItemListService;
-import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
+import io.cyborgcode.roa.ui.pandora.AvailableOptionsUiRules;
 
 /**
  * Represents a list UI element that integrates with the {@link ItemListService}.
@@ -20,13 +20,14 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @Pandora(
-      description = "List UI element descriptor used with the ItemListService.",
+      description = "List UI element enum contract (locator + component type + hooks) consumed by ListService "
+            + "for standardized list interactions.",
       tags = {"ui", "ui-element", "list"},
       creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
-      availableOptionsRule = AvailableOptionsRules.AvailableListUiElements.class,
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      availableOptionsRule = AvailableOptionsUiRules.AvailableListUiElements.class,
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "ui-element")
       }

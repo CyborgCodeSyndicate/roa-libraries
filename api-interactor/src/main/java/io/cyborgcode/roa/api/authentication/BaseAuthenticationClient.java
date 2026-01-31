@@ -25,7 +25,7 @@ import lombok.NonNull;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/api-usage.json",
+      exampleFilesPath = "docs/usage/roa/api-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "authentication-client-base")
       }
@@ -52,7 +52,7 @@ public abstract class BaseAuthenticationClient implements AuthenticationClient {
                + "the resulting auth header under the returned AuthenticationKey."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public AuthenticationKey authenticate(final @NonNull RestService restService,
                                          @Pandora(
@@ -94,7 +94,7 @@ public abstract class BaseAuthenticationClient implements AuthenticationClient {
                + "for a previously authenticated session identified by AuthenticationKey."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public Header getAuthentication(final AuthenticationKey authenticationKey) {
       if (authenticationKey == null) {
@@ -117,7 +117,7 @@ public abstract class BaseAuthenticationClient implements AuthenticationClient {
                + "authentication clients; performs the real login call and returns the auth header."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    protected abstract Header authenticateImpl(RestService restService,
                                               @Pandora(

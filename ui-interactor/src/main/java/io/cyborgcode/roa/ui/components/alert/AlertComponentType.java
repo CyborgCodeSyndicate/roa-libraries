@@ -18,11 +18,11 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
       description = "Component type marker for Alert components; enums implement this to declare "
             + "available alert types.",
       tags = {"ui", "ui-component-type", "alert"},
-      creation = CreationKind.AUTO
+      creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
       availableOptionsRule = AvailableOptionsRules.AvailableAlertComponentTypes.class,
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "ui-component-type")
       }

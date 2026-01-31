@@ -30,7 +30,7 @@ import org.apache.logging.log4j.util.TriConsumer;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/api-usage.json",
+      exampleFilesPath = "docs/usage/roa/api-usage.json",
       availableOptionsRule = AvailableOptionsRules.AvailableApiHookFlows.class,
       meta = {
          @PandoraOptions.Meta(key = "type", value = "api-hook-flow")
@@ -56,7 +56,7 @@ public interface ApiHookFlow<T extends Enum<T>> {
                + "for passing data, and String[] arguments coming from @ApiHook."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    TriConsumer<RestService, Map<Object, Object>, String[]> flow();
 
@@ -73,7 +73,7 @@ public interface ApiHookFlow<T extends Enum<T>> {
                + "Typically matched against @ApiHook(type = \"...\")."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    T enumImpl();
 

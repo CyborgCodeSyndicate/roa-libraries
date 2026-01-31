@@ -5,7 +5,7 @@ import io.cyborgcode.pandora.annotation.PandoraOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.components.toggle.ToggleService;
-import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
+import io.cyborgcode.roa.ui.pandora.AvailableOptionsUiRules;
 
 /**
  * Represents a UI element for toggle switch components within the framework.
@@ -21,13 +21,14 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @Pandora(
-      description = "Toggle UI element descriptor used with the ToggleService.",
+      description = "Toggle UI element enum contract (locator + component type + hooks) consumed by ToggleService "
+            + "for standardized toggle interactions.",
       tags = {"ui", "ui-element", "toggle"},
       creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
-      availableOptionsRule = AvailableOptionsRules.AvailableToggleUiElements.class,
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      availableOptionsRule = AvailableOptionsUiRules.AvailableToggleUiElements.class,
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "ui-element")
       }

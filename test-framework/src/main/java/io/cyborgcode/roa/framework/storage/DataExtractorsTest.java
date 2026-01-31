@@ -24,6 +24,7 @@ import java.util.Map;
       creation = CreationKind.STATIC_FACTORY
 )
 @PandoraOptions(
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "data-extractors-test"),
          @PandoraOptions.Meta(key = "scope", value = "storage")
@@ -48,10 +49,15 @@ public class DataExtractorsTest {
          description = "Creates a DataExtractor that reads the STATIC_DATA map "
                + "from storage and returns the value for the given string key."
    )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public static <T> DataExtractor<T> staticTestData(
-         @Pandora(description = "String key used to fetch a value from the static "
-               + "test data map stored under StorageKeysTest.STATIC_DATA.")
-         String key) {
+         @Pandora(
+               description = "Static test-data key to read from StorageKeysTest.STATIC_DATA. "
+                     + "Must be a string constant defined by a project class implementing StaticDataProvider "
+                     + "(e.g., StaticData.ORDER)."
+         ) String key) {
       return new DataExtractorImpl<>(
             StorageKeysTest.STATIC_DATA,
             raw -> {

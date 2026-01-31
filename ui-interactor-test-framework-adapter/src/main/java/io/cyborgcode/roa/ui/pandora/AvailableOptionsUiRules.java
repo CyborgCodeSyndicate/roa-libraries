@@ -30,9 +30,9 @@ import io.cyborgcode.roa.ui.service.tables.TableElement;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public final class AvailableOptionsRules {
+public final class AvailableOptionsUiRules {
 
-   private AvailableOptionsRules() {
+   private AvailableOptionsUiRules() {
    }
 
    /**
@@ -45,6 +45,11 @@ public final class AvailableOptionsRules {
       @Override
       public Class<?> getInterface(RuleContext ruleContext) {
          return AccordionUiElement.class;
+      }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
       }
    }
 
@@ -59,6 +64,11 @@ public final class AvailableOptionsRules {
       public Class<?> getInterface(RuleContext ruleContext) {
          return AlertUiElement.class;
       }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
+      }
    }
 
    /**
@@ -71,6 +81,11 @@ public final class AvailableOptionsRules {
       @Override
       public Class<?> getInterface(RuleContext ruleContext) {
          return ButtonUiElement.class;
+      }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
       }
    }
 
@@ -85,6 +100,11 @@ public final class AvailableOptionsRules {
       public Class<?> getInterface(RuleContext ruleContext) {
          return CheckboxUiElement.class;
       }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
+      }
    }
 
    /**
@@ -97,6 +117,11 @@ public final class AvailableOptionsRules {
       @Override
       public Class<?> getInterface(RuleContext ruleContext) {
          return InputUiElement.class;
+      }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
       }
    }
 
@@ -111,6 +136,11 @@ public final class AvailableOptionsRules {
       public Class<?> getInterface(RuleContext ruleContext) {
          return LinkUiElement.class;
       }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
+      }
    }
 
    /**
@@ -123,6 +153,11 @@ public final class AvailableOptionsRules {
       @Override
       public Class<?> getInterface(RuleContext ruleContext) {
          return ListUiElement.class;
+      }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
       }
    }
 
@@ -137,6 +172,11 @@ public final class AvailableOptionsRules {
       public Class<?> getInterface(RuleContext ruleContext) {
          return LoaderUiElement.class;
       }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
+      }
    }
 
    /**
@@ -149,6 +189,11 @@ public final class AvailableOptionsRules {
       @Override
       public Class<?> getInterface(RuleContext ruleContext) {
          return ModalUiElement.class;
+      }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
       }
    }
 
@@ -163,6 +208,11 @@ public final class AvailableOptionsRules {
       public Class<?> getInterface(RuleContext ruleContext) {
          return RadioUiElement.class;
       }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
+      }
    }
 
    /**
@@ -175,6 +225,11 @@ public final class AvailableOptionsRules {
       @Override
       public Class<?> getInterface(RuleContext ruleContext) {
          return SelectUiElement.class;
+      }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
       }
    }
 
@@ -189,6 +244,11 @@ public final class AvailableOptionsRules {
       public Class<?> getInterface(RuleContext ruleContext) {
          return TabUiElement.class;
       }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
+      }
    }
 
    /**
@@ -201,6 +261,11 @@ public final class AvailableOptionsRules {
       @Override
       public Class<?> getInterface(RuleContext ruleContext) {
          return TableElement.class;
+      }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
       }
    }
 
@@ -215,6 +280,11 @@ public final class AvailableOptionsRules {
       public Class<?> getInterface(RuleContext ruleContext) {
          return ToggleUiElement.class;
       }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
+      }
    }
 
    /**
@@ -227,6 +297,29 @@ public final class AvailableOptionsRules {
       @Override
       public Class<?> getInterface(RuleContext ruleContext) {
          return DataIntercept.class;
+      }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
+      }
+   }
+
+   /**
+    * Exposes all enums implementing {@link TableElement} as available options for Pandora.
+    *
+    * @author Cyborg Code Syndicate 💍👨💻
+    */
+   public static class AvailableTableElementOptions extends EnumsInPackageRule {
+
+      @Override
+      public Class<?> getInterface(RuleContext ruleContext) {
+         return TableElement.class;
+      }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
       }
    }
 

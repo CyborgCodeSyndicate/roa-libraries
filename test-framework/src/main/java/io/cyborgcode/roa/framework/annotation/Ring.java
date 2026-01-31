@@ -51,8 +51,9 @@ public @interface Ring {
     * @return The name of the test service category.
     */
    @Pandora(
-         description = "Logical ring category identifier (e.g. \"API\", \"DB\", \"UI\", \"CUSTOM\"). "
-               + "Used for ring identification/categorization."
+         description = "Logical ring name used for identification/categorization. Common values like \"UI\", "
+               + "\"API\", and \"DB\" are used by the default fluent services, while custom project rings can "
+               + "define any meaningful name (e.g., \"PurchaseService\")."
    )
    String value();
 }

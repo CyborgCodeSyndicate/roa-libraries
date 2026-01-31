@@ -36,7 +36,7 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "fluent-service")
       }
@@ -85,7 +85,7 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T readTable(TableElement<?> tableElement) {
       Allure.step("[UI - Table] Reading the table: " + tableElement);
@@ -110,7 +110,7 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T readTable(TableElement<?> tableElement, TableField<K>... fields) {
       Allure.step("[UI - Table] Reading the table with specific fields: " + tableElement);
@@ -135,7 +135,7 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final T readTable(TableElement<?> tableElement,
          @Pandora(
@@ -169,7 +169,7 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T readTable(TableElement<?> tableElement,
          @Pandora(
@@ -201,7 +201,7 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final T readRow(TableElement<?> tableElement,
          @Pandora(
@@ -227,7 +227,7 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final T readRow(TableElement<?> tableElement,
          @Pandora(
@@ -257,7 +257,7 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T readRow(TableElement<?> tableElement,
          @Pandora(
@@ -288,7 +288,7 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T readRow(TableElement<?> tableElement,
          @Pandora(
@@ -320,7 +320,7 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T insertCellValue(TableElement<?> tableElement,
          @Pandora(
@@ -355,7 +355,7 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T insertCellValue(TableElement<?> tableElement,
          @Pandora(
@@ -393,7 +393,7 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T insertCellValue(TableElement<?> tableElement,
          @Pandora(
@@ -429,7 +429,7 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T insertCellValue(TableElement<?> tableElement,
          @Pandora(
@@ -467,7 +467,7 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T insertCellValueAsData(TableElement<?> tableElement,
          @Pandora(
@@ -505,7 +505,7 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T insertCellValueAsData(TableElement<?> tableElement,
          @Pandora(
@@ -542,7 +542,7 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T filterTable(TableElement<?> tableElement,
          TableField<K> column,
@@ -577,7 +577,7 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T sortTable(TableElement<?> tableElement, TableField<K> column,
          @Pandora(
@@ -607,7 +607,7 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T clickElementInCell(TableElement<?> tableElement,
          @Pandora(
@@ -633,7 +633,7 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T clickElementInCell(TableElement<?> tableElement,
          @Pandora(
@@ -661,7 +661,7 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T clickElementInCell(TableElement<?> tableElement,
          @Pandora(
@@ -688,7 +688,7 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T clickElementInCell(TableElement<?> tableElement,
          @Pandora(
@@ -717,7 +717,7 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T clickElementInCell(TableElement<?> tableElement,
          @Pandora(
@@ -744,7 +744,7 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T clickElementInCell(TableElement<?> tableElement,
          @Pandora(
@@ -779,7 +779,7 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "table", "validation"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validate(TableElement<?> tableElement,
          @Pandora(

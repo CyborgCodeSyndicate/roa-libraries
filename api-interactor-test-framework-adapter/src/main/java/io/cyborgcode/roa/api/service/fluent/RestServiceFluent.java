@@ -39,7 +39,7 @@ import static io.cyborgcode.roa.api.storage.StorageKeysApi.API;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/api-usage.json",
+      exampleFilesPath = "docs/usage/roa/api-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "fluent-service")
       }
@@ -70,7 +70,7 @@ public class RestServiceFluent extends FluentService implements ClassLevelHook {
          tags = {"api"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public RestServiceFluent request(final Endpoint<?> endpoint) {
       final Response response = restService.request(endpoint);
@@ -91,7 +91,7 @@ public class RestServiceFluent extends FluentService implements ClassLevelHook {
          tags = {"api"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public RestServiceFluent request(
          final Endpoint<?> endpoint,
@@ -116,7 +116,7 @@ public class RestServiceFluent extends FluentService implements ClassLevelHook {
          tags = {"api"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public RestServiceFluent validateResponse(
          @Pandora(
@@ -143,7 +143,7 @@ public class RestServiceFluent extends FluentService implements ClassLevelHook {
          tags = {"api"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public RestServiceFluent requestAndValidate(final Endpoint<?> endpoint,
                                                final Assertion... assertions) {
@@ -166,7 +166,7 @@ public class RestServiceFluent extends FluentService implements ClassLevelHook {
          tags = {"api"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    @Step("Request and validations for endpoint: {endpoint}")
    public RestServiceFluent requestAndValidate(final Endpoint<?> endpoint,
@@ -194,7 +194,7 @@ public class RestServiceFluent extends FluentService implements ClassLevelHook {
          tags = {"api"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public RestServiceFluent authenticate(
          @Pandora(
@@ -225,7 +225,7 @@ public class RestServiceFluent extends FluentService implements ClassLevelHook {
          tags = {"api"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    @Override
    public RestServiceFluent validate(
@@ -247,7 +247,7 @@ public class RestServiceFluent extends FluentService implements ClassLevelHook {
          tags = {"api"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    @Override
    public RestServiceFluent validate(
@@ -283,7 +283,7 @@ public class RestServiceFluent extends FluentService implements ClassLevelHook {
          tags = {"api"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public <T> RestServiceFluent retryUntil(
          final RetryCondition<T> retryCondition,

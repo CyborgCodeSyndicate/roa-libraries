@@ -33,7 +33,7 @@ import java.lang.annotation.Target;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/general-usage.json",
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "journey-annotation"),
          @PandoraOptions.Meta(key = "scope", value = "method"),

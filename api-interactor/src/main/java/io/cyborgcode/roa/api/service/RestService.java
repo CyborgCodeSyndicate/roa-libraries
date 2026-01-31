@@ -40,7 +40,7 @@ import org.springframework.stereotype.Service;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/api-usage.json",
+      exampleFilesPath = "docs/usage/roa/api-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "rest-service"),
          @PandoraOptions.Meta(key = "scope", value = "spring-prototype")
@@ -92,7 +92,7 @@ public class RestService {
          description = "Execute an API request without a request body using the provided Endpoint definition."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public Response request(Endpoint<?> endpoint) {
       return executeRequest(endpoint, null);
@@ -110,7 +110,7 @@ public class RestService {
                + "The body is serialized by the endpoint's RequestSpecification."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public Response request(Endpoint<?> endpoint,
                            @Pandora(
@@ -135,7 +135,7 @@ public class RestService {
                + "Assertion rules and return the collected AssertionResult entries."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public <T> List<AssertionResult<T>> validate(@Pandora(
                                                       description = "Response instance to validate."
@@ -164,7 +164,7 @@ public class RestService {
                + "validate the response using the provided Assertion rules."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public <T> List<AssertionResult<T>> requestAndValidate(Endpoint<?> endpoint, Assertion... assertions) {
       return requestAndValidate(endpoint, null, assertions);
@@ -184,7 +184,7 @@ public class RestService {
                + "validate the response using the provided Assertion rules."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public <T> List<AssertionResult<T>> requestAndValidate(Endpoint<?> endpoint,
                                                           @Pandora(description = "Request payload to send as body "
@@ -207,7 +207,7 @@ public class RestService {
                + "Stores an AuthenticationKey internally so subsequent requests can attach the cached auth header."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public void authenticate(@Pandora(
                                   description = "Username for authentication."

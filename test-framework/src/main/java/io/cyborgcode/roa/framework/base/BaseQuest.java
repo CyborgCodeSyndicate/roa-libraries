@@ -40,7 +40,7 @@ import static io.cyborgcode.roa.framework.util.PropertiesUtil.addSystemPropertie
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/api-usage.json",
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "base-quest"),
          @PandoraOptions.Meta(key = "level", value = "framework")

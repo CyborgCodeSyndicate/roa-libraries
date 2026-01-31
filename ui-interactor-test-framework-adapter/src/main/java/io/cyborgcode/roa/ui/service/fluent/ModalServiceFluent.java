@@ -30,7 +30,7 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "fluent-service")
       }
@@ -70,7 +70,7 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "modal"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isOpened(final ModalUiElement element) {
       Allure.step("[UI - Modal] Check if modal is opened");
@@ -93,7 +93,7 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "modal"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsOpened(final ModalUiElement element) {
       return validateIsOpened(element, true, false);
@@ -111,7 +111,7 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "modal"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsOpened(final ModalUiElement element,
          @Pandora(
@@ -167,7 +167,7 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "modal"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsClosed(final ModalUiElement element) {
       return validateIsOpened(element, false, false);
@@ -185,7 +185,7 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "modal"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsClosed(final ModalUiElement element,
          @Pandora(
@@ -205,7 +205,7 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "modal"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T click(final ModalUiElement element) {
       Allure.step("[UI - Modal] Click button inside the modal UI element");
@@ -227,7 +227,7 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "modal"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getTitle(final ModalUiElement element) {
       Allure.step("[UI - Modal] Retrieve title of the modal UI element");
@@ -251,7 +251,7 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "modal"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateTitle(final ModalUiElement element,
          @Pandora(
@@ -275,7 +275,7 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "modal"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateTitle(final ModalUiElement element,
          @Pandora(
@@ -316,7 +316,7 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "modal"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getContentTitle(final ModalUiElement element) {
       Allure.step("[UI - Modal] Retrieve content title of the modal UI element");
@@ -340,7 +340,7 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "modal"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateContentTitle(final ModalUiElement element,
          @Pandora(
@@ -365,7 +365,7 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "modal"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateContentTitle(final ModalUiElement element,
          @Pandora(
@@ -406,7 +406,7 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "modal"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getBodyText(final ModalUiElement element) {
       Allure.step("[UI - Modal] Retrieve body text of the modal UI element");
@@ -430,7 +430,7 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "modal"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateBodyText(final ModalUiElement element,
          @Pandora(
@@ -455,7 +455,7 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "modal"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateBodyText(final ModalUiElement element,
          @Pandora(
@@ -496,7 +496,7 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "modal"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T close(final ModalUiElement element) {
       Allure.step("[UI - Modal] Close the modal UI element");

@@ -30,6 +30,7 @@ import java.lang.annotation.Target;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "static-test-data-annotation"),
          @PandoraOptions.Meta(key = "scope", value = "type-or-method")

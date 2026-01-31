@@ -16,7 +16,12 @@ import io.cyborgcode.roa.ui.components.radio.RadioComponentType;
 import io.cyborgcode.roa.ui.components.select.SelectComponentType;
 import io.cyborgcode.roa.ui.components.tab.TabComponentType;
 import io.cyborgcode.roa.ui.components.table.base.TableComponentType;
+import io.cyborgcode.roa.ui.components.table.filters.FilterStrategy;
+import io.cyborgcode.roa.ui.components.table.sort.SortingStrategy;
 import io.cyborgcode.roa.ui.components.toggle.ToggleComponentType;
+import io.cyborgcode.roa.ui.util.strategy.Strategy;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Provides Pandora option rules used to resolve available UI component types.
@@ -47,6 +52,11 @@ public final class AvailableOptionsRules {
       public Class<?> getInterface(RuleContext ctx) {
          return AccordionComponentType.class;
       }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
+      }
    }
 
    /**
@@ -59,6 +69,11 @@ public final class AvailableOptionsRules {
       @Override
       public Class<?> getInterface(RuleContext ctx) {
          return AlertComponentType.class;
+      }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
       }
    }
 
@@ -73,6 +88,11 @@ public final class AvailableOptionsRules {
       public Class<?> getInterface(RuleContext ctx) {
          return ButtonComponentType.class;
       }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
+      }
    }
 
    /**
@@ -85,6 +105,11 @@ public final class AvailableOptionsRules {
       @Override
       public Class<?> getInterface(RuleContext ctx) {
          return CheckboxComponentType.class;
+      }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
       }
    }
 
@@ -99,6 +124,11 @@ public final class AvailableOptionsRules {
       public Class<?> getInterface(RuleContext ctx) {
          return InputComponentType.class;
       }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
+      }
    }
 
    /**
@@ -111,6 +141,11 @@ public final class AvailableOptionsRules {
       @Override
       public Class<?> getInterface(RuleContext ctx) {
          return LinkComponentType.class;
+      }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
       }
    }
 
@@ -125,6 +160,11 @@ public final class AvailableOptionsRules {
       public Class<?> getInterface(RuleContext ctx) {
          return ItemListComponentType.class;
       }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
+      }
    }
 
    /**
@@ -137,6 +177,11 @@ public final class AvailableOptionsRules {
       @Override
       public Class<?> getInterface(RuleContext ctx) {
          return LoaderComponentType.class;
+      }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
       }
    }
 
@@ -151,6 +196,11 @@ public final class AvailableOptionsRules {
       public Class<?> getInterface(RuleContext ctx) {
          return ModalComponentType.class;
       }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
+      }
    }
 
    /**
@@ -163,6 +213,11 @@ public final class AvailableOptionsRules {
       @Override
       public Class<?> getInterface(RuleContext ctx) {
          return RadioComponentType.class;
+      }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
       }
    }
 
@@ -177,6 +232,11 @@ public final class AvailableOptionsRules {
       public Class<?> getInterface(RuleContext ctx) {
          return SelectComponentType.class;
       }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
+      }
    }
 
    /**
@@ -189,6 +249,11 @@ public final class AvailableOptionsRules {
       @Override
       public Class<?> getInterface(RuleContext ctx) {
          return TabComponentType.class;
+      }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
       }
    }
 
@@ -203,6 +268,11 @@ public final class AvailableOptionsRules {
       public Class<?> getInterface(RuleContext ctx) {
          return TableComponentType.class;
       }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
+      }
    }
 
    /**
@@ -216,6 +286,11 @@ public final class AvailableOptionsRules {
       public Class<?> getInterface(RuleContext ctx) {
          return ToggleComponentType.class;
       }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
+      }
    }
 
    /**
@@ -228,6 +303,71 @@ public final class AvailableOptionsRules {
       @Override
       public Class<?> getInterface(RuleContext ctx) {
          return ComponentType.class;
+      }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
+      }
+   }
+
+   /**
+    * Exposes all enums inside {@link Strategy} as available options for Pandora.
+    *
+    * @author Cyborg Code Syndicate 💍👨💻
+    */
+   public static class AvailableStrategyOptions extends EnumsInPackageRule {
+
+      @Override
+      public Class<?> getInterface(RuleContext ruleContext) {
+         return null;
+      }
+
+      @Override
+      public List<String> findAvailableOptions(RuleContext ruleContext) {
+         return Arrays.stream(Strategy.values())
+               .map(Enum::name)
+               .toList();
+      }
+   }
+
+   /**
+    * Exposes all enums inside {@link FilterStrategy} as available options for Pandora.
+    *
+    * @author Cyborg Code Syndicate 💍👨💻
+    */
+   public static class AvailableFilterStrategyOptions extends EnumsInPackageRule {
+
+      @Override
+      public Class<?> getInterface(RuleContext ruleContext) {
+         return null;
+      }
+
+      @Override
+      public List<String> findAvailableOptions(RuleContext ruleContext) {
+         return Arrays.stream(FilterStrategy.values())
+               .map(Enum::name)
+               .toList();
+      }
+   }
+
+   /**
+    * Exposes all enums inside {@link SortingStrategy} as available options for Pandora.
+    *
+    * @author Cyborg Code Syndicate 💍👨💻
+    */
+   public static class AvailableSortingStrategyOptions extends EnumsInPackageRule {
+
+      @Override
+      public Class<?> getInterface(RuleContext ruleContext) {
+         return null;
+      }
+
+      @Override
+      public List<String> findAvailableOptions(RuleContext ruleContext) {
+         return Arrays.stream(SortingStrategy.values())
+               .map(Enum::name)
+               .toList();
       }
    }
 }

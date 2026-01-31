@@ -16,10 +16,10 @@ import io.cyborgcode.pandora.model.CreationKind;
 @Pandora(
       description = "Interface describing how to identify UI-driven API interceptions (endpoint substring + enum id).",
       tags = {"ui", "network", "intercept", "interface"},
-      creation = CreationKind.AUTO
+      creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "ui-data-intercept-interface"),
          @PandoraOptions.Meta(key = "scope", value = "type")

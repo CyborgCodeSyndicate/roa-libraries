@@ -23,7 +23,7 @@ import java.util.function.BiConsumer;
             + "Implementations define setup logic that runs before the test body, "
             + "usually triggered by @Journey/@PreQuest and identified via an enum constant.",
       tags = {"framework", "precondition"},
-      creation = CreationKind.PROVIDED
+      creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
       meta = {

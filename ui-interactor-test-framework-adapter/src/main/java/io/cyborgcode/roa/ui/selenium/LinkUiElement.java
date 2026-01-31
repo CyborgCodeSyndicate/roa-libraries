@@ -5,7 +5,7 @@ import io.cyborgcode.pandora.annotation.PandoraOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.components.link.LinkService;
-import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
+import io.cyborgcode.roa.ui.pandora.AvailableOptionsUiRules;
 
 /**
  * Represents a link UI element that integrates with the {@link LinkService}.
@@ -20,13 +20,14 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @Pandora(
-      description = "Link UI element descriptor used with the LinkService.",
+      description = "Link UI element enum contract (locator + component type + hooks) consumed by LinkService "
+            + "for standardized link interactions.",
       tags = {"ui", "ui-element", "link"},
       creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
-      availableOptionsRule = AvailableOptionsRules.AvailableLinkUiElements.class,
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      availableOptionsRule = AvailableOptionsUiRules.AvailableLinkUiElements.class,
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "ui-element")
       }

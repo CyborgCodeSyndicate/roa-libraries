@@ -22,7 +22,7 @@ import io.restassured.response.Response;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/api-usage.json",
+      exampleFilesPath = "docs/usage/roa/api-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "api-data-extractors")
       }
@@ -45,7 +45,7 @@ public class DataExtractorsApi {
                + "using the given JSON path and stores it under the provided storage key."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public static <T> DataExtractor<T> responseBodyExtraction(
          @Pandora(description = "Enum key used as the storage identifier for the extracted value.")
@@ -73,7 +73,7 @@ public class DataExtractorsApi {
                + "and stores it under the provided storage key."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public static DataExtractor<Integer> statusExtraction(
          @Pandora(description = "Enum key used as the storage identifier for the extracted status code.")

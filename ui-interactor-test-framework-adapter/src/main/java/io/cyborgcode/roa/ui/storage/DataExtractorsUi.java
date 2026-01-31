@@ -4,6 +4,7 @@ import io.cyborgcode.pandora.annotation.Pandora;
 import io.cyborgcode.pandora.annotation.PandoraOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import com.jayway.jsonpath.JsonPath;
+import io.cyborgcode.roa.ui.pandora.AvailableOptionsUiRules;
 import io.cyborgcode.roa.framework.storage.DataExtractor;
 import io.cyborgcode.roa.framework.storage.DataExtractorImpl;
 import io.cyborgcode.roa.ui.components.interceptor.ApiResponse;
@@ -32,7 +33,7 @@ import java.util.List;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "ui-data-extractors"),
          @PandoraOptions.Meta(key = "scope", value = "type")
@@ -55,7 +56,17 @@ public class DataExtractorsUi {
          description = "Builds a DataExtractor that reads a value from the most recent matching API response "
                + "using a JSONPath."
    )
-   public static <T> DataExtractor<T> responseBodyExtraction(String responsePrefix, String jsonPath) {
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
+   )
+   public static <T> DataExtractor<T> responseBodyExtraction(
+         @Pandora(
+               description = "Request/response identifier used to filter stored responses (typically mapped "
+                     + "from a DataIntercept target)."
+         ) String responsePrefix,
+         @Pandora(
+               description = "JSONPath expression used to extract a value from the selected response body."
+         ) String jsonPath) {
       return responseBodyExtraction(responsePrefix, jsonPath, 1);
    }
 
@@ -73,7 +84,20 @@ public class DataExtractorsUi {
          description = "Builds a DataExtractor that reads a value from the Nth most recent matching API "
                + "response using a JSONPath."
    )
-   public static <T> DataExtractor<T> responseBodyExtraction(String responsePrefix, String jsonPath, int index) {
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
+   )
+   public static <T> DataExtractor<T> responseBodyExtraction(
+         @Pandora(
+               description = "Request/response identifier used to filter stored responses (typically mapped "
+                     + "from a DataIntercept target)."
+         ) String responsePrefix,
+         @Pandora(
+               description = "JSONPath expression used to extract a value from the selected response body."
+         ) String jsonPath,
+         @Pandora(
+               description = "Nth most recent match to use (1 = latest, 2 = previous, ...)."
+         ) int index) {
       return new DataExtractorImpl<>(
             StorageKeysUi.UI,
             StorageKeysUi.RESPONSES,
@@ -113,7 +137,20 @@ public class DataExtractorsUi {
          description = "Builds a DataExtractor that finds the first table row whose values include all given "
                + "indicators (case-insensitive)."
    )
-   public static <T> DataExtractor<T> tableRowExtractor(Enum<?> key, String... indicators) {
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
+   )
+   public static <T> DataExtractor<T> tableRowExtractor(
+         @Pandora(
+               description = "TableElement key used to locate the stored table rows. Must be an enum constant name "
+                     + "from a project enum implementing TableElement (e.g., \"ALL_TRANSACTIONS\"."
+         )
+         @PandoraOptions(
+               availableOptionsRule = AvailableOptionsUiRules.AvailableTableElementOptions.class
+         ) Enum<?> key,
+         @Pandora(
+               description = "One or more row indicators used for case-insensitive contains matching."
+         ) String... indicators) {
       return new DataExtractorImpl<>(
             StorageKeysUi.UI,
             key,
@@ -147,7 +184,20 @@ public class DataExtractorsUi {
    @Pandora(
          description = "Builds a DataExtractor that returns the table row at the given index from storage."
    )
-   public static <T> DataExtractor<T> tableRowExtractor(Enum<?> key, int index) {
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
+   )
+   public static <T> DataExtractor<T> tableRowExtractor(
+         @Pandora(
+               description = "TableElement key used to locate the stored table rows. Must be an enum constant name "
+                     + "from a project enum implementing TableElement (e.g., \"ALL_TRANSACTIONS\"."
+         )
+         @PandoraOptions(
+               availableOptionsRule = AvailableOptionsUiRules.AvailableTableElementOptions.class
+         ) Enum<?> key,
+         @Pandora(
+               description = "Zero-based row index to return from the stored table rows."
+         ) int index) {
       return new DataExtractorImpl<>(
             StorageKeysUi.UI,
             key,

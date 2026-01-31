@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/api-usage.json",
+      exampleFilesPath = "docs/usage/roa/api-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "api-hook-container-annotation"),
          @PandoraOptions.Meta(key = "scope", value = "class")
@@ -44,7 +44,7 @@ public @interface ApiHooks {
 
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    ApiHook[] value() default {};
 

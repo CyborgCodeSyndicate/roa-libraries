@@ -25,7 +25,7 @@ import java.util.Objects;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/api-usage.json",
+      exampleFilesPath = "docs/usage/roa/api-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "api-retry-conditions")
       }
@@ -47,7 +47,7 @@ public class RetryConditionApi {
                + "until the HTTP status equals the expected value."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public static RetryCondition<Integer> statusEquals(Endpoint<?> endpoint,
                                                       @Pandora(description = "Expected HTTP status code "
@@ -75,7 +75,7 @@ public class RetryConditionApi {
                + "until the HTTP status equals the expected value."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public static RetryCondition<Integer> statusEquals(Endpoint<?> endpoint,
                                                       @Pandora(description = "Request payload sent "
@@ -106,7 +106,7 @@ public class RetryConditionApi {
                + "until a JSON field at the given path equals the expected value."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public static RetryCondition<Object> responseFieldEqualsTo(Endpoint<?> endpoint,
                                                               @Pandora(description = "JSON path expression used to "
@@ -138,7 +138,7 @@ public class RetryConditionApi {
                + "until a JSON field at the given path equals the expected value."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public static RetryCondition<Object> responseFieldEqualsTo(Endpoint<?> endpoint,
                                                               @Pandora(description = "Request payload sent "
@@ -171,7 +171,7 @@ public class RetryConditionApi {
                + "until the JSON field at the given path becomes non-null."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public static RetryCondition<Object> responseFieldNonNull(Endpoint<?> endpoint,
                                                              @Pandora(description = "JSON path expression used "
@@ -199,7 +199,7 @@ public class RetryConditionApi {
                + "until the JSON field at the given path becomes non-null."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public static RetryCondition<Object> responseFieldNonNull(Endpoint<?> endpoint,
                                                              @Pandora(description = "Request payload sent "

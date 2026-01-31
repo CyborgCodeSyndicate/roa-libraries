@@ -31,7 +31,7 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "fluent-service")
       }
@@ -70,7 +70,7 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "link"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T click(final LinkUiElement element) {
       Allure.step("[UI - Link] Clicking on the link element: " + element);
@@ -91,7 +91,7 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "link"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T doubleClick(final LinkUiElement element) {
       Allure.step("[UI - Link] Double-clicking on the link element: " + element);
@@ -112,7 +112,7 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "link"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isEnabled(final LinkUiElement element) {
       Allure.step("[UI - Link] Checking if the link element is enabled: " + element);
@@ -134,7 +134,7 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "link"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsEnabled(final LinkUiElement element) {
       return validateIsEnabled(element, true, false);
@@ -152,7 +152,7 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "link"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsEnabled(final LinkUiElement element,
          @Pandora(
@@ -208,7 +208,7 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "link"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsDisabled(final LinkUiElement element) {
       return validateIsEnabled(element, false, false);

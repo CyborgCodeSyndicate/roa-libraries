@@ -21,7 +21,7 @@ import java.util.function.Consumer;
       description = "Contract for post-test cleanup actions. Implementations provide a cleanup Consumer "
             + "that runs with the current SuperQuest and expose an enum constant identifying the cleanup target.",
       tags = {"framework", "cleanup"},
-      creation = CreationKind.PROVIDED
+      creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
       meta = {

@@ -25,7 +25,7 @@ import lombok.Setter;
       creation = CreationKind.BUILDER
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/api-usage.json",
+      exampleFilesPath = "docs/usage/roa/api-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "assertion")
       }

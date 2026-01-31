@@ -4,7 +4,7 @@ import io.cyborgcode.pandora.annotation.Pandora;
 import io.cyborgcode.pandora.annotation.PandoraOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.components.table.base.TableComponentType;
-import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
+import io.cyborgcode.roa.ui.pandora.AvailableOptionsUiRules;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
 import java.util.function.Consumer;
 
@@ -22,11 +22,11 @@ import java.util.function.Consumer;
 @Pandora(
       description = "UI table element descriptor: type, row model class, and lifecycle hooks (before/after).",
       tags = {"ui", "table", "table-element"},
-      creation = CreationKind.PROVIDED
+      creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
-      availableOptionsRule = AvailableOptionsRules.AvailableTableUiElements.class,
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      availableOptionsRule = AvailableOptionsUiRules.AvailableTableUiElements.class,
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "table-element")
       }
@@ -48,7 +48,7 @@ public interface TableElement<K extends Enum<K>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    default <T extends TableComponentType> T tableType() {
       return (T) DefaultTableTypes.DEFAULT;
@@ -65,7 +65,7 @@ public interface TableElement<K extends Enum<K>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    <T> Class<T> rowsRepresentationClass();
 
@@ -79,7 +79,7 @@ public interface TableElement<K extends Enum<K>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    K enumImpl();
 
@@ -96,7 +96,7 @@ public interface TableElement<K extends Enum<K>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    default Consumer<SmartWebDriver> before() {
       return smartWebDriver -> {
@@ -116,7 +116,7 @@ public interface TableElement<K extends Enum<K>> {
          tags = {"ui", "table"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    default Consumer<SmartWebDriver> after() {
       return smartWebDriver -> {

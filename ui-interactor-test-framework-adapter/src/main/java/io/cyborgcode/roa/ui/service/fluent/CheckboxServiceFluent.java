@@ -37,7 +37,7 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "fluent-service")
       }
@@ -76,7 +76,7 @@ public class CheckboxServiceFluent<T extends UiServiceFluent<?>> implements Inse
          tags = {"ui", "checkbox"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T select(final CheckboxUiElement element) {
       Allure.step("[UI - Checkbox] Select checkbox with element: " + element);
@@ -95,7 +95,7 @@ public class CheckboxServiceFluent<T extends UiServiceFluent<?>> implements Inse
          tags = {"ui", "checkbox"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T deSelect(final CheckboxUiElement element) {
       Allure.step("[UI - Checkbox] Deselect checkbox with element: " + element);
@@ -114,7 +114,7 @@ public class CheckboxServiceFluent<T extends UiServiceFluent<?>> implements Inse
          tags = {"ui", "checkbox"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isSelected(final CheckboxUiElement element) {
       Allure.step("[UI - Checkbox] Check if checkbox with element " + element + " is selected");
@@ -134,7 +134,7 @@ public class CheckboxServiceFluent<T extends UiServiceFluent<?>> implements Inse
          tags = {"ui", "checkbox"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsSelected(final CheckboxUiElement element) {
       return validateIsSelected(element, false);
@@ -152,7 +152,7 @@ public class CheckboxServiceFluent<T extends UiServiceFluent<?>> implements Inse
          tags = {"ui", "checkbox"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsSelected(final CheckboxUiElement element,
                                @Pandora(
@@ -189,7 +189,7 @@ public class CheckboxServiceFluent<T extends UiServiceFluent<?>> implements Inse
          tags = {"ui", "checkbox"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T areSelected(final CheckboxUiElement element) {
       Allure.step("[UI - Checkbox] Check if multiple checkboxes with element " + element + " are selected");
@@ -210,7 +210,7 @@ public class CheckboxServiceFluent<T extends UiServiceFluent<?>> implements Inse
          tags = {"ui", "checkbox"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isEnabled(final CheckboxUiElement element) {
       Allure.step("[UI - Checkbox] Check if checkbox with element " + element + " is enabled");
@@ -230,7 +230,7 @@ public class CheckboxServiceFluent<T extends UiServiceFluent<?>> implements Inse
          tags = {"ui", "checkbox"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsEnabled(final CheckboxUiElement element) {
       return validateIsEnabled(element, false);
@@ -248,7 +248,7 @@ public class CheckboxServiceFluent<T extends UiServiceFluent<?>> implements Inse
          tags = {"ui", "checkbox"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsEnabled(final CheckboxUiElement element,
                               @Pandora(
@@ -285,7 +285,7 @@ public class CheckboxServiceFluent<T extends UiServiceFluent<?>> implements Inse
          tags = {"ui", "checkbox"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T areEnabled(final CheckboxUiElement element) {
       Allure.step("[UI - Checkbox] Check if multiple checkboxes with element " + element + " are enabled");
@@ -305,7 +305,7 @@ public class CheckboxServiceFluent<T extends UiServiceFluent<?>> implements Inse
          tags = {"ui", "checkbox"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getSelected(final CheckboxUiElement element) {
       Allure.step("[UI - Checkbox] Retrieve the selected values from checkbox " + element);
@@ -325,7 +325,7 @@ public class CheckboxServiceFluent<T extends UiServiceFluent<?>> implements Inse
          tags = {"ui", "checkbox"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getAll(final CheckboxUiElement element) {
       Allure.step("[UI - Checkbox] Retrieve all checkbox values from " + element);
@@ -349,7 +349,7 @@ public class CheckboxServiceFluent<T extends UiServiceFluent<?>> implements Inse
          tags = {"ui", "checkbox", "insertion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public void insertion(final ComponentType componentType, final By locator, final Object... values) {
       Allure.step("[UI - Checkbox] Insert a value into checkbox " + locator + " of type " + componentType);

@@ -27,7 +27,7 @@ import java.util.List;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "fluent-service")
       }
@@ -62,7 +62,7 @@ public class InterceptorServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "interceptor"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateResponseHaveStatus(
          @Pandora(
@@ -93,7 +93,7 @@ public class InterceptorServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "interceptor"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateResponseHaveStatus(
          @Pandora(

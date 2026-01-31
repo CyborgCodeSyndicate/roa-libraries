@@ -23,7 +23,7 @@ import org.openqa.selenium.By;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "fluent-service")
       }
@@ -57,7 +57,7 @@ public class ValidationServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "validation"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateTextInField(
          @Pandora(
@@ -85,7 +85,7 @@ public class ValidationServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "validation"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateTextInField(
          @Pandora(

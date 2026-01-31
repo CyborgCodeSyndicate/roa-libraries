@@ -29,7 +29,7 @@ import static io.cyborgcode.roa.api.config.ApiConfigHolder.getApiConfig;
       creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/api-usage.json",
+      exampleFilesPath = "docs/usage/roa/api-usage.json",
       availableOptionsRule = AvailableOptionsRules.AvailableEndpoints.class,
       meta = {
          @PandoraOptions.Meta(key = "type", value = "endpoint")
@@ -131,7 +131,7 @@ public interface Endpoint<T extends Enum<T>> {
          tags = {"api"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    default Endpoint<T> withQueryParam(String key, Object value) {
       return new ParametrizedEndpoint<T>(this).withQueryParam(key, value);
@@ -149,7 +149,7 @@ public interface Endpoint<T extends Enum<T>> {
          tags = {"api"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    default Endpoint<T> withPathParam(String key, Object value) {
       return new ParametrizedEndpoint<T>(this).withPathParam(key, value);
@@ -167,7 +167,7 @@ public interface Endpoint<T extends Enum<T>> {
          tags = {"api"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    default Endpoint<T> withHeader(String key, String value) {
       return new ParametrizedEndpoint<T>(this).withHeader(key, value);
@@ -185,7 +185,7 @@ public interface Endpoint<T extends Enum<T>> {
          tags = {"api"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    default Endpoint<T> withHeader(String key, List<String> values) {
       return new ParametrizedEndpoint<T>(this).withHeader(key, values);

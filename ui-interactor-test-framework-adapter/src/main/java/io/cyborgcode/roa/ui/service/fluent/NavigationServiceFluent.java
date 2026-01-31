@@ -29,7 +29,7 @@ import org.openqa.selenium.NoSuchWindowException;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "fluent-service")
       }
@@ -61,7 +61,7 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "browser"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T navigate(
          @Pandora(
@@ -84,7 +84,7 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "browser"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T back() {
       Allure.step("[UI - Navigation] Navigate back in the browser history");
@@ -103,7 +103,7 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "browser"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T forward() {
       Allure.step("[UI - Navigation] Navigate forward in the browser history");
@@ -122,7 +122,7 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "browser"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T refresh() {
       Allure.step("[UI - Navigation] Refresh the current page");
@@ -141,7 +141,7 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "browser"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T switchToNewTab() {
       Allure.step("[UI - Navigation] Switch to a newly opened browser tab");
@@ -168,7 +168,7 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "browser"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T switchToWindow(@Pandora(description = "Target window title to switch to.") String windowTitle) {
       Allure.step("[UI - Navigation] Switch to the browser window with the title: " + windowTitle);
@@ -192,7 +192,7 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "browser"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T closeCurrentTab() {
       Allure.step("[UI - Navigation] Close the current browser tab");
@@ -215,7 +215,7 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "browser"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T switchToFrameByIndex(@Pandora(description = "Index of the iframe to switch to.") int index) {
       Allure.step("[UI - Navigation] Switch to the iframe using index: " + index);
@@ -235,7 +235,7 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "browser"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T switchToFrameByNameOrId(@Pandora(description = "Name or ID of the iframe.") String nameOrId) {
       Allure.step("[UI - Navigation] Switch to the iframe using name or ID: " + nameOrId);
@@ -254,7 +254,7 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "browser"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T switchToParentFrame() {
       Allure.step("[UI - Navigation] Switch to the parent frame");
@@ -273,7 +273,7 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "browser"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T switchToDefaultContent() {
       Allure.step("[UI - Navigation] Switch back to the default content from the iframe");
@@ -292,7 +292,7 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "browser", "alert"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T acceptAlert() {
       Allure.step("[UI - Navigation] Accept the alert pop-up");
@@ -311,7 +311,7 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "browser", "alert"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T dismissAlert() {
       Allure.step("[UI - Navigation] Dismiss the alert pop-up");
@@ -340,7 +340,7 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "browser", "alert"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAlertText(@Pandora(description = "Expected alert text.") String expected) {
       Allure.step("[UI - Navigation] Validate that the alert text matches the expected value");
@@ -361,7 +361,7 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "browser", "alert"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAlertText(
          @Pandora(
@@ -395,7 +395,7 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "browser"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T openNewTab() {
       Allure.step("[UI - Navigation] Open a new browser tab using JavaScript and switch to it");

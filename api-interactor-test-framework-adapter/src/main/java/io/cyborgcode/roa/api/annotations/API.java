@@ -31,7 +31,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/api-usage.json",
+      exampleFilesPath = "docs/usage/roa/api-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "api-annotation"),
          @PandoraOptions.Meta(key = "scope", value = "class")

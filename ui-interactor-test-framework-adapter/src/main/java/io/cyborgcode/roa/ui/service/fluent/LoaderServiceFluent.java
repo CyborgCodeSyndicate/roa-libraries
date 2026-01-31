@@ -30,7 +30,7 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "fluent-service")
       }
@@ -69,7 +69,7 @@ public class LoaderServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "loader"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isVisible(final LoaderUiElement element) {
       Allure.step("[UI - Loader] Check if the loader UI element is visible");
@@ -92,7 +92,7 @@ public class LoaderServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "loader"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsVisible(final LoaderUiElement element) {
       Allure.step("[UI - Loader] Validate that the loader UI element is visible");
@@ -111,7 +111,7 @@ public class LoaderServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "loader"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsVisible(final LoaderUiElement element,
          @Pandora(
@@ -173,7 +173,7 @@ public class LoaderServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "loader"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsHidden(final LoaderUiElement element) {
       Allure.step("[UI - Loader] Validate that the loader UI element is hidden");
@@ -192,7 +192,7 @@ public class LoaderServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "loader"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsHidden(final LoaderUiElement element,
          @Pandora(
@@ -214,7 +214,7 @@ public class LoaderServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "loader"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T waitToBeShown(final LoaderUiElement element,
          @Pandora(
@@ -241,7 +241,7 @@ public class LoaderServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "loader"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T waitToBeRemoved(final LoaderUiElement element,
          @Pandora(
@@ -268,7 +268,7 @@ public class LoaderServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "loader"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T waitToBeShownAndRemoved(final LoaderUiElement element,
          @Pandora(

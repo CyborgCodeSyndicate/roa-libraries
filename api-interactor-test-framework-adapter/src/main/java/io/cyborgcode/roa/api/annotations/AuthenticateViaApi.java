@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/api-usage.json",
+      exampleFilesPath = "docs/usage/roa/api-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "api-auth-annotation"),
          @PandoraOptions.Meta(key = "scope", value = "method")
@@ -45,7 +45,7 @@ public @interface AuthenticateViaApi {
          tags = {"api", "auth", "annotation"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    Class<? extends Credentials> credentials();
 
@@ -59,7 +59,7 @@ public @interface AuthenticateViaApi {
                + "how to perform the login call and store resulting tokens/headers."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    Class<? extends BaseAuthenticationClient> type();
 
@@ -73,7 +73,7 @@ public @interface AuthenticateViaApi {
                + "(and/or tokens) across tests instead of logging in every time."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    boolean cacheCredentials() default false;
 

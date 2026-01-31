@@ -1,5 +1,10 @@
 package io.cyborgcode.roa.ui.components.table.filters;
 
+import io.cyborgcode.pandora.annotation.Pandora;
+import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
+
 /**
  * Defines filtering strategies for table elements.
  *
@@ -12,6 +17,15 @@ package io.cyborgcode.roa.ui.components.table.filters;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+@Pandora(
+      description = "Filtering strategy for table interactions (select-only/select/select-all/unselect/unselect-all).",
+      tags = {"ui", "table", "filter-strategy"},
+      creation = CreationKind.ENUM_CONSTANT
+)
+@PandoraOptions(
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
+      availableOptionsRule = AvailableOptionsRules.AvailableFilterStrategyOptions.class
+)
 public enum FilterStrategy {
 
    /**

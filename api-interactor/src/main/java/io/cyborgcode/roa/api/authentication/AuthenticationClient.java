@@ -21,9 +21,9 @@ import lombok.NonNull;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/api-usage.json",
+      exampleFilesPath = "docs/usage/roa/api-usage.json",
       meta = {
-            @PandoraOptions.Meta(key = "type", value = "authentication-client")
+         @PandoraOptions.Meta(key = "type", value = "authentication-client")
       }
 )
 public interface AuthenticationClient {
@@ -42,7 +42,7 @@ public interface AuthenticationClient {
                + "used to look up the cached auth header."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    AuthenticationKey authenticate(@NonNull RestService restService,
                                   @Pandora(

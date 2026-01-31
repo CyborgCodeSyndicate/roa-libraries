@@ -35,6 +35,7 @@ import org.junit.jupiter.api.Tag;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "junit-tag-annotation"),
          @PandoraOptions.Meta(key = "tag", value = "Regression"),

@@ -29,7 +29,7 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "fluent-service")
       }
@@ -75,7 +75,7 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "tab"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T click(final TabUiElement element) {
       Allure.step("[UI - Tab] Clicking on the tab " + element);
@@ -96,7 +96,7 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "tab"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isEnabled(final TabUiElement element) {
       Allure.step(UI_TAB_CHECKING_IF_THE_TAB + element + " is enabled.");
@@ -118,7 +118,7 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "tab"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsEnabled(final TabUiElement element) {
       return validateIsEnabled(element, true, false);
@@ -136,7 +136,7 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "tab"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsEnabled(final TabUiElement element,
                               @Pandora(
@@ -192,7 +192,7 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "tab"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsDisabled(final TabUiElement element) {
       return validateIsEnabled(element, false, false);

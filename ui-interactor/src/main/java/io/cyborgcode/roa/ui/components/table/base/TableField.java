@@ -26,7 +26,7 @@ import java.util.function.BiConsumer;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "table-field")
       }
@@ -47,7 +47,7 @@ public interface TableField<T> {
          tags = {"ui", "table", "table-field"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    static <T, P> TableField<T> of(
          @Pandora(

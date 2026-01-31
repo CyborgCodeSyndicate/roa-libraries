@@ -19,7 +19,7 @@ import io.cyborgcode.pandora.model.CreationKind;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/api-usage.json",
+      exampleFilesPath = "docs/usage/roa/api-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "credentials-provider")
       }
@@ -36,7 +36,7 @@ public interface Credentials {
                + "credentials (usually loaded from externalized test data or secrets)."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    String username();
 
@@ -50,7 +50,7 @@ public interface Credentials {
                + "credentials (usually loaded from externalized test data or secrets)."
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    String password();
 }

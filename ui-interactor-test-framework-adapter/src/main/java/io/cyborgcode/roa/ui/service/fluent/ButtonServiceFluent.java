@@ -33,7 +33,7 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "fluent-service")
       }
@@ -72,7 +72,7 @@ public class ButtonServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "button"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T click(final ButtonUiElement element) {
       Allure.step(String.format("[UI - Button] Clicking button with componentType: %s, locator: %s",
@@ -94,7 +94,7 @@ public class ButtonServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "button"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isEnabled(final ButtonUiElement element) {
       Allure.step(String.format("[UI - Button] Checking if button is enabled with componentType: %s, locator: %s",
@@ -117,7 +117,7 @@ public class ButtonServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "button"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsEnabled(final ButtonUiElement element) {
       return validateIsEnabled(element, true, false);
@@ -135,7 +135,7 @@ public class ButtonServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "button"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsEnabled(final ButtonUiElement element,
          @Pandora(
@@ -190,7 +190,7 @@ public class ButtonServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "button"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsDisabled(final ButtonUiElement element) {
       return validateIsEnabled(element, false, false);
@@ -208,7 +208,7 @@ public class ButtonServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "button"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsDisabled(final ButtonUiElement element,
          @Pandora(
@@ -228,7 +228,7 @@ public class ButtonServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "button"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isVisible(final ButtonUiElement element) {
       Allure.step(String.format("[UI - Button] Checking if button is visible with componentType: %s, locator: %s",
@@ -251,7 +251,7 @@ public class ButtonServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "button"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsVisible(final ButtonUiElement element) {
       return validateIsVisible(element, true, false);
@@ -269,7 +269,7 @@ public class ButtonServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "button"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsVisible(final ButtonUiElement element,
          @Pandora(
@@ -326,7 +326,7 @@ public class ButtonServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "button"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsHidden(final ButtonUiElement element) {
       return validateIsVisible(element, false, false);
@@ -344,7 +344,7 @@ public class ButtonServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "button"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsHidden(final ButtonUiElement element,
          @Pandora(

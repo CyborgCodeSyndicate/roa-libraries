@@ -33,7 +33,7 @@ import static io.cyborgcode.utilities.reflections.ReflectionUtil.getFieldValues;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/api-usage.json",
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "quest")
       }
@@ -80,7 +80,7 @@ public class Quest {
          tags = {"framework"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    public <T extends FluentService> T use(
          @Pandora(
@@ -133,7 +133,7 @@ public class Quest {
          tags = {"framework"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/api-usage.json"
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    public void complete() {
       LogQuest.info("The quest has reached his end");

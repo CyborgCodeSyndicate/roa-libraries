@@ -35,7 +35,7 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "fluent-service")
       }
@@ -76,7 +76,7 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
          tags = {"ui", "radio"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T select(final RadioUiElement element) {
       Allure.step("[UI - Radio] Selecting radio button: " + element.enumImpl());
@@ -97,7 +97,7 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
          tags = {"ui", "radio"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isEnabled(final RadioUiElement element) {
       Allure.step("[UI - Radio] Checking if radio button is enabled: " + element.enumImpl());
@@ -119,7 +119,7 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
          tags = {"ui", "radio"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsEnabled(final RadioUiElement element) {
       return validateIsEnabled(element, true, false);
@@ -137,7 +137,7 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
          tags = {"ui", "radio"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsEnabled(final RadioUiElement element,
                               @Pandora(
@@ -192,7 +192,7 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
          tags = {"ui", "radio"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsDisabled(final RadioUiElement element) {
       return validateIsEnabled(element, false, false);
@@ -210,7 +210,7 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
          tags = {"ui", "radio"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsDisabled(final RadioUiElement element,
                                @Pandora(
@@ -230,7 +230,7 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
          tags = {"ui", "radio"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isSelected(final RadioUiElement element) {
       Allure.step("[UI - Radio] Checking if radio button is selected: " + element.enumImpl());

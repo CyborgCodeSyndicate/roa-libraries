@@ -2,6 +2,7 @@ package io.cyborgcode.roa.framework.pandora;
 
 import io.cyborgcode.pandora.options.EnumsInPackageRule;
 import io.cyborgcode.pandora.options.RuleContext;
+import io.cyborgcode.roa.framework.data.StaticDataProvider;
 import io.cyborgcode.roa.framework.parameters.DataForge;
 import io.cyborgcode.roa.framework.parameters.DataRipper;
 import io.cyborgcode.roa.framework.parameters.PreQuestJourney;

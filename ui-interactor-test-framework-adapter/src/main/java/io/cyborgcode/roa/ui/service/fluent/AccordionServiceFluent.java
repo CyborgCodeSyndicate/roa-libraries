@@ -35,7 +35,7 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "fluent-service")
       }
@@ -75,7 +75,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T expand(final AccordionUiElement element) {
       Allure.step(String.format("[UI - Accordion] Expanding accordion with componentType: %s, locator: %s",
@@ -97,7 +97,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T collapse(final AccordionUiElement element) {
       Allure.step(String.format("[UI - Accordion] Collapsing accordion with componentType: %s, locator: %s",
@@ -120,7 +120,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T areEnabled(final AccordionUiElement element,
          @Pandora(
@@ -147,7 +147,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAreEnabled(final AccordionUiElement element,
          @Pandora(
@@ -171,7 +171,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAreEnabled(final AccordionUiElement element,
          @Pandora(
@@ -231,7 +231,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAreDisabled(final AccordionUiElement element,
          @Pandora(
@@ -255,7 +255,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAreDisabled(final AccordionUiElement element,
          @Pandora(
@@ -280,7 +280,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isEnabled(final AccordionUiElement element) {
       Allure.step(String.format("[UI - Accordion] Checking if accordion is enabled with componentType: %s, locator: %s",
@@ -304,7 +304,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsEnabled(final AccordionUiElement element,
          @Pandora(
@@ -328,7 +328,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsEnabled(final AccordionUiElement element,
          @Pandora(
@@ -353,7 +353,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsDisabled(final AccordionUiElement element,
          @Pandora(
@@ -377,7 +377,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsDisabled(final AccordionUiElement element,
          @Pandora(
@@ -401,7 +401,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getExpanded(final AccordionUiElement element) {
       Allure.step(String.format("[UI - Accordion] Retrieve a list of currently expanded accordions for "
@@ -425,7 +425,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateExpandedItems(final AccordionUiElement element,
          @Pandora(
@@ -449,7 +449,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateExpandedItems(final AccordionUiElement element,
          @Pandora(
@@ -491,7 +491,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getCollapsed(final AccordionUiElement element) {
       Allure.step(String.format("[UI - Accordion] Retrieve a list of currently collapsed accordions for "
@@ -515,7 +515,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateCollapsedItems(final AccordionUiElement element,
          @Pandora(
@@ -539,7 +539,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateCollapsedItems(final AccordionUiElement element,
          @Pandora(
@@ -581,7 +581,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getAll(final AccordionUiElement element) {
       Allure.step(String.format("[UI - Accordion] Retrieve all the accordions for componentType: %s",
@@ -605,7 +605,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAllAccordions(final AccordionUiElement element,
          @Pandora(
@@ -629,7 +629,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAllAccordions(final AccordionUiElement element,
          @Pandora(
@@ -669,7 +669,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getTitle(final AccordionUiElement element) {
       Allure.step(String.format("[UI - Accordion] Getting title for componentType: %s, locator: %s",
@@ -693,7 +693,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateTitle(final AccordionUiElement element,
          @Pandora(
@@ -717,7 +717,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateTitle(final AccordionUiElement element,
          @Pandora(
@@ -757,7 +757,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getText(final AccordionUiElement element) {
       Allure.step(String.format("[UI - Accordion] Getting text for componentType: %s, locator: %s",
@@ -781,7 +781,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateText(final AccordionUiElement element,
          @Pandora(
@@ -805,7 +805,7 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "accordion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateText(final AccordionUiElement element,
          @Pandora(

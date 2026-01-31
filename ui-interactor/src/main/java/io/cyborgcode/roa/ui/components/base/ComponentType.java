@@ -18,10 +18,10 @@ import io.cyborgcode.pandora.model.CreationKind;
 @Pandora(
       description = "Interface that classifies UI component types and exposes their enum representation.",
       tags = {"ui", "component", "interface"},
-      creation = CreationKind.AUTO
+      creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "ui-component-type-interface"),
          @PandoraOptions.Meta(key = "scope", value = "type")
@@ -33,7 +33,7 @@ public interface ComponentType {
    /**
     * Retrieves the enum representation of the component type.
     *
-    * <p>This method is used to determine the specific type of a UI component,
+    * <p>This method is used to determine the specific type of UI component,
     * allowing for dynamic handling within the framework.
     *
     * @return The enum value representing the component type.
