@@ -35,6 +35,9 @@ public interface Credentials {
          description = "Username associated with these API "
                + "credentials (usually loaded from externalized test data or secrets)."
    )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
+   )
    String username();
 
    /**
@@ -45,6 +48,9 @@ public interface Credentials {
    @Pandora(
          description = "Password associated with these API "
                + "credentials (usually loaded from externalized test data or secrets)."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
    )
    String password();
 }

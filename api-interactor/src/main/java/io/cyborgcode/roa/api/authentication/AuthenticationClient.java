@@ -23,7 +23,7 @@ import lombok.NonNull;
 @PandoraOptions(
       exampleFilesPath = "ai/roa/api-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "authentication-client")
+            @PandoraOptions.Meta(key = "type", value = "authentication-client")
       }
 )
 public interface AuthenticationClient {
@@ -41,15 +41,16 @@ public interface AuthenticationClient {
          description = "Perform authentication using username/password and return an AuthenticationKey "
                + "used to look up the cached auth header."
    )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
+   )
    AuthenticationKey authenticate(@NonNull RestService restService,
                                   @Pandora(
                                         description = "Username used to authenticate the user."
                                   )
                                   @NonNull String username,
                                   @Pandora(
-                                        description = "Password used to authenticate the user. "
-                                              + "May be null when an implementation supports "
-                                              + "token-only or external credential flows."
+                                        description = "Password used to authenticate the user."
                                   )
                                   String password,
                                   @Pandora(

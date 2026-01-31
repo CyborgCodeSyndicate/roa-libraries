@@ -41,6 +41,10 @@ public @interface ApiHooks {
     */
    @Pandora(
          description = "Wrapped list of ApiHook annotations declared on the same test class."
+
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
    )
    ApiHook[] value() default {};
 

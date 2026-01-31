@@ -46,6 +46,9 @@ public class RetryConditionApi {
          description = "Create a retry condition that repeatedly calls the endpoint (without body) "
                + "until the HTTP status equals the expected value."
    )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
+   )
    public static RetryCondition<Integer> statusEquals(Endpoint<?> endpoint,
                                                       @Pandora(description = "Expected HTTP status code "
                                                             + "that will stop the retry loop when reached.")
@@ -70,6 +73,9 @@ public class RetryConditionApi {
    @Pandora(
          description = "Create a retry condition that repeatedly calls the endpoint with a body "
                + "until the HTTP status equals the expected value."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
    )
    public static RetryCondition<Integer> statusEquals(Endpoint<?> endpoint,
                                                       @Pandora(description = "Request payload sent "
@@ -99,6 +105,9 @@ public class RetryConditionApi {
          description = "Create a retry condition that repeatedly calls the endpoint (without body) "
                + "until a JSON field at the given path equals the expected value."
    )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
+   )
    public static RetryCondition<Object> responseFieldEqualsTo(Endpoint<?> endpoint,
                                                               @Pandora(description = "JSON path expression used to "
                                                                     + "extract the value from the response body.")
@@ -127,6 +136,9 @@ public class RetryConditionApi {
    @Pandora(
          description = "Create a retry condition that repeatedly calls the endpoint with a body "
                + "until a JSON field at the given path equals the expected value."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
    )
    public static RetryCondition<Object> responseFieldEqualsTo(Endpoint<?> endpoint,
                                                               @Pandora(description = "Request payload sent "
@@ -158,6 +170,9 @@ public class RetryConditionApi {
          description = "Create a retry condition that repeatedly calls the endpoint (without body) "
                + "until the JSON field at the given path becomes non-null."
    )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
+   )
    public static RetryCondition<Object> responseFieldNonNull(Endpoint<?> endpoint,
                                                              @Pandora(description = "JSON path expression used "
                                                                    + "to extract the value from the response body.")
@@ -182,6 +197,9 @@ public class RetryConditionApi {
    @Pandora(
          description = "Create a retry condition that repeatedly calls the endpoint with a body "
                + "until the JSON field at the given path becomes non-null."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
    )
    public static RetryCondition<Object> responseFieldNonNull(Endpoint<?> endpoint,
                                                              @Pandora(description = "Request payload sent "

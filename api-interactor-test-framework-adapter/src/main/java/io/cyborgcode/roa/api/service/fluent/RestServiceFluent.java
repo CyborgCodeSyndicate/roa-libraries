@@ -41,7 +41,7 @@ import static io.cyborgcode.roa.api.storage.StorageKeysApi.API;
 @PandoraOptions(
       exampleFilesPath = "ai/roa/api-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "fluent-service"),
+         @PandoraOptions.Meta(key = "type", value = "fluent-service")
       }
 )
 public class RestServiceFluent extends FluentService implements ClassLevelHook {
@@ -64,7 +64,6 @@ public class RestServiceFluent extends FluentService implements ClassLevelHook {
     * @param endpoint The API endpoint.
     * @return The current {@code RestServiceFluent} instance for method chaining.
     */
-
    @Pandora(
          description = "Send a request to the given endpoint and "
                + "store the HTTP response in quest storage for later use.",
@@ -287,10 +286,7 @@ public class RestServiceFluent extends FluentService implements ClassLevelHook {
          exampleFilesPath = "ai/roa/api-usage.json"
    )
    public <T> RestServiceFluent retryUntil(
-         @Pandora(
-               description = "Condition that will be evaluated repeatedly; "
-                     + "when it evaluates to true the retry loop stops."
-         ) final RetryCondition<T> retryCondition,
+         final RetryCondition<T> retryCondition,
          @Pandora(
                description = "Maximum total duration to keep retrying before giving up."
          ) final Duration maxWait,

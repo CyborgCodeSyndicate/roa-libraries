@@ -3,6 +3,7 @@ package io.cyborgcode.roa.api.annotations;
 import io.cyborgcode.pandora.annotation.Pandora;
 import io.cyborgcode.pandora.annotation.PandoraOptions;
 import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.roa.api.pandora.AvailableOptionsRules;
 import io.cyborgcode.roa.framework.hooks.HookExecution;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Repeatable;
@@ -48,6 +49,10 @@ public @interface ApiHook {
    @Pandora(
          description = "Identifier of the hook flow implementation to execute (typically an enum name)."
    )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json",
+         availableOptionsRule = AvailableOptionsRules.AvailableApiHookFlows.class
+   )
    String type();
 
    /**
@@ -58,6 +63,9 @@ public @interface ApiHook {
    @Pandora(
          description = "When the hook should run relative to the test lifecycle (BEFORE or AFTER all tests)."
    )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
+   )
    HookExecution when();
 
    /**
@@ -67,6 +75,9 @@ public @interface ApiHook {
     */
    @Pandora(
          description = "Optional string arguments that will be passed to the hook flow."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
    )
    String[] arguments() default {};
 
@@ -79,6 +90,9 @@ public @interface ApiHook {
     */
    @Pandora(
          description = "Execution order among hooks with the same timing; lower values are executed first."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
    )
    int order() default 0;
 

@@ -44,6 +44,9 @@ public class DataExtractorsApi {
          description = "Create a DataExtractor that reads a JSON field from the API response body "
                + "using the given JSON path and stores it under the provided storage key."
    )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
+   )
    public static <T> DataExtractor<T> responseBodyExtraction(
          @Pandora(description = "Enum key used as the storage identifier for the extracted value.")
          Enum<?> key,
@@ -68,6 +71,9 @@ public class DataExtractorsApi {
    @Pandora(
          description = "Create a DataExtractor that reads the HTTP status code from the API response "
                + "and stores it under the provided storage key."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
    )
    public static DataExtractor<Integer> statusExtraction(
          @Pandora(description = "Enum key used as the storage identifier for the extracted status code.")

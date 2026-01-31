@@ -91,6 +91,9 @@ public class RestService {
    @Pandora(
          description = "Execute an API request without a request body using the provided Endpoint definition."
    )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
+   )
    public Response request(Endpoint<?> endpoint) {
       return executeRequest(endpoint, null);
    }
@@ -105,6 +108,9 @@ public class RestService {
    @Pandora(
          description = "Execute an API request with a request payload. "
                + "The body is serialized by the endpoint's RequestSpecification."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
    )
    public Response request(Endpoint<?> endpoint,
                            @Pandora(
@@ -127,6 +133,9 @@ public class RestService {
    @Pandora(
          description = "Validate an existing Response using one or more "
                + "Assertion rules and return the collected AssertionResult entries."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
    )
    public <T> List<AssertionResult<T>> validate(@Pandora(
                                                       description = "Response instance to validate."
@@ -154,6 +163,9 @@ public class RestService {
          description = "Execute a request (no body) and immediately "
                + "validate the response using the provided Assertion rules."
    )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
+   )
    public <T> List<AssertionResult<T>> requestAndValidate(Endpoint<?> endpoint, Assertion... assertions) {
       return requestAndValidate(endpoint, null, assertions);
    }
@@ -170,6 +182,9 @@ public class RestService {
    @Pandora(
          description = "Execute a request with a body and immediately "
                + "validate the response using the provided Assertion rules."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
    )
    public <T> List<AssertionResult<T>> requestAndValidate(Endpoint<?> endpoint,
                                                           @Pandora(description = "Request payload to send as body "
@@ -190,6 +205,9 @@ public class RestService {
    @Pandora(
          description = "Authenticate using a BaseAuthenticationClient implementation. "
                + "Stores an AuthenticationKey internally so subsequent requests can attach the cached auth header."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
    )
    public void authenticate(@Pandora(
                                   description = "Username for authentication."

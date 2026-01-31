@@ -72,7 +72,7 @@
         <dependency>
             <groupId>io.cyborgcode.pandora</groupId>
             <artifactId>pandora-core</artifactId>
-            <version>1.0.0-SNAPSHOT-06f8e86-21525295112</version>
+            <version>1.0.0-SNAPSHOT-7bfdb62-21531964109</version>
         </dependency>
     </dependencies>
 

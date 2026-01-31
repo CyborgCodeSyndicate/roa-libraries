@@ -3,6 +3,7 @@ package io.cyborgcode.roa.api.hooks;
 import io.cyborgcode.pandora.annotation.Pandora;
 import io.cyborgcode.pandora.annotation.PandoraOptions;
 import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.roa.api.pandora.AvailableOptionsRules;
 import io.cyborgcode.roa.api.service.RestService;
 import java.util.Map;
 import org.apache.logging.log4j.util.TriConsumer;
@@ -30,6 +31,7 @@ import org.apache.logging.log4j.util.TriConsumer;
 )
 @PandoraOptions(
       exampleFilesPath = "ai/roa/api-usage.json",
+      availableOptionsRule = AvailableOptionsRules.AvailableApiHookFlows.class,
       meta = {
          @PandoraOptions.Meta(key = "type", value = "api-hook-flow")
       }
@@ -53,6 +55,9 @@ public interface ApiHookFlow<T extends Enum<T>> {
          description = "Executable hook logic. Receives RestService, a shared Map<Object,Object> "
                + "for passing data, and String[] arguments coming from @ApiHook."
    )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
+   )
    TriConsumer<RestService, Map<Object, Object>, String[]> flow();
 
    /**
@@ -66,6 +71,9 @@ public interface ApiHookFlow<T extends Enum<T>> {
    @Pandora(
          description = "Enum constant that identifies this hook implementation. "
                + "Typically matched against @ApiHook(type = \"...\")."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
    )
    T enumImpl();
 

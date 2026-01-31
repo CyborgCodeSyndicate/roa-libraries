@@ -22,7 +22,7 @@ import io.cyborgcode.utilities.logging.LogCore;
 @PandoraOptions(
       exampleFilesPath = "ai/roa/api-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "api-logger")
+            @PandoraOptions.Meta(key = "type", value = "api-logger")
       }
 )
 public final class LogApi extends LogCore {
@@ -39,6 +39,12 @@ public final class LogApi extends LogCore {
     * @param message The message to log.
     * @param args    Optional arguments to format the message.
     */
+   @Pandora(
+         description = "Log an informational API message."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
+   )
    public static void info(@Pandora(
                                  description = "Log message template (may contain placeholders like {})."
                            )
@@ -56,7 +62,12 @@ public final class LogApi extends LogCore {
     * @param message The warning message.
     * @param args    Optional arguments to format the message.
     */
-
+   @Pandora(
+         description = "Log a warning API message."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
+   )
    public static void warn(@Pandora(
                                  description = "Log message template (may contain placeholders like {})."
                            )
@@ -74,6 +85,12 @@ public final class LogApi extends LogCore {
     * @param message The error message.
     * @param args    Optional arguments to format the message.
     */
+   @Pandora(
+         description = "Log an error API message."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
+   )
    public static void error(@Pandora(
                                   description = "Log message template (may contain placeholders like {})."
                             )
@@ -91,6 +108,12 @@ public final class LogApi extends LogCore {
     * @param message The debug message.
     * @param args    Optional arguments to format the message.
     */
+   @Pandora(
+         description = "Log a debug API message."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
+   )
    public static void debug(@Pandora(
                                   description = "Log message template (may contain placeholders like {})."
                             )
@@ -108,6 +131,12 @@ public final class LogApi extends LogCore {
     * @param message The trace message.
     * @param args    Optional arguments to format the message.
     */
+   @Pandora(
+         description = "Log a trace-level API message."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
+   )
    public static void trace(@Pandora(
                                   description = "Log message template (may contain placeholders like {})."
                             )
@@ -125,6 +154,12 @@ public final class LogApi extends LogCore {
     * @param message The step description.
     * @param args    Optional arguments to format the message.
     */
+   @Pandora(
+         description = "Log an API flow step message."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
+   )
    public static void step(@Pandora(
                                  description = "Step message template describing the current API flow action."
                            )
@@ -142,6 +177,12 @@ public final class LogApi extends LogCore {
     * @param message The validation message.
     * @param args    Optional arguments to format the message.
     */
+   @Pandora(
+         description = "Log an API validation/assertion message."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
+   )
    public static void validation(@Pandora(
                                        description = "Validation message template "
                                              + "describing what is being asserted/validated."
@@ -160,6 +201,12 @@ public final class LogApi extends LogCore {
     * @param message The extended log message.
     * @param args    Optional arguments to format the message.
     */
+   @Pandora(
+         description = "Log an extended (verbose) debug message."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
+   )
    public static void extended(@Pandora(
                                      description = "Extended debug message template (usually verbose details)."
                                )
@@ -177,9 +224,7 @@ public final class LogApi extends LogCore {
     * @param instance The custom log instance to extend.
     * @param <T>      A subclass of {@link LogCore}.
     */
-   public static <T extends LogCore> void extend(@Pandora(
-         description = "Custom LogCore instance to use as the underlying API logger implementation."
-   ) final T instance) {
+   public static <T extends LogCore> void extend(final T instance) {
       LogApi.instance = (LogApi) instance;
    }
 

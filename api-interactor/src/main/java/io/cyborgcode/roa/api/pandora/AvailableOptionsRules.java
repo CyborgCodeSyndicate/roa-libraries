@@ -30,6 +30,12 @@ public final class AvailableOptionsRules {
       public Class<?> getInterface(RuleContext ruleContext) {
          return Endpoint.class;
       }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
+      }
+
    }
 
 }

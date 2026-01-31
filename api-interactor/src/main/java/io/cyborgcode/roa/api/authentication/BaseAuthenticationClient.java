@@ -51,6 +51,9 @@ public abstract class BaseAuthenticationClient implements AuthenticationClient {
          description = "Authenticate a user and optionally cache "
                + "the resulting auth header under the returned AuthenticationKey."
    )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
+   )
    public AuthenticationKey authenticate(final @NonNull RestService restService,
                                          @Pandora(
                                                description = "Username used for authenticating the user."
@@ -90,6 +93,9 @@ public abstract class BaseAuthenticationClient implements AuthenticationClient {
          description = "Retrieve the cached authentication header "
                + "for a previously authenticated session identified by AuthenticationKey."
    )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
+   )
    public Header getAuthentication(final AuthenticationKey authenticationKey) {
       if (authenticationKey == null) {
          LogApi.error("AuthenticationKey is null. Cannot retrieve authentication header.");
@@ -109,6 +115,9 @@ public abstract class BaseAuthenticationClient implements AuthenticationClient {
    @Pandora(
          description = "Template method to be implemented by concrete "
                + "authentication clients; performs the real login call and returns the auth header."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
    )
    protected abstract Header authenticateImpl(RestService restService,
                                               @Pandora(

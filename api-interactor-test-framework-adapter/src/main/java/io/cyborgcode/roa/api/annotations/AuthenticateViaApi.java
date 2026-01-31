@@ -44,6 +44,9 @@ public @interface AuthenticateViaApi {
          description = "Credentials provider used to supply username/password or tokens for authentication.",
          tags = {"api", "auth", "annotation"}
    )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
+   )
    Class<? extends Credentials> credentials();
 
    /**
@@ -55,6 +58,9 @@ public @interface AuthenticateViaApi {
          description = "Authentication client implementation that knows "
                + "how to perform the login call and store resulting tokens/headers."
    )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
+   )
    Class<? extends BaseAuthenticationClient> type();
 
    /**
@@ -65,6 +71,9 @@ public @interface AuthenticateViaApi {
    @Pandora(
          description = "Whether to cache resolved credentials "
                + "(and/or tokens) across tests instead of logging in every time."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "ai/roa/api-usage.json"
    )
    boolean cacheCredentials() default false;
 
