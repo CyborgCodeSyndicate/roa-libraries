@@ -35,6 +35,7 @@ public final class Assertion {
    /**
     * The subject of the assertion, specifying what is being validated.
     */
+   @Pandora
    private final AssertionTarget target;
 
    /**
@@ -49,6 +50,7 @@ public final class Assertion {
    /**
     * Indicates the logical operation for this validation.
     */
+   @Pandora
    private final AssertionType<?> type;
 
    /**
