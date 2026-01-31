@@ -12,7 +12,7 @@
 
     <groupId>io.cyborgcode.roa</groupId>
     <artifactId>db-interactor</artifactId>
-    <version>0.0.0</version>
+    <version>1.0.0-rc-1</version>
     <name>Ring of Automation Database Library</name>
     <description>Library part of Ring of Automation that enables interaction with database.</description>
 
