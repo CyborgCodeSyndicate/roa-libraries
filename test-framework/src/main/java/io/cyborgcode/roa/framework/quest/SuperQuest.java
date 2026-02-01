@@ -29,6 +29,7 @@ import lombok.experimental.Delegate;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "super-quest"),
          @PandoraOptions.Meta(key = "role", value = "wrapper-delegate")
@@ -70,6 +71,9 @@ public final class SuperQuest extends Quest {
          description = "Retrieve an artifact instance exposed by a registered ring/service."
                + " Delegates to the wrapped Quest."
    )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public <T extends FluentService, K> K artifact(@Pandora(description = "Ring/service class from which "
                                                         + "the artifact should be extracted.")
                                                   Class<T> ringType,
@@ -94,6 +98,9 @@ public final class SuperQuest extends Quest {
          description = "Register a ring/service into the active "
                + "quest context so it can be used in the fluent test flow."
    )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public void registerRing(@Pandora(description = "Ring/service class used as the registration key.")
                             Class<? extends FluentService> ringType,
                             @Pandora(description = "Concrete ring/service instance to register in the quest context.")
@@ -116,6 +123,9 @@ public final class SuperQuest extends Quest {
    @Pandora(
          description = "Retrieve a registered ring/service instance by its class without changing the quest state."
    )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public <T extends FluentService> T cast(@Pandora(description = "Ring/service class to fetch from the quest context.")
                                            Class<T> ringType) {
       return super.cast(ringType);
@@ -134,6 +144,9 @@ public final class SuperQuest extends Quest {
    @Pandora(
          description = "Remove a previously registered ring/service from the quest context."
    )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public void removeRing(@Pandora(description = "Ring/service class identifying which service should be removed.")
                              Class<? extends FluentService> ringType) {
       original.removeRing(ringType);
@@ -151,6 +164,9 @@ public final class SuperQuest extends Quest {
    @Pandora(
          description = "Access the quest storage used for storing and retrieving data/artifacts during execution."
    )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public Storage getStorage() {
       return original.getStorage();
    }
@@ -167,12 +183,18 @@ public final class SuperQuest extends Quest {
    @Pandora(
          description = "Access the quest soft assertion aggregator used for soft validations across the flow."
    )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public CustomSoftAssertion getSoftAssertions() {
       return original.getSoftAssertions();
    }
 
    @Pandora(
          description = "Return the wrapped original Quest instance (the underlying execution context)."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    public Quest getOriginal() {
       return original;

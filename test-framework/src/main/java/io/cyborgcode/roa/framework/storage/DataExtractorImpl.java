@@ -27,6 +27,7 @@ import java.util.function.Function;
       creation = CreationKind.CONSTRUCTOR
 )
 @PandoraOptions(
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "data-extractor-impl"),
          @PandoraOptions.Meta(key = "scope", value = "storage")
@@ -76,6 +77,9 @@ public class DataExtractorImpl<T> implements DataExtractor<T> {
          description = "Returns the sub-storage key (namespace) for this extractor, "
                + "or null when default storage is used."
    )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public Enum<?> getSubKey() {
       return subKey;
    }
@@ -88,6 +92,9 @@ public class DataExtractorImpl<T> implements DataExtractor<T> {
    @Override
    @Pandora(
          description = "Returns the primary storage key that identifies the stored entry to extract."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    public Enum<?> getKey() {
       return key;
@@ -103,6 +110,9 @@ public class DataExtractorImpl<T> implements DataExtractor<T> {
    @Pandora(
          description = "Applies the configured extractionLogic to the provided"
                + " raw stored object and returns the typed result."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    public T extract(Object rawObject) {
       return extractionLogic.apply(rawObject);

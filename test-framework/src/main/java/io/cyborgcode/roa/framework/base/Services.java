@@ -34,6 +34,7 @@ import static io.cyborgcode.utilities.reflections.ReflectionUtil.getFieldValues;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "services-container"),
          @PandoraOptions.Meta(key = "scope", value = "spring-context")
@@ -77,6 +78,9 @@ public class Services {
    @Pandora(
          description = "Retrieve an underlying service from a specific Ring (fluent service) by type. "
                + "The service is resolved from the Ring instance via reflection and then cached."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    public <T extends ClassLevelHook, K> K service(@Pandora(description = "Ring (fluent service) class that "
                                                         + "contains the desired service as a field, "

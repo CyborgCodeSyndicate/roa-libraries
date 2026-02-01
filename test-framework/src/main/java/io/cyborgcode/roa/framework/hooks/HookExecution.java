@@ -3,6 +3,7 @@ package io.cyborgcode.roa.framework.hooks;
 import io.cyborgcode.pandora.annotation.Pandora;
 import io.cyborgcode.pandora.annotation.PandoraOptions;
 import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.roa.framework.pandora.AvailableOptionsTestFrameworkRules;
 
 /**
  * Specifies the timing for hook execution relative to the test lifecycle.
@@ -20,6 +21,8 @@ import io.cyborgcode.pandora.model.CreationKind;
       creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
+      availableOptionsRule = AvailableOptionsTestFrameworkRules.AvailableHookExecutionOptions.class,
       meta = {
          @PandoraOptions.Meta(key = "type", value = "hook-execution"),
          @PandoraOptions.Meta(key = "usedBy", value = "ApiHook.when")

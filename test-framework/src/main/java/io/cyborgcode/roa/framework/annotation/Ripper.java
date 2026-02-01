@@ -3,7 +3,7 @@ package io.cyborgcode.roa.framework.annotation;
 import io.cyborgcode.pandora.annotation.Pandora;
 import io.cyborgcode.pandora.annotation.PandoraOptions;
 import io.cyborgcode.pandora.model.CreationKind;
-import io.cyborgcode.roa.framework.pandora.AvailableOptionsRules;
+import io.cyborgcode.roa.framework.pandora.AvailableOptionsTestFrameworkRules;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -51,7 +51,7 @@ public @interface Ripper {
                + "from a project enum implementing DataRipper (e.g., \"DELETE_ORDERS\")."
    )
    @PandoraOptions(
-         availableOptionsRule = AvailableOptionsRules.AvailableDataRipperOptions.class
+         availableOptionsRule = AvailableOptionsTestFrameworkRules.AvailableDataRipperOptions.class
    )
    String[] targets();
 

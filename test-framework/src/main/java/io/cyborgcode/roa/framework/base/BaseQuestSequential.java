@@ -29,6 +29,7 @@ import org.springframework.test.annotation.DirtiesContext;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "base-quest"),
          @PandoraOptions.Meta(key = "lifecycle", value = "sequential-per-class")
@@ -63,6 +64,9 @@ public class BaseQuestSequential extends BaseQuest {
          description = "Override this to run setup once per test class when using BaseQuestSequential. "
                + "Called automatically by the framework before any @Test methods execute."
    )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    protected void beforeAll(Services services) {
       //empty method for beforeAll to override if needed
    }
@@ -83,6 +87,9 @@ public class BaseQuestSequential extends BaseQuest {
    @Pandora(
          description = "Override this to run cleanup once per test class when using BaseQuestSequential. "
                + "Called automatically by the framework after all @Test methods have finished."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    protected void afterAll(Services services) {
       //empty method for beforeAll to override if needed

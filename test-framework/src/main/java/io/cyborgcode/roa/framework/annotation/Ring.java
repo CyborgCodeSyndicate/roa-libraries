@@ -35,6 +35,7 @@ import org.springframework.stereotype.Service;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "ring-annotation"),
          @PandoraOptions.Meta(key = "scope", value = "class"),

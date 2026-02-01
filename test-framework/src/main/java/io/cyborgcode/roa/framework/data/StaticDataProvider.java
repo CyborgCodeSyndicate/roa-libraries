@@ -26,6 +26,7 @@ import java.util.Map;
       creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "static-data-provider"),
          @PandoraOptions.Meta(key = "usedBy", value = "StaticTestData")
@@ -44,6 +45,9 @@ public interface StaticDataProvider {
    @Pandora(
          description = "Returns a map of static test data entries "
                + "(key-value pairs) that will be loaded into the test context."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    Map<String, Object> staticTestData();
 

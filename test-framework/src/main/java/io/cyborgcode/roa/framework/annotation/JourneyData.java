@@ -3,7 +3,7 @@ package io.cyborgcode.roa.framework.annotation;
 import io.cyborgcode.pandora.annotation.Pandora;
 import io.cyborgcode.pandora.annotation.PandoraOptions;
 import io.cyborgcode.pandora.model.CreationKind;
-import io.cyborgcode.roa.framework.pandora.AvailableOptionsRules;
+import io.cyborgcode.roa.framework.pandora.AvailableOptionsTestFrameworkRules;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -49,7 +49,7 @@ public @interface JourneyData {
                + "from a project enum implementing DataForge (e.g., \"CREATE_ORDER\")."
    )
    @PandoraOptions(
-         availableOptionsRule = AvailableOptionsRules.AvailableDataForgeOptions.class
+         availableOptionsRule = AvailableOptionsTestFrameworkRules.AvailableDataForgeOptions.class
    )
    String value();
 

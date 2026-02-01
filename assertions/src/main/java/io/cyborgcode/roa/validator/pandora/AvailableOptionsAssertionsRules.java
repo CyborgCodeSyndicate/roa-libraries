@@ -32,16 +32,16 @@ public final class AvailableOptionsAssertionsRules {
     */
    public static final class AvailableAssertionTargets extends EnumsInPackageRule {
 
-      /**
-       * Returns the marker interface used to discover assertion target enums.
-       *
-       * @param ruleContext the Pandora rule context (unused here but part of the contract)
-       * @return {@link AssertionTarget} as the interface to scan for enums
-       */
       @Override
       public Class<?> getInterface(final RuleContext ruleContext) {
          return AssertionTarget.class;
       }
+
+      @Override
+      protected boolean printEnumsAsStrings() {
+         return true;
+      }
+
    }
 
    /**

@@ -24,6 +24,7 @@ import io.cyborgcode.pandora.model.CreationKind;
       creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "data-forge")
       }
@@ -42,6 +43,9 @@ public interface DataForge<T extends Enum<T>> {
    @Pandora(
          description = "Returns the deferred creator (Late) that materializes the test data object on demand."
    )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    Late<Object> dataCreator();
 
    /**
@@ -54,6 +58,9 @@ public interface DataForge<T extends Enum<T>> {
     */
    @Pandora(
          description = "Returns the deferred creator (Late) that materializes the test data object on demand."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    T enumImpl();
 

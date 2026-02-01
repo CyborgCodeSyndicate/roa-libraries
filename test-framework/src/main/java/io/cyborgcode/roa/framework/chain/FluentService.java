@@ -31,6 +31,7 @@ import org.assertj.core.api.Assertions;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "fluent-service-base"),
          @PandoraOptions.Meta(key = "role", value = "ring-foundation")
@@ -52,6 +53,9 @@ public class FluentService implements FluentChain {
          description = "Drop the currently active Ring (fluent service) and return to the original Quest chain "
                + "so you can switch rings or finish the flow."
    )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    @Override
    public Quest drop() {
       LogQuest.info("The quest has dropped the ring.");
@@ -71,6 +75,9 @@ public class FluentService implements FluentChain {
    @Pandora(
          description = "Execute a retry loop until the provided RetryCondition is satisfied or maxWait is reached. "
                + "Evaluates the condition by invoking retryCondition.function() against the given service instance."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    protected <T> FluentService retryUntil(@Pandora(description = "RetryCondition that defines how to compute "
                                                 + "a value from the service and how to evaluate success.")
@@ -98,6 +105,9 @@ public class FluentService implements FluentChain {
          description = "Attach the current SuperQuest execution context to this fluent service. "
                + "Called by the framework during Quest->Ring initialization."
    )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    protected void setQuest(@Pandora(description = "Active SuperQuest for the current test run, "
          + "providing storage and soft-assertions.") final SuperQuest quest) {
       this.quest = quest;
@@ -116,6 +126,9 @@ public class FluentService implements FluentChain {
                + "Each result is logged and reported to Allure; soft "
                + "assertions are collected in quest soft-assertions, "
                + "hard assertions fail immediately."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    @SuppressWarnings("java:S5960")
    protected void validation(List<AssertionResult<Object>> assertionResults) {
@@ -146,6 +159,9 @@ public class FluentService implements FluentChain {
    @Pandora(
          description = "Optional lifecycle hook invoked after the quest is attached to the service. "
                + "Override in specific Rings to run custom initialization once the SuperQuest context is available."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    protected void postQuestSetupInitialization() {
       //can override for specific services

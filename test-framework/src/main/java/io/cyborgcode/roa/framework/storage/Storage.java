@@ -39,6 +39,7 @@ import static io.cyborgcode.roa.framework.config.FrameworkConfigHolder.getFramew
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "storage"),
          @PandoraOptions.Meta(key = "scope", value = "quest")
@@ -56,7 +57,12 @@ public class Storage {
     * @param value The data value to store.
     * @param <T>   The type of the data.
     */
-   @Pandora(description = "Store a value under an enum key in the current storage namespace.")
+   @Pandora(
+         description = "Store a value under an enum key in the current storage namespace."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public <T> void put(
          @Pandora(description = "Enum key under which the value will be stored.")
          Enum<?> key,
@@ -73,7 +79,12 @@ public class Storage {
     * @param <T>   The type of the data.
     * @return The most recent value of type {@code T}, or {@code null} if not found.
     */
-   @Pandora(description = "Retrieve the latest stored value for a key and cast it to the provided class.")
+   @Pandora(
+         description = "Retrieve the latest stored value for a key and cast it to the provided class."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public <T> T get(
          @Pandora(description = "Enum key identifying the stored values list.")
          Enum<?> key,
@@ -90,7 +101,12 @@ public class Storage {
     * @param <T>           The type of the data.
     * @return The most recent value of type {@code T}, or {@code null} if not found.
     */
-   @Pandora(description = "Retrieve the latest stored value for a key using a parameterized type reference.")
+   @Pandora(
+         description = "Retrieve the latest stored value for a key using a parameterized type reference."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public <T> T get(
          @Pandora(description = "Enum key identifying the stored values list.")
          Enum<?> key,
@@ -108,7 +124,12 @@ public class Storage {
     * @param <T>       The type of the data.
     * @return The extracted value of type {@code T}.
     */
-   @Pandora(description = "Retrieve a stored value by index, then transform it via a DataExtractor.")
+   @Pandora(
+         description = "Retrieve a stored value by index, then transform it via a DataExtractor."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public <T> T get(
          @Pandora(description = "Extractor describing which key/subKey "
                + "to read and how to transform the raw stored value.")
@@ -132,7 +153,12 @@ public class Storage {
     * @param <T>       The type of the data.
     * @return The extracted value of type {@code T}.
     */
-   @Pandora(description = "Retrieve the latest stored value and transform it via a DataExtractor.")
+   @Pandora(
+         description = "Retrieve the latest stored value and transform it via a DataExtractor."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public <T> T get(
          @Pandora(description = "Extractor describing which key/subKey to"
                + " read and how to transform the raw stored value.")
@@ -174,7 +200,12 @@ public class Storage {
     * @param <T>           The type of the value.
     * @return The value at the specified index, or {@code null} if not found.
     */
-   @Pandora(description = "Retrieve a value by index for a key using a parameterized type reference.")
+   @Pandora(
+         description = "Retrieve a value by index for a key using a parameterized type reference."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public <T> T getByIndex(
          @Pandora(description = "Enum key identifying the stored values list.")
          Enum<?> key,
@@ -193,8 +224,13 @@ public class Storage {
     * @param <T>   The type of the value.
     * @return The most recent value of type {@code T}, or {@code null} if not found.
     */
-   @Pandora(description = "Retrieve the latest stored value for a key"
-         + " that matches the provided class (searching from newest to oldest).")
+   @Pandora(
+         description = "Retrieve the latest stored value for a key"
+         + " that matches the provided class (searching from newest to oldest)."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public <T> T getByClass(
          @Pandora(description = "Enum key identifying the stored values list.")
          Enum<?> key,
@@ -211,8 +247,13 @@ public class Storage {
     * @param <T>           The type of the value.
     * @return The most recent value of type {@code T}, or {@code null} if not found.
     */
-   @Pandora(description = "Retrieve the latest stored value for a key that "
-         + "matches the provided type reference (searching from newest to oldest).")
+   @Pandora(
+         description = "Retrieve the latest stored value for a key that "
+         + "matches the provided type reference (searching from newest to oldest)."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public <T> T getByClass(
          @Pandora(description = "Enum key identifying the stored values list.")
          Enum<?> key,
@@ -229,7 +270,12 @@ public class Storage {
     * @param <T>   The type of the values.
     * @return A list of all values of type {@code T} associated with the key.
     */
-   @Pandora(description = "Retrieve all stored values for a key that match the provided class.")
+   @Pandora(
+         description = "Retrieve all stored values for a key that match the provided class."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public <T> List<T> getAllByClass(
          @Pandora(description = "Enum key identifying the stored values list.")
          Enum<?> key,
@@ -246,7 +292,12 @@ public class Storage {
     * @param <T>           The type of the values.
     * @return A list of all values of type {@code T} associated with the key.
     */
-   @Pandora(description = "Retrieve all stored values for a key that match the provided type reference.")
+   @Pandora(
+         description = "Retrieve all stored values for a key that match the provided type reference."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public <T> List<T> getAllByClass(
          @Pandora(description = "Enum key identifying the stored values list.")
          Enum<?> key,
@@ -269,7 +320,12 @@ public class Storage {
          justification = "This write is intentional for initializing defaultStorageEnum under controlled conditions."
    )
    @SuppressWarnings("java:S2696")
-   @Pandora(description = "Get (or lazily create) a sub-storage (namespace) under the provided enum key.")
+   @Pandora(
+         description = "Get (or lazily create) a sub-storage (namespace) under the provided enum key."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public Storage sub(
          @Pandora(description = "Enum key acting as a namespace for a nested Storage instance (e.g. API, DB).")
          Enum<?> subKey) {
@@ -302,8 +358,13 @@ public class Storage {
     * @return The default {@code Storage} instance.
     * @throws IllegalStateException if no default storage is initialized.
     */
-   @Pandora(description = "Get the default sub-storage namespace "
-         + "configured by the framework (throws if not initialized).")
+   @Pandora(
+         description = "Get the default sub-storage namespace "
+         + "configured by the framework (throws if not initialized)."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public Storage sub() {
       if (defaultStorageEnum == null) {
          throw new IllegalStateException("There is no default storage initialized");
@@ -315,8 +376,13 @@ public class Storage {
     * Resolves any stored deferred values (instances of {@link Late}) by replacing them
     * with their actual evaluated objects.
     */
-   @Pandora(description = "Materialize any stored Late<?> values by calling create() "
-         + "and replacing them with the created objects.")
+   @Pandora(
+         description = "Materialize any stored Late<?> values by calling create() "
+         + "and replacing them with the created objects."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public void createLateArguments() {
       data.replaceAll((key, objects) -> {
          LinkedList<Object> updatedObjects = new LinkedList<>();
@@ -346,8 +412,13 @@ public class Storage {
     * @param <T>   the type of the returned object
     * @return the hook-stored value cast to {@code T}, or {@code null} if not present
     */
-   @Pandora(description = "Retrieve hook-scoped data stored under StorageKeysTest.HOOKS "
-         + "map using an arbitrary key object.")
+   @Pandora(
+         description = "Retrieve hook-scoped data stored under StorageKeysTest.HOOKS "
+         + "map using an arbitrary key object."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public <T> T getHookData(
          @Pandora(description = "Hook key object used when storing data (often an enum or dedicated key type).")
          Object value,
@@ -370,7 +441,12 @@ public class Storage {
     * @return a snapshot of the entire storage contents
     */
    @SuppressWarnings("java:S1452")
-   @Pandora(description = "Return a deep copy snapshot of the raw storage map (keys and their stored values lists).")
+   @Pandora(
+         description = "Return a deep copy snapshot of the raw storage map (keys and their stored values lists)."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public Map<Enum<?>, List<Object>> getData() {
       Map<Enum<?>, List<Object>> copy = new HashMap<>();
       for (Map.Entry<Enum<?>, LinkedList<Object>> entry : data.entrySet()) {

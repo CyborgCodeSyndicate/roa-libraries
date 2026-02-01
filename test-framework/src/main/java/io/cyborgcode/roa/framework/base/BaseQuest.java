@@ -69,6 +69,9 @@ public class BaseQuest {
    @Pandora(
          description = "Retrieve an object from quest storage by a single enum key in the default storage namespace."
    )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    protected <T> T retrieve(
          @Pandora(
                description = "Enum key under which the test data was stored in the default storage."
@@ -91,6 +94,9 @@ public class BaseQuest {
    @Pandora(
          description = "Retrieve an object from a sub-storage "
                + "(e.g. API, DB) using a subKey (namespace) and entry enum key."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    protected <T> T retrieve(
          @Pandora(
@@ -116,6 +122,9 @@ public class BaseQuest {
    @Pandora(
          description = "Retrieve an object using a DataExtractor abstraction (e.g. JSON path, DB selector)."
    )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    protected <T> T retrieve(
          @Pandora(
                description = "Extractor describing how to locate the data (JSON path, DB row selector, etc.)."
@@ -137,6 +146,9 @@ public class BaseQuest {
     */
    @Pandora(
          description = "Retrieve an indexed element produced by a DataExtractor (e.g. element N in a list)."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    protected <T> T retrieve(
          @Pandora(
@@ -162,6 +174,9 @@ public class BaseQuest {
     */
    @Pandora(
          description = "Retrieve data written by framework hooks (e.g. ApiHook or DbHook) by their key object."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    protected <T> T hookData(
          @Pandora(

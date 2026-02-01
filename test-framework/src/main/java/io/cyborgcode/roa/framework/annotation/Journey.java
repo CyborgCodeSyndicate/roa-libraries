@@ -3,7 +3,7 @@ package io.cyborgcode.roa.framework.annotation;
 import io.cyborgcode.pandora.annotation.Pandora;
 import io.cyborgcode.pandora.annotation.PandoraOptions;
 import io.cyborgcode.pandora.model.CreationKind;
-import io.cyborgcode.roa.framework.pandora.AvailableOptionsRules;
+import io.cyborgcode.roa.framework.pandora.AvailableOptionsTestFrameworkRules;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
@@ -55,7 +55,7 @@ public @interface Journey {
                + "from a project enum implementing PreQuestJourney (e.g., \"USER_LOGIN_PRECONDITION\")."
    )
    @PandoraOptions(
-         availableOptionsRule = AvailableOptionsRules.AvailablePreQuestJourneyOptions.class
+         availableOptionsRule = AvailableOptionsTestFrameworkRules.AvailablePreQuestJourneyOptions.class
    )
    String value();
 

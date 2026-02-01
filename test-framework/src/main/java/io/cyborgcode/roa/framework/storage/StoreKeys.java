@@ -3,6 +3,7 @@ package io.cyborgcode.roa.framework.storage;
 import io.cyborgcode.pandora.annotation.Pandora;
 import io.cyborgcode.pandora.annotation.PandoraOptions;
 import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.roa.framework.pandora.AvailableOptionsTestFrameworkRules;
 import lombok.Getter;
 
 /**
@@ -21,6 +22,8 @@ import lombok.Getter;
       creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
+      availableOptionsRule = AvailableOptionsTestFrameworkRules.AvailableStoreKeysTestOptions.class,
       meta = {
          @PandoraOptions.Meta(key = "type", value = "store-keys"),
          @PandoraOptions.Meta(key = "scope", value = "global-execution")

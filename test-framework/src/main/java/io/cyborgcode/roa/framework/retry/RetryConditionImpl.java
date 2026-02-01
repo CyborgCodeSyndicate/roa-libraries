@@ -30,6 +30,7 @@ import java.util.function.Predicate;
       creation = CreationKind.CONSTRUCTOR
 )
 @PandoraOptions(
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "retry-condition-impl"),
          @PandoraOptions.Meta(key = "implements", value = "RetryCondition")
@@ -59,6 +60,9 @@ public class RetryConditionImpl<T> implements RetryCondition<T> {
          description = "Returns the function executed on each retry attempt "
                + "to produce the value that will be evaluated."
    )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public Function<Object, T> function() {
       return function;
    }
@@ -70,6 +74,9 @@ public class RetryConditionImpl<T> implements RetryCondition<T> {
    @Pandora(
          description = "Returns the predicate that decides whether the latest "
                + "produced value is acceptable (stop retry) or not (keep retrying)."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    public Predicate<T> condition() {
       return condition;

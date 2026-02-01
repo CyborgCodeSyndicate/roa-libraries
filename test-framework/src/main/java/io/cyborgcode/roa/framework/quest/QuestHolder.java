@@ -23,6 +23,7 @@ import io.cyborgcode.pandora.model.CreationKind;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "quest-holder"),
          @PandoraOptions.Meta(key = "scope", value = "thread")
@@ -41,7 +42,12 @@ public class QuestHolder {
     *
     * @param quest the {@code SuperQuest} instance representing the current test context.
     */
-   @Pandora(description = "Bind the given SuperQuest to the current thread so framework components can access it.")
+   @Pandora(
+         description = "Bind the given SuperQuest to the current thread so framework components can access it."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public static void set(
          @Pandora(description = "The SuperQuest instance to bind to the current thread.")
          SuperQuest quest
@@ -54,7 +60,12 @@ public class QuestHolder {
     *
     * @return the {@code SuperQuest} instance associated with the current thread, or {@code null} if not set.
     */
-   @Pandora(description = "Get the SuperQuest bound to the current thread (or null if not set).")
+   @Pandora(
+         description = "Get the SuperQuest bound to the current thread (or null if not set)."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public static SuperQuest get() {
       return THREAD_LOCAL_QUEST.get();
    }
@@ -62,7 +73,12 @@ public class QuestHolder {
    /**
     * Clears the current test execution context from thread-local storage.
     */
-   @Pandora(description = "Remove the SuperQuest from the current thread to avoid leaking context between tests.")
+   @Pandora(
+         description = "Remove the SuperQuest from the current thread to avoid leaking context between tests."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    public static void clear() {
       THREAD_LOCAL_QUEST.remove();
    }

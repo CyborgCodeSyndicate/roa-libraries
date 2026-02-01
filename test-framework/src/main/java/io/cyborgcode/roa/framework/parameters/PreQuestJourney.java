@@ -26,6 +26,7 @@ import java.util.function.BiConsumer;
       creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "pre-quest-journey")
       }
@@ -47,6 +48,9 @@ public interface PreQuestJourney<T extends Enum<T>> {
                + "(e.g., @JourneyData models, dynamic values), "
                + "allowing the journey to set up state and store artifacts."
    )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    BiConsumer<SuperQuest, Object[]> journey();
 
    /**
@@ -60,6 +64,9 @@ public interface PreQuestJourney<T extends Enum<T>> {
    @Pandora(
          description = "Enum constant that identifies this journey implementation. "
                + "Used for reflective discovery and lookup when executing @Journey/@PreQuest."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    T enumImpl();
 

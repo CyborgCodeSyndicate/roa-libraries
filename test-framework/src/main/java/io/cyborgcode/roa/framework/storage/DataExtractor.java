@@ -26,6 +26,7 @@ import io.cyborgcode.pandora.model.CreationKind;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "data-extractor"),
          @PandoraOptions.Meta(key = "scope", value = "storage")
@@ -44,6 +45,9 @@ public interface DataExtractor<T> {
          description = "Optional top-level sub-storage key (namespace) used to select a nested storage context "
                + "(e.g. API, DB). Null means default storage."
    )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    Enum<?> getSubKey();
 
    /**
@@ -56,6 +60,9 @@ public interface DataExtractor<T> {
    @Pandora(
          description = "Primary storage key that identifies the stored "
                + "entry to extract (within the chosen sub-storage if present)."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    Enum<?> getKey();
 
@@ -70,6 +77,9 @@ public interface DataExtractor<T> {
    @Pandora(
          description = "Transforms a raw stored object (e.g., Response, DB row, file content) "
                + "into a typed value used by tests or services."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    T extract(Object rawObject);
 

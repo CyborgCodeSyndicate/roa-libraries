@@ -30,6 +30,7 @@ import java.util.function.Predicate;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "retry-condition"),
          @PandoraOptions.Meta(key = "role", value = "function-plus-predicate")
@@ -50,6 +51,9 @@ public interface RetryCondition<T> {
          description = "Operation to execute on each retry attempt. "
                + "Receives a service/context object and returns a value to evaluate."
    )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    Function<Object, T> function();
 
    /**
@@ -63,6 +67,9 @@ public interface RetryCondition<T> {
    @Pandora(
          description = "Success predicate applied to the value returned by function(). "
                + "When true, the retry loop stops."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    Predicate<T> condition();
 

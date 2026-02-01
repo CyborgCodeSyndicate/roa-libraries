@@ -24,6 +24,7 @@ import java.util.function.Consumer;
       creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "data-ripper")
       }
@@ -41,6 +42,9 @@ public interface DataRipper<T extends Enum<T>> {
    @Pandora(
          description = "Returns the cleanup operation to execute after the test (runs with the current SuperQuest)."
    )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
+   )
    Consumer<SuperQuest> eliminate();
 
    /**
@@ -53,6 +57,9 @@ public interface DataRipper<T extends Enum<T>> {
     */
    @Pandora(
          description = "Returns the enum constant that identifies this cleanup target (used by @Ripper selection)."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    T enumImpl();
 

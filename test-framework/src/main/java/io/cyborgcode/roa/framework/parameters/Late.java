@@ -26,6 +26,7 @@ import io.cyborgcode.pandora.model.CreationKind;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "late")
       }
@@ -43,6 +44,9 @@ public interface Late<T> {
    @Pandora(
          description = "Materialize and return the underlying value on demand. "
                + "May create a new instance or return a cached one, depending on implementation."
+   )
+   @PandoraOptions(
+         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    T create();
 

@@ -3,6 +3,7 @@ package io.cyborgcode.roa.framework.storage;
 import io.cyborgcode.pandora.annotation.Pandora;
 import io.cyborgcode.pandora.annotation.PandoraOptions;
 import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.roa.framework.pandora.AvailableOptionsTestFrameworkRules;
 
 /**
  * Defines keys used for organizing test data within the storage system.
@@ -20,6 +21,8 @@ import io.cyborgcode.pandora.model.CreationKind;
       creation = CreationKind.ENUM_CONSTANT
 )
 @PandoraOptions(
+      exampleFilesPath = "docs/usage/roa/general-usage.json",
+      availableOptionsRule = AvailableOptionsTestFrameworkRules.AvailableStorageKeysTestOptions.class,
       meta = {
          @PandoraOptions.Meta(key = "type", value = "storage-keys"),
          @PandoraOptions.Meta(key = "scope", value = "test-runtime")
