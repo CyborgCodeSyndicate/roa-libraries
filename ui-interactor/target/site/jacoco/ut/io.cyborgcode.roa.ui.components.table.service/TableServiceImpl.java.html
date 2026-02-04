@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TableServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.table.service</a> &gt; <span class="el_source">TableServiceImpl.java</span></div><h1>TableServiceImpl.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.table.service;
+
+import io.cyborgcode.roa.ui.components.base.AbstractComponentService;
+import io.cyborgcode.roa.ui.components.factory.ComponentFactory;
+import io.cyborgcode.roa.ui.components.table.base.TableComponentType;
+import io.cyborgcode.roa.ui.components.table.base.TableField;
+import io.cyborgcode.roa.ui.components.table.filters.FilterStrategy;
+import io.cyborgcode.roa.ui.components.table.registry.TableServiceRegistry;
+import io.cyborgcode.roa.ui.components.table.sort.SortingStrategy;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.validator.UiTableValidator;
+import io.cyborgcode.roa.validator.core.Assertion;
+import io.cyborgcode.roa.validator.core.AssertionResult;
+import java.util.List;
+
+/**
+ * Implementation of the {@link TableService} interface, providing concrete logic
+ * for interacting with table components.
+ *
+ * &lt;p&gt;This service is responsible for reading tables and rows, inserting values,
+ * filtering, sorting, and validating tables. It utilizes a registry to manage
+ * table-related services dynamically.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class TableServiceImpl extends AbstractComponentService&lt;TableComponentType, Table&gt; implements TableService {
+
+   private final TableServiceRegistry tableServiceRegistry;
+   private final UiTableValidator uiTableValidator;
+
+   /**
+    * Constructs a {@code TableServiceImpl} with the specified dependencies.
+    *
+    * @param driver               The {@link SmartWebDriver} instance for browser interactions.
+    * @param tableServiceRegistry The registry managing table services.
+    * @param uiTableValidator     The validator for performing table-related assertions.
+    */
+   public TableServiceImpl(final SmartWebDriver driver, final TableServiceRegistry tableServiceRegistry,
+                           UiTableValidator uiTableValidator) {
+<span class="fc" id="L40">      super(driver);</span>
+<span class="fc" id="L41">      this.tableServiceRegistry = tableServiceRegistry;</span>
+<span class="fc" id="L42">      this.uiTableValidator = uiTableValidator;</span>
+<span class="fc" id="L43">   }</span>
+
+   /**
+    * Creates a table component based on the specified component type.
+    *
+    * @param componentType The type of table component to create.
+    * @return The created table component instance.
+    */
+   @Override
+   protected Table createComponent(final TableComponentType componentType) {
+<span class="fc" id="L53">      Table tableComponent = ComponentFactory.getTableComponent(componentType, driver);</span>
+<span class="fc" id="L54">      TableImpl table = (TableImpl) tableComponent;</span>
+<span class="fc" id="L55">      table.setServiceRegistry(tableServiceRegistry);</span>
+<span class="fc" id="L56">      return tableComponent;</span>
+   }
+
+   /**
+    * Reads the entire table and maps its contents to the specified class type.
+    *
+    * @param tableComponentType The type of the table component.
+    * @param clazz              The class type representing the table rows.
+    * @param &lt;T&gt;                The row type.
+    * @return A list of objects representing the table rows.
+    */
+   @Override
+   public final &lt;T&gt; List&lt;T&gt; readTable(final TableComponentType tableComponentType, final Class&lt;T&gt; clazz) {
+<span class="fc" id="L69">      return getOrCreateComponent(tableComponentType).readTable(clazz);</span>
+   }
+
+   /**
+    * Reads the table with only the specified fields.
+    *
+    * @param tableComponentType The type of the table component.
+    * @param clazz              The class type representing the table rows.
+    * @param fields             The fields to extract from the table.
+    * @param &lt;T&gt;                The row type.
+    * @return A list of objects representing the table rows with the selected fields.
+    */
+   @Override
+   @SafeVarargs
+   public final &lt;T&gt; List&lt;T&gt; readTable(final TableComponentType tableComponentType, final Class&lt;T&gt; clazz,
+                                      final TableField&lt;T&gt;... fields) {
+<span class="fc" id="L85">      return getOrCreateComponent(tableComponentType).readTable(clazz, fields);</span>
+   }
+
+   /**
+    * Reads a range of rows from the table.
+    *
+    * @param tableComponentType The type of the table component.
+    * @param start              The starting row index (inclusive, 1-based index).
+    * @param end                The ending row index (exclusive, 1-based index).
+    * @param clazz              The class type representing the table rows.
+    * @param &lt;T&gt;                The row type.
+    * @return A list of objects representing the selected rows.
+    */
+   @Override
+   public final &lt;T&gt; List&lt;T&gt; readTable(final TableComponentType tableComponentType, final int start, final int end,
+                                      final Class&lt;T&gt; clazz) {
+<span class="fc" id="L101">      return getOrCreateComponent(tableComponentType).readTable(start, end, clazz);</span>
+   }
+
+   /**
+    * Reads a specific range of rows from the table with only the specified fields.
+    *
+    * @param tableComponentType The type of table component being used.
+    * @param start              The starting row index (inclusive, 1-based index).
+    * @param end                The ending row index (exclusive, 1-based index).
+    * @param clazz              The class type representing the table rows.
+    * @param fields             The fields to be extracted from the table. If not provided, all fields are retrieved.
+    * @param &lt;T&gt;                The type of the row representation.
+    * @return A list of objects representing the selected rows with the specified fields.
+    */
+   @Override
+   @SafeVarargs
+   public final &lt;T&gt; List&lt;T&gt; readTable(final TableComponentType tableComponentType, final int start, final int end,
+                                      final Class&lt;T&gt; clazz, final TableField&lt;T&gt;... fields) {
+<span class="fc" id="L119">      return getOrCreateComponent(tableComponentType).readTable(start, end, clazz, fields);</span>
+   }
+
+   /**
+    * Reads a single row from the table based on the given row index.
+    *
+    * &lt;p&gt;The method retrieves the data of the specified row and maps it to the provided class type.
+    *
+    * @param tableComponentType The type of table component being used.
+    * @param row                The index of the row to be read (1-based index).
+    * @param clazz              The class type representing the row structure.
+    * @param &lt;T&gt;                The type of the row representation.
+    * @return An object representing the row data.
+    */
+   @Override
+   public final &lt;T&gt; T readRow(final TableComponentType tableComponentType, final int row, final Class&lt;T&gt; clazz) {
+<span class="fc" id="L135">      return getOrCreateComponent(tableComponentType).readRow(row, clazz);</span>
+   }
+
+   /**
+    * Reads a single row from the table based on specific search criteria.
+    *
+    * &lt;p&gt;This method searches for a row matching the given criteria and maps it to the provided class type.
+    *
+    * @param tableComponentType The type of table component being used.
+    * @param searchCriteria     A list of string values used to locate the row.
+    * @param clazz              The class type representing the row structure.
+    * @param &lt;T&gt;                The type of the row representation.
+    * @return An object representing the matched row.
+    */
+   @Override
+   public final &lt;T&gt; T readRow(final TableComponentType tableComponentType, final List&lt;String&gt; searchCriteria,
+                              final Class&lt;T&gt; clazz) {
+<span class="fc" id="L152">      return getOrCreateComponent(tableComponentType).readRow(searchCriteria, clazz);</span>
+   }
+
+   /**
+    * Reads a specific row from the table based on the row index.
+    *
+    * @param tableComponentType The type of the table component.
+    * @param row                The row index (1-based index).
+    * @param clazz              The class type representing the row.
+    * @param &lt;T&gt;                The row type.
+    * @return The object representing the selected row.
+    */
+   @Override
+   @SafeVarargs
+   public final &lt;T&gt; T readRow(final TableComponentType tableComponentType, final int row, final Class&lt;T&gt; clazz,
+                              final TableField&lt;T&gt;... fields) {
+<span class="fc" id="L168">      return getOrCreateComponent(tableComponentType).readRow(row, clazz, fields);</span>
+   }
+
+   /**
+    * Reads a single row from the table based on specific search criteria, retrieving only the specified fields.
+    *
+    * @param tableComponentType The type of table component being used.
+    * @param searchCriteria     A list of string values used to locate the row.
+    * @param clazz              The class type representing the row structure.
+    * @param fields             The specific fields to retrieve from the row. If not provided, all fields will be
+    *                           retrieved.
+    * @param &lt;T&gt;                The type of the row representation.
+    * @return An object representing the matched row with the specified fields.
+    */
+   @Override
+   @SafeVarargs
+   public final &lt;T&gt; T readRow(final TableComponentType tableComponentType, final List&lt;String&gt; searchCriteria,
+                              final Class&lt;T&gt; clazz, final TableField&lt;T&gt;... fields) {
+<span class="fc" id="L186">      return getOrCreateComponent(tableComponentType).readRow(searchCriteria, clazz, fields);</span>
+   }
+
+   /**
+    * Inserts a value into a specific cell in a table row identified by its row index.
+    *
+    * @param tableComponentType The type of table component being used.
+    * @param row                The index of the row where the value should be inserted (1-based index).
+    * @param clazz              The class type representing the table row.
+    * @param data               The data to be inserted into the row.
+    * @param &lt;T&gt;                The type of the row representation.
+    */
+   @Override
+   public final &lt;T&gt; void insertCellValue(final TableComponentType tableComponentType, final int row,
+                                         final Class&lt;T&gt; clazz, final T data) {
+<span class="fc" id="L201">      getOrCreateComponent(tableComponentType).insertCellValue(row, clazz, data);</span>
+<span class="fc" id="L202">   }</span>
+
+   /**
+    * Inserts a value into a specific cell in the table.
+    *
+    * @param tableComponentType The type of the table component.
+    * @param row                The row index (1-based index).
+    * @param clazz              The class type representing the row.
+    * @param field              The field to update.
+    * @param index              The cell index within the row (1-based index).
+    * @param value              The value to insert.
+    * @param &lt;T&gt;                The row type.
+    */
+   @Override
+   public final &lt;T&gt; void insertCellValue(final TableComponentType tableComponentType, final int row,
+                                         final Class&lt;T&gt; clazz, final TableField&lt;T&gt; field, final int index,
+                                         final String... value) {
+<span class="fc" id="L219">      getOrCreateComponent(tableComponentType).insertCellValue(row, clazz, field, index, value);</span>
+<span class="fc" id="L220">   }</span>
+
+   /**
+    * Inserts a value into a specific cell of a table row identified by search criteria.
+    *
+    * @param tableComponentType The type of table component being used.
+    * @param searchCriteria     A list of string values used to locate the row.
+    * @param clazz              The class type representing the table row.
+    * @param field              The field where the value should be inserted.
+    * @param index              The index within the field where the value should be inserted (1-based index).
+    * @param values             The values to be inserted into the specified cell.
+    * @param &lt;T&gt;                The type of the row representation.
+    */
+   @Override
+   public final &lt;T&gt; void insertCellValue(final TableComponentType tableComponentType,
+                                         final List&lt;String&gt; searchCriteria, final Class&lt;T&gt; clazz,
+                                         final TableField&lt;T&gt; field, final int index, final String... values) {
+<span class="fc" id="L237">      getOrCreateComponent(tableComponentType).insertCellValue(searchCriteria, clazz, field, index, values);</span>
+<span class="fc" id="L238">   }</span>
+
+   /**
+    * Inserts an entire data object into a table row identified by search criteria.
+    *
+    * @param tableComponentType The type of table component being used.
+    * @param searchCriteria     A list of string values used to locate the row.
+    * @param clazz              The class type representing the table row.
+    * @param data               The data object containing values to be inserted into the row.
+    * @param &lt;T&gt;                The type of the row representation.
+    */
+   @Override
+   public final &lt;T&gt; void insertCellValue(final TableComponentType tableComponentType,
+                                         final List&lt;String&gt; searchCriteria, final Class&lt;T&gt; clazz, final T data) {
+<span class="fc" id="L252">      getOrCreateComponent(tableComponentType).insertCellValue(searchCriteria, clazz, data);</span>
+<span class="fc" id="L253">   }</span>
+
+   /**
+    * Applies a filter to a table column based on a specified filtering strategy.
+    *
+    * @param tableComponentType The type of table component being used.
+    * @param tclass             The class type representing the table structure.
+    * @param column             The column field on which the filter should be applied.
+    * @param filterStrategy     The filtering strategy to be used.
+    * @param values             The values used for filtering the table.
+    * @param &lt;T&gt;                The type of the table row representation.
+    */
+   @Override
+   public final &lt;T&gt; void filterTable(final TableComponentType tableComponentType, final Class&lt;T&gt; tclass,
+                                     final TableField&lt;T&gt; column, final FilterStrategy filterStrategy,
+                                     final String... values) {
+<span class="fc" id="L269">      getOrCreateComponent(tableComponentType).filterTable(tclass, column, filterStrategy, values);</span>
+<span class="fc" id="L270">   }</span>
+
+   /**
+    * Sorts the table based on the specified column and sorting strategy.
+    *
+    * @param tableComponentType The type of the table component.
+    * @param tclass             The class type representing the table rows.
+    * @param column             The column to be sorted.
+    * @param sortingStrategy    The sorting strategy to be applied.
+    * @param &lt;T&gt;                The row type.
+    */
+   @Override
+   public final &lt;T&gt; void sortTable(final TableComponentType tableComponentType, final Class&lt;T&gt; tclass,
+                                   final TableField&lt;T&gt; column, final SortingStrategy sortingStrategy) {
+<span class="fc" id="L284">      getOrCreateComponent(tableComponentType).sortTable(tclass, column, sortingStrategy);</span>
+<span class="fc" id="L285">   }</span>
+
+   /**
+    * Validates a table against the specified assertions.
+    *
+    * @param table      The table object to validate.
+    * @param assertions The assertions to apply for validation.
+    * @param &lt;T&gt;        The row type.
+    * @return A list of assertion results indicating the validation outcome.
+    */
+   @Override
+   public &lt;T&gt; List&lt;AssertionResult&lt;T&gt;&gt; validate(final Object table, final Assertion... assertions) {
+<span class="fc bfc" id="L297" title="All 2 branches covered.">      if (table == null) {</span>
+<span class="fc" id="L298">         throw new IllegalArgumentException(&quot;Table cannot be null for validation.&quot;);</span>
+      }
+<span class="fc bfc" id="L300" title="All 4 branches covered.">      if (assertions == null || assertions.length == 0) {</span>
+<span class="fc" id="L301">         throw new IllegalArgumentException(&quot;At least one assertion must be provided.&quot;);</span>
+      }
+<span class="fc" id="L303">      return uiTableValidator.validateTable(table, assertions);</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,0 +1,1 @@
+{"uuid":"48470108-0f3d-4465-b55e-2094512f6451","name":"isVisible should call tabService.isVisible, store result and return uiServiceFluent","children":["080eaf2e-4e01-41cc-9bc3-4b4baf928285"],"befores":[],"afters":[],"start":1770236709947,"stop":1770236709963}

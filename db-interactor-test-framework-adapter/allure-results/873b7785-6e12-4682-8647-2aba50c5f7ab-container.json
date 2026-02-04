@@ -1,0 +1,1 @@
+{"uuid":"873b7785-6e12-4682-8647-2aba50c5f7ab","name":"Auto-configuration should create and wire all required beans with the correct implementation types","children":["660530b8-6f54-49fc-a257-474bd5f00fca"],"befores":[],"afters":[],"start":1770236607836,"stop":1770236608130}

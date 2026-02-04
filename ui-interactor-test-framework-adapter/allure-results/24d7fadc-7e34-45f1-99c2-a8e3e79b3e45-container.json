@@ -1,0 +1,1 @@
+{"uuid":"24d7fadc-7e34-45f1-99c2-a8e3e79b3e45","name":"select should call checkboxService.select and return uiServiceFluent","children":["0824c672-ac9c-4b59-8bb7-e8f6f960c406"],"befores":[],"afters":[],"start":1769887547873,"stop":1769887547891}

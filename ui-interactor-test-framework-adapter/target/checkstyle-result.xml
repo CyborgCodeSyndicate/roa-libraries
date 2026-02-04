@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="12.0.1">
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\authentication\BaseLoginClient.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\authentication\LoginClient.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\authentication\LoginCredentials.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\config\UiFrameworkConfigHolder.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\exceptions\AuthenticationUiException.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\extensions\UiTestExtension.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\parameters\DataIntercept.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\selenium\AccordionUiElement.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\selenium\AlertUiElement.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\selenium\ButtonUiElement.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\selenium\CheckboxUiElement.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\selenium\InputUiElement.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\selenium\LinkUiElement.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\selenium\ListUiElement.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\selenium\LoaderUiElement.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\selenium\ModalUiElement.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\selenium\RadioUiElement.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\selenium\SelectUiElement.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\selenium\TabUiElement.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\selenium\ToggleUiElement.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\service\fluent\InsertionServiceFluent.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\service\fluent\InterceptorServiceFluent.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\service\fluent\SuperUiServiceFluent.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\service\InsertionServiceElementImpl.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\service\tables\DefaultTableTypes.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\service\tables\TableElement.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\service\tables\TableServiceFluent.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\storage\DataExtractorsUi.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\storage\StorageKeysUi.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\ui\util\ResponseFormatter.java">
+</file>
+</checkstyle>

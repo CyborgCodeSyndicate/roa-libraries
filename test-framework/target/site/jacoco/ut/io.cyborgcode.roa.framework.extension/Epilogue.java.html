@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Epilogue.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Core Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.framework.extension</a> &gt; <span class="el_source">Epilogue.java</span></div><h1>Epilogue.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.framework.extension;
+
+import io.cyborgcode.roa.framework.allure.CustomAllureListener;
+import io.cyborgcode.roa.framework.quest.SuperQuest;
+import io.cyborgcode.roa.framework.storage.StorageKeysTest;
+import io.cyborgcode.roa.framework.util.ObjectFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import org.apache.logging.log4j.ThreadContext;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
+
+import static io.cyborgcode.roa.framework.allure.StepType.TEAR_DOWN;
+import static io.cyborgcode.roa.framework.storage.StoreKeys.HTML;
+import static io.cyborgcode.roa.framework.storage.StoreKeys.START_TIME;
+import static io.cyborgcode.roa.framework.util.AllureStepHelper.attachFilteredLogsToAllure;
+import static io.cyborgcode.roa.framework.util.AllureStepHelper.logTestOutcome;
+import static io.cyborgcode.roa.framework.util.AllureStepHelper.setDescription;
+import static io.cyborgcode.roa.framework.util.AllureStepHelper.setUpTestMetadata;
+import static io.cyborgcode.roa.framework.util.TestContextManager.getSuperQuest;
+
+/**
+ * JUnit 5 {@code AfterTestExecutionCallback} extension for logging test outcomes and attaching logs to Allure reports.
+ *
+ * &lt;p&gt;This extension executes after each test method, logging the test result (success or failure),
+ * calculating execution duration, and appending filtered logs to the Allure report.
+ * &lt;/p&gt;
+ *
+ * &lt;p&gt;Logs are filtered based on the test name and extracted from the system log file.
+ * If logs cannot be retrieved, a fallback message is added to Allure.
+ * &lt;/p&gt;
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@Order(Integer.MAX_VALUE)
+<span class="fc" id="L39">public class Epilogue implements AfterTestExecutionCallback {</span>
+
+   /**
+    * Executes after test execution to log results and attach filtered logs to Allure.
+    *
+    * @param context The test execution context.
+    */
+   @Override
+   public void afterTestExecution(final ExtensionContext context) {
+<span class="fc bfc" id="L48" title="All 2 branches covered.">      if (!Objects.equals(CustomAllureListener.getActiveStepName(), TEAR_DOWN.getDisplayName())) {</span>
+<span class="fc" id="L49">         CustomAllureListener.stopStep();</span>
+      }
+<span class="fc" id="L51">      setUpTestMetadata(context);</span>
+<span class="fc" id="L52">      SuperQuest superQuest = getSuperQuest(context);</span>
+<span class="fc" id="L53">      Map&lt;Enum&lt;?&gt;, List&lt;Object&gt;&gt; arguments = superQuest.getStorage().sub(StorageKeysTest.ARGUMENTS).getData();</span>
+<span class="fc" id="L54">      String htmlContent = ObjectFormatter.generateHtmlContent(arguments);</span>
+<span class="fc" id="L55">      List&lt;String&gt; htmlList = context.getStore(ExtensionContext.Namespace.GLOBAL).get(HTML, List.class);</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">      if (htmlList == null) {</span>
+<span class="fc" id="L57">         htmlList = new ArrayList&lt;&gt;();</span>
+      }
+<span class="fc" id="L59">      htmlList.add(htmlContent);</span>
+<span class="fc" id="L60">      context.getStore(ExtensionContext.Namespace.GLOBAL).put(HTML, htmlList);</span>
+<span class="fc" id="L61">      Throwable throwable = context.getExecutionException().orElse(null);</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">      String status = (throwable == null) ? &quot;SUCCESS&quot; : &quot;FAILED&quot;;</span>
+<span class="fc" id="L63">      long startTime = context.getStore(ExtensionContext.Namespace.GLOBAL).get(START_TIME, long.class);</span>
+<span class="fc" id="L64">      long durationInSeconds = (System.currentTimeMillis() - startTime) / 1000;</span>
+<span class="fc" id="L65">      logTestOutcome(context.getDisplayName(), status, durationInSeconds, throwable);</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">      if (!CustomAllureListener.isStepActive(TEAR_DOWN.getDisplayName())) {</span>
+<span class="fc" id="L67">         CustomAllureListener.stopStep();</span>
+<span class="fc" id="L68">         CustomAllureListener.startStep(TEAR_DOWN);</span>
+      }
+<span class="fc" id="L70">      attachFilteredLogsToAllure(ThreadContext.get(&quot;testName&quot;));</span>
+<span class="fc" id="L71">      ThreadContext.remove(&quot;testName&quot;);</span>
+<span class="fc" id="L72">      setDescription(context);</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">      if (CustomAllureListener.isStepActive(TEAR_DOWN.getDisplayName())) {</span>
+<span class="fc" id="L74">         CustomAllureListener.stopStep();</span>
+      }
+<span class="fc" id="L76">   }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

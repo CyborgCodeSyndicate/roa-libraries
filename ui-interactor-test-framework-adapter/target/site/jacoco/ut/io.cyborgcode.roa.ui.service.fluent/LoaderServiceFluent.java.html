@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoaderServiceFluent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.service.fluent</a> &gt; <span class="el_source">LoaderServiceFluent.java</span></div><h1>LoaderServiceFluent.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.service.fluent;
+
+import io.cyborgcode.roa.framework.storage.Storage;
+import io.cyborgcode.roa.ui.components.loader.LoaderService;
+import io.cyborgcode.roa.ui.selenium.LoaderUiElement;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.qameta.allure.Allure;
+import org.assertj.core.api.Assertions;
+
+import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
+
+/**
+ * A fluent service class for handling loader UI elements in test automation.
+ *
+ * &lt;p&gt;Provides methods to check visibility, validate state, and wait for loader elements to disappear or
+ * become available.
+ *
+ * &lt;p&gt;The generic type {@code T} represents the UI service fluent implementation that extends {@link UiServiceFluent},
+ * allowing method chaining for seamless interaction.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@SuppressWarnings({&quot;java:S5960&quot;, &quot;unchecked&quot;})
+public class LoaderServiceFluent&lt;T extends UiServiceFluent&lt;?&gt;&gt; {
+
+   private final LoaderService loaderService;
+   private final T uiServiceFluent;
+   private final Storage storage;
+   private final SmartWebDriver driver;
+
+   /**
+    * Constructs a new {@code LoaderServiceFluent} instance.
+    *
+    * @param uiServiceFluent The parent fluent UI service instance.
+    * @param storage         The storage instance for storing validation results.
+    * @param loaderService   The loader service responsible for interacting with loaders.
+    * @param webDriver       The smart web driver used for interactions.
+    */
+   public LoaderServiceFluent(T uiServiceFluent, Storage storage, LoaderService loaderService,
+<span class="fc" id="L40">                              SmartWebDriver webDriver) {</span>
+<span class="fc" id="L41">      this.loaderService = loaderService;</span>
+<span class="fc" id="L42">      this.uiServiceFluent = uiServiceFluent;</span>
+<span class="fc" id="L43">      this.storage = storage;</span>
+<span class="fc" id="L44">      driver = webDriver;</span>
+<span class="fc" id="L45">   }</span>
+
+   /**
+    * Checks if the specified loader UI element is currently visible.
+    *
+    * @param element The {@link LoaderUiElement} representing the loader component.
+    * @return The fluent UI service instance.
+    */
+   public T isVisible(final LoaderUiElement element) {
+<span class="fc" id="L54">      Allure.step(&quot;[UI - Loader] Check if the loader UI element is visible&quot;);</span>
+
+<span class="fc" id="L56">      element.before().accept(driver);</span>
+<span class="fc" id="L57">      boolean visible = loaderService.isVisible(element.componentType(), element.locator());</span>
+<span class="fc" id="L58">      element.after().accept(driver);</span>
+<span class="fc" id="L59">      storage.sub(UI).put(element.enumImpl(), visible);</span>
+<span class="fc" id="L60">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates that the loader UI element is visible.
+    *
+    * @param element The {@link LoaderUiElement} to validate.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsVisible(final LoaderUiElement element) {
+<span class="fc" id="L70">      Allure.step(&quot;[UI - Loader] Validate that the loader UI element is visible&quot;);</span>
+<span class="fc" id="L71">      return validateIsVisible(element, true, false);</span>
+   }
+
+   /**
+    * Validates that the loader UI element is visible with an optional soft assertion.
+    *
+    * @param element The {@link LoaderUiElement} to validate.
+    * @param soft    A boolean indicating whether to perform soft validation.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsVisible(final LoaderUiElement element, boolean soft) {
+<span class="fc" id="L82">      Allure.step(&quot;[UI - Loader] Validate that the loader UI element is visible with soft validation option&quot;);</span>
+<span class="fc" id="L83">      return validateIsVisible(element, true, soft);</span>
+   }
+
+   /**
+    * Performs validation on whether the loader is visible or hidden.
+    *
+    * @param element         The {@link LoaderUiElement} to validate.
+    * @param shouldBeVisible A boolean indicating the expected visibility state.
+    * @param soft            A boolean indicating whether to perform soft validation.
+    * @return The fluent UI service instance.
+    */
+   private T validateIsVisible(final LoaderUiElement element, boolean shouldBeVisible, boolean soft) {
+<span class="fc" id="L95">      element.before().accept(driver);</span>
+<span class="fc" id="L96">      boolean visible = loaderService.isVisible(element.componentType(), element.locator());</span>
+<span class="fc" id="L97">      element.after().accept(driver);</span>
+<span class="fc" id="L98">      storage.sub(UI).put(element.enumImpl(), visible);</span>
+
+<span class="fc bfc" id="L100" title="All 2 branches covered.">      String assertionMessage = shouldBeVisible</span>
+<span class="fc" id="L101">            ? &quot;Validating loader is visible&quot;</span>
+<span class="fc" id="L102">            : &quot;Validating loader is hidden&quot;;</span>
+
+<span class="fc bfc" id="L104" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L105">         return (T) uiServiceFluent.validate(</span>
+               softAssertions -&gt; {
+<span class="fc bfc" id="L107" title="All 2 branches covered.">                  if (shouldBeVisible) {</span>
+<span class="fc" id="L108">                     softAssertions.assertThat(visible).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L110">                     softAssertions.assertThat(visible).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L112">               }</span>
+         );
+      } else {
+<span class="fc" id="L115">         return (T) uiServiceFluent.validate(</span>
+               () -&gt; {
+<span class="fc bfc" id="L117" title="All 2 branches covered.">                  if (shouldBeVisible) {</span>
+<span class="fc" id="L118">                     Assertions.assertThat(visible).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L120">                     Assertions.assertThat(visible).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L122">               }</span>
+         );
+      }
+   }
+
+   /**
+    * Validates that the loader UI element is hidden.
+    *
+    * @param element The {@link LoaderUiElement} to validate.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsHidden(final LoaderUiElement element) {
+<span class="fc" id="L134">      Allure.step(&quot;[UI - Loader] Validate that the loader UI element is hidden&quot;);</span>
+<span class="fc" id="L135">      return validateIsVisible(element, false, false);</span>
+   }
+
+   /**
+    * Validates that the loader UI element is hidden with an optional soft assertion.
+    *
+    * @param element The {@link LoaderUiElement} to validate.
+    * @param soft    A boolean indicating whether to perform soft validation.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsHidden(final LoaderUiElement element, boolean soft) {
+<span class="fc" id="L146">      Allure.step(&quot;[UI - Loader] Validate that the loader UI element is hidden with soft validation option&quot;);</span>
+<span class="fc" id="L147">      return validateIsVisible(element, false, soft);</span>
+   }
+
+   /**
+    * Waits until the specified loader UI element is visible within the given timeout.
+    *
+    * @param element      The {@link LoaderUiElement} to wait for.
+    * @param secondsShown The maximum time (in seconds) to wait for visibility.
+    * @return The fluent UI service instance.
+    */
+   public T waitToBeShown(final LoaderUiElement element, int secondsShown) {
+<span class="fc" id="L158">      Allure.step(</span>
+            &quot;[UI - Loader] [UI - Loader] Wait for the loader UI element to be shown for &quot; + secondsShown + &quot; seconds&quot;);
+
+<span class="fc" id="L161">      element.before().accept(driver);</span>
+<span class="fc" id="L162">      loaderService.waitToBeShown(element.componentType(), element.locator(), secondsShown);</span>
+<span class="fc" id="L163">      element.after().accept(driver);</span>
+<span class="fc" id="L164">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Waits until the specified loader UI element is removed from visibility within the given timeout.
+    *
+    * @param element        The {@link LoaderUiElement} to wait for.
+    * @param secondsRemoved The maximum time (in seconds) to wait for removal.
+    * @return The fluent UI service instance.
+    */
+   public T waitToBeRemoved(final LoaderUiElement element, int secondsRemoved) {
+<span class="fc" id="L175">      Allure.step(&quot;[UI - Loader] Wait for the loader UI element to be removed for &quot; + secondsRemoved + &quot; seconds&quot;);</span>
+
+<span class="fc" id="L177">      element.before().accept(driver);</span>
+<span class="fc" id="L178">      loaderService.waitToBeRemoved(element.componentType(), element.locator(), secondsRemoved);</span>
+<span class="fc" id="L179">      element.after().accept(driver);</span>
+<span class="fc" id="L180">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Waits for the loader UI element to become visible and then disappear within the given time limits.
+    *
+    * @param element        The {@link LoaderUiElement} to wait for.
+    * @param secondsShown   The maximum time (in seconds) to wait for visibility.
+    * @param secondsRemoved The maximum time (in seconds) to wait for removal.
+    * @return The fluent UI service instance.
+    */
+   public T waitToBeShownAndRemoved(final LoaderUiElement element, int secondsShown, int secondsRemoved) {
+<span class="fc" id="L192">      Allure.step(&quot;[UI - Loader] Wait for the loader UI element to be shown and then removed within &quot;</span>
+            + secondsShown + &quot; and &quot; + secondsRemoved + &quot; seconds respectively&quot;);
+
+<span class="fc" id="L195">      element.before().accept(driver);</span>
+<span class="fc" id="L196">      loaderService.waitToBeShownAndRemoved(element.componentType(), element.locator(), secondsShown, secondsRemoved);</span>
+<span class="fc" id="L197">      element.after().accept(driver);</span>
+<span class="fc" id="L198">      return uiServiceFluent;</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

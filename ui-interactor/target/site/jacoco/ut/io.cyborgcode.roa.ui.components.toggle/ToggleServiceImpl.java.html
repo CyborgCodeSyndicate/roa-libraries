@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ToggleServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.toggle</a> &gt; <span class="el_source">ToggleServiceImpl.java</span></div><h1>ToggleServiceImpl.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.toggle;
+
+import io.cyborgcode.roa.ui.components.base.AbstractComponentService;
+import io.cyborgcode.roa.ui.components.factory.ComponentFactory;
+import io.cyborgcode.roa.ui.log.LogUi;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import org.openqa.selenium.By;
+
+/**
+ * Implementation of the {@link ToggleService} interface, providing methods to activate or
+ * deactivate toggles, as well as check if they are enabled or activated. Extends
+ * {@link AbstractComponentService} to manage creation and retrieval of {@link Toggle} instances.
+ *
+ * &lt;p&gt;This class references {@link ToggleComponentType} to identify the correct toggle component,
+ * ensuring consistent behavior for a variety of toggle-like elements (switches, checkboxes, etc.)
+ * across different UI designs.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class ToggleServiceImpl extends AbstractComponentService&lt;ToggleComponentType, Toggle&gt;
+      implements ToggleService {
+
+   private static final String ACTIVATE_TEXT = &quot;Activating toggle %s for toggle component %s&quot;;
+   private static final String ACTIVATE_LOCATOR = &quot;Activating toggle with locator %s for toggle component %s&quot;;
+   private static final String ACTIVATE_CONTAINER = &quot;Activating toggle %s in container %s for toggle component %s&quot;;
+
+   private static final String DEACTIVATE_TEXT = &quot;Deactivating toggle %s for toggle component %s&quot;;
+   private static final String DEACTIVATE_LOCATOR = &quot;Deactivating toggle with locator %s for toggle component %s&quot;;
+   private static final String DEACTIVATE_CONTAINER = &quot;Deactivating toggle %s in container %s for toggle component %s&quot;;
+
+   private static final String IS_ENABLED_TEXT = &quot;Checking if toggle %s is enabled for toggle component %s&quot;;
+   private static final String IS_ENABLED_LOCATOR =
+         &quot;Checking if toggle with locator %s is enabled for toggle component %s&quot;;
+   private static final String IS_ENABLED_CONTAINER =
+         &quot;Checking if toggle %s is enabled in container %s for toggle component %s&quot;;
+
+   private static final String IS_ACTIVATED_TEXT = &quot;Checking if toggle %s is activated for toggle component %s&quot;;
+   private static final String IS_ACTIVATED_LOCATOR =
+         &quot;Checking if toggle with locator %s is activated for toggle component %s&quot;;
+   private static final String IS_ACTIVATED_CONTAINER =
+         &quot;Checking if toggle %s is activated in container %s for toggle component %s&quot;;
+
+   /**
+    * Constructs a new {@code ToggleServiceImpl} with the specified {@link SmartWebDriver}.
+    *
+    * @param driver the smart web driver for interacting with browser elements.
+    */
+   public ToggleServiceImpl(SmartWebDriver driver) {
+<span class="fc" id="L50">      super(driver);</span>
+<span class="fc" id="L51">   }</span>
+
+   /**
+    * Creates a {@link Toggle} instance for the given {@link ToggleComponentType}.
+    *
+    * @param componentType the toggle component type.
+    * @return a new or existing {@link Toggle} instance.
+    */
+   @Override
+   protected Toggle createComponent(ToggleComponentType componentType) {
+<span class="fc" id="L61">      return ComponentFactory.getToggleComponent(componentType, driver);</span>
+   }
+
+   /**
+    * Activates a toggle, identified by text, within a specified container.
+    *
+    * @param componentType the toggle component type.
+    * @param container     the container element holding the toggle.
+    * @param toggleText    the text identifying the toggle.
+    */
+   @Override
+   public void activate(final ToggleComponentType componentType, final SmartWebElement container,
+                        final String toggleText) {
+<span class="fc" id="L74">      LogUi.step(String.format(ACTIVATE_CONTAINER, toggleText, container, componentType));</span>
+<span class="fc" id="L75">      toggleComponent(componentType).activate(container, toggleText);</span>
+<span class="fc" id="L76">   }</span>
+
+   /**
+    * Activates a toggle, identified by text, without referencing a container.
+    *
+    * @param componentType the toggle component type.
+    * @param toggleText    the text identifying the toggle.
+    */
+   @Override
+   public void activate(final ToggleComponentType componentType, final String toggleText) {
+<span class="fc" id="L86">      LogUi.step(String.format(ACTIVATE_TEXT, toggleText, componentType));</span>
+<span class="fc" id="L87">      toggleComponent(componentType).activate(toggleText);</span>
+<span class="fc" id="L88">   }</span>
+
+   /**
+    * Activates a toggle, identified by a locator.
+    *
+    * @param componentType the toggle component type.
+    * @param toggleLocator the locator referencing the toggle.
+    */
+   @Override
+   public void activate(final ToggleComponentType componentType, final By toggleLocator) {
+<span class="fc" id="L98">      LogUi.step(String.format(ACTIVATE_LOCATOR, toggleLocator, componentType));</span>
+<span class="fc" id="L99">      toggleComponent(componentType).activate(toggleLocator);</span>
+<span class="fc" id="L100">   }</span>
+
+   /**
+    * Deactivates a toggle, identified by text, within a specified container.
+    *
+    * @param componentType the toggle component type.
+    * @param container     the container element holding the toggle.
+    * @param toggleText    the text identifying the toggle.
+    */
+   @Override
+   public void deactivate(final ToggleComponentType componentType, final SmartWebElement container,
+                          final String toggleText) {
+<span class="fc" id="L112">      LogUi.step(String.format(DEACTIVATE_CONTAINER, toggleText, container, componentType));</span>
+<span class="fc" id="L113">      toggleComponent(componentType).deactivate(container, toggleText);</span>
+<span class="fc" id="L114">   }</span>
+
+   /**
+    * Deactivates a toggle, identified by text, without referencing a container.
+    *
+    * @param componentType the toggle component type.
+    * @param toggleText    the text identifying the toggle.
+    */
+   @Override
+   public void deactivate(final ToggleComponentType componentType, final String toggleText) {
+<span class="fc" id="L124">      LogUi.step(String.format(DEACTIVATE_TEXT, toggleText, componentType));</span>
+<span class="fc" id="L125">      toggleComponent(componentType).deactivate(toggleText);</span>
+<span class="fc" id="L126">   }</span>
+
+   /**
+    * Deactivates a toggle, identified by a locator.
+    *
+    * @param componentType the toggle component type.
+    * @param toggleLocator the locator referencing the toggle.
+    */
+   @Override
+   public void deactivate(final ToggleComponentType componentType, final By toggleLocator) {
+<span class="fc" id="L136">      LogUi.step(String.format(DEACTIVATE_LOCATOR, toggleLocator, componentType));</span>
+<span class="fc" id="L137">      toggleComponent(componentType).deactivate(toggleLocator);</span>
+<span class="fc" id="L138">   }</span>
+
+   /**
+    * Checks if a toggle, identified by text within a container, is enabled.
+    *
+    * @param componentType the toggle component type.
+    * @param container     the container holding the toggle.
+    * @param toggleText    the text identifying the toggle.
+    * @return true if enabled, otherwise false.
+    */
+   @Override
+   public boolean isEnabled(final ToggleComponentType componentType, final SmartWebElement container,
+                            final String toggleText) {
+<span class="fc" id="L151">      LogUi.step(String.format(IS_ENABLED_CONTAINER, toggleText, container, componentType));</span>
+<span class="fc" id="L152">      return toggleComponent(componentType).isEnabled(container, toggleText);</span>
+   }
+
+   /**
+    * Checks if a toggle, identified by text, is enabled without referencing a container.
+    *
+    * @param componentType the toggle component type.
+    * @param toggleText    the text identifying the toggle.
+    * @return true if enabled, otherwise false.
+    */
+   @Override
+   public boolean isEnabled(final ToggleComponentType componentType, final String toggleText) {
+<span class="fc" id="L164">      LogUi.step(String.format(IS_ENABLED_TEXT, toggleText, componentType));</span>
+<span class="fc" id="L165">      return toggleComponent(componentType).isEnabled(toggleText);</span>
+   }
+
+   /**
+    * Checks if a toggle, identified by a locator, is enabled.
+    *
+    * @param componentType the toggle component type.
+    * @param toggleLocator the locator referencing the toggle.
+    * @return true if enabled, otherwise false.
+    */
+   @Override
+   public boolean isEnabled(final ToggleComponentType componentType, final By toggleLocator) {
+<span class="fc" id="L177">      LogUi.step(String.format(IS_ENABLED_LOCATOR, toggleLocator, componentType));</span>
+<span class="fc" id="L178">      return toggleComponent(componentType).isEnabled(toggleLocator);</span>
+   }
+
+   /**
+    * Checks if a toggle, identified by text within a container, is currently activated.
+    *
+    * @param componentType the toggle component type.
+    * @param container     the container holding the toggle.
+    * @param toggleText    the text identifying the toggle.
+    * @return true if activated, otherwise false.
+    */
+   @Override
+   public boolean isActivated(final ToggleComponentType componentType, final SmartWebElement container,
+                              final String toggleText) {
+<span class="fc" id="L192">      LogUi.step(String.format(IS_ACTIVATED_CONTAINER, toggleText, container, componentType));</span>
+<span class="fc" id="L193">      return toggleComponent(componentType).isActivated(container, toggleText);</span>
+   }
+
+   /**
+    * Checks if a toggle, identified by text, is currently activated, without referencing a container.
+    *
+    * @param componentType the toggle component type.
+    * @param toggleText    the text identifying the toggle.
+    * @return true if activated, otherwise false.
+    */
+   @Override
+   public boolean isActivated(final ToggleComponentType componentType, final String toggleText) {
+<span class="fc" id="L205">      LogUi.step(String.format(IS_ACTIVATED_TEXT, toggleText, componentType));</span>
+<span class="fc" id="L206">      return toggleComponent(componentType).isActivated(toggleText);</span>
+   }
+
+   /**
+    * Checks if a toggle, identified by a locator, is currently activated.
+    *
+    * @param componentType the toggle component type.
+    * @param toggleLocator the locator referencing the toggle.
+    * @return true if activated, otherwise false.
+    */
+   @Override
+   public boolean isActivated(final ToggleComponentType componentType, final By toggleLocator) {
+<span class="fc" id="L218">      LogUi.step(String.format(IS_ACTIVATED_LOCATOR, toggleLocator, componentType));</span>
+<span class="fc" id="L219">      return toggleComponent(componentType).isActivated(toggleLocator);</span>
+   }
+
+   /**
+    * Retrieves or creates the {@link Toggle} instance for the specified component type.
+    *
+    * @param componentType the toggle component type.
+    * @return a {@link Toggle} instance corresponding to the given type.
+    */
+   private Toggle toggleComponent(final ToggleComponentType componentType) {
+<span class="fc" id="L229">      return getOrCreateComponent(componentType);</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

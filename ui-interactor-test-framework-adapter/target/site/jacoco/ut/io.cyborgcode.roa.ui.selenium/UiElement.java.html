@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UiElement.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.selenium</a> &gt; <span class="el_source">UiElement.java</span></div><h1>UiElement.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.selenium;
+
+import io.cyborgcode.roa.ui.components.base.ComponentType;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import java.util.function.Consumer;
+import org.openqa.selenium.By;
+
+/**
+ * Represents a base interface for UI elements in the framework.
+ *
+ * &lt;p&gt;This interface defines common behavior for all UI elements, including
+ * locating elements, identifying component types, and executing actions
+ * before and after interaction. It serves as the foundation for all UI
+ * element interfaces (e.g., buttons, checkboxes, inputs, etc.).
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@SuppressWarnings(&quot;java:S1452&quot;)
+public interface UiElement {
+
+   /**
+    * Retrieves the locator used to identify this UI element on the web page.
+    *
+    * @return The {@link By} locator associated with this UI element.
+    */
+   By locator();
+
+   /**
+    * Retrieves the component type of this UI element.
+    *
+    * &lt;p&gt;The specific component type is determined by the implementing class.
+    *
+    * @param &lt;T&gt; The type of the component.
+    * @return The component type associated with this UI element.
+    */
+   &lt;T extends ComponentType&gt; T componentType();
+
+   /**
+    * Retrieves the enum representation of this UI element.
+    *
+    * &lt;p&gt;This method is primarily useful for elements that are implemented as enums.
+    *
+    * @return The enum instance representing this UI element.
+    */
+   Enum&lt;?&gt; enumImpl();
+
+   /**
+    * Provides a hook for actions to be executed before interacting with this UI element.
+    *
+    * &lt;p&gt;By default, this method does nothing, but implementing classes can override it
+    * to perform actions such as waiting for visibility, logging, or additional validations.
+    *
+    * @return A {@link Consumer} that takes a {@link SmartWebDriver} and executes actions before interaction.
+    */
+   default Consumer&lt;SmartWebDriver&gt; before() {
+<span class="fc" id="L56">      return smartWebDriver -&gt; {</span>
+<span class="fc" id="L57">      };</span>
+   }
+
+   /**
+    * Provides a hook for actions to be executed after interacting with this UI element.
+    *
+    * &lt;p&gt;By default, this method does nothing, but implementing classes can override it to perform actions such as
+    * logging, waiting for an expected state, or triggering additional validations.
+    *
+    * @return A {@link Consumer} that takes a {@link SmartWebDriver} and executes actions after interaction.
+    */
+   default Consumer&lt;SmartWebDriver&gt; after() {
+<span class="fc" id="L69">      return smartWebDriver -&gt; {</span>
+<span class="fc" id="L70">      };</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

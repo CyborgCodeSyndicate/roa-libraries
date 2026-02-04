@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Prologue.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Core Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.framework.extension</a> &gt; <span class="el_source">Prologue.java</span></div><h1>Prologue.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.framework.extension;
+
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
+
+import static io.cyborgcode.roa.framework.util.AllureStepHelper.initializeTestEnvironment;
+import static io.cyborgcode.roa.framework.util.AllureStepHelper.setupTestContext;
+
+/**
+ * JUnit 5 {@code BeforeTestExecutionCallback} extension that logs test execution start details.
+ *
+ * &lt;p&gt;This extension captures and logs the test name before execution begins,
+ * storing the start time in the test execution context for later use in reporting.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@Order(Integer.MIN_VALUE)
+<span class="fc" id="L19">public class Prologue implements BeforeTestExecutionCallback {</span>
+
+   /**
+    * Executes before the test method starts.
+    *
+    * &lt;p&gt;This method performs the following steps before executing a test:
+    * &lt;ul&gt;
+    *     &lt;li&gt;Initializes the test environment by collecting and storing configuration properties.&lt;/li&gt;
+    *     &lt;li&gt;Writes environment properties and category-related data for reporting.&lt;/li&gt;
+    *     &lt;li&gt;Extracts and logs the test class and method names.&lt;/li&gt;
+    *     &lt;li&gt;Assigns a unique identifier to the test execution context.&lt;/li&gt;
+    *     &lt;li&gt;Stores the test start time for later use in reporting.&lt;/li&gt;
+    * &lt;/ul&gt;
+    *
+    * @param context The test execution context containing metadata about the test.
+    */
+   @Override
+   public void beforeTestExecution(final ExtensionContext context) {
+<span class="fc" id="L37">      initializeTestEnvironment();</span>
+<span class="fc" id="L38">      setupTestContext(context);</span>
+<span class="fc" id="L39">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

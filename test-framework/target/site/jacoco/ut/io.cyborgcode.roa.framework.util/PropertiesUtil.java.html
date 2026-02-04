@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PropertiesUtil.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Core Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.framework.util</a> &gt; <span class="el_source">PropertiesUtil.java</span></div><h1>PropertiesUtil.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.framework.util;
+
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.util.Properties;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
+
+/**
+ * Utility class for loading and applying system-level properties from the classpath.
+ *
+ * &lt;p&gt;This class looks for a resource named &lt;code&gt;system.properties&lt;/code&gt; on the classpath,
+ * and for each property defined therein, sets it into &lt;code&gt;System.getProperties()&lt;/code&gt;
+ * if no value for that key is already present.&lt;/p&gt;
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public final class PropertiesUtil {
+
+   private PropertiesUtil() {
+   }
+
+   /**
+    * Loads &lt;code&gt;system.properties&lt;/code&gt; from the root of the classpath (if it exists)
+    * and applies each property to the JVM system properties, but only if that property
+    * has not already been defined.
+    *
+    * &lt;p&gt;If the resource cannot be read, this method wraps the resulting {@link IOException}
+    * in an unchecked {@link UncheckedIOException}.&lt;/p&gt;
+    *
+    * @throws UncheckedIOException if reading or parsing &lt;code&gt;system.properties&lt;/code&gt; fails
+    */
+   public static void addSystemProperties() {
+<span class="fc" id="L35">      Resource resource = getResource(); // your existing resolver</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">      if (!resource.exists()) {</span>
+<span class="fc" id="L37">         return;</span>
+      }
+
+      try {
+<span class="fc" id="L41">         Properties props = PropertiesLoaderUtils.loadProperties(resource);</span>
+<span class="fc" id="L42">         boolean surefire = isSurefireEnvironment();</span>
+
+<span class="fc bfc" id="L44" title="All 2 branches covered.">         for (String name : props.stringPropertyNames()) {</span>
+<span class="fc" id="L45">            String value = props.getProperty(name);</span>
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">            if (surefire) {</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">               if (System.getProperty(name) == null) {</span>
+<span class="fc" id="L48">                  System.setProperty(name, value);</span>
+               }
+            } else {
+<span class="nc" id="L51">               System.setProperty(name, value);</span>
+            }
+<span class="fc" id="L53">         }</span>
+<span class="fc" id="L54">      } catch (IOException e) {</span>
+<span class="fc" id="L55">         throw new UncheckedIOException(&quot;Failed to load system.properties&quot;, e);</span>
+<span class="fc" id="L56">      }</span>
+<span class="fc" id="L57">   }</span>
+
+   private static boolean isSurefireEnvironment() {
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">      for (String key : System.getProperties().stringPropertyNames()) {</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">         if (key.startsWith(&quot;surefire.&quot;)) {</span>
+<span class="fc" id="L62">            return true;</span>
+         }
+<span class="fc" id="L64">      }</span>
+<span class="nc" id="L65">      return false;</span>
+   }
+
+   static Resource getResource() {
+<span class="fc" id="L69">      return new ClassPathResource(&quot;system.properties&quot;);</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

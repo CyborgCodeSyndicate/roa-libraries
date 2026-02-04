@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BaseDriverProvider.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.drivers.base</a> &gt; <span class="el_source">BaseDriverProvider.java</span></div><h1>BaseDriverProvider.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.drivers.base;
+
+import java.util.concurrent.ConcurrentHashMap;
+import org.openqa.selenium.remote.AbstractDriverOptions;
+
+/**
+ * Abstract base class for managing WebDriver setup and configuration.
+ *
+ * &lt;p&gt;This class provides a mechanism to ensure that WebDriver binaries are downloaded only once per driver type,
+ * avoiding redundant downloads across multiple test sessions.
+ *
+ * &lt;p&gt;It utilizes a thread-safe {@link ConcurrentHashMap} to track which drivers have been downloaded.
+ *
+ * &lt;p&gt;The generic type {@code T} represents a specific browser configuration extending {@link AbstractDriverOptions}.
+ * Implementations of this class must define the WebDriver options corresponding to a particular browser.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+<span class="fc" id="L19">public abstract class BaseDriverProvider&lt;T extends AbstractDriverOptions&lt;?&gt;&gt; implements DriverProvider&lt;T&gt; {</span>
+
+   /**
+    * Thread-safe map tracking the download status of different WebDriver binaries.
+    *
+    * &lt;p&gt;The keys represent the driver types (e.g., Chrome, Firefox),
+    * and the values indicate whether the corresponding driver binary has already been downloaded.
+    */
+<span class="fc" id="L27">   private static final ConcurrentHashMap&lt;String, Boolean&gt; DRIVER_DOWNLOAD_STATUS = new ConcurrentHashMap&lt;&gt;();</span>
+
+   /**
+    * Retrieves the type of WebDriver that this provider supports.
+    *
+    * @return A {@link String} representing the WebDriver type (e.g., &quot;CHROME&quot;, &quot;FIREFOX&quot;).
+    */
+   protected abstract String getDriverType();
+
+   /**
+    * Sets up the WebDriver by downloading the necessary driver binary if it has not already been downloaded.
+    *
+    * &lt;p&gt;This method ensures that each driver type is downloaded only once by utilizing
+    * {@link ConcurrentHashMap#computeIfAbsent(Object, java.util.function.Function)} to prevent duplicate downloads.
+    *
+    * @param version The specific WebDriver version to download.
+    */
+   @Override
+   public void setupDriver(final String version) {
+<span class="fc" id="L46">      String driverType = getDriverType();</span>
+<span class="fc" id="L47">      DRIVER_DOWNLOAD_STATUS.computeIfAbsent(driverType, key -&gt; {</span>
+<span class="fc" id="L48">         downloadDriver(version);</span>
+<span class="fc" id="L49">         return true;</span>
+      });
+<span class="fc" id="L51">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

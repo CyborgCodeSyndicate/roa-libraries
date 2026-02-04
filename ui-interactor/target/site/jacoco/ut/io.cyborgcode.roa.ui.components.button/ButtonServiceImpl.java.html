@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ButtonServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.button</a> &gt; <span class="el_source">ButtonServiceImpl.java</span></div><h1>ButtonServiceImpl.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.button;
+
+import io.cyborgcode.roa.ui.components.base.AbstractComponentService;
+import io.cyborgcode.roa.ui.components.base.ComponentType;
+import io.cyborgcode.roa.ui.components.factory.ComponentFactory;
+import io.cyborgcode.roa.ui.log.LogUi;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import org.openqa.selenium.By;
+
+/**
+ * Provides service-level operations for interacting with button components.
+ *
+ * &lt;p&gt;This class manages button interactions (clicks, state checks, and table insertions)
+ * by delegating to the appropriate {@link Button} implementation based on the
+ * provided {@link ButtonComponentType}.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class ButtonServiceImpl extends AbstractComponentService&lt;ButtonComponentType, Button&gt; implements ButtonService {
+
+   /**
+    * Constructs a new ButtonServiceImpl using the specified SmartWebDriver.
+    *
+    * @param driver the SmartWebDriver used for UI interactions.
+    */
+   public ButtonServiceImpl(SmartWebDriver driver) {
+<span class="fc" id="L28">      super(driver);</span>
+<span class="fc" id="L29">   }</span>
+
+   /**
+    * Creates a new Button instance for the given component type.
+    *
+    * @param componentType the button component type.
+    * @return a new or cached Button instance.
+    */
+   @Override
+   protected Button createComponent(final ButtonComponentType componentType) {
+<span class="fc" id="L39">      return ComponentFactory.getButtonComponent(componentType, driver);</span>
+   }
+
+   /**
+    * Clicks a button with the specified text inside a container.
+    *
+    * @param componentType the button component type.
+    * @param container     the container holding the button.
+    * @param buttonText    the text of the button to click.
+    */
+   @Override
+   public void click(final ButtonComponentType componentType, final SmartWebElement container,
+                     final String buttonText) {
+<span class="fc" id="L52">      LogUi.step(&quot;Clicking button: &quot; + buttonText + &quot; in container&quot;);</span>
+<span class="fc" id="L53">      buttonComponent(componentType).click(container, buttonText);</span>
+<span class="fc" id="L54">   }</span>
+
+   /**
+    * Clicks a button inside a container.
+    *
+    * @param componentType the button component type.
+    * @param container     the container holding the button.
+    */
+   @Override
+   public void click(final ButtonComponentType componentType, final SmartWebElement container) {
+<span class="fc" id="L64">      LogUi.step(&quot;Clicking button in container&quot;);</span>
+<span class="fc" id="L65">      buttonComponent(componentType).click(container);</span>
+<span class="fc" id="L66">   }</span>
+
+   /**
+    * Clicks a button identified by its text.
+    *
+    * @param componentType the button component type.
+    * @param buttonText    the text of the button to click.
+    */
+   @Override
+   public void click(final ButtonComponentType componentType, final String buttonText) {
+<span class="fc" id="L76">      LogUi.step(&quot;Clicking button: &quot; + buttonText);</span>
+<span class="fc" id="L77">      buttonComponent(componentType).click(buttonText);</span>
+<span class="fc" id="L78">   }</span>
+
+   /**
+    * Clicks a button identified by a locator.
+    *
+    * @param componentType the button component type.
+    * @param buttonLocator the locator for the button.
+    */
+   @Override
+   public void click(final ButtonComponentType componentType, final By buttonLocator) {
+<span class="fc" id="L88">      LogUi.step(&quot;Clicking button using locator: &quot; + buttonLocator);</span>
+<span class="fc" id="L89">      buttonComponent(componentType).click(buttonLocator);</span>
+<span class="fc" id="L90">   }</span>
+
+   /**
+    * Checks if a button with the specified text inside a container is enabled.
+    *
+    * @param componentType the button component type.
+    * @param container     the container holding the button.
+    * @param buttonText    the text of the button to check.
+    * @return true if the button is enabled; false otherwise.
+    */
+   @Override
+   public boolean isEnabled(final ButtonComponentType componentType, final SmartWebElement container,
+                            final String buttonText) {
+<span class="fc" id="L103">      LogUi.step(&quot;Checking if button is enabled: &quot; + buttonText);</span>
+<span class="fc" id="L104">      return buttonComponent(componentType).isEnabled(container, buttonText);</span>
+   }
+
+   /**
+    * Checks if a button inside a container is enabled.
+    *
+    * @param componentType the button component type.
+    * @param container     the container holding the button.
+    * @return true if the button is enabled; false otherwise.
+    */
+   @Override
+   public boolean isEnabled(final ButtonComponentType componentType, final SmartWebElement container) {
+<span class="fc" id="L116">      LogUi.step(&quot;Checking if button is enabled in container&quot;);</span>
+<span class="fc" id="L117">      return buttonComponent(componentType).isEnabled(container);</span>
+   }
+
+   /**
+    * Checks if a button identified by its text is enabled.
+    *
+    * @param componentType the button component type.
+    * @param buttonText    the text of the button to check.
+    * @return true if the button is enabled; false otherwise.
+    */
+   @Override
+   public boolean isEnabled(final ButtonComponentType componentType, final String buttonText) {
+<span class="fc" id="L129">      LogUi.step(&quot;Checking if button is enabled: &quot; + buttonText);</span>
+<span class="fc" id="L130">      return buttonComponent(componentType).isEnabled(buttonText);</span>
+   }
+
+   /**
+    * Checks if a button identified by a locator is enabled.
+    *
+    * @param componentType the button component type.
+    * @param buttonLocator the locator for the button.
+    * @return true if the button is enabled; false otherwise.
+    */
+   @Override
+   public boolean isEnabled(final ButtonComponentType componentType, final By buttonLocator) {
+<span class="fc" id="L142">      LogUi.step(&quot;Checking if button is enabled using locator: &quot; + buttonLocator);</span>
+<span class="fc" id="L143">      return buttonComponent(componentType).isEnabled(buttonLocator);</span>
+   }
+
+   /**
+    * Checks if a button with the specified text inside a container is visible.
+    *
+    * @param componentType the button component type.
+    * @param container     the container holding the button.
+    * @param buttonText    the text of the button to check.
+    * @return true if the button is visible; false otherwise.
+    */
+   @Override
+   public boolean isVisible(final ButtonComponentType componentType, final SmartWebElement container,
+                            final String buttonText) {
+<span class="fc" id="L157">      LogUi.step(&quot;Checking if button is visible: &quot; + buttonText);</span>
+<span class="fc" id="L158">      return buttonComponent(componentType).isVisible(container, buttonText);</span>
+   }
+
+   /**
+    * Checks if a button inside a container is visible.
+    *
+    * @param componentType the button component type.
+    * @param container     the container holding the button.
+    * @return true if the button is visible; false otherwise.
+    */
+   @Override
+   public boolean isVisible(final ButtonComponentType componentType, final SmartWebElement container) {
+<span class="fc" id="L170">      LogUi.step(&quot;Checking if button is visible in container&quot;);</span>
+<span class="fc" id="L171">      return buttonComponent(componentType).isVisible(container);</span>
+   }
+
+   /**
+    * Checks if a button identified by its text is visible.
+    *
+    * @param componentType the button component type.
+    * @param buttonText    the text of the button to check.
+    * @return true if the button is visible; false otherwise.
+    */
+   @Override
+   public boolean isVisible(final ButtonComponentType componentType, final String buttonText) {
+<span class="fc" id="L183">      LogUi.step(&quot;Checking if button is visible: &quot; + buttonText);</span>
+<span class="fc" id="L184">      return buttonComponent(componentType).isVisible(buttonText);</span>
+   }
+
+   /**
+    * Checks if a button identified by a locator is visible.
+    *
+    * @param componentType the button component type.
+    * @param buttonLocator the locator for the button.
+    * @return true if the button is visible; false otherwise.
+    */
+   @Override
+   public boolean isVisible(final ButtonComponentType componentType, final By buttonLocator) {
+<span class="fc" id="L196">      LogUi.step(&quot;Checking if button is visible using locator: &quot; + buttonLocator);</span>
+<span class="fc" id="L197">      return buttonComponent(componentType).isVisible(buttonLocator);</span>
+   }
+
+   /**
+    * Retrieves the Button instance for the given component type.
+    *
+    * @param componentType the button component type.
+    * @return the Button instance.
+    */
+   private Button buttonComponent(final ButtonComponentType componentType) {
+<span class="fc" id="L207">      return getOrCreateComponent(componentType);</span>
+   }
+
+   /**
+    * Performs a table insertion action on a cell element using the button component.
+    *
+    * @param cellElement   the cell element where the button is located.
+    * @param componentType the button component type.
+    * @param values        optional values for the insertion action.
+    */
+   @Override
+   public void tableInsertion(final SmartWebElement cellElement, final ComponentType componentType,
+                              final String... values) {
+<span class="fc bfc" id="L220" title="All 2 branches covered.">      if (!(componentType instanceof ButtonComponentType buttonType)) {</span>
+<span class="fc" id="L221">         throw new IllegalArgumentException(&quot;Component type needs to be from: ButtonComponentType.&quot;);</span>
+      }
+<span class="fc" id="L223">      LogUi.step(&quot;Performing table insertion in cell element&quot;);</span>
+<span class="fc" id="L224">      buttonComponent(buttonType).clickElementInCell(cellElement);</span>
+<span class="fc" id="L225">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

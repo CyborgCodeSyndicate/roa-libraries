@@ -1,0 +1,1 @@
+{"uuid":"9d6cb332-2f33-4989-81b2-4804e1ab3fdc","name":"getSelectedOptions should call selectService.getSelectedOptions, store result and return uiServiceFluent","children":["8e8fa600-5aa1-4fe9-8e08-d9d9ba08fb0e"],"befores":[],"afters":[],"start":1770236708952,"stop":1770236708967}

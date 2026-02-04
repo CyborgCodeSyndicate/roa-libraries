@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>QueryResponse.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Database Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.db.query</a> &gt; <span class="el_source">QueryResponse.java</span></div><h1>QueryResponse.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.db.query;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+
+/**
+ * Represents the response of a database query.
+ *
+ * &lt;p&gt;This class stores the result of a query execution, containing a list of rows where
+ * each row is represented as a map of column names to their respective values.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@Getter
+@ToString
+@EqualsAndHashCode
+public final class QueryResponse {
+
+   /**
+    * The result rows of the executed query.
+    *
+    * &lt;p&gt;Each row is represented as a {@code Map} where the key is the column name
+    * and the value is the corresponding data.
+    */
+   private final List&lt;Map&lt;String, Object&gt;&gt; rows;
+
+   /**
+    * Constructs a new {@code QueryResponse} wrapping the provided list of rows.
+    *
+    * @param rows the list of result rows (each a map of column names to values); must not be {@code null}
+    * @throws IllegalArgumentException if {@code rows} is {@code null}
+    */
+<span class="fc" id="L37">   public QueryResponse(final List&lt;Map&lt;String, Object&gt;&gt; rows) {</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">      if (rows == null) {</span>
+<span class="fc" id="L39">         throw new IllegalArgumentException(&quot;rows must not be null&quot;);</span>
+      }
+<span class="fc" id="L41">      this.rows = Collections.unmodifiableList(rows);</span>
+<span class="fc" id="L42">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FrameHelper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.selenium.helper</a> &gt; <span class="el_source">FrameHelper.java</span></div><h1>FrameHelper.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.selenium.helper;
+
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import java.util.List;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+/**
+ * Utility class for handling iframe-related operations within a Selenium WebDriver instance.
+ *
+ * &lt;p&gt;This class provides methods to search for elements inside iframes when they are not found in the main DOM.
+ * &lt;/p&gt;
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class FrameHelper {
+
+   private FrameHelper() {
+   }
+
+   /**
+    * Searches for a WebElement inside iframes using a given locator.
+    *
+    * @param driver The WebDriver instance.
+    * @param by     The locator of the target element.
+    * @return A {@link SmartWebElement} if found, otherwise {@code null}.
+    */
+   public static SmartWebElement findElementInIframes(WebDriver driver, By by) {
+<span class="fc" id="L31">      driver.switchTo().defaultContent();</span>
+<span class="fc" id="L32">      return searchElementInIframes(driver, by);</span>
+   }
+
+   /**
+    * Searches for a WebElement inside iframes using an existing WebElement reference.
+    *
+    * @param driver  The WebDriver instance.
+    * @param element The reference WebElement to find inside an iframe.
+    * @return A {@link SmartWebElement} if found, otherwise {@code null}.
+    */
+   public static SmartWebElement findElementInIframes(WebDriver driver, WebElement element) {
+<span class="fc" id="L43">      driver.switchTo().defaultContent();</span>
+<span class="fc" id="L44">      return searchElementInIframesByElement(driver, element);</span>
+   }
+
+   /**
+    * Searches for a WebElement inside available iframes using a locator.
+    *
+    * @param driver The WebDriver instance.
+    * @param by     The locator of the target element.
+    * @return A {@link SmartWebElement} if found, otherwise {@code null}.
+    */
+   private static SmartWebElement searchElementInIframes(WebDriver driver, By by) {
+<span class="fc" id="L55">      List&lt;WebElement&gt; elements = driver.findElements(by);</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">      if (!elements.isEmpty()) {</span>
+<span class="fc" id="L57">         return new SmartWebElement(elements.get(0), driver);</span>
+      }
+
+<span class="fc" id="L60">      List&lt;WebElement&gt; frames = getAllIframes(driver);</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">      for (WebElement frame : frames) {</span>
+<span class="fc" id="L62">         driver.switchTo().frame(frame);</span>
+<span class="fc" id="L63">         elements = driver.findElements(by);</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">         if (!elements.isEmpty()) {</span>
+<span class="fc" id="L65">            return new SmartWebElement(elements.get(0), driver);</span>
+         } else {
+<span class="fc" id="L67">            driver.switchTo().defaultContent();</span>
+         }
+<span class="fc" id="L69">      }</span>
+
+<span class="fc" id="L71">      return null;</span>
+   }
+
+   /**
+    * Searches for an iframe that contains a WebElement matching the given locator.
+    *
+    * @param driver  The WebDriver instance.
+    * @param locator The locator of the target element to find within iframes.
+    * @return The containing {@link WebElement} (iframe) if found, otherwise {@code null}.
+    */
+   public static WebElement findContainerIframe(WebDriver driver, By locator) {
+<span class="fc" id="L82">      List&lt;WebElement&gt; frames = getAllIframes(driver);</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">      for (WebElement frame : frames) {</span>
+<span class="fc" id="L84">         driver.switchTo().frame(frame);</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">         if (!driver.findElements(locator).isEmpty()) {</span>
+<span class="fc" id="L86">            return frame;</span>
+         }
+<span class="fc" id="L88">         driver.switchTo().defaultContent();</span>
+<span class="fc" id="L89">      }</span>
+
+<span class="fc" id="L91">      return null;</span>
+   }
+
+   /**
+    * Searches for an existing WebElement inside available iframes.
+    *
+    * @param driver  The WebDriver instance.
+    * @param element The reference WebElement to locate inside an iframe.
+    * @return A {@link SmartWebElement} if found, otherwise {@code null}.
+    */
+   private static SmartWebElement searchElementInIframesByElement(WebDriver driver, WebElement element) {
+<span class="fc" id="L102">      List&lt;WebElement&gt; frames = getAllIframes(driver);</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">      for (WebElement frame : frames) {</span>
+<span class="fc" id="L104">         driver.switchTo().frame(frame);</span>
+         try {
+<span class="fc" id="L106">            WebElement foundElement = locateElementByAttributes(driver, element);</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">            if (foundElement != null) {</span>
+<span class="fc" id="L108">               return new SmartWebElement(foundElement, driver);</span>
+            }
+<span class="fc" id="L110">         } catch (Exception e) {</span>
+<span class="fc" id="L111">            driver.switchTo().defaultContent();</span>
+<span class="fc" id="L112">         }</span>
+<span class="fc" id="L113">      }</span>
+
+<span class="fc" id="L115">      return null;</span>
+   }
+
+   /**
+    * Attempts to locate an element by matching its tag name and unique attributes.
+    *
+    * @param driver          The WebDriver instance.
+    * @param originalElement The reference WebElement to match.
+    * @return A WebElement if found, otherwise {@code null}.
+    */
+   private static WebElement locateElementByAttributes(WebDriver driver, WebElement originalElement) {
+<span class="fc" id="L126">      String tagName = originalElement.getTagName();</span>
+<span class="fc" id="L127">      String attributes = getUniqueAttributes(driver, originalElement);</span>
+
+      @SuppressWarnings(&quot;java:S1075&quot;)
+<span class="fc" id="L130">      String xpathExpression = &quot;//&quot; + tagName + attributes;</span>
+<span class="fc" id="L131">      List&lt;WebElement&gt; matchingElements = driver.findElements(By.xpath(xpathExpression));</span>
+
+<span class="fc bfc" id="L133" title="All 2 branches covered.">      for (WebElement el : matchingElements) {</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">         if (el.getText().equals(originalElement.getText())) {</span>
+<span class="fc" id="L135">            return el;</span>
+         }
+<span class="fc" id="L137">      }</span>
+<span class="fc" id="L138">      return null;</span>
+   }
+
+   /**
+    * Extracts unique attributes from a WebElement for use in locating it later.
+    *
+    * @param driver  The WebDriver instance.
+    * @param element The target WebElement.
+    * @return A string representation of the element's attributes in XPath format.
+    */
+   private static String getUniqueAttributes(WebDriver driver, WebElement element) {
+<span class="fc" id="L149">      JavascriptExecutor js = (JavascriptExecutor) driver;</span>
+<span class="fc" id="L150">      String script =</span>
+            &quot;var attrs = arguments[0].attributes, result = ''; &quot;
+                  + &quot;for (var i = 0; i &lt; attrs.length; i++) { &quot;
+                  + &quot;    if (attrs[i].name !== 'style') { &quot;
+                  + &quot;        result += '[@' + attrs[i].name + '=\&quot;' + attrs[i].value + '\&quot;]'; &quot;
+                  + &quot;    } &quot;
+                  + &quot;} return result;&quot;;
+
+<span class="fc" id="L158">      return (String) js.executeScript(script, element);</span>
+   }
+
+   /**
+    * Retrieves all iframe elements from the current page.
+    *
+    * @param driver The WebDriver instance.
+    * @return A list of iframe WebElements.
+    */
+   private static List&lt;WebElement&gt; getAllIframes(WebDriver driver) {
+<span class="fc" id="L168">      JavascriptExecutor js = (JavascriptExecutor) driver;</span>
+<span class="fc" id="L169">      return (List&lt;WebElement&gt;) js.executeScript(</span>
+            &quot;return Array.from(document.getElementsByTagName('iframe'));&quot;
+      );
+   }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

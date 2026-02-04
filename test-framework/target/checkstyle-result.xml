@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="12.0.1">
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\allure\CustomAllureListener.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\assertion\CustomSoftAssertion.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\base\BaseQuest.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\base\ClassLevelHook.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\chain\FluentChain.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\chain\FluentService.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\chain\FluentServiceDecorator.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\config\FrameworkConfigHolder.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\data\StaticDataProvider.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\exceptions\HookExecutionException.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\exceptions\ServiceInitializationException.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\exceptions\StaticTestDataInitializationException.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\extension\Craftsman.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\extension\RipperMan.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\hooks\HookExecution.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\log\LogQuest.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\parameters\DataForge.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\parameters\DataRipper.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\parameters\PreQuestJourney.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\quest\Quest.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\quest\QuestHolder.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\quest\SuperQuest.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\retry\RetryCondition.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\retry\RetryConditionImpl.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\spring\FrameworkAdapterContextCustomizer.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\spring\FrameworkAdapterContextCustomizerFactory.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\storage\DataExtractorImpl.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\storage\DataExtractorsTest.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\storage\Storage.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\storage\StorageKeysTest.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\util\AllureStepHelper.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\util\ObjectFormatter.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\util\PropertiesUtil.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\util\ResourceLoader.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\java\io\cyborgcode\roa\framework\util\TestContextManager.java">
+</file>
+</checkstyle>

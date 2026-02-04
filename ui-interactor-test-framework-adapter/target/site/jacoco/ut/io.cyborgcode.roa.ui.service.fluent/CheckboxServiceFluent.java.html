@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CheckboxServiceFluent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.service.fluent</a> &gt; <span class="el_source">CheckboxServiceFluent.java</span></div><h1>CheckboxServiceFluent.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.service.fluent;
+
+import io.cyborgcode.roa.framework.storage.Storage;
+import io.cyborgcode.roa.ui.components.base.ComponentType;
+import io.cyborgcode.roa.ui.components.checkbox.CheckboxComponentType;
+import io.cyborgcode.roa.ui.components.checkbox.CheckboxService;
+import io.cyborgcode.roa.ui.insertion.Insertion;
+import io.cyborgcode.roa.ui.selenium.CheckboxUiElement;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.qameta.allure.Allure;
+import java.util.List;
+import org.assertj.core.api.Assertions;
+import org.openqa.selenium.By;
+
+import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
+
+/**
+ * Provides fluent methods for interacting with checkbox UI elements.
+ *
+ * &lt;p&gt;This class enables structured interactions with checkboxes, supporting actions such as selection,
+ * deselection, validation, and state retrieval. It integrates with {@link CheckboxService} to handle
+ * operations effectively and allows method chaining for better readability.
+ *
+ * &lt;p&gt;The generic type {@code T} represents the fluent UI service that extends {@link UiServiceFluent},
+ * ensuring method chaining returns the correct instance type.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@SuppressWarnings({&quot;java:S5960&quot;, &quot;unchecked&quot;})
+public class CheckboxServiceFluent&lt;T extends UiServiceFluent&lt;?&gt;&gt; implements Insertion {
+
+   private final CheckboxService checkboxService;
+   private final T uiServiceFluent;
+   private final Storage storage;
+   private final SmartWebDriver driver;
+
+   /**
+    * Constructs a fluent service for interacting with checkboxes.
+    *
+    * @param uiServiceFluent The parent UI service fluent instance.
+    * @param storage         The storage instance for persisting checkbox states.
+    * @param checkboxService The service handling checkbox interactions.
+    * @param smartWebDriver  The WebDriver instance used for UI interactions.
+    */
+   public CheckboxServiceFluent(T uiServiceFluent, Storage storage, CheckboxService checkboxService,
+<span class="fc" id="L46">                                SmartWebDriver smartWebDriver) {</span>
+<span class="fc" id="L47">      this.checkboxService = checkboxService;</span>
+<span class="fc" id="L48">      this.uiServiceFluent = uiServiceFluent;</span>
+<span class="fc" id="L49">      this.storage = storage;</span>
+<span class="fc" id="L50">      this.driver = smartWebDriver;</span>
+<span class="fc" id="L51">   }</span>
+
+   /**
+    * Selects the specified checkbox element.
+    *
+    * @param element The {@link CheckboxUiElement} to be selected.
+    * @return The instance of {@link UiServiceFluent} for method chaining.
+    */
+   public T select(final CheckboxUiElement element) {
+<span class="fc" id="L60">      Allure.step(&quot;[UI - Checkbox] Select checkbox with element: &quot; + element);</span>
+<span class="fc" id="L61">      checkboxService.select((CheckboxComponentType) element.componentType(), element.locator());</span>
+<span class="fc" id="L62">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Deselects the specified checkbox element.
+    *
+    * @param element The {@link CheckboxUiElement} to be deselected.
+    * @return The instance of {@link UiServiceFluent} for method chaining.
+    */
+   public T deSelect(final CheckboxUiElement element) {
+<span class="fc" id="L72">      Allure.step(&quot;[UI - Checkbox] Deselect checkbox with element: &quot; + element);</span>
+<span class="fc" id="L73">      checkboxService.deSelect((CheckboxComponentType) element.componentType(), element.locator());</span>
+<span class="fc" id="L74">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Checks if the specified checkbox element is selected.
+    *
+    * @param element The {@link CheckboxUiElement} to check.
+    * @return The instance of {@link UiServiceFluent} for method chaining.
+    */
+   public T isSelected(final CheckboxUiElement element) {
+<span class="fc" id="L84">      Allure.step(&quot;[UI - Checkbox] Check if checkbox with element &quot; + element + &quot; is selected&quot;);</span>
+<span class="fc" id="L85">      boolean selected = checkboxService.isSelected(element.componentType(), element.locator());</span>
+<span class="fc" id="L86">      storage.sub(UI).put(element.enumImpl(), selected);</span>
+<span class="fc" id="L87">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates whether the checkbox is selected.
+    *
+    * @param element The {@link CheckboxUiElement} to validate.
+    * @return The instance of {@link UiServiceFluent} for method chaining.
+    */
+   public T validateIsSelected(final CheckboxUiElement element) {
+<span class="fc" id="L97">      return validateIsSelected(element, false);</span>
+   }
+
+   /**
+    * Validates whether the checkbox is selected.
+    *
+    * @param element The {@link CheckboxUiElement} to validate.
+    * @param soft    If {@code true}, performs a soft assertion.
+    * @return The instance of {@link UiServiceFluent} for method chaining.
+    */
+   public T validateIsSelected(final CheckboxUiElement element, boolean soft) {
+<span class="fc" id="L108">      Allure.step(&quot;[UI - Checkbox] Validate if checkbox with element &quot; + element + &quot; is selected&quot;);</span>
+<span class="fc" id="L109">      element.before().accept(driver);</span>
+<span class="fc" id="L110">      boolean selected = checkboxService.isSelected(element.componentType(), element.locator());</span>
+<span class="fc" id="L111">      element.after().accept(driver);</span>
+<span class="fc" id="L112">      storage.sub(UI).put(element.enumImpl(), selected);</span>
+
+<span class="fc bfc" id="L114" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L115">         return (T) uiServiceFluent.validate(</span>
+<span class="fc" id="L116">               softAssertions -&gt; softAssertions.assertThat(selected)</span>
+<span class="fc" id="L117">                     .as(&quot;Validating checkbox Selected&quot;).isTrue()</span>
+         );
+      } else {
+<span class="fc" id="L120">         return (T) uiServiceFluent.validate(</span>
+<span class="fc" id="L121">               () -&gt; Assertions.assertThat(selected)</span>
+<span class="fc" id="L122">                     .as(&quot;Validating checkbox Selected&quot;).isTrue()</span>
+         );
+      }
+   }
+
+   /**
+    * Checks if multiple checkboxes associated with the given {@link CheckboxUiElement} are selected.
+    * The selection state is stored in the {@link Storage} for future reference.
+    *
+    * @param element The {@link CheckboxUiElement} representing the checkbox group or a single checkbox.
+    * @return The instance of {@link UiServiceFluent} for method chaining.
+    */
+   public T areSelected(final CheckboxUiElement element) {
+<span class="fc" id="L135">      Allure.step(&quot;[UI - Checkbox] Check if multiple checkboxes with element &quot; + element + &quot; are selected&quot;);</span>
+<span class="fc" id="L136">      boolean selected =</span>
+<span class="fc" id="L137">            checkboxService.areSelected((CheckboxComponentType) element.componentType(), element.locator());</span>
+<span class="fc" id="L138">      storage.sub(UI).put(element.enumImpl(), selected);</span>
+<span class="fc" id="L139">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Checks if the specified checkbox element is enabled.
+    *
+    * @param element The {@link CheckboxUiElement} to check.
+    * @return The instance of {@link UiServiceFluent} for method chaining.
+    */
+   public T isEnabled(final CheckboxUiElement element) {
+<span class="fc" id="L149">      Allure.step(&quot;[UI - Checkbox] Check if checkbox with element &quot; + element + &quot; is enabled&quot;);</span>
+<span class="fc" id="L150">      boolean enabled = checkboxService.isEnabled(element.componentType(), element.locator());</span>
+<span class="fc" id="L151">      storage.sub(UI).put(element.enumImpl(), enabled);</span>
+<span class="fc" id="L152">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates whether the checkbox is enabled.
+    *
+    * @param element The {@link CheckboxUiElement} to validate.
+    * @return The instance of {@link UiServiceFluent} for method chaining.
+    */
+   public T validateIsEnabled(final CheckboxUiElement element) {
+<span class="fc" id="L162">      return validateIsEnabled(element, false);</span>
+   }
+
+   /**
+    * Validates whether the checkbox is enabled.
+    *
+    * @param element The {@link CheckboxUiElement} to validate.
+    * @param soft    If {@code true}, performs a soft assertion.
+    * @return The instance of {@link UiServiceFluent} for method chaining.
+    */
+   public T validateIsEnabled(final CheckboxUiElement element, boolean soft) {
+<span class="fc" id="L173">      Allure.step(&quot;[UI - Checkbox] Validate if checkbox with element &quot; + element + &quot; is enabled&quot;);</span>
+<span class="fc" id="L174">      element.before().accept(driver);</span>
+<span class="fc" id="L175">      boolean enabled = checkboxService.isEnabled(element.componentType(), element.locator());</span>
+<span class="fc" id="L176">      element.after().accept(driver);</span>
+<span class="fc" id="L177">      storage.sub(UI).put(element.enumImpl(), enabled);</span>
+
+<span class="fc bfc" id="L179" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L180">         return (T) uiServiceFluent.validate(</span>
+<span class="fc" id="L181">               softAssertions -&gt; softAssertions.assertThat(enabled)</span>
+<span class="fc" id="L182">                     .as(&quot;Validating checkbox Enabled&quot;).isTrue()</span>
+         );
+      } else {
+<span class="fc" id="L185">         return (T) uiServiceFluent.validate(</span>
+<span class="fc" id="L186">               () -&gt; Assertions.assertThat(enabled)</span>
+<span class="fc" id="L187">                     .as(&quot;Validating checkbox Enabled&quot;).isTrue()</span>
+         );
+      }
+   }
+
+   /**
+    * Checks if multiple checkboxes associated with the given {@link CheckboxUiElement} are enabled.
+    * The enabled state is stored in the {@link Storage} for future reference.
+    *
+    * @param element The {@link CheckboxUiElement} representing the checkbox group or a single checkbox.
+    * @return The instance of {@link UiServiceFluent} for method chaining.
+    */
+   public T areEnabled(final CheckboxUiElement element) {
+<span class="fc" id="L200">      Allure.step(&quot;[UI - Checkbox] Check if multiple checkboxes with element &quot; + element + &quot; are enabled&quot;);</span>
+<span class="fc" id="L201">      boolean enabled = checkboxService.areEnabled((CheckboxComponentType) element.componentType(), element.locator());</span>
+<span class="fc" id="L202">      storage.sub(UI).put(element.enumImpl(), enabled);</span>
+<span class="fc" id="L203">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Retrieves the selected values from the checkbox.
+    *
+    * @param element The {@link CheckboxUiElement} to retrieve values from.
+    * @return The instance of {@link UiServiceFluent} for method chaining.
+    */
+   public T getSelected(final CheckboxUiElement element) {
+<span class="fc" id="L213">      Allure.step(&quot;[UI - Checkbox] Retrieve the selected values from checkbox &quot; + element);</span>
+<span class="fc" id="L214">      List&lt;String&gt; selectedValues = checkboxService.getSelected(element.componentType(), element.locator());</span>
+<span class="fc" id="L215">      storage.sub(UI).put(element.enumImpl(), selectedValues);</span>
+<span class="fc" id="L216">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Retrieves all checkbox values.
+    *
+    * @param element The {@link CheckboxUiElement} to retrieve all values from.
+    * @return The instance of {@link UiServiceFluent} for method chaining.
+    */
+   public T getAll(final CheckboxUiElement element) {
+<span class="fc" id="L226">      Allure.step(&quot;[UI - Checkbox] Retrieve all checkbox values from &quot; + element);</span>
+<span class="fc" id="L227">      element.before().accept(driver);</span>
+<span class="fc" id="L228">      List&lt;String&gt; allItems = checkboxService.getAll(element.componentType(), element.locator());</span>
+<span class="fc" id="L229">      element.after().accept(driver);</span>
+<span class="fc" id="L230">      storage.sub(UI).put(element.enumImpl(), allItems);</span>
+<span class="fc" id="L231">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Inserts a value into a checkbox element.
+    *
+    * @param componentType The type of the checkbox component.
+    * @param locator       The locator of the checkbox element.
+    * @param values        The values to be inserted.
+    */
+   @Override
+   public void insertion(final ComponentType componentType, final By locator, final Object... values) {
+<span class="fc" id="L243">      Allure.step(&quot;[UI - Checkbox] Insert a value into checkbox &quot; + locator + &quot; of type &quot; + componentType);</span>
+<span class="fc" id="L244">      checkboxService.insertion(componentType, locator, values);</span>
+<span class="fc" id="L245">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

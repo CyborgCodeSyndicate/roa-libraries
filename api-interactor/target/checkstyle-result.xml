@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="12.0.1">
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\main\java\io\cyborgcode\roa\api\authentication\AuthenticationClient.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\main\java\io\cyborgcode\roa\api\authentication\BaseAuthenticationClient.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\main\java\io\cyborgcode\roa\api\client\RestClient.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\main\java\io\cyborgcode\roa\api\config\ApiConfigHolder.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\main\java\io\cyborgcode\roa\api\core\Endpoint.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\main\java\io\cyborgcode\roa\api\core\ParametrizedEndpoint.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\main\java\io\cyborgcode\roa\api\exceptions\RestServiceException.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\main\java\io\cyborgcode\roa\api\log\LogApi.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\main\java\io\cyborgcode\roa\api\validator\RestAssertionTarget.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\main\java\io\cyborgcode\roa\api\validator\RestResponseValidator.java">
+</file>
+</checkstyle>

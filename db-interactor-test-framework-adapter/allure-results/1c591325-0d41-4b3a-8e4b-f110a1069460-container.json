@@ -1,0 +1,1 @@
+{"uuid":"1c591325-0d41-4b3a-8e4b-f110a1069460","name":"validate() with Runnable should execute the runnable and return fluent instance","children":["a268edab-bf71-4dd9-b779-5881f151b7c2"],"befores":[],"afters":[],"start":1770236610797,"stop":1770236610907}

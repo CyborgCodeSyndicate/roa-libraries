@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <excludeFromCompile>
+      <directory url="file://$PROJECT_DIR$/roa-archetype/src/main/resources/archetype-resources" includeSubdirectories="true" />
+    </excludeFromCompile>
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="db-interactor-test-framework-adapter" />
+        <module name="api-interactor" />
+        <module name="api-interactor-test-framework-adapter" />
+        <module name="test-framework" />
+        <module name="ui-interactor" />
+        <module name="ui-interactor-test-framework-adapter" />
+        <module name="assertions" />
+        <module name="roa-archetype" />
+        <module name="db-interactor" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="api-interactor-test-framework-adapter (1)" target="17" />
+      <module name="assertions (1)" target="17" />
+      <module name="db-interactor (1)" target="17" />
+      <module name="db-interactor-test-framework-adapter (1)" target="17" />
+      <module name="roa-archetype (1)" target="1.5" />
+      <module name="test-framework (1)" target="17" />
+      <module name="ui-interactor (1)" target="17" />
+      <module name="ui-interactor-test-framework-adapter (1)" target="17" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="api-interactor" options="-parameters -Xlint:unchecked -Xlint:deprecation" />
+      <module name="api-interactor-test-framework-adapter" options="-parameters -Xlint:unchecked -Xlint:deprecation" />
+      <module name="api-interactor-test-framework-adapter (1)" options="-parameters -Xlint:unchecked -Xlint:deprecation" />
+      <module name="assertions" options="-parameters -Xlint:unchecked -Xlint:deprecation" />
+      <module name="assertions (1)" options="-parameters -Xlint:unchecked -Xlint:deprecation" />
+      <module name="db-interactor" options="-parameters -Xlint:unchecked -Xlint:deprecation" />
+      <module name="db-interactor (1)" options="-parameters -Xlint:unchecked -Xlint:deprecation" />
+      <module name="db-interactor-test-framework-adapter" options="-parameters -Xlint:unchecked -Xlint:deprecation" />
+      <module name="db-interactor-test-framework-adapter (1)" options="-parameters -Xlint:unchecked -Xlint:deprecation" />
+      <module name="libraries" options="" />
+      <module name="roa-libraries" options="-parameters -Xlint:unchecked -Xlint:deprecation" />
+      <module name="roa-parent" options="-parameters" />
+      <module name="test-framework" options="-parameters -Xlint:unchecked -Xlint:deprecation" />
+      <module name="test-framework (1)" options="-parameters -Xlint:unchecked -Xlint:deprecation" />
+      <module name="ui-interactor" options="-parameters -Xlint:unchecked -Xlint:deprecation" />
+      <module name="ui-interactor (1)" options="-parameters -Xlint:unchecked -Xlint:deprecation" />
+      <module name="ui-interactor-test-framework-adapter" options="-parameters -Xlint:unchecked -Xlint:deprecation" />
+      <module name="ui-interactor-test-framework-adapter (1)" options="-parameters -Xlint:unchecked -Xlint:deprecation" />
+    </option>
+  </component>
+</project>

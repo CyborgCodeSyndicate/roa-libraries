@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DbTypeConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Database Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.db.config</a> &gt; <span class="el_source">DbTypeConverter.java</span></div><h1>DbTypeConverter.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.db.config;
+
+import io.cyborgcode.utilities.reflections.ReflectionUtil;
+import java.lang.reflect.Method;
+import org.aeonbits.owner.Converter;
+
+import static io.cyborgcode.roa.db.config.DbConfigHolder.getDbConfig;
+
+/**
+ * OWNER converter for {@link DbType}.  Uses the singleton {@link DbConfig}
+ * loaded by {@link DbConfigHolder#getDbConfig()} to discover via
+ * {@link ReflectionUtil} exactly one enum implementing {@link DbType}
+ * in your project package, then converts the raw property string into
+ * that enum constant.
+ *
+ * &lt;p&gt;If zero or more than one {@code enum} implementing {@link DbType}
+ * is found, this converter will fail fast with an {@link IllegalStateException}.&lt;/p&gt;
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+<span class="fc" id="L21">public class DbTypeConverter implements Converter&lt;DbType&lt;?&gt;&gt; {</span>
+
+   /**
+    * Convert a {@code String} property into a {@link DbType} enum instance.
+    *
+    * @param method the {@link Method} annotated with the {@code @Key} for which this conversion applies
+    * @param input  the raw String value from configuration (e.g. &quot;POSTGRES&quot;)
+    * @return the matching {@link DbType} enum constant
+    */
+   @Override
+   public DbType&lt;?&gt; convert(Method method, String input) {
+      try {
+<span class="fc" id="L33">         return ReflectionUtil.findEnumImplementationsOfInterface(DbType.class, input, getDbConfig().projectPackages());</span>
+<span class="fc" id="L34">      } catch (Exception e) {</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">         if (e.getMessage().contains(&quot;more than one enum&quot;)) {</span>
+<span class="fc" id="L36">            return ReflectionUtil.findEnumImplementationsOfInterface(DbType.class, input,</span>
+<span class="fc" id="L37">               getDbConfig().projectPackages()[0]);</span>
+         } else {
+<span class="fc" id="L39">            throw e;</span>
+         }
+      }
+   }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

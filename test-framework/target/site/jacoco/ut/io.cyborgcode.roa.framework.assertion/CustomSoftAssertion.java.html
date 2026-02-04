@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomSoftAssertion.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Core Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.framework.assertion</a> &gt; <span class="el_source">CustomSoftAssertion.java</span></div><h1>CustomSoftAssertion.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.framework.assertion;
+
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.BiConsumer;
+import java.util.function.Predicate;
+import org.assertj.core.api.SoftAssertions;
+
+/**
+ * Custom extension of {@code SoftAssertions} with enhanced post-error handling capabilities.
+ *
+ * &lt;p&gt;This class provides additional functionality for managing assertion errors by allowing
+ * custom error handlers and associated objects to be registered and processed automatically.
+ *
+ * &lt;p&gt;Registered error handlers can define specific logic for handling assertion failures,
+ * including conditional checks based on stack traces.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+<span class="fc" id="L21">public class CustomSoftAssertion extends SoftAssertions {</span>
+
+   /**
+    * Stores objects required for post-error handling, mapped by their class type.
+    */
+<span class="fc" id="L26">   private final Map&lt;Class&lt;?&gt;, Object&gt; requiredObjectsForPostErrorHandling = new ConcurrentHashMap&lt;&gt;();</span>
+
+   /**
+    * Stores custom post-error handlers mapped to their corresponding class types.
+    */
+<span class="fc" id="L31">   private static final Map&lt;Class&lt;?&gt;, BiConsumer&lt;AssertionError, Object&gt;&gt; postErrorHandlers = new ConcurrentHashMap&lt;&gt;();</span>
+
+   /**
+    * Stores predicates to determine whether a post-error handler should be applied based on stack trace analysis.
+    */
+<span class="fc" id="L36">   private static final Map&lt;Class&lt;?&gt;, Predicate&lt;StackTraceElement[]&gt;&gt; errorCheckers = new ConcurrentHashMap&lt;&gt;();</span>
+
+   /**
+    * Registers an object to be used in post-error handling logic.
+    *
+    * @param clazz  The class type of the object.
+    * @param object The object to be registered for error handling.
+    * @param &lt;T&gt;    The type of the object being registered.
+    */
+   public &lt;T&gt; void registerObjectForPostErrorHandling(Class&lt;T&gt; clazz, T object) {
+<span class="fc" id="L46">      requiredObjectsForPostErrorHandling.put(clazz, object);</span>
+<span class="fc" id="L47">   }</span>
+
+   /**
+    * Retrieves an object of the specified type that was registered for post-error handling.
+    *
+    * @param clazz The class type of the requested object.
+    * @param &lt;T&gt;   The expected type of the object.
+    * @return An {@code Optional} containing the registered object, if available.
+    */
+   public &lt;T&gt; Optional&lt;T&gt; getObjectFromType(Class&lt;T&gt; clazz) {
+<span class="fc" id="L57">      return Optional.ofNullable(clazz.cast(requiredObjectsForPostErrorHandling.get(clazz)));</span>
+   }
+
+   /**
+    * Collects an assertion error and processes it using registered custom handlers.
+    *
+    * &lt;p&gt;If an assertion failure occurs, the registered error handlers are invoked for
+    * any applicable objects, based on the stack trace and configured predicates.
+    *
+    * @param error The assertion error that occurred.
+    */
+   @Override
+   public void collectAssertionError(final AssertionError error) {
+<span class="fc" id="L70">      postErrorHandlers.forEach((clazz, handler) -&gt; getObjectFromType(clazz).ifPresent(object -&gt; {</span>
+<span class="pc bfc" id="L71" title="All 2 branches covered.">         if (errorCheckers.getOrDefault(clazz, stackTrace -&gt; true).test(error.getStackTrace())) {</span>
+<span class="fc" id="L72">            handler.accept(error, object);</span>
+         }
+<span class="fc" id="L74">      }));</span>
+<span class="fc" id="L75">      super.collectAssertionError(error);</span>
+<span class="fc" id="L76">   }</span>
+
+   /**
+    * Registers a custom error handler for a specific type.
+    *
+    * &lt;p&gt;The provided handler is executed when an assertion failure occurs, and can
+    * include an optional predicate to determine applicability based on the stack trace.
+    *
+    * @param clazz        The class type associated with the error handler.
+    * @param errorHandler A function that handles assertion errors for the specified type.
+    * @param errorChecker A predicate to determine whether the handler should be applied based on stack trace analysis.
+    * @param &lt;T&gt;          The type associated with the error handler.
+    */
+   public static &lt;T&gt; void registerCustomAssertion(Class&lt;T&gt; clazz,
+                                                  BiConsumer&lt;AssertionError, T&gt; errorHandler,
+                                                  Predicate&lt;StackTraceElement[]&gt; errorChecker) {
+<span class="fc" id="L92">      postErrorHandlers.put(clazz, (BiConsumer&lt;AssertionError, Object&gt;) errorHandler);</span>
+<span class="fc" id="L93">      errorCheckers.put(clazz, errorChecker);</span>
+<span class="fc" id="L94">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

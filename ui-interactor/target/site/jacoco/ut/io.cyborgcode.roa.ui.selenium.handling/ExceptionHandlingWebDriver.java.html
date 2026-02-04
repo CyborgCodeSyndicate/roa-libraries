@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ExceptionHandlingWebDriver.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.selenium.handling</a> &gt; <span class="el_source">ExceptionHandlingWebDriver.java</span></div><h1>ExceptionHandlingWebDriver.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.selenium.handling;
+
+import io.cyborgcode.roa.ui.selenium.enums.WebElementAction;
+import io.cyborgcode.roa.ui.util.BiFunction;
+import java.util.Collections;
+import java.util.Map;
+import lombok.Getter;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+
+/**
+ * Enum representing exception handling strategies for Selenium WebDriver operations.
+ *
+ * &lt;p&gt;This enum maps specific WebDriver methods to exception handling logic, allowing
+ * for customized recovery strategies when exceptions occur during execution.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+<span class="fc" id="L19">public enum ExceptionHandlingWebDriver {</span>
+
+   /**
+    * Handles exceptions for the {@code findElement} method.
+    * When a {@link NoSuchElementException} occurs, a recovery strategy is applied.
+    */
+<span class="fc" id="L25">   FIND_ELEMENT(&quot;findElement&quot;,</span>
+<span class="fc" id="L26">         Map.of(</span>
+               NoSuchElementException.class,
+               (driver, objects) -&gt;
+<span class="fc" id="L29">                     ExceptionHandlingWebDriverFunctions.handleNoSuchElement(driver,</span>
+                           WebElementAction.FIND_ELEMENT, objects)
+         )),
+
+   /**
+    * Handles exceptions for the {@code findElements} method.
+    * When a {@link NoSuchElementException} occurs, a recovery strategy is applied.
+    */
+<span class="fc" id="L37">   FIND_ELEMENTS(&quot;findElements&quot;,</span>
+<span class="fc" id="L38">         Map.of(</span>
+               NoSuchElementException.class,
+               (driver, objects) -&gt;
+<span class="fc" id="L41">                     ExceptionHandlingWebDriverFunctions.handleNoSuchElement(driver,</span>
+                           WebElementAction.FIND_ELEMENTS, objects)
+         ));
+
+   /**
+    * The name of the WebDriver method associated with this exception handler.
+    */
+   @Getter
+   private final String methodName;
+
+   /**
+    * A map that associates exception types with their corresponding handling strategies.
+    * This allows defining specific behaviors for different exception scenarios.
+    */
+   private final Map&lt;Class&lt;? extends Throwable&gt;, BiFunction&lt;WebDriver, Object[], Object&gt;&gt; exceptionHandlingMap;
+
+   /**
+    * Constructs an exception handling configuration for a WebDriver method.
+    *
+    * @param methodName           The name of the WebDriver method.
+    * @param exceptionHandlingMap A map linking exception types to their handling strategies.
+    */
+   ExceptionHandlingWebDriver(final String methodName,
+                              Map&lt;Class&lt;? extends Throwable&gt;, BiFunction&lt;WebDriver,
+<span class="fc" id="L65">                                    Object[], Object&gt;&gt; exceptionHandlingMap) {</span>
+<span class="fc" id="L66">      this.methodName = methodName;</span>
+<span class="fc" id="L67">      this.exceptionHandlingMap = exceptionHandlingMap;</span>
+<span class="fc" id="L68">   }</span>
+
+   public Map&lt;Class&lt;? extends Throwable&gt;, BiFunction&lt;WebDriver, Object[], Object&gt;&gt; getExceptionHandlingMap() {
+<span class="fc" id="L71">      return Collections.unmodifiableMap(exceptionHandlingMap);</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

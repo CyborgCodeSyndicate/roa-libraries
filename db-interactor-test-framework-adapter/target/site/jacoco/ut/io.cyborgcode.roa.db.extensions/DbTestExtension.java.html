@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DbTestExtension.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Database Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.db.extensions</a> &gt; <span class="el_source">DbTestExtension.java</span></div><h1>DbTestExtension.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.db.extensions;
+
+import io.cyborgcode.roa.db.connector.BaseDbConnectorService;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.extension.AfterAllCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+/**
+ * JUnit 5 extension for managing database connections in tests.
+ *
+ * &lt;p&gt;This extension ensures that all database connections are properly closed
+ * after all tests have been executed. It integrates with Spring's application
+ * context to retrieve and manage database connections.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@Order(Integer.MAX_VALUE)
+@Component
+<span class="fc" id="L22">public class DbTestExtension implements AfterAllCallback {</span>
+
+   /**
+    * Closes all active database connections after all test executions.
+    *
+    * &lt;p&gt;This method retrieves the {@link BaseDbConnectorService} from the Spring
+    * application context and invokes its connection cleanup mechanism.
+    *
+    * @param context The JUnit extension context.
+    */
+   @Override
+   public void afterAll(ExtensionContext context) {
+<span class="fc" id="L34">      ApplicationContext appCtx = SpringExtension.getApplicationContext(context);</span>
+<span class="fc" id="L35">      BaseDbConnectorService baseDbConnectorService = appCtx.getBean(BaseDbConnectorService.class);</span>
+<span class="fc" id="L36">      baseDbConnectorService.closeConnections();</span>
+<span class="fc" id="L37">   }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WebDriverDecorator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.selenium.decorators</a> &gt; <span class="el_source">WebDriverDecorator.java</span></div><h1>WebDriverDecorator.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.selenium.decorators;
+
+import lombok.Getter;
+import lombok.experimental.Delegate;
+import org.openqa.selenium.WebDriver;
+
+/**
+ * Abstract base class for WebDriver decorators.
+ *
+ * &lt;p&gt;This class allows for extending WebDriver functionality by wrapping an existing WebDriver instance.
+ * It provides a foundation for additional behaviors such as logging, exception handling, or event-driven execution.
+ *
+ * &lt;p&gt;Subclasses should extend this class and implement any additional WebDriver-related features.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@Getter
+public abstract class WebDriverDecorator implements WebDriver {
+
+   /**
+    * The original WebDriver instance being decorated.
+    */
+   @Delegate
+   protected final WebDriver original;
+
+   /**
+    * Constructs a WebDriverDecorator wrapping an existing WebDriver instance.
+    *
+    * @param original The WebDriver instance to be decorated.
+    */
+<span class="fc" id="L31">   protected WebDriverDecorator(WebDriver original) {</span>
+<span class="fc" id="L32">      this.original = original;</span>
+<span class="fc" id="L33">   }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

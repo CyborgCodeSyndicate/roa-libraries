@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SmartFinder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.selenium.locating</a> &gt; <span class="el_source">SmartFinder.java</span></div><h1>SmartFinder.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.selenium.locating;
+
+import io.cyborgcode.roa.ui.selenium.shadowroot.ShadowDomUtils;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+/**
+ * Utility class for finding elements in the DOM, including support for Shadow DOM elements.
+ *
+ * &lt;p&gt;This class provides methods to locate elements normally and within Shadow DOMs,
+ * handling different WebDriver configurations.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public final class SmartFinder {
+
+   private SmartFinder() {
+   }
+
+   /**
+    * Finds an element without applying any custom logic.
+    *
+    * @param driver The WebDriver instance.
+    * @param by     The locator for the element.
+    * @return The located SmartWebElement.
+    */
+   public static SmartWebElement findElementNoWrap(WebDriver driver, By by) {
+<span class="fc" id="L35">      WebElement element = driver.findElement(by);</span>
+<span class="fc" id="L36">      return new SmartWebElement(element, driver);</span>
+   }
+
+   /**
+    * Finds a single SmartWebElement without additional wrapping or waiting logic.
+    *
+    * @param smartElem The SmartWebElement instance.
+    * @param by        The locator to find the element.
+    * @return A SmartWebElement found using the given locator.
+    */
+   public static SmartWebElement findElementNoWrap(SmartWebElement smartElem, By by) {
+<span class="fc" id="L47">      WebElement element = smartElem.getOriginal().findElement(by);</span>
+<span class="fc" id="L48">      return new SmartWebElement(element, smartElem.getDriver());</span>
+   }
+
+   /**
+    * Finds an element normally with a waiting condition.
+    *
+    * @param driver The WebDriver instance.
+    * @param by     The locator for the element.
+    * @param waitFn The waiting function to apply.
+    * @return The located SmartWebElement.
+    */
+   public static SmartWebElement findElementNormally(
+         WebDriver driver,
+         By by,
+         Consumer&lt;Function&lt;WebDriver, ?&gt;&gt; waitFn
+   ) {
+<span class="fc" id="L64">      waitFn.accept(ExpectedConditions.presenceOfElementLocated(by));</span>
+<span class="fc" id="L65">      return findElementNoWrap(driver, by);</span>
+   }
+
+   /**
+    * Finds a single SmartWebElement using standard WebDriver waiting logic.
+    *
+    * @param smartElem The SmartWebElement instance.
+    * @param by        The locator to find the element.
+    * @param waitFn    A function to apply waiting logic before locating the element.
+    * @return A SmartWebElement found using the given parameters.
+    */
+   public static SmartWebElement findElementNormally(
+         SmartWebElement smartElem,
+         By by,
+         Consumer&lt;Function&lt;WebDriver, ?&gt;&gt; waitFn
+   ) {
+<span class="fc" id="L81">      waitFn.accept(ExpectedConditions.presenceOfElementLocated(by));</span>
+<span class="fc" id="L82">      WebElement element = smartElem.getOriginal().findElement(by);</span>
+<span class="fc" id="L83">      return new SmartWebElement(element, smartElem.getDriver());</span>
+   }
+
+   /**
+    * Finds an element within Shadow DOM, applying wait conditions.
+    *
+    * @param smartDriver  The SmartWebDriver instance.
+    * @param by           The locator for the element.
+    * @param waitFn       The waiting function to apply.
+    * @param waitInMillis Optional wait time in milliseconds.
+    * @return The located SmartWebElement.
+    */
+   public static SmartWebElement findElementWithShadowRootDriver(
+         SmartWebDriver smartDriver,
+         By by,
+         Consumer&lt;Function&lt;WebDriver, ?&gt;&gt; waitFn,
+         Long waitInMillis
+   ) {
+<span class="fc" id="L101">      List&lt;WebElement&gt; elements = smartDriver.getOriginal().findElements(by);</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">      if (!elements.isEmpty()) {</span>
+<span class="fc" id="L103">         return new SmartWebElement(elements.get(0), smartDriver.getOriginal());</span>
+      }
+
+<span class="fc bfc" id="L106" title="All 2 branches covered.">      if (ShadowDomUtils.shadowRootElementsPresent(smartDriver)) {</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">         return (waitInMillis == null)</span>
+<span class="fc" id="L108">               ? ShadowDomUtils.findElementInShadowRoots(smartDriver, by)</span>
+<span class="fc" id="L109">               : ShadowDomUtils.findElementInShadowRoots(smartDriver, by, waitInMillis);</span>
+      } else {
+<span class="fc" id="L111">         waitFn.accept(ExpectedConditions.presenceOfElementLocated(by));</span>
+<span class="fc" id="L112">         WebElement element = smartDriver.getOriginal().findElement(by);</span>
+<span class="fc" id="L113">         return new SmartWebElement(element, smartDriver.getOriginal());</span>
+      }
+   }
+
+   /**
+    * Finds a single SmartWebElement using a shadow root-aware WebDriver.
+    *
+    * @param smartDriver The SmartWebDriver instance.
+    * @param by          The locator to find the element.
+    * @param waitFn      A function to apply waiting logic before locating the element.
+    * @return A SmartWebElement located using the given parameters.
+    */
+   public static SmartWebElement findElementWithShadowRootDriver(
+         SmartWebDriver smartDriver,
+         By by,
+         Consumer&lt;Function&lt;WebDriver, ?&gt;&gt; waitFn
+   ) {
+<span class="fc" id="L130">      return findElementWithShadowRootDriver(smartDriver, by, waitFn, null);</span>
+   }
+
+   /**
+    * Finds multiple SmartWebElements without wrapping them in additional waiting logic.
+    *
+    * @param driver The WebDriver instance.
+    * @param by     The locator to find the elements.
+    * @return A list of SmartWebElements found using the given locator.
+    */
+   public static List&lt;SmartWebElement&gt; findElementsNoWrap(WebDriver driver, By by) {
+<span class="fc" id="L141">      return driver.findElements(by).stream()</span>
+<span class="fc" id="L142">            .map(elem -&gt; new SmartWebElement(elem, driver))</span>
+<span class="fc" id="L143">            .toList();</span>
+   }
+
+   /**
+    * Finds multiple SmartWebElements without additional waiting logic from a SmartWebElement.
+    *
+    * @param smartElem The SmartWebElement instance.
+    * @param by        The locator to find the elements.
+    * @return A list of SmartWebElements found using the given locator.
+    */
+   public static List&lt;SmartWebElement&gt; findElementsNoWrap(SmartWebElement smartElem, By by) {
+<span class="fc" id="L154">      return smartElem.getOriginal().findElements(by).stream()</span>
+<span class="fc" id="L155">            .map(e -&gt; new SmartWebElement(e, smartElem.getDriver()))</span>
+<span class="fc" id="L156">            .toList();</span>
+   }
+
+   /**
+    * Finds multiple elements normally.
+    *
+    * @param driver The WebDriver instance.
+    * @param by     The locator for the elements.
+    * @param waitFn The waiting function to apply.
+    * @return A list of located SmartWebElements.
+    */
+   public static List&lt;SmartWebElement&gt; findElementsNormally(
+         WebDriver driver,
+         By by,
+         Consumer&lt;Function&lt;WebDriver, ?&gt;&gt; waitFn
+   ) {
+<span class="fc" id="L172">      waitFn.accept(ExpectedConditions.presenceOfElementLocated(by));</span>
+<span class="fc" id="L173">      List&lt;WebElement&gt; elements = driver.findElements(by);</span>
+
+<span class="fc bfc" id="L175" title="All 2 branches covered.">      if (!elements.isEmpty()) {</span>
+<span class="fc" id="L176">         return toSmartWebElements(elements, driver);</span>
+      }
+<span class="fc" id="L178">      WebElement single = driver.findElement(by);</span>
+<span class="fc" id="L179">      return List.of(new SmartWebElement(single, driver));</span>
+   }
+
+   /**
+    * Finds multiple SmartWebElements using standard WebDriver waiting logic.
+    *
+    * @param smartElem The SmartWebElement instance.
+    * @param by        The locator to find the elements.
+    * @param waitFn    A function to apply waiting logic before locating the elements.
+    * @return A list of SmartWebElements found using the given parameters.
+    */
+   public static List&lt;SmartWebElement&gt; findElementsNormally(
+         SmartWebElement smartElem,
+         By by,
+         Consumer&lt;Function&lt;WebDriver, ?&gt;&gt; waitFn
+   ) {
+<span class="fc" id="L195">      waitFn.accept(ExpectedConditions.presenceOfElementLocated(by));</span>
+<span class="fc" id="L196">      List&lt;WebElement&gt; elements = smartElem.getOriginal().findElements(by);</span>
+<span class="fc bfc" id="L197" title="All 2 branches covered.">      if (!elements.isEmpty()) {</span>
+<span class="fc" id="L198">         return toSmartWebElements(elements, smartElem.getDriver());</span>
+      } else {
+<span class="fc" id="L200">         WebElement single = smartElem.getOriginal().findElement(by);</span>
+<span class="fc" id="L201">         return List.of(new SmartWebElement(single, smartElem.getDriver()));</span>
+      }
+   }
+
+   /**
+    * Finds multiple SmartWebElements using shadow root-aware WebDriver logic.
+    *
+    * @param smartDriver The SmartWebDriver instance.
+    * @param by          The locator to find the elements.
+    * @param waitFn      A function to apply waiting logic before locating the elements.
+    * @return A list of SmartWebElements found using shadow root detection.
+    */
+   public static List&lt;SmartWebElement&gt; findElementsWithShadowRootDriver(
+         SmartWebDriver smartDriver,
+         By by,
+         Consumer&lt;Function&lt;WebDriver, ?&gt;&gt; waitFn
+   ) {
+<span class="fc" id="L218">      WebDriver driver = smartDriver.getOriginal();</span>
+<span class="fc" id="L219">      List&lt;WebElement&gt; elements = driver.findElements(by);</span>
+
+<span class="fc bfc" id="L221" title="All 2 branches covered.">      if (!elements.isEmpty()) {</span>
+<span class="fc" id="L222">         return toSmartWebElements(elements, driver);</span>
+      }
+
+<span class="fc bfc" id="L225" title="All 2 branches covered.">      if (ShadowDomUtils.shadowRootElementsPresent(smartDriver)) {</span>
+<span class="fc" id="L226">         return ShadowDomUtils.findElementsInShadowRoots(smartDriver, by);</span>
+      } else {
+<span class="fc" id="L228">         waitFn.accept(ExpectedConditions.presenceOfElementLocated(by));</span>
+<span class="fc" id="L229">         List&lt;WebElement&gt; elementsAfterWait = driver.findElements(by);</span>
+<span class="fc bfc" id="L230" title="All 2 branches covered.">         if (!elementsAfterWait.isEmpty()) {</span>
+<span class="fc" id="L231">            return toSmartWebElements(elementsAfterWait, driver);</span>
+         } else {
+<span class="fc" id="L233">            WebElement single = driver.findElement(by);</span>
+<span class="fc" id="L234">            return List.of(new SmartWebElement(single, driver));</span>
+         }
+      }
+   }
+
+   /**
+    * Finds a single SmartWebElement using shadow root-aware logic.
+    *
+    * @param smartElem The SmartWebElement instance.
+    * @param by        The locator to find the element.
+    * @param waitFn    A function to apply waiting logic before locating the element.
+    * @return A SmartWebElement located using shadow root detection.
+    */
+   public static SmartWebElement findElementWithShadowRootElement(
+         SmartWebElement smartElem,
+         By by,
+         Consumer&lt;Function&lt;WebDriver, ?&gt;&gt; waitFn
+   ) {
+<span class="fc" id="L252">      List&lt;WebElement&gt; elements = smartElem.getOriginal().findElements(by);</span>
+<span class="fc bfc" id="L253" title="All 2 branches covered.">      if (!elements.isEmpty()) {</span>
+<span class="fc" id="L254">         return new SmartWebElement(elements.get(0), smartElem.getDriver());</span>
+      }
+
+<span class="fc bfc" id="L257" title="All 2 branches covered.">      if (ShadowDomUtils.shadowRootElementsPresent(smartElem)) {</span>
+<span class="fc" id="L258">         return ShadowDomUtils.findElementInShadowRoots(smartElem, by);</span>
+      } else {
+<span class="fc" id="L260">         return findElementNormally(smartElem, by, waitFn);</span>
+      }
+   }
+
+   /**
+    * Finds multiple SmartWebElements within shadow DOM-aware WebDriver logic.
+    *
+    * @param smartElem The SmartWebElement instance.
+    * @param by        The locator to find the elements.
+    * @param waitFn    A function to apply waiting logic before locating the elements.
+    * @return A list of SmartWebElements found using shadow root detection.
+    */
+   public static List&lt;SmartWebElement&gt; findElementsWithShadowRootElement(
+         SmartWebElement smartElem,
+         By by,
+         Consumer&lt;Function&lt;WebDriver, ?&gt;&gt; waitFn
+   ) {
+<span class="fc" id="L277">      List&lt;WebElement&gt; elements = smartElem.getOriginal().findElements(by);</span>
+<span class="fc bfc" id="L278" title="All 2 branches covered.">      if (!elements.isEmpty()) {</span>
+<span class="fc" id="L279">         return toSmartWebElements(elements, smartElem.getDriver());</span>
+      }
+
+<span class="fc bfc" id="L282" title="All 2 branches covered.">      if (ShadowDomUtils.shadowRootElementsPresent(smartElem)) {</span>
+<span class="fc" id="L283">         return ShadowDomUtils.findElementsInShadowRoots(smartElem, by);</span>
+      } else {
+<span class="fc" id="L285">         return findElementsNormally(smartElem, by, waitFn);</span>
+      }
+   }
+
+
+   private static List&lt;SmartWebElement&gt; toSmartWebElements(List&lt;WebElement&gt; elements, WebDriver driver) {
+<span class="fc" id="L291">      return elements.stream()</span>
+<span class="fc" id="L292">            .map(e -&gt; new SmartWebElement(e, driver))</span>
+<span class="fc" id="L293">            .toList();</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

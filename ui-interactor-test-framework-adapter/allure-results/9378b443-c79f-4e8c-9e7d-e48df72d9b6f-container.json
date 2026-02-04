@@ -1,0 +1,1 @@
+{"uuid":"9378b443-c79f-4e8c-9e7d-e48df72d9b6f","name":"getAll should call itemListService.getAll, store result and return uiServiceFluent","children":["5fb1dbf6-c2cf-49f6-bcfd-ef748784ce91"],"befores":[],"afters":[],"start":1769887549904,"stop":1769887549919}

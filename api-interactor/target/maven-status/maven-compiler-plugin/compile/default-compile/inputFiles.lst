@@ -1,0 +1,15 @@
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\main\java\io\cyborgcode\roa\api\authentication\AuthenticationClient.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\main\java\io\cyborgcode\roa\api\authentication\AuthenticationKey.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\main\java\io\cyborgcode\roa\api\authentication\BaseAuthenticationClient.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\main\java\io\cyborgcode\roa\api\client\RestClient.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\main\java\io\cyborgcode\roa\api\client\RestClientImpl.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\main\java\io\cyborgcode\roa\api\config\ApiConfig.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\main\java\io\cyborgcode\roa\api\config\ApiConfigHolder.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\main\java\io\cyborgcode\roa\api\core\Endpoint.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\main\java\io\cyborgcode\roa\api\core\ParametrizedEndpoint.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\main\java\io\cyborgcode\roa\api\exceptions\RestServiceException.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\main\java\io\cyborgcode\roa\api\log\LogApi.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\main\java\io\cyborgcode\roa\api\service\RestService.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\main\java\io\cyborgcode\roa\api\validator\RestAssertionTarget.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\main\java\io\cyborgcode\roa\api\validator\RestResponseValidator.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\main\java\io\cyborgcode\roa\api\validator\RestResponseValidatorImpl.java

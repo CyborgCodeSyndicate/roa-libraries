@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SmartWebElementInspector.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.selenium.smart</a> &gt; <span class="el_source">SmartWebElementInspector.java</span></div><h1>SmartWebElementInspector.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.selenium.smart;
+
+import io.cyborgcode.roa.ui.annotations.HandleUiException;
+import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.Set;
+import org.openqa.selenium.support.ui.FluentWait;
+
+/**
+ * Utility class for inspecting stack traces to determine if an exception
+ * originated from a {@link SmartWebElement} or {@link SmartWebDriver} method.
+ *
+ * &lt;p&gt;It checks if the method was annotated with {@link HandleUiException},
+ * if it originated from a wait operation, and if the exception was handled.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public final class SmartWebElementInspector {
+
+<span class="fc" id="L20">   private static final String SMART_WEB_ELEMENT_CLASS = SmartWebElement.class.getName();</span>
+<span class="fc" id="L21">   private static final String SMART_WEB_DRIVER_CLASS = SmartWebDriver.class.getName();</span>
+<span class="fc" id="L22">   private static final Set&lt;String&gt; ANNOTATED_METHODS = new HashSet&lt;&gt;();</span>
+
+   static {
+<span class="fc bfc" id="L25" title="All 2 branches covered.">      for (Method m : SmartWebElement.class.getDeclaredMethods()) {</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">         if (m.isAnnotationPresent(HandleUiException.class)) {</span>
+<span class="fc" id="L27">            ANNOTATED_METHODS.add(m.getName());</span>
+         }
+      }
+<span class="fc" id="L30">   }</span>
+
+   /**
+    * Private constructor to prevent instantiation.
+    */
+   private SmartWebElementInspector() {
+   }
+
+   /**
+    * Inspects the stack trace of a given {@link Throwable} to determine if it originated from
+    * a method annotated with {@link HandleUiException}, if it involved the `handleException` method,
+    * or if it occurred during a Selenium {@link FluentWait} operation.
+    *
+    * @param t The throwable to inspect.
+    * @return A {@link Result} object containing flags indicating the exception's origin.
+    */
+   public static Result inspectStackTrace(Throwable t) {
+<span class="fc bfc" id="L47" title="All 2 branches covered.">      if (t == null) {</span>
+<span class="fc" id="L48">         return new Result(false, false, false);</span>
+      }
+
+<span class="fc" id="L51">      boolean foundAnnotatedMethod = false;</span>
+<span class="fc" id="L52">      boolean foundHandleException = false;</span>
+<span class="fc" id="L53">      boolean comingFromWait = false;</span>
+
+<span class="fc bfc" id="L55" title="All 2 branches covered.">      for (StackTraceElement element : t.getStackTrace()) {</span>
+<span class="fc" id="L56">         String className = element.getClassName();</span>
+<span class="fc" id="L57">         String methodName = element.getMethodName();</span>
+
+<span class="fc bfc" id="L59" title="All 2 branches covered.">         if (isFromWait(className)) {</span>
+<span class="fc" id="L60">            comingFromWait = true;</span>
+         }
+
+<span class="fc bfc" id="L63" title="All 2 branches covered.">         if (isSmartComponent(className)) {</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">            if (isAnnotated(methodName)) {</span>
+<span class="fc" id="L65">               foundAnnotatedMethod = true;</span>
+            }
+<span class="fc bfc" id="L67" title="All 2 branches covered.">            if (isHandleException(methodName)) {</span>
+<span class="fc" id="L68">               foundHandleException = true;</span>
+            }
+         }
+      }
+
+<span class="fc" id="L73">      return new Result(foundAnnotatedMethod, foundHandleException, comingFromWait);</span>
+   }
+
+   private static boolean isFromWait(String className) {
+<span class="fc" id="L77">      return FluentWait.class.getName().equals(className);</span>
+   }
+
+   private static boolean isSmartComponent(String className) {
+<span class="fc bfc" id="L81" title="All 4 branches covered.">      return SMART_WEB_ELEMENT_CLASS.equals(className) || SMART_WEB_DRIVER_CLASS.equals(className);</span>
+   }
+
+   private static boolean isAnnotated(String methodName) {
+<span class="fc" id="L85">      return ANNOTATED_METHODS.contains(methodName);</span>
+   }
+
+   private static boolean isHandleException(String methodName) {
+<span class="fc" id="L89">      return &quot;handleException&quot;.equals(methodName);</span>
+   }
+
+   /**
+    * Represents the result of a stack trace inspection, indicating whether an exception
+    * was caused by an annotated method, was handled, or originated from a wait operation.
+    *
+    * @author Cyborg Code Syndicate 💍👨💻
+    */
+<span class="fc" id="L98">   public record Result(boolean foundAnnotatedMethod, boolean foundHandleException, boolean comingFromWait) {</span>
+
+   }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

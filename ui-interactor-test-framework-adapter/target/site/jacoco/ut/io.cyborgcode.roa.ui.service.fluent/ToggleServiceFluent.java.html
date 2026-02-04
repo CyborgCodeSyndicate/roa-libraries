@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ToggleServiceFluent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.service.fluent</a> &gt; <span class="el_source">ToggleServiceFluent.java</span></div><h1>ToggleServiceFluent.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.service.fluent;
+
+import io.cyborgcode.roa.framework.storage.Storage;
+import io.cyborgcode.roa.ui.components.toggle.ToggleService;
+import io.cyborgcode.roa.ui.selenium.ToggleUiElement;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.qameta.allure.Allure;
+import org.assertj.core.api.Assertions;
+
+import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
+
+/**
+ * Provides fluent methods for interacting with toggle UI elements.
+ * This service allows activation, deactivation, and validation of toggles.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@SuppressWarnings({&quot;java:S5960&quot;, &quot;unchecked&quot;})
+public class ToggleServiceFluent&lt;T extends UiServiceFluent&lt;?&gt;&gt; {
+
+   private final ToggleService toggleService;
+   private final T uiServiceFluent;
+   private final Storage storage;
+   private final SmartWebDriver driver;
+
+   /**
+    * Constructs a {@code ToggleServiceFluent} instance.
+    *
+    * @param uiServiceFluent The fluent UI service instance.
+    * @param storage         The storage instance for storing toggle states.
+    * @param toggleService   The toggle service responsible for interacting with toggle components.
+    */
+   public ToggleServiceFluent(T uiServiceFluent, Storage storage, ToggleService toggleService,
+<span class="fc" id="L34">                              SmartWebDriver webDriver) {</span>
+<span class="fc" id="L35">      this.uiServiceFluent = uiServiceFluent;</span>
+<span class="fc" id="L36">      this.toggleService = toggleService;</span>
+<span class="fc" id="L37">      this.storage = storage;</span>
+<span class="fc" id="L38">      driver = webDriver;</span>
+<span class="fc" id="L39">   }</span>
+
+   /**
+    * Activates the specified toggle element.
+    *
+    * @param element The {@link ToggleUiElement} representing the toggle component.
+    * @return The fluent UI service instance.
+    */
+   public T activate(final ToggleUiElement element) {
+<span class="fc" id="L48">      Allure.step(&quot;[UI - Toggle] Activating the toggle element: &quot; + element);</span>
+<span class="fc" id="L49">      element.before().accept(driver);</span>
+<span class="fc" id="L50">      toggleService.activate(element.componentType(), element.locator());</span>
+<span class="fc" id="L51">      element.after().accept(driver);</span>
+<span class="fc" id="L52">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Deactivates the specified toggle element.
+    *
+    * @param element The {@link ToggleUiElement} representing the toggle component.
+    * @return The fluent UI service instance.
+    */
+   public T deactivate(final ToggleUiElement element) {
+<span class="fc" id="L62">      Allure.step(&quot;[UI - Toggle] Deactivating the toggle element: &quot; + element);</span>
+<span class="fc" id="L63">      element.before().accept(driver);</span>
+<span class="fc" id="L64">      toggleService.deactivate(element.componentType(), element.locator());</span>
+<span class="fc" id="L65">      element.after().accept(driver);</span>
+<span class="fc" id="L66">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Checks if the specified toggle element is enabled.
+    *
+    * @param element The {@link ToggleUiElement} representing the toggle component.
+    * @return The fluent UI service instance.
+    */
+   public T isEnabled(final ToggleUiElement element) {
+<span class="fc" id="L76">      Allure.step(&quot;[UI - Toggle] Checking if the toggle element is enabled: &quot; + element);</span>
+<span class="fc" id="L77">      element.before().accept(driver);</span>
+<span class="fc" id="L78">      boolean enabled = toggleService.isEnabled(element.componentType(), element.locator());</span>
+<span class="fc" id="L79">      element.after().accept(driver);</span>
+<span class="fc" id="L80">      storage.sub(UI).put(element.enumImpl(), enabled);</span>
+<span class="fc" id="L81">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates that the specified toggle element is enabled.
+    *
+    * @param element The {@link ToggleUiElement} representing the toggle component.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsEnabled(final ToggleUiElement element) {
+<span class="fc" id="L91">      return validateIsEnabled(element, true, false);</span>
+   }
+
+   /**
+    * Validates that the specified toggle element is enabled.
+    *
+    * @param element The {@link ToggleUiElement} representing the toggle component.
+    * @param soft    If true, performs a soft assertion; otherwise, performs a hard assertion.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsEnabled(final ToggleUiElement element, boolean soft) {
+<span class="fc" id="L102">      return validateIsEnabled(element, true, soft);</span>
+   }
+
+   private T validateIsEnabled(final ToggleUiElement element, boolean shouldBeEnabled, boolean soft) {
+<span class="fc bfc" id="L106" title="All 2 branches covered.">      Allure.step(&quot;Validating if the toggle &quot; + element + &quot; is &quot; + (shouldBeEnabled ? &quot;enabled&quot; : &quot;disabled&quot;));</span>
+<span class="fc" id="L107">      element.before().accept(driver);</span>
+<span class="fc" id="L108">      boolean enabled = toggleService.isEnabled(element.componentType(), element.locator());</span>
+<span class="fc" id="L109">      element.after().accept(driver);</span>
+<span class="fc" id="L110">      storage.sub(UI).put(element.enumImpl(), enabled);</span>
+
+<span class="fc bfc" id="L112" title="All 2 branches covered.">      String assertionMessage = shouldBeEnabled</span>
+<span class="fc" id="L113">            ? &quot;Validating toggle is enabled&quot;</span>
+<span class="fc" id="L114">            : &quot;Validating toggle is disabled&quot;;</span>
+
+<span class="fc bfc" id="L116" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L117">         return (T) uiServiceFluent.validate(</span>
+               softAssertions -&gt; {
+<span class="fc bfc" id="L119" title="All 2 branches covered.">                  if (shouldBeEnabled) {</span>
+<span class="fc" id="L120">                     softAssertions.assertThat(enabled).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L122">                     softAssertions.assertThat(enabled).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L124">               }</span>
+         );
+      } else {
+<span class="fc" id="L127">         return (T) uiServiceFluent.validate(</span>
+               () -&gt; {
+<span class="fc bfc" id="L129" title="All 2 branches covered.">                  if (shouldBeEnabled) {</span>
+<span class="fc" id="L130">                     Assertions.assertThat(enabled).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L132">                     Assertions.assertThat(enabled).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L134">               }</span>
+         );
+      }
+   }
+
+   /**
+    * Validates that the specified toggle element is disabled.
+    *
+    * @param element The {@link ToggleUiElement} representing the toggle component.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsDisabled(final ToggleUiElement element) {
+<span class="fc" id="L146">      return validateIsEnabled(element, false, false);</span>
+   }
+
+   /**
+    * Validates that the specified toggle element is disabled.
+    *
+    * @param element The {@link ToggleUiElement} representing the toggle component.
+    * @param soft    If true, performs a soft assertion; otherwise, performs a hard assertion.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsDisabled(final ToggleUiElement element, boolean soft) {
+<span class="fc" id="L157">      return validateIsEnabled(element, false, soft);</span>
+   }
+
+   /**
+    * Checks if the specified toggle element is activated.
+    *
+    * @param element The {@link ToggleUiElement} representing the toggle component.
+    * @return The fluent UI service instance.
+    */
+   public T isActivated(final ToggleUiElement element) {
+<span class="fc" id="L167">      Allure.step(&quot;[UI - Toggle] Checking if the toggle element is activated: &quot; + element);</span>
+<span class="fc" id="L168">      boolean enabled = toggleService.isActivated(element.componentType(), element.locator());</span>
+<span class="fc" id="L169">      storage.sub(UI).put(element.enumImpl(), enabled);</span>
+<span class="fc" id="L170">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates that the specified toggle element is activated.
+    *
+    * @param element The {@link ToggleUiElement} representing the toggle component.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsActivated(final ToggleUiElement element) {
+<span class="fc" id="L180">      return validateIsActivated(element, true, false);</span>
+   }
+
+   /**
+    * Validates that the specified toggle element is activated.
+    *
+    * @param element The {@link ToggleUiElement} representing the toggle component.
+    * @param soft    If true, performs a soft assertion; otherwise, performs a hard assertion.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsActivated(final ToggleUiElement element, boolean soft) {
+<span class="fc" id="L191">      return validateIsActivated(element, true, soft);</span>
+   }
+
+   private T validateIsActivated(final ToggleUiElement element, boolean shouldBeEnabled, boolean soft) {
+<span class="fc bfc" id="L195" title="All 2 branches covered.">      Allure.step(&quot;Validating if the toggle &quot; + element + &quot; is &quot; + (shouldBeEnabled ? &quot;activated&quot; : &quot;deactivated&quot;));</span>
+<span class="fc" id="L196">      element.before().accept(driver);</span>
+<span class="fc" id="L197">      boolean activated = toggleService.isActivated(element.componentType(), element.locator());</span>
+<span class="fc" id="L198">      element.after().accept(driver);</span>
+<span class="fc" id="L199">      storage.sub(UI).put(element.enumImpl(), activated);</span>
+
+<span class="fc bfc" id="L201" title="All 2 branches covered.">      String assertionMessage = shouldBeEnabled</span>
+<span class="fc" id="L202">            ? &quot;Validating toggle is activated&quot;</span>
+<span class="fc" id="L203">            : &quot;Validating toggle is deactivated&quot;;</span>
+
+<span class="fc bfc" id="L205" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L206">         return (T) uiServiceFluent.validate(</span>
+               softAssertions -&gt; {
+<span class="fc bfc" id="L208" title="All 2 branches covered.">                  if (shouldBeEnabled) {</span>
+<span class="fc" id="L209">                     softAssertions.assertThat(activated).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L211">                     softAssertions.assertThat(activated).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L213">               }</span>
+         );
+      } else {
+<span class="fc" id="L216">         return (T) uiServiceFluent.validate(</span>
+               () -&gt; {
+<span class="fc bfc" id="L218" title="All 2 branches covered.">                  if (shouldBeEnabled) {</span>
+<span class="fc" id="L219">                     Assertions.assertThat(activated).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L221">                     Assertions.assertThat(activated).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L223">               }</span>
+         );
+      }
+   }
+
+   /**
+    * Validates that the specified toggle element is deactivated.
+    *
+    * @param element The {@link ToggleUiElement} representing the toggle component.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsDeactivated(final ToggleUiElement element) {
+<span class="fc" id="L235">      return validateIsActivated(element, false, false);</span>
+   }
+
+   /**
+    * Validates that the specified toggle element is deactivated.
+    *
+    * @param element The {@link ToggleUiElement} representing the toggle component.
+    * @param soft    If true, performs a soft assertion; otherwise, performs a hard assertion.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsDeactivated(final ToggleUiElement element, boolean soft) {
+<span class="fc" id="L246">      return validateIsActivated(element, false, soft);</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

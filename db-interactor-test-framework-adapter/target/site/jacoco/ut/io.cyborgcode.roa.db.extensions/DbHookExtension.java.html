@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DbHookExtension.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Database Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.db.extensions</a> &gt; <span class="el_source">DbHookExtension.java</span></div><h1>DbHookExtension.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.db.extensions;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.cyborgcode.roa.db.allure.QueryResponseValidatorAllureImpl;
+import io.cyborgcode.roa.db.annotations.DbHook;
+import io.cyborgcode.roa.db.client.DbClientManager;
+import io.cyborgcode.roa.db.connector.BaseDbConnectorService;
+import io.cyborgcode.roa.db.hooks.DbHookFlow;
+import io.cyborgcode.roa.db.json.JsonPathExtractor;
+import io.cyborgcode.roa.db.service.DatabaseService;
+import io.cyborgcode.roa.framework.exceptions.HookExecutionException;
+import io.cyborgcode.roa.framework.hooks.HookExecution;
+import io.cyborgcode.roa.framework.storage.StoreKeys;
+import io.cyborgcode.utilities.reflections.ReflectionUtil;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import org.junit.jupiter.api.extension.AfterAllCallback;
+import org.junit.jupiter.api.extension.BeforeAllCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
+
+import static io.cyborgcode.roa.db.config.DbConfigHolder.getDbConfig;
+import static io.cyborgcode.roa.framework.util.PropertiesUtil.addSystemProperties;
+
+/**
+ * JUnit 5 extension that processes {@link DbHook} annotations on the test class.
+ *
+ * &lt;p&gt;Executes database-related hooks before and after all tests, ordered by the
+ * {@code order} attribute on the {@code @DbHook} annotation, and stores the hook
+ * parameters in the global ExtensionContext store under {@link StoreKeys#HOOKS_PARAMS}.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+<span class="fc" id="L35">public class DbHookExtension implements BeforeAllCallback, AfterAllCallback {</span>
+
+   static {
+<span class="fc" id="L38">      synchronized (DbHookExtension.class) {</span>
+<span class="fc" id="L39">         addSystemProperties();</span>
+<span class="fc" id="L40">      }</span>
+<span class="fc" id="L41">   }</span>
+
+   /**
+    * Cached instance of {@link DatabaseService} used to execute hooks.
+    */
+   private DatabaseService databaseService;
+
+   /**
+    * Executes all {@link DbHook} annotations on the test class with {@link HookExecution#BEFORE}.
+    * Hooks are sorted by {@code order}, executed, and their parameters stored.
+    *
+    * @param context the JUnit extension context for the test class
+    * @throws Exception if any hook execution fails
+    */
+   @Override
+   public void beforeAll(final ExtensionContext context) throws Exception {
+<span class="fc" id="L57">      Map&lt;Object, Object&gt; hooksStorage = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L58">      DbHook[] dbHooks = context.getRequiredTestClass().getAnnotationsByType(DbHook.class);</span>
+<span class="fc" id="L59">      Arrays.stream(dbHooks)</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">            .filter(dbHook -&gt; dbHook.when() == HookExecution.BEFORE)</span>
+<span class="fc" id="L61">            .sorted(Comparator.comparingInt(DbHook::order))</span>
+<span class="fc" id="L62">            .forEach(dbHook -&gt; executeHook(dbHook, hooksStorage));</span>
+<span class="fc" id="L63">      context.getStore(ExtensionContext.Namespace.GLOBAL).put(StoreKeys.HOOKS_PARAMS, hooksStorage);</span>
+<span class="fc" id="L64">   }</span>
+
+   /**
+    * Executes all {@link DbHook} annotations on the test class with {@link HookExecution#AFTER}.
+    * Hooks are sorted by {@code order}, executed, and their parameters stored.
+    *
+    * @param context the JUnit extension context for the test class
+    * @throws Exception if any hook execution fails
+    */
+   @Override
+   public void afterAll(final ExtensionContext context) throws Exception {
+<span class="fc" id="L75">      Map&lt;Object, Object&gt; hooksStorage = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L76">      DbHook[] dbHooks = context.getRequiredTestClass().getAnnotationsByType(DbHook.class);</span>
+<span class="fc" id="L77">      Arrays.stream(dbHooks)</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">            .filter(dbHook -&gt; dbHook.when() == HookExecution.AFTER)</span>
+<span class="fc" id="L79">            .sorted(Comparator.comparingInt(DbHook::order))</span>
+<span class="fc" id="L80">            .forEach(dbHook -&gt; executeHook(dbHook, hooksStorage));</span>
+<span class="fc" id="L81">      context.getStore(ExtensionContext.Namespace.GLOBAL).put(StoreKeys.HOOKS_PARAMS, hooksStorage);</span>
+<span class="fc" id="L82">   }</span>
+
+   /**
+    * Resolves and executes a single {@link DbHook} by locating the corresponding {@link DbHookFlow}
+    * implementation and invoking its flow.
+    *
+    * @param dbHook       the annotation instance containing hook metadata
+    * @param storageHooks the map used to accumulate hook results and arguments
+    */
+   private void executeHook(DbHook dbHook, Map&lt;Object, Object&gt; storageHooks) {
+      try {
+<span class="fc" id="L93">         DbHookFlow&lt;?&gt; hookFlow = ReflectionUtil.findEnumImplementationsOfInterface(</span>
+<span class="fc" id="L94">               DbHookFlow.class, dbHook.type(), getDbConfig().projectPackages());</span>
+<span class="fc" id="L95">         hookFlow.flow().accept(dbService(), storageHooks, dbHook.arguments());</span>
+<span class="fc" id="L96">      } catch (Exception e) {</span>
+<span class="fc" id="L97">         throw new HookExecutionException(&quot;Error executing DbHook: &quot; + dbHook.type(), e);</span>
+<span class="fc" id="L98">      }</span>
+<span class="fc" id="L99">   }</span>
+
+   /**
+    * Lazily initializes and returns the singleton {@link DatabaseService}.
+    *
+    * &lt;p&gt;Configures JSON path extraction, a database connector manager, and an Allure result validator.
+    *
+    * @return the shared {@code DatabaseService} instance
+    */
+   private DatabaseService dbService() {
+<span class="fc bfc" id="L109" title="All 2 branches covered.">      if (databaseService == null) {</span>
+<span class="fc" id="L110">         JsonPathExtractor jsonPathExtractor = new JsonPathExtractor(new ObjectMapper());</span>
+<span class="fc" id="L111">         databaseService =</span>
+               new DatabaseService(jsonPathExtractor,
+                     new DbClientManager(new BaseDbConnectorService()),
+                     new QueryResponseValidatorAllureImpl(jsonPathExtractor));
+      }
+<span class="fc" id="L116">      return databaseService;</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

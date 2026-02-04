@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RetryConditionApi.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Api Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.api.retry</a> &gt; <span class="el_source">RetryConditionApi.java</span></div><h1>RetryConditionApi.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.api.retry;
+
+import io.cyborgcode.roa.api.core.Endpoint;
+import io.cyborgcode.roa.api.service.RestService;
+import io.cyborgcode.roa.framework.retry.RetryCondition;
+import io.cyborgcode.roa.framework.retry.RetryConditionImpl;
+import io.restassured.response.Response;
+import java.util.Objects;
+
+/**
+ * Provides predefined retry conditions for API requests.
+ *
+ * &lt;p&gt;This utility class defines common conditions for retrying requests,
+ * including status code checks and JSON response field validations.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class RetryConditionApi {
+
+   private RetryConditionApi() {
+   }
+
+   /**
+    * Creates a retry condition that checks if the response status matches the expected value.
+    *
+    * @param endpoint The API endpoint.
+    * @param status   The expected status code.
+    * @return A {@link RetryCondition} that retries until the expected status code is received.
+    */
+   public static RetryCondition&lt;Integer&gt; statusEquals(Endpoint&lt;?&gt; endpoint, int status) {
+<span class="fc" id="L31">      return new RetryConditionImpl&lt;&gt;(</span>
+            service -&gt; {
+<span class="fc" id="L33">               RestService restService = (RestService) service;</span>
+<span class="fc" id="L34">               Response response = restService.request(endpoint);</span>
+<span class="fc" id="L35">               return response.getStatusCode();</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">            }, responseStatus -&gt; responseStatus == status</span>
+      );
+   }
+
+   /**
+    * Creates a retry condition that checks if the response status matches the expected value.
+    *
+    * @param endpoint The API endpoint.
+    * @param body     The request body.
+    * @param status   The expected status code.
+    * @return A {@link RetryCondition} that retries until the expected status code is received.
+    */
+   public static RetryCondition&lt;Integer&gt; statusEquals(Endpoint&lt;?&gt; endpoint, Object body, int status) {
+<span class="fc" id="L49">      return new RetryConditionImpl&lt;&gt;(</span>
+            service -&gt; {
+<span class="fc" id="L51">               RestService restService = (RestService) service;</span>
+<span class="fc" id="L52">               Response response = restService.request(endpoint, body);</span>
+<span class="fc" id="L53">               return response.getStatusCode();</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">            }, responseStatus -&gt; responseStatus == status</span>
+      );
+   }
+
+   /**
+    * Creates a retry condition that checks if a specific JSON response field equals the expected value.
+    *
+    * @param endpoint The API endpoint.
+    * @param jsonPath The JSON path to extract the field.
+    * @param obj      The expected value.
+    * @return A {@link RetryCondition} that retries until the field value matches the expected value.
+    */
+   public static RetryCondition&lt;Object&gt; responseFieldEqualsTo(Endpoint&lt;?&gt; endpoint, String jsonPath, Object obj) {
+<span class="fc" id="L67">      return new RetryConditionImpl&lt;&gt;(</span>
+            service -&gt; {
+<span class="fc" id="L69">               RestService restService = (RestService) service;</span>
+<span class="fc" id="L70">               Response response = restService.request(endpoint);</span>
+<span class="fc" id="L71">               return response.getBody().jsonPath().get(jsonPath);</span>
+<span class="fc" id="L72">            }, field -&gt; field.equals(obj)</span>
+      );
+   }
+
+   /**
+    * Creates a retry condition that checks if a specific JSON response field equals the expected value.
+    *
+    * @param endpoint The API endpoint.
+    * @param body     The request body.
+    * @param jsonPath The JSON path to extract the field.
+    * @param obj      The expected value.
+    * @return A {@link RetryCondition} that retries until the field value matches the expected value.
+    */
+   public static RetryCondition&lt;Object&gt; responseFieldEqualsTo(Endpoint&lt;?&gt; endpoint, Object body, String jsonPath,
+                                                              Object obj) {
+<span class="fc" id="L87">      return new RetryConditionImpl&lt;&gt;(</span>
+            service -&gt; {
+<span class="fc" id="L89">               RestService restService = (RestService) service;</span>
+<span class="fc" id="L90">               Response response = restService.request(endpoint, body);</span>
+<span class="fc" id="L91">               return response.getBody().jsonPath().get(jsonPath);</span>
+<span class="fc" id="L92">            }, field -&gt; field.equals(obj)</span>
+      );
+   }
+
+   /**
+    * Creates a retry condition that checks if a specific JSON response field is non-null.
+    *
+    * @param endpoint The API endpoint.
+    * @param jsonPath The JSON path to extract the field.
+    * @return A {@link RetryCondition} that retries until the field contains a non-null value.
+    */
+   public static RetryCondition&lt;Object&gt; responseFieldNonNull(Endpoint&lt;?&gt; endpoint, String jsonPath) {
+<span class="fc" id="L104">      return new RetryConditionImpl&lt;&gt;(</span>
+            service -&gt; {
+<span class="fc" id="L106">               RestService restService = (RestService) service;</span>
+<span class="fc" id="L107">               Response response = restService.request(endpoint);</span>
+<span class="fc" id="L108">               return response.getBody().jsonPath().get(jsonPath);</span>
+            }, Objects::nonNull
+      );
+   }
+
+   /**
+    * Creates a retry condition that checks if a specific JSON response field is non-null.
+    *
+    * @param endpoint The API endpoint.
+    * @param body     The request body.
+    * @param jsonPath The JSON path to extract the field.
+    * @return A {@link RetryCondition} that retries until the field contains a non-null value.
+    */
+   public static RetryCondition&lt;Object&gt; responseFieldNonNull(Endpoint&lt;?&gt; endpoint, Object body, String jsonPath) {
+<span class="fc" id="L122">      return new RetryConditionImpl&lt;&gt;(</span>
+            service -&gt; {
+<span class="fc" id="L124">               RestService restService = (RestService) service;</span>
+<span class="fc" id="L125">               Response response = restService.request(endpoint, body);</span>
+<span class="fc" id="L126">               return response.getBody().jsonPath().get(jsonPath);</span>
+            }, Objects::nonNull
+      );
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

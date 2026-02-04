@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ButtonServiceFluent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.service.fluent</a> &gt; <span class="el_source">ButtonServiceFluent.java</span></div><h1>ButtonServiceFluent.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.service.fluent;
+
+import io.cyborgcode.roa.framework.storage.Storage;
+import io.cyborgcode.roa.ui.components.button.ButtonService;
+import io.cyborgcode.roa.ui.selenium.ButtonUiElement;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.qameta.allure.Allure;
+import org.assertj.core.api.Assertions;
+
+import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
+
+/**
+ * Provides a fluent API for interacting with button components.
+ *
+ * &lt;p&gt;This class enables structured interactions with UI buttons, including actions such as clicking,
+ * validating visibility, and checking whether a button is enabled. It integrates with {@link ButtonService}
+ * to perform UI operations efficiently.
+ *
+ * &lt;p&gt;The fluent API design allows method chaining to improve test readability and maintainability.
+ *
+ * @param &lt;T&gt; Represents the fluent UI service that extends {@link UiServiceFluent}.
+ *            This type parameter ensures that method chaining correctly returns the calling instance type.
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@SuppressWarnings({&quot;java:S5960&quot;, &quot;unchecked&quot;})
+public class ButtonServiceFluent&lt;T extends UiServiceFluent&lt;?&gt;&gt; {
+
+   private final ButtonService buttonService;
+   private final T uiServiceFluent;
+   private final Storage storage;
+   private final SmartWebDriver driver;
+
+   /**
+    * Constructs an instance of {@code ButtonServiceFluent}.
+    *
+    * @param uiServiceFluent The UI service fluent instance
+    * @param storage         The storage instance for persisting test values
+    * @param buttonService   The button service instance
+    * @param webDriver       The WebDriver instance
+    */
+   public ButtonServiceFluent(T uiServiceFluent, Storage storage, ButtonService buttonService,
+<span class="fc" id="L42">                              SmartWebDriver webDriver) {</span>
+<span class="fc" id="L43">      this.buttonService = buttonService;</span>
+<span class="fc" id="L44">      this.uiServiceFluent = uiServiceFluent;</span>
+<span class="fc" id="L45">      this.storage = storage;</span>
+<span class="fc" id="L46">      driver = webDriver;</span>
+<span class="fc" id="L47">   }</span>
+
+   /**
+    * Clicks the specified button element.
+    *
+    * @param element The button element to click
+    * @return The fluent UI service instance
+    */
+   public T click(final ButtonUiElement element) {
+<span class="fc" id="L56">      Allure.step(String.format(&quot;[UI - Button] Clicking button with componentType: %s, locator: %s&quot;,</span>
+<span class="fc" id="L57">            element.componentType(), element.locator()));</span>
+<span class="fc" id="L58">      element.before().accept(driver);</span>
+<span class="fc" id="L59">      buttonService.click(element.componentType(), element.locator());</span>
+<span class="fc" id="L60">      element.after().accept(driver);</span>
+<span class="fc" id="L61">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Checks if the button is enabled.
+    *
+    * @param element The button element
+    * @return The fluent UI service instance
+    */
+   public T isEnabled(final ButtonUiElement element) {
+<span class="fc" id="L71">      Allure.step(String.format(&quot;[UI - Button] Checking if button is enabled with componentType: %s, locator: %s&quot;,</span>
+<span class="fc" id="L72">            element.componentType(), element.locator()));</span>
+<span class="fc" id="L73">      element.before().accept(driver);</span>
+<span class="fc" id="L74">      boolean enabled = buttonService.isEnabled(element.componentType(), element.locator());</span>
+<span class="fc" id="L75">      element.after().accept(driver);</span>
+<span class="fc" id="L76">      storage.sub(UI).put(element.enumImpl(), enabled);</span>
+<span class="fc" id="L77">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates if the button is enabled.
+    *
+    * @param element The button element
+    * @return The fluent UI service instance
+    */
+   public T validateIsEnabled(final ButtonUiElement element) {
+<span class="fc" id="L87">      return validateIsEnabled(element, true, false);</span>
+   }
+
+   /**
+    * Validates if the button is enabled with soft assertion.
+    *
+    * @param element The button element
+    * @param soft    Whether to perform a soft assertion
+    * @return The fluent UI service instance
+    */
+   public T validateIsEnabled(final ButtonUiElement element, boolean soft) {
+<span class="fc" id="L98">      return validateIsEnabled(element, true, soft);</span>
+   }
+
+   private T validateIsEnabled(final ButtonUiElement element, boolean shouldBeEnabled, boolean soft) {
+<span class="fc" id="L102">      Allure.step(String.format(&quot;[UI - Button] Validating if button is enabled/disabled with componentType: %s, &quot;</span>
+<span class="fc" id="L103">            + &quot;locator: %s&quot;, element.componentType(), element.locator()));</span>
+<span class="fc" id="L104">      element.before().accept(driver);</span>
+<span class="fc" id="L105">      boolean enabled = buttonService.isEnabled(element.componentType(), element.locator());</span>
+<span class="fc" id="L106">      element.after().accept(driver);</span>
+<span class="fc" id="L107">      storage.sub(UI).put(element.enumImpl(), enabled);</span>
+
+<span class="fc bfc" id="L109" title="All 2 branches covered.">      String assertionMessage = shouldBeEnabled</span>
+<span class="fc" id="L110">            ? &quot;Validating button is enabled&quot;</span>
+<span class="fc" id="L111">            : &quot;Validating button is disabled&quot;;</span>
+
+<span class="fc bfc" id="L113" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L114">         return (T) uiServiceFluent.validate(</span>
+               softAssertions -&gt; {
+<span class="fc bfc" id="L116" title="All 2 branches covered.">                  if (shouldBeEnabled) {</span>
+<span class="fc" id="L117">                     softAssertions.assertThat(enabled).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L119">                     softAssertions.assertThat(enabled).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L121">               }</span>
+         );
+      } else {
+<span class="fc" id="L124">         return (T) uiServiceFluent.validate(</span>
+               () -&gt; {
+<span class="fc bfc" id="L126" title="All 2 branches covered.">                  if (shouldBeEnabled) {</span>
+<span class="fc" id="L127">                     Assertions.assertThat(enabled).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L129">                     Assertions.assertThat(enabled).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L131">               }</span>
+         );
+      }
+   }
+
+   /**
+    * Validates if the button is disabled.
+    *
+    * @param element The button element
+    * @return The fluent UI service instance
+    */
+   public T validateIsDisabled(final ButtonUiElement element) {
+<span class="fc" id="L143">      return validateIsEnabled(element, false, false);</span>
+   }
+
+   /**
+    * Validates if the button is disabled with soft assertion.
+    *
+    * @param element The button element
+    * @param soft    Whether to perform a soft assertion
+    * @return The fluent UI service instance
+    */
+   public T validateIsDisabled(final ButtonUiElement element, boolean soft) {
+<span class="fc" id="L154">      return validateIsEnabled(element, false, soft);</span>
+   }
+
+   /**
+    * Checks if the button is visible.
+    *
+    * @param element The button element
+    * @return The fluent UI service instance
+    */
+   public T isVisible(final ButtonUiElement element) {
+<span class="fc" id="L164">      Allure.step(String.format(&quot;[UI - Button] Checking if button is visible with componentType: %s, locator: %s&quot;,</span>
+<span class="fc" id="L165">            element.componentType(), element.locator()));</span>
+<span class="fc" id="L166">      element.before().accept(driver);</span>
+<span class="fc" id="L167">      boolean visible = buttonService.isVisible(element.componentType(), element.locator());</span>
+<span class="fc" id="L168">      element.after().accept(driver);</span>
+<span class="fc" id="L169">      storage.sub(UI).put(element.enumImpl(), visible);</span>
+<span class="fc" id="L170">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates if the button is visible.
+    *
+    * @param element The button element
+    * @return The fluent UI service instance
+    */
+   public T validateIsVisible(final ButtonUiElement element) {
+<span class="fc" id="L180">      return validateIsVisible(element, true, false);</span>
+   }
+
+   /**
+    * Validates whether the specified button UI element is visible.
+    *
+    * @param element The {@link ButtonUiElement} to be validated.
+    * @param soft    If {@code true}, the validation will be performed as a soft assertion.
+    * @return The instance of {@link UiServiceFluent} to allow method chaining.
+    */
+   public T validateIsVisible(final ButtonUiElement element, boolean soft) {
+<span class="fc" id="L191">      Allure.step(String.format(&quot;[UI - Button] Validating if button is visible with componentType: %s, locator: %s&quot;,</span>
+<span class="fc" id="L192">            element.componentType(), element.locator()));</span>
+<span class="fc" id="L193">      return validateIsVisible(element, true, soft);</span>
+   }
+
+   private T validateIsVisible(final ButtonUiElement element, boolean shouldBeVisible, boolean soft) {
+<span class="fc" id="L197">      Allure.step(String.format(&quot;[UI - Button] Validating if button is visible/hidden with componentType: %s, &quot;</span>
+<span class="fc" id="L198">            + &quot;locator: %s&quot;, element.componentType(), element.locator()));</span>
+<span class="fc" id="L199">      element.before().accept(driver);</span>
+<span class="fc" id="L200">      boolean visible = buttonService.isVisible(element.componentType(), element.locator());</span>
+<span class="fc" id="L201">      element.after().accept(driver);</span>
+<span class="fc" id="L202">      storage.sub(UI).put(element.enumImpl(), visible);</span>
+
+<span class="fc bfc" id="L204" title="All 2 branches covered.">      String assertionMessage = shouldBeVisible</span>
+<span class="fc" id="L205">            ? &quot;Validating button is visible&quot;</span>
+<span class="fc" id="L206">            : &quot;Validating button is hidden&quot;;</span>
+
+<span class="fc bfc" id="L208" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L209">         return (T) uiServiceFluent.validate(</span>
+               softAssertions -&gt; {
+<span class="fc bfc" id="L211" title="All 2 branches covered.">                  if (shouldBeVisible) {</span>
+<span class="fc" id="L212">                     softAssertions.assertThat(visible).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L214">                     softAssertions.assertThat(visible).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L216">               }</span>
+         );
+      } else {
+<span class="fc" id="L219">         return (T) uiServiceFluent.validate(</span>
+               () -&gt; {
+<span class="fc bfc" id="L221" title="All 2 branches covered.">                  if (shouldBeVisible) {</span>
+<span class="fc" id="L222">                     Assertions.assertThat(visible).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L224">                     Assertions.assertThat(visible).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L226">               }</span>
+         );
+      }
+   }
+
+   /**
+    * Validates if the button is hidden.
+    *
+    * @param element The button element
+    * @return The fluent UI service instance
+    */
+   public T validateIsHidden(final ButtonUiElement element) {
+<span class="fc" id="L238">      return validateIsVisible(element, false, false);</span>
+   }
+
+   /**
+    * Validates whether the specified button UI element is hidden.
+    *
+    * @param element The {@link ButtonUiElement} to be validated.
+    * @param soft    If {@code true}, the validation will be performed as a soft assertion.
+    * @return The instance of {@link UiServiceFluent} to allow method chaining.
+    */
+   public T validateIsHidden(final ButtonUiElement element, boolean soft) {
+<span class="fc" id="L249">      return validateIsVisible(element, false, soft);</span>
+   }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

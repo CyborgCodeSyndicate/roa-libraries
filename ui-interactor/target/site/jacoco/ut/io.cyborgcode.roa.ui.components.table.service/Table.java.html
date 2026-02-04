@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Table.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.table.service</a> &gt; <span class="el_source">Table.java</span></div><h1>Table.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.table.service;
+
+import io.cyborgcode.roa.ui.components.table.base.TableField;
+import io.cyborgcode.roa.ui.components.table.filters.FilterStrategy;
+import io.cyborgcode.roa.ui.components.table.sort.SortingStrategy;
+import java.util.List;
+
+/**
+ * Defines the core operations for interacting with table components.
+ *
+ * &lt;p&gt;This interface provides methods for reading table data, retrieving rows based on different criteria,
+ * inserting values into specific table cells, filtering table contents, and sorting table data.
+ * It abstracts table interactions for different table structures.
+ *
+ * &lt;p&gt;Implementations of this interface are expected to handle the underlying table processing.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public interface Table {
+
+   /**
+    * Reads the entire table and maps it to a list of objects of the specified type.
+    *
+    * @param clazz The class type representing a table row.
+    * @param &lt;T&gt;   The type of the row representation.
+    * @return A list of objects representing the table rows.
+    */
+   &lt;T&gt; List&lt;T&gt; readTable(Class&lt;T&gt; clazz);
+
+   /**
+    * Reads the table while considering specific fields for mapping.
+    *
+    * @param clazz  The class type representing a table row.
+    * @param fields The specific table fields to be read.
+    * @param &lt;T&gt;    The type of the row representation.
+    * @return A list of objects containing only the specified fields.
+    */
+   &lt;T&gt; List&lt;T&gt; readTable(Class&lt;T&gt; clazz, TableField&lt;T&gt;... fields);
+
+   /**
+    * Reads a specific range of rows from the table.
+    *
+    * @param start The starting row index (inclusive).
+    * @param end   The ending row index (exclusive).
+    * @param clazz The class type representing a table row.
+    * @param &lt;T&gt;   The type of the row representation.
+    * @return A list of objects representing the specified range of table rows.
+    */
+   &lt;T&gt; List&lt;T&gt; readTable(int start, int end, Class&lt;T&gt; clazz);
+
+   /**
+    * Reads a specific range of rows from the table while considering specified fields.
+    *
+    * @param start  The starting row index (inclusive).
+    * @param end    The ending row index (exclusive).
+    * @param clazz  The class type representing a table row.
+    * @param fields The specific table fields to be read.
+    * @param &lt;T&gt;    The type of the row representation.
+    * @return A list of objects representing the specified table rows with the chosen fields.
+    */
+   &lt;T&gt; List&lt;T&gt; readTable(int start, int end, Class&lt;T&gt; clazz, TableField&lt;T&gt;... fields);
+
+   /**
+    * Reads a single row from the table based on its index.
+    *
+    * @param row   The row index (1-based index).
+    * @param clazz The class type representing a table row.
+    * @param &lt;T&gt;   The type of the row representation.
+    * @return An object representing the table row.
+    */
+   &lt;T&gt; T readRow(int row, Class&lt;T&gt; clazz);
+
+   /**
+    * Reads a single row from the table that matches the given search criteria.
+    *
+    * @param searchCriteria A list of string values to match in the row.
+    * @param clazz          The class type representing a table row.
+    * @param &lt;T&gt;            The type of the row representation.
+    * @return The first matching row as an object of type {@code T}.
+    */
+   &lt;T&gt; T readRow(List&lt;String&gt; searchCriteria, Class&lt;T&gt; clazz);
+
+   /**
+    * Reads a specific row from the table while considering specific fields.
+    *
+    * @param row    The row index (1-based index).
+    * @param clazz  The class type representing a table row.
+    * @param fields The specific table fields to be read.
+    * @param &lt;T&gt;    The type of the row representation.
+    * @return An object representing the specified row with only the chosen fields.
+    */
+   &lt;T&gt; T readRow(int row, Class&lt;T&gt; clazz, TableField&lt;T&gt;... fields);
+
+   /**
+    * Reads a row that matches the search criteria while considering specific fields.
+    *
+    * @param searchCriteria A list of string values to match in the row.
+    * @param clazz          The class type representing a table row.
+    * @param fields         The specific table fields to be read.
+    * @param &lt;T&gt;            The type of the row representation.
+    * @return The first matching row as an object of type {@code T}, with only the chosen fields.
+    */
+   &lt;T&gt; T readRow(List&lt;String&gt; searchCriteria, Class&lt;T&gt; clazz, TableField&lt;T&gt;... fields);
+
+   /**
+    * Inserts a full object as a row into the table at the specified row index.
+    *
+    * @param row       The row index (1-based index).
+    * @param classType The class type representing a table row.
+    * @param data      The object containing the data to be inserted.
+    * @param &lt;T&gt;       The type of the row representation.
+    */
+   &lt;T&gt; void insertCellValue(int row, Class&lt;T&gt; classType, T data);
+
+   /**
+    * Inserts a value into a specific cell within a row.
+    * If not specified, the value is inserted at index 1.
+    *
+    * @param row       The row index (1-based index).
+    * @param classType The class type representing a table row.
+    * @param field     The table field to insert the value into.
+    * @param values    The values to be inserted.
+    * @param &lt;T&gt;       The type of the row representation.
+    */
+   default &lt;T&gt; void insertCellValue(int row, Class&lt;T&gt; classType, TableField&lt;T&gt; field, String... values) {
+<span class="fc" id="L126">      insertCellValue(row, classType, field, 1, values);</span>
+<span class="fc" id="L127">   }</span>
+
+   /**
+    * Inserts a value into a specific cell within a row at the given cell index.
+    *
+    * @param row       The row index (1-based index).
+    * @param classType The class type representing a table row.
+    * @param field     The table field to insert the value into.
+    * @param index     The cell index within the row (1-based index).
+    * @param values    The values to be inserted.
+    * @param &lt;T&gt;       The type of the row representation.
+    */
+   &lt;T&gt; void insertCellValue(int row, Class&lt;T&gt; classType, TableField&lt;T&gt; field, int index, String... values);
+
+   /**
+    * Inserts values into a cell within a row that matches the given search criteria.
+    *
+    * @param searchCriteria A list of string values to match in the row.
+    * @param classType      The class type representing a table row.
+    * @param field          The table field to insert the value into.
+    * @param values         The values to be inserted.
+    * @param &lt;T&gt;            The type of the row representation.
+    */
+   default &lt;T&gt; void insertCellValue(List&lt;String&gt; searchCriteria, Class&lt;T&gt; classType, TableField&lt;T&gt; field,
+                                    String... values) {
+<span class="fc" id="L152">      insertCellValue(searchCriteria, classType, field, 1, values);</span>
+<span class="fc" id="L153">   }</span>
+
+   /**
+    * Inserts values into a cell within a row that matches the search criteria at the given cell index.
+    *
+    * @param searchCriteria A list of string values to match in the row.
+    * @param classType      The class type representing a table row.
+    * @param field          The table field to insert the value into.
+    * @param index          The cell index within the row (1-based index).
+    * @param values         The values to be inserted.
+    * @param &lt;T&gt;            The type of the row representation.
+    */
+   &lt;T&gt; void insertCellValue(List&lt;String&gt; searchCriteria, Class&lt;T&gt; classType, TableField&lt;T&gt; field, int index,
+                            String... values);
+
+   /**
+    * Inserts an object as a row into the table based on matching search criteria.
+    *
+    * @param searchCriteria A list of string values to match in the row.
+    * @param classType      The class type representing a table row.
+    * @param data           The object containing the data to be inserted.
+    * @param &lt;T&gt;            The type of the row representation.
+    */
+   &lt;T&gt; void insertCellValue(List&lt;String&gt; searchCriteria, Class&lt;T&gt; classType, T data);
+
+   /**
+    * Applies a filter to a column in the table.
+    *
+    * @param tclass         The class type representing a table row.
+    * @param column         The table field representing the column to be filtered.
+    * @param filterStrategy The filter strategy to be applied.
+    * @param values         The values to be used for filtering.
+    * @param &lt;T&gt;            The type of the row representation.
+    */
+   &lt;T&gt; void filterTable(Class&lt;T&gt; tclass, TableField&lt;T&gt; column, FilterStrategy filterStrategy, String... values);
+
+   /**
+    * Sorts the table based on the specified column.
+    *
+    * @param tclass          The class type representing a table row.
+    * @param column          The table field representing the column to be sorted.
+    * @param sortingStrategy The sorting strategy to be applied.
+    * @param &lt;T&gt;             The type of the row representation.
+    */
+   &lt;T&gt; void sortTable(Class&lt;T&gt; tclass, TableField&lt;T&gt; column, SortingStrategy sortingStrategy);
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

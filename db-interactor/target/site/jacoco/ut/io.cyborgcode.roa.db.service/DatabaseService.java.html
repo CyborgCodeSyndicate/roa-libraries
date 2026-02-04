@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DatabaseService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Database Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.db.service</a> &gt; <span class="el_source">DatabaseService.java</span></div><h1>DatabaseService.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.db.service;
+
+import io.cyborgcode.roa.db.client.DbClient;
+import io.cyborgcode.roa.db.client.DbClientManager;
+import io.cyborgcode.roa.db.config.DatabaseConfiguration;
+import io.cyborgcode.roa.db.json.JsonPathExtractor;
+import io.cyborgcode.roa.db.log.LogDb;
+import io.cyborgcode.roa.db.query.DbQuery;
+import io.cyborgcode.roa.db.query.QueryResponse;
+import io.cyborgcode.roa.db.validator.QueryResponseValidator;
+import io.cyborgcode.roa.validator.core.Assertion;
+import io.cyborgcode.roa.validator.core.AssertionResult;
+import java.util.List;
+import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+/**
+ * Provides services for executing and validating database queries.
+ *
+ * &lt;p&gt;This class facilitates database interactions by executing queries,
+ * extracting specific data from query responses, and validating results
+ * using predefined assertions.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@Service
+public class DatabaseService {
+
+   private final JsonPathExtractor jsonPathExtractor;
+   @Getter
+   private final DbClientManager dbClientManager;
+   private final QueryResponseValidator queryResponseValidator;
+
+   /**
+    * Constructs a {@code DatabaseService} with the required dependencies.
+    *
+    * @param jsonPathExtractor      Utility for extracting specific values from query results using JSONPath.
+    * @param dbClientManager        Manages database client connections.
+    * @param queryResponseValidator Validates query responses against assertions.
+    */
+   @Autowired
+   public DatabaseService(JsonPathExtractor jsonPathExtractor,
+                          DbClientManager dbClientManager,
+<span class="fc" id="L45">                          QueryResponseValidator queryResponseValidator) {</span>
+<span class="fc" id="L46">      this.jsonPathExtractor = jsonPathExtractor;</span>
+<span class="fc" id="L47">      this.dbClientManager = dbClientManager;</span>
+<span class="fc" id="L48">      this.queryResponseValidator = queryResponseValidator;</span>
+<span class="fc" id="L49">   }</span>
+
+   /**
+    * Executes a database query and retrieves the result.
+    *
+    * @param query The query to execute.
+    * @return The query response containing the result set.
+    */
+   public QueryResponse query(DbQuery&lt;?&gt; query) {
+<span class="fc" id="L58">      DatabaseConfiguration dbConfig = query.config();</span>
+<span class="fc" id="L59">      DbClient client = dbClientManager.getClient(dbConfig);</span>
+<span class="fc" id="L60">      return client.executeQuery(query.query());</span>
+   }
+
+   /**
+    * Executes a query and extracts a specific value using JSONPath.
+    *
+    * @param query      The query to execute.
+    * @param jsonPath   The JSONPath expression to extract a value.
+    * @param resultType The expected type of the extracted value.
+    * @param &lt;T&gt;        The type parameter for the extracted value.
+    * @return The extracted value.
+    */
+   public &lt;T&gt; T query(DbQuery&lt;?&gt; query, String jsonPath, Class&lt;T&gt; resultType) {
+<span class="fc" id="L73">      DatabaseConfiguration dbConfig = query.config();</span>
+<span class="fc" id="L74">      DbClient client = dbClientManager.getClient(dbConfig);</span>
+
+<span class="fc" id="L76">      String sql = query.query();</span>
+<span class="fc" id="L77">      QueryResponse queryResponse = client.executeQuery(sql);</span>
+<span class="fc" id="L78">      LogDb.step(</span>
+            &quot;Extracting value from query result: '{}' using JSONPath expression: '{}' and casting to '{}'.&quot;,
+<span class="fc" id="L80">            sql, jsonPath, resultType.getSimpleName());</span>
+
+<span class="fc" id="L82">      return jsonPathExtractor.extract(queryResponse.getRows(), jsonPath, resultType);</span>
+   }
+
+   /**
+    * Validates a query response against a set of assertions.
+    *
+    * @param queryResponse The query response to validate.
+    * @param assertions    The assertions to apply.
+    * @param &lt;T&gt;           The expected result type.
+    * @return A list of assertion results indicating pass or failure.
+    */
+   public &lt;T&gt; List&lt;AssertionResult&lt;T&gt;&gt; validate(QueryResponse queryResponse, Assertion... assertions) {
+<span class="fc" id="L94">      return queryResponseValidator.validateQueryResponse(queryResponse, assertions);</span>
+   }
+
+   /**
+    * Executes a query and validates its response against assertions.
+    *
+    * @param query      The query to execute.
+    * @param assertions The assertions to validate against.
+    * @param &lt;T&gt;        The expected result type.
+    * @return A list of assertion results indicating pass or failure.
+    */
+   public &lt;T&gt; List&lt;AssertionResult&lt;T&gt;&gt; queryAndValidate(DbQuery&lt;?&gt; query, Assertion... assertions) {
+<span class="fc" id="L106">      DatabaseConfiguration dbConfig = query.config();</span>
+<span class="fc" id="L107">      DbClient client = dbClientManager.getClient(dbConfig);</span>
+
+<span class="fc" id="L109">      QueryResponse queryResponse = client.executeQuery(query.query());</span>
+<span class="fc" id="L110">      return queryResponseValidator.validateQueryResponse(queryResponse, assertions);</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

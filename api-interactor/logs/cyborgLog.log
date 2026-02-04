@@ -1,0 +1,76 @@
+AuthenticationKey is null. Cannot retrieve authentication header.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"AuthenticationKey is null. Cannot retrieve authentication header.","thread_name":"main","@timestamp":"2026-02-04T21:15:49.821+0100","level":"ERROR","logger_name":"ROA.API"}
+Successfully authenticated user: username
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Successfully authenticated user: username","thread_name":"main","@timestamp":"2026-02-04T21:15:50.590+0100","level":"INFO","logger_name":"ROA.API"}
+Successfully authenticated user: username
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Successfully authenticated user: username","thread_name":"main","@timestamp":"2026-02-04T21:15:50.712+0100","level":"INFO","logger_name":"ROA.API"}
+Successfully authenticated user: username
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Successfully authenticated user: username","thread_name":"main","@timestamp":"2026-02-04T21:15:50.751+0100","level":"INFO","logger_name":"ROA.API"}
+Sending request to endpoint OPTIONS-https://example.com/api/v1/options.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Sending request to endpoint OPTIONS-https://example.com/api/v1/options.","thread_name":"main","@timestamp":"2026-02-04T21:15:53.273+0100","level":"STEP","logger_name":"ROA.API"}
+Sending request to endpoint GET-https://example.com/api/v1/test.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Sending request to endpoint GET-https://example.com/api/v1/test.","thread_name":"main","@timestamp":"2026-02-04T21:15:53.313+0100","level":"STEP","logger_name":"ROA.API"}
+Response with status: 200 received from endpoint: GET-https://example.com/api/v1/test in 0ms.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Response with status: 200 received from endpoint: GET-https://example.com/api/v1/test in 0ms.","thread_name":"main","@timestamp":"2026-02-04T21:15:53.315+0100","level":"STEP","logger_name":"ROA.API"}
+Sending request to endpoint PUT-https://example.com/api/v1/test.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Sending request to endpoint PUT-https://example.com/api/v1/test.","thread_name":"main","@timestamp":"2026-02-04T21:15:53.329+0100","level":"STEP","logger_name":"ROA.API"}
+Response with status: 200 received from endpoint: PUT-https://example.com/api/v1/test in 0ms.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Response with status: 200 received from endpoint: PUT-https://example.com/api/v1/test in 0ms.","thread_name":"main","@timestamp":"2026-02-04T21:15:53.332+0100","level":"STEP","logger_name":"ROA.API"}
+Sending request to endpoint POST-https://example.com/api/v1/test.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Sending request to endpoint POST-https://example.com/api/v1/test.","thread_name":"main","@timestamp":"2026-02-04T21:15:53.348+0100","level":"STEP","logger_name":"ROA.API"}
+Response with status: 200 received from endpoint: POST-https://example.com/api/v1/test in 0ms.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Response with status: 200 received from endpoint: POST-https://example.com/api/v1/test in 0ms.","thread_name":"main","@timestamp":"2026-02-04T21:15:53.350+0100","level":"STEP","logger_name":"ROA.API"}
+Sending request to endpoint DELETE-https://example.com/api/v1/test.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Sending request to endpoint DELETE-https://example.com/api/v1/test.","thread_name":"main","@timestamp":"2026-02-04T21:15:53.362+0100","level":"STEP","logger_name":"ROA.API"}
+Response with status: 200 received from endpoint: DELETE-https://example.com/api/v1/test in 0ms.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Response with status: 200 received from endpoint: DELETE-https://example.com/api/v1/test in 0ms.","thread_name":"main","@timestamp":"2026-02-04T21:15:53.366+0100","level":"STEP","logger_name":"ROA.API"}
+Sending request to endpoint HEAD-https://example.com/api/v1/test.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Sending request to endpoint HEAD-https://example.com/api/v1/test.","thread_name":"main","@timestamp":"2026-02-04T21:15:53.390+0100","level":"STEP","logger_name":"ROA.API"}
+Response with status: 200 received from endpoint: HEAD-https://example.com/api/v1/test in 0ms.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Response with status: 200 received from endpoint: HEAD-https://example.com/api/v1/test in 0ms.","thread_name":"main","@timestamp":"2026-02-04T21:15:53.394+0100","level":"STEP","logger_name":"ROA.API"}
+Sending request to endpoint PATCH-https://example.com/api/v1/test.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Sending request to endpoint PATCH-https://example.com/api/v1/test.","thread_name":"main","@timestamp":"2026-02-04T21:15:53.409+0100","level":"STEP","logger_name":"ROA.API"}
+Response with status: 200 received from endpoint: PATCH-https://example.com/api/v1/test in 0ms.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Response with status: 200 received from endpoint: PATCH-https://example.com/api/v1/test in 0ms.","thread_name":"main","@timestamp":"2026-02-04T21:15:53.411+0100","level":"STEP","logger_name":"ROA.API"}
+Sending request to endpoint GET-https://example.com/api/v1/test.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Sending request to endpoint GET-https://example.com/api/v1/test.","thread_name":"main","@timestamp":"2026-02-04T21:15:54.280+0100","level":"STEP","logger_name":"ROA.API"}
+Response with status: 200 received from endpoint: GET-https://example.com/api/v1/test in 0ms.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Response with status: 200 received from endpoint: GET-https://example.com/api/v1/test in 0ms.","thread_name":"main","@timestamp":"2026-02-04T21:15:54.283+0100","level":"STEP","logger_name":"ROA.API"}
+Prepared RequestSpecification with pathParams: {key=value}, queryParams: {}, headers: {}
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Prepared RequestSpecification with pathParams: {key=value}, queryParams: {}, headers: {}","thread_name":"main","@timestamp":"2026-02-04T21:15:56.560+0100","level":"INFO","logger_name":"ROA.API"}
+Prepared RequestSpecification with pathParams: {}, queryParams: {key=value}, headers: {}
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Prepared RequestSpecification with pathParams: {}, queryParams: {key=value}, headers: {}","thread_name":"main","@timestamp":"2026-02-04T21:15:56.601+0100","level":"INFO","logger_name":"ROA.API"}
+Prepared RequestSpecification with pathParams: {x=42, y=99}, queryParams: {}, headers: {}
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Prepared RequestSpecification with pathParams: {x=42, y=99}, queryParams: {}, headers: {}","thread_name":"main","@timestamp":"2026-02-04T21:15:56.953+0100","level":"INFO","logger_name":"ROA.API"}
+Prepared RequestSpecification with pathParams: {id=999}, queryParams: {q=123}, headers: {X-Hdr=[Hello]}
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Prepared RequestSpecification with pathParams: {id=999}, queryParams: {q=123}, headers: {X-Hdr=[Hello]}","thread_name":"main","@timestamp":"2026-02-04T21:15:56.967+0100","level":"INFO","logger_name":"ROA.API"}
+Prepared RequestSpecification with pathParams: {}, queryParams: {}, headers: {H=[A, B]}
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Prepared RequestSpecification with pathParams: {}, queryParams: {}, headers: {H=[A, B]}","thread_name":"main","@timestamp":"2026-02-04T21:15:56.983+0100","level":"INFO","logger_name":"ROA.API"}
+Prepared RequestSpecification with pathParams: {}, queryParams: {a=1, b=2}, headers: {}
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Prepared RequestSpecification with pathParams: {}, queryParams: {a=1, b=2}, headers: {}","thread_name":"main","@timestamp":"2026-02-04T21:15:56.995+0100","level":"INFO","logger_name":"ROA.API"}
+Info message
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Info message","thread_name":"main","@timestamp":"2026-02-04T21:15:57.138+0100","level":"INFO","logger_name":"ROA.API"}
+Warn message
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Warn message","thread_name":"main","@timestamp":"2026-02-04T21:15:57.139+0100","level":"WARN","logger_name":"ROA.API"}
+Error message
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Error message","thread_name":"main","@timestamp":"2026-02-04T21:15:57.141+0100","level":"ERROR","logger_name":"ROA.API"}
+Step message
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Step message","thread_name":"main","@timestamp":"2026-02-04T21:15:57.141+0100","level":"STEP","logger_name":"ROA.API"}
+Validation message
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Validation message","thread_name":"main","@timestamp":"2026-02-04T21:15:57.142+0100","level":"VALIDATION","logger_name":"ROA.API"}
+Starting response validation with 1 assertion(s).
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Starting response validation with 1 assertion(s).","thread_name":"main","@timestamp":"2026-02-04T21:15:58.076+0100","level":"INFO","logger_name":"ROA.API"}
+Starting response validation with 1 assertion(s).
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Starting response validation with 1 assertion(s).","thread_name":"main","@timestamp":"2026-02-04T21:15:58.098+0100","level":"INFO","logger_name":"ROA.API"}
+Starting response validation with 1 assertion(s).
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Starting response validation with 1 assertion(s).","thread_name":"main","@timestamp":"2026-02-04T21:15:58.104+0100","level":"INFO","logger_name":"ROA.API"}
+Starting response validation with 1 assertion(s).
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Starting response validation with 1 assertion(s).","thread_name":"main","@timestamp":"2026-02-04T21:15:58.134+0100","level":"INFO","logger_name":"ROA.API"}
+Starting response validation with 1 assertion(s).
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Starting response validation with 1 assertion(s).","thread_name":"main","@timestamp":"2026-02-04T21:15:58.144+0100","level":"INFO","logger_name":"ROA.API"}
+Starting response validation with 1 assertion(s).
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Starting response validation with 1 assertion(s).","thread_name":"main","@timestamp":"2026-02-04T21:16:00.763+0100","level":"INFO","logger_name":"ROA.API"}
+Starting response validation with 1 assertion(s).
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Starting response validation with 1 assertion(s).","thread_name":"main","@timestamp":"2026-02-04T21:16:00.774+0100","level":"INFO","logger_name":"ROA.API"}
+Starting response validation with 1 assertion(s).
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Starting response validation with 1 assertion(s).","thread_name":"main","@timestamp":"2026-02-04T21:16:00.840+0100","level":"INFO","logger_name":"ROA.API"}

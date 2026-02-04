@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FrameworkAdapterContextCustomizerFactory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Core Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.framework.spring</a> &gt; <span class="el_source">FrameworkAdapterContextCustomizerFactory.java</span></div><h1>FrameworkAdapterContextCustomizerFactory.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.framework.spring;
+
+import io.cyborgcode.roa.framework.annotation.FrameworkAdapter;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import org.springframework.core.annotation.AnnotatedElementUtils;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
+import org.springframework.test.context.ContextConfigurationAttributes;
+import org.springframework.test.context.ContextCustomizer;
+import org.springframework.test.context.ContextCustomizerFactory;
+
+/**
+ * A factory for creating {@link ContextCustomizer} instances based on {@code @FrameworkAdapter} annotations.
+ *
+ * &lt;p&gt;This class scans the test class for any {@link FrameworkAdapter} annotations, collects their specified base
+ * packages, and constructs a {@link FrameworkAdapterContextCustomizer} to add those packages to the Spring context
+ * scan. If no {@code @FrameworkAdapter} annotations are present, it returns {@code null}, indicating that no
+ * customization is needed.
+ *
+ * &lt;p&gt;This approach allows for flexible configuration of additional base packages without modifying the default Spring
+ * context setup.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+<span class="fc" id="L27">public class FrameworkAdapterContextCustomizerFactory implements ContextCustomizerFactory {</span>
+
+   /**
+    * Creates a new {@link ContextCustomizer} if the test class contains one or more {@link FrameworkAdapter}
+    * annotations.
+    *
+    * &lt;p&gt;Each adapter's base packages are gathered and combined, ensuring duplicates are removed before creating
+    * the resulting customizer.
+    *
+    * @param testClass        The test class to inspect for {@code @FrameworkAdapter} annotations.
+    * @param configAttributes The context configuration attributes (not used in this implementation).
+    * @return A {@link FrameworkAdapterContextCustomizer} if any {@code @FrameworkAdapter} annotations are found,
+    *     otherwise {@code null}.
+    */
+   @Override
+   public ContextCustomizer createContextCustomizer(
+         @NonNull Class&lt;?&gt; testClass,
+         @Nullable List&lt;ContextConfigurationAttributes&gt; configAttributes) {
+
+<span class="fc" id="L46">      Set&lt;FrameworkAdapter&gt; annotations = AnnotatedElementUtils.findAllMergedAnnotations(testClass,</span>
+            FrameworkAdapter.class);
+
+<span class="fc bfc" id="L49" title="All 2 branches covered.">      if (annotations.isEmpty()) {</span>
+<span class="fc" id="L50">         return null;</span>
+      }
+
+<span class="fc" id="L53">      return new FrameworkAdapterContextCustomizer(annotations.stream()</span>
+<span class="fc" id="L54">            .flatMap(adapter -&gt; Arrays.stream(adapter.basePackages()))</span>
+<span class="fc" id="L55">            .distinct().toArray(String[]::new));</span>
+   }
+
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

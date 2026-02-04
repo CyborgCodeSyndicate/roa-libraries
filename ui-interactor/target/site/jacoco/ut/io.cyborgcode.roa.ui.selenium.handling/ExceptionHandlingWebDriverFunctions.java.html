@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ExceptionHandlingWebDriverFunctions.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.selenium.handling</a> &gt; <span class="el_source">ExceptionHandlingWebDriverFunctions.java</span></div><h1>ExceptionHandlingWebDriverFunctions.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.selenium.handling;
+
+import io.cyborgcode.roa.ui.log.LogUi;
+import io.cyborgcode.roa.ui.selenium.enums.WebElementAction;
+import io.cyborgcode.roa.ui.selenium.helper.FrameHelper;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+/**
+ * Provides exception handling functions for WebDriver actions.
+ *
+ * &lt;p&gt;This class includes utility methods to handle exceptions that may occur during
+ * WebDriver operations, such as handling {@link NoSuchElementException} when elements are not found.
+ * &lt;/p&gt;
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class ExceptionHandlingWebDriverFunctions {
+
+   private ExceptionHandlingWebDriverFunctions() {
+   }
+
+   /**
+    * Handles {@link NoSuchElementException} by attempting to locate the element within iFrames.
+    *
+    * &lt;p&gt;If an element is not found in the main DOM, this method will search within available iFrames.
+    * If found, the specified {@link WebElementAction} is performed.
+    * If the element is still not found, an error is logged and a {@link NoSuchElementException} is thrown.
+    * &lt;/p&gt;
+    *
+    * @param driver           The WebDriver instance.
+    * @param webElementAction The WebElementAction to perform if the element is found.
+    * @param args             The arguments, where the first argument must be a {@link By} locator.
+    * @return The result of the performed action, if successful.
+    * @throws IllegalArgumentException If the locator argument is missing or invalid.
+    * @throws NoSuchElementException   If the element cannot be found in the main DOM or any iframe.
+    */
+   public static Object handleNoSuchElement(WebDriver driver, WebElementAction webElementAction, Object... args) {
+<span class="fc bfc" id="L41" title="All 4 branches covered.">      if (args.length == 0 || !(args[0] instanceof By)) {</span>
+<span class="fc" id="L42">         LogUi.error(&quot;Invalid or missing locator argument.&quot;);</span>
+<span class="fc" id="L43">         throw new IllegalArgumentException(&quot;Action requires a By locator.&quot;);</span>
+      }
+
+<span class="fc" id="L46">      By locator = (By) args[0];</span>
+
+<span class="fc bfc" id="L48" title="All 2 branches covered.">      if (webElementAction == WebElementAction.FIND_ELEMENTS) {</span>
+<span class="fc" id="L49">         WebElement container = FrameHelper.findContainerIframe(driver, locator);</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">         if (container != null) {</span>
+<span class="fc" id="L51">            return webElementAction.performActionWebDriver(driver, locator);</span>
+         }
+<span class="fc" id="L53">      } else {</span>
+<span class="fc" id="L54">         WebElement foundElement = FrameHelper.findElementInIframes(driver, locator);</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">         if (foundElement != null) {</span>
+<span class="fc" id="L56">            return webElementAction.performActionWebDriver(driver, foundElement);</span>
+         }
+      }
+<span class="fc" id="L59">      LogUi.error(&quot;Element(s) not found in the main DOM or any iframe.&quot;);</span>
+<span class="fc" id="L60">      throw new NoSuchElementException(&quot;Element(s) not found in main DOM or any iframe.&quot;);</span>
+   }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

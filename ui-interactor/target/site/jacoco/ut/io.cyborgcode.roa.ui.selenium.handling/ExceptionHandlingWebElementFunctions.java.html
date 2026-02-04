@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ExceptionHandlingWebElementFunctions.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.selenium.handling</a> &gt; <span class="el_source">ExceptionHandlingWebElementFunctions.java</span></div><h1>ExceptionHandlingWebElementFunctions.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.selenium.handling;
+
+import io.cyborgcode.roa.ui.log.LogUi;
+import io.cyborgcode.roa.ui.selenium.enums.WebElementAction;
+import io.cyborgcode.roa.ui.selenium.helper.FrameHelper;
+import io.cyborgcode.roa.ui.selenium.helper.LocatorParser;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import java.time.Duration;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+/**
+ * Provides utility functions for handling WebElement exceptions.
+ *
+ * &lt;p&gt;This class defines methods to recover from common Selenium exceptions
+ * such as {@link NoSuchElementException}, {@link TimeoutException}, and
+ * {@link org.openqa.selenium.StaleElementReferenceException}. It aims to
+ * improve test stability by implementing fallback strategies for locating and
+ * interacting with elements.
+ * &lt;/p&gt;
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class ExceptionHandlingWebElementFunctions {
+
+   private ExceptionHandlingWebElementFunctions() {
+   }
+
+   /**
+    * Handles a stale element reference by attempting to re-locate the element.
+    *
+    * @param driver           The WebDriver instance.
+    * @param element          The stale {@link SmartWebElement}.
+    * @param webElementAction The action to be performed on the element.
+    * @param args             Additional arguments required for the action.
+    * @return The result of the attempted action.
+    */
+   public static Object handleStaleElement(WebDriver driver, SmartWebElement element,
+                                           WebElementAction webElementAction, Object... args) {
+      try {
+<span class="fc" id="L47">         element = LocatorParser.updateWebElement(driver, element);</span>
+<span class="fc" id="L48">         return WebElementAction.performAction(driver, element.getOriginal(), webElementAction, args);</span>
+<span class="fc" id="L49">      } catch (Exception e) {</span>
+<span class="fc" id="L50">         String errorMessage = String.format(</span>
+               &quot;[BROKEN] WebElement action '%s' failed for stale element exception&quot;,
+<span class="fc" id="L52">               webElementAction.getMethodName());</span>
+<span class="fc" id="L53">         LogUi.error(errorMessage);</span>
+<span class="fc" id="L54">         throw e;</span>
+      }
+   }
+
+
+   /**
+    * Handles the case where an element is not found by searching within iframes.
+    *
+    * @param driver           The WebDriver instance.
+    * @param element          The {@link SmartWebElement} that was not found.
+    * @param webElementAction The action to be performed if the element is found.
+    * @param args             Additional arguments required for the action.
+    * @return The result of the attempted action if the element is found.
+    * @throws NoSuchElementException If the element cannot be found in any iframe.
+    */
+   public static Object handleNoSuchElement(WebDriver driver, SmartWebElement element,
+                                            WebElementAction webElementAction, Object... args) {
+<span class="fc bfc" id="L71" title="All 4 branches covered.">      if (args.length == 0 || !(args[0] instanceof By)) {</span>
+<span class="fc" id="L72">         LogUi.error(&quot;Invalid or missing locator argument for FIND_ELEMENT.&quot;);</span>
+<span class="fc" id="L73">         throw new IllegalArgumentException(&quot;Action requires a By locator.&quot;);</span>
+      }
+
+<span class="fc bfc" id="L76" title="All 2 branches covered.">      if (webElementAction == WebElementAction.FIND_ELEMENTS) {</span>
+<span class="fc" id="L77">         WebElement container = FrameHelper.findContainerIframe(driver, (By) args[0]);</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">         if (container != null) {</span>
+<span class="fc" id="L79">            return webElementAction.performActionWebDriver(driver, args);</span>
+         }
+<span class="fc" id="L81">      } else {</span>
+<span class="fc" id="L82">         WebElement foundElement = FrameHelper.findElementInIframes(driver, element.getOriginal());</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">         if (foundElement != null) {</span>
+<span class="fc" id="L84">            return webElementAction.performActionWebElement(driver, foundElement, args);</span>
+         }
+      }
+
+<span class="fc" id="L88">      String errorMessage = String.format(</span>
+            &quot;[BROKEN] WebElement action '%s' could not be executed - Element with locator '%s' not found.&quot;,
+<span class="fc" id="L90">            webElementAction.getMethodName(), args[0]</span>
+      );
+
+<span class="fc" id="L93">      LogUi.error(errorMessage);</span>
+<span class="fc" id="L94">      throw new NoSuchElementException(&quot;Element not found in any iframe.&quot;);</span>
+   }
+
+
+   /**
+    * Handles the case where an element is intercepted by another element when clicked.
+    *
+    * @param driver           The WebDriver instance.
+    * @param element          The {@link SmartWebElement} that was intercepted.
+    * @param webElementAction The action to be retried after waiting for the blocker to disappear.
+    * @param exception        The exception that occurred during the click action.
+    * @param args             Additional arguments required for the action.
+    * @return The result of the attempted action.
+    */
+   public static Object handleElementClickIntercepted(WebDriver driver, SmartWebElement element,
+                                                      WebElementAction webElementAction, Exception exception,
+                                                      Object... args) {
+<span class="fc" id="L111">      String xpathExpression = null;</span>
+      try {
+<span class="fc" id="L113">         xpathExpression = LocatorParser.extractBlockingElementLocator(exception.getMessage());</span>
+<span class="fc" id="L114">         By blocker = By.xpath(xpathExpression);</span>
+<span class="fc" id="L115">         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));</span>
+
+<span class="fc" id="L117">         waitInvisibilityIgnoringTimeout(wait, blocker);</span>
+
+<span class="fc" id="L119">         return WebElementAction.performAction(driver, element.getOriginal(), webElementAction, args);</span>
+<span class="fc" id="L120">      } catch (Exception e) {</span>
+<span class="fc" id="L121">         String errorMessage = String.format(</span>
+               &quot;[BROKEN] WebElement action '%s' failed due to intercepted click with locator '%s'. Exception: '%s'&quot;,
+<span class="fc" id="L123">               webElementAction.getMethodName(),</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">               (xpathExpression == null ? &quot;Cannot Extract Locator&quot; : xpathExpression),</span>
+<span class="fc" id="L125">               e.getClass().getSimpleName()</span>
+         );
+<span class="fc" id="L127">         LogUi.error(errorMessage);</span>
+<span class="fc" id="L128">         throw e;</span>
+      }
+   }
+
+
+   /**
+    * Handles the case where an element is not interactable by scrolling to it and retrying the action.
+    *
+    * @param driver           The WebDriver instance.
+    * @param element          The {@link SmartWebElement} that was not interactable.
+    * @param webElementAction The action to be retried.
+    * @param args             Additional arguments required for the action.
+    * @return The result of the attempted action.
+    */
+   public static Object handleElementNotInteractable(WebDriver driver, SmartWebElement element,
+                                                     WebElementAction webElementAction, Object... args) {
+      try {
+<span class="fc" id="L145">         element = LocatorParser.updateWebElement(driver, element);</span>
+<span class="fc" id="L146">         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));</span>
+<span class="fc" id="L147">         Actions actions = new Actions(driver);</span>
+<span class="fc" id="L148">         actions.moveToElement(element.getOriginal()).perform();</span>
+<span class="fc" id="L149">         WebElement clickableElement = wait.until(ExpectedConditions.elementToBeClickable(element.getOriginal()));</span>
+
+<span class="fc" id="L151">         return WebElementAction.performAction(driver, clickableElement, webElementAction, args);</span>
+<span class="fc" id="L152">      } catch (Exception e) {</span>
+<span class="fc" id="L153">         String errorMessage = String.format(</span>
+               &quot;[BROKEN] WebElement action '%s' failed because element was not interactable. Exception: '%s'&quot;,
+<span class="fc" id="L155">               webElementAction.getMethodName(), e.getClass().getSimpleName()</span>
+         );
+<span class="fc" id="L157">         LogUi.error(errorMessage);</span>
+<span class="fc" id="L158">         throw e;</span>
+      }
+   }
+
+
+   private static void waitInvisibilityIgnoringTimeout(WebDriverWait wait, By blocker) {
+      try {
+<span class="fc" id="L165">         wait.until(ExpectedConditions.invisibilityOfElementLocated(blocker));</span>
+<span class="fc" id="L166">      } catch (TimeoutException e) {</span>
+<span class="fc" id="L167">         LogUi.warn(&quot;Blocking element did not disappear after waiting, attempting action anyway.&quot;);</span>
+<span class="fc" id="L168">      }</span>
+<span class="fc" id="L169">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

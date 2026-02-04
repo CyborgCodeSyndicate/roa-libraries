@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ToggleService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.toggle</a> &gt; <span class="el_source">ToggleService.java</span></div><h1>ToggleService.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.toggle;
+
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import io.cyborgcode.utilities.reflections.ReflectionUtil;
+import org.openqa.selenium.By;
+
+import static io.cyborgcode.roa.ui.config.UiConfigHolder.getUiConfig;
+
+/**
+ * Provides an interface for interacting with toggle components in a UI automation
+ * framework, supporting operations to activate, deactivate, and verify toggle states.
+ * By leveraging {@link ToggleComponentType} and the {@link #DEFAULT_TYPE}, implementations
+ * can manage various toggle behaviors (e.g., switches, checkboxes) with consistent
+ * methods across different UI designs.
+ *
+ * &lt;p&gt;Commonly relies on Selenium-based strategies to locate and manipulate toggles
+ * identified by container elements ({@link SmartWebElement}), text, or {@link By} locators.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public interface ToggleService {
+
+<span class="fc" id="L23">   ToggleComponentType DEFAULT_TYPE = getDefaultType();</span>
+
+   /**
+    * Retrieves the default toggle component type from the configuration.
+    *
+    * @return The default ToggleComponentType.
+    */
+   private static ToggleComponentType getDefaultType() {
+      try {
+<span class="fc" id="L32">         return ReflectionUtil.findEnumImplementationsOfInterface(ToggleComponentType.class,</span>
+<span class="fc" id="L33">               getUiConfig().toggleDefaultType(),</span>
+<span class="fc" id="L34">               getUiConfig().projectPackages());</span>
+<span class="fc" id="L35">      } catch (Exception ignored) {</span>
+<span class="fc" id="L36">         return null;</span>
+      }
+   }
+
+   /**
+    * Activates the toggle with the specified text inside a container, using the default toggle component type.
+    *
+    * @param container  The SmartWebElement container that contains the toggle.
+    * @param toggleText The text of the toggle to activate.
+    */
+   default void activate(SmartWebElement container, String toggleText) {
+<span class="fc" id="L47">      activate(DEFAULT_TYPE, container, toggleText);</span>
+<span class="fc" id="L48">   }</span>
+
+   /**
+    * Activates the toggle with the specified text inside a container, using the given toggle component type.
+    *
+    * @param componentType The specific toggle component type.
+    * @param container     The SmartWebElement container that contains the toggle.
+    * @param toggleText    The text of the toggle to activate.
+    */
+   void activate(ToggleComponentType componentType, SmartWebElement container, String toggleText);
+
+   /**
+    * Activates the toggle with the specified text, using the default toggle component type.
+    *
+    * @param toggleText The text of the toggle to activate.
+    */
+   default void activate(String toggleText) {
+<span class="fc" id="L65">      activate(DEFAULT_TYPE, toggleText);</span>
+<span class="fc" id="L66">   }</span>
+
+   /**
+    * Activates the toggle with the specified text, using the given toggle component type.
+    *
+    * @param componentType The specific toggle component type.
+    * @param toggleText    The text of the toggle to activate.
+    */
+   void activate(ToggleComponentType componentType, String toggleText);
+
+   /**
+    * Activates the toggle identified by the specified locator, using the default toggle component type.
+    *
+    * @param toggleLocator The locator for the toggle to activate.
+    */
+   default void activate(By toggleLocator) {
+<span class="fc" id="L82">      activate(DEFAULT_TYPE, toggleLocator);</span>
+<span class="fc" id="L83">   }</span>
+
+   /**
+    * Activates the toggle identified by the specified locator, using the given toggle component type.
+    *
+    * @param componentType The specific toggle component type.
+    * @param toggleLocator The locator for the toggle to activate.
+    */
+   void activate(ToggleComponentType componentType, By toggleLocator);
+
+   /**
+    * Deactivates the toggle with the specified text inside a container, using the default toggle component type.
+    *
+    * @param container  The SmartWebElement container that contains the toggle.
+    * @param toggleText The text of the toggle to deactivate.
+    */
+   default void deactivate(SmartWebElement container, String toggleText) {
+<span class="fc" id="L100">      deactivate(DEFAULT_TYPE, container, toggleText);</span>
+<span class="fc" id="L101">   }</span>
+
+   /**
+    * Deactivates the toggle with the specified text inside a container, using the given toggle component type.
+    *
+    * @param componentType The specific toggle component type.
+    * @param container     The SmartWebElement container that contains the toggle.
+    * @param toggleText    The text of the toggle to deactivate.
+    */
+   void deactivate(ToggleComponentType componentType, SmartWebElement container, String toggleText);
+
+   /**
+    * Deactivates the toggle with the specified text, using the default toggle component type.
+    *
+    * @param toggleText The text of the toggle to deactivate.
+    */
+   default void deactivate(String toggleText) {
+<span class="fc" id="L118">      deactivate(DEFAULT_TYPE, toggleText);</span>
+<span class="fc" id="L119">   }</span>
+
+   /**
+    * Deactivates the toggle with the specified text, using the given toggle component type.
+    *
+    * @param componentType The specific toggle component type.
+    * @param toggleText    The text of the toggle to deactivate.
+    */
+   void deactivate(ToggleComponentType componentType, String toggleText);
+
+   /**
+    * Deactivates the toggle identified by the specified locator, using the default toggle component type.
+    *
+    * @param toggleLocator The locator for the toggle to deactivate.
+    */
+   default void deactivate(By toggleLocator) {
+<span class="fc" id="L135">      deactivate(DEFAULT_TYPE, toggleLocator);</span>
+<span class="fc" id="L136">   }</span>
+
+   /**
+    * Deactivates the toggle identified by the specified locator, using the given toggle component type.
+    *
+    * @param componentType The specific toggle component type.
+    * @param toggleLocator The locator for the toggle to deactivate.
+    */
+   void deactivate(ToggleComponentType componentType, By toggleLocator);
+
+   /**
+    * Checks if the toggle with the specified text inside a container is enabled, using the default toggle
+    * component type.
+    *
+    * @param container  The SmartWebElement container that contains the toggle.
+    * @param toggleText The text of the toggle to check.
+    * @return true if the toggle is enabled, false otherwise.
+    */
+   default boolean isEnabled(SmartWebElement container, String toggleText) {
+<span class="fc" id="L155">      return isEnabled(DEFAULT_TYPE, container, toggleText);</span>
+   }
+
+   /**
+    * Checks if the toggle with the specified text inside a container is enabled, using the given toggle component type.
+    *
+    * @param componentType The specific toggle component type.
+    * @param container     The SmartWebElement container that contains the toggle.
+    * @param toggleText    The text of the toggle to check.
+    * @return true if the toggle is enabled, false otherwise.
+    */
+   boolean isEnabled(ToggleComponentType componentType, SmartWebElement container, String toggleText);
+
+   /**
+    * Checks if the toggle with the specified text is enabled, using the default toggle component type.
+    *
+    * @param toggleText The text of the toggle to check.
+    * @return true if the toggle is enabled, false otherwise.
+    */
+   default boolean isEnabled(String toggleText) {
+<span class="fc" id="L175">      return isEnabled(DEFAULT_TYPE, toggleText);</span>
+   }
+
+   /**
+    * Checks if the toggle with the specified text is enabled, using the given toggle component type.
+    *
+    * @param componentType The specific toggle component type.
+    * @param toggleText    The text of the toggle to check.
+    * @return true if the toggle is enabled, false otherwise.
+    */
+   boolean isEnabled(ToggleComponentType componentType, String toggleText);
+
+   /**
+    * Checks if the toggle identified by the specified locator is enabled, using the default toggle component type.
+    *
+    * @param toggleLocator The locator for the toggle to check.
+    * @return true if the toggle is enabled, false otherwise.
+    */
+   default boolean isEnabled(By toggleLocator) {
+<span class="fc" id="L194">      return isEnabled(DEFAULT_TYPE, toggleLocator);</span>
+   }
+
+   /**
+    * Checks if the toggle identified by the specified locator is enabled, using the given toggle component type.
+    *
+    * @param componentType The specific toggle component type.
+    * @param toggleLocator The locator for the toggle to check.
+    * @return true if the toggle is enabled, false otherwise.
+    */
+   boolean isEnabled(ToggleComponentType componentType, By toggleLocator);
+
+   /**
+    * Checks if the toggle with the specified text inside a container is activated, using the default toggle
+    * component type.
+    *
+    * @param container  The SmartWebElement container that contains the toggle.
+    * @param toggleText The text of the toggle to check.
+    * @return true if the toggle is activated, false otherwise.
+    */
+   default boolean isActivated(SmartWebElement container, String toggleText) {
+<span class="fc" id="L215">      return isActivated(DEFAULT_TYPE, container, toggleText);</span>
+   }
+
+   /**
+    * Checks if the toggle with the specified text inside a container is activated, using the given toggle
+    * component type.
+    *
+    * @param componentType The specific toggle component type.
+    * @param container     The SmartWebElement container that contains the toggle.
+    * @param toggleText    The text of the toggle to check.
+    * @return true if the toggle is activated, false otherwise.
+    */
+   boolean isActivated(ToggleComponentType componentType, SmartWebElement container, String toggleText);
+
+   /**
+    * Checks if the toggle with the specified text is activated, using the default toggle component type.
+    *
+    * @param toggleText The text of the toggle to check.
+    * @return true if the toggle is activated, false otherwise.
+    */
+   default boolean isActivated(String toggleText) {
+<span class="fc" id="L236">      return isActivated(DEFAULT_TYPE, toggleText);</span>
+   }
+
+   /**
+    * Checks if the toggle with the specified text is activated, using the given toggle component type.
+    *
+    * @param componentType The specific toggle component type.
+    * @param toggleText    The text of the toggle to check.
+    * @return true if the toggle is activated, false otherwise.
+    */
+   boolean isActivated(ToggleComponentType componentType, String toggleText);
+
+   /**
+    * Checks if the toggle identified by the specified locator is activated, using the default toggle component type.
+    *
+    * @param toggleLocator The locator for the toggle to check.
+    * @return true if the toggle is activated, false otherwise.
+    */
+   default boolean isActivated(By toggleLocator) {
+<span class="fc" id="L255">      return isActivated(DEFAULT_TYPE, toggleLocator);</span>
+   }
+
+   /**
+    * Checks if the toggle identified by the specified locator is activated, using the given toggle component type.
+    *
+    * @param componentType The specific toggle component type.
+    * @param toggleLocator The locator for the toggle to check.
+    * @return true if the toggle is activated, false otherwise.
+    */
+   boolean isActivated(ToggleComponentType componentType, By toggleLocator);
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DriverCreator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.drivers.factory</a> &gt; <span class="el_source">DriverCreator.java</span></div><h1>DriverCreator.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.drivers.factory;
+
+import io.cyborgcode.roa.ui.drivers.base.DriverProvider;
+import io.cyborgcode.roa.ui.drivers.config.WebDriverConfig;
+import io.cyborgcode.roa.ui.log.LogUi;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Optional;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.AbstractDriverOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+/**
+ * Creates WebDriver instances based on the provided configuration and driver provider.
+ *
+ * &lt;p&gt;This class is responsible for setting up WebDriver options, applying necessary configurations,
+ * and instantiating the WebDriver either locally or remotely.
+ *
+ * &lt;p&gt;The generic type {@code T} represents browser-specific configuration options that extend
+ * {@link AbstractDriverOptions}. This allows flexibility in defining WebDriver settings
+ * for different browsers, such as Chrome, Firefox, or Edge.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+<span class="fc" id="L25">public class DriverCreator&lt;T extends AbstractDriverOptions&lt;?&gt;&gt; {</span>
+
+   /**
+    * Creates and configures a WebDriver instance based on the given configuration and driver provider.
+    *
+    * @param config   The configuration settings for the WebDriver instance.
+    * @param provider The driver provider responsible for creating and configuring WebDriver options.
+    * @return A fully configured {@link WebDriver} instance.
+    * @throws MalformedURLException If the remote WebDriver URL is invalid.
+    */
+   public WebDriver createDriver(WebDriverConfig&lt;T&gt; config, DriverProvider&lt;T&gt; provider) throws MalformedURLException {
+<span class="fc" id="L36">      LogUi.info(&quot;Creating driver using provider [{}]. Headless: [{}], Remote: [{}], Remote URL: [{}]&quot;,</span>
+<span class="fc" id="L37">            provider.getClass().getSimpleName(),</span>
+<span class="fc" id="L38">            config.isHeadless(),</span>
+<span class="fc" id="L39">            config.isRemote(),</span>
+<span class="fc" id="L40">            config.getRemoteUrl());</span>
+
+
+<span class="fc" id="L43">      T options = provider.createOptions();</span>
+<span class="fc" id="L44">      provider.applyDefaultArguments(options);</span>
+
+<span class="fc bfc" id="L46" title="All 2 branches covered.">      if (config.isHeadless()) {</span>
+<span class="fc" id="L47">         provider.applyHeadlessArguments(options);</span>
+      }
+
+<span class="fc" id="L50">      Optional.ofNullable(config.getOptionsCustomizer()).ifPresent(customizer -&gt; customizer.accept(options));</span>
+
+      WebDriver driver;
+
+<span class="fc bfc" id="L54" title="All 2 branches covered.">      if (config.isRemote()) {</span>
+<span class="fc" id="L55">         driver = new RemoteWebDriver(new URL(config.getRemoteUrl()), options);</span>
+      } else {
+<span class="fc" id="L57">         driver = provider.createDriver(options);</span>
+      }
+
+<span class="fc" id="L60">      driver.manage().window().maximize();</span>
+
+<span class="fc" id="L62">      return Optional.ofNullable(config.getEventFiringDecorator())</span>
+<span class="fc" id="L63">            .map(decorator -&gt; decorator.decorate(driver))</span>
+<span class="fc" id="L64">            .orElse(driver);</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

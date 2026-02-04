@@ -1,0 +1,1 @@
+{"uuid":"05eefac6-49ca-40cc-b442-ff010349b300","name":"clickElementInCell with searchCriteria field and index should call tableService with the correct arguments","children":["c598f0fc-75e1-435e-9e64-ead5acfaa185"],"befores":[],"afters":[],"start":1769887557212,"stop":1769887557251}

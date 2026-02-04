@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3dff65cd-aefa-4724-a92e-254210b1f8be" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/deploy-maven-central.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/deploy-maven-central.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/deploy.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/deploy.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/e2e-tests.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/e2e-tests.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/pr-validator.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/pr-validator.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/publish-catalog.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/publish-catalog.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-interactor-test-framework-adapter/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/api-interactor-test-framework-adapter/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-interactor/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/api-interactor/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assertions/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/assertions/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db-interactor-test-framework-adapter/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/db-interactor-test-framework-adapter/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db-interactor/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/db-interactor/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/roa-parent/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/roa-parent/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/roa-parent/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/roa-parent/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-framework/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/test-framework/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui-interactor-test-framework-adapter/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ui-interactor-test-framework-adapter/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui-interactor-test-framework-adapter/src/main/java/io/cyborgcode/roa/ui/extensions/UiTestExtension.java" beforeDir="false" afterPath="$PROJECT_DIR$/ui-interactor-test-framework-adapter/src/main/java/io/cyborgcode/roa/ui/extensions/UiTestExtension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui-interactor-test-framework-adapter/src/test/java/io/cyborgcode/roa/ui/extensions/UiTestExtensionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/ui-interactor-test-framework-adapter/src/test/java/io/cyborgcode/roa/ui/extensions/UiTestExtensionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui-interactor/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ui-interactor/pom.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;CyborgGandalf&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/CyborgCodeSyndicate/roa-libraries.git&quot;,
+    &quot;accountId&quot;: &quot;f0bce86a-90ea-4d7c-a813-0cd76a035cfd&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="349BbXM31JTdhcsp68kDwPyhboX" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;JUnit.All in api-interactor-test-framework-adapter.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.All in test-framework (1).executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.All in test-framework.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.All in ui-interactor-test-framework-adapter.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.All in ui-interactor.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AllureStepHelperTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AllureStepHelperTest.shouldAttachFallbackMessageWhenNoLogsAreFound.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AllureStepHelperTest.shouldInitializeTestEnvironment_WhenReflectionAndConfigAreMocked.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ApiHookExtensionTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AssertionTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AssertionUtilTest$InputValidationTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AssertionUtilTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ButtonUiElementTest.testComponentTypeReturnsDefaultType.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ComponentFactoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DbTypeConverterTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EndpointTest$DefaultConfigurationTests.shouldApplyLoggingAccordingToConfig.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EndpointTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FrameworkConfigHolderTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FrameworkConfigHolderTest.testGetFrameworkConfig_RealConfig.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.InitiatorTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.OracleTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PropertiesUtilTest.shouldNotOverwriteExistingSystemProperties.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.QuestTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.RadioServiceImplTest$InterfaceImplementationTests.insertionDelegatesToSelect.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.RadioServiceImplTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ResponseFormatterTest.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.StorageTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.SuperQuestTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TestContextManagerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UiTestExtensionTest$BeforeTestExecutionTests.interceptRequests_OneEnum_Match_UsesResolved.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UiTestExtensionTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.WebDriverFactoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.WebDriverFactoryTest.testCreateDriverWithException.executor&quot;: &quot;Run&quot;,
+    &quot;JavaClassFindUsagesOptions.isSearchForTextOccurrences&quot;: &quot;false&quot;,
+    &quot;Maven.api-interactor [clean,install,-U].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.api-interactor [clean,install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.api-interactor-test-framework-adapter [clean...].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.assertions [clean,install,-U...].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.assertions [clean,install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.db-interactor [clean,install,-U].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.db-interactor-test-framework-adapter [clean...].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.libraries [-B,versions:set...].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.libraries [-ntp,-B,versions:set...].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.libraries [-q,-Drevision=1.0.3-TEST...].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.libraries [-q,-Drevision=1.0.5...].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.libraries [clean,install,-U...].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.libraries [clean,install,-U].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.libraries [clean,install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.roa-parent [clean,install,-U].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.roa-parent [clean,install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.test-framework [clean,install,-U].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.ui-interactor [clean,install,-U].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.ui-interactor [clean,install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.ui-interactor-test-framework-adapter [clean...].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.ui-interactor-test-framework-adapter [spotbugs:gui].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/38975/IdeaProjects/roa-libraries&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\38975\IdeaProjects\roa-libraries\.github\workflows" />
+      <recent name="C:\Users\38975\IdeaProjects\roa-libraries" />
+      <recent name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\resources\META-INF" />
+      <recent name="C:\Users\38975\IdeaProjects\roa-libraries\test-framework\src\main\resources" />
+      <recent name="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor-test-framework-adapter\src\main\resources\META-INF\services" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="io.cyborgcode.roa.ui.util" />
+      <recent name="io.cyborgcode.roa.ui" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="io.cyborgcode.roa.api.pandora" />
+      <recent name="io.cyborgcode.roa.validator.ai" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn spotbugs:gui " />
+      <command value="mvn -q -Drevision=1.0.3-TEST help:evaluate -Dexpression=project.version -DforceStdout" />
+      <command value="mvn -q -Drevision=1.0.5 help:evaluate -Dexpression=project.version -DforceStdout" />
+      <command value="mvn -ntp -B versions:set -DnewVersion=1.0.5 -DprocessAllModules=true -DgenerateBackupPoms=false" />
+      <command value="mvn -B versions:set -DnewVersion=1.0.5 -DgenerateBackupPoms=false --no-transfer-progress" />
+      <command value="mvn clean install -U -Dmaven.skip.test=true" />
+      <command value="mvn clean install" />
+      <command value="mvn -B versions:set -DnewVersion=9.9.9 -DprocessAllModules=true -DgenerateBackupPoms=false --no-transfer-progress " />
+      <command value="mvn -B versions:set -DnewVersion=1.0.0-rc-2 -DprocessAllModules=true -DgenerateBackupPoms=false --no-transfer-progress " />
+      <command value="mvn -B versions:set -DnewVersion=1.0.0-rc-1 -DprocessAllModules=true -DgenerateBackupPoms=false --no-transfer-progress  -DupdateMatchingVersions=false " />
+      <command value="mvn -B versions:set -DnewVersion=1.0.0-rc-1 -DprocessAllModules=true -DgenerateBackupPoms=false --no-transfer-progress " />
+      <command value="mvn clean install -U -Dmaven.test.skip=true" />
+      <command value="mvn clean install -U" />
+    </option>
+  </component>
+  <component name="RunManager" selected="JUnit.UiTestExtensionTest">
+    <configuration name="AssertionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="assertions" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="io.cyborgcode.roa.validator.core.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="io.cyborgcode.roa.validator.core" />
+      <option name="MAIN_CLASS_NAME" value="io.cyborgcode.roa.validator.core.AssertionTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EndpointTest$DefaultConfigurationTests.shouldApplyLoggingAccordingToConfig" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="api-interactor" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="io.cyborgcode.roa.api.core.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="io.cyborgcode.roa.api.core.EndpointTest" />
+      <option name="MAIN_CLASS_NAME" value="io.cyborgcode.roa.api.core.EndpointTest$DefaultConfigurationTests" />
+      <option name="METHOD_NAME" value="shouldApplyLoggingAccordingToConfig(java.lang.String,boolean,java.lang.String,boolean)" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EndpointTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="api-interactor" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="io.cyborgcode.roa.api.core.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="io.cyborgcode.roa.api.core" />
+      <option name="MAIN_CLASS_NAME" value="io.cyborgcode.roa.api.core.EndpointTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="OracleTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="test-framework" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="io.cyborgcode.roa.framework.extension.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="io.cyborgcode.roa.framework.extension" />
+      <option name="MAIN_CLASS_NAME" value="io.cyborgcode.roa.framework.extension.OracleTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UiTestExtensionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ui-interactor-test-framework-adapter" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="io.cyborgcode.roa.ui.extensions.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="io.cyborgcode.roa.ui.extensions" />
+      <option name="MAIN_CLASS_NAME" value="io.cyborgcode.roa.ui.extensions.UiTestExtensionTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.UiTestExtensionTest" />
+        <item itemvalue="JUnit.AssertionTest" />
+        <item itemvalue="JUnit.OracleTest" />
+        <item itemvalue="JUnit.EndpointTest" />
+        <item itemvalue="JUnit.EndpointTest$DefaultConfigurationTests.shouldApplyLoggingAccordingToConfig" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3dff65cd-aefa-4724-a92e-254210b1f8be" name="Changes" comment="" />
+      <created>1760615978912</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1760615978912</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/test-framework/src/test/java/io/cyborgcode/roa/framework/util/AllureStepHelperTest.java</url>
+          <line>234</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/test-framework/src/main/java/io/cyborgcode/roa/framework/quest/QuestFactory.java</url>
+          <line>75</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

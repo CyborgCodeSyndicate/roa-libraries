@@ -1,0 +1,35 @@
+Date=Thu, 29 Jan 2026 13:18:48 GMT
+Content-Type=application/json; charset=utf-8
+Content-Length=494
+Connection=keep-alive
+Access-Control-Allow-Credentials=true
+Access-Control-Allow-Headers=Origin, X-Requested-With, Content-Type, Accept, Authorization, x-api-key
+Access-Control-Allow-Methods=GET, POST, PUT, DELETE, OPTIONS
+Access-Control-Allow-Origin=http://localhost:5173
+Etag=W/"1ee-tiGW0mzMefU1iA7joiKWt2jBj00"
+Nel={"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}
+Ratelimit-Limit=20
+Ratelimit-Policy=20;w=60
+Ratelimit-Remaining=19
+Ratelimit-Reset=60
+Referrer-Policy=strict-origin-when-cross-origin
+Report-To={"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=t7YAVTi7WYseWi%2BYX5ev7U9dSQuAL9IBCGvODNt4jOU%3D\u0026sid=c4c9725f-1ab0-44d8-820f-430df2718e11\u0026ts=1769692727"}],"max_age":3600}
+Reporting-Endpoints=heroku-nel="https://nel.heroku.com/reports?s=t7YAVTi7WYseWi%2BYX5ev7U9dSQuAL9IBCGvODNt4jOU%3D&sid=c4c9725f-1ab0-44d8-820f-430df2718e11&ts=1769692727"
+Server=cloudflare
+Vary=Origin
+Via=1.1 heroku-router
+X-Content-Type-Options=nosniff
+X-Frame-Options=DENY
+X-Powered-By=ReqRes.in - Deploy backends in 30 seconds
+X-Ratelimit-Limit=100
+X-Ratelimit-Remaining=35
+X-Ratelimit-Reset=1769731200
+X-Reqres-Docs=https://reqres.in
+X-Reqres-Message=This API is powered by ReqRes. Deploy your own backend in 30 seconds!
+X-Reqres-Templates=https://app.reqres.in/templates
+X-Reqres-Upgrade=https://app.reqres.in/upgrade
+X-Request-Id=95b84d4b-58a4-5d93-b9ba-3caa31bccfb9
+X-Robots-Tag=noindex, nofollow
+X-Xss-Protection=1; mode=block
+cf-cache-status=DYNAMIC
+CF-RAY=9c59047d399ac07e-IAD

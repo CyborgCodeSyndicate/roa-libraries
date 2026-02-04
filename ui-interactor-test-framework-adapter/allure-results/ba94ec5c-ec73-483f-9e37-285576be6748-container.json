@@ -1,0 +1,1 @@
+{"uuid":"ba94ec5c-ec73-483f-9e37-285576be6748","name":"sortTable with column and sortingStrategy should call tableService with correct args","children":["c958c1e4-cfdd-4d04-bfbd-0d3dd7197547"],"befores":[],"afters":[],"start":1770236714694,"stop":1770236714721}

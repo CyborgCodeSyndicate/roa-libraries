@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Storage.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Core Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.framework.storage</a> &gt; <span class="el_source">Storage.java</span></div><h1>Storage.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.framework.storage;
+
+import io.cyborgcode.roa.framework.parameters.Late;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import org.springframework.core.ParameterizedTypeReference;
+
+import static io.cyborgcode.roa.framework.config.FrameworkConfigHolder.getFrameworkConfig;
+
+/**
+ * Manages temporary storage of test data within a single test execution.
+ *
+ * &lt;p&gt;This class provides a thread-safe mechanism for storing, retrieving, and organizing test data
+ * using enum keys. Data can be stored at multiple levels, including a hierarchical sub-storage,
+ * enabling structured data management during test execution.
+ *
+ * &lt;p&gt;The storage supports retrieval of data by key, by index, or by type, and it also supports
+ * deferred data creation through the {@code Late} interface. Additionally, it offers methods
+ * for extracting all matching values based on type.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+<span class="fc" id="L31">public class Storage {</span>
+
+<span class="fc" id="L33">   private final Map&lt;Enum&lt;?&gt;, LinkedList&lt;Object&gt;&gt; data = new ConcurrentHashMap&lt;&gt;();</span>
+   private static Enum&lt;?&gt; defaultStorageEnum;
+
+   /**
+    * Stores a value under the specified key.
+    *
+    * @param key   The enum key identifying the data.
+    * @param value The data value to store.
+    * @param &lt;T&gt;   The type of the data.
+    */
+   public &lt;T&gt; void put(Enum&lt;?&gt; key, T value) {
+<span class="fc" id="L44">      data.computeIfAbsent(key, k -&gt; new LinkedList&lt;&gt;()).add(value);</span>
+<span class="fc" id="L45">   }</span>
+
+   /**
+    * Retrieves the latest stored value associated with the given key.
+    *
+    * @param key   The enum key identifying the data.
+    * @param clazz The expected class of the data.
+    * @param &lt;T&gt;   The type of the data.
+    * @return The most recent value of type {@code T}, or {@code null} if not found.
+    */
+   public &lt;T&gt; T get(Enum&lt;?&gt; key, Class&lt;T&gt; clazz) {
+<span class="fc" id="L56">      return getLatestValue(key, clazz, null);</span>
+   }
+
+   /**
+    * Retrieves the latest stored value using a type reference.
+    *
+    * @param key           The enum key identifying the data.
+    * @param typeReference The parameterized type reference for the data.
+    * @param &lt;T&gt;           The type of the data.
+    * @return The most recent value of type {@code T}, or {@code null} if not found.
+    */
+   public &lt;T&gt; T get(Enum&lt;?&gt; key, ParameterizedTypeReference&lt;T&gt; typeReference) {
+<span class="fc" id="L68">      return getLatestValue(key, null, typeReference);</span>
+   }
+
+   /**
+    * Retrieves a stored value by index using a {@code DataExtractor} and casts it to the expected type.
+    *
+    * @param extractor The data extractor defining how to extract the value.
+    * @param clazz     The expected class of the extracted data.
+    * @param index     The index (1-based) of the value to retrieve.
+    * @param &lt;T&gt;       The type of the data.
+    * @return The extracted value of type {@code T}.
+    */
+   public &lt;T&gt; T get(DataExtractor&lt;T&gt; extractor, Class&lt;T&gt; clazz, int index) {
+<span class="fc bfc" id="L81" title="All 2 branches covered.">      Object result = (extractor.getSubKey() != null)</span>
+<span class="fc" id="L82">            ? sub(extractor.getSubKey()).getByIndex(extractor.getKey(), index, Object.class)</span>
+<span class="fc" id="L83">            : getByIndex(extractor.getKey(), index, Object.class);</span>
+
+<span class="fc" id="L85">      return clazz.cast(extractor.extract(result));</span>
+   }
+
+   /**
+    * Retrieves a stored value using a {@code DataExtractor} without specifying an index.
+    *
+    * @param extractor The data extractor defining how to extract the value.
+    * @param clazz     The expected class of the extracted data.
+    * @param &lt;T&gt;       The type of the data.
+    * @return The extracted value of type {@code T}.
+    */
+   public &lt;T&gt; T get(DataExtractor&lt;T&gt; extractor, Class&lt;T&gt; clazz) {
+<span class="fc bfc" id="L97" title="All 2 branches covered.">      Object result = (extractor.getSubKey() != null)</span>
+<span class="fc" id="L98">            ? sub(extractor.getSubKey()).get(extractor.getKey(), Object.class)</span>
+<span class="fc" id="L99">            : get(extractor.getKey(), Object.class);</span>
+
+<span class="fc" id="L101">      return clazz.cast(extractor.extract(result));</span>
+   }
+
+   /**
+    * Retrieves a value by its index from the stored data for the specified key.
+    *
+    * @param key   The enum key identifying the data.
+    * @param index The index (1-based) to retrieve.
+    * @param clazz The expected class of the value.
+    * @param &lt;T&gt;   The type of the value.
+    * @return The value at the specified index, or {@code null} if not found.
+    */
+   public &lt;T&gt; T getByIndex(Enum&lt;?&gt; key, int index, Class&lt;T&gt; clazz) {
+<span class="fc" id="L114">      return getValueByIndex(key, index, clazz, null);</span>
+   }
+
+   /**
+    * Retrieves a value by its index using a type reference.
+    *
+    * @param key           The enum key identifying the data.
+    * @param index         The index (1-based) to retrieve.
+    * @param typeReference The parameterized type reference for the value.
+    * @param &lt;T&gt;           The type of the value.
+    * @return The value at the specified index, or {@code null} if not found.
+    */
+   public &lt;T&gt; T getByIndex(Enum&lt;?&gt; key, int index, ParameterizedTypeReference&lt;T&gt; typeReference) {
+<span class="fc" id="L127">      return getValueByIndex(key, index, null, typeReference);</span>
+   }
+
+   /**
+    * Retrieves the latest stored value by filtering based on class.
+    *
+    * @param key   The enum key identifying the data.
+    * @param clazz The expected class of the value.
+    * @param &lt;T&gt;   The type of the value.
+    * @return The most recent value of type {@code T}, or {@code null} if not found.
+    */
+   public &lt;T&gt; T getByClass(Enum&lt;?&gt; key, Class&lt;T&gt; clazz) {
+<span class="fc" id="L139">      return findByClass(key, clazz, null);</span>
+   }
+
+   /**
+    * Retrieves the latest stored value by filtering based on a type reference.
+    *
+    * @param key           The enum key identifying the data.
+    * @param typeReference The parameterized type reference for the value.
+    * @param &lt;T&gt;           The type of the value.
+    * @return The most recent value of type {@code T}, or {@code null} if not found.
+    */
+   public &lt;T&gt; T getByClass(Enum&lt;?&gt; key, ParameterizedTypeReference&lt;T&gt; typeReference) {
+<span class="fc" id="L151">      return findByClass(key, null, typeReference);</span>
+   }
+
+   /**
+    * Retrieves all stored values that match the specified class.
+    *
+    * @param key   The enum key identifying the data.
+    * @param clazz The expected class of the values.
+    * @param &lt;T&gt;   The type of the values.
+    * @return A list of all values of type {@code T} associated with the key.
+    */
+   public &lt;T&gt; List&lt;T&gt; getAllByClass(Enum&lt;?&gt; key, Class&lt;T&gt; clazz) {
+<span class="fc" id="L163">      return findAllByClass(key, clazz, null);</span>
+   }
+
+   /**
+    * Retrieves all stored values that match the specified type reference.
+    *
+    * @param key           The enum key identifying the data.
+    * @param typeReference The parameterized type reference for the values.
+    * @param &lt;T&gt;           The type of the values.
+    * @return A list of all values of type {@code T} associated with the key.
+    */
+   public &lt;T&gt; List&lt;T&gt; getAllByClass(Enum&lt;?&gt; key, ParameterizedTypeReference&lt;T&gt; typeReference) {
+<span class="fc" id="L175">      return findAllByClass(key, null, typeReference);</span>
+   }
+
+   /**
+    * Retrieves a sub-storage instance associated with the given sub-key.
+    *
+    * &lt;p&gt;If no sub-storage exists for the given key, a new sub-storage is created and registered.
+    *
+    * @param subKey The enum key for the sub-storage.
+    * @return The {@code Storage} instance corresponding to the sub-key.
+    * @throws IllegalStateException if the key is already used for a non-storage value.
+    */
+   @SuppressFBWarnings(
+         value = &quot;ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD&quot;,
+         justification = &quot;This write is intentional for initializing defaultStorageEnum under controlled conditions.&quot;
+   )
+   @SuppressWarnings(&quot;java:S2696&quot;)
+   public Storage sub(Enum&lt;?&gt; subKey) {
+
+<span class="fc" id="L194">      List&lt;Object&gt; values = data.get(subKey);</span>
+<span class="pc bpc" id="L195" title="1 of 4 branches missed.">      if (values == null || values.isEmpty()) {</span>
+<span class="pc bpc" id="L196" title="1 of 2 branches missed.">         if (defaultStorageEnum == null) {</span>
+<span class="fc" id="L197">            String defaultStorage = getFrameworkConfig().defaultStorage();</span>
+<span class="fc bfc" id="L198" title="All 2 branches covered.">            if (subKey.name().equals(defaultStorage)) {</span>
+<span class="fc" id="L199">               defaultStorageEnum = subKey;</span>
+            }
+         }
+<span class="fc" id="L202">         Storage newSub = new Storage();</span>
+<span class="fc" id="L203">         data.put(subKey, new LinkedList&lt;&gt;(Collections.singletonList(newSub)));</span>
+<span class="fc" id="L204">         return newSub;</span>
+      }
+
+<span class="fc" id="L207">      Object existingLatest = values.get(values.size() - 1);</span>
+<span class="fc bfc" id="L208" title="All 2 branches covered.">      if (existingLatest instanceof Storage result) {</span>
+<span class="fc" id="L209">         return result;</span>
+      }
+
+<span class="fc" id="L212">      throw new IllegalStateException(</span>
+            &quot;Key &quot; + subKey + &quot; is already used for a non-storage value: &quot; + existingLatest);
+   }
+
+   /**
+    * Retrieves the default sub-storage.
+    *
+    * @return The default {@code Storage} instance.
+    * @throws IllegalStateException if no default storage is initialized.
+    */
+   public Storage sub() {
+<span class="fc bfc" id="L223" title="All 2 branches covered.">      if (defaultStorageEnum == null) {</span>
+<span class="fc" id="L224">         throw new IllegalStateException(&quot;There is no default storage initialized&quot;);</span>
+      }
+<span class="fc" id="L226">      return sub(defaultStorageEnum);</span>
+   }
+
+   /**
+    * Resolves any stored deferred values (instances of {@link Late}) by replacing them
+    * with their actual evaluated objects.
+    */
+   public void createLateArguments() {
+<span class="fc" id="L234">      data.replaceAll((key, objects) -&gt; {</span>
+<span class="fc" id="L235">         LinkedList&lt;Object&gt; updatedObjects = new LinkedList&lt;&gt;();</span>
+<span class="fc bfc" id="L236" title="All 2 branches covered.">         for (Object o : objects) {</span>
+<span class="fc bfc" id="L237" title="All 2 branches covered.">            if (o instanceof Late&lt;?&gt;) {</span>
+               try {
+<span class="fc" id="L239">                  updatedObjects.add(((Late&lt;?&gt;) o).create());</span>
+<span class="fc" id="L240">               } catch (Exception ignored) {</span>
+                  //ignore failure
+<span class="fc" id="L242">               }</span>
+            } else {
+<span class="fc" id="L244">               updatedObjects.add(o);</span>
+            }
+<span class="fc" id="L246">         }</span>
+<span class="fc" id="L247">         return updatedObjects;</span>
+      });
+<span class="fc" id="L249">   }</span>
+
+   /**
+    * Retrieves a value stored by a hook (e.g., DbHook or ApiHook) from the global storage map.
+    *
+    * &lt;p&gt;Looks up the HOOKS map under {@link StorageKeysTest#HOOKS} and returns the entry
+    * associated with the given key object, cast to the specified type.&lt;/p&gt;
+    *
+    * @param value the hook key under which data was stored
+    * @param clazz the expected class of the stored value
+    * @param &lt;T&gt;   the type of the returned object
+    * @return the hook-stored value cast to {@code T}, or {@code null} if not present
+    */
+   public &lt;T&gt; T getHookData(Object value, Class&lt;T&gt; clazz) {
+<span class="fc" id="L263">      Map&lt;Object, Object&gt; values = get(StorageKeysTest.HOOKS, Map.class);</span>
+<span class="fc bfc" id="L264" title="All 4 branches covered.">      if (values == null || values.get(value) == null) {</span>
+<span class="fc" id="L265">         return null;</span>
+      }
+<span class="fc" id="L267">      return clazz.cast(values.get(value));</span>
+   }
+
+   /**
+    * Returns a deep copy of all raw storage entries.
+    *
+    * &lt;p&gt;This method creates and returns a new map where each enum key is
+    * mapped to a fresh list containing the same elements as the internal storage.
+    * Modifications to the returned map or its lists will not affect the original storage.&lt;/p&gt;
+    *
+    * @return a snapshot of the entire storage contents
+    */
+   @SuppressWarnings(&quot;java:S1452&quot;)
+   public Map&lt;Enum&lt;?&gt;, List&lt;Object&gt;&gt; getData() {
+<span class="fc" id="L281">      Map&lt;Enum&lt;?&gt;, List&lt;Object&gt;&gt; copy = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L282" title="All 2 branches covered.">      for (Map.Entry&lt;Enum&lt;?&gt;, LinkedList&lt;Object&gt;&gt; entry : data.entrySet()) {</span>
+<span class="fc" id="L283">         copy.put(entry.getKey(), new ArrayList&lt;&gt;(entry.getValue()));</span>
+<span class="fc" id="L284">      }</span>
+<span class="fc" id="L285">      return copy;</span>
+   }
+
+   /**
+    * Attempts to cast the provided value to the specified class, returning null if the cast is not possible.
+    *
+    * @param value The value to be cast.
+    * @param clazz The target class for casting.
+    * @param &lt;T&gt;   The type to cast to.
+    * @return The cast value of type {@code T}, or {@code null} if the value is not an instance of {@code clazz}.
+    */
+   @SuppressWarnings(&quot;unchecked&quot;)
+   private &lt;T&gt; T castOrNull(Object value, Class&lt;T&gt; clazz) {
+<span class="fc bfc" id="L298" title="All 2 branches covered.">      return (clazz.isInstance(value)) ? (T) value : null;</span>
+   }
+
+   /**
+    * Attempts to cast the provided value to the specified type reference, returning null if the cast is not possible.
+    *
+    * @param value         The value to be cast.
+    * @param typeReference The target parameterized type for casting.
+    * @param &lt;T&gt;           The type to cast to.
+    * @return The cast value of type {@code T}, or {@code null} if the value is not compatible.
+    */
+   @SuppressWarnings(&quot;unchecked&quot;)
+   private &lt;T&gt; T castOrNullTypeRef(Object value, ParameterizedTypeReference&lt;T&gt; typeReference) {
+<span class="fc bfc" id="L311" title="All 2 branches covered.">      if (value == null) {</span>
+<span class="fc" id="L312">         return null;</span>
+      }
+
+<span class="fc" id="L315">      Type type = typeReference.getType();</span>
+      Class&lt;?&gt; rawType;
+
+<span class="fc bfc" id="L318" title="All 2 branches covered.">      if (type instanceof ParameterizedType parameterizedType) {</span>
+<span class="fc" id="L319">         Type rawTypeFromParam = parameterizedType.getRawType();</span>
+<span class="fc bfc" id="L320" title="All 2 branches covered.">         if (rawTypeFromParam instanceof Class&lt;?&gt;) {</span>
+<span class="fc" id="L321">            rawType = (Class&lt;?&gt;) rawTypeFromParam;</span>
+         } else {
+<span class="fc" id="L323">            return null;</span>
+         }
+<span class="fc bfc" id="L325" title="All 2 branches covered.">      } else if (type instanceof Class&lt;?&gt;) {</span>
+<span class="fc" id="L326">         rawType = (Class&lt;?&gt;) type;</span>
+      } else {
+<span class="fc" id="L328">         return null;</span>
+      }
+
+<span class="fc bfc" id="L331" title="All 2 branches covered.">      return rawType.isInstance(value) ? (T) value : null;</span>
+   }
+
+   /**
+    * Retrieves the latest value stored under the given key.
+    *
+    * @param key           The enum key identifying the data.
+    * @param clazz         The expected class of the value, or {@code null} if using a type reference.
+    * @param typeReference The parameterized type reference for the value, or {@code null} if using a class.
+    * @param &lt;T&gt;           The type of the value.
+    * @return The latest stored value cast to type {@code T}, or {@code null} if no value exists.
+    */
+   private &lt;T&gt; T getLatestValue(Enum&lt;?&gt; key, Class&lt;T&gt; clazz, ParameterizedTypeReference&lt;T&gt; typeReference) {
+<span class="fc" id="L344">      List&lt;Object&gt; values = data.get(key);</span>
+<span class="fc bfc" id="L345" title="All 4 branches covered.">      if (values == null || values.isEmpty()) {</span>
+<span class="fc" id="L346">         return null;</span>
+      }
+<span class="fc" id="L348">      Object latest = values.get(values.size() - 1);</span>
+<span class="fc bfc" id="L349" title="All 2 branches covered.">      return clazz != null ? castOrNull(latest, clazz) : castOrNullTypeRef(latest, typeReference);</span>
+   }
+
+   /**
+    * Retrieves a stored value by its index.
+    *
+    * @param key           The enum key identifying the data.
+    * @param index         The 1-based index of the value to retrieve.
+    * @param clazz         The expected class of the value, or {@code null} if using a type reference.
+    * @param typeReference The parameterized type reference for the value, or {@code null} if using a class.
+    * @param &lt;T&gt;           The type of the value.
+    * @return The value at the specified index, or {@code null} if the index is invalid.
+    */
+   private &lt;T&gt; T getValueByIndex(Enum&lt;?&gt; key, int index, Class&lt;T&gt; clazz, ParameterizedTypeReference&lt;T&gt; typeReference) {
+<span class="fc" id="L363">      List&lt;Object&gt; values = data.get(key);</span>
+<span class="fc bfc" id="L364" title="All 6 branches covered.">      if (values == null || index &lt; 1 || index &gt; values.size()) {</span>
+<span class="fc" id="L365">         return null;</span>
+      }
+<span class="fc" id="L367">      Object value = values.get(values.size() - index);</span>
+<span class="fc bfc" id="L368" title="All 2 branches covered.">      return clazz != null ? castOrNull(value, clazz) : castOrNullTypeRef(value, typeReference);</span>
+   }
+
+   /**
+    * Finds the latest stored value that matches the specified class.
+    *
+    * @param key           The enum key identifying the data.
+    * @param clazz         The expected class of the value, or {@code null} if using a type reference.
+    * @param typeReference The parameterized type reference for the value, or {@code null} if using a class.
+    * @param &lt;T&gt;           The type of the value.
+    * @return The latest matching value, or {@code null} if none found.
+    */
+   private &lt;T&gt; T findByClass(Enum&lt;?&gt; key, Class&lt;T&gt; clazz, ParameterizedTypeReference&lt;T&gt; typeReference) {
+<span class="fc" id="L381">      List&lt;Object&gt; values = data.get(key);</span>
+<span class="fc bfc" id="L382" title="All 2 branches covered.">      if (values == null) {</span>
+<span class="fc" id="L383">         return null;</span>
+      }
+<span class="fc bfc" id="L385" title="All 2 branches covered.">      for (int i = values.size() - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L386">         Object value = values.get(i);</span>
+<span class="fc bfc" id="L387" title="All 2 branches covered.">         T casted = clazz != null ? castOrNull(value, clazz) : castOrNullTypeRef(value, typeReference);</span>
+<span class="fc bfc" id="L388" title="All 2 branches covered.">         if (casted != null) {</span>
+<span class="fc" id="L389">            return casted;</span>
+         }
+      }
+<span class="fc" id="L392">      return null;</span>
+   }
+
+   /**
+    * Retrieves all stored values that match the specified class.
+    *
+    * @param key           The enum key identifying the data.
+    * @param clazz         The expected class of the values, or {@code null} if using a type reference.
+    * @param typeReference The parameterized type reference for the values, or {@code null} if using a class.
+    * @param &lt;T&gt;           The type of the values.
+    * @return A list of all matching values, or an empty list if none found.
+    */
+   private &lt;T&gt; List&lt;T&gt; findAllByClass(Enum&lt;?&gt; key, Class&lt;T&gt; clazz, ParameterizedTypeReference&lt;T&gt; typeReference) {
+<span class="fc" id="L405">      List&lt;Object&gt; values = data.get(key);</span>
+<span class="fc" id="L406">      List&lt;T&gt; result = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L407" title="All 2 branches covered.">      if (values != null) {</span>
+<span class="fc bfc" id="L408" title="All 2 branches covered.">         for (Object value : values) {</span>
+<span class="fc bfc" id="L409" title="All 2 branches covered.">            T casted = clazz != null ? castOrNull(value, clazz) : castOrNullTypeRef(value, typeReference);</span>
+<span class="fc bfc" id="L410" title="All 2 branches covered.">            if (casted != null) {</span>
+<span class="fc" id="L411">               result.add(casted);</span>
+            }
+<span class="fc" id="L413">         }</span>
+      }
+<span class="fc" id="L415">      return result;</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

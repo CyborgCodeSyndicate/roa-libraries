@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoaderService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.loader</a> &gt; <span class="el_source">LoaderService.java</span></div><h1>LoaderService.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.loader;
+
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import io.cyborgcode.utilities.reflections.ReflectionUtil;
+import org.openqa.selenium.By;
+
+import static io.cyborgcode.roa.ui.config.UiConfigHolder.getUiConfig;
+
+/**
+ * Provides an interface for interacting with loader elements in a UI automation framework,
+ * enabling checks for visibility and waiting mechanisms for when loaders appear or disappear.
+ * By referencing a {@link LoaderComponentType} and the {@link #DEFAULT_TYPE}, implementations
+ * integrate seamlessly with broader test automation pipelines.
+ *
+ * &lt;p&gt;Classes implementing this interface typically rely on Selenium-based operations for
+ * synchronization, ensuring loaders are properly shown or removed within expected timeframes.
+ *
+ * &lt;p&gt;All methods are designed to support both container-based and locator-based identification
+ * of loader elements, offering a flexible approach to handle various UI designs.
+ *
+ * &lt;p&gt;Methods in this interface throw runtime exceptions if loaders do not appear or disappear
+ * within the specified time, allowing test flows to handle unexpected loading behavior.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public interface LoaderService {
+
+<span class="fc" id="L28">   LoaderComponentType DEFAULT_TYPE = getDefaultType();</span>
+
+   /**
+    * Retrieves the default loader component type from the configuration.
+    *
+    * @return The default LoaderComponentType.
+    */
+   private static LoaderComponentType getDefaultType() {
+      try {
+<span class="fc" id="L37">         return ReflectionUtil.findEnumImplementationsOfInterface(LoaderComponentType.class,</span>
+<span class="fc" id="L38">               getUiConfig().loaderDefaultType(),</span>
+<span class="fc" id="L39">               getUiConfig().projectPackages());</span>
+<span class="fc" id="L40">      } catch (Exception ignored) {</span>
+<span class="fc" id="L41">         return null;</span>
+      }
+   }
+
+   /**
+    * Checks if a loader is visible within the specified container using the default loader component type.
+    *
+    * @param container The SmartWebElement container to check for the presence of the loader.
+    * @return true if the loader is visible, false otherwise.
+    */
+   default boolean isVisible(SmartWebElement container) {
+<span class="fc" id="L52">      return isVisible(DEFAULT_TYPE, container);</span>
+   }
+
+   /**
+    * Checks if a loader is visible within the specified container using the given loader component type.
+    *
+    * @param componentType The specific loader component type.
+    * @param container     The SmartWebElement container to check for the presence of the loader.
+    * @return true if the loader is visible, false otherwise.
+    */
+   boolean isVisible(LoaderComponentType componentType, SmartWebElement container);
+
+   /**
+    * Checks if a loader is visible using the specified locator and the default loader component type.
+    *
+    * @param loaderLocator The By locator to check for the presence of the loader.
+    * @return true if the loader is visible, false otherwise.
+    */
+   default boolean isVisible(By loaderLocator) {
+<span class="fc" id="L71">      return isVisible(DEFAULT_TYPE, loaderLocator);</span>
+   }
+
+   /**
+    * Checks if a loader is visible using the specified locator and loader component type.
+    *
+    * @param componentType The specific loader component type.
+    * @param loaderLocator The By locator to check for the presence of the loader.
+    * @return true if the loader is visible, false otherwise.
+    */
+   boolean isVisible(LoaderComponentType componentType, By loaderLocator);
+
+   /**
+    * Waits for the loader to be shown within the specified container for the given duration, using the default loader
+    * component type.
+    *
+    * @param container    The SmartWebElement container where the loader is expected to appear.
+    * @param secondsShown The maximum time to wait for the loader to be shown, in seconds.
+    */
+   default void waitToBeShown(SmartWebElement container, int secondsShown) {
+<span class="fc" id="L91">      waitToBeShown(DEFAULT_TYPE, container, secondsShown);</span>
+<span class="fc" id="L92">   }</span>
+
+   /**
+    * Waits for the loader to be shown within the specified container for the given duration, using the given loader
+    * component type.
+    *
+    * @param componentType The specific loader component type.
+    * @param container     The SmartWebElement container where the loader is expected to appear.
+    * @param secondsShown  The maximum time to wait for the loader to be shown, in seconds.
+    */
+   void waitToBeShown(LoaderComponentType componentType, SmartWebElement container, int secondsShown);
+
+   /**
+    * Waits for the loader to be shown for the given duration, using the default loader component type.
+    *
+    * @param secondsShown The maximum time to wait for the loader to be shown, in seconds.
+    */
+   default void waitToBeShown(int secondsShown) {
+<span class="fc" id="L110">      waitToBeShown(DEFAULT_TYPE, secondsShown);</span>
+<span class="fc" id="L111">   }</span>
+
+   /**
+    * Waits for the loader to be shown for the given duration, using the given loader component type.
+    *
+    * @param componentType The specific loader component type.
+    * @param secondsShown  The maximum time to wait for the loader to be shown, in seconds.
+    */
+   void waitToBeShown(LoaderComponentType componentType, int secondsShown);
+
+   /**
+    * Waits for the loader to be shown using the specified locator for the given duration, using the default loader
+    * component type.
+    *
+    * @param loaderLocator The By locator for the loader element.
+    * @param secondsShown  The maximum time to wait for the loader to be shown, in seconds.
+    */
+   default void waitToBeShown(By loaderLocator, int secondsShown) {
+<span class="fc" id="L129">      waitToBeShown(DEFAULT_TYPE, loaderLocator, secondsShown);</span>
+<span class="fc" id="L130">   }</span>
+
+   /**
+    * Waits for the loader to be shown using the specified locator for the given duration, using the given loader
+    * component type.
+    *
+    * @param componentType The specific loader component type.
+    * @param loaderLocator The By locator for the loader element.
+    * @param secondsShown  The maximum time to wait for the loader to be shown, in seconds.
+    */
+   void waitToBeShown(LoaderComponentType componentType, By loaderLocator, int secondsShown);
+
+   /**
+    * Waits for the loader to be removed from the specified container within the given duration, using the default
+    * loader component type.
+    *
+    * @param container      The SmartWebElement container where the loader is expected to be removed.
+    * @param secondsRemoved The maximum time to wait for the loader to be removed, in seconds.
+    */
+   default void waitToBeRemoved(SmartWebElement container, int secondsRemoved) {
+<span class="fc" id="L150">      waitToBeRemoved(DEFAULT_TYPE, container, secondsRemoved);</span>
+<span class="fc" id="L151">   }</span>
+
+   /**
+    * Waits for the loader to be removed from the specified container within the given duration, using the given
+    * loader component type.
+    *
+    * @param componentType  The specific loader component type.
+    * @param container      The SmartWebElement container where the loader is expected to be removed.
+    * @param secondsRemoved The maximum time to wait for the loader to be removed, in seconds.
+    */
+   void waitToBeRemoved(LoaderComponentType componentType, SmartWebElement container, int secondsRemoved);
+
+   /**
+    * Waits for the loader to be removed within the given duration, using the default loader component type.
+    *
+    * @param secondsRemoved The maximum time to wait for the loader to be removed, in seconds.
+    */
+   default void waitToBeRemoved(int secondsRemoved) {
+<span class="fc" id="L169">      waitToBeRemoved(DEFAULT_TYPE, secondsRemoved);</span>
+<span class="fc" id="L170">   }</span>
+
+   /**
+    * Waits for the loader to be removed within the given duration, using the given loader component type.
+    *
+    * @param componentType  The specific loader component type.
+    * @param secondsRemoved The maximum time to wait for the loader to be removed, in seconds.
+    */
+   void waitToBeRemoved(LoaderComponentType componentType, int secondsRemoved);
+
+   /**
+    * Waits for the loader to be removed using the specified locator within the given duration, using the default
+    * loader component type.
+    *
+    * @param loaderLocator  The By locator for the loader element.
+    * @param secondsRemoved The maximum time to wait for the loader to be removed, in seconds.
+    */
+   default void waitToBeRemoved(By loaderLocator, int secondsRemoved) {
+<span class="fc" id="L188">      waitToBeRemoved(DEFAULT_TYPE, loaderLocator, secondsRemoved);</span>
+<span class="fc" id="L189">   }</span>
+
+   /**
+    * Waits for the loader to be removed using the specified locator within the given duration, using the given
+    * loader component type.
+    *
+    * @param componentType  The specific loader component type.
+    * @param loaderLocator  The By locator for the loader element.
+    * @param secondsRemoved The maximum time to wait for the loader to be removed, in seconds.
+    */
+   void waitToBeRemoved(LoaderComponentType componentType, By loaderLocator, int secondsRemoved);
+
+   /**
+    * Waits for the loader to be shown and then removed from the specified container within the given durations.
+    *
+    * @param componentType  The specific loader component type.
+    * @param container      The SmartWebElement container.
+    * @param secondsShown   The maximum time to wait for the loader to be shown, in seconds.
+    * @param secondsRemoved The maximum time to wait for the loader to be removed, in seconds.
+    */
+   default void waitToBeShownAndRemoved(LoaderComponentType componentType, SmartWebElement container,
+                                        int secondsShown, int secondsRemoved) {
+<span class="fc" id="L211">      waitToBeShown(componentType, container, secondsShown);</span>
+<span class="fc" id="L212">      waitToBeRemoved(componentType, container, secondsRemoved);</span>
+<span class="fc" id="L213">   }</span>
+
+   /**
+    * Waits for the loader to be shown and then removed within the given durations, using the given loader component
+    * type.
+    *
+    * @param componentType  The specific loader component type.
+    * @param secondsShown   The maximum time to wait for the loader to be shown, in seconds.
+    * @param secondsRemoved The maximum time to wait for the loader to be removed, in seconds.
+    */
+   default void waitToBeShownAndRemoved(LoaderComponentType componentType, int secondsShown, int secondsRemoved) {
+<span class="fc" id="L224">      waitToBeShown(componentType, secondsShown);</span>
+<span class="fc" id="L225">      waitToBeRemoved(componentType, secondsRemoved);</span>
+<span class="fc" id="L226">   }</span>
+
+   /**
+    * Waits for the loader to be shown and then removed using the specified locator within the given durations, using
+    * the given loader component type.
+    *
+    * @param componentType  The specific loader component type.
+    * @param loaderLocator  The By locator for the loader element.
+    * @param secondsShown   The maximum time to wait for the loader to be shown, in seconds.
+    * @param secondsRemoved The maximum time to wait for the loader to be removed, in seconds.
+    */
+   default void waitToBeShownAndRemoved(LoaderComponentType componentType, By loaderLocator, int secondsShown,
+                                        int secondsRemoved) {
+<span class="fc" id="L239">      waitToBeShown(componentType, loaderLocator, secondsShown);</span>
+<span class="fc" id="L240">      waitToBeRemoved(componentType, loaderLocator, secondsRemoved);</span>
+<span class="fc" id="L241">   }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AllureDbClientManager.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Database Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.db.allure</a> &gt; <span class="el_source">AllureDbClientManager.java</span></div><h1>AllureDbClientManager.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.db.allure;
+
+import io.cyborgcode.roa.db.client.DbClient;
+import io.cyborgcode.roa.db.client.DbClientManager;
+import io.cyborgcode.roa.db.config.DatabaseConfiguration;
+import io.cyborgcode.roa.db.connector.BaseDbConnectorService;
+import org.springframework.stereotype.Component;
+
+/**
+ * Specialized {@code DbClientManager} implementation for Allure reporting.
+ *
+ * &lt;p&gt;This class extends {@link DbClientManager} and overrides the client initialization
+ * to integrate with Allure, enabling enhanced logging and reporting for database interactions.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@Component
+public class AllureDbClientManager extends DbClientManager {
+
+   /**
+    * Constructs an {@code AllureDbClientManager} with the specified database connector.
+    *
+    * @param connector The {@link BaseDbConnectorService} responsible for establishing database connections.
+    */
+   public AllureDbClientManager(final BaseDbConnectorService connector) {
+<span class="fc" id="L26">      super(connector);</span>
+<span class="fc" id="L27">   }</span>
+
+   /**
+    * Initializes an {@code Allure}-enhanced database client.
+    *
+    * &lt;p&gt;This method overrides the default client initialization to provide
+    * enhanced request and response logging using Allure reports.
+    *
+    * @param dbConfig The configuration used to initialize the client.
+    * @return A {@link DbClient} instance enhanced with Allure logging.
+    */
+   @Override
+   protected DbClient initializeDbClient(final DatabaseConfiguration dbConfig) {
+<span class="fc" id="L40">      return new RelationalDbClientAllure(getConnector(), dbConfig);</span>
+   }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

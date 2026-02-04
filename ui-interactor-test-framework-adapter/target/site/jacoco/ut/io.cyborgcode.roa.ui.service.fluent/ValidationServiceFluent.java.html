@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ValidationServiceFluent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.service.fluent</a> &gt; <span class="el_source">ValidationServiceFluent.java</span></div><h1>ValidationServiceFluent.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.service.fluent;
+
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import javax.swing.text.html.HTML;
+import org.assertj.core.api.Assertions;
+import org.openqa.selenium.By;
+
+/**
+ * Provides fluent validation methods for verifying text presence in UI fields.
+ *
+ * &lt;p&gt;This class enables performing both soft and hard assertions on text validation inside HTML elements.
+ * It ensures that expected text appears as intended in UI components, improving automated UI verification.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@SuppressWarnings(&quot;java:S5960&quot;)
+public class ValidationServiceFluent&lt;T extends UiServiceFluent&lt;?&gt;&gt; {
+
+   private final T uiServiceFluent;
+   private final SmartWebDriver driver;
+
+   /**
+    * Constructs a {@code ValidationServiceFluent} instance.
+    *
+    * @param uiServiceFluent The fluent UI service instance.
+    * @param webDriver       The instance of {@link SmartWebDriver} used for validation.
+    */
+<span class="fc" id="L28">   public ValidationServiceFluent(T uiServiceFluent, SmartWebDriver webDriver) {</span>
+<span class="fc" id="L29">      this.uiServiceFluent = uiServiceFluent;</span>
+<span class="fc" id="L30">      driver = webDriver;</span>
+<span class="fc" id="L31">   }</span>
+
+   /**
+    * Validates that the specified text is present within a given HTML tag.
+    * This method performs a hard assertion by default.
+    *
+    * @param tag  The {@link HTML.Tag} representing the HTML element to validate.
+    * @param text The text expected to be present within the specified tag.
+    * @return The fluent UI service instance.
+    */
+   public T validateTextInField(HTML.Tag tag, String text) {
+<span class="fc" id="L42">      return validateTextInField(tag, text, false);</span>
+   }
+
+   /**
+    * Validates that the specified text is present within a given HTML tag.
+    * Supports both hard and soft assertions based on the provided flag.
+    *
+    * @param tag  The {@link HTML.Tag} representing the HTML element to validate.
+    * @param text The text expected to be present within the specified tag.
+    * @param soft A boolean indicating whether the validation should be performed softly.
+    *             If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @return The fluent UI service instance.
+    */
+   public T validateTextInField(HTML.Tag tag, String text, boolean soft) {
+<span class="fc" id="L56">      By selector = By.xpath(&quot;//&quot; + tag.toString() + &quot;[contains(text(),'&quot; + text + &quot;')]&quot;);</span>
+<span class="fc" id="L57">      String description = String.format(&quot;Validate text: '%s' is present in tag: '%s'&quot;, text, tag);</span>
+<span class="fc" id="L58">      String errorMessage = String.format(&quot;Missing text: %s in tag: %s&quot;, text, tag);</span>
+<span class="fc" id="L59">      boolean condition = elementIsPresentAfterTime(selector, 2);</span>
+<span class="fc" id="L60">      validateTrue(condition, description, soft, errorMessage);</span>
+<span class="fc" id="L61">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Waits for an element to be present within a specified timeout duration.
+    *
+    * @param locator The {@link By} locator of the element.
+    * @param seconds The number of seconds to wait before checking.
+    * @return {@code true} if the element is found within the given time, otherwise {@code false}.
+    */
+   private boolean elementIsPresentAfterTime(By locator, int seconds) {
+<span class="fc" id="L72">      driver.waitUntilElementIsShown(locator, seconds);</span>
+<span class="pc" id="L73">      return driver.checkNoException(() -&gt; driver.findSmartElement(locator));</span>
+   }
+
+
+   private void validateTrue(boolean condition, String description, boolean soft, String errorMessage) {
+<span class="fc bfc" id="L78" title="All 2 branches covered.">      if (!soft) {</span>
+<span class="fc" id="L79">         uiServiceFluent.validate(() -&gt; Assertions.assertThat(condition)</span>
+<span class="fc" id="L80">               .as(description)</span>
+<span class="fc" id="L81">               .withFailMessage(errorMessage)</span>
+<span class="fc" id="L82">               .isTrue());</span>
+      } else {
+<span class="fc" id="L84">         uiServiceFluent.validate(softAssertions -&gt; softAssertions.assertThat(condition)</span>
+<span class="fc" id="L85">               .as(description)</span>
+<span class="fc" id="L86">               .withFailMessage(errorMessage)</span>
+<span class="fc" id="L87">               .isTrue());</span>
+      }
+<span class="fc" id="L89">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

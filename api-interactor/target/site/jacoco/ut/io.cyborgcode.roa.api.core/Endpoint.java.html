@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Endpoint.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Api Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.api.core</a> &gt; <span class="el_source">Endpoint.java</span></div><h1>Endpoint.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.api.core;
+
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.http.Method;
+import io.restassured.specification.RequestSpecification;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+import static io.cyborgcode.roa.api.config.ApiConfigHolder.getApiConfig;
+
+/**
+ * Represents an API endpoint definition.
+ *
+ * &lt;p&gt;This interface defines the essential properties and methods for interacting with an API endpoint.
+ * It supports request configuration, query and path parameter management, and automatic request logging.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public interface Endpoint&lt;T extends Enum&lt;T&gt;&gt; {
+
+   /**
+    * Retrieves the HTTP method associated with this endpoint.
+    *
+    * @return The HTTP method of the endpoint.
+    */
+   Method method();
+
+   /**
+    * Retrieves the relative URL path of this endpoint.
+    *
+    * @return The endpoint URL.
+    */
+   String url();
+
+   /**
+    * Retrieves the enum implementation of this endpoint.
+    *
+    * @return The enum representing this endpoint.
+    */
+   T enumImpl();
+
+   /**
+    * Retrieves the base URL for this endpoint.
+    *
+    * @return The base URL from the API configuration.
+    */
+   default String baseUrl() {
+<span class="fc" id="L50">      return getApiConfig().baseUrl();</span>
+   }
+
+   /**
+    * Retrieves the headers associated with this endpoint.
+    *
+    * &lt;p&gt;By default, this returns an empty map unless overridden.
+    *
+    * @return A map containing header key-value pairs.
+    */
+   default Map&lt;String, List&lt;String&gt;&gt; headers() {
+<span class="fc" id="L61">      return Collections.emptyMap();</span>
+   }
+
+   /**
+    * Prepares a default {@link RequestSpecification} with base configuration.
+    *
+    * &lt;p&gt;Configures base URI, headers, and logging based on API configuration.
+    *
+    * @return The configured request specification.
+    */
+   default RequestSpecification defaultConfiguration() {
+<span class="fc" id="L72">      RequestSpecification spec = RestAssured.given()</span>
+<span class="fc" id="L73">         .baseUri(baseUrl())</span>
+<span class="fc" id="L74">         .contentType(ContentType.JSON)</span>
+<span class="fc" id="L75">         .accept(ContentType.JSON)</span>
+<span class="fc" id="L76">         .headers(headers());</span>
+
+<span class="fc bfc" id="L78" title="All 2 branches covered.">      if (getApiConfig().restAssuredLoggingEnabled()) {</span>
+<span class="fc bfc" id="L79" title="All 4 branches covered.">         switch (getApiConfig().restAssuredLoggingLevel()) {</span>
+<span class="fc" id="L80">            case &quot;BASIC&quot; -&gt; spec.log().ifValidationFails();</span>
+<span class="fc" id="L81">            case &quot;ALL&quot; -&gt; spec.log().all();</span>
+<span class="fc" id="L82">            case &quot;NONE&quot; -&gt; { /* No logging */ }</span>
+<span class="fc" id="L83">            default -&gt; throw new IllegalArgumentException(&quot;Unsupported logging level&quot;);</span>
+         }
+      }
+
+<span class="fc" id="L87">      return spec;</span>
+   }
+
+   /**
+    * Prepares a request specification for the endpoint, optionally including a request body.
+    *
+    * @param body The request body to be sent with the request.
+    * @return A configured {@link RequestSpecification} instance.
+    */
+   default RequestSpecification prepareRequestSpec(Object body) {
+<span class="fc" id="L97">      validateEndpoint();</span>
+<span class="fc" id="L98">      RequestSpecification spec = defaultConfiguration().basePath(url());</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">      if (body != null) {</span>
+<span class="fc" id="L100">         spec.body(body);</span>
+      }
+<span class="fc" id="L102">      return spec;</span>
+   }
+
+   /**
+    * Creates a new instance of this endpoint with an added query parameter.
+    *
+    * @param key   The query parameter name.
+    * @param value The query parameter value.
+    * @return A new instance of the endpoint with the query parameter added.
+    */
+   default Endpoint&lt;T&gt; withQueryParam(String key, Object value) {
+<span class="fc" id="L113">      return new ParametrizedEndpoint&lt;T&gt;(this).withQueryParam(key, value);</span>
+   }
+
+   /**
+    * Creates a new instance of this endpoint with an added path parameter.
+    *
+    * @param key   The path parameter name.
+    * @param value The path parameter value.
+    * @return A new instance of the endpoint with the path parameter added.
+    */
+   default Endpoint&lt;T&gt; withPathParam(String key, Object value) {
+<span class="fc" id="L124">      return new ParametrizedEndpoint&lt;T&gt;(this).withPathParam(key, value);</span>
+   }
+
+   /**
+    * Creates a new instance of this endpoint with an added request header.
+    *
+    * @param key   The header name.
+    * @param value The header value.
+    * @return A new instance of the endpoint with the header added.
+    */
+   default Endpoint&lt;T&gt; withHeader(String key, String value) {
+<span class="fc" id="L135">      return new ParametrizedEndpoint&lt;T&gt;(this).withHeader(key, value);</span>
+   }
+
+   /**
+    * Creates a new instance of this endpoint with an added request header supporting multiple values.
+    *
+    * @param key    The header name.
+    * @param values A list of values for the header.
+    * @return A new instance of the endpoint with the multi-value header added.
+    */
+   default Endpoint&lt;T&gt; withHeader(String key, List&lt;String&gt; values) {
+<span class="fc" id="L146">      return new ParametrizedEndpoint&lt;T&gt;(this).withHeader(key, values);</span>
+   }
+
+   /**
+    * Validates that the endpoint has the necessary configurations set.
+    *
+    * &lt;p&gt;Ensures that the URL and HTTP method are not null or empty before making a request.
+    *
+    * @throws IllegalStateException if the URL or method is missing.
+    */
+   private void validateEndpoint() {
+<span class="fc bfc" id="L157" title="All 4 branches covered.">      if (url() == null || url().isEmpty()) {</span>
+<span class="fc" id="L158">         throw new IllegalStateException(&quot;URL must not be null or empty for endpoint: &quot; + enumImpl().name());</span>
+      }
+<span class="fc bfc" id="L160" title="All 2 branches covered.">      if (method() == null) {</span>
+<span class="fc" id="L161">         throw new IllegalStateException(&quot;HTTP method must not be null for endpoint: &quot; + enumImpl().name());</span>
+      }
+<span class="fc" id="L163">   }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,0 +1,1 @@
+{"uuid":"8a4b545b-95ea-4d8f-98d9-ace705d769d6","name":"when exception present → skip screenshot, still close/quit","children":["e8c4a2cc-a0c9-48bf-aed0-f833246224dd"],"befores":[],"afters":[],"start":1770237181039,"stop":1770237181079}

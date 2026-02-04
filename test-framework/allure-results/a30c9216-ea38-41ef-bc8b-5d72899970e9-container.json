@@ -1,0 +1,1 @@
+{"uuid":"a30c9216-ea38-41ef-bc8b-5d72899970e9","name":"Should return null when retrieving null value by index with ParameterizedTypeReference","children":["d1caca9a-048c-465e-bede-4f89a4f5e6a5"],"befores":[],"afters":[],"start":1769887286942,"stop":1769887286957}

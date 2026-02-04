@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: io.cyborgcode.roa.api.allure.RestClientAllureImplTest
+-------------------------------------------------------------------------------
+Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.066 s -- in io.cyborgcode.roa.api.allure.RestClientAllureImplTest

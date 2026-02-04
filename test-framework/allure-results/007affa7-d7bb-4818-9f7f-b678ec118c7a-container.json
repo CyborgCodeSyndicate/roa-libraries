@@ -1,0 +1,1 @@
+{"uuid":"007affa7-d7bb-4818-9f7f-b678ec118c7a","name":"Should throw IllegalArgumentException when no matching ring is found for cast","children":["1c83fd06-23be-4171-850c-4eccd716418f"],"befores":[],"afters":[],"start":1769887282127,"stop":1769887282156}

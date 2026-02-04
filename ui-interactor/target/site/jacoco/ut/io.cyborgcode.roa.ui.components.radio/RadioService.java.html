@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RadioService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.radio</a> &gt; <span class="el_source">RadioService.java</span></div><h1>RadioService.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.radio;
+
+import io.cyborgcode.roa.ui.insertion.Insertion;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import io.cyborgcode.roa.ui.util.strategy.Strategy;
+import io.cyborgcode.utilities.reflections.ReflectionUtil;
+import java.util.List;
+import org.openqa.selenium.By;
+
+import static io.cyborgcode.roa.ui.config.UiConfigHolder.getUiConfig;
+
+/**
+ * Provides an interface for interacting with radio button elements in a UI automation framework,
+ * enabling operations like selection, state verification, and retrieving lists of available radios.
+ * By referencing a {@link RadioComponentType} and the {@link #DEFAULT_TYPE}, implementations can
+ * uniformly identify and control radio buttons in various application contexts.
+ *
+ * &lt;p&gt;Classes implementing this interface typically leverage Selenium-based approaches for
+ * container/locator handling, ensuring consistent behavior across different UI designs.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public interface RadioService extends Insertion {
+
+<span class="fc" id="L25">   RadioComponentType DEFAULT_TYPE = getDefaultType();</span>
+
+   /**
+    * Retrieves the default radio component type from the configuration.
+    *
+    * @return The default RadioComponentType.
+    */
+   private static RadioComponentType getDefaultType() {
+      try {
+<span class="fc" id="L34">         return ReflectionUtil.findEnumImplementationsOfInterface(RadioComponentType.class,</span>
+<span class="fc" id="L35">               getUiConfig().radioDefaultType(),</span>
+<span class="fc" id="L36">               getUiConfig().projectPackages());</span>
+<span class="fc" id="L37">      } catch (Exception ignored) {</span>
+<span class="fc" id="L38">         return null;</span>
+      }
+   }
+
+   /**
+    * Selects a radio button within a container based on the button text. Uses the default radio component type.
+    *
+    * @param container       The SmartWebElement that contains the radio buttons.
+    * @param radioButtonText The text of the radio button to be selected.
+    */
+   default void select(SmartWebElement container, String radioButtonText) {
+<span class="fc" id="L49">      select(DEFAULT_TYPE, container, radioButtonText);</span>
+<span class="fc" id="L50">   }</span>
+
+   /**
+    * Selects a radio button within a container based on the button text and specific radio component type.
+    *
+    * @param componentType   The specific type of radio component to interact with.
+    * @param container       The SmartWebElement that contains the radio buttons.
+    * @param radioButtonText The text of the radio button to be selected.
+    */
+   void select(RadioComponentType componentType, SmartWebElement container, String radioButtonText);
+
+   /**
+    * Selects a radio button within a container based on a strategy. Uses the default radio component type.
+    *
+    * @param container The SmartWebElement that contains the radio buttons.
+    * @param strategy  The strategy to use for selecting the radio button.
+    * @return The text of the selected radio button.
+    */
+   default String select(SmartWebElement container, Strategy strategy) {
+<span class="fc" id="L69">      return select(DEFAULT_TYPE, container, strategy);</span>
+   }
+
+   /**
+    * Selects a radio button within a container based on a strategy and specific radio component type.
+    *
+    * @param componentType The specific type of radio component to interact with.
+    * @param container     The SmartWebElement that contains the radio buttons.
+    * @param strategy      The strategy to use for selecting the radio button.
+    * @return The text of the selected radio button.
+    */
+   String select(RadioComponentType componentType, SmartWebElement container, Strategy strategy);
+
+   /**
+    * Selects a radio button based on the button text. Uses the default radio component type.
+    *
+    * @param radioButtonText The text of the radio button to be selected.
+    */
+   default void select(String radioButtonText) {
+<span class="fc" id="L88">      select(DEFAULT_TYPE, radioButtonText);</span>
+<span class="fc" id="L89">   }</span>
+
+   /**
+    * Selects a radio button based on the button text and specific radio component type.
+    *
+    * @param componentType   The specific type of radio component to interact with.
+    * @param radioButtonText The text of the radio button to be selected.
+    */
+   void select(RadioComponentType componentType, String radioButtonText);
+
+   /**
+    * Selects a radio button based on a locator. Uses the default radio component type.
+    *
+    * @param radioButtonLocator The locator of the radio button to be selected.
+    */
+   default void select(By radioButtonLocator) {
+<span class="fc" id="L105">      select(DEFAULT_TYPE, radioButtonLocator);</span>
+<span class="fc" id="L106">   }</span>
+
+   /**
+    * Selects a radio button based on a locator and specific radio component type.
+    *
+    * @param componentType      The specific type of radio component to interact with.
+    * @param radioButtonLocator The locator of the radio button to be selected.
+    */
+   void select(RadioComponentType componentType, By radioButtonLocator);
+
+   /**
+    * Checks if a radio button within a container is enabled based on the button text. Uses the default radio
+    * component type.
+    *
+    * @param container       The SmartWebElement that contains the radio buttons.
+    * @param radioButtonText The text of the radio button to check.
+    * @return true if the radio button is enabled, false otherwise.
+    */
+   default boolean isEnabled(SmartWebElement container, String radioButtonText) {
+<span class="fc" id="L125">      return isEnabled(DEFAULT_TYPE, container, radioButtonText);</span>
+   }
+
+   /**
+    * Checks if a radio button within a container is enabled based on the button text and specific radio component type.
+    *
+    * @param componentType   The specific type of radio component.
+    * @param container       The SmartWebElement that contains the radio buttons.
+    * @param radioButtonText The text of the radio button to check.
+    * @return true if the radio button is enabled, false otherwise.
+    */
+   boolean isEnabled(RadioComponentType componentType, SmartWebElement container, String radioButtonText);
+
+   /**
+    * Checks if a radio button is enabled based on the button text. Uses the default radio component type.
+    *
+    * @param radioButtonText The text of the radio button to check.
+    * @return true if the radio button is enabled, false otherwise.
+    */
+   default boolean isEnabled(String radioButtonText) {
+<span class="fc" id="L145">      return isEnabled(DEFAULT_TYPE, radioButtonText);</span>
+   }
+
+   /**
+    * Checks if a radio button is enabled based on the button text and specific radio component type.
+    *
+    * @param componentType   The specific type of radio component.
+    * @param radioButtonText The text of the radio button to check.
+    * @return true if the radio button is enabled, false otherwise.
+    */
+   boolean isEnabled(RadioComponentType componentType, String radioButtonText);
+
+   /**
+    * Checks if a radio button is enabled based on a locator. Uses the default radio component type.
+    *
+    * @param radioButtonLocator The locator of the radio button to check.
+    * @return true if the radio button is enabled, false otherwise.
+    */
+   default boolean isEnabled(By radioButtonLocator) {
+<span class="fc" id="L164">      return isEnabled(DEFAULT_TYPE, radioButtonLocator);</span>
+   }
+
+   /**
+    * Checks if a radio button is enabled based on a locator and specific radio component type.
+    *
+    * @param componentType      The specific type of radio component.
+    * @param radioButtonLocator The locator of the radio button to check.
+    * @return true if the radio button is enabled, false otherwise.
+    */
+   boolean isEnabled(RadioComponentType componentType, By radioButtonLocator);
+
+   /**
+    * Checks if a radio button within a container is selected based on the button text. Uses the default radio
+    * component type.
+    *
+    * @param container       The SmartWebElement that contains the radio buttons.
+    * @param radioButtonText The text of the radio button to check.
+    * @return true if the radio button is selected, false otherwise.
+    */
+   default boolean isSelected(SmartWebElement container, String radioButtonText) {
+<span class="fc" id="L185">      return isSelected(DEFAULT_TYPE, container, radioButtonText);</span>
+   }
+
+   /**
+    * Checks if a radio button within a container is selected based on the button text and specific radio
+    * component type.
+    *
+    * @param componentType   The specific type of radio component.
+    * @param container       The SmartWebElement that contains the radio buttons.
+    * @param radioButtonText The text of the radio button to check.
+    * @return true if the radio button is selected, false otherwise.
+    */
+   boolean isSelected(RadioComponentType componentType, SmartWebElement container, String radioButtonText);
+
+   /**
+    * Checks if a radio button is selected based on the button text. Uses the default radio component type.
+    *
+    * @param radioButtonText The text of the radio button to check.
+    * @return true if the radio button is selected, false otherwise.
+    */
+   default boolean isSelected(String radioButtonText) {
+<span class="fc" id="L206">      return isSelected(DEFAULT_TYPE, radioButtonText);</span>
+   }
+
+   /**
+    * Checks if a radio button is selected based on the button text and specific radio component type.
+    *
+    * @param componentType   The specific type of radio component.
+    * @param radioButtonText The text of the radio button to check.
+    * @return true if the radio button is selected, false otherwise.
+    */
+   boolean isSelected(RadioComponentType componentType, String radioButtonText);
+
+   /**
+    * Checks if a radio button is selected based on a locator. Uses the default radio component type.
+    *
+    * @param radioButtonLocator The locator of the radio button to check.
+    * @return true if the radio button is selected, false otherwise.
+    */
+   default boolean isSelected(By radioButtonLocator) {
+<span class="fc" id="L225">      return isSelected(DEFAULT_TYPE, radioButtonLocator);</span>
+   }
+
+   /**
+    * Checks if a radio button is selected based on a locator and specific radio component type.
+    *
+    * @param componentType      The specific type of radio component.
+    * @param radioButtonLocator The locator of the radio button to check.
+    * @return true if the radio button is selected, false otherwise.
+    */
+   boolean isSelected(RadioComponentType componentType, By radioButtonLocator);
+
+   /**
+    * Checks if a radio button within a container is visible based on the button text. Uses the default radio
+    * component type.
+    *
+    * @param container       The SmartWebElement that contains the radio buttons.
+    * @param radioButtonText The text of the radio button to check.
+    * @return true if the radio button is visible, false otherwise.
+    */
+   default boolean isVisible(SmartWebElement container, String radioButtonText) {
+<span class="fc" id="L246">      return isVisible(DEFAULT_TYPE, container, radioButtonText);</span>
+   }
+
+   /**
+    * Checks if a radio button within a container is visible based on the button text and specific radio component type.
+    *
+    * @param componentType   The specific type of radio component.
+    * @param container       The SmartWebElement that contains the radio buttons.
+    * @param radioButtonText The text of the radio button to check.
+    * @return true if the radio button is visible, false otherwise.
+    */
+   boolean isVisible(RadioComponentType componentType, SmartWebElement container, String radioButtonText);
+
+   /**
+    * Checks if a radio button is visible based on the button text. Uses the default radio component type.
+    *
+    * @param radioButtonText The text of the radio button to check.
+    * @return true if the radio button is visible, false otherwise.
+    */
+   default boolean isVisible(String radioButtonText) {
+<span class="fc" id="L266">      return isVisible(DEFAULT_TYPE, radioButtonText);</span>
+   }
+
+   /**
+    * Checks if a radio button is visible based on the button text and specific radio component type.
+    *
+    * @param componentType   The specific type of radio component.
+    * @param radioButtonText The text of the radio button to check.
+    * @return true if the radio button is visible, false otherwise.
+    */
+   boolean isVisible(RadioComponentType componentType, String radioButtonText);
+
+   /**
+    * Checks if a radio button is visible based on a locator. Uses the default radio component type.
+    *
+    * @param radioButtonLocator The locator of the radio button to check.
+    * @return true if the radio button is visible, false otherwise.
+    */
+   default boolean isVisible(By radioButtonLocator) {
+<span class="fc" id="L285">      return isVisible(DEFAULT_TYPE, radioButtonLocator);</span>
+   }
+
+   /**
+    * Checks if a radio button is visible based on a locator and specific radio component type.
+    *
+    * @param componentType      The specific type of radio component.
+    * @param radioButtonLocator The locator of the radio button to check.
+    * @return true if the radio button is visible, false otherwise.
+    */
+   boolean isVisible(RadioComponentType componentType, By radioButtonLocator);
+
+   /**
+    * Gets the text of the selected radio button within a container. Uses the default radio component type.
+    *
+    * @param container The SmartWebElement that contains the radio buttons.
+    * @return The text of the selected radio button.
+    */
+   default String getSelected(SmartWebElement container) {
+<span class="fc" id="L304">      return getSelected(DEFAULT_TYPE, container);</span>
+   }
+
+   /**
+    * Gets the text of the selected radio button within a container based on specific radio component type.
+    *
+    * @param componentType The specific type of radio component.
+    * @param container     The SmartWebElement that contains the radio buttons.
+    * @return The text of the selected radio button.
+    */
+   String getSelected(RadioComponentType componentType, SmartWebElement container);
+
+   /**
+    * Gets the text of the selected radio button within a container, specified by its locator. Uses the default radio
+    * component type.
+    *
+    * @param containerLocator The By locator for the container element that contains the radio buttons.
+    * @return The text of the selected radio button in the container identified by the locator.
+    */
+   default String getSelected(By containerLocator) {
+<span class="fc" id="L324">      return getSelected(DEFAULT_TYPE, containerLocator);</span>
+   }
+
+   /**
+    * Gets the text of the selected radio button within a container, specified by its locator, based on a specific
+    * radio component type.
+    *
+    * @param componentType    The specific type of radio component.
+    * @param containerLocator The By locator for the container element that contains the radio buttons.
+    * @return The text of the selected radio button in the container identified by the locator, based on the specified
+    *     component type.
+    */
+   String getSelected(RadioComponentType componentType, By containerLocator);
+
+   /**
+    * Gets all the texts of the radio buttons within a container. Uses the default radio component type.
+    *
+    * @param container The SmartWebElement that contains the radio buttons.
+    * @return A list of texts of all radio buttons in the container.
+    */
+   default List&lt;String&gt; getAll(SmartWebElement container) {
+<span class="fc" id="L345">      return getAll(DEFAULT_TYPE, container);</span>
+   }
+
+   /**
+    * Gets all the texts of the radio buttons within a container based on specific radio component type.
+    *
+    * @param componentType The specific type of radio component.
+    * @param container     The SmartWebElement that contains the radio buttons.
+    * @return A list of texts of all radio buttons in the container.
+    */
+   List&lt;String&gt; getAll(RadioComponentType componentType, SmartWebElement container);
+
+   /**
+    * Gets all the texts of the radio buttons within a container, specified by its locator. Uses the default radio
+    * component type.
+    *
+    * @param containerLocator The By locator for the container element that contains the radio buttons.
+    * @return A list of texts of all radio buttons in the container identified by the locator.
+    */
+   default List&lt;String&gt; getAll(By containerLocator) {
+<span class="fc" id="L365">      return getAll(DEFAULT_TYPE, containerLocator);</span>
+   }
+
+   /**
+    * Gets all the texts of the radio buttons within a container, specified by its locator, based on a specific radio
+    * component type.
+    *
+    * @param componentType    The specific type of radio component.
+    * @param containerLocator The By locator for the container element that contains the radio buttons.
+    * @return A list of texts of all radio buttons in the container identified by the locator and based on the
+    *     specified component type.
+    */
+   List&lt;String&gt; getAll(RadioComponentType componentType, By containerLocator);
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

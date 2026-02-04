@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UiTablesAssertionTarget.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.validator</a> &gt; <span class="el_source">UiTablesAssertionTarget.java</span></div><h1>UiTablesAssertionTarget.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.validator;
+
+import io.cyborgcode.roa.validator.core.AssertionTarget;
+
+/**
+ * Enum representing different assertion targets within UI tables.
+ *
+ * &lt;p&gt;These targets specify the scope of validation when performing assertions on tables,
+ * allowing for granular validation at the row or table level, either for values or elements.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+<span class="fc" id="L13">public enum UiTablesAssertionTarget implements AssertionTarget&lt;UiTablesAssertionTarget&gt; {</span>
+
+   /**
+    * Targets individual row values for assertions.
+    */
+<span class="fc" id="L18">   ROW_VALUES,</span>
+
+   /**
+    * Targets entire table values for assertions.
+    */
+<span class="fc" id="L23">   TABLE_VALUES,</span>
+
+   /**
+    * Targets row elements for UI-based assertions.
+    */
+<span class="fc" id="L28">   ROW_ELEMENTS,</span>
+
+   /**
+    * Targets the entire table's elements for UI-based assertions.
+    */
+<span class="fc" id="L33">   TABLE_ELEMENTS;</span>
+
+   /**
+    * Returns the current enum instance as the assertion target.
+    *
+    * @return The current enum instance.
+    */
+   @Override
+   public UiTablesAssertionTarget target() {
+<span class="fc" id="L42">      return this;</span>
+   }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

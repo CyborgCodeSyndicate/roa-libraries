@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BaseComponent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.base</a> &gt; <span class="el_source">BaseComponent.java</span></div><h1>BaseComponent.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.base;
+
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+
+/**
+ * Serves as the base class for all UI components.
+ *
+ * &lt;p&gt;This class provides core functionality for interacting with UI elements,
+ * such as buttons, alerts, checkboxes, and more, using a {@link SmartWebDriver}.
+ *
+ * &lt;p&gt;All UI component implementations should extend this class to ensure
+ * standardized handling of WebDriver interactions.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class BaseComponent {
+
+   /**
+    * The smart WebDriver instance used to interact with UI elements.
+    */
+   protected SmartWebDriver driver;
+
+   /**
+    * Constructs a new {@code BaseComponent} with the specified SmartWebDriver.
+    *
+    * @param smartWebDriver The WebDriver instance used for UI interactions.
+    */
+<span class="fc" id="L28">   public BaseComponent(final SmartWebDriver smartWebDriver) {</span>
+<span class="fc" id="L29">      this.driver = smartWebDriver;</span>
+<span class="fc" id="L30">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

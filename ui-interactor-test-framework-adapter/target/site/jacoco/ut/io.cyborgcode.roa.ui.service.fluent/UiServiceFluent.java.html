@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UiServiceFluent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.service.fluent</a> &gt; <span class="el_source">UiServiceFluent.java</span></div><h1>UiServiceFluent.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.service.fluent;
+
+import io.cyborgcode.roa.framework.annotation.Ring;
+import io.cyborgcode.roa.framework.chain.FluentService;
+import io.cyborgcode.roa.ui.components.accordion.AccordionServiceImpl;
+import io.cyborgcode.roa.ui.components.alert.AlertServiceImpl;
+import io.cyborgcode.roa.ui.components.button.ButtonComponentType;
+import io.cyborgcode.roa.ui.components.button.ButtonService;
+import io.cyborgcode.roa.ui.components.button.ButtonServiceImpl;
+import io.cyborgcode.roa.ui.components.checkbox.CheckboxComponentType;
+import io.cyborgcode.roa.ui.components.checkbox.CheckboxServiceImpl;
+import io.cyborgcode.roa.ui.components.input.InputComponentType;
+import io.cyborgcode.roa.ui.components.input.InputService;
+import io.cyborgcode.roa.ui.components.input.InputServiceImpl;
+import io.cyborgcode.roa.ui.components.link.LinkComponentType;
+import io.cyborgcode.roa.ui.components.link.LinkService;
+import io.cyborgcode.roa.ui.components.link.LinkServiceImpl;
+import io.cyborgcode.roa.ui.components.list.ItemListComponentType;
+import io.cyborgcode.roa.ui.components.list.ItemListServiceImpl;
+import io.cyborgcode.roa.ui.components.loader.LoaderServiceImpl;
+import io.cyborgcode.roa.ui.components.modal.ModalServiceImpl;
+import io.cyborgcode.roa.ui.components.radio.RadioComponentType;
+import io.cyborgcode.roa.ui.components.radio.RadioServiceImpl;
+import io.cyborgcode.roa.ui.components.select.SelectComponentType;
+import io.cyborgcode.roa.ui.components.select.SelectServiceImpl;
+import io.cyborgcode.roa.ui.components.tab.TabServiceImpl;
+import io.cyborgcode.roa.ui.components.table.filters.TableFilter;
+import io.cyborgcode.roa.ui.components.table.insertion.TableInsertion;
+import io.cyborgcode.roa.ui.components.table.registry.TableServiceRegistry;
+import io.cyborgcode.roa.ui.components.table.service.TableServiceImpl;
+import io.cyborgcode.roa.ui.components.toggle.ToggleServiceImpl;
+import io.cyborgcode.roa.ui.insertion.InsertionServiceRegistry;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.service.InsertionServiceElementImpl;
+import io.cyborgcode.roa.ui.service.tables.TableServiceFluent;
+import io.cyborgcode.roa.ui.validator.UiTableValidator;
+import io.cyborgcode.roa.ui.validator.UiTableValidatorImpl;
+import io.cyborgcode.roa.validator.core.AssertionResult;
+import java.util.List;
+import java.util.function.Consumer;
+import lombok.Getter;
+import org.assertj.core.api.SoftAssertions;
+import org.springframework.beans.factory.annotation.Autowired;
+
+/**
+ * Provides a fluent interface for UI interactions, encapsulating various UI services
+ * such as buttons, inputs, checkboxes, tables, and more.
+ *
+ * &lt;p&gt;This class serves as a core service for UI automation and validation, allowing
+ * seamless interaction with UI components while maintaining fluent method chaining.
+ * It extends {@link FluentService}, integrating common UI operations.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@Ring(&quot;UI&quot;)
+@Getter
+public class UiServiceFluent&lt;T extends UiServiceFluent&lt;?&gt;&gt; extends FluentService {
+
+   private InputServiceFluent&lt;T&gt; inputField;
+   private ButtonServiceFluent&lt;T&gt; buttonField;
+   private RadioServiceFluent&lt;T&gt; radioField;
+   private CheckboxServiceFluent&lt;T&gt; checkboxField;
+   private SelectServiceFluent&lt;T&gt; selectField;
+   private ListServiceFluent&lt;T&gt; listField;
+   private LoaderServiceFluent&lt;T&gt; loaderField;
+   private LinkServiceFluent&lt;T&gt; linkField;
+   private AlertServiceFluent&lt;T&gt; alertField;
+   private TabServiceFluent&lt;T&gt; tabField;
+   private ToggleServiceFluent&lt;T&gt; toggleField;
+   private ModalServiceFluent&lt;T&gt; modalField;
+   private AccordionServiceFluent&lt;T&gt; accordionField;
+   private TableServiceFluent&lt;T&gt; table;
+   private ValidationServiceFluent&lt;T&gt; validation;
+   private NavigationServiceFluent&lt;T&gt; navigation;
+   private SmartWebDriver driver;
+   private InterceptorServiceFluent&lt;T&gt; interceptor;
+   private InsertionServiceRegistry serviceRegistry;
+   private TableServiceRegistry tableServiceRegistry;
+   private InsertionServiceFluent&lt;T&gt; insertionService;
+
+   /**
+    * Constructs a new {@code UiServiceFluent} instance with the specified WebDriver.
+    *
+    * @param driver The {@link SmartWebDriver} instance used for UI interactions.
+    */
+   @Autowired
+<span class="fc" id="L87">   public UiServiceFluent(SmartWebDriver driver) {</span>
+<span class="fc" id="L88">      this.driver = driver;</span>
+<span class="fc" id="L89">   }</span>
+
+   /**
+    * Executes a validation assertion.
+    *
+    * @param assertion The assertion to validate.
+    * @return The current instance of {@code UiServiceFluent} for method chaining.
+    */
+   @Override
+   public T validate(Runnable assertion) {
+<span class="fc" id="L99">      return (T) super.validate(assertion);</span>
+   }
+
+   /**
+    * Executes a validation assertion using a soft assertion approach.
+    *
+    * @param assertion The assertion to validate with soft assertions.
+    * @return The current instance of {@code UiServiceFluent} for method chaining.
+    */
+   @Override
+   public T validate(Consumer&lt;SoftAssertions&gt; assertion) {
+<span class="fc" id="L110">      return (T) super.validate(assertion);</span>
+   }
+
+   /**
+    * Initializes the necessary UI services and registers them for UI interactions.
+    * This method is automatically called after setup.
+    */
+   @Override
+   @SuppressWarnings(&quot;java:S3740&quot;)
+   protected void postQuestSetupInitialization() {
+<span class="nc" id="L120">      ButtonServiceImpl buttonService = new ButtonServiceImpl(driver);</span>
+<span class="nc" id="L121">      LinkServiceImpl linkService = new LinkServiceImpl(driver);</span>
+<span class="nc" id="L122">      buttonField = new ButtonServiceFluent(this, quest.getStorage(), buttonService, driver);</span>
+<span class="nc" id="L123">      linkField = new LinkServiceFluent(this, quest.getStorage(), linkService, driver);</span>
+<span class="nc" id="L124">      radioField = new RadioServiceFluent(this, quest.getStorage(), new RadioServiceImpl(driver), driver);</span>
+<span class="nc" id="L125">      checkboxField = new CheckboxServiceFluent(this, quest.getStorage(), new CheckboxServiceImpl(driver), driver);</span>
+<span class="nc" id="L126">      selectField = new SelectServiceFluent(this, quest.getStorage(), new SelectServiceImpl(driver), driver);</span>
+<span class="nc" id="L127">      listField = new ListServiceFluent(this, quest.getStorage(), new ItemListServiceImpl(driver), driver);</span>
+<span class="nc" id="L128">      loaderField = new LoaderServiceFluent(this, quest.getStorage(), new LoaderServiceImpl(driver), driver);</span>
+<span class="nc" id="L129">      alertField = new AlertServiceFluent(this, quest.getStorage(), new AlertServiceImpl(driver), driver);</span>
+<span class="nc" id="L130">      tabField = new TabServiceFluent(this, quest.getStorage(), new TabServiceImpl(driver), driver);</span>
+<span class="nc" id="L131">      toggleField = new ToggleServiceFluent(this, quest.getStorage(), new ToggleServiceImpl(driver), driver);</span>
+<span class="nc" id="L132">      modalField = new ModalServiceFluent(this, quest.getStorage(), new ModalServiceImpl(driver), driver);</span>
+<span class="nc" id="L133">      accordionField = new AccordionServiceFluent(this, quest.getStorage(), new AccordionServiceImpl(driver), driver);</span>
+<span class="nc" id="L134">      validation = new ValidationServiceFluent(this, driver);</span>
+<span class="nc" id="L135">      navigation = new NavigationServiceFluent(this, driver);</span>
+<span class="nc" id="L136">      interceptor = new InterceptorServiceFluent(this, quest.getStorage());</span>
+<span class="nc" id="L137">      InputService inputService = new InputServiceImpl(driver);</span>
+<span class="nc" id="L138">      inputField = new InputServiceFluent(this, quest.getStorage(), inputService, driver);</span>
+<span class="nc" id="L139">      serviceRegistry = new InsertionServiceRegistry();</span>
+<span class="nc" id="L140">      registerInsertionServices(inputService);</span>
+<span class="nc" id="L141">      tableServiceRegistry = new TableServiceRegistry();</span>
+<span class="nc" id="L142">      registerTableServices(inputService, buttonService, linkService);</span>
+<span class="nc" id="L143">      UiTableValidator uiTableValidator = new UiTableValidatorImpl();</span>
+<span class="nc" id="L144">      table =</span>
+<span class="nc" id="L145">            new TableServiceFluent(this, quest.getStorage(),</span>
+                  new TableServiceImpl(driver, tableServiceRegistry, uiTableValidator),
+                  driver);
+<span class="nc" id="L148">      insertionService = new InsertionServiceFluent(</span>
+            new InsertionServiceElementImpl(serviceRegistry, driver), this,
+<span class="nc" id="L150">            quest.getStorage());</span>
+<span class="nc" id="L151">   }</span>
+
+   /**
+    * Registers insertion services for different UI components.
+    *
+    * @param inputService The input service to register.
+    */
+   private void registerInsertionServices(InputService inputService) {
+<span class="fc" id="L159">      serviceRegistry.registerService(RadioComponentType.class, radioField);</span>
+<span class="fc" id="L160">      serviceRegistry.registerService(CheckboxComponentType.class, checkboxField);</span>
+<span class="fc" id="L161">      serviceRegistry.registerService(SelectComponentType.class, selectField);</span>
+<span class="fc" id="L162">      serviceRegistry.registerService(ItemListComponentType.class, listField);</span>
+<span class="fc" id="L163">      serviceRegistry.registerService(InputComponentType.class, inputService);</span>
+<span class="fc" id="L164">   }</span>
+
+   /**
+    * Registers table services for different UI components.
+    *
+    * @param inputService  The input service to register.
+    * @param buttonService The button service to register.
+    * @param linkService   The link service to register.
+    */
+   private void registerTableServices(InputService inputService, ButtonService buttonService,
+                                      LinkService linkService) {
+<span class="fc" id="L175">      tableServiceRegistry.registerService(InputComponentType.class, (TableFilter) inputService);</span>
+<span class="fc" id="L176">      tableServiceRegistry.registerService(InputComponentType.class, (TableInsertion) inputService);</span>
+<span class="fc" id="L177">      tableServiceRegistry.registerService(ButtonComponentType.class, buttonService);</span>
+<span class="fc" id="L178">      tableServiceRegistry.registerService(LinkComponentType.class, linkService);</span>
+<span class="fc" id="L179">   }</span>
+
+   /**
+    * Retrieves the {@link SmartWebDriver} instance used for UI interactions.
+    *
+    * @return The {@link SmartWebDriver} instance.
+    */
+   protected SmartWebDriver getDriver() {
+<span class="fc" id="L187">      return driver;</span>
+   }
+
+   /**
+    * Executes validation assertions on a list of results.
+    *
+    * @param assertionResults The list of assertion results.
+    */
+   @Override
+   @SuppressWarnings(&quot;java:S1185&quot;)
+   protected void validation(List&lt;AssertionResult&lt;Object&gt;&gt; assertionResults) {
+<span class="nc" id="L198">      super.validation(assertionResults);</span>
+<span class="nc" id="L199">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

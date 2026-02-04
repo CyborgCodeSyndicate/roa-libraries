@@ -1,0 +1,173 @@
+-J-Duser.language=
+-J-Duser.country=
+@options
+@packages
+-classpath
+'C:/Users/38975/.m2/repository/org/seleniumhq/selenium/selenium-java/4.40.0/selenium-java-4.40.0.jar;C:/Users/38975/.m2/repository/org/seleniumhq/selenium/selenium-api/4.40.0/selenium-api-4.40.0.jar;C:/Users/38975/.m2/repository/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar;C:/Users/38975/.m2/repository/org/seleniumhq/selenium/selenium-chrome-driver/4.40.0/selenium-chrome-driver-4.40.0.jar;C:/Users/38975/.m2/repository/com/google/auto/service/auto-service-annotations/1.1.1/auto-service-annotations-1.1.1.jar;C:/Users/38975/.m2/repository/org/seleniumhq/selenium/selenium-chromium-driver/4.40.0/selenium-chromium-driver-4.40.0.jar;C:/Users/38975/.m2/repository/org/seleniumhq/selenium/selenium-json/4.40.0/selenium-json-4.40.0.jar;C:/Users/38975/.m2/repository/org/seleniumhq/selenium/selenium-manager/4.40.0/selenium-manager-4.40.0.jar;C:/Users/38975/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v142/4.40.0/selenium-devtools-v142-4.40.0.jar;C:/Users/38975/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v143/4.40.0/selenium-devtools-v143-4.40.0.jar;C:/Users/38975/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v144/4.40.0/selenium-devtools-v144-4.40.0.jar;C:/Users/38975/.m2/repository/org/seleniumhq/selenium/selenium-edge-driver/4.40.0/selenium-edge-driver-4.40.0.jar;C:/Users/38975/.m2/repository/org/seleniumhq/selenium/selenium-firefox-driver/4.40.0/selenium-firefox-driver-4.40.0.jar;C:/Users/38975/.m2/repository/org/seleniumhq/selenium/selenium-http/4.40.0/selenium-http-4.40.0.jar;C:/Users/38975/.m2/repository/org/seleniumhq/selenium/selenium-ie-driver/4.40.0/selenium-ie-driver-4.40.0.jar;C:/Users/38975/.m2/repository/org/seleniumhq/selenium/selenium-remote-driver/4.40.0/selenium-remote-driver-4.40.0.jar;C:/Users/38975/.m2/repository/com/google/guava/guava/33.5.0-jre/guava-33.5.0-jre.jar;C:/Users/38975/.m2/repository/com/google/guava/failureaccess/1.0.3/failureaccess-1.0.3.jar;C:/Users/38975/.m2/repository/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar;C:/Users/38975/.m2/repository/com/google/j2objc/j2objc-annotations/3.1/j2objc-annotations-3.1.jar;C:/Users/38975/.m2/repository/io/opentelemetry/opentelemetry-api/1.58.0/opentelemetry-api-1.58.0.jar;C:/Users/38975/.m2/repository/io/opentelemetry/opentelemetry-context/1.58.0/opentelemetry-context-1.58.0.jar;C:/Users/38975/.m2/repository/io/opentelemetry/opentelemetry-common/1.55.0/opentelemetry-common-1.55.0.jar;C:/Users/38975/.m2/repository/io/opentelemetry/opentelemetry-exporter-logging/1.58.0/opentelemetry-exporter-logging-1.58.0.jar;C:/Users/38975/.m2/repository/io/opentelemetry/opentelemetry-sdk-common/1.58.0/opentelemetry-sdk-common-1.58.0.jar;C:/Users/38975/.m2/repository/io/opentelemetry/opentelemetry-sdk-extension-autoconfigure-spi/1.58.0/opentelemetry-sdk-extension-autoconfigure-spi-1.58.0.jar;C:/Users/38975/.m2/repository/io/opentelemetry/opentelemetry-sdk-extension-autoconfigure/1.58.0/opentelemetry-sdk-extension-autoconfigure-1.58.0.jar;C:/Users/38975/.m2/repository/io/opentelemetry/opentelemetry-sdk-trace/1.58.0/opentelemetry-sdk-trace-1.58.0.jar;C:/Users/38975/.m2/repository/io/opentelemetry/opentelemetry-sdk/1.58.0/opentelemetry-sdk-1.58.0.jar;C:/Users/38975/.m2/repository/io/opentelemetry/opentelemetry-sdk-metrics/1.55.0/opentelemetry-sdk-metrics-1.55.0.jar;C:/Users/38975/.m2/repository/io/opentelemetry/opentelemetry-sdk-logs/1.55.0/opentelemetry-sdk-logs-1.55.0.jar;C:/Users/38975/.m2/repository/org/seleniumhq/selenium/selenium-os/4.40.0/selenium-os-4.40.0.jar;C:/Users/38975/.m2/repository/org/seleniumhq/selenium/selenium-safari-driver/4.40.0/selenium-safari-driver-4.40.0.jar;C:/Users/38975/.m2/repository/org/seleniumhq/selenium/selenium-support/4.40.0/selenium-support-4.40.0.jar;C:/Users/38975/.m2/repository/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar;C:/Users/38975/.m2/repository/org/aeonbits/owner/owner/1.0.12/owner-1.0.12.jar;C:/Users/38975/.m2/repository/io/github/bonigarcia/webdrivermanager/6.3.3/webdrivermanager-6.3.3.jar;C:/Users/38975/.m2/repository/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar;C:/Users/38975/.m2/repository/com/google/code/gson/gson/2.13.2/gson-2.13.2.jar;C:/Users/38975/.m2/repository/com/google/errorprone/error_prone_annotations/2.46.0/error_prone_annotations-2.46.0.jar;C:/Users/38975/.m2/repository/com/github/docker-java/docker-java/3.6.0/docker-java-3.6.0.jar;C:/Users/38975/.m2/repository/com/github/docker-java/docker-java-core/3.6.0/docker-java-core-3.6.0.jar;C:/Users/38975/.m2/repository/com/github/docker-java/docker-java-api/3.6.0/docker-java-api-3.6.0.jar;C:/Users/38975/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.20/jackson-annotations-2.20.jar;C:/Users/38975/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.20.2/jackson-databind-2.20.2.jar;C:/Users/38975/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.20.2/jackson-core-2.20.2.jar;C:/Users/38975/.m2/repository/org/slf4j/jcl-over-slf4j/2.0.17/jcl-over-slf4j-2.0.17.jar;C:/Users/38975/.m2/repository/com/github/docker-java/docker-java-transport-httpclient5/3.6.0/docker-java-transport-httpclient5-3.6.0.jar;C:/Users/38975/.m2/repository/com/github/docker-java/docker-java-transport/3.6.0/docker-java-transport-3.6.0.jar;C:/Users/38975/.m2/repository/net/java/dev/jna/jna/5.18.1/jna-5.18.1.jar;C:/Users/38975/.m2/repository/org/brotli/dec/0.1.2/dec-0.1.2.jar;C:/Users/38975/.m2/repository/org/apache/commons/commons-lang3/3.20.0/commons-lang3-3.20.0.jar;C:/Users/38975/.m2/repository/org/apache/commons/commons-compress/1.28.0/commons-compress-1.28.0.jar;C:/Users/38975/.m2/repository/commons-codec/commons-codec/1.19.0/commons-codec-1.19.0.jar;C:/Users/38975/.m2/repository/commons-io/commons-io/2.21.0/commons-io-2.21.0.jar;C:/Users/38975/.m2/repository/org/apache/httpcomponents/client5/httpclient5/5.6/httpclient5-5.6.jar;C:/Users/38975/.m2/repository/org/apache/httpcomponents/core5/httpcore5/5.4/httpcore5-5.4.jar;C:/Users/38975/.m2/repository/org/apache/httpcomponents/core5/httpcore5-h2/5.3.6/httpcore5-h2-5.3.6.jar;C:/Users/38975/.m2/repository/io/cyborgcode/utilities/commons/1.0.0-rc-2/commons-1.0.0-rc-2.jar;C:/Users/38975/.m2/repository/org/apache/logging/log4j/log4j-layout-template-json/2.25.3/log4j-layout-template-json-2.25.3.jar;C:/Users/38975/.m2/repository/org/apache/logging/log4j/log4j-core/2.25.3/log4j-core-2.25.3.jar;C:/Users/38975/.m2/repository/org/apache/logging/log4j/log4j-api/2.25.3/log4j-api-2.25.3.jar;C:/Users/38975/.m2/repository/org/reflections/reflections/0.10.2/reflections-0.10.2.jar;C:/Users/38975/.m2/repository/org/javassist/javassist/3.28.0-GA/javassist-3.28.0-GA.jar;C:/Users/38975/.m2/repository/org/openjdk/nashorn/nashorn-core/15.7/nashorn-core-15.7.jar;C:/Users/38975/.m2/repository/org/ow2/asm/asm/9.9.1/asm-9.9.1.jar;C:/Users/38975/.m2/repository/org/ow2/asm/asm-commons/7.3.1/asm-commons-7.3.1.jar;C:/Users/38975/.m2/repository/org/ow2/asm/asm-analysis/7.3.1/asm-analysis-7.3.1.jar;C:/Users/38975/.m2/repository/org/ow2/asm/asm-tree/7.3.1/asm-tree-7.3.1.jar;C:/Users/38975/.m2/repository/org/ow2/asm/asm-util/7.3.1/asm-util-7.3.1.jar;C:/Users/38975/IdeaProjects/roa-libraries/assertions/target/assertions-0.0.0.jar;C:/Users/38975/.m2/repository/net/bytebuddy/byte-buddy/1.18.4/byte-buddy-1.18.4.jar;C:/Users/38975/.m2/repository/com/github/spotbugs/spotbugs-annotations/4.9.8/spotbugs-annotations-4.9.8.jar;C:/Users/38975/.m2/repository/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar'
+-encoding
+'UTF-8'
+-protected
+-source
+'17'
+-sourcepath
+'C:/Users/38975/IdeaProjects/roa-libraries/ui-interactor/src/main/java;C:/Users/38975/IdeaProjects/roa-libraries/ui-interactor/target/generated-sources/annotations'
+-author
+-bottom
+'Copyright &#169; 2026 <a href="https://cyborgcode.io">Cyborg Code Syndicate</a>. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/38975/IdeaProjects/roa-libraries/ui-interactor/target/javadocs/apidocs'
+-docencoding
+'UTF-8'
+-Xdoclint:none
+-doctitle
+'Ring of Automation UI Library 0.0.0 API'
+-linksource
+-use
+-version
+-windowtitle
+'Ring of Automation UI Library 0.0.0 API'
+io.cyborgcode.roa.ui.annotations
+io.cyborgcode.roa.ui.components.accordion
+io.cyborgcode.roa.ui.components.alert
+io.cyborgcode.roa.ui.components.base
+io.cyborgcode.roa.ui.components.button
+io.cyborgcode.roa.ui.components.checkbox
+io.cyborgcode.roa.ui.components.factory
+io.cyborgcode.roa.ui.components.input
+io.cyborgcode.roa.ui.components.interceptor
+io.cyborgcode.roa.ui.components.link
+io.cyborgcode.roa.ui.components.list
+io.cyborgcode.roa.ui.components.loader
+io.cyborgcode.roa.ui.components.modal
+io.cyborgcode.roa.ui.components.radio
+io.cyborgcode.roa.ui.components.select
+io.cyborgcode.roa.ui.components.tab
+io.cyborgcode.roa.ui.components.table.annotations
+io.cyborgcode.roa.ui.components.table.base
+io.cyborgcode.roa.ui.components.table.exceptions
+io.cyborgcode.roa.ui.components.table.filters
+io.cyborgcode.roa.ui.components.table.insertion
+io.cyborgcode.roa.ui.components.table.model
+io.cyborgcode.roa.ui.components.table.registry
+io.cyborgcode.roa.ui.components.table.service
+io.cyborgcode.roa.ui.components.table.sort
+io.cyborgcode.roa.ui.components.toggle
+io.cyborgcode.roa.ui.config
+io.cyborgcode.roa.ui.drivers.base
+io.cyborgcode.roa.ui.drivers.config
+io.cyborgcode.roa.ui.drivers.factory
+io.cyborgcode.roa.ui.drivers.providers
+io.cyborgcode.roa.ui.insertion
+io.cyborgcode.roa.ui.log
+io.cyborgcode.roa.ui.selenium.decorators
+io.cyborgcode.roa.ui.selenium.enums
+io.cyborgcode.roa.ui.selenium.exceptions
+io.cyborgcode.roa.ui.selenium.handling
+io.cyborgcode.roa.ui.selenium.helper
+io.cyborgcode.roa.ui.selenium.listeners
+io.cyborgcode.roa.ui.selenium.locating
+io.cyborgcode.roa.ui.selenium.logging
+io.cyborgcode.roa.ui.selenium.shadowroot
+io.cyborgcode.roa.ui.selenium.smart
+io.cyborgcode.roa.ui.service.facade
+io.cyborgcode.roa.ui.util
+io.cyborgcode.roa.ui.util.strategy
+io.cyborgcode.roa.ui.util.table
+io.cyborgcode.roa.ui.validator
+C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-java\4.40.0\selenium-java-4.40.0.jar = 1769093617505
+C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-api\4.40.0\selenium-api-4.40.0.jar = 1769899081675
+C:\Users\38975\.m2\repository\org\jspecify\jspecify\1.0.0\jspecify-1.0.0.jar = 1737455405994
+C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-chrome-driver\4.40.0\selenium-chrome-driver-4.40.0.jar = 1769899083513
+C:\Users\38975\.m2\repository\com\google\auto\service\auto-service-annotations\1.1.1\auto-service-annotations-1.1.1.jar = 1737455395637
+C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-chromium-driver\4.40.0\selenium-chromium-driver-4.40.0.jar = 1769899082691
+C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-json\4.40.0\selenium-json-4.40.0.jar = 1769899077847
+C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-manager\4.40.0\selenium-manager-4.40.0.jar = 1769899082358
+C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v142\4.40.0\selenium-devtools-v142-4.40.0.jar = 1769093633699
+C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v143\4.40.0\selenium-devtools-v143-4.40.0.jar = 1769093635127
+C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v144\4.40.0\selenium-devtools-v144-4.40.0.jar = 1769093627916
+C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-edge-driver\4.40.0\selenium-edge-driver-4.40.0.jar = 1769899080390
+C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-firefox-driver\4.40.0\selenium-firefox-driver-4.40.0.jar = 1769899083642
+C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-http\4.40.0\selenium-http-4.40.0.jar = 1769899082710
+C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-ie-driver\4.40.0\selenium-ie-driver-4.40.0.jar = 1769899084544
+C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-remote-driver\4.40.0\selenium-remote-driver-4.40.0.jar = 1769899079245
+C:\Users\38975\.m2\repository\com\google\guava\guava\33.5.0-jre\guava-33.5.0-jre.jar = 1760802160898
+C:\Users\38975\.m2\repository\com\google\guava\failureaccess\1.0.3\failureaccess-1.0.3.jar = 1745423555388
+C:\Users\38975\.m2\repository\com\google\guava\listenablefuture\9999.0-empty-to-avoid-conflict-with-guava\listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar = 1737455396238
+C:\Users\38975\.m2\repository\com\google\j2objc\j2objc-annotations\3.1\j2objc-annotations-3.1.jar = 1760802160504
+C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-api\1.58.0\opentelemetry-api-1.58.0.jar = 1769899078823
+C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-context\1.58.0\opentelemetry-context-1.58.0.jar = 1769899083811
+C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-common\1.55.0\opentelemetry-common-1.55.0.jar = 1769093622353
+C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-exporter-logging\1.58.0\opentelemetry-exporter-logging-1.58.0.jar = 1769899084807
+C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-sdk-common\1.58.0\opentelemetry-sdk-common-1.58.0.jar = 1769899080171
+C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-sdk-extension-autoconfigure-spi\1.58.0\opentelemetry-sdk-extension-autoconfigure-spi-1.58.0.jar = 1769899085818
+C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-sdk-extension-autoconfigure\1.58.0\opentelemetry-sdk-extension-autoconfigure-1.58.0.jar = 1769899085645
+C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-sdk-trace\1.58.0\opentelemetry-sdk-trace-1.58.0.jar = 1769899081559
+C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-sdk\1.58.0\opentelemetry-sdk-1.58.0.jar = 1769899077740
+C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-sdk-metrics\1.55.0\opentelemetry-sdk-metrics-1.55.0.jar = 1769093621630
+C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-sdk-logs\1.55.0\opentelemetry-sdk-logs-1.55.0.jar = 1769093624608
+C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-os\4.40.0\selenium-os-4.40.0.jar = 1769093631273
+C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-safari-driver\4.40.0\selenium-safari-driver-4.40.0.jar = 1769899083423
+C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-support\4.40.0\selenium-support-4.40.0.jar = 1769899084560
+C:\Users\38975\.m2\repository\org\projectlombok\lombok\1.18.42\lombok-1.18.42.jar = 1760802573302
+C:\Users\38975\.m2\repository\org\aeonbits\owner\owner\1.0.12\owner-1.0.12.jar = 1737455339269
+C:\Users\38975\.m2\repository\io\github\bonigarcia\webdrivermanager\6.3.3\webdrivermanager-6.3.3.jar = 1769093619179
+C:\Users\38975\.m2\repository\org\slf4j\slf4j-api\2.0.17\slf4j-api-2.0.17.jar = 1745423525973
+C:\Users\38975\.m2\repository\com\google\code\gson\gson\2.13.2\gson-2.13.2.jar = 1760802192623
+C:\Users\38975\.m2\repository\com\google\errorprone\error_prone_annotations\2.46.0\error_prone_annotations-2.46.0.jar = 1769093618189
+C:\Users\38975\.m2\repository\com\github\docker-java\docker-java\3.6.0\docker-java-3.6.0.jar = 1760803423097
+C:\Users\38975\.m2\repository\com\github\docker-java\docker-java-core\3.6.0\docker-java-core-3.6.0.jar = 1760803423267
+C:\Users\38975\.m2\repository\com\github\docker-java\docker-java-api\3.6.0\docker-java-api-3.6.0.jar = 1760803423783
+C:\Users\38975\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.20\jackson-annotations-2.20.jar = 1762507906815
+C:\Users\38975\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.20.2\jackson-databind-2.20.2.jar = 1769440682312
+C:\Users\38975\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.20.2\jackson-core-2.20.2.jar = 1769440683518
+C:\Users\38975\.m2\repository\org\slf4j\jcl-over-slf4j\2.0.17\jcl-over-slf4j-2.0.17.jar = 1745423560066
+C:\Users\38975\.m2\repository\com\github\docker-java\docker-java-transport-httpclient5\3.6.0\docker-java-transport-httpclient5-3.6.0.jar = 1760803423169
+C:\Users\38975\.m2\repository\com\github\docker-java\docker-java-transport\3.6.0\docker-java-transport-3.6.0.jar = 1760803423240
+C:\Users\38975\.m2\repository\net\java\dev\jna\jna\5.18.1\jna-5.18.1.jar = 1760803424398
+C:\Users\38975\.m2\repository\org\brotli\dec\0.1.2\dec-0.1.2.jar = 1737455387803
+C:\Users\38975\.m2\repository\org\apache\commons\commons-lang3\3.20.0\commons-lang3-3.20.0.jar = 1769093148531
+C:\Users\38975\.m2\repository\org\apache\commons\commons-compress\1.28.0\commons-compress-1.28.0.jar = 1760803423805
+C:\Users\38975\.m2\repository\commons-codec\commons-codec\1.19.0\commons-codec-1.19.0.jar = 1760802153246
+C:\Users\38975\.m2\repository\commons-io\commons-io\2.21.0\commons-io-2.21.0.jar = 1762853244967
+C:\Users\38975\.m2\repository\org\apache\httpcomponents\client5\httpclient5\5.6\httpclient5-5.6.jar = 1769093618426
+C:\Users\38975\.m2\repository\org\apache\httpcomponents\core5\httpcore5\5.4\httpcore5-5.4.jar = 1769095985095
+C:\Users\38975\.m2\repository\org\apache\httpcomponents\core5\httpcore5-h2\5.3.6\httpcore5-h2-5.3.6.jar = 1769093619913
+C:\Users\38975\.m2\repository\io\cyborgcode\utilities\commons\1.0.0-rc-2\commons-1.0.0-rc-2.jar = 1770236125587
+C:\Users\38975\.m2\repository\org\apache\logging\log4j\log4j-layout-template-json\2.25.3\log4j-layout-template-json-2.25.3.jar = 1769092681246
+C:\Users\38975\.m2\repository\org\apache\logging\log4j\log4j-core\2.25.3\log4j-core-2.25.3.jar = 1769092682572
+C:\Users\38975\.m2\repository\org\apache\logging\log4j\log4j-api\2.25.3\log4j-api-2.25.3.jar = 1769092679804
+C:\Users\38975\.m2\repository\org\reflections\reflections\0.10.2\reflections-0.10.2.jar = 1737455336264
+C:\Users\38975\.m2\repository\org\javassist\javassist\3.28.0-GA\javassist-3.28.0-GA.jar = 1737455336579
+C:\Users\38975\.m2\repository\org\openjdk\nashorn\nashorn-core\15.7\nashorn-core-15.7.jar = 1761474257629
+C:\Users\38975\.m2\repository\org\ow2\asm\asm\9.9.1\asm-9.9.1.jar = 1769092682123
+C:\Users\38975\.m2\repository\org\ow2\asm\asm-commons\7.3.1\asm-commons-7.3.1.jar = 1737455338929
+C:\Users\38975\.m2\repository\org\ow2\asm\asm-analysis\7.3.1\asm-analysis-7.3.1.jar = 1737455337284
+C:\Users\38975\.m2\repository\org\ow2\asm\asm-tree\7.3.1\asm-tree-7.3.1.jar = 1737455337113
+C:\Users\38975\.m2\repository\org\ow2\asm\asm-util\7.3.1\asm-util-7.3.1.jar = 1737455337871
+C:\Users\38975\IdeaProjects\roa-libraries\assertions\target\assertions-0.0.0.jar = 1770236090927
+C:\Users\38975\.m2\repository\net\bytebuddy\byte-buddy\1.18.4\byte-buddy-1.18.4.jar = 1769899079549
+C:\Users\38975\.m2\repository\com\github\spotbugs\spotbugs-annotations\4.9.8\spotbugs-annotations-4.9.8.jar = 1769093148399
+C:\Users\38975\.m2\repository\com\google\code\findbugs\jsr305\3.0.2\jsr305-3.0.2.jar = 1737455336668
+C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor\src\main\java = 1769893968381
+C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor\target\generated-sources\annotations = 1770236263862
+C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor\target\javadocs\apidocs\allclasses-index.html = 1770236357704
+C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor\target\javadocs\apidocs\allpackages-index.html = 1770236357745
+C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor\target\javadocs\apidocs\constant-values.html = 1770236351741
+C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor\target\javadocs\apidocs\element-list = 1770236350249
+C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor\target\javadocs\apidocs\help-doc.html = 1770236358186
+C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor\target\javadocs\apidocs\index-all.html = 1770236357963
+C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor\target\javadocs\apidocs\index.html = 1770236357551
+C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor\target\javadocs\apidocs\jquery-ui.overrides.css = 1770236358351
+C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor\target\javadocs\apidocs\member-search-index.js = 1770236357797
+C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor\target\javadocs\apidocs\module-search-index.js = 1770236357760
+C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor\target\javadocs\apidocs\overview-summary.html = 1770236358171
+C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor\target\javadocs\apidocs\overview-tree.html = 1770236357524
+C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor\target\javadocs\apidocs\package-search-index.js = 1770236357769
+C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor\target\javadocs\apidocs\script.js = 1770236358220
+C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor\target\javadocs\apidocs\search.js = 1770236358233
+C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor\target\javadocs\apidocs\serialized-form.html = 1770236351766
+C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor\target\javadocs\apidocs\stylesheet.css = 1770236358209
+C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor\target\javadocs\apidocs\tag-search-index.js = 1770236357825
+C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor\target\javadocs\apidocs\type-search-index.js = 1770236357780

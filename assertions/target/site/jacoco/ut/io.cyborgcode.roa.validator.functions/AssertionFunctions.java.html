@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AssertionFunctions.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Assertion Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.validator.functions</a> &gt; <span class="el_source">AssertionFunctions.java</span></div><h1>AssertionFunctions.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.validator.functions;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+
+/**
+ * Provides utility functions for validating assertions.
+ *
+ * &lt;p&gt;This class contains static methods that perform various validation operations,
+ * including equality checks, containment checks, numeric comparisons, string operations,
+ * and collection validations. These functions are used to implement different
+ * assertion types in the framework.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public final class AssertionFunctions {
+
+   private AssertionFunctions() {
+   }
+
+
+   /**
+    * Checks if the actual value is equal to the expected value.
+    */
+   public static boolean equals(Object actual, Object expected) {
+<span class="fc" id="L27">      return Objects.equals(actual, expected);</span>
+   }
+
+   /**
+    * Checks if the actual value is not equal to the expected value.
+    */
+   public static boolean notEquals(Object actual, Object expected) {
+<span class="fc bfc" id="L34" title="All 2 branches covered.">      return !Objects.equals(actual, expected);</span>
+   }
+
+   /**
+    * Checks if the actual value contains the expected value as a substring.
+    */
+   public static boolean contains(Object actual, Object expected) {
+<span class="fc bfc" id="L41" title="All 4 branches covered.">      if (actual == null || expected == null) {</span>
+<span class="fc" id="L42">         return false;</span>
+      }
+<span class="fc" id="L44">      return actual.toString().contains(expected.toString());</span>
+   }
+
+   /**
+    * Checks if the actual value is not null.
+    */
+   public static boolean notNull(Object actual, Object expected) {
+<span class="fc" id="L51">      boolean condition = Objects.nonNull(actual);</span>
+<span class="fc bfc" id="L52" title="All 4 branches covered.">      return expected instanceof Boolean e &amp;&amp; condition == e;</span>
+   }
+
+   /**
+    * Checks if the actual value is null.
+    */
+   public static boolean isNull(Object actual, Object expected) {
+<span class="fc" id="L59">      boolean condition = Objects.isNull(actual);</span>
+<span class="fc bfc" id="L60" title="All 4 branches covered.">      return expected instanceof Boolean e &amp;&amp; condition == e;</span>
+   }
+
+   /**
+    * Checks if all elements in a collection are not null.
+    */
+   public static boolean allNotNull(Object actual, Object expected) {
+<span class="fc bfc" id="L67" title="All 2 branches covered.">      if (!isCollection(actual)) {</span>
+<span class="fc" id="L68">         return false;</span>
+      }
+<span class="fc" id="L70">      boolean condition = ((Collection&lt;?&gt;) actual).stream().allMatch(Objects::nonNull);</span>
+<span class="fc bfc" id="L71" title="All 4 branches covered.">      return expected instanceof Boolean exp &amp;&amp; condition == exp;</span>
+   }
+
+   /**
+    * Checks if all elements in a collection are null.
+    */
+   public static boolean allNull(Object actual, Object expected) {
+<span class="fc bfc" id="L78" title="All 2 branches covered.">      if (!isCollection(actual)) {</span>
+<span class="fc" id="L79">         return false;</span>
+      }
+<span class="fc" id="L81">      boolean condition = ((Collection&lt;?&gt;) actual).stream().allMatch(Objects::isNull);</span>
+<span class="fc bfc" id="L82" title="All 4 branches covered.">      return expected instanceof Boolean exp &amp;&amp; condition == exp;</span>
+   }
+
+   /**
+    * Checks if the actual numeric value is greater than the expected numeric value.
+    */
+   public static boolean greaterThan(Object actual, Object expected) {
+<span class="fc bfc" id="L89" title="All 4 branches covered.">      if (!isNumber(actual) || !isNumber(expected)) {</span>
+<span class="fc" id="L90">         throw new IllegalArgumentException(&quot;Both actual and expected must be numbers.&quot;);</span>
+      }
+<span class="fc bfc" id="L92" title="All 2 branches covered.">      return ((Number) actual).doubleValue() &gt; ((Number) expected).doubleValue();</span>
+   }
+
+   /**
+    * Checks if the actual numeric value is less than the expected numeric value.
+    */
+   public static boolean lessThan(Object actual, Object expected) {
+<span class="fc bfc" id="L99" title="All 4 branches covered.">      if (!isNumber(actual) || !isNumber(expected)) {</span>
+<span class="fc" id="L100">         throw new IllegalArgumentException(&quot;Both actual and expected must be numbers.&quot;);</span>
+      }
+<span class="fc bfc" id="L102" title="All 2 branches covered.">      return ((Number) actual).doubleValue() &lt; ((Number) expected).doubleValue();</span>
+   }
+
+   /**
+    * Checks if all elements in the expected collection exist in the actual collection.
+    */
+   public static boolean containsAll(Object actual, Object expected) {
+<span class="fc bfc" id="L109" title="All 4 branches covered.">      if (!isCollection(actual) || !isCollection(expected)) {</span>
+<span class="fc" id="L110">         return false;</span>
+      }
+<span class="fc" id="L112">      return ((Collection&lt;?&gt;) actual).containsAll((Collection&lt;?&gt;) expected);</span>
+   }
+
+   /**
+    * Checks if any element in the expected collection exists in the actual collection.
+    */
+   public static boolean containsAny(Object actual, Object expected) {
+<span class="fc bfc" id="L119" title="All 4 branches covered.">      if (!isCollection(actual) || !isCollection(expected)) {</span>
+<span class="fc" id="L120">         return false;</span>
+      }
+<span class="fc" id="L122">      Collection&lt;?&gt; actualCollection = (Collection&lt;?&gt;) actual;</span>
+<span class="fc" id="L123">      Collection&lt;?&gt; expectedCollection = (Collection&lt;?&gt;) expected;</span>
+<span class="fc" id="L124">      return expectedCollection.stream().anyMatch(actualCollection::contains);</span>
+   }
+
+   /**
+    * Checks if the actual string starts with the expected string.
+    */
+   public static boolean startsWith(Object actual, Object expected) {
+<span class="fc bfc" id="L131" title="All 4 branches covered.">      if (actual == null || expected == null) {</span>
+<span class="fc" id="L132">         return false;</span>
+      }
+<span class="fc" id="L134">      return actual.toString().startsWith(expected.toString());</span>
+   }
+
+   /**
+    * Checks if the actual string ends with the expected string.
+    */
+   public static boolean endsWith(Object actual, Object expected) {
+<span class="fc bfc" id="L141" title="All 4 branches covered.">      if (actual == null || expected == null) {</span>
+<span class="fc" id="L142">         return false;</span>
+      }
+<span class="fc" id="L144">      return actual.toString().endsWith(expected.toString());</span>
+   }
+
+   /**
+    * Checks if the actual value has the expected length.
+    */
+   public static boolean length(Object actual, Object expected) {
+<span class="fc bfc" id="L151" title="All 2 branches covered.">      if (!(expected instanceof Number)) {</span>
+<span class="fc" id="L152">         throw new IllegalArgumentException(&quot;Expected value must be a number.&quot;);</span>
+      }
+<span class="fc" id="L154">      int expectedLength = ((Number) expected).intValue();</span>
+
+<span class="fc bfc" id="L156" title="All 2 branches covered.">      if (actual instanceof String str) {</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">         return str.length() == expectedLength;</span>
+<span class="fc bfc" id="L158" title="All 2 branches covered.">      } else if (actual instanceof Collection&lt;?&gt; coll) {</span>
+<span class="fc bfc" id="L159" title="All 2 branches covered.">         return coll.size() == expectedLength;</span>
+      }
+<span class="fc" id="L161">      return false;</span>
+   }
+
+   /**
+    * Checks if the actual string matches the expected regex pattern.
+    */
+   public static boolean matchesRegex(Object actual, Object expected) {
+<span class="fc bfc" id="L168" title="All 4 branches covered.">      if (actual == null || expected == null) {</span>
+<span class="fc" id="L169">         return false;</span>
+      }
+<span class="fc bfc" id="L171" title="All 2 branches covered.">      if (!(expected instanceof String)) {</span>
+<span class="fc" id="L172">         throw new IllegalArgumentException(&quot;Expected value must be a valid regex string.&quot;);</span>
+      }
+<span class="fc" id="L174">      return actual.toString().matches(expected.toString());</span>
+   }
+
+   /**
+    * Checks if the actual collection is empty.
+    */
+   public static boolean isEmpty(Object actual, Object expected) {
+<span class="fc bfc" id="L181" title="All 4 branches covered.">      boolean condition = (actual instanceof Collection) &amp;&amp; ((Collection&lt;?&gt;) actual).isEmpty();</span>
+<span class="fc bfc" id="L182" title="All 4 branches covered.">      return expected instanceof Boolean exp &amp;&amp; condition == exp;</span>
+   }
+
+   /**
+    * Checks if the actual collection is not empty.
+    */
+   public static boolean isNotEmpty(Object actual, Object expected) {
+<span class="fc bfc" id="L189" title="All 4 branches covered.">      boolean condition = (actual instanceof Collection) &amp;&amp; !((Collection&lt;?&gt;) actual).isEmpty();</span>
+<span class="fc bfc" id="L190" title="All 4 branches covered.">      return expected instanceof Boolean exp &amp;&amp; condition == exp;</span>
+   }
+
+   /**
+    * Checks if the actual numeric value falls within a given range.
+    */
+   public static boolean between(Object actual, Object expected) {
+<span class="fc bfc" id="L197" title="All 4 branches covered.">      if (!isNumber(actual) || !(expected instanceof List&lt;?&gt;)) {</span>
+<span class="fc" id="L198">         throw new IllegalArgumentException(&quot;Expected must be a list with two numeric values.&quot;);</span>
+      }
+<span class="fc" id="L200">      List&lt;?&gt; range = (List&lt;?&gt;) expected;</span>
+<span class="fc bfc" id="L201" title="All 6 branches covered.">      if (range.size() != 2 || !(range.get(0) instanceof Number) || !(range.get(1) instanceof Number)) {</span>
+<span class="fc" id="L202">         throw new IllegalArgumentException(&quot;Expected list must contain exactly two numeric values.&quot;);</span>
+      }
+
+<span class="fc" id="L205">      double min = ((Number) range.get(0)).doubleValue();</span>
+<span class="fc" id="L206">      double max = ((Number) range.get(1)).doubleValue();</span>
+<span class="fc" id="L207">      double value = ((Number) actual).doubleValue();</span>
+
+<span class="fc bfc" id="L209" title="All 4 branches covered.">      return value &gt;= min &amp;&amp; value &lt;= max;</span>
+   }
+
+   /**
+    * Checks if the actual string is equal to the expected string, ignoring case.
+    */
+   public static boolean equalsIgnoreCase(Object actual, Object expected) {
+<span class="fc bfc" id="L216" title="All 4 branches covered.">      if (actual == null || expected == null) {</span>
+<span class="fc" id="L217">         return false;</span>
+      }
+<span class="fc" id="L219">      return actual.toString().equalsIgnoreCase(expected.toString());</span>
+   }
+
+   /**
+    * Checks if the given object is a collection.
+    */
+   private static boolean isCollection(Object obj) {
+<span class="fc" id="L226">      return obj instanceof Collection;</span>
+   }
+
+   /**
+    * Checks if the given object is a number.
+    */
+   private static boolean isNumber(Object obj) {
+<span class="fc" id="L233">      return obj instanceof Number;</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

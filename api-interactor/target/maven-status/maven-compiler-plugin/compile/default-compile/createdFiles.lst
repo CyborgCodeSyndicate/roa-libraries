@@ -1,0 +1,16 @@
+io\cyborgcode\roa\api\authentication\AuthenticationClient.class
+io\cyborgcode\roa\api\authentication\AuthenticationKey.class
+io\cyborgcode\roa\api\service\RestService.class
+io\cyborgcode\roa\api\validator\RestResponseValidatorImpl.class
+io\cyborgcode\roa\api\exceptions\RestServiceException.class
+io\cyborgcode\roa\api\log\LogApi.class
+io\cyborgcode\roa\api\validator\RestAssertionTarget.class
+io\cyborgcode\roa\api\core\Endpoint.class
+io\cyborgcode\roa\api\config\ApiConfig.class
+io\cyborgcode\roa\api\client\RestClient.class
+io\cyborgcode\roa\api\core\ParametrizedEndpoint.class
+io\cyborgcode\roa\api\validator\RestResponseValidator.class
+io\cyborgcode\roa\api\validator\RestResponseValidatorImpl$1.class
+io\cyborgcode\roa\api\config\ApiConfigHolder.class
+io\cyborgcode\roa\api\client\RestClientImpl.class
+io\cyborgcode\roa\api\authentication\BaseAuthenticationClient.class

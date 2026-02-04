@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StrategyGenerator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.util.strategy</a> &gt; <span class="el_source">StrategyGenerator.java</span></div><h1>StrategyGenerator.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.util.strategy;
+
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import java.security.SecureRandom;
+import java.util.List;
+import java.util.Random;
+
+/**
+ * Utility class for applying different selection strategies to a list of elements.
+ *
+ * &lt;p&gt;This class provides methods to retrieve elements based on predefined selection strategies,
+ * such as random selection, first element selection, and last element selection.
+ *
+ * &lt;p&gt;These methods are primarily used in UI components that allow multiple selections,
+ * enabling automation frameworks to define element selection dynamically.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class StrategyGenerator {
+
+<span class="fc" id="L21">   private static final SecureRandom RANDOM = new SecureRandom(); // shared instance</span>
+
+
+   private StrategyGenerator() {
+   }
+
+   /**
+    * Selects and returns a random element from the given list.
+    *
+    * @param elements The list of {@link SmartWebElement} from which an element is to be selected.
+    * @return A randomly selected {@link SmartWebElement} from the list.
+    * @throws IllegalArgumentException if the list is null or empty.
+    */
+   public static SmartWebElement getRandomElementFromElements(List&lt;SmartWebElement&gt; elements) {
+<span class="fc" id="L35">      validateInput(elements);</span>
+<span class="fc" id="L36">      return elements.get(RANDOM.nextInt(elements.size()));</span>
+   }
+
+   /**
+    * Selects and returns the first element from the given list.
+    *
+    * @param elements The list of {@link SmartWebElement} from which the first element is to be selected.
+    * @return The first {@link SmartWebElement} in the list.
+    * @throws IllegalArgumentException if the list is null or empty.
+    */
+   public static SmartWebElement getFirstElementFromElements(List&lt;SmartWebElement&gt; elements) {
+<span class="fc" id="L47">      validateInput(elements);</span>
+<span class="fc" id="L48">      return elements.get(0);</span>
+   }
+
+   /**
+    * Selects and returns the last element from the given list.
+    *
+    * @param elements The list of {@link SmartWebElement} from which the last element is to be selected.
+    * @return The last {@link SmartWebElement} in the list.
+    * @throws IllegalArgumentException if the list is null or empty.
+    */
+   public static SmartWebElement getLastElementFromElements(List&lt;SmartWebElement&gt; elements) {
+<span class="fc" id="L59">      validateInput(elements);</span>
+<span class="fc" id="L60">      return elements.get(elements.size() - 1);</span>
+   }
+
+   /**
+    * Validates that the input list is not null or empty.
+    *
+    * @param elements The list to validate.
+    * @throws IllegalArgumentException if the list is null or empty.
+    */
+   private static void validateInput(List&lt;SmartWebElement&gt; elements) {
+<span class="fc bfc" id="L70" title="All 4 branches covered.">      if (elements == null || elements.isEmpty()) {</span>
+<span class="fc" id="L71">         throw new IllegalArgumentException(&quot;Element list must not be null or empty.&quot;);</span>
+      }
+<span class="fc" id="L73">   }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

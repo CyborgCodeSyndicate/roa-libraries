@@ -1,0 +1,23 @@
+🤖 CYBORG 🤖 2026-01-29T11:26:27,660 [scenario=GettingStartedTests.components_listRadio] INFO  [UI] - Creating driver using provider [ChromeDriverProvider]. Headless: [true], Remote: [true], Remote URL: [http://localhost:4444]
+🤖 CYBORG 🤖 2026-01-29T11:26:36,198 [scenario=GettingStartedTests.components_listRadio] INFO  [QUEST] - The quest: 'components_listRadio(Quest)' has begun and is crafted.
+🤖 CYBORG 🤖 2026-01-29T11:26:36,238 [scenario=GettingStartedTests.components_listRadio] INFO  [QUEST] - The quest has used the ring: 'io.cyborgcode.ui.simple.test.framework.ui.AppUiService'
+🤖 CYBORG 🤖 2026-01-29T11:26:36,604 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Clicking button using locator: By.id: signin_button
+🤖 CYBORG 🤖 2026-01-29T11:26:36,894 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Inserting value: 'username' into input component of type: 'BOOTSTRAP_INPUT_TYPE'.
+🤖 CYBORG 🤖 2026-01-29T11:26:37,365 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Inserting value: 'password' into input component of type: 'BOOTSTRAP_INPUT_TYPE'.
+🤖 CYBORG 🤖 2026-01-29T11:26:37,609 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Clicking button using locator: By.cssSelector: input[value='Sign in']
+🤖 CYBORG 🤖 2026-01-29T11:26:37,984 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Clicking link BOOTSTRAP_LINK_TYPE using locator By.id: transfer_funds_link
+🤖 CYBORG 🤖 2026-01-29T11:26:38,383 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Selecting items Pay Bills from list BOOTSTRAP_LIST_TYPE using locator By.className: nav-tabs
+🤖 CYBORG 🤖 2026-01-29T11:26:39,155 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Selecting items Purchase Foreign Currency from list BOOTSTRAP_LIST_TYPE using locator By.className: ui-tabs-nav
+🤖 CYBORG 🤖 2026-01-29T11:26:39,454 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Selecting option Mexico (peso) in container with locator By.id: pc_currency for select component BOOTSTRAP_SELECT_TYPE
+🤖 CYBORG 🤖 2026-01-29T11:26:39,463 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Selecting options [Mexico (peso)] in container with locator By.id: pc_currency for select component BOOTSTRAP_SELECT_TYPE
+🤖 CYBORG 🤖 2026-01-29T11:26:40,552 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Inserting value: '100' into input component of type: 'BOOTSTRAP_INPUT_TYPE'.
+🤖 CYBORG 🤖 2026-01-29T11:26:40,787 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Selecting radio button with locator By.id: pc_inDollars_true for radio component BOOTSTRAP_RADIO_TYPE
+🤖 CYBORG 🤖 2026-01-29T11:26:41,085 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Clicking button using locator: By.id: pc_calculate_costs
+🤖 CYBORG 🤖 2026-01-29T11:26:41,173 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Clicking button using locator: By.id: purchase_cash
+🤖 CYBORG 🤖 2026-01-29T11:26:41,314 [scenario=GettingStartedTests.components_listRadio] STEP  [UI] - Getting value from alert located by: By.id: alert_content
+🤖 CYBORG 🤖 2026-01-29T11:26:41,441 [scenario=GettingStartedTests.components_listRadio] VALIDATION [QUEST] - Starting hard validation...
+🤖 CYBORG 🤖 2026-01-29T11:26:41,446 [scenario=GettingStartedTests.components_listRadio] VALIDATION [QUEST] - Hard validation completed successfully.
+🤖 CYBORG 🤖 2026-01-29T11:26:41,448 [scenario=GettingStartedTests.components_listRadio] INFO  [QUEST] - The quest has dropped the ring.
+🤖 CYBORG 🤖 2026-01-29T11:26:41,451 [scenario=GettingStartedTests.components_listRadio] INFO  [QUEST] - The quest has reached his end
+🤖 CYBORG 🤖 2026-01-29T11:26:41,592 [scenario=GettingStartedTests.components_listRadio] INFO  [UI] - WebDriver closed successfully.
+🤖 CYBORG 🤖 2026-01-29T11:26:41,608 [scenario=GettingStartedTests.components_listRadio] INFO  [QUEST] - The quest of 'components_listRadio(Quest)' has concluded with glory. Status: SUCCESS. Duration: 18 seconds.

@@ -1,0 +1,13 @@
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\db\allure\AllureDbClientManager.java
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\db\allure\QueryResponseValidatorAllureImpl.java
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\db\allure\RelationalDbClientAllure.java
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\db\annotations\DB.java
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\db\annotations\DbHook.java
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\db\annotations\DbHooks.java
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\db\config\DbTestFrameworkAutoConfiguration.java
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\db\extensions\DbHookExtension.java
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\db\extensions\DbTestExtension.java
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\db\hooks\DbHookFlow.java
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\db\retry\RetryConditionDb.java
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\db\service\fluent\DatabaseServiceFluent.java
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\src\main\java\io\cyborgcode\roa\db\storage\StorageKeysDb.java

@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SmartWebDriver.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.selenium.smart</a> &gt; <span class="el_source">SmartWebDriver.java</span></div><h1>SmartWebDriver.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.selenium.smart;
+
+import io.cyborgcode.roa.ui.annotations.HandleUiException;
+import io.cyborgcode.roa.ui.log.LogUi;
+import io.cyborgcode.roa.ui.selenium.decorators.WebDriverDecorator;
+import io.cyborgcode.roa.ui.selenium.handling.ExceptionHandlingWebDriver;
+import io.cyborgcode.roa.ui.selenium.locating.SmartFinder;
+import java.time.Duration;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.SneakyThrows;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import static io.cyborgcode.roa.ui.config.UiConfigHolder.getUiConfig;
+
+/**
+ * A custom wrapper for {@link WebDriver} that enhances element handling,
+ * adds exception management, and provides built-in support for Shadow DOM elements.
+ *
+ * &lt;p&gt;It integrates with Selenium functions while allowing configuration-based
+ * handling of standard and shadow root elements.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@Getter
+public class SmartWebDriver extends WebDriverDecorator {
+
+   private final WebDriverWait wait;
+   @Setter
+   private boolean keepDriverForSession;
+
+
+   private static final String SECONDS = &quot; seconds&quot;;
+
+
+   /**
+    * Constructs a {@code SmartWebDriver} wrapping the given {@link WebDriver}.
+    *
+    * @param original The original Selenium WebDriver instance to wrap.
+    */
+   public SmartWebDriver(WebDriver original) {
+<span class="fc" id="L53">      super(original);</span>
+<span class="fc" id="L54">      this.wait = new WebDriverWait(original, Duration.ofSeconds(getUiConfig().waitDuration()));</span>
+<span class="fc" id="L55">   }</span>
+
+   /**
+    * Finds a single element using {@link By} and returns a wrapped {@link SmartWebElement}.
+    *
+    * @param by The {@link By} locator to find the element.
+    * @return A {@link SmartWebElement} instance.
+    */
+   @HandleUiException
+   public SmartWebElement findSmartElement(By by) {
+<span class="fc" id="L65">      return findSmartElementInternal(by, null);</span>
+   }
+
+   /**
+    * Finds a single element with a specified wait time.
+    *
+    * @param by           The {@link By} locator.
+    * @param waitInMillis The wait time in milliseconds.
+    * @return A {@link SmartWebElement} instance.
+    */
+   public SmartWebElement findSmartElement(By by, long waitInMillis) {
+<span class="fc" id="L76">      return findSmartElementInternal(by, waitInMillis);</span>
+   }
+
+   /**
+    * Finds multiple elements matching the given {@link By} locator.
+    *
+    * @param by The {@link By} locator to find elements.
+    * @return A list of {@link SmartWebElement}.
+    */
+   @HandleUiException
+   public List&lt;SmartWebElement&gt; findSmartElements(By by) {
+<span class="fc bfc" id="L87" title="All 2 branches covered.">      if (!getUiConfig().useWrappedSeleniumFunctions()) {</span>
+<span class="fc" id="L88">         return SmartFinder.findElementsNoWrap(getOriginal(), by);</span>
+      }
+
+<span class="fc" id="L91">      Consumer&lt;Function&lt;WebDriver, ?&gt;&gt; waitFn = this::waitWithoutFailure;</span>
+      try {
+<span class="fc bfc" id="L93" title="All 2 branches covered.">         if (getUiConfig().useShadowRoot()) {</span>
+<span class="fc" id="L94">            return SmartFinder.findElementsWithShadowRootDriver(this, by, waitFn);</span>
+         } else {
+<span class="fc" id="L96">            return SmartFinder.findElementsNormally(getOriginal(), by, waitFn);</span>
+         }
+<span class="fc" id="L98">      } catch (Exception e) {</span>
+<span class="fc" id="L99">         return handleException(&quot;findElements&quot;, e, new Object[] {by});</span>
+      }
+   }
+
+   /**
+    * Overrides Selenium's {@link WebDriver#findElement(By)} to support both normal and Shadow DOM elements.
+    *
+    * @param by The {@link By} locator to find an element.
+    * @return The found {@link WebElement}.
+    */
+   @Override
+   @NonNull
+<span class="pc bpc" id="L111" title="1 of 2 branches missed.">   public WebElement findElement(@NonNull By by) {</span>
+<span class="fc" id="L112">      Consumer&lt;Function&lt;WebDriver, ?&gt;&gt; waitFn =</span>
+            condition -&gt; {
+               try {
+<span class="fc" id="L115">                  WebDriverWait customWait = new WebDriverWait(getOriginal(), Duration.ofMillis(10));</span>
+<span class="fc" id="L116">                  customWait.until(condition);</span>
+<span class="fc" id="L117">               } catch (Exception ignored) {</span>
+                  //ignore failure from wait
+<span class="fc" id="L119">               }</span>
+<span class="fc" id="L120">            };</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">      if (getUiConfig().useShadowRoot()) {</span>
+<span class="fc" id="L122">         return SmartFinder.findElementWithShadowRootDriver(this, by, waitFn, 10L);</span>
+      } else {
+<span class="fc" id="L124">         return SmartFinder.findElementNormally(getOriginal(), by, waitFn);</span>
+      }
+   }
+
+   /**
+    * Overrides Selenium's {@link WebDriver#findElements(By)} to support both normal and Shadow DOM elements.
+    *
+    * @param by The {@link By} locator to find elements.
+    * @return A list of found {@link WebElement}.
+    */
+   @Override
+   @NonNull
+<span class="pc bpc" id="L136" title="1 of 2 branches missed.">   public List&lt;WebElement&gt; findElements(@NonNull By by) {</span>
+<span class="fc" id="L137">      Consumer&lt;Function&lt;WebDriver, ?&gt;&gt; waitFn =</span>
+            condition -&gt; {
+               try {
+<span class="fc" id="L140">                  WebDriverWait customWait = new WebDriverWait(getOriginal(), Duration.ofMillis(10));</span>
+<span class="fc" id="L141">                  customWait.until(condition);</span>
+<span class="fc" id="L142">               } catch (Exception ignored) {</span>
+                  //ignore failure from wait
+<span class="fc" id="L144">               }</span>
+<span class="fc" id="L145">            };</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">      if (getUiConfig().useShadowRoot()) {</span>
+<span class="fc" id="L147">         List&lt;SmartWebElement&gt; elementsWithShadowRootDriver =</span>
+<span class="fc" id="L148">               SmartFinder.findElementsWithShadowRootDriver(this, by, waitFn);</span>
+<span class="fc" id="L149">         return elementsWithShadowRootDriver.stream()</span>
+<span class="fc" id="L150">               .map(WebElement.class::cast)</span>
+<span class="fc" id="L151">               .toList();</span>
+      } else {
+<span class="fc" id="L153">         List&lt;SmartWebElement&gt; elementsNormally = SmartFinder.findElementsNormally(getOriginal(), by, waitFn);</span>
+<span class="fc" id="L154">         return elementsNormally.stream()</span>
+<span class="fc" id="L155">               .map(WebElement.class::cast)</span>
+<span class="fc" id="L156">               .toList();</span>
+      }
+   }
+
+   /**
+    * Finds a single {@link SmartWebElement} with optional wait time, supporting both standard and Shadow DOM searches.
+    *
+    * @param by           The {@link By} locator used to find the element.
+    * @param waitInMillis The optional wait duration in milliseconds. If null, a default wait function is used.
+    * @return The found {@link SmartWebElement}, or handles the exception if the element is not found.
+    */
+   private SmartWebElement findSmartElementInternal(By by, Long waitInMillis) {
+<span class="fc bfc" id="L168" title="All 2 branches covered.">      if (!getUiConfig().useWrappedSeleniumFunctions()) {</span>
+<span class="fc" id="L169">         return SmartFinder.findElementNoWrap(getOriginal(), by);</span>
+      }
+
+<span class="fc bfc" id="L172" title="All 2 branches covered.">      Consumer&lt;Function&lt;WebDriver, ?&gt;&gt; waitFn = (waitInMillis == null)</span>
+<span class="fc" id="L173">            ? this::waitWithoutFailure</span>
+<span class="fc" id="L174">            : condition -&gt; {</span>
+               try {
+<span class="fc" id="L176">                  WebDriverWait customWait = new WebDriverWait(getOriginal(), Duration.ofMillis(waitInMillis));</span>
+<span class="fc" id="L177">                  customWait.until(condition);</span>
+<span class="fc" id="L178">               } catch (Exception ignored) {</span>
+                  //ignore failure from wait
+<span class="fc" id="L180">               }</span>
+<span class="fc" id="L181">            };</span>
+
+      try {
+<span class="fc bfc" id="L184" title="All 2 branches covered.">         if (getUiConfig().useShadowRoot()) {</span>
+<span class="fc" id="L185">            return SmartFinder.findElementWithShadowRootDriver(this, by, waitFn, waitInMillis);</span>
+         } else {
+<span class="fc" id="L187">            return SmartFinder.findElementNormally(getOriginal(), by, waitFn);</span>
+         }
+<span class="fc" id="L189">      } catch (Exception e) {</span>
+<span class="fc" id="L190">         return handleException(&quot;findElement&quot;, e, new Object[] {by});</span>
+      }
+   }
+
+   /**
+    * Checks if an action can be performed without throwing an exception.
+    *
+    * @param runnable The action to execute.
+    * @return {@code true} if no exception occurs, {@code false} otherwise.
+    */
+   public boolean checkNoException(Runnable runnable) {
+      try {
+<span class="fc" id="L202">         runnable.run();</span>
+<span class="fc" id="L203">         return true;</span>
+<span class="fc" id="L204">      } catch (Exception e) {</span>
+<span class="fc" id="L205">         return false;</span>
+      }
+   }
+
+   /**
+    * Waits until a specific {@link SmartWebElement} becomes visible.
+    *
+    * @param element The element to wait for.
+    * @param seconds Maximum wait time in seconds.
+    */
+   public void waitUntilElementIsShown(SmartWebElement element, int seconds) {
+<span class="fc" id="L216">      WebDriverWait customWait = new WebDriverWait(this, Duration.ofSeconds(seconds));</span>
+      try {
+<span class="fc" id="L218">         customWait.until(ExpectedConditions.visibilityOf(element));</span>
+<span class="fc" id="L219">      } catch (Exception e) {</span>
+<span class="fc" id="L220">         LogUi.error(&quot;Element wasn't displayed after: &quot; + seconds + SECONDS);</span>
+<span class="fc" id="L221">      }</span>
+<span class="fc" id="L222">   }</span>
+
+   /**
+    * Waits until an element located by {@link By} becomes visible.
+    *
+    * @param by      The locator.
+    * @param seconds Maximum wait time in seconds.
+    */
+   public void waitUntilElementIsShown(By by, int seconds) {
+<span class="fc" id="L231">      WebDriverWait customWait = new WebDriverWait(this, Duration.ofSeconds(seconds));</span>
+      try {
+<span class="fc" id="L233">         customWait.until(ExpectedConditions.presenceOfElementLocated(by));</span>
+<span class="fc" id="L234">      } catch (Exception e) {</span>
+<span class="fc" id="L235">         LogUi.error(&quot;Element wasn't displayed after: &quot; + seconds + SECONDS);</span>
+<span class="fc" id="L236">      }</span>
+<span class="fc" id="L237">   }</span>
+
+   /**
+    * Waits until a specific {@link SmartWebElement} is no longer visible.
+    *
+    * @param element The element to wait for.
+    * @param seconds Maximum wait time in seconds.
+    */
+   public void waitUntilElementIsRemoved(SmartWebElement element, int seconds) {
+<span class="fc" id="L246">      WebDriverWait customWait = new WebDriverWait(this, Duration.ofSeconds(seconds));</span>
+      try {
+<span class="fc" id="L248">         customWait.until(ExpectedConditions.invisibilityOf(element));</span>
+<span class="fc" id="L249">      } catch (Exception e) {</span>
+<span class="fc" id="L250">         LogUi.error(&quot;Element wasn't removed after: &quot; + seconds + SECONDS);</span>
+<span class="fc" id="L251">      }</span>
+<span class="fc" id="L252">   }</span>
+
+   /**
+    * Waits until an element located by {@link By} is no longer visible.
+    *
+    * @param by      The locator.
+    * @param seconds Maximum wait time in seconds.
+    */
+   public void waitUntilElementIsRemoved(By by, int seconds) {
+<span class="fc" id="L261">      WebDriverWait customWait = new WebDriverWait(this, Duration.ofSeconds(seconds));</span>
+      try {
+<span class="fc" id="L263">         customWait.until(ExpectedConditions.invisibilityOfElementLocated(by));</span>
+<span class="fc" id="L264">      } catch (Exception e) {</span>
+<span class="fc" id="L265">         LogUi.error(&quot;Element wasn't removed after: &quot; + seconds + SECONDS);</span>
+<span class="fc" id="L266">      }</span>
+<span class="fc" id="L267">   }</span>
+
+
+   private &lt;T&gt; void waitWithoutFailure(Function&lt;WebDriver, T&gt; condition) {
+      try {
+<span class="fc" id="L272">         wait.until(condition);</span>
+<span class="fc" id="L273">      } catch (Exception ignored) {</span>
+         //ignore failure from wait
+<span class="fc" id="L275">      }</span>
+<span class="fc" id="L276">   }</span>
+
+<span class="fc" id="L278">   @SneakyThrows</span>
+   @SuppressWarnings(&quot;unchecked&quot;)
+   private &lt;T&gt; T handleException(String methodName, Exception exception, Object[] params) {
+<span class="fc bfc" id="L281" title="All 2 branches covered.">      Throwable cause = exception.getCause() != null ? exception.getCause() : exception;</span>
+
+      Optional&lt;ExceptionHandlingWebDriver&gt; exceptionHandlingOptional =
+<span class="fc" id="L284">            Arrays.stream(ExceptionHandlingWebDriver.values())</span>
+<span class="fc" id="L285">                  .filter(enumVal -&gt;</span>
+<span class="fc bfc" id="L286" title="All 2 branches covered.">                        enumVal.getMethodName().equals(methodName)</span>
+<span class="fc bfc" id="L287" title="All 2 branches covered.">                              &amp;&amp; Objects.nonNull(enumVal.getExceptionHandlingMap().get(cause.getClass()))</span>
+                  )
+<span class="fc" id="L289">                  .findFirst();</span>
+
+<span class="fc bfc" id="L291" title="All 2 branches covered.">      if (exceptionHandlingOptional.isPresent()) {</span>
+         try {
+<span class="fc" id="L293">            return (T) exceptionHandlingOptional.get()</span>
+<span class="fc" id="L294">                  .getExceptionHandlingMap()</span>
+<span class="fc" id="L295">                  .get(cause.getClass())</span>
+<span class="fc" id="L296">                  .apply(this.getOriginal(), params);</span>
+<span class="fc" id="L297">         } catch (Exception handlerException) {</span>
+<span class="fc" id="L298">            LogUi.error(&quot;Framework attempted to handle an exception in method '&quot; + methodName</span>
+<span class="fc" id="L299">                  + &quot;', but the handler failed with: &quot; + handlerException.getClass().getSimpleName() + &quot;: &quot;</span>
+<span class="fc" id="L300">                  + handlerException.getMessage(), handlerException);</span>
+<span class="fc" id="L301">            exception.addSuppressed(handlerException);</span>
+<span class="fc" id="L302">            LogUi.error(&quot;Propagating original exception: &quot; + exception.getClass().getSimpleName()</span>
+<span class="fc" id="L303">                  + &quot;: &quot; + exception.getMessage(), exception);</span>
+<span class="fc" id="L304">            throw exception;</span>
+         }
+      } else {
+<span class="pc bpc" id="L307" title="2 of 4 branches missed.">         String locator = (params.length &gt; 0 &amp;&amp; params[0] instanceof By) ? params[0].toString() : &quot;Unknown locator&quot;;</span>
+<span class="fc" id="L308">         String exceptionMessage = exception.getClass().getSimpleName();</span>
+
+<span class="fc" id="L310">         String errorMessage = String.format(</span>
+               &quot;Exception handling failed for method '%s'. Exception: '%s'. Parameters: Locator - '%s'.&quot;,
+               methodName, exceptionMessage, locator
+         );
+<span class="fc" id="L314">         LogUi.error(errorMessage);</span>
+<span class="fc" id="L315">         throw exception;</span>
+      }
+   }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

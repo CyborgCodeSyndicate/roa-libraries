@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JsonPathExtractor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Database Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.db.json</a> &gt; <span class="el_source">JsonPathExtractor.java</span></div><h1>JsonPathExtractor.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.db.json;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.Configuration;
+import com.jayway.jsonpath.JsonPath;
+import com.jayway.jsonpath.Option;
+import io.cyborgcode.roa.db.exceptions.JsonPathExtractionException;
+
+/**
+ * Utility class for extracting values from JSON using JsonPath.
+ *
+ * &lt;p&gt;This class facilitates extracting specific values from JSON structures
+ * by applying JsonPath expressions and converting the results to the desired type.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class JsonPathExtractor {
+   private final ObjectMapper objectMapper;
+   private final Configuration jsonPathConfig;
+
+   /**
+    * Constructs a {@code JsonPathExtractor} with a custom JsonPath configuration.
+    *
+    * @param objectMapper   The {@link ObjectMapper} for JSON processing.
+    * @param jsonPathConfig The {@link Configuration} for JsonPath evaluation.
+    */
+<span class="fc" id="L27">   public JsonPathExtractor(ObjectMapper objectMapper, Configuration jsonPathConfig) {</span>
+<span class="fc" id="L28">      this.objectMapper = objectMapper.copy();</span>
+<span class="fc" id="L29">      this.jsonPathConfig = jsonPathConfig;</span>
+<span class="fc" id="L30">   }</span>
+
+   /**
+    * Constructs a {@code JsonPathExtractor} with a default JsonPath configuration.
+    *
+    * &lt;p&gt;The default configuration enables {@code SUPPRESS_EXCEPTIONS} option.
+    *
+    * @param objectMapper The {@link ObjectMapper} for JSON processing.
+    */
+<span class="fc" id="L39">   public JsonPathExtractor(ObjectMapper objectMapper) {</span>
+<span class="fc" id="L40">      this.objectMapper = objectMapper.copy();</span>
+<span class="fc" id="L41">      this.jsonPathConfig = Configuration.builder()</span>
+<span class="fc" id="L42">            .options(Option.SUPPRESS_EXCEPTIONS)</span>
+<span class="fc" id="L43">            .build();</span>
+<span class="fc" id="L44">   }</span>
+
+   /**
+    * Extracts a value from the given data using the specified JsonPath expression.
+    *
+    * @param &lt;T&gt;        The expected type of the extracted value.
+    * @param data       The data object containing JSON structure.
+    * @param jsonPath   The JsonPath expression to apply.
+    * @param resultType The target type of the extracted value.
+    * @return The extracted value converted to the specified type, or {@code null} if not found.
+    * @throws JsonPathExtractionException If JSON conversion or extraction fails.
+    */
+   public &lt;T&gt; T extract(Object data, String jsonPath, Class&lt;T&gt; resultType) {
+<span class="fc" id="L57">      String json = convertToJson(data);</span>
+<span class="fc" id="L58">      Object extracted = applyJsonPath(json, jsonPath);</span>
+
+<span class="fc bfc" id="L60" title="All 2 branches covered.">      if (extracted == null) {</span>
+<span class="fc" id="L61">         return null;</span>
+      }
+
+<span class="fc" id="L64">      return convertValue(extracted, resultType);</span>
+   }
+
+   /**
+    * Converts an object to its JSON representation.
+    *
+    * @param data The object to convert.
+    * @return The JSON string representation of the object.
+    * @throws JsonPathExtractionException If the conversion fails.
+    */
+   private String convertToJson(Object data) {
+      try {
+<span class="fc" id="L76">         return objectMapper.writeValueAsString(data);</span>
+<span class="fc" id="L77">      } catch (Exception e) {</span>
+<span class="fc" id="L78">         throw new JsonPathExtractionException(&quot;Failed to convert object to JSON&quot;, e);</span>
+      }
+   }
+
+   /**
+    * Applies a JsonPath expression to extract a value from the given JSON string.
+    *
+    * @param json     The JSON string to parse.
+    * @param jsonPath The JsonPath expression to apply.
+    * @return The extracted value, or {@code null} if not found.
+    * @throws JsonPathExtractionException If JsonPath evaluation fails.
+    */
+   private Object applyJsonPath(String json, String jsonPath) {
+      try {
+<span class="fc" id="L92">         return JsonPath.using(jsonPathConfig)</span>
+<span class="fc" id="L93">               .parse(json)</span>
+<span class="fc" id="L94">               .read(jsonPath);</span>
+<span class="fc" id="L95">      } catch (Exception e) {</span>
+<span class="fc" id="L96">         throw new JsonPathExtractionException(&quot;Failed to apply JsonPath: &quot; + jsonPath, e);</span>
+      }
+   }
+
+   /**
+    * Converts the extracted value to the specified type.
+    *
+    * @param &lt;T&gt;        The expected type of the converted value.
+    * @param extracted  The extracted JSON value.
+    * @param resultType The target type.
+    * @return The extracted value converted to the specified type.
+    * @throws JsonPathExtractionException If the conversion fails.
+    */
+   private &lt;T&gt; T convertValue(Object extracted, Class&lt;T&gt; resultType) {
+      try {
+<span class="fc" id="L111">         return objectMapper.convertValue(extracted, resultType);</span>
+<span class="fc" id="L112">      } catch (Exception e) {</span>
+<span class="fc" id="L113">         throw new JsonPathExtractionException(&quot;Failed to convert extracted JSON to &quot; + resultType.getSimpleName(), e);</span>
+      }
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EdgeDriverProvider.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.drivers.providers</a> &gt; <span class="el_source">EdgeDriverProvider.java</span></div><h1>EdgeDriverProvider.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.drivers.providers;
+
+import io.cyborgcode.roa.ui.drivers.base.BaseDriverProvider;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeDriverService;
+import org.openqa.selenium.edge.EdgeOptions;
+
+/**
+ * Provides a WebDriver implementation for Microsoft Edge.
+ *
+ * &lt;p&gt;This class extends {@link BaseDriverProvider} and implements methods to configure,
+ * create, and manage EdgeDriver instances. It also utilizes WebDriverManager
+ * to automatically download the appropriate EdgeDriver version.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+<span class="fc" id="L19">public class EdgeDriverProvider extends BaseDriverProvider&lt;EdgeOptions&gt; {</span>
+
+   /**
+    * Retrieves the type of the driver.
+    *
+    * @return A string representing the driver type, which is &quot;EDGE&quot;.
+    */
+   @Override
+   protected String getDriverType() {
+<span class="fc" id="L28">      return &quot;EDGE&quot;;</span>
+   }
+
+   /**
+    * Creates a new instance of {@link EdgeOptions}, which holds the browser configuration.
+    *
+    * @return A new {@link EdgeOptions} instance.
+    */
+   @Override
+   public EdgeOptions createOptions() {
+<span class="fc" id="L38">      return new EdgeOptions();</span>
+   }
+
+   /**
+    * Creates a new instance of {@link EdgeDriver} using the specified options.
+    *
+    * @param options The {@link EdgeOptions} instance containing the browser configurations.
+    * @return A new {@link EdgeDriver} instance.
+    */
+   @Override
+   public WebDriver createDriver(EdgeOptions options) {
+<span class="fc" id="L49">      return new EdgeDriver(EdgeDriverService.createDefaultService(), options);</span>
+   }
+
+   /**
+    * Applies default arguments to the {@link EdgeOptions} instance.
+    *
+    * &lt;p&gt;These default arguments help optimize browser execution and enhance stability.
+    *
+    * @param options The {@link EdgeOptions} instance to modify.
+    */
+   @Override
+   public void applyDefaultArguments(EdgeOptions options) {
+<span class="fc" id="L61">      options.addArguments(&quot;--disable-gpu&quot;, &quot;--no-sandbox&quot;, &quot;--remote-allow-origins=*&quot;, &quot;--guest&quot;);</span>
+<span class="fc" id="L62">   }</span>
+
+   /**
+    * Applies additional arguments to enable headless mode in Edge.
+    *
+    * &lt;p&gt;Headless mode allows running tests without a visible UI, making execution
+    * faster and more efficient in CI/CD environments.
+    *
+    * @param options The {@link EdgeOptions} instance to modify.
+    */
+   @Override
+   public void applyHeadlessArguments(final EdgeOptions options) {
+<span class="fc" id="L74">      options.addArguments(&quot;--headless&quot;, &quot;window-size=1920x1080&quot;, &quot;--allow-insecure-localhost&quot;,</span>
+            &quot;--disable-dev-shm-usage&quot;);
+<span class="fc" id="L76">   }</span>
+
+   /**
+    * Downloads the appropriate EdgeDriver version using WebDriverManager.
+    *
+    * &lt;p&gt;If a version is provided, it downloads the specified version.
+    * Otherwise, it automatically downloads the compatible driver version
+    * for the installed Edge browser.
+    *
+    * @param version The EdgeDriver version to download (optional).
+    */
+   @Override
+   public void downloadDriver(final String version) {
+<span class="fc bfc" id="L89" title="All 4 branches covered.">      if (version == null || version.isEmpty()) {</span>
+<span class="fc" id="L90">         WebDriverManager.edgedriver().setup();</span>
+      } else {
+<span class="fc" id="L92">         WebDriverManager.edgedriver().driverVersion(version).setup();</span>
+      }
+<span class="fc" id="L94">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DataExtractorImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Core Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.framework.storage</a> &gt; <span class="el_source">DataExtractorImpl.java</span></div><h1>DataExtractorImpl.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.framework.storage;
+
+import java.util.function.Function;
+
+/**
+ * A concrete implementation of {@link DataExtractor} for extracting typed data from a raw object.
+ *
+ * &lt;p&gt;This class allows for flexible data extraction by applying a custom function to
+ * the retrieved storage object. It optionally supports a sub-key for nested or
+ * segmented data structures.
+ * &lt;br&gt;&lt;br&gt;
+ * Generic Type {@code T}: the type of data to be extracted from the raw object.
+ *
+ * &lt;p&gt;You can construct this class either with a sub-key or without it, depending on
+ * how nested your data structure is. The {@code extractionLogic} function defines
+ * exactly how the raw object is converted into the typed result {@code T}.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class DataExtractorImpl&lt;T&gt; implements DataExtractor&lt;T&gt; {
+
+   private Enum&lt;?&gt; subKey;
+   private final Enum&lt;?&gt; key;
+   private final Function&lt;Object, T&gt; extractionLogic;
+
+   /**
+    * Constructs a new {@code DataExtractorImpl} with a sub-key, primary key, and extraction logic.
+    *
+    * @param subKey          an optional sub-key used for nested data extraction
+    * @param key             the primary key identifying the data to be extracted
+    * @param extractionLogic a function that transforms the raw object into a typed result
+    */
+   public DataExtractorImpl(Enum&lt;?&gt; subKey,
+                            Enum&lt;?&gt; key,
+<span class="fc" id="L35">                            Function&lt;Object, T&gt; extractionLogic) {</span>
+<span class="fc" id="L36">      this.subKey = subKey;</span>
+<span class="fc" id="L37">      this.key = key;</span>
+<span class="fc" id="L38">      this.extractionLogic = extractionLogic;</span>
+<span class="fc" id="L39">   }</span>
+
+   /**
+    * Constructs a new {@code DataExtractorImpl} without a sub-key, using only a primary key.
+    *
+    * @param key             the primary key identifying the data to be extracted
+    * @param extractionLogic a function that transforms the raw object into a typed result
+    */
+   public DataExtractorImpl(
+         Enum&lt;?&gt; key,
+<span class="fc" id="L49">         Function&lt;Object, T&gt; extractionLogic) {</span>
+<span class="fc" id="L50">      this.key = key;</span>
+<span class="fc" id="L51">      this.extractionLogic = extractionLogic;</span>
+<span class="fc" id="L52">   }</span>
+
+   /**
+    * Retrieves the optional sub-key used for nested data extraction.
+    *
+    * @return an {@link Enum} representing the sub-key, or {@code null} if not used
+    */
+   @Override
+   public Enum&lt;?&gt; getSubKey() {
+<span class="fc" id="L61">      return subKey;</span>
+   }
+
+   /**
+    * Retrieves the primary key identifying the data to be extracted.
+    *
+    * @return an {@link Enum} representing the primary key
+    */
+   @Override
+   public Enum&lt;?&gt; getKey() {
+<span class="fc" id="L71">      return key;</span>
+   }
+
+   /**
+    * Extracts and transforms the provided raw object into the target type {@code T}.
+    *
+    * @param rawObject the raw object retrieved from storage
+    * @return the extracted data of type {@code T}
+    */
+   @Override
+   public T extract(Object rawObject) {
+<span class="fc" id="L82">      return extractionLogic.apply(rawObject);</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

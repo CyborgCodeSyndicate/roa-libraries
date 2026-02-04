@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomAllureListener.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Core Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.framework.allure</a> &gt; <span class="el_source">CustomAllureListener.java</span></div><h1>CustomAllureListener.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.framework.allure;
+
+import io.qameta.allure.Allure;
+import io.qameta.allure.junit5.AllureJunit5;
+import io.qameta.allure.model.Status;
+import io.qameta.allure.model.StepResult;
+import java.util.UUID;
+
+/**
+ * Custom Allure listener for managing structured Allure steps and test lifecycle.
+ *
+ * &lt;p&gt;This class extends {@link AllureJunit5} to provide additional functionality for tracking parent and nested steps
+ * in Allure reports. It ensures proper test structuring, supports dynamic step statuses, and enables test ID tracking.
+ *
+ * &lt;p&gt;Features:
+ * &lt;ul&gt;
+ *     &lt;li&gt;Tracks parent steps and child steps in Allure reports.&lt;/li&gt;
+ *     &lt;li&gt;Manages step statuses dynamically (INFO, SUCCESS, WARNING, ERROR).&lt;/li&gt;
+ *     &lt;li&gt;Supports clearing and setting test identifiers for traceability.&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+<span class="nc" id="L24">public class CustomAllureListener extends AllureJunit5 {</span>
+
+   /**
+    * Thread-local storage for the current step name.
+    */
+<span class="fc" id="L29">   private static final ThreadLocal&lt;String&gt; STEP_NAME = new ThreadLocal&lt;&gt;();</span>
+
+   /**
+    * Enumeration for defining different step status types in Allure reporting.
+    *
+    * @author Cyborg Code Syndicate 💍👨💻
+    */
+<span class="fc" id="L36">   public enum StatusType {</span>
+      /**
+       * Represents a neutral step with no explicit status.
+       */
+<span class="fc" id="L40">      DEFAULT,</span>
+
+      /**
+       * Indicates an informational step.
+       */
+<span class="fc" id="L45">      INFO,</span>
+
+      /**
+       * Marks the step as successfully completed.
+       */
+<span class="fc" id="L50">      SUCCESS,</span>
+
+      /**
+       * Marks the step as a warning (e.g., partial failure).
+       */
+<span class="fc" id="L55">      WARNING,</span>
+
+      /**
+       * Marks the step as an error (e.g., assertion failure).
+       */
+<span class="fc" id="L60">      ERROR</span>
+   }
+
+   /**
+    * Starts a new step.
+    *
+    * &lt;p&gt;This method creates a new step entry in Allure and sets the step name variable.
+    * &lt;/p&gt;
+    *
+    * @param name The name of the step.
+    * @param type The status type of the step.
+    */
+   private static void startStep(String name, StatusType type) {
+<span class="fc" id="L73">      String uuid = UUID.randomUUID().toString();</span>
+<span class="fc" id="L74">      StepResult stepResult = new StepResult().setName(name);</span>
+<span class="fc" id="L75">      applyStepType(stepResult, type);</span>
+
+<span class="fc" id="L77">      Allure.getLifecycle().startStep(uuid, stepResult);</span>
+<span class="fc" id="L78">      STEP_NAME.set(name);</span>
+<span class="fc" id="L79">   }</span>
+
+   /**
+    * Starts a new step using a predefined {@link StepType}.
+    *
+    * @param stepType The predefined step type.
+    */
+   public static void startStep(StepType stepType) {
+<span class="fc" id="L87">      startStep(stepType.getDisplayName(), StatusType.DEFAULT);</span>
+<span class="fc" id="L88">   }</span>
+
+   /**
+    * Starts a new step with a custom name.
+    *
+    * @param stepName The name of the step.
+    */
+   public static void startStep(String stepName) {
+<span class="fc" id="L96">      startStep(stepName, StatusType.DEFAULT);</span>
+<span class="fc" id="L97">   }</span>
+
+   /**
+    * Starts a new step with a custom name and predefined {@link StatusType}.
+    *
+    * @param stepName   The name of the step.
+    * @param statusType The predefined status type.
+    */
+   public static void startStepWithStatusType(String stepName, StatusType statusType) {
+<span class="fc" id="L106">      startStep(stepName, statusType);</span>
+<span class="fc" id="L107">   }</span>
+
+   /**
+    * Stops the most recently started step.
+    */
+   public static void stopStep() {
+<span class="fc" id="L113">      Allure.getLifecycle().stopStep();</span>
+<span class="fc" id="L114">      STEP_NAME.remove();</span>
+<span class="fc" id="L115">   }</span>
+
+   /**
+    * Checks if a specific step name is currently active.
+    *
+    * @param stepName The step name to check.
+    * @return {@code true} if the specified step with name is active, otherwise {@code false}.
+    */
+   public static boolean isStepActive(String stepName) {
+<span class="fc" id="L124">      return stepName.equals(STEP_NAME.get());</span>
+   }
+
+   /**
+    * Retrieves active step name.
+    *
+    * @return active step name.
+    */
+   public static String getActiveStepName() {
+<span class="fc" id="L133">      return STEP_NAME.get();</span>
+   }
+
+   /**
+    * Applies the appropriate Allure step status based on the provided {@link StatusType}.
+    *
+    * @param stepResult The step result to modify.
+    * @param type       The status type to apply.
+    */
+   private static void applyStepType(StepResult stepResult, StatusType type) {
+<span class="fc bfc" id="L143" title="All 2 branches covered.">      if (type == null) {</span>
+<span class="fc" id="L144">         type = StatusType.DEFAULT;</span>
+      }
+
+<span class="fc bfc" id="L147" title="All 5 branches covered.">      switch (type) {</span>
+         case INFO:
+<span class="fc" id="L149">            stepResult.setStatus(Status.SKIPPED);</span>
+<span class="fc" id="L150">            break;</span>
+         case SUCCESS:
+<span class="fc" id="L152">            stepResult.setStatus(Status.PASSED);</span>
+<span class="fc" id="L153">            break;</span>
+         case WARNING:
+<span class="fc" id="L155">            stepResult.setStatus(Status.BROKEN);</span>
+<span class="fc" id="L156">            break;</span>
+         case ERROR:
+<span class="fc" id="L158">            stepResult.setStatus(Status.FAILED);</span>
+<span class="fc" id="L159">            break;</span>
+         case DEFAULT:
+         default:
+            break;
+      }
+<span class="fc" id="L164">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

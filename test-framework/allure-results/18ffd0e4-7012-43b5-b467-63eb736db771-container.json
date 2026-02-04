@@ -1,0 +1,1 @@
+{"uuid":"18ffd0e4-7012-43b5-b467-63eb736db771","name":"decorate() should use constructor with superclass parameter when direct constructor not found","children":["bb4a80d1-d69d-4171-9863-4b0a8a4dee61"],"befores":[],"afters":[],"start":1769887273733,"stop":1769887273767}

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UiInteractionAutoConfiguration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.config</a> &gt; <span class="el_source">UiInteractionAutoConfiguration.java</span></div><h1>UiInteractionAutoConfiguration.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.config;
+
+import io.cyborgcode.roa.ui.drivers.config.WebDriverConfig;
+import io.cyborgcode.roa.ui.drivers.factory.WebDriverFactory;
+import io.cyborgcode.roa.ui.selenium.listeners.WebDriverEventListener;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.validator.UiTableValidator;
+import io.cyborgcode.roa.ui.validator.UiTableValidatorImpl;
+import org.openqa.selenium.support.events.EventFiringDecorator;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
+
+import static io.cyborgcode.roa.ui.config.UiConfigHolder.getUiConfig;
+
+/**
+ * Spring configuration class for managing UI-related beans.
+ *
+ * &lt;p&gt;This class defines beans for WebDriver and UI table validation, enabling dependency injection
+ * for Selenium-based UI interactions and validation functionalities.
+ *
+ * &lt;p&gt;The configuration follows a lazy initialization strategy to optimize resource usage.
+ * WebDriver instances are created with a &quot;prototype&quot; scope, ensuring each test receives a fresh instance.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@Configuration
+<span class="fc" id="L29">public class UiInteractionAutoConfiguration {</span>
+
+   /**
+    * Provides a lazily initialized and prototype-scoped {@link SmartWebDriver} bean.
+    *
+    * &lt;p&gt;This method creates a WebDriver instance based on the UI framework configuration.
+    * It supports remote and local execution and applies an event-firing decorator to enhance logging and debugging.
+    *
+    * @return A new instance of {@link SmartWebDriver}.
+    */
+   @Bean
+   @Lazy
+   @Scope(&quot;prototype&quot;)
+   public SmartWebDriver webDriver() {
+<span class="fc" id="L43">      return new SmartWebDriver(</span>
+<span class="fc" id="L44">            WebDriverFactory.createDriver(</span>
+<span class="fc" id="L45">                  getUiConfig().browserType(),</span>
+<span class="fc" id="L46">                  WebDriverConfig.builder()</span>
+<span class="fc" id="L47">                        .version(getUiConfig().browserVersion())</span>
+<span class="fc" id="L48">                        .headless(getUiConfig().headless())</span>
+<span class="fc bfc" id="L49" title="All 4 branches covered.">                        .remote(getUiConfig().remoteDriverUrl() != null &amp;&amp; !getUiConfig().remoteDriverUrl().isEmpty())</span>
+<span class="fc" id="L50">                        .remoteUrl(getUiConfig().remoteDriverUrl())</span>
+<span class="fc" id="L51">                        .eventFiringDecorator(new EventFiringDecorator&lt;&gt;(new WebDriverEventListener()))</span>
+<span class="fc" id="L52">                        .build()</span>
+            )
+      );
+   }
+
+   /**
+    * Provides a lazily initialized {@link UiTableValidator} bean.
+    *
+    * &lt;p&gt;This validator facilitates automated assertions on table-based UI components.
+    * It ensures consistency in table data validation across tests.
+    *
+    * @return A new instance of {@link UiTableValidatorImpl}.
+    */
+   @Bean
+   @Lazy
+   public UiTableValidator uiTableValidator() {
+<span class="fc" id="L68">      return new UiTableValidatorImpl();</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

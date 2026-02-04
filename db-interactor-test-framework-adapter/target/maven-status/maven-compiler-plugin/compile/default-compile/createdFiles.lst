@@ -1,0 +1,13 @@
+io\cyborgcode\roa\db\allure\AllureDbClientManager.class
+io\cyborgcode\roa\db\allure\QueryResponseValidatorAllureImpl.class
+io\cyborgcode\roa\db\retry\RetryConditionDb.class
+io\cyborgcode\roa\db\storage\StorageKeysDb.class
+io\cyborgcode\roa\db\allure\RelationalDbClientAllure.class
+io\cyborgcode\roa\db\config\DbTestFrameworkAutoConfiguration.class
+io\cyborgcode\roa\db\annotations\DbHook.class
+io\cyborgcode\roa\db\annotations\DbHooks.class
+io\cyborgcode\roa\db\service\fluent\DatabaseServiceFluent.class
+io\cyborgcode\roa\db\hooks\DbHookFlow.class
+io\cyborgcode\roa\db\annotations\DB.class
+io\cyborgcode\roa\db\extensions\DbHookExtension.class
+io\cyborgcode\roa\db\extensions\DbTestExtension.class

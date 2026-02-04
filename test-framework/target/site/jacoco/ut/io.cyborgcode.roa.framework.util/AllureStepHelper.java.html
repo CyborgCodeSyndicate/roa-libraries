@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AllureStepHelper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Core Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.framework.util</a> &gt; <span class="el_source">AllureStepHelper.java</span></div><h1>AllureStepHelper.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.framework.util;
+
+import io.cyborgcode.utilities.config.ConfigSource;
+import io.cyborgcode.utilities.config.PropertyConfig;
+import io.cyborgcode.roa.framework.log.LogQuest;
+import io.cyborgcode.utilities.reflections.ReflectionUtil;
+import io.qameta.allure.Allure;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UncheckedIOException;
+import java.io.Writer;
+import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
+import org.aeonbits.owner.Config;
+import org.aeonbits.owner.ConfigCache;
+import org.apache.logging.log4j.ThreadContext;
+import org.junit.jupiter.api.extension.ExtensionContext;
+
+import static io.cyborgcode.roa.framework.config.FrameworkConfigHolder.getFrameworkConfig;
+import static io.cyborgcode.roa.framework.storage.StoreKeys.HTML;
+import static io.cyborgcode.roa.framework.storage.StoreKeys.START_TIME;
+import static io.cyborgcode.roa.framework.util.ObjectFormatter.escapeHtml;
+import static io.cyborgcode.roa.framework.util.ObjectFormatter.formatAnnotationsToNewRows;
+import static io.cyborgcode.roa.framework.util.ObjectFormatter.formatLongText;
+import static io.cyborgcode.roa.framework.util.ObjectFormatter.getClassAnnotations;
+import static io.cyborgcode.roa.framework.util.ObjectFormatter.getMethodAnnotations;
+import static io.cyborgcode.roa.framework.util.ObjectFormatter.getTestArguments;
+import static io.cyborgcode.roa.framework.util.ResourceLoader.loadResourceFile;
+
+/**
+ * Utility class for managing test metadata and attaching logs to Allure reports.
+ *
+ * &lt;p&gt;This class provides helper methods to:
+ * &lt;ul&gt;
+ *     &lt;li&gt;Set HTML descriptions in Allure reports.&lt;/li&gt;
+ *     &lt;li&gt;Attach filtered logs based on test execution.&lt;/li&gt;
+ *     &lt;li&gt;Log test outcomes with structured messages.&lt;/li&gt;
+ *     &lt;li&gt;Generate and inject metadata into test reports.&lt;/li&gt;
+ *     &lt;li&gt;Initialize the test environment by writing configuration properties and categories.&lt;/li&gt;
+ *     &lt;li&gt;Set up the test context with start time and a unique test identifier.&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * &lt;p&gt;The class leverages Allure for report attachments, the OWNER library for configuration management,
+ * and reflection for dynamic retrieval of configuration properties.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class AllureStepHelper {
+
+   public static final String CONTENT_TYPE = &quot;text/plain&quot;;
+
+   private AllureStepHelper() {
+   }
+
+   private static final String ALLURE_RESULTS_DIR = &quot;target/allure-results&quot;;
+   private static final String ENVIRONMENT_PROPERTIES_FILE = &quot;environment.properties&quot;;
+   private static final String CATEGORIES_JSON_PATH = &quot;allure/json/categories.json&quot;;
+   private static final String FRAMEWORK_PACKAGE = &quot;io.cyborgcode.roa&quot;;
+   private static final String CATEGORIES_JSON = &quot;categories.json&quot;;
+<span class="fc" id="L75">   private static final AtomicBoolean ENV_INITIALIZED = new AtomicBoolean(false);</span>
+
+   /**
+    * Sets an HTML description for the test execution in Allure reports.
+    *
+    * &lt;p&gt;This method retrieves HTML content stored under the {@code HTML} key in the global store of the
+    * provided {@link ExtensionContext}, filters for valid table-based content, and appends it as a formatted
+    * HTML description in Allure.
+    *
+    * @param context The test execution context.
+    */
+   public static void setDescription(ExtensionContext context) {
+<span class="fc" id="L87">      List&lt;String&gt; htmlContent = (List&lt;String&gt;) context.getStore(ExtensionContext.Namespace.GLOBAL).get(HTML);</span>
+
+<span class="fc" id="L89">      String combinedHtml = htmlContent.stream()</span>
+<span class="fc" id="L90">            .filter(Objects::nonNull)</span>
+<span class="fc" id="L91">            .filter(table -&gt; table.contains(&quot;&lt;td&gt;&quot;))</span>
+<span class="fc" id="L92">            .collect(Collectors.joining(&quot;&quot;, &quot;&lt;div style='margin: 20px;'&gt;&quot;, &quot;&lt;/div&gt;&quot;));</span>
+
+<span class="fc" id="L94">      Allure.descriptionHtml(combinedHtml);</span>
+<span class="fc" id="L95">   }</span>
+
+   /**
+    * Attaches filtered logs to Allure based on the test name.
+    *
+    * &lt;p&gt;This method reads a system log file and filters for entries containing a test scenario identifier.
+    * If the test name is unavailable or if no matching log entries are found, a fallback message is attached.
+    *
+    * @param testName The name of the test scenario to filter logs for.
+    */
+   public static void attachFilteredLogsToAllure(String testName) {
+<span class="fc bfc" id="L106" title="All 4 branches covered.">      if (testName == null || testName.isEmpty()) {</span>
+<span class="fc" id="L107">         Allure.addAttachment(&quot;Filtered Logs&quot;, CONTENT_TYPE, &quot;Test name is not available.&quot;, &quot;.log&quot;);</span>
+<span class="fc" id="L108">         return;</span>
+      }
+
+<span class="fc" id="L111">      String logFilePath = System.getProperty(&quot;logFileName&quot;, &quot;logs/cyborgLog.log&quot;);</span>
+<span class="fc" id="L112">      String testIdentifier = &quot;[scenario=&quot; + testName + &quot;]&quot;;</span>
+
+<span class="fc" id="L114">      try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(logFilePath),</span>
+            StandardCharsets.UTF_8))) {
+<span class="fc" id="L116">         String filteredLogs = reader.lines()</span>
+<span class="fc" id="L117">               .filter(line -&gt; line.contains(testIdentifier))</span>
+<span class="fc" id="L118">               .collect(Collectors.joining(System.lineSeparator()));</span>
+
+<span class="fc bfc" id="L120" title="All 2 branches covered.">         String attachmentContent = filteredLogs.isEmpty()</span>
+<span class="fc" id="L121">               ? &quot;No logs found for test: &quot; + testName</span>
+<span class="fc" id="L122">               : filteredLogs;</span>
+
+<span class="fc" id="L124">         Allure.addAttachment(&quot;Filtered Logs for Test: &quot; + testName, CONTENT_TYPE, attachmentContent, &quot;.log&quot;);</span>
+<span class="nc" id="L125">      } catch (IOException e) {</span>
+<span class="nc" id="L126">         Allure.addAttachment(&quot;Filtered Logs for Test: &quot; + testName, CONTENT_TYPE,</span>
+<span class="nc" id="L127">               &quot;Failed to read logs. Error: &quot; + e.getMessage(), &quot;.log&quot;);</span>
+<span class="fc" id="L128">      }</span>
+<span class="fc" id="L129">   }</span>
+
+   /**
+    * Logs the test outcome after execution.
+    *
+    * &lt;p&gt;This method logs whether the test concluded successfully or failed, along with the duration
+    * of execution. If the test failed, additional debugging details are logged.
+    *
+    * @param testName          The name of the test that was executed.
+    * @param status            The test execution status (e.g., &quot;SUCCESS&quot; or &quot;FAILED&quot;).
+    * @param durationInSeconds The duration of the test execution in seconds.
+    * @param throwable         The exception thrown during execution (if any).
+    */
+   public static void logTestOutcome(String testName, String status, long durationInSeconds, Throwable throwable) {
+      String logMessage = &quot;The quest of '{}' has &quot;
+<span class="fc bfc" id="L144" title="All 2 branches covered.">            + (throwable == null ? &quot;concluded with glory&quot; : &quot;ended in defeat&quot;)</span>
+            + &quot;. Status: {}. Duration: {} seconds.&quot;;
+
+<span class="fc" id="L147">      LogQuest.info(logMessage, testName, status, durationInSeconds);</span>
+<span class="fc bfc" id="L148" title="All 2 branches covered.">      if (throwable != null) {</span>
+<span class="fc" id="L149">         LogQuest.debug(&quot;Failure reason:&quot;, throwable);</span>
+      }
+<span class="fc" id="L151">   }</span>
+
+   /**
+    * Sets up and formats test metadata for Allure reports.
+    *
+    * &lt;p&gt;This method loads a predefined HTML template and dynamically populates it with:
+    * &lt;ul&gt;
+    *     &lt;li&gt;Test name and class details.&lt;/li&gt;
+    *     &lt;li&gt;Annotations applied at the class and method levels.&lt;/li&gt;
+    *     &lt;li&gt;Test argument values.&lt;/li&gt;
+    * &lt;/ul&gt;
+    * The formatted HTML is then stored under the {@code HTML} key in the global store of the
+    * provided {@link ExtensionContext} for later attachment to the Allure report.
+    *
+    * @param context The test execution context.
+    */
+   public static void setUpTestMetadata(ExtensionContext context) {
+<span class="fc" id="L168">      String htmlTemplate = ResourceLoader.loadResourceFile(&quot;allure/html/test-details.html&quot;);</span>
+
+<span class="fc" id="L170">      Map&lt;String, String&gt; placeholders = Map.of(</span>
+<span class="fc" id="L171">            &quot;{{testName}}&quot;, escapeHtml(context.getRequiredTestMethod().getName()),</span>
+<span class="fc" id="L172">            &quot;{{className}}&quot;, escapeHtml(context.getRequiredTestClass().getSimpleName()),</span>
+<span class="fc" id="L173">            &quot;{{classAnnotations}}&quot;, formatAnnotationsToNewRows(escapeHtml(getClassAnnotations(context))),</span>
+<span class="fc" id="L174">            &quot;{{methodAnnotations}}&quot;, formatAnnotationsToNewRows(escapeHtml(getMethodAnnotations(context))),</span>
+<span class="fc" id="L175">            &quot;{{testArguments}}&quot;, formatLongText(escapeHtml(getTestArguments(context)))</span>
+      );
+
+<span class="fc" id="L178">      String formattedHtml = placeholders.entrySet().stream()</span>
+<span class="pc" id="L179">            .reduce(htmlTemplate, (html, entry) -&gt; html.replace(entry.getKey(), entry.getValue()), (a, b) -&gt; a);</span>
+<span class="fc" id="L180">      List&lt;String&gt; htmlList = context.getStore(ExtensionContext.Namespace.GLOBAL).get(HTML, List.class);</span>
+<span class="fc bfc" id="L181" title="All 2 branches covered.">      if (htmlList == null) {</span>
+<span class="fc" id="L182">         htmlList = new ArrayList&lt;&gt;();</span>
+      }
+<span class="fc" id="L184">      htmlList.add(formattedHtml);</span>
+<span class="fc" id="L185">      context.getStore(ExtensionContext.Namespace.GLOBAL).put(HTML, htmlList);</span>
+<span class="fc" id="L186">   }</span>
+
+   /**
+    * Initializes the test environment by collecting configuration properties and writing them to files.
+    *
+    * &lt;p&gt;This method performs the following actions:
+    * &lt;ul&gt;
+    *     &lt;li&gt;Collects configuration properties from all implementations of {@link PropertyConfig}.&lt;/li&gt;
+    *     &lt;li&gt;Writes the collected properties to an environment properties file.&lt;/li&gt;
+    *     &lt;li&gt;Writes a JSON file containing category definitions for Allure reports.&lt;/li&gt;
+    * &lt;/ul&gt;
+    */
+   public static void initializeTestEnvironment() {
+<span class="pc bpc" id="L199" title="1 of 2 branches missed.">      if (!ENV_INITIALIZED.compareAndSet(false, true)) {</span>
+<span class="nc" id="L200">         return;</span>
+      }
+<span class="fc" id="L202">      Map&lt;String, List&lt;String&gt;&gt; propertiesMap = collectConfigurationProperties();</span>
+<span class="fc" id="L203">      writeEnvironmentProperties(propertiesMap);</span>
+<span class="fc" id="L204">      writeCategoriesJson();</span>
+<span class="fc" id="L205">   }</span>
+
+   /**
+    * Collects configuration properties from all implementations of {@link PropertyConfig}.
+    *
+    * &lt;p&gt;This method uses reflection to find all classes implementing {@link PropertyConfig} in both the
+    * framework package and the project package. It then retrieves configuration key-value pairs from each
+    * implementation and returns them as a map.
+    *
+    * @return A map containing configuration keys and their corresponding values, annotated with their source.
+    */
+   private static Map&lt;String, List&lt;String&gt;&gt; collectConfigurationProperties() {
+<span class="fc" id="L217">      List&lt;Class&lt;? extends PropertyConfig&gt;&gt; allConfig = findAllPropertyConfigImplementations();</span>
+
+<span class="fc" id="L219">      return allConfig.stream()</span>
+<span class="fc" id="L220">            .flatMap(configClass -&gt; {</span>
+<span class="fc" id="L221">               ConfigSource configSource = configClass.getAnnotation(ConfigSource.class);</span>
+<span class="fc bfc" id="L222" title="All 2 branches covered.">               String configSourceValue = (configSource != null) ? configSource.value() : &quot;unknown&quot;;</span>
+
+<span class="fc" id="L224">               PropertyConfig propertyConfig = ConfigCache.getOrCreate(configClass);</span>
+<span class="fc" id="L225">               return Arrays.stream(propertyConfig.getClass().getInterfaces())</span>
+<span class="fc" id="L226">                     .filter(PropertyConfig.class::isAssignableFrom)</span>
+<span class="fc" id="L227">                     .flatMap(intf -&gt; Arrays.stream(intf.getDeclaredMethods()))</span>
+<span class="fc bfc" id="L228" title="All 2 branches covered.">                     .filter(method -&gt; method.getAnnotation(Config.Key.class) != null)</span>
+<span class="fc" id="L229">                     .map(method -&gt; {</span>
+                        try {
+<span class="fc" id="L231">                           Config.Key annotation = method.getAnnotation(Config.Key.class);</span>
+<span class="fc" id="L232">                           String key = annotation.value();</span>
+<span class="fc" id="L233">                           Object value = method.invoke(propertyConfig);</span>
+
+<span class="pc bpc" id="L235" title="1 of 4 branches missed.">                           if (value == null || value.toString().trim().isEmpty()) {</span>
+<span class="fc" id="L236">                              LogQuest.debug(&quot;Skipping key '&quot; + key + &quot;' because value is empty or null.&quot;);</span>
+<span class="fc" id="L237">                              return null;</span>
+                           }
+
+<span class="fc" id="L240">                           return new AbstractMap.SimpleEntry&lt;&gt;(</span>
+                                 key,
+                                 value + &quot; (Source: &quot; + configSourceValue + &quot;)&quot;
+                           );
+<span class="fc" id="L244">                        } catch (Exception e) {</span>
+<span class="fc" id="L245">                           LogQuest.error(&quot;Error processing &quot; + method.getName(), e);</span>
+<span class="fc" id="L246">                           return null;</span>
+                        }
+                     })
+<span class="fc" id="L249">                     .filter(Objects::nonNull);</span>
+            })
+<span class="fc" id="L251">            .collect(Collectors.groupingBy(</span>
+                  Map.Entry::getKey,
+<span class="fc" id="L253">                  Collectors.mapping(Map.Entry::getValue, Collectors.toList())</span>
+            ));
+   }
+
+   /**
+    * Finds all implementations of the {@link PropertyConfig} interface within the framework and project packages.
+    *
+    * &lt;p&gt;This method leverages the {@link ReflectionUtil} to search for classes that implement {@link PropertyConfig}
+    * in both the framework's base package and the project-specific package defined in the framework configuration.
+    *
+    * @return A list of classes implementing {@link PropertyConfig}.
+    */
+   private static List&lt;Class&lt;? extends PropertyConfig&gt;&gt; findAllPropertyConfigImplementations() {
+<span class="fc" id="L266">      List&lt;Class&lt;? extends PropertyConfig&gt;&gt; implementationsOfInterfaceInFramework =</span>
+<span class="fc" id="L267">            ReflectionUtil.findImplementationsOfInterface(PropertyConfig.class, FRAMEWORK_PACKAGE);</span>
+<span class="fc" id="L268">      List&lt;Class&lt;? extends PropertyConfig&gt;&gt; implementationsOfInterfaceInProject =</span>
+<span class="fc" id="L269">            ReflectionUtil.findImplementationsOfInterface(PropertyConfig.class, getFrameworkConfig().projectPackages());</span>
+
+<span class="fc" id="L271">      List&lt;Class&lt;? extends PropertyConfig&gt;&gt; allConfig = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L272">      allConfig.addAll(implementationsOfInterfaceInFramework);</span>
+<span class="fc" id="L273">      allConfig.addAll(implementationsOfInterfaceInProject);</span>
+<span class="fc" id="L274">      return allConfig;</span>
+   }
+
+   /**
+    * Writes the collected configuration properties to the environment properties file.
+    *
+    * &lt;p&gt;The file is written to the {@code allure-results} directory. If the directory does not exist,
+    * it is created.
+    *
+    * @param propertiesMap A map containing configuration keys and values.
+    * @throws RuntimeException if writing to the file fails.
+    */
+   private static void writeEnvironmentProperties(Map&lt;String, List&lt;String&gt;&gt; propertiesMap) {
+<span class="fc" id="L287">      Path resultsDir = allureResultsPath();</span>
+
+      try {
+<span class="fc" id="L290">         Files.createDirectories(resultsDir);</span>
+<span class="fc" id="L291">         Path environmentFile = resultsDir.resolve(ENVIRONMENT_PROPERTIES_FILE);</span>
+
+<span class="fc" id="L293">         try (Writer writer = Files.newBufferedWriter(environmentFile, StandardCharsets.UTF_8)) {</span>
+<span class="fc bfc" id="L294" title="All 2 branches covered.">            for (Map.Entry&lt;String, List&lt;String&gt;&gt; entry : propertiesMap.entrySet()) {</span>
+<span class="fc" id="L295">               writer.write(entry.getKey() + &quot;=&quot; + String.join(&quot;, &quot;, entry.getValue()));</span>
+<span class="fc" id="L296">               writer.write(System.lineSeparator());</span>
+<span class="fc" id="L297">            }</span>
+         }
+<span class="nc" id="L299">      } catch (IOException e) {</span>
+<span class="nc" id="L300">         throw new UncheckedIOException(&quot;Failed to write environment.properties in: &quot; + resultsDir.toAbsolutePath(), e);</span>
+<span class="fc" id="L301">      }</span>
+<span class="fc" id="L302">   }</span>
+
+   /**
+    * Resolves the Allure results directory path.
+    *
+    * &lt;p&gt;This method respects the {@code allure.results.directory} system property when present,
+    * and falls back to {@code target/allure-results} when it is not set.
+    *
+    * @return The resolved path to the Allure results directory.
+    */
+   private static Path allureResultsPath() {
+<span class="fc" id="L313">      String dir = System.getProperty(&quot;allure.results.directory&quot;, ALLURE_RESULTS_DIR);</span>
+<span class="fc" id="L314">      return Path.of(dir);</span>
+   }
+
+   /**
+    * Writes the categories JSON file for Allure reports.
+    *
+    * &lt;p&gt;This method loads the JSON content from a resource file and writes it to a file named
+    * {@code categories.json} in the {@code allure-results} directory.
+    *
+    * @throws RuntimeException if writing to the file fails.
+    */
+   private static void writeCategoriesJson() {
+<span class="fc" id="L326">      String categoriesJson = loadResourceFile(CATEGORIES_JSON_PATH);</span>
+<span class="fc" id="L327">      File allureResultsDir = new File(ALLURE_RESULTS_DIR);</span>
+
+<span class="pc bpc" id="L329" title="3 of 4 branches missed.">      if (!allureResultsDir.exists() &amp;&amp; !allureResultsDir.mkdirs()) {</span>
+<span class="nc" id="L330">         throw new UncheckedIOException(new IOException(&quot;Failed to create allure results directory: &quot;</span>
+<span class="nc" id="L331">               + allureResultsDir.getAbsolutePath()));</span>
+      }
+
+<span class="fc" id="L334">      File categoriesFile = new File(allureResultsDir, CATEGORIES_JSON);</span>
+<span class="fc" id="L335">      try (Writer writer = new OutputStreamWriter(new FileOutputStream(categoriesFile), StandardCharsets.UTF_8)) {</span>
+<span class="fc" id="L336">         writer.write(categoriesJson);</span>
+<span class="nc" id="L337">      } catch (IOException e) {</span>
+<span class="nc" id="L338">         throw new UncheckedIOException(&quot;Failed to write categories.json file&quot;, e);</span>
+<span class="fc" id="L339">      }</span>
+<span class="fc" id="L340">   }</span>
+
+   /**
+    * Sets up the test context by storing the test name and start time.
+    *
+    * &lt;p&gt;This method extracts the simple names of the test class and method from the provided
+    * {@link ExtensionContext} and stores them in the {@link ThreadContext} under the key &quot;testName&quot;.
+    * Additionally, it stores the current system time in milliseconds as the test start time in the global store.
+    *
+    * @param context The test execution context.
+    */
+   public static void setupTestContext(ExtensionContext context) {
+<span class="fc" id="L352">      String className = context.getTestClass()</span>
+<span class="fc" id="L353">            .map(Class::getSimpleName)</span>
+<span class="fc" id="L354">            .orElse(&quot;UnknownClass&quot;);</span>
+<span class="fc" id="L355">      String methodName = context.getTestMethod()</span>
+<span class="fc" id="L356">            .map(Method::getName)</span>
+<span class="fc" id="L357">            .orElse(&quot;UnknownMethod&quot;);</span>
+
+<span class="fc" id="L359">      ThreadContext.put(&quot;testName&quot;, className + &quot;.&quot; + methodName);</span>
+<span class="fc" id="L360">      context.getStore(ExtensionContext.Namespace.GLOBAL).put(START_TIME, System.currentTimeMillis());</span>
+<span class="fc" id="L361">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

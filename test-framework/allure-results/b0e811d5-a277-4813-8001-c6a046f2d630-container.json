@@ -1,0 +1,1 @@
+{"uuid":"b0e811d5-a277-4813-8001-c6a046f2d630","name":"Should throw NullPointerException when basePackages is null","children":["6d2db3d1-83d9-4579-879c-3dd3eeda05b4"],"befores":[],"afters":[],"start":1769887285071,"stop":1769887285089}

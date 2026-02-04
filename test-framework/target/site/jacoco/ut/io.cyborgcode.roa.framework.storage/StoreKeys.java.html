@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StoreKeys.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Core Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.framework.storage</a> &gt; <span class="el_source">StoreKeys.java</span></div><h1>StoreKeys.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.framework.storage;
+
+import lombok.Getter;
+
+/**
+ * Defines keys used for storing and retrieving global test execution data.
+ *
+ * &lt;p&gt;This enum provides unique identifiers for managing test execution contexts,
+ * metadata, and framework-level consumers within the storage system.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+<span class="fc" id="L13">@Getter</span>
+public enum StoreKeys {
+
+   /**
+    * Key for storing the current {@code SuperQuest} instance.
+    */
+<span class="fc" id="L19">   QUEST,</span>
+
+   /**
+    * Key for storing a list of consumers that modify or interact with the quest instance.
+    */
+<span class="fc" id="L24">   QUEST_CONSUMERS,</span>
+
+   /**
+    * Key for storing the start time of the test execution.
+    */
+<span class="fc" id="L29">   START_TIME,</span>
+
+   /**
+    * Key for storing the rendered HTML output or fragments for use in reporting or visualization.
+    */
+<span class="fc" id="L34">   HTML,</span>
+
+   /**
+    * Key for storing hook-related parameters, such as setup and teardown data,
+    * to be shared between extensions and test logic.
+    */
+<span class="fc" id="L40">   HOOKS_PARAMS;</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

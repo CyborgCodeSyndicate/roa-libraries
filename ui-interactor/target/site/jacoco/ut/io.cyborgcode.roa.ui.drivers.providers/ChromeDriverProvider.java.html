@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChromeDriverProvider.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.drivers.providers</a> &gt; <span class="el_source">ChromeDriverProvider.java</span></div><h1>ChromeDriverProvider.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.drivers.providers;
+
+import io.cyborgcode.roa.ui.drivers.base.BaseDriverProvider;
+import io.cyborgcode.roa.ui.log.LogUi;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+/**
+ * Provides a WebDriver implementation for the Google Chrome browser.
+ *
+ * &lt;p&gt;This class extends {@link BaseDriverProvider} and implements methods to configure,
+ * create, and manage ChromeDriver instances. It also utilizes WebDriverManager
+ * to automatically download the appropriate ChromeDriver version.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+<span class="fc" id="L20">public class ChromeDriverProvider extends BaseDriverProvider&lt;ChromeOptions&gt; {</span>
+
+   /**
+    * Retrieves the type of the driver.
+    *
+    * @return A string representing the driver type, which is &quot;CHROME&quot;.
+    */
+   @Override
+   protected String getDriverType() {
+<span class="fc" id="L29">      return &quot;CHROME&quot;;</span>
+   }
+
+   /**
+    * Creates a new instance of ChromeOptions, which holds the browser configuration.
+    *
+    * @return A new {@link ChromeOptions} instance.
+    */
+   @Override
+   public ChromeOptions createOptions() {
+<span class="fc" id="L39">      return new ChromeOptions();</span>
+   }
+
+   /**
+    * Creates a new instance of {@link ChromeDriver} using the specified options.
+    *
+    * @param options The ChromeOptions instance containing the browser configurations.
+    * @return A new {@link ChromeDriver} instance.
+    */
+   @Override
+   public WebDriver createDriver(ChromeOptions options) {
+<span class="fc" id="L50">      return new ChromeDriver(ChromeDriverService.createDefaultService(), options);</span>
+   }
+
+   /**
+    * Applies default arguments to the ChromeOptions instance.
+    *
+    * &lt;p&gt;The default arguments help optimize browser execution and enhance stability.
+    *
+    * @param options The {@link ChromeOptions} instance to modify.
+    */
+   @Override
+   public void applyDefaultArguments(ChromeOptions options) {
+<span class="fc" id="L62">      options.addArguments(&quot;--disable-gpu&quot;, &quot;--no-sandbox&quot;, &quot;--remote-allow-origins=*&quot;, &quot;--guest&quot;);</span>
+<span class="fc" id="L63">   }</span>
+
+   /**
+    * Applies additional arguments to enable headless mode in Chrome.
+    *
+    * &lt;p&gt;Headless mode allows running tests without a visible UI, making execution faster and more efficient in
+    * CI/CD environments.
+    *
+    * @param options The {@link ChromeOptions} instance to modify.
+    */
+   @Override
+   public void applyHeadlessArguments(final ChromeOptions options) {
+<span class="fc" id="L75">      options.addArguments(&quot;--headless&quot;, &quot;window-size=1920x1080&quot;, &quot;--allow-insecure-localhost&quot;,</span>
+            &quot;--disable-dev-shm-usage&quot;);
+<span class="fc" id="L77">   }</span>
+
+   /**
+    * Downloads the appropriate ChromeDriver version using WebDriverManager.
+    *
+    * &lt;p&gt;If a version is provided, it downloads the specified version.
+    * Otherwise, it automatically downloads the compatible driver version
+    * for the installed Chrome browser.
+    *
+    * @param version The ChromeDriver version to download (optional).
+    */
+   @Override
+   public void downloadDriver(final String version) {
+<span class="fc bfc" id="L90" title="All 4 branches covered.">      if (version == null || version.isEmpty()) {</span>
+<span class="fc" id="L91">         WebDriverManager.chromedriver().setup();</span>
+<span class="fc" id="L92">         LogUi.info(&quot;Chrome driver is downloaded with a compatible version for the installed browser&quot;);</span>
+      } else {
+<span class="fc" id="L94">         WebDriverManager.chromedriver().driverVersion(version).setup();</span>
+<span class="fc" id="L95">         LogUi.info(&quot;Chrome driver is downloaded with version: '{}'&quot;, version);</span>
+      }
+<span class="fc" id="L97">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

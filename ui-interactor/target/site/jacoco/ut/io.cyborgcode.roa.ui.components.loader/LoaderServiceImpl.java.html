@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoaderServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.loader</a> &gt; <span class="el_source">LoaderServiceImpl.java</span></div><h1>LoaderServiceImpl.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.loader;
+
+import io.cyborgcode.roa.ui.components.base.AbstractComponentService;
+import io.cyborgcode.roa.ui.components.factory.ComponentFactory;
+import io.cyborgcode.roa.ui.log.LogUi;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import org.openqa.selenium.By;
+
+/**
+ * Implementation of the {@link LoaderService} interface providing operations for checking the visibility
+ * of loader elements, as well as waiting for their appearance or removal. Extends
+ * {@link AbstractComponentService} to manage creation and retrieval of {@link Loader} instances.
+ *
+ * &lt;p&gt;This class uses {@link LoaderComponentType} to identify loader components within a UI automation
+ * framework, ensuring consistent interactions whether loaders are located via a container or a direct
+ * locator.
+ *
+ * &lt;p&gt;All methods delegate to an internal {@link Loader} instance, retrieved or created on-demand,
+ * to execute the underlying logic of showing or removing loaders within specified timeframes.
+ *
+ * &lt;p&gt;Any uncaught timeout or unexpected loading behavior typically results in a runtime exception.
+ *
+ * &lt;p&gt;Example usage within a test:
+ * &lt;ul&gt;
+ *   &lt;li&gt;Instantiating this class with a {@link SmartWebDriver} instance.&lt;/li&gt;
+ *   &lt;li&gt;Calling &lt;code&gt;isVisible&lt;/code&gt; or &lt;code&gt;waitToBeShown&lt;/code&gt; / &lt;code&gt;waitToBeRemoved&lt;/code&gt; methods.&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class LoaderServiceImpl extends AbstractComponentService&lt;LoaderComponentType, Loader&gt; implements LoaderService {
+
+   private static final String CHECK_VISIBILITY_USING_CONTAINER = &quot;Checking visibility of loader %s using container&quot;;
+   private static final String CHECK_VISIBILITY_USING_LOCATOR = &quot;Checking visibility of loader %s using locator %s&quot;;
+
+   private static final String WAIT_TO_BE_SHOWN_USING_CONTAINER =
+         &quot;Waiting for loader %s to be shown using container for %d seconds&quot;;
+   private static final String WAIT_TO_BE_SHOWN = &quot;Waiting for loader %s to be shown for %d seconds&quot;;
+   private static final String WAIT_TO_BE_SHOWN_USING_LOCATOR =
+         &quot;Waiting for loader %s to be shown using locator %s for %d seconds&quot;;
+
+   private static final String WAIT_TO_BE_REMOVED_USING_CONTAINER =
+         &quot;Waiting for loader %s to be removed using container for %d seconds&quot;;
+   private static final String WAIT_TO_BE_REMOVED = &quot;Waiting for loader %s to be removed for %d seconds&quot;;
+   private static final String WAIT_TO_BE_REMOVED_USING_LOCATOR =
+         &quot;Waiting for loader %s to be removed using locator %s for %d seconds&quot;;
+
+   /**
+    * Constructs a {@code LoaderServiceImpl} with the provided {@link SmartWebDriver}.
+    *
+    * @param driver the {@link SmartWebDriver} used to interact with web elements.
+    */
+   public LoaderServiceImpl(SmartWebDriver driver) {
+<span class="fc" id="L55">      super(driver);</span>
+<span class="fc" id="L56">   }</span>
+
+   /**
+    * Creates and returns a {@link Loader} component instance based on the provided
+    * {@link LoaderComponentType}.
+    *
+    * @param componentType the specific type of loader component.
+    * @return a new {@link Loader} instance for the given component type.
+    */
+   @Override
+   protected Loader createComponent(final LoaderComponentType componentType) {
+<span class="fc" id="L67">      return ComponentFactory.getLoaderComponent(componentType, driver);</span>
+   }
+
+   /**
+    * Checks if the loader identified by the given component type is visible within the specified container.
+    *
+    * @param componentType the loader component type.
+    * @param container     the container to check for the loader.
+    * @return true if the loader is visible, otherwise false.
+    */
+   @Override
+   public boolean isVisible(final LoaderComponentType componentType, final SmartWebElement container) {
+<span class="fc" id="L79">      LogUi.step(String.format(CHECK_VISIBILITY_USING_CONTAINER, componentType));</span>
+<span class="fc" id="L80">      return loaderComponent(componentType).isVisible(container);</span>
+   }
+
+   /**
+    * Checks if the loader identified by the given component type is visible using the provided locator.
+    *
+    * @param componentType the loader component type.
+    * @param loaderLocator the locator identifying the loader.
+    * @return true if the loader is visible, otherwise false.
+    */
+   @Override
+   public boolean isVisible(final LoaderComponentType componentType, final By loaderLocator) {
+<span class="fc" id="L92">      LogUi.step(String.format(CHECK_VISIBILITY_USING_LOCATOR, componentType, loaderLocator));</span>
+<span class="fc" id="L93">      return loaderComponent(componentType).isVisible(loaderLocator);</span>
+   }
+
+   /**
+    * Waits for the loader to be shown within the specified container, using the given component type.
+    *
+    * @param componentType the loader component type.
+    * @param container     the container where the loader is expected.
+    * @param secondsShown  how many seconds to wait for the loader to appear.
+    */
+   @Override
+   public void waitToBeShown(final LoaderComponentType componentType, final SmartWebElement container,
+                             final int secondsShown) {
+<span class="fc" id="L106">      LogUi.step(String.format(WAIT_TO_BE_SHOWN_USING_CONTAINER, componentType, secondsShown));</span>
+<span class="fc" id="L107">      loaderComponent(componentType).waitToBeShown(container, secondsShown);</span>
+<span class="fc" id="L108">   }</span>
+
+   /**
+    * Waits for the loader to be shown, using the provided component type, within the given time.
+    *
+    * @param componentType the loader component type.
+    * @param secondsShown  how many seconds to wait for the loader to appear.
+    */
+   @Override
+   public void waitToBeShown(final LoaderComponentType componentType, final int secondsShown) {
+<span class="fc" id="L118">      LogUi.step(String.format(WAIT_TO_BE_SHOWN, componentType, secondsShown));</span>
+<span class="fc" id="L119">      loaderComponent(componentType).waitToBeShown(secondsShown);</span>
+<span class="fc" id="L120">   }</span>
+
+   /**
+    * Waits for the loader to be shown, identified by a specific locator, using the given component type.
+    *
+    * @param componentType the loader component type.
+    * @param loaderLocator the locator identifying the loader.
+    * @param secondsShown  how many seconds to wait for the loader to appear.
+    */
+   @Override
+   public void waitToBeShown(final LoaderComponentType componentType, final By loaderLocator, final int secondsShown) {
+<span class="fc" id="L131">      LogUi.step(String.format(WAIT_TO_BE_SHOWN_USING_LOCATOR, componentType, loaderLocator, secondsShown));</span>
+<span class="fc" id="L132">      loaderComponent(componentType).waitToBeShown(loaderLocator, secondsShown);</span>
+<span class="fc" id="L133">   }</span>
+
+   /**
+    * Waits for the loader to be removed within the specified container, using the given component type.
+    *
+    * @param componentType  the loader component type.
+    * @param container      the container where the loader is expected to disappear.
+    * @param secondsRemoved how many seconds to wait for the loader to be removed.
+    */
+   @Override
+   public void waitToBeRemoved(final LoaderComponentType componentType, final SmartWebElement container,
+                               final int secondsRemoved) {
+<span class="fc" id="L145">      LogUi.step(String.format(WAIT_TO_BE_REMOVED_USING_CONTAINER, componentType, secondsRemoved));</span>
+<span class="fc" id="L146">      loaderComponent(componentType).waitToBeRemoved(container, secondsRemoved);</span>
+<span class="fc" id="L147">   }</span>
+
+   /**
+    * Waits for the loader to be removed, using the provided component type, within the given time.
+    *
+    * @param componentType  the loader component type.
+    * @param secondsRemoved how many seconds to wait for the loader to be removed.
+    */
+   @Override
+   public void waitToBeRemoved(final LoaderComponentType componentType, final int secondsRemoved) {
+<span class="fc" id="L157">      LogUi.step(String.format(WAIT_TO_BE_REMOVED, componentType, secondsRemoved));</span>
+<span class="fc" id="L158">      loaderComponent(componentType).waitToBeRemoved(secondsRemoved);</span>
+<span class="fc" id="L159">   }</span>
+
+   /**
+    * Waits for the loader to be removed, identified by a specific locator, using the given component type.
+    *
+    * @param componentType  the loader component type.
+    * @param loaderLocator  the locator identifying the loader.
+    * @param secondsRemoved how many seconds to wait for the loader to be removed.
+    */
+   @Override
+   public void waitToBeRemoved(final LoaderComponentType componentType, final By loaderLocator,
+                               final int secondsRemoved) {
+<span class="fc" id="L171">      LogUi.step(String.format(WAIT_TO_BE_REMOVED_USING_LOCATOR, componentType, loaderLocator, secondsRemoved));</span>
+<span class="fc" id="L172">      loaderComponent(componentType).waitToBeRemoved(loaderLocator, secondsRemoved);</span>
+<span class="fc" id="L173">   }</span>
+
+   /**
+    * Retrieves or creates a loader for the specified loader component type.
+    *
+    * @param componentType the loader component type.
+    * @return an existing or newly created {@link Loader} instance.
+    */
+   private Loader loaderComponent(final LoaderComponentType componentType) {
+<span class="fc" id="L182">      return getOrCreateComponent(componentType);</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

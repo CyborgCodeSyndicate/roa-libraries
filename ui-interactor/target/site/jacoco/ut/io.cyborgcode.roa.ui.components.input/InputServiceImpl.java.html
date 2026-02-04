@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InputServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.input</a> &gt; <span class="el_source">InputServiceImpl.java</span></div><h1>InputServiceImpl.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.input;
+
+import io.cyborgcode.roa.ui.components.base.AbstractComponentService;
+import io.cyborgcode.roa.ui.components.base.ComponentType;
+import io.cyborgcode.roa.ui.components.factory.ComponentFactory;
+import io.cyborgcode.roa.ui.components.table.filters.FilterStrategy;
+import io.cyborgcode.roa.ui.log.LogUi;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import org.openqa.selenium.By;
+
+/**
+ * Provides service-level operations for interacting with input components.
+ *
+ * &lt;p&gt;This class manages interactions with input fields, such as inserting values,
+ * clearing fields, retrieving values, checking states, and handling table-based operations.
+ * The actual interactions are delegated to specific {@link Input} implementations based on
+ * the provided {@link InputComponentType}.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class InputServiceImpl extends AbstractComponentService&lt;InputComponentType, Input&gt; implements InputService {
+
+   /**
+    * Constructs a new InputServiceImpl using the specified SmartWebDriver.
+    *
+    * @param driver the SmartWebDriver used for UI interactions.
+    */
+   public InputServiceImpl(SmartWebDriver driver) {
+<span class="fc" id="L30">      super(driver);</span>
+<span class="fc" id="L31">   }</span>
+
+   /**
+    * Creates an Input instance for the given component type.
+    *
+    * @param componentType the input component type.
+    * @return a new or cached Input instance.
+    */
+   @Override
+   protected Input createComponent(final InputComponentType componentType) {
+<span class="fc" id="L41">      return ComponentFactory.getInputComponent(componentType, driver);</span>
+   }
+
+   /**
+    * Inserts a value into the specified input container.
+    *
+    * @param componentType the input component type.
+    * @param container     the input field container.
+    * @param value         the value to insert.
+    */
+   @Override
+   public void insert(final InputComponentType componentType, final SmartWebElement container, final String value) {
+<span class="fc" id="L53">      LogUi.step(&quot;Inserting value: '{}' into input component of type: '{}'.&quot;, value, componentType.getType().name());</span>
+<span class="fc" id="L54">      inputComponent(componentType).insert(container, value);</span>
+<span class="fc" id="L55">   }</span>
+
+   /**
+    * Inserts a value into an input field within a container identified by its label.
+    *
+    * @param componentType   the input component type.
+    * @param container       the input field container.
+    * @param inputFieldLabel the label of the input field.
+    * @param value           the value to insert.
+    */
+   @Override
+   public void insert(final InputComponentType componentType, final SmartWebElement container,
+                      final String inputFieldLabel, final String value) {
+<span class="fc" id="L68">      LogUi.step(&quot;Inserting value: '{}' into input field labeled: '{}' of type: '{}'.&quot;, value, inputFieldLabel,</span>
+<span class="fc" id="L69">            componentType.getType().name());</span>
+<span class="fc" id="L70">      inputComponent(componentType).insert(container, inputFieldLabel, value);</span>
+<span class="fc" id="L71">   }</span>
+
+   /**
+    * Inserts a value into an input field identified by its label.
+    *
+    * @param componentType   the input component type.
+    * @param inputFieldLabel the label of the input field.
+    * @param value           the value to insert.
+    */
+   @Override
+   public void insert(final InputComponentType componentType, final String inputFieldLabel, final String value) {
+<span class="fc" id="L82">      LogUi.step(&quot;Inserting value: '{}' into input field labeled: '{}' of type: '{}'.&quot;, value, inputFieldLabel,</span>
+<span class="fc" id="L83">            componentType.getType().name());</span>
+<span class="fc" id="L84">      inputComponent(componentType).insert(inputFieldLabel, value);</span>
+<span class="fc" id="L85">   }</span>
+
+   /**
+    * Inserts a value into an input field located by a specified locator.
+    *
+    * @param componentType              the input component type.
+    * @param inputFieldContainerLocator the locator for the input field container.
+    * @param value                      the value to insert.
+    */
+   @Override
+   public void insert(final InputComponentType componentType, final By inputFieldContainerLocator,
+                      final String value) {
+<span class="fc" id="L97">      LogUi.step(&quot;Inserting value: '{}' into input component of type: '{}'.&quot;, value, componentType.getType().name());</span>
+<span class="fc" id="L98">      inputComponent(componentType).insert(inputFieldContainerLocator, value);</span>
+<span class="fc" id="L99">   }</span>
+
+   /**
+    * Clears the value of the specified input container.
+    *
+    * @param componentType the input component type.
+    * @param container     the input field container.
+    */
+   @Override
+   public void clear(final InputComponentType componentType, final SmartWebElement container) {
+<span class="fc" id="L109">      LogUi.step(&quot;Clearing value in input component of type: '{}'.&quot;, componentType.getType().name());</span>
+<span class="fc" id="L110">      inputComponent(componentType).clear(container);</span>
+<span class="fc" id="L111">   }</span>
+
+   /**
+    * Clears the value of an input field within a container identified by its label.
+    *
+    * @param componentType   the input component type.
+    * @param container       the input field container.
+    * @param inputFieldLabel the label of the input field.
+    */
+   @Override
+   public void clear(final InputComponentType componentType, final SmartWebElement container,
+                     final String inputFieldLabel) {
+<span class="fc" id="L123">      LogUi.step(&quot;Clearing value in input field labeled: '{}' of type: '{}'.&quot;, inputFieldLabel,</span>
+<span class="fc" id="L124">            componentType.getType().name());</span>
+<span class="fc" id="L125">      inputComponent(componentType).clear(container, inputFieldLabel);</span>
+<span class="fc" id="L126">   }</span>
+
+   /**
+    * Clears the value from an input field identified by a label.
+    *
+    * @param componentType   the input component type.
+    * @param inputFieldLabel the label of the input field to be cleared.
+    */
+   @Override
+   public void clear(final InputComponentType componentType, final String inputFieldLabel) {
+<span class="fc" id="L136">      LogUi.step(&quot;Clearing value in input field labeled: '{}' of type: '{}'.&quot;, inputFieldLabel,</span>
+<span class="fc" id="L137">            componentType.getType().name());</span>
+<span class="fc" id="L138">      inputComponent(componentType).clear(inputFieldLabel);</span>
+<span class="fc" id="L139">   }</span>
+
+   /**
+    * Clears the value from an input field located by a specified locator.
+    *
+    * @param componentType              the input component type.
+    * @param inputFieldContainerLocator the locator for the input field container to be cleared.
+    */
+   @Override
+   public void clear(final InputComponentType componentType, final By inputFieldContainerLocator) {
+<span class="fc" id="L149">      LogUi.step(&quot;Clearing value in input component of type: '{}'.&quot;, componentType.getType().name());</span>
+<span class="fc" id="L150">      inputComponent(componentType).clear(inputFieldContainerLocator);</span>
+<span class="fc" id="L151">   }</span>
+
+   /**
+    * Retrieves the value from the specified input container.
+    *
+    * @param componentType the input component type.
+    * @param container     the input field container.
+    * @return the value from the input field.
+    */
+   @Override
+   public String getValue(final InputComponentType componentType, final SmartWebElement container) {
+<span class="fc" id="L162">      LogUi.step(&quot;Fetching value from input component of type: '{}'.&quot;, componentType.getType().name());</span>
+<span class="fc" id="L163">      return inputComponent(componentType).getValue(container);</span>
+   }
+
+   /**
+    * Retrieves the value from an input field identified by a label within a specified container.
+    *
+    * @param componentType   the input component type.
+    * @param container       the container holding the input field.
+    * @param inputFieldLabel the label of the input field.
+    * @return the current value of the input field.
+    */
+   @Override
+   public String getValue(final InputComponentType componentType, final SmartWebElement container,
+                          final String inputFieldLabel) {
+<span class="fc" id="L177">      LogUi.step(&quot;Fetching value from input field labeled: '{}' of type: '{}'.&quot;, inputFieldLabel,</span>
+<span class="fc" id="L178">            componentType.getType().name());</span>
+<span class="fc" id="L179">      return inputComponent(componentType).getValue(container, inputFieldLabel);</span>
+   }
+
+   /**
+    * Retrieves the value from an input field identified by a label.
+    *
+    * @param componentType   the input component type.
+    * @param inputFieldLabel the label of the input field.
+    * @return the current value of the input field.
+    */
+   @Override
+   public String getValue(final InputComponentType componentType, final String inputFieldLabel) {
+<span class="fc" id="L191">      LogUi.step(&quot;Fetching value from input field labeled: '{}' of type: '{}'.&quot;, inputFieldLabel,</span>
+<span class="fc" id="L192">            componentType.getType().name());</span>
+<span class="fc" id="L193">      return inputComponent(componentType).getValue(inputFieldLabel);</span>
+   }
+
+   /**
+    * Retrieves the value from an input field located by a specified locator.
+    *
+    * @param componentType              the input component type.
+    * @param inputFieldContainerLocator the locator for the input field container.
+    * @return the current value of the input field.
+    */
+   @Override
+   public String getValue(final InputComponentType componentType, final By inputFieldContainerLocator) {
+<span class="fc" id="L205">      LogUi.step(&quot;Fetching value from input component of type: '{}'.&quot;, componentType.getType().name());</span>
+<span class="fc" id="L206">      return inputComponent(componentType).getValue(inputFieldContainerLocator);</span>
+   }
+
+   /**
+    * Checks if the specified input field is enabled.
+    *
+    * @param componentType the input component type.
+    * @param container     the input field container.
+    * @return true if the field is enabled, false otherwise.
+    */
+   @Override
+   public boolean isEnabled(final InputComponentType componentType, final SmartWebElement container) {
+<span class="fc" id="L218">      LogUi.step(&quot;Checking if input component of type: '{}' is enabled.&quot;, componentType.getType().name());</span>
+<span class="fc" id="L219">      return inputComponent(componentType).isEnabled(container);</span>
+   }
+
+   /**
+    * Checks if an input field identified by a label within a specified container is enabled.
+    *
+    * @param componentType   the input component type.
+    * @param container       the container holding the input field.
+    * @param inputFieldLabel the label of the input field.
+    * @return {@code true} if the input field is enabled; {@code false} otherwise.
+    */
+   @Override
+   public boolean isEnabled(final InputComponentType componentType, final SmartWebElement container,
+                            final String inputFieldLabel) {
+<span class="fc" id="L233">      LogUi.step(&quot;Checking if input field labeled: '{}' of type: '{}' is enabled.&quot;, inputFieldLabel,</span>
+<span class="fc" id="L234">            componentType.getType().name());</span>
+<span class="fc" id="L235">      return inputComponent(componentType).isEnabled(container, inputFieldLabel);</span>
+   }
+
+   /**
+    * Checks if an input field identified by a label is enabled.
+    *
+    * @param componentType   the input component type.
+    * @param inputFieldLabel the label of the input field.
+    * @return {@code true} if the input field is enabled; {@code false} otherwise.
+    */
+   @Override
+   public boolean isEnabled(final InputComponentType componentType, final String inputFieldLabel) {
+<span class="fc" id="L247">      LogUi.step(&quot;Checking if input field labeled: '{}' of type: '{}' is enabled.&quot;, inputFieldLabel,</span>
+<span class="fc" id="L248">            componentType.getType().name());</span>
+<span class="fc" id="L249">      return inputComponent(componentType).isEnabled(inputFieldLabel);</span>
+   }
+
+   /**
+    * Checks if an input field located by a specified locator is enabled.
+    *
+    * @param componentType              the input component type.
+    * @param inputFieldContainerLocator the locator for the input field container.
+    * @return {@code true} if the input field is enabled; {@code false} otherwise.
+    */
+   @Override
+   public boolean isEnabled(final InputComponentType componentType, final By inputFieldContainerLocator) {
+<span class="fc" id="L261">      LogUi.step(&quot;Checking if input component of type: '{}' is enabled.&quot;, componentType.getType().name());</span>
+<span class="fc" id="L262">      return inputComponent(componentType).isEnabled(inputFieldContainerLocator);</span>
+   }
+
+   /**
+    * Retrieves the error message from the specified input container.
+    *
+    * @param componentType the input component type.
+    * @param container     the input field container.
+    * @return the error message from the input field.
+    */
+   @Override
+   public String getErrorMessage(final InputComponentType componentType, final SmartWebElement container) {
+<span class="fc" id="L274">      LogUi.step(&quot;Fetching error message from input component of type: '{}'.&quot;, componentType.getType().name());</span>
+<span class="fc" id="L275">      return inputComponent(componentType).getErrorMessage(container);</span>
+   }
+
+   /**
+    * Retrieves the error message from an input field identified by a label within a specified container.
+    *
+    * @param componentType   the input component type.
+    * @param container       the container holding the input field.
+    * @param inputFieldLabel the label of the input field.
+    * @return the error message associated with the input field, or an empty string if none exists.
+    */
+   @Override
+   public String getErrorMessage(final InputComponentType componentType, final SmartWebElement container,
+                                 final String inputFieldLabel) {
+<span class="fc" id="L289">      LogUi.step(&quot;Fetching error message from input field labeled: '{}' of type: '{}'.&quot;, inputFieldLabel,</span>
+<span class="fc" id="L290">            componentType.getType().name());</span>
+<span class="fc" id="L291">      return inputComponent(componentType).getErrorMessage(container, inputFieldLabel);</span>
+   }
+
+   /**
+    * Retrieves the error message from an input field identified by a label.
+    *
+    * @param componentType   the input component type.
+    * @param inputFieldLabel the label of the input field.
+    * @return the error message associated with the input field, or an empty string if none exists.
+    */
+   @Override
+   public String getErrorMessage(final InputComponentType componentType, final String inputFieldLabel) {
+<span class="fc" id="L303">      LogUi.step(&quot;Fetching error message from input field labeled: '{}' of type: '{}'.&quot;, inputFieldLabel,</span>
+<span class="fc" id="L304">            componentType.getType().name());</span>
+<span class="fc" id="L305">      return inputComponent(componentType).getErrorMessage(inputFieldLabel);</span>
+   }
+
+   /**
+    * Retrieves the error message from an input field located by a specified locator.
+    *
+    * @param componentType              the input component type.
+    * @param inputFieldContainerLocator the locator for the input field container.
+    * @return the error message associated with the input field, or an empty string if none exists.
+    */
+   @Override
+   public String getErrorMessage(final InputComponentType componentType, final By inputFieldContainerLocator) {
+<span class="fc" id="L317">      LogUi.step(&quot;Fetching error message from input component of type: '{}'.&quot;, componentType.getType().name());</span>
+<span class="fc" id="L318">      return inputComponent(componentType).getErrorMessage(inputFieldContainerLocator);</span>
+   }
+
+   /**
+    * Performs a table insertion action on a cell element using the input component.
+    *
+    * @param cellElement   the cell element where the input field is located.
+    * @param componentType the input component type.
+    * @param values        optional values for the insertion action.
+    */
+   @Override
+   public void tableInsertion(final SmartWebElement cellElement, final ComponentType componentType,
+                              final String... values) {
+<span class="fc bfc" id="L331" title="All 2 branches covered.">      if (!(componentType instanceof InputComponentType)) {</span>
+<span class="fc" id="L332">         throw new IllegalArgumentException(&quot;Component type needs to be from: InputComponentType.&quot;);</span>
+      }
+<span class="fc" id="L334">      LogUi.step(&quot;Inserting values into table cell for component type: '{}'.&quot;, componentType.getType().name());</span>
+<span class="fc" id="L335">      inputComponent((InputComponentType) componentType).tableInsertion(cellElement, values);</span>
+<span class="fc" id="L336">   }</span>
+
+   /**
+    * Performs a table filter operation using the input component.
+    *
+    * @param cellElement    the cell element where filtering is applied.
+    * @param componentType  the input component type.
+    * @param filterStrategy the filter strategy to apply.
+    * @param values         optional values for the filtering action.
+    */
+   @Override
+   public void tableFilter(final SmartWebElement cellElement, final ComponentType componentType,
+                           final FilterStrategy filterStrategy,
+                           final String... values) {
+<span class="fc bfc" id="L350" title="All 2 branches covered.">      if (!(componentType instanceof InputComponentType)) {</span>
+<span class="fc" id="L351">         throw new IllegalArgumentException(&quot;Component type needs to be from: InputComponentType.&quot;);</span>
+      }
+<span class="fc" id="L353">      LogUi.step(&quot;Applying table filter for component type: '{}' with strategy: '{}'.&quot;,</span>
+<span class="fc" id="L354">            componentType.getType().name(), filterStrategy);</span>
+<span class="fc" id="L355">      inputComponent((InputComponentType) componentType).tableFilter(cellElement, filterStrategy, values);</span>
+<span class="fc" id="L356">   }</span>
+
+   /**
+    * Performs an insertion operation using the input component.
+    *
+    * @param componentType the input component type.
+    * @param locator       the locator of the input field.
+    * @param values        optional values to insert.
+    */
+   @Override
+   public void insertion(final ComponentType componentType, final By locator, final Object... values) {
+<span class="fc bfc" id="L367" title="All 2 branches covered.">      if (!(componentType instanceof InputComponentType)) {</span>
+<span class="fc" id="L368">         throw new IllegalArgumentException(&quot;Component type needs to be from: InputComponentType.&quot;);</span>
+      }
+<span class="fc" id="L370">      LogUi.step(&quot;Inserting value into component of type: '{}' using locator.&quot;, componentType.getType().name());</span>
+<span class="fc" id="L371">      insert((InputComponentType) componentType, locator, (String) values[0]);</span>
+<span class="fc" id="L372">   }</span>
+
+   /**
+    * Retrieves the Input instance for the given component type.
+    *
+    * @param componentType the input component type.
+    * @return the Input instance.
+    */
+   private Input inputComponent(final InputComponentType componentType) {
+<span class="fc" id="L381">      return getOrCreateComponent(componentType);</span>
+   }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

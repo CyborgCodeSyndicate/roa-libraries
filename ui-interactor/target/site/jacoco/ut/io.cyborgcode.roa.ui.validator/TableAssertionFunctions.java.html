@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TableAssertionFunctions.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.validator</a> &gt; <span class="el_source">TableAssertionFunctions.java</span></div><h1>TableAssertionFunctions.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.validator;
+
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
+/**
+ * Provides a set of validation functions for asserting table data integrity.
+ *
+ * &lt;p&gt;This class includes various validation methods to check the state of table elements,
+ * such as row counts, uniqueness, presence of values, and cell properties (e.g., enabled, clickable).
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class TableAssertionFunctions {
+
+   private TableAssertionFunctions() {
+   }
+
+
+   /**
+    * Validates if a table is not empty.
+    *
+    * @param actual   The table data (expected to be a {@code List}).
+    * @param expected The expected result (a {@code Boolean}).
+    * @return {@code true} if the table is not empty and matches the expected state; otherwise, {@code false}.
+    */
+   public static boolean validateTableNotEmpty(Object actual, Object expected) {
+<span class="fc bfc" id="L31" title="All 2 branches covered.">      if (!(actual instanceof List)) {</span>
+<span class="fc" id="L32">         return false;</span>
+      }
+<span class="fc" id="L34">      List&lt;?&gt; table = (List&lt;?&gt;) actual;</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">      boolean notEmpty = !table.isEmpty();</span>
+
+<span class="fc bfc" id="L37" title="All 2 branches covered.">      if (!(expected instanceof Boolean)) {</span>
+<span class="fc" id="L38">         return false;</span>
+      }
+
+<span class="fc bfc" id="L41" title="All 2 branches covered.">      return notEmpty == (Boolean) expected;</span>
+   }
+
+   /**
+    * Validates the row count of a table.
+    *
+    * @param actual   The table data (expected to be a {@code List}).
+    * @param expected The expected row count (an {@code Integer}).
+    * @return {@code true} if the table has the expected number of rows; otherwise, {@code false}.
+    */
+   public static boolean validateTableRowCount(Object actual, Object expected) {
+<span class="fc bfc" id="L52" title="All 4 branches covered.">      if (!(actual instanceof List) || !(expected instanceof Integer)) {</span>
+<span class="fc" id="L53">         return false;</span>
+      }
+
+<span class="fc" id="L56">      List&lt;?&gt; table = (List&lt;?&gt;) actual;</span>
+<span class="fc" id="L57">      int expectedRowCount = (Integer) expected;</span>
+
+<span class="fc bfc" id="L59" title="All 2 branches covered.">      return table.size() == expectedRowCount;</span>
+   }
+
+   /**
+    * Validates if every row in the table contains the expected values.
+    *
+    * @param actual   The table data (expected to be a {@code List} of rows).
+    * @param expected The expected values (a {@code List} of items that should be present in each row).
+    * @return {@code true} if every row contains all the expected values; otherwise, {@code false}.
+    */
+   public static boolean validateEveryRowContainsValues(Object actual, Object expected) {
+<span class="fc bfc" id="L70" title="All 4 branches covered.">      if (!(actual instanceof List) || !(expected instanceof List)) {</span>
+<span class="fc" id="L71">         return false;</span>
+      }
+
+<span class="fc" id="L74">      List&lt;?&gt; table = (List&lt;?&gt;) actual;</span>
+<span class="fc" id="L75">      List&lt;?&gt; expectedValues = (List&lt;?&gt;) expected;</span>
+
+<span class="fc bfc" id="L77" title="All 4 branches covered.">      if (table.isEmpty() || expectedValues.isEmpty()) {</span>
+<span class="fc" id="L78">         return false;</span>
+      }
+
+<span class="fc" id="L81">      return table.stream()</span>
+<span class="pc bpc" id="L82" title="1 of 4 branches missed.">            .allMatch(row -&gt; row instanceof List&lt;?&gt; &amp;&amp; new HashSet&lt;&gt;((List&lt;?&gt;) row).containsAll(expectedValues));</span>
+   }
+
+   /**
+    * Validates that a specific row is not present in the table.
+    *
+    * @param actual   The table data (expected to be a {@code List} of rows).
+    * @param expected The row that should not be present (a {@code List} representing the row).
+    * @return {@code true} if the row is absent; otherwise, {@code false}.
+    */
+   public static boolean validateTableDoesNotContainRow(Object actual, Object expected) {
+<span class="fc bfc" id="L93" title="All 4 branches covered.">      if (!(actual instanceof List&lt;?&gt; &amp;&amp; expected instanceof List&lt;?&gt;)) {</span>
+<span class="fc" id="L94">         return false;</span>
+      }
+
+<span class="fc" id="L97">      List&lt;?&gt; table = (List&lt;?&gt;) actual;</span>
+<span class="fc" id="L98">      List&lt;?&gt; forbiddenRow = (List&lt;?&gt;) expected;</span>
+
+<span class="fc bfc" id="L100" title="All 4 branches covered.">      if (table.isEmpty() || forbiddenRow.isEmpty()) {</span>
+<span class="fc" id="L101">         return false;</span>
+      }
+
+<span class="fc bfc" id="L104" title="All 2 branches covered.">      for (Object row : table) {</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">         if (!(row instanceof List&lt;?&gt;)) {</span>
+<span class="fc" id="L106">            return false;</span>
+         }
+<span class="fc bfc" id="L108" title="All 2 branches covered.">         if (row.equals(forbiddenRow)) {</span>
+<span class="fc" id="L109">            return false;</span>
+         }
+<span class="fc" id="L111">      }</span>
+
+<span class="fc" id="L113">      return true;</span>
+   }
+
+   /**
+    * Validates that all rows in the table are unique.
+    *
+    * @param actual   The table data (expected to be a {@code List} of rows).
+    * @param expected The expected uniqueness state (a {@code Boolean}).
+    * @return {@code true} if all rows are unique and match the expected uniqueness state; otherwise, {@code false}.
+    */
+   public static boolean validateAllRowsAreUnique(Object actual, Object expected) {
+<span class="fc bfc" id="L124" title="All 2 branches covered.">      if (!(actual instanceof List&lt;?&gt;)) {</span>
+<span class="fc" id="L125">         return false;</span>
+      }
+<span class="fc" id="L127">      List&lt;?&gt; table = (List&lt;?&gt;) actual;</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">      if (table.isEmpty()) {</span>
+<span class="fc" id="L129">         return false;</span>
+      }
+<span class="fc" id="L131">      Set&lt;List&lt;?&gt;&gt; uniqueRows = new HashSet&lt;&gt;();</span>
+<span class="fc bfc" id="L132" title="All 2 branches covered.">      for (Object row : table) {</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">         if (!(row instanceof List&lt;?&gt;)) {</span>
+<span class="fc" id="L134">            return false;</span>
+         }
+<span class="fc" id="L136">         uniqueRows.add((List&lt;?&gt;) row);</span>
+<span class="fc" id="L137">      }</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">      boolean unique = uniqueRows.size() == table.size();</span>
+<span class="fc bfc" id="L139" title="All 2 branches covered.">      if (!(expected instanceof Boolean)) {</span>
+<span class="fc" id="L140">         return false;</span>
+      }
+<span class="fc bfc" id="L142" title="All 2 branches covered.">      return unique == (Boolean) expected;</span>
+   }
+
+   /**
+    * Validates that there are no empty cells in the table.
+    *
+    * @param actual   The table data (expected to be a {@code List} of rows).
+    * @param expected The expected state (a {@code Boolean}).
+    * @return {@code true} if there are no empty cells and matches the expected state; otherwise, {@code false}.
+    */
+   public static boolean validateNoEmptyCells(Object actual, Object expected) {
+<span class="fc bfc" id="L153" title="All 2 branches covered.">      if (!(actual instanceof List&lt;?&gt; table)) {</span>
+<span class="fc" id="L154">         return false;</span>
+      }
+
+<span class="fc bfc" id="L157" title="All 2 branches covered.">      if (table.isEmpty()) {</span>
+<span class="fc" id="L158">         return false;</span>
+      }
+
+<span class="fc bfc" id="L161" title="All 2 branches covered.">      for (Object row : table) {</span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">         if (!(row instanceof List&lt;?&gt; rowList)) {</span>
+<span class="fc" id="L163">            return Boolean.FALSE.equals(expected);</span>
+         }
+
+<span class="pc bpc" id="L166" title="1 of 2 branches missed.">         boolean hasEmpty = rowList.isEmpty()</span>
+<span class="pc bpc" id="L167" title="1 of 6 branches missed.">               || rowList.stream().anyMatch(cell -&gt; !(cell instanceof String s) || s.trim().isEmpty());</span>
+
+<span class="fc bfc" id="L169" title="All 2 branches covered.">         if (hasEmpty) {</span>
+<span class="fc" id="L170">            return Boolean.FALSE.equals(expected);</span>
+         }
+<span class="fc" id="L172">      }</span>
+
+<span class="fc bfc" id="L174" title="All 2 branches covered.">      if (!(expected instanceof Boolean)) {</span>
+<span class="fc" id="L175">         return false;</span>
+      }
+
+<span class="fc" id="L178">      return Boolean.TRUE.equals(expected);</span>
+   }
+
+   /**
+    * Validates that a column contains only unique values.
+    *
+    * @param actual   The table data (expected to be a {@code List} of rows).
+    * @param expected The column index (an {@code Integer}, 1-based index).
+    * @return {@code true} if all values in the specified column are unique; otherwise, {@code false}.
+    */
+   public static boolean validateColumnValuesAreUnique(Object actual, Object expected) {
+<span class="fc bfc" id="L189" title="All 4 branches covered.">      if (!(actual instanceof List&lt;?&gt;) || !(expected instanceof Integer)) {</span>
+<span class="fc" id="L190">         return false;</span>
+      }
+
+<span class="fc" id="L193">      List&lt;?&gt; table = (List&lt;?&gt;) actual;</span>
+<span class="fc" id="L194">      int userColumnIndex = (Integer) expected;</span>
+<span class="fc" id="L195">      int columnIndex = userColumnIndex - 1;</span>
+
+<span class="pc bpc" id="L197" title="1 of 4 branches missed.">      if (table.isEmpty() || columnIndex &lt; 0) {</span>
+<span class="fc" id="L198">         return false;</span>
+      }
+
+<span class="fc" id="L201">      Set&lt;String&gt; uniqueValues = new HashSet&lt;&gt;();</span>
+
+<span class="fc bfc" id="L203" title="All 2 branches covered.">      for (Object row : table) {</span>
+<span class="fc bfc" id="L204" title="All 2 branches covered.">         if (!(row instanceof List&lt;?&gt;)) {</span>
+<span class="fc" id="L205">            return false;</span>
+         }
+
+<span class="fc" id="L208">         List&lt;?&gt; rowList = (List&lt;?&gt;) row;</span>
+<span class="pc bpc" id="L209" title="1 of 4 branches missed.">         if (rowList.size() &lt;= columnIndex || !(rowList.get(columnIndex) instanceof String)) {</span>
+<span class="fc" id="L210">            return false;</span>
+         }
+
+<span class="fc bfc" id="L213" title="All 2 branches covered.">         if (!uniqueValues.add((String) rowList.get(columnIndex))) {</span>
+<span class="fc" id="L214">            return false;</span>
+         }
+<span class="fc" id="L216">      }</span>
+
+<span class="fc" id="L218">      return true;</span>
+   }
+
+   /**
+    * Validates that the actual table data matches the expected table data.
+    *
+    * @param actual   The table data (expected to be a {@code List} of rows).
+    * @param expected The expected table data (a {@code List} of rows).
+    * @return {@code true} if both tables match exactly; otherwise, {@code false}.
+    */
+   public static boolean validateTableDataMatchesExpected(Object actual, Object expected) {
+<span class="fc bfc" id="L229" title="All 4 branches covered.">      if (!(actual instanceof List&lt;?&gt;) || !(expected instanceof List&lt;?&gt;)) {</span>
+<span class="fc" id="L230">         return false;</span>
+      }
+
+<span class="fc" id="L233">      List&lt;?&gt; table = (List&lt;?&gt;) actual;</span>
+<span class="fc" id="L234">      List&lt;?&gt; expectedTable = (List&lt;?&gt;) expected;</span>
+
+<span class="fc bfc" id="L236" title="All 4 branches covered.">      if (table.isEmpty() || expectedTable.isEmpty()) {</span>
+<span class="fc" id="L237">         return false;</span>
+      }
+
+<span class="fc bfc" id="L240" title="All 2 branches covered.">      for (Object row : table) {</span>
+<span class="fc bfc" id="L241" title="All 2 branches covered.">         if (!(row instanceof List&lt;?&gt;)) {</span>
+<span class="fc" id="L242">            return false;</span>
+         }
+<span class="fc" id="L244">      }</span>
+
+<span class="fc bfc" id="L246" title="All 2 branches covered.">      for (Object row : expectedTable) {</span>
+<span class="fc bfc" id="L247" title="All 2 branches covered.">         if (!(row instanceof List&lt;?&gt;)) {</span>
+<span class="fc" id="L248">            return false;</span>
+         }
+<span class="fc" id="L250">      }</span>
+
+<span class="fc" id="L252">      return table.equals(expectedTable);</span>
+   }
+
+   /**
+    * Validates whether a row is not empty.
+    *
+    * &lt;p&gt;A row is considered non-empty if it contains at least one non-blank string value.
+    *
+    * @param actual   The row data (expected to be a {@code List} of objects representing table cells).
+    * @param expected The expected state (a {@code Boolean}, where {@code true} means the row should be non-empty).
+    * @return {@code true} if the row is non-empty and matches the expected state; otherwise, {@code false}.
+    */
+   public static boolean validateRowNotEmpty(Object actual, Object expected) {
+<span class="fc bfc" id="L265" title="All 2 branches covered.">      if (!(actual instanceof List&lt;?&gt;)) {</span>
+<span class="fc" id="L266">         return false;</span>
+      }
+<span class="fc" id="L268">      List&lt;?&gt; row = (List&lt;?&gt;) actual;</span>
+
+<span class="pc bpc" id="L270" title="1 of 2 branches missed.">      boolean rowNotEmpty = !row.isEmpty() &amp;&amp; row.stream()</span>
+<span class="fc bfc" id="L271" title="All 6 branches covered.">            .anyMatch(cell -&gt; cell instanceof String cs &amp;&amp; !(cs).trim().isEmpty());</span>
+
+<span class="fc bfc" id="L273" title="All 2 branches covered.">      if (!(expected instanceof Boolean)) {</span>
+<span class="fc" id="L274">         return false;</span>
+      }
+
+<span class="fc bfc" id="L277" title="All 2 branches covered.">      return rowNotEmpty == (Boolean) expected;</span>
+   }
+
+   /**
+    * Validates whether a row contains specific expected values.
+    *
+    * &lt;p&gt;The validation checks if all expected values are present within the row.
+    * Comparison is performed in a case-insensitive manner, ignoring leading and trailing spaces.
+    *
+    * @param actual   The row data (expected to be a {@code List} of objects representing table cells).
+    * @param expected The expected values (a {@code List} of objects that should be found in the row).
+    * @return {@code true} if the row contains all the expected values; otherwise, {@code false}.
+    */
+   public static boolean validateRowContainsValues(Object actual, Object expected) {
+<span class="fc bfc" id="L291" title="All 4 branches covered.">      if (!(actual instanceof List&lt;?&gt;) || !(expected instanceof List&lt;?&gt;)) {</span>
+<span class="fc" id="L292">         return false;</span>
+      }
+
+<span class="fc" id="L295">      List&lt;?&gt; rawRow = (List&lt;?&gt;) actual;</span>
+<span class="fc" id="L296">      List&lt;?&gt; rawExpected = (List&lt;?&gt;) expected;</span>
+
+<span class="fc bfc" id="L298" title="All 4 branches covered.">      if (rawRow.isEmpty() || rawExpected.isEmpty()) {</span>
+<span class="fc" id="L299">         return false;</span>
+      }
+
+<span class="fc" id="L302">      List&lt;String&gt; rowValues = rawRow.stream()</span>
+<span class="fc" id="L303">            .filter(Objects::nonNull)</span>
+<span class="fc" id="L304">            .map(cell -&gt; String.valueOf(cell).trim().toLowerCase())</span>
+<span class="fc" id="L305">            .toList();</span>
+
+<span class="fc" id="L307">      List&lt;String&gt; expectedValues = rawExpected.stream()</span>
+<span class="fc" id="L308">            .filter(Objects::nonNull)</span>
+<span class="fc" id="L309">            .map(val -&gt; String.valueOf(val).trim().toLowerCase())</span>
+<span class="fc" id="L310">            .toList();</span>
+
+<span class="fc" id="L312">      return new HashSet&lt;&gt;(rowValues).containsAll(expectedValues);</span>
+   }
+
+   /**
+    * Validates that all table cells are enabled.
+    *
+    * @param actual   The table data (expected to be a {@code List} of rows containing {@link SmartWebElement}).
+    * @param expected The expected enabled state (a {@code Boolean}).
+    * @return {@code true} if all cells are enabled and match the expected state; otherwise, {@code false}.
+    */
+   public static boolean validateAllCellsEnabled(Object actual, Object expected) {
+<span class="fc bfc" id="L323" title="All 2 branches covered.">      if (!(actual instanceof List&lt;?&gt;)) {</span>
+<span class="fc" id="L324">         return false;</span>
+      }
+<span class="fc" id="L326">      List&lt;?&gt; table = (List&lt;?&gt;) actual;</span>
+
+<span class="fc" id="L328">      boolean allCellsEnabled = table.stream().allMatch(row -&gt;</span>
+<span class="pc bpc" id="L329" title="1 of 4 branches missed.">            row instanceof List&lt;?&gt; &amp;&amp; ((List&lt;?&gt;) row).stream().allMatch(cell -&gt;</span>
+<span class="pc bpc" id="L330" title="1 of 4 branches missed.">                  cell instanceof SmartWebElement cs &amp;&amp; cs.isEnabled()</span>
+            )
+      );
+
+<span class="fc bfc" id="L334" title="All 2 branches covered.">      if (!(expected instanceof Boolean)) {</span>
+<span class="fc" id="L335">         return false;</span>
+      }
+
+<span class="fc bfc" id="L338" title="All 2 branches covered.">      return allCellsEnabled == (Boolean) expected;</span>
+   }
+
+   /**
+    * Validates whether all cells in the table are clickable.
+    *
+    * &lt;p&gt;A cell is considered clickable if it is a {@link SmartWebElement}, is displayed, and is enabled.
+    * This method ensures that every row in the table contains only clickable elements.
+    *
+    * @param actual   The table data (expected to be a {@code List} of lists, where each inner list represents a row).
+    * @param expected The expected state (a {@code Boolean}, where {@code true} means all cells should be clickable).
+    * @return {@code true} if all cells in the table are clickable and match the expected state; otherwise,
+    *       {@code false}.
+    */
+   public static boolean validateAllCellsClickable(Object actual, Object expected) {
+<span class="fc bfc" id="L353" title="All 2 branches covered.">      if (!(actual instanceof List&lt;?&gt;)) {</span>
+<span class="fc" id="L354">         return false;</span>
+      }
+<span class="fc" id="L356">      List&lt;?&gt; table = (List&lt;?&gt;) actual;</span>
+<span class="fc" id="L357">      boolean allClickable = table.stream().allMatch(row -&gt;</span>
+<span class="pc bpc" id="L358" title="1 of 4 branches missed.">            row instanceof List&lt;?&gt; &amp;&amp; ((List&lt;?&gt;) row).stream().allMatch(cell -&gt;</span>
+<span class="fc" id="L359">                  cell instanceof SmartWebElement cs</span>
+<span class="fc bfc" id="L360" title="All 2 branches covered.">                        &amp;&amp; cs.isDisplayed()</span>
+<span class="pc bpc" id="L361" title="2 of 4 branches missed.">                        &amp;&amp; cs.isEnabled()</span>
+            )
+      );
+<span class="fc bfc" id="L364" title="All 2 branches covered.">      if (!(expected instanceof Boolean)) {</span>
+<span class="fc" id="L365">         return false;</span>
+      }
+<span class="fc bfc" id="L367" title="All 2 branches covered.">      return allClickable == (Boolean) expected;</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

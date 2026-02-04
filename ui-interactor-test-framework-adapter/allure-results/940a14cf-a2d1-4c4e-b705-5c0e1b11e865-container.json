@@ -1,0 +1,1 @@
+{"uuid":"940a14cf-a2d1-4c4e-b705-5c0e1b11e865","name":"areSelected should call itemListService.areSelected, store result and return uiServiceFluent","children":["cba7902d-c49a-43ff-a888-f1994158e2c2"],"befores":[],"afters":[],"start":1769887550036,"stop":1769887550053}

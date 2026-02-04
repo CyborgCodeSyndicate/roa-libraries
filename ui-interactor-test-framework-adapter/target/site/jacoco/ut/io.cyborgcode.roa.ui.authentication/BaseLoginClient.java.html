@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BaseLoginClient.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.authentication</a> &gt; <span class="el_source">BaseLoginClient.java</span></div><h1>BaseLoginClient.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.authentication;
+
+import io.cyborgcode.roa.ui.exceptions.AuthenticationUiException;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.service.fluent.SuperUiServiceFluent;
+import io.cyborgcode.roa.ui.service.fluent.UiServiceFluent;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import lombok.Getter;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+/**
+ * Abstract base class for implementing UI-based authentication clients.
+ *
+ * &lt;p&gt;This class provides a mechanism for logging in through a UI service, caching session data,
+ * and restoring sessions using stored cookies and local storage data. Subclasses must implement
+ * the {@link #loginImpl(UiServiceFluent, String, String)} method to define specific login logic.
+ *
+ * &lt;p&gt;The authentication flow consists of:
+ * &lt;ul&gt;
+ *     &lt;li&gt;Performing login through UI interaction.&lt;/li&gt;
+ *     &lt;li&gt;Waiting for a successful login indication.&lt;/li&gt;
+ *     &lt;li&gt;Caching session cookies and local storage data for reuse.&lt;/li&gt;
+ *     &lt;li&gt;Restoring an existing session if caching is enabled.&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+<span class="fc" id="L39">public abstract class BaseLoginClient implements LoginClient {</span>
+
+   /**
+    * A thread-safe map to store user sessions based on login credentials.
+    */
+<span class="fc" id="L44">   private static final Map&lt;LoginKey, SessionInfo&gt; userLoginMap = new ConcurrentHashMap&lt;&gt;();</span>
+
+   /**
+    * Keeps track of the {@link SmartWebDriver} instances that are used for copying sessions
+    * to other drivers in order to enable login session caching and bypass repeated logins.
+    *
+    * &lt;p&gt;These drivers are preserved throughout the execution and are closed at the end of the run.
+    */
+   @Getter
+   @SuppressFBWarnings(&quot;MS_EXPOSE_REP&quot;)
+<span class="fc" id="L54">   private static final List&lt;SmartWebDriver&gt; driverToKeep = Collections.synchronizedList(new ArrayList&lt;&gt;());</span>
+
+   /**
+    * JavaScript command to retrieve local storage data.
+    */
+   private static final String GET_LOCAL_STORAGE = &quot;return JSON.stringify(window.localStorage);&quot;;
+
+   /**
+    * JavaScript command to restore local storage data.
+    */
+   private static final String UPDATE_LOCAL_STORAGE =
+         &quot;let data = %s; for (let key in data) { window.localStorage.setItem(key, data[key]); }&quot;;
+
+   /**
+    * Stores the URL obtained after a successful login for each session.
+    *
+    * &lt;p&gt;This allows the system to directly navigate to the appropriate URL when session caching is used.
+    * The map key is a {@link LoginKey} containing the username, password, and login type information.
+    */
+<span class="fc" id="L73">   private static final Map&lt;LoginKey, String&gt; urlAfterLoggingMap = new ConcurrentHashMap&lt;&gt;();</span>
+
+
+   /**
+    * Logs in the user and optionally caches session data for reuse.
+    *
+    * @param uiService The UI service used for login interactions.
+    * @param username  The username of the user.
+    * @param password  The password of the user.
+    * @param cache     Whether to cache the session for future reuse.
+    */
+   @Override
+   @SuppressFBWarnings(&quot;JLM_JSR166_UTILCONCURRENT_MONITORENTER&quot;)
+   public void login(final SuperUiServiceFluent&lt;?&gt; uiService, final String username, final String password,
+                     final boolean cache) {
+<span class="fc" id="L88">      LoginKey loginKey = new LoginKey(username, password, this.getClass());</span>
+
+<span class="fc bfc" id="L90" title="All 2 branches covered.">      if (!cache) {</span>
+<span class="fc" id="L91">         performLoginAndCache(uiService, loginKey, username, password);</span>
+      } else {
+<span class="fc" id="L93">         synchronized (userLoginMap) {</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">            if (userLoginMap.get(loginKey) == null) {</span>
+<span class="fc" id="L95">               performLoginAndCache(uiService, loginKey, username, password);</span>
+            } else {
+<span class="fc" id="L97">               restoreSession(uiService, userLoginMap.get(loginKey), urlAfterLoggingMap.get(loginKey));</span>
+            }
+<span class="fc" id="L99">         }</span>
+      }
+<span class="fc" id="L101">   }</span>
+
+
+   /**
+    * Retrieves cached authentication session info if available.
+    *
+    * @param loginKey The key representing the login credentials.
+    * @return An {@link Optional} containing the session information if found.
+    */
+   public Optional&lt;SessionInfo&gt; getAuthentication(final LoginKey loginKey) {
+<span class="fc" id="L111">      return Optional.ofNullable(userLoginMap.get(loginKey));</span>
+   }
+
+
+   /**
+    * Performs login and caches session cookies and local storage data.
+    *
+    * @param uiService The UI service used for login interactions.
+    * @param loginKey  The key representing the login credentials.
+    * @param username  The username of the user.
+    * @param password  The password of the user.
+    */
+   private void performLoginAndCache(SuperUiServiceFluent&lt;?&gt; uiService, LoginKey loginKey, String username,
+                                     String password) {
+<span class="fc" id="L125">      loginImpl(uiService, username, password);</span>
+<span class="fc" id="L126">      SmartWebDriver smartWebDriver = uiService.getDriver();</span>
+<span class="fc" id="L127">      smartWebDriver.setKeepDriverForSession(true);</span>
+<span class="fc" id="L128">      driverToKeep.add(smartWebDriver);</span>
+
+      try {
+<span class="fc" id="L131">         smartWebDriver.getWait()</span>
+<span class="fc" id="L132">               .until(ExpectedConditions.presenceOfElementLocated(successfulLoginElementLocator()));</span>
+<span class="fc" id="L133">      } catch (Exception e) {</span>
+<span class="fc" id="L134">         throw new AuthenticationUiException(&quot;Logging in was not successful&quot;, e);</span>
+<span class="fc" id="L135">      }</span>
+
+<span class="fc" id="L137">      urlAfterLoggingMap.put(loginKey, smartWebDriver.getCurrentUrl());</span>
+
+<span class="fc" id="L139">      WebDriver driver = smartWebDriver.getOriginal();</span>
+<span class="fc" id="L140">      Set&lt;Cookie&gt; cookies = driver.manage().getCookies();</span>
+<span class="fc" id="L141">      String localStorage = executeJavaScript(driver, GET_LOCAL_STORAGE);</span>
+
+<span class="fc" id="L143">      userLoginMap.put(loginKey, new SessionInfo(cookies, localStorage));</span>
+<span class="fc" id="L144">   }</span>
+
+
+   /**
+    * Restores a previously cached session by injecting cookies and local storage data.
+    *
+    * @param uiService   The UI service used for browser interactions.
+    * @param sessionInfo The stored session information.
+    */
+   private void restoreSession(SuperUiServiceFluent&lt;?&gt; uiService, SessionInfo sessionInfo, String urlAfterLogging) {
+<span class="fc" id="L154">      SmartWebDriver smartWebDriver = uiService.getDriver();</span>
+<span class="fc" id="L155">      WebDriver driver = smartWebDriver.getOriginal();</span>
+
+      try {
+<span class="fc" id="L158">         smartWebDriver.get(urlAfterLogging);</span>
+
+<span class="fc" id="L160">         smartWebDriver.manage().deleteAllCookies();</span>
+
+<span class="fc" id="L162">         sessionInfo.getCookies().forEach(cookie -&gt; driver.manage().addCookie(cookie));</span>
+
+<span class="fc" id="L164">         executeJavaScript(driver, String.format(UPDATE_LOCAL_STORAGE, sessionInfo.getLocalStorage()));</span>
+
+<span class="fc" id="L166">         smartWebDriver.get(urlAfterLogging);</span>
+<span class="fc" id="L167">      } catch (Exception e) {</span>
+<span class="fc" id="L168">         throw new AuthenticationUiException(&quot;Restoring session was not successful&quot;, e);</span>
+<span class="fc" id="L169">      }</span>
+
+
+      try {
+<span class="fc" id="L173">         smartWebDriver.getWait()</span>
+<span class="fc" id="L174">               .until(ExpectedConditions.presenceOfElementLocated(successfulLoginElementLocator()));</span>
+<span class="fc" id="L175">      } catch (Exception e) {</span>
+<span class="fc" id="L176">         throw new AuthenticationUiException(&quot;Logging in was not successful&quot;, e);</span>
+<span class="fc" id="L177">      }</span>
+<span class="fc" id="L178">   }</span>
+
+
+   /**
+    * Executes JavaScript in the browser.
+    *
+    * @param driver The WebDriver instance.
+    * @param script The JavaScript command to execute.
+    * @return The result of the JavaScript execution.
+    */
+   private String executeJavaScript(WebDriver driver, String script) {
+<span class="fc bfc" id="L189" title="All 2 branches covered.">      if (driver instanceof JavascriptExecutor jsExecutor) {</span>
+<span class="fc" id="L190">         return (String) jsExecutor.executeScript(script);</span>
+      } else {
+<span class="fc" id="L192">         throw new IllegalStateException(&quot;Driver does not support JavaScript execution&quot;);</span>
+      }
+   }
+
+
+   /**
+    * Performs the actual login operation.
+    *
+    * &lt;p&gt;This method should be implemented by subclasses to define the specific UI interactions
+    * required to log in.
+    *
+    * @param uiService The UI service for interacting with the login page.
+    * @param username  The username for authentication.
+    * @param password  The password for authentication.
+    * @param &lt;T&gt;       The type of UI service being used.
+    */
+   protected abstract &lt;T extends UiServiceFluent&lt;?&gt;&gt; void loginImpl(T uiService, String username, String password);
+
+   /**
+    * Provides the locator for an element that indicates a successful login.
+    *
+    * &lt;p&gt;This method should return a {@link By} locator that identifies an element that only
+    * appears after a successful login, such as a dashboard or a user profile menu.
+    *
+    * @return A Selenium {@link By} locator for the post-login verification element.
+    */
+   protected abstract By successfulLoginElementLocator();
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

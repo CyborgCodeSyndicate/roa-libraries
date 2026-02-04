@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractComponentService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.base</a> &gt; <span class="el_source">AbstractComponentService.java</span></div><h1>AbstractComponentService.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.base;
+
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
+/**
+ * Provides an abstract base class for managing UI component services.
+ *
+ * &lt;p&gt;This class serves as a generic service layer for handling UI components of various types.
+ * It maintains a registry of component instances and ensures efficient reuse.
+ *
+ * &lt;p&gt;Implementing classes must define how components are created based on a {@link ComponentType}.
+ * The component type is represented by {@code T}, which is an enumeration implementing {@link ComponentType},
+ * and the actual UI component implementation is represented by {@code C}.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public abstract class AbstractComponentService&lt;T extends ComponentType, C&gt; {
+
+   /**
+    * The {@code SmartWebDriver} instance used for UI interactions.
+    */
+   protected final SmartWebDriver driver;
+
+   /**
+    * A registry that stores component instances mapped to their types.
+    */
+   protected final Map&lt;T, C&gt; components;
+
+   /**
+    * Constructs an {@code AbstractComponentService} with the given WebDriver.
+    *
+    * @param driver The {@code SmartWebDriver} instance used for component interactions.
+    * @throws NullPointerException if the provided driver is {@code null}.
+    */
+<span class="fc" id="L38">   protected AbstractComponentService(SmartWebDriver driver) {</span>
+<span class="fc" id="L39">      this.driver = Objects.requireNonNull(driver, &quot;Driver must not be null&quot;);</span>
+<span class="fc" id="L40">      this.components = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L41">   }</span>
+
+   /**
+    * Retrieves a component instance for the specified type.
+    *
+    * &lt;p&gt;If a component of the given type does not exist, it is created and stored.
+    *
+    * @param componentType The type of component to retrieve.
+    * @return The corresponding UI component instance.
+    */
+   protected C getOrCreateComponent(T componentType) {
+<span class="fc" id="L52">      return components.computeIfAbsent(componentType, this::createComponent);</span>
+   }
+
+   /**
+    * Creates a new UI component instance for the specified type.
+    *
+    * &lt;p&gt;Subclasses must provide an implementation to initialize components of type {@code C}.
+    *
+    * @param componentType The type of component to create.
+    * @return The newly created UI component instance.
+    */
+   protected abstract C createComponent(T componentType);
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

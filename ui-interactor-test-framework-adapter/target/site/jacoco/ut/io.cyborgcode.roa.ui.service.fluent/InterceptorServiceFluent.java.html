@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InterceptorServiceFluent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.service.fluent</a> &gt; <span class="el_source">InterceptorServiceFluent.java</span></div><h1>InterceptorServiceFluent.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.service.fluent;
+
+import io.cyborgcode.roa.framework.storage.Storage;
+import io.cyborgcode.roa.ui.components.interceptor.ApiResponse;
+import io.cyborgcode.roa.ui.storage.StorageKeysUi;
+import io.cyborgcode.roa.validator.core.AssertionResult;
+import io.qameta.allure.Allure;
+import java.util.List;
+
+/**
+ * A fluent service for handling API response validation and interception.
+ *
+ * &lt;p&gt;This service provides methods to validate API responses stored in the UI storage,
+ * ensuring that requests contain expected status codes.
+ *
+ * &lt;p&gt;The generic type {@code T} represents the UI service fluent implementation that extends {@link UiServiceFluent},
+ * allowing method chaining for seamless interaction.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class InterceptorServiceFluent&lt;T extends UiServiceFluent&lt;?&gt;&gt; {
+
+   private final T uiServiceFluent;
+   private final Storage storage;
+
+   /**
+    * Constructs an {@code InterceptorServiceFluent} instance.
+    *
+    * @param uiServiceFluent The UI service fluent instance to maintain fluent method chaining.
+    * @param storage         The storage instance where API responses are stored for validation.
+    */
+<span class="fc" id="L32">   public InterceptorServiceFluent(T uiServiceFluent, Storage storage) {</span>
+<span class="fc" id="L33">      this.uiServiceFluent = uiServiceFluent;</span>
+<span class="fc" id="L34">      this.storage = storage;</span>
+<span class="fc" id="L35">   }</span>
+
+   /**
+    * Validates that all API responses matching a given URL substring have a status code
+    * starting with the specified prefix.
+    *
+    * @param requestUrlSubString The substring to match against API response URLs.
+    * @param statusPrefix        The expected status code prefix (e.g., 2 for 200-level responses).
+    * @return The current {@link UiServiceFluent} instance for method chaining.
+    */
+   public T validateResponseHaveStatus(final String requestUrlSubString, int statusPrefix) {
+<span class="fc" id="L46">      Allure.step(</span>
+            &quot;Validate that all API responses containing URL substring: &quot; + requestUrlSubString + &quot; have status prefix: &quot;
+                  + statusPrefix);
+<span class="fc" id="L49">      return validateResponseHaveStatus(requestUrlSubString, statusPrefix, false);</span>
+   }
+
+   /**
+    * Validates that all API responses matching a given URL substring have a status code
+    * starting with the specified prefix, with an option for soft assertions.
+    *
+    * @param requestUrlSubString The substring to match against API response URLs.
+    * @param statusPrefix        The expected status code prefix (e.g., 2 for 200-level responses).
+    * @param soft                {@code true} if the assertion should be a soft assertion,
+    *                            allowing the test to continue even if it fails.
+    * @return The current {@link UiServiceFluent} instance for method chaining.
+    */
+   public T validateResponseHaveStatus(final String requestUrlSubString, int statusPrefix,
+                                       boolean soft) {
+<span class="fc" id="L64">      List&lt;ApiResponse&gt; apiResponses = (List&lt;ApiResponse&gt;) storage.sub(StorageKeysUi.UI)</span>
+<span class="fc" id="L65">            .getByClass(StorageKeysUi.RESPONSES, Object.class);</span>
+
+<span class="fc" id="L67">      List&lt;ApiResponse&gt; filteredResponses = apiResponses.stream()</span>
+<span class="fc" id="L68">            .filter(apiResponse -&gt; apiResponse.getUrl().contains(requestUrlSubString))</span>
+<span class="fc" id="L69">            .toList();</span>
+
+<span class="fc" id="L71">      boolean isPassed = filteredResponses.stream()</span>
+<span class="fc" id="L72">            .allMatch(apiResponse -&gt; validateStatus(statusPrefix, apiResponse.getStatus()));</span>
+
+<span class="fc" id="L74">      AssertionResult&lt;?&gt; result = new AssertionResult&lt;&gt;(isPassed,</span>
+<span class="fc" id="L75">            String.format(&quot;Validating API requests containing: %s have correct status: %d&quot;,</span>
+<span class="fc" id="L76">                  requestUrlSubString, statusPrefix),</span>
+<span class="fc" id="L77">            true, isPassed, soft);</span>
+
+<span class="fc" id="L79">      List&lt;AssertionResult&lt;Object&gt;&gt; validationResults = List.of((AssertionResult&lt;Object&gt;) result);</span>
+<span class="fc" id="L80">      uiServiceFluent.validation(validationResults);</span>
+<span class="fc" id="L81">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Checks whether a given status code starts with the specified prefix.
+    *
+    * @param prefix The expected status code prefix.
+    * @param status The actual status code.
+    * @return {@code true} if the status code starts with the prefix, otherwise {@code false}.
+    */
+   private boolean validateStatus(int prefix, int status) {
+<span class="fc" id="L92">      String prefixStr = String.valueOf(prefix);</span>
+<span class="fc" id="L93">      String statusStr = String.valueOf(status);</span>
+<span class="fc" id="L94">      return statusStr.startsWith(prefixStr);</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TabServiceFluent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.service.fluent</a> &gt; <span class="el_source">TabServiceFluent.java</span></div><h1>TabServiceFluent.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.service.fluent;
+
+
+import io.cyborgcode.roa.framework.storage.Storage;
+import io.cyborgcode.roa.ui.components.tab.TabService;
+import io.cyborgcode.roa.ui.selenium.TabUiElement;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.qameta.allure.Allure;
+import org.assertj.core.api.Assertions;
+
+import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
+
+/**
+ * Provides a fluent API for interacting with tab UI components.
+ *
+ * &lt;p&gt;This class enables interactions with tab elements, including clicking,
+ * checking visibility, validating selection, and enabling or disabling tabs.
+ * It integrates seamlessly with {@link UiServiceFluent} to support method chaining.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@SuppressWarnings({&quot;java:S5960&quot;, &quot;unchecked&quot;})
+public class TabServiceFluent&lt;T extends UiServiceFluent&lt;?&gt;&gt; {
+
+   private static final String UI_TAB_CHECKING_IF_THE_TAB = &quot;[UI - Tab] Checking if the tab &quot;;
+   private static final String UI_TAB_VALIDATING_IF_THE_TAB = &quot;[UI - Tab] Validating if the tab &quot;;
+   private static final String UI_TAB_PERFORMING_SOFT_VALIDATION_FOR_THE_TAB =
+         &quot;[UI - Tab] Performing soft validation for the tab &quot;;
+   private static final String UI_TAB_PERFORMING_STRICT_VALIDATION_FOR_THE_TAB =
+         &quot;[UI - Tab] Performing strict validation for the tab &quot;;
+
+   private final TabService tabService;
+   private final T uiServiceFluent;
+   private final Storage storage;
+   private final SmartWebDriver driver;
+
+   /**
+    * Constructs a new {@code TabServiceFluent} instance.
+    *
+    * @param uiServiceFluent The parent UI service fluent instance.
+    * @param storage         The storage instance for persisting UI states.
+    * @param tabService      The tab service instance for performing tab-related operations.
+    * @param webDriver       The WebDriver instance for browser interactions.
+    */
+   public TabServiceFluent(T uiServiceFluent, Storage storage, TabService tabService,
+<span class="fc" id="L46">                           SmartWebDriver webDriver) {</span>
+<span class="fc" id="L47">      this.tabService = tabService;</span>
+<span class="fc" id="L48">      this.uiServiceFluent = uiServiceFluent;</span>
+<span class="fc" id="L49">      this.storage = storage;</span>
+<span class="fc" id="L50">      driver = webDriver;</span>
+<span class="fc" id="L51">   }</span>
+
+   /**
+    * Clicks on the specified tab UI element.
+    *
+    * @param element The {@link TabUiElement} representing the tab.
+    * @return The fluent UI service instance.
+    */
+   public T click(final TabUiElement element) {
+<span class="fc" id="L60">      Allure.step(&quot;[UI - Tab] Clicking on the tab &quot; + element);</span>
+<span class="fc" id="L61">      element.before().accept(driver);</span>
+<span class="fc" id="L62">      tabService.click(element.componentType(), element.locator());</span>
+<span class="fc" id="L63">      element.after().accept(driver);</span>
+<span class="fc" id="L64">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Checks if the specified tab is enabled.
+    *
+    * @param element The {@link TabUiElement} representing the tab.
+    * @return The fluent UI service instance.
+    */
+   public T isEnabled(final TabUiElement element) {
+<span class="fc" id="L74">      Allure.step(UI_TAB_CHECKING_IF_THE_TAB + element + &quot; is enabled.&quot;);</span>
+<span class="fc" id="L75">      element.before().accept(driver);</span>
+<span class="fc" id="L76">      boolean enabled = tabService.isEnabled(element.componentType(), element.locator());</span>
+<span class="fc" id="L77">      element.after().accept(driver);</span>
+<span class="fc" id="L78">      storage.sub(UI).put(element.enumImpl(), enabled);</span>
+<span class="fc" id="L79">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates that the specified tab is enabled.
+    *
+    * @param element The {@link TabUiElement} representing the tab.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsEnabled(final TabUiElement element) {
+<span class="fc" id="L89">      return validateIsEnabled(element, true, false);</span>
+   }
+
+   /**
+    * Validates whether the specified tab is enabled or disabled.
+    *
+    * @param element The {@link TabUiElement} representing the tab.
+    * @param soft    Whether to perform a soft assertion.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsEnabled(final TabUiElement element, boolean soft) {
+<span class="fc" id="L100">      return validateIsEnabled(element, true, soft);</span>
+   }
+
+   private T validateIsEnabled(final TabUiElement element, boolean shouldBeEnabled, boolean soft) {
+<span class="fc bfc" id="L104" title="All 2 branches covered.">      Allure.step(UI_TAB_VALIDATING_IF_THE_TAB + element + &quot; is &quot; + (shouldBeEnabled ? &quot;enabled&quot; : &quot;disabled&quot;));</span>
+<span class="fc" id="L105">      element.before().accept(driver);</span>
+<span class="fc" id="L106">      boolean enabled = tabService.isEnabled(element.componentType(), element.locator());</span>
+<span class="fc" id="L107">      element.after().accept(driver);</span>
+<span class="fc" id="L108">      storage.sub(UI).put(element.enumImpl(), enabled);</span>
+
+<span class="fc bfc" id="L110" title="All 2 branches covered.">      String assertionMessage = shouldBeEnabled</span>
+<span class="fc" id="L111">            ? &quot;Validating tab is enabled&quot;</span>
+<span class="fc" id="L112">            : &quot;Validating tab is disabled&quot;;</span>
+
+<span class="fc bfc" id="L114" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L115">         Allure.step(UI_TAB_PERFORMING_SOFT_VALIDATION_FOR_THE_TAB + element);</span>
+<span class="fc" id="L116">         return (T) uiServiceFluent.validate(</span>
+               softAssertions -&gt; {
+<span class="fc bfc" id="L118" title="All 2 branches covered.">                  if (shouldBeEnabled) {</span>
+<span class="fc" id="L119">                     softAssertions.assertThat(enabled).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L121">                     softAssertions.assertThat(enabled).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L123">               }</span>
+         );
+      } else {
+<span class="fc" id="L126">         Allure.step(UI_TAB_PERFORMING_STRICT_VALIDATION_FOR_THE_TAB + element);</span>
+<span class="fc" id="L127">         return (T) uiServiceFluent.validate(</span>
+               () -&gt; {
+<span class="fc bfc" id="L129" title="All 2 branches covered.">                  if (shouldBeEnabled) {</span>
+<span class="fc" id="L130">                     Assertions.assertThat(enabled).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L132">                     Assertions.assertThat(enabled).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L134">               }</span>
+         );
+      }
+   }
+
+   /**
+    * Validates that the specified tab is disabled.
+    *
+    * @param element The {@link TabUiElement} representing the tab.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsDisabled(final TabUiElement element) {
+<span class="fc" id="L146">      return validateIsEnabled(element, false, false);</span>
+   }
+
+   /**
+    * Validates whether the specified tab is disabled.
+    *
+    * @param element The {@link TabUiElement} representing the tab.
+    * @param soft    Whether to perform a soft assertion.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsDisabled(final TabUiElement element, boolean soft) {
+<span class="fc" id="L157">      return validateIsEnabled(element, false, soft);</span>
+   }
+
+   /**
+    * Checks if the specified tab is visible.
+    *
+    * @param element The {@link TabUiElement} representing the tab.
+    * @return The fluent UI service instance.
+    */
+   public T isVisible(final TabUiElement element) {
+<span class="fc" id="L167">      Allure.step(UI_TAB_CHECKING_IF_THE_TAB + element + &quot; is visible.&quot;);</span>
+<span class="fc" id="L168">      element.before().accept(driver);</span>
+<span class="fc" id="L169">      boolean visible = tabService.isVisible(element.componentType(), element.locator());</span>
+<span class="fc" id="L170">      storage.sub(UI).put(element.enumImpl(), visible);</span>
+<span class="fc" id="L171">      element.after().accept(driver);</span>
+<span class="fc" id="L172">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates that the specified tab is visible.
+    *
+    * @param element The {@link TabUiElement} representing the tab.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsVisible(final TabUiElement element) {
+<span class="fc" id="L182">      return validateIsVisible(element, true, false);</span>
+   }
+
+   /**
+    * Validates whether the specified tab is visible.
+    *
+    * @param element The {@link TabUiElement} representing the tab.
+    * @param soft    Whether to perform a soft assertion.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsVisible(final TabUiElement element, boolean soft) {
+<span class="fc" id="L193">      return validateIsVisible(element, true, soft);</span>
+   }
+
+   private T validateIsVisible(final TabUiElement element, boolean shouldBeVisible, boolean soft) {
+<span class="fc bfc" id="L197" title="All 2 branches covered.">      Allure.step(UI_TAB_VALIDATING_IF_THE_TAB + element + &quot; is &quot; + (shouldBeVisible ? &quot;visible&quot; : &quot;hidden&quot;));</span>
+<span class="fc" id="L198">      element.before().accept(driver);</span>
+<span class="fc" id="L199">      boolean visible = tabService.isVisible(element.componentType(), element.locator());</span>
+<span class="fc" id="L200">      element.after().accept(driver);</span>
+<span class="fc" id="L201">      storage.sub(UI).put(element.enumImpl(), visible);</span>
+
+<span class="fc bfc" id="L203" title="All 2 branches covered.">      String assertionMessage = shouldBeVisible</span>
+<span class="fc" id="L204">            ? &quot;Validating tab is visible&quot;</span>
+<span class="fc" id="L205">            : &quot;Validating tab is hidden&quot;;</span>
+
+<span class="fc bfc" id="L207" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L208">         Allure.step(UI_TAB_PERFORMING_SOFT_VALIDATION_FOR_THE_TAB + element);</span>
+<span class="fc" id="L209">         return (T) uiServiceFluent.validate(</span>
+               softAssertions -&gt; {
+<span class="fc bfc" id="L211" title="All 2 branches covered.">                  if (shouldBeVisible) {</span>
+<span class="fc" id="L212">                     softAssertions.assertThat(visible).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L214">                     softAssertions.assertThat(visible).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L216">               }</span>
+         );
+      } else {
+<span class="fc" id="L219">         Allure.step(UI_TAB_PERFORMING_STRICT_VALIDATION_FOR_THE_TAB + element);</span>
+<span class="fc" id="L220">         return (T) uiServiceFluent.validate(</span>
+               () -&gt; {
+<span class="fc bfc" id="L222" title="All 2 branches covered.">                  if (shouldBeVisible) {</span>
+<span class="fc" id="L223">                     Assertions.assertThat(visible).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L225">                     Assertions.assertThat(visible).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L227">               }</span>
+         );
+      }
+   }
+
+   /**
+    * Validates that the specified tab is hidden.
+    *
+    * @param element The {@link TabUiElement} representing the tab.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsHidden(final TabUiElement element) {
+<span class="fc" id="L239">      return validateIsVisible(element, false, false);</span>
+   }
+
+   /**
+    * Validates whether the specified tab is hidden.
+    *
+    * @param element The {@link TabUiElement} representing the tab.
+    * @param soft    Whether to perform a soft assertion.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsHidden(final TabUiElement element, boolean soft) {
+<span class="fc" id="L250">      return validateIsVisible(element, false, soft);</span>
+   }
+
+   /**
+    * Checks if the specified tab is selected.
+    *
+    * @param element The {@link TabUiElement} representing the tab.
+    * @return The fluent UI service instance.
+    */
+   public T isSelected(final TabUiElement element) {
+<span class="fc" id="L260">      Allure.step(UI_TAB_CHECKING_IF_THE_TAB + element + &quot; is selected.&quot;);</span>
+<span class="fc" id="L261">      element.before().accept(driver);</span>
+<span class="fc" id="L262">      boolean selected = tabService.isSelected(element.componentType(), element.locator());</span>
+<span class="fc" id="L263">      storage.sub(UI).put(element.enumImpl(), selected);</span>
+<span class="fc" id="L264">      element.after().accept(driver);</span>
+<span class="fc" id="L265">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates that the specified tab is selected.
+    *
+    * @param element The {@link TabUiElement} representing the tab.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsSelected(final TabUiElement element) {
+<span class="fc" id="L275">      return validateIsSelected(element, true, false);</span>
+   }
+
+   /**
+    * Validates whether the specified tab is selected.
+    *
+    * @param element The {@link TabUiElement} representing the tab.
+    * @param soft    A boolean indicating whether the validation should be performed softly.
+    *                If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsSelected(final TabUiElement element, boolean soft) {
+<span class="fc" id="L287">      return validateIsSelected(element, true, soft);</span>
+   }
+
+   private T validateIsSelected(final TabUiElement element, boolean shouldBeSelected, boolean soft) {
+<span class="fc bfc" id="L291" title="All 2 branches covered.">      Allure.step(UI_TAB_VALIDATING_IF_THE_TAB + element + &quot; is &quot; + (shouldBeSelected ? &quot;selected&quot; : &quot;not selected&quot;));</span>
+<span class="fc" id="L292">      element.before().accept(driver);</span>
+<span class="fc" id="L293">      boolean selected = tabService.isSelected(element.componentType(), element.locator());</span>
+<span class="fc" id="L294">      element.after().accept(driver);</span>
+<span class="fc" id="L295">      storage.sub(UI).put(element.enumImpl(), selected);</span>
+
+<span class="fc bfc" id="L297" title="All 2 branches covered.">      String assertionMessage = shouldBeSelected</span>
+<span class="fc" id="L298">            ? &quot;Validating tab is selected&quot;</span>
+<span class="fc" id="L299">            : &quot;Validating tab is not selected&quot;;</span>
+
+<span class="fc bfc" id="L301" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L302">         Allure.step(UI_TAB_PERFORMING_SOFT_VALIDATION_FOR_THE_TAB + element);</span>
+<span class="fc" id="L303">         return (T) uiServiceFluent.validate(</span>
+               softAssertions -&gt; {
+<span class="fc bfc" id="L305" title="All 2 branches covered.">                  if (shouldBeSelected) {</span>
+<span class="fc" id="L306">                     softAssertions.assertThat(selected).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L308">                     softAssertions.assertThat(selected).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L310">               }</span>
+         );
+      } else {
+<span class="fc" id="L313">         Allure.step(UI_TAB_PERFORMING_STRICT_VALIDATION_FOR_THE_TAB + element);</span>
+<span class="fc" id="L314">         return (T) uiServiceFluent.validate(</span>
+               () -&gt; {
+<span class="fc bfc" id="L316" title="All 2 branches covered.">                  if (shouldBeSelected) {</span>
+<span class="fc" id="L317">                     Assertions.assertThat(selected).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L319">                     Assertions.assertThat(selected).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L321">               }</span>
+         );
+      }
+   }
+
+   /**
+    * Validates whether the specified tab is not selected.
+    *
+    * @param element The {@link TabUiElement} representing the tab.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsNotSelected(final TabUiElement element) {
+<span class="fc" id="L333">      return validateIsSelected(element, false, false);</span>
+   }
+
+   /**
+    * Validates whether the specified tab is not selected.
+    *
+    * @param element The {@link TabUiElement} representing the tab.
+    * @param soft    A boolean indicating whether the validation should be performed softly.
+    *                If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsNotSelected(final TabUiElement element, boolean soft) {
+<span class="fc" id="L345">      return validateIsSelected(element, false, soft);</span>
+   }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

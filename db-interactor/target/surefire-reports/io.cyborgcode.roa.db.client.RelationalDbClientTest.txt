@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: io.cyborgcode.roa.db.client.RelationalDbClientTest
+-------------------------------------------------------------------------------
+Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.224 s -- in io.cyborgcode.roa.db.client.RelationalDbClientTest

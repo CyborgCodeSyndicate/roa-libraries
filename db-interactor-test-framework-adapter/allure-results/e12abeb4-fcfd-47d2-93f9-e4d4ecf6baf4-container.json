@@ -1,0 +1,1 @@
+{"uuid":"e12abeb4-fcfd-47d2-93f9-e4d4ecf6baf4","name":"initializeDbClient should return RelationalDbClientAllure instance","children":["c5eb6f3a-13d0-4c0e-a150-a74ce5c1d105"],"befores":[],"afters":[],"start":1770236599836,"stop":1770236599874}

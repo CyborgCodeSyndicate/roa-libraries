@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FluentService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Core Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.framework.chain</a> &gt; <span class="el_source">FluentService.java</span></div><h1>FluentService.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.framework.chain;
+
+import io.cyborgcode.roa.framework.log.LogQuest;
+import io.cyborgcode.roa.framework.quest.Quest;
+import io.cyborgcode.roa.framework.quest.SuperQuest;
+import io.cyborgcode.roa.framework.retry.RetryCondition;
+import io.cyborgcode.utilities.reflections.RetryUtils;
+import io.cyborgcode.roa.validator.core.AssertionResult;
+import io.qameta.allure.Allure;
+import java.time.Duration;
+import java.util.List;
+import org.assertj.core.api.Assertions;
+
+/**
+ * Provides a base implementation for fluent service interactions.
+ *
+ * &lt;p&gt;This class serves as a foundation for fluent service execution,
+ * offering retry mechanisms, validation handling, and structured
+ * test execution flow.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+<span class="fc" id="L23">public class FluentService implements FluentChain {</span>
+
+   /**
+    * The {@code SuperQuest} instance managing the test execution context.
+    */
+   protected SuperQuest quest;
+
+   /**
+    * Retrieves the original quest instance for further execution.
+    *
+    * @return The original {@code Quest} instance.
+    */
+   @Override
+   public Quest drop() {
+<span class="fc" id="L37">      LogQuest.info(&quot;The quest has dropped the ring.&quot;);</span>
+<span class="fc" id="L38">      return quest.getOriginal();</span>
+   }
+
+   /**
+    * Executes a retry mechanism until a specified condition is met.
+    *
+    * @param retryCondition The retry condition to be checked.
+    * @param maxWait        The maximum duration to wait before giving up.
+    * @param retryInterval  The interval between retries.
+    * @param service        The service instance used in the retry condition.
+    * @param &lt;T&gt;            The type used in the retry condition function.
+    * @return The current {@code FluentService} instance for method chaining.
+    */
+   protected &lt;T&gt; FluentService retryUntil(RetryCondition&lt;T&gt; retryCondition, Duration maxWait,
+         Duration retryInterval, Object service) {
+<span class="fc" id="L53">      RetryUtils.retryUntil(maxWait, retryInterval, () -&gt; retryCondition.function().apply(service),</span>
+<span class="fc" id="L54">            retryCondition.condition());</span>
+<span class="fc" id="L55">      return this;</span>
+   }
+
+   /**
+    * Assigns a {@code SuperQuest} instance to this service.
+    *
+    * @param quest The {@code SuperQuest} instance to be assigned.
+    */
+   protected void setQuest(final SuperQuest quest) {
+<span class="fc" id="L64">      this.quest = quest;</span>
+<span class="fc" id="L65">   }</span>
+
+   /**
+    * Performs validation on a list of assertion results.
+    *
+    * &lt;p&gt;This method logs, reports, and evaluates assertions, supporting both
+    * soft and hard validations.
+    *
+    * @param assertionResults The list of assertion results to be validated.
+    */
+   @SuppressWarnings(&quot;java:S5960&quot;)
+   protected void validation(List&lt;AssertionResult&lt;Object&gt;&gt; assertionResults) {
+<span class="fc" id="L77">      assertionResults.forEach(assertionResult -&gt; {</span>
+<span class="fc" id="L78">         String message = assertionResult.toString();</span>
+<span class="fc" id="L79">         LogQuest.validation(message);</span>
+<span class="fc" id="L80">         Allure.step(message);</span>
+
+<span class="fc" id="L82">         boolean isPassed = assertionResult.isPassed();</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">         if (assertionResult.isSoft()) {</span>
+<span class="fc" id="L84">            quest.getSoftAssertions()</span>
+<span class="fc" id="L85">                  .assertThat(isPassed)</span>
+<span class="fc" id="L86">                  .as(message)</span>
+<span class="fc" id="L87">                  .isTrue();</span>
+         } else {
+<span class="fc" id="L89">            Assertions.assertThat(isPassed)</span>
+<span class="fc" id="L90">                  .as(message)</span>
+<span class="fc" id="L91">                  .isTrue();</span>
+         }
+<span class="fc" id="L93">      });</span>
+<span class="fc" id="L94">   }</span>
+
+   /**
+    * Hook method for initializing any required setup after a quest is configured.
+    *
+    * &lt;p&gt;This method can be overridden by subclasses to provide custom setup logic.
+    */
+   protected void postQuestSetupInitialization() {
+      //can override for specific services
+<span class="fc" id="L103">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

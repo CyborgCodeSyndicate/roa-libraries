@@ -1,0 +1,34 @@
+There is more than one service from type: class io.cyborgcode.roa.framework.base.mock.MockService inside class: class io.cyborgcode.roa.framework.base.mock.MockClassLevelHook. The first one will be taken: mockService
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"There is more than one service from type: class io.cyborgcode.roa.framework.base.mock.MockService inside class: class io.cyborgcode.roa.framework.base.mock.MockClassLevelHook. The first one will be taken: mockService","thread_name":"main","@timestamp":"2026-02-04T21:20:44.925+0100","level":"WARN","logger_name":"ROA.TEST"}
+The quest has dropped the ring.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"The quest has dropped the ring.","thread_name":"main","@timestamp":"2026-02-04T21:20:47.990+0100","level":"INFO","logger_name":"ROA.TEST"}
+The quest of 'null' has concluded with glory. Status: SUCCESS. Duration: 1770236452 seconds.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"The quest of 'null' has concluded with glory. Status: SUCCESS. Duration: 1770236452 seconds.","thread_name":"main","@timestamp":"2026-02-04T21:20:52.452+0100","level":"INFO","logger_name":"ROA.TEST"}
+The quest of 'null' has concluded with glory. Status: SUCCESS. Duration: 1770236452 seconds.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"The quest of 'null' has concluded with glory. Status: SUCCESS. Duration: 1770236452 seconds.","thread_name":"main","@timestamp":"2026-02-04T21:20:52.492+0100","level":"INFO","logger_name":"ROA.TEST"}
+The quest: 'null' has begun and is crafted.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"The quest: 'null' has begun and is crafted.","thread_name":"main","@timestamp":"2026-02-04T21:20:53.188+0100","level":"INFO","logger_name":"ROA.TEST"}
+The quest: 'null' has begun and is crafted.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"The quest: 'null' has begun and is crafted.","thread_name":"main","@timestamp":"2026-02-04T21:20:53.224+0100","level":"INFO","logger_name":"ROA.TEST"}
+The quest: 'null' has begun and is crafted.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"The quest: 'null' has begun and is crafted.","thread_name":"main","@timestamp":"2026-02-04T21:20:53.290+0100","level":"INFO","logger_name":"ROA.TEST"}
+The quest: 'null' has begun and is crafted.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"The quest: 'null' has begun and is crafted.","thread_name":"main","@timestamp":"2026-02-04T21:20:53.396+0100","level":"INFO","logger_name":"ROA.TEST"}
+The quest: 'null' has begun and is crafted.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"The quest: 'null' has begun and is crafted.","thread_name":"main","@timestamp":"2026-02-04T21:20:53.433+0100","level":"INFO","logger_name":"ROA.TEST"}
+The ripper has arrived
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"The ripper has arrived","thread_name":"main","@timestamp":"2026-02-04T21:20:53.799+0100","level":"INFO","logger_name":"ROA.TEST"}
+The quest has used the ring: 'MockRing'
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"The quest has used the ring: 'MockRing'","thread_name":"main","@timestamp":"2026-02-04T21:20:56.441+0100","level":"INFO","logger_name":"ROA.TEST"}
+The quest has used the ring: 'MockRing'
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"The quest has used the ring: 'MockRing'","thread_name":"main","@timestamp":"2026-02-04T21:20:56.442+0100","level":"INFO","logger_name":"ROA.TEST"}
+There is more than one artifact from type: class java.lang.String inside class: class io.cyborgcode.roa.framework.quest.QuestTest$ArtifactMethodTests$1SubMockService. The first one will be taken: subValue
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"There is more than one artifact from type: class java.lang.String inside class: class io.cyborgcode.roa.framework.quest.QuestTest$ArtifactMethodTests$1SubMockService. The first one will be taken: subValue","thread_name":"main","@timestamp":"2026-02-04T21:20:56.953+0100","level":"WARN","logger_name":"ROA.TEST"}
+There is more than one artifact from type: class java.lang.Number inside class: class io.cyborgcode.roa.framework.quest.QuestTest$ArtifactMethodTests$1ComplexService. The first one will be taken: 42
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"There is more than one artifact from type: class java.lang.Number inside class: class io.cyborgcode.roa.framework.quest.QuestTest$ArtifactMethodTests$1ComplexService. The first one will be taken: 42","thread_name":"main","@timestamp":"2026-02-04T21:20:57.210+0100","level":"WARN","logger_name":"ROA.TEST"}
+There is more than one artifact from type: class java.lang.String inside class: class io.cyborgcode.roa.framework.quest.QuestTest$ArtifactMethodTests$1MultiFieldService. The first one will be taken: first
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"There is more than one artifact from type: class java.lang.String inside class: class io.cyborgcode.roa.framework.quest.QuestTest$ArtifactMethodTests$1MultiFieldService. The first one will be taken: first","thread_name":"main","@timestamp":"2026-02-04T21:20:57.233+0100","level":"WARN","logger_name":"ROA.TEST"}
+The quest has reached his end
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"The quest has reached his end","thread_name":"main","@timestamp":"2026-02-04T21:20:57.571+0100","level":"INFO","logger_name":"ROA.TEST"}
+The quest has used the ring: 'MockRing'
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"The quest has used the ring: 'MockRing'","thread_name":"main","@timestamp":"2026-02-04T21:20:57.614+0100","level":"INFO","logger_name":"ROA.TEST"}

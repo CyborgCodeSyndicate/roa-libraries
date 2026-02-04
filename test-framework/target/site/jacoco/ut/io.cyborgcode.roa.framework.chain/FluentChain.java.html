@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FluentChain.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Core Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.framework.chain</a> &gt; <span class="el_source">FluentChain.java</span></div><h1>FluentChain.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.framework.chain;
+
+import io.cyborgcode.roa.framework.log.LogQuest;
+import io.cyborgcode.roa.framework.quest.Quest;
+import io.cyborgcode.roa.framework.quest.SuperQuest;
+import java.util.function.Consumer;
+import org.assertj.core.api.SoftAssertions;
+
+/**
+ * Defines a fluent execution chain for service interactions.
+ *
+ * &lt;p&gt;This interface provides a structured way to perform sequential operations
+ * in a fluent manner, allowing validation and completion of tasks within a
+ * chained execution flow.
+ *
+ * &lt;p&gt;Implementing classes must provide the {@code drop()} method to return a {@code Quest},
+ * enabling further execution and validation within the chain.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public interface FluentChain {
+
+   /**
+    * Retrieves the active {@code Quest} instance for further execution.
+    *
+    * @return The current {@code Quest} instance.
+    */
+   Quest drop();
+
+   /**
+    * Performs a soft validation within the execution chain.
+    *
+    * &lt;p&gt;This validation does not immediately fail the test but collects assertion results
+    * for later evaluation.
+    *
+    * @param assertion The assertion logic to apply.
+    * @return The current {@code FluentChain} instance for method chaining.
+    */
+   default FluentChain validate(Consumer&lt;SoftAssertions&gt; assertion) {
+<span class="fc" id="L40">      Quest quest = drop();</span>
+<span class="fc" id="L41">      LogQuest.validation(&quot;Starting soft validation.&quot;);</span>
+<span class="fc" id="L42">      assertion.accept(createSuperQuest(quest).getSoftAssertions());</span>
+<span class="fc" id="L43">      return this;</span>
+   }
+
+   /**
+    * Performs a hard validation within the execution chain.
+    *
+    * &lt;p&gt;This validation immediately fails if an assertion does not pass.
+    *
+    * @param assertion The assertion logic to execute.
+    * @return The current {@code FluentChain} instance for method chaining.
+    */
+   default FluentChain validate(Runnable assertion) {
+<span class="fc" id="L55">      LogQuest.validation(&quot;Starting hard validation...&quot;);</span>
+      try {
+<span class="fc" id="L57">         assertion.run();</span>
+<span class="fc" id="L58">         LogQuest.validation(&quot;Hard validation completed successfully.&quot;);</span>
+<span class="fc" id="L59">      } catch (AssertionError | Exception e) {</span>
+<span class="fc" id="L60">         LogQuest.validation(&quot;Hard validation failed: &quot; + e.getMessage());</span>
+<span class="fc" id="L61">         throw e;</span>
+<span class="fc" id="L62">      }</span>
+<span class="fc" id="L63">      return this;</span>
+   }
+
+   /**
+    * Marks the execution chain as complete.
+    *
+    * &lt;p&gt;This signals that the sequence of operations has been finalized.
+    */
+   default void complete() {
+<span class="fc" id="L72">      drop().complete();</span>
+<span class="fc" id="L73">   }</span>
+
+   /**
+    * Wraps the given {@link Quest} in a {@link SuperQuest}, enabling access to
+    * extended functionality such as soft assertions.
+    *
+    * @param quest the base {@code Quest} instance to wrap
+    * @return a new {@code SuperQuest} that decorates the provided quest
+    */
+   default SuperQuest createSuperQuest(Quest quest) {
+<span class="fc" id="L83">      return new SuperQuest(quest);</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

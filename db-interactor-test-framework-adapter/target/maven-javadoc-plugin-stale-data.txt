@@ -1,0 +1,119 @@
+-J-Duser.language=
+-J-Duser.country=
+@options
+@packages
+-classpath
+'C:/Users/38975/IdeaProjects/roa-libraries/test-framework/target/test-framework-0.0.0.jar;C:/Users/38975/.m2/repository/io/cyborgcode/utilities/commons/1.0.0-rc-2/commons-1.0.0-rc-2.jar;C:/Users/38975/.m2/repository/org/apache/logging/log4j/log4j-layout-template-json/2.25.3/log4j-layout-template-json-2.25.3.jar;C:/Users/38975/.m2/repository/org/apache/logging/log4j/log4j-core/2.25.3/log4j-core-2.25.3.jar;C:/Users/38975/.m2/repository/org/apache/logging/log4j/log4j-api/2.25.3/log4j-api-2.25.3.jar;C:/Users/38975/.m2/repository/org/reflections/reflections/0.10.2/reflections-0.10.2.jar;C:/Users/38975/.m2/repository/org/javassist/javassist/3.28.0-GA/javassist-3.28.0-GA.jar;C:/Users/38975/.m2/repository/org/openjdk/nashorn/nashorn-core/15.7/nashorn-core-15.7.jar;C:/Users/38975/.m2/repository/org/ow2/asm/asm/9.9.1/asm-9.9.1.jar;C:/Users/38975/.m2/repository/org/ow2/asm/asm-commons/7.3.1/asm-commons-7.3.1.jar;C:/Users/38975/.m2/repository/org/ow2/asm/asm-analysis/7.3.1/asm-analysis-7.3.1.jar;C:/Users/38975/.m2/repository/org/ow2/asm/asm-tree/7.3.1/asm-tree-7.3.1.jar;C:/Users/38975/.m2/repository/org/ow2/asm/asm-util/7.3.1/asm-util-7.3.1.jar;C:/Users/38975/.m2/repository/org/springframework/boot/spring-boot-starter/4.0.2/spring-boot-starter-4.0.2.jar;C:/Users/38975/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/4.0.2/spring-boot-autoconfigure-4.0.2.jar;C:/Users/38975/.m2/repository/org/springframework/boot/spring-boot/4.0.2/spring-boot-4.0.2.jar;C:/Users/38975/.m2/repository/org/springframework/spring-context/7.0.3/spring-context-7.0.3.jar;C:/Users/38975/.m2/repository/org/springframework/spring-aop/7.0.3/spring-aop-7.0.3.jar;C:/Users/38975/.m2/repository/org/springframework/spring-beans/7.0.3/spring-beans-7.0.3.jar;C:/Users/38975/.m2/repository/org/springframework/spring-expression/7.0.3/spring-expression-7.0.3.jar;C:/Users/38975/.m2/repository/io/micrometer/micrometer-observation/1.16.2/micrometer-observation-1.16.2.jar;C:/Users/38975/.m2/repository/io/micrometer/micrometer-commons/1.16.2/micrometer-commons-1.16.2.jar;C:/Users/38975/.m2/repository/jakarta/annotation/jakarta.annotation-api/3.0.0/jakarta.annotation-api-3.0.0.jar;C:/Users/38975/.m2/repository/org/yaml/snakeyaml/2.5/snakeyaml-2.5.jar;C:/Users/38975/IdeaProjects/roa-libraries/assertions/target/assertions-0.0.0.jar;C:/Users/38975/.m2/repository/org/assertj/assertj-core/3.27.6/assertj-core-3.27.6.jar;C:/Users/38975/.m2/repository/net/bytebuddy/byte-buddy/1.18.4/byte-buddy-1.18.4.jar;C:/Users/38975/.m2/repository/org/junit/jupiter/junit-jupiter-api/6.0.2/junit-jupiter-api-6.0.2.jar;C:/Users/38975/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar;C:/Users/38975/.m2/repository/org/junit/platform/junit-platform-commons/6.0.2/junit-platform-commons-6.0.2.jar;C:/Users/38975/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar;C:/Users/38975/.m2/repository/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar;C:/Users/38975/.m2/repository/io/qameta/allure/allure-junit5/2.32.0/allure-junit5-2.32.0.jar;C:/Users/38975/.m2/repository/io/qameta/allure/allure-junit-platform/2.32.0/allure-junit-platform-2.32.0.jar;C:/Users/38975/.m2/repository/io/qameta/allure/allure-java-commons/2.32.0/allure-java-commons-2.32.0.jar;C:/Users/38975/.m2/repository/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar;C:/Users/38975/.m2/repository/io/qameta/allure/allure-model/2.32.0/allure-model-2.32.0.jar;C:/Users/38975/.m2/repository/org/aeonbits/owner/owner/1.0.12/owner-1.0.12.jar;C:/Users/38975/.m2/repository/org/springframework/boot/spring-boot-starter-test/4.0.2/spring-boot-starter-test-4.0.2.jar;C:/Users/38975/.m2/repository/org/springframework/boot/spring-boot-test/4.0.2/spring-boot-test-4.0.2.jar;C:/Users/38975/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/4.0.2/spring-boot-test-autoconfigure-4.0.2.jar;C:/Users/38975/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.4/jakarta.xml.bind-api-4.0.4.jar;C:/Users/38975/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.4/jakarta.activation-api-2.1.4.jar;C:/Users/38975/.m2/repository/net/minidev/json-smart/2.6.0/json-smart-2.6.0.jar;C:/Users/38975/.m2/repository/net/minidev/accessors-smart/2.6.0/accessors-smart-2.6.0.jar;C:/Users/38975/.m2/repository/org/awaitility/awaitility/4.3.0/awaitility-4.3.0.jar;C:/Users/38975/.m2/repository/org/hamcrest/hamcrest/3.0/hamcrest-3.0.jar;C:/Users/38975/.m2/repository/org/junit/jupiter/junit-jupiter/6.0.2/junit-jupiter-6.0.2.jar;C:/Users/38975/.m2/repository/org/junit/jupiter/junit-jupiter-params/6.0.2/junit-jupiter-params-6.0.2.jar;C:/Users/38975/.m2/repository/org/skyscreamer/jsonassert/1.5.3/jsonassert-1.5.3.jar;C:/Users/38975/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar;C:/Users/38975/.m2/repository/org/springframework/spring-core/7.0.3/spring-core-7.0.3.jar;C:/Users/38975/.m2/repository/commons-logging/commons-logging/1.3.5/commons-logging-1.3.5.jar;C:/Users/38975/.m2/repository/org/springframework/spring-test/7.0.3/spring-test-7.0.3.jar;C:/Users/38975/.m2/repository/org/xmlunit/xmlunit-core/2.10.4/xmlunit-core-2.10.4.jar;C:/Users/38975/.m2/repository/com/github/spotbugs/spotbugs-annotations/4.9.8/spotbugs-annotations-4.9.8.jar;C:/Users/38975/.m2/repository/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar;C:/Users/38975/IdeaProjects/roa-libraries/db-interactor/target/db-interactor-0.0.0.jar;C:/Users/38975/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.20.2/jackson-databind-2.20.2.jar;C:/Users/38975/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.20/jackson-annotations-2.20.jar;C:/Users/38975/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.20.2/jackson-core-2.20.2.jar;C:/Users/38975/.m2/repository/com/jayway/jsonpath/json-path/2.10.0/json-path-2.10.0.jar'
+-encoding
+'UTF-8'
+-protected
+-source
+'17'
+-sourcepath
+'C:/Users/38975/IdeaProjects/roa-libraries/db-interactor-test-framework-adapter/src/main/java;C:/Users/38975/IdeaProjects/roa-libraries/db-interactor-test-framework-adapter/target/generated-sources/annotations'
+-author
+-bottom
+'Copyright &#169; 2026 <a href="https://cyborgcode.io">Cyborg Code Syndicate</a>. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/38975/IdeaProjects/roa-libraries/db-interactor-test-framework-adapter/target/javadocs/apidocs'
+-docencoding
+'UTF-8'
+-Xdoclint:none
+-doctitle
+'Ring of Automation Database Test Framework 0.0.0 API'
+-linksource
+-use
+-version
+-windowtitle
+'Ring of Automation Database Test Framework 0.0.0 API'
+io.cyborgcode.roa.db.allure
+io.cyborgcode.roa.db.annotations
+io.cyborgcode.roa.db.config
+io.cyborgcode.roa.db.extensions
+io.cyborgcode.roa.db.hooks
+io.cyborgcode.roa.db.retry
+io.cyborgcode.roa.db.service.fluent
+io.cyborgcode.roa.db.storage
+C:\Users\38975\IdeaProjects\roa-libraries\test-framework\target\test-framework-0.0.0.jar = 1770236468929
+C:\Users\38975\.m2\repository\io\cyborgcode\utilities\commons\1.0.0-rc-2\commons-1.0.0-rc-2.jar = 1770236125587
+C:\Users\38975\.m2\repository\org\apache\logging\log4j\log4j-layout-template-json\2.25.3\log4j-layout-template-json-2.25.3.jar = 1769092681246
+C:\Users\38975\.m2\repository\org\apache\logging\log4j\log4j-core\2.25.3\log4j-core-2.25.3.jar = 1769092682572
+C:\Users\38975\.m2\repository\org\apache\logging\log4j\log4j-api\2.25.3\log4j-api-2.25.3.jar = 1769092679804
+C:\Users\38975\.m2\repository\org\reflections\reflections\0.10.2\reflections-0.10.2.jar = 1737455336264
+C:\Users\38975\.m2\repository\org\javassist\javassist\3.28.0-GA\javassist-3.28.0-GA.jar = 1737455336579
+C:\Users\38975\.m2\repository\org\openjdk\nashorn\nashorn-core\15.7\nashorn-core-15.7.jar = 1761474257629
+C:\Users\38975\.m2\repository\org\ow2\asm\asm\9.9.1\asm-9.9.1.jar = 1769092682123
+C:\Users\38975\.m2\repository\org\ow2\asm\asm-commons\7.3.1\asm-commons-7.3.1.jar = 1737455338929
+C:\Users\38975\.m2\repository\org\ow2\asm\asm-analysis\7.3.1\asm-analysis-7.3.1.jar = 1737455337284
+C:\Users\38975\.m2\repository\org\ow2\asm\asm-tree\7.3.1\asm-tree-7.3.1.jar = 1737455337113
+C:\Users\38975\.m2\repository\org\ow2\asm\asm-util\7.3.1\asm-util-7.3.1.jar = 1737455337871
+C:\Users\38975\.m2\repository\org\springframework\boot\spring-boot-starter\4.0.2\spring-boot-starter-4.0.2.jar = 1769440679414
+C:\Users\38975\.m2\repository\org\springframework\boot\spring-boot-autoconfigure\4.0.2\spring-boot-autoconfigure-4.0.2.jar = 1769440680681
+C:\Users\38975\.m2\repository\org\springframework\boot\spring-boot\4.0.2\spring-boot-4.0.2.jar = 1769440679683
+C:\Users\38975\.m2\repository\org\springframework\spring-context\7.0.3\spring-context-7.0.3.jar = 1769440679846
+C:\Users\38975\.m2\repository\org\springframework\spring-aop\7.0.3\spring-aop-7.0.3.jar = 1769440681025
+C:\Users\38975\.m2\repository\org\springframework\spring-beans\7.0.3\spring-beans-7.0.3.jar = 1769440677427
+C:\Users\38975\.m2\repository\org\springframework\spring-expression\7.0.3\spring-expression-7.0.3.jar = 1769440678418
+C:\Users\38975\.m2\repository\io\micrometer\micrometer-observation\1.16.2\micrometer-observation-1.16.2.jar = 1769440675283
+C:\Users\38975\.m2\repository\io\micrometer\micrometer-commons\1.16.2\micrometer-commons-1.16.2.jar = 1769440676277
+C:\Users\38975\.m2\repository\jakarta\annotation\jakarta.annotation-api\3.0.0\jakarta.annotation-api-3.0.0.jar = 1769093583308
+C:\Users\38975\.m2\repository\org\yaml\snakeyaml\2.5\snakeyaml-2.5.jar = 1769093593071
+C:\Users\38975\IdeaProjects\roa-libraries\assertions\target\assertions-0.0.0.jar = 1770236090927
+C:\Users\38975\.m2\repository\org\assertj\assertj-core\3.27.6\assertj-core-3.27.6.jar = 1769093605827
+C:\Users\38975\.m2\repository\net\bytebuddy\byte-buddy\1.18.4\byte-buddy-1.18.4.jar = 1769899079549
+C:\Users\38975\.m2\repository\org\junit\jupiter\junit-jupiter-api\6.0.2\junit-jupiter-api-6.0.2.jar = 1769092678308
+C:\Users\38975\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar = 1737455351788
+C:\Users\38975\.m2\repository\org\junit\platform\junit-platform-commons\6.0.2\junit-platform-commons-6.0.2.jar = 1769092678032
+C:\Users\38975\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar = 1737455347317
+C:\Users\38975\.m2\repository\org\jspecify\jspecify\1.0.0\jspecify-1.0.0.jar = 1737455405994
+C:\Users\38975\.m2\repository\io\qameta\allure\allure-junit5\2.32.0\allure-junit5-2.32.0.jar = 1769093612284
+C:\Users\38975\.m2\repository\io\qameta\allure\allure-junit-platform\2.32.0\allure-junit-platform-2.32.0.jar = 1769093613970
+C:\Users\38975\.m2\repository\io\qameta\allure\allure-java-commons\2.32.0\allure-java-commons-2.32.0.jar = 1769093612451
+C:\Users\38975\.m2\repository\org\slf4j\slf4j-api\2.0.17\slf4j-api-2.0.17.jar = 1745423525973
+C:\Users\38975\.m2\repository\io\qameta\allure\allure-model\2.32.0\allure-model-2.32.0.jar = 1769093613755
+C:\Users\38975\.m2\repository\org\aeonbits\owner\owner\1.0.12\owner-1.0.12.jar = 1737455339269
+C:\Users\38975\.m2\repository\org\springframework\boot\spring-boot-starter-test\4.0.2\spring-boot-starter-test-4.0.2.jar = 1769440683453
+C:\Users\38975\.m2\repository\org\springframework\boot\spring-boot-test\4.0.2\spring-boot-test-4.0.2.jar = 1769440680603
+C:\Users\38975\.m2\repository\org\springframework\boot\spring-boot-test-autoconfigure\4.0.2\spring-boot-test-autoconfigure-4.0.2.jar = 1769440682305
+C:\Users\38975\.m2\repository\jakarta\xml\bind\jakarta.xml.bind-api\4.0.4\jakarta.xml.bind-api-4.0.4.jar = 1769093610752
+C:\Users\38975\.m2\repository\jakarta\activation\jakarta.activation-api\2.1.4\jakarta.activation-api-2.1.4.jar = 1760803565045
+C:\Users\38975\.m2\repository\net\minidev\json-smart\2.6.0\json-smart-2.6.0.jar = 1769093602921
+C:\Users\38975\.m2\repository\net\minidev\accessors-smart\2.6.0\accessors-smart-2.6.0.jar = 1769093604164
+C:\Users\38975\.m2\repository\org\awaitility\awaitility\4.3.0\awaitility-4.3.0.jar = 1769093607164
+C:\Users\38975\.m2\repository\org\hamcrest\hamcrest\3.0\hamcrest-3.0.jar = 1760802641092
+C:\Users\38975\.m2\repository\org\junit\jupiter\junit-jupiter\6.0.2\junit-jupiter-6.0.2.jar = 1769428013360
+C:\Users\38975\.m2\repository\org\junit\jupiter\junit-jupiter-params\6.0.2\junit-jupiter-params-6.0.2.jar = 1769092676874
+C:\Users\38975\.m2\repository\org\skyscreamer\jsonassert\1.5.3\jsonassert-1.5.3.jar = 1737455391625
+C:\Users\38975\.m2\repository\com\vaadin\external\google\android-json\0.0.20131108.vaadin1\android-json-0.0.20131108.vaadin1.jar = 1737455391754
+C:\Users\38975\.m2\repository\org\springframework\spring-core\7.0.3\spring-core-7.0.3.jar = 1769440676997
+C:\Users\38975\.m2\repository\commons-logging\commons-logging\1.3.5\commons-logging-1.3.5.jar = 1746794430211
+C:\Users\38975\.m2\repository\org\springframework\spring-test\7.0.3\spring-test-7.0.3.jar = 1769440681079
+C:\Users\38975\.m2\repository\org\xmlunit\xmlunit-core\2.10.4\xmlunit-core-2.10.4.jar = 1760803565151
+C:\Users\38975\.m2\repository\com\github\spotbugs\spotbugs-annotations\4.9.8\spotbugs-annotations-4.9.8.jar = 1769093148399
+C:\Users\38975\.m2\repository\com\google\code\findbugs\jsr305\3.0.2\jsr305-3.0.2.jar = 1737455336668
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor\target\db-interactor-0.0.0.jar = 1770236227065
+C:\Users\38975\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.20.2\jackson-databind-2.20.2.jar = 1769440682312
+C:\Users\38975\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.20\jackson-annotations-2.20.jar = 1762507906815
+C:\Users\38975\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.20.2\jackson-core-2.20.2.jar = 1769440683518
+C:\Users\38975\.m2\repository\com\jayway\jsonpath\json-path\2.10.0\json-path-2.10.0.jar = 1769093608691
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\src\main\java = 1769893962473
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\target\generated-sources\annotations = 1770236583477
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\target\javadocs\apidocs\allclasses-index.html = 1770236616699
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\target\javadocs\apidocs\allpackages-index.html = 1770236616718
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\target\javadocs\apidocs\element-list = 1770236615854
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\target\javadocs\apidocs\help-doc.html = 1770236616842
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\target\javadocs\apidocs\index-all.html = 1770236616813
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\target\javadocs\apidocs\index.html = 1770236616654
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\target\javadocs\apidocs\jquery-ui.overrides.css = 1770236616992
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\target\javadocs\apidocs\member-search-index.js = 1770236616762
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\target\javadocs\apidocs\module-search-index.js = 1770236616731
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\target\javadocs\apidocs\overview-summary.html = 1770236616829
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\target\javadocs\apidocs\overview-tree.html = 1770236616633
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\target\javadocs\apidocs\package-search-index.js = 1770236616743
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\target\javadocs\apidocs\script.js = 1770236616863
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\target\javadocs\apidocs\search.js = 1770236616878
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\target\javadocs\apidocs\stylesheet.css = 1770236616855
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\target\javadocs\apidocs\tag-search-index.js = 1770236616772
+C:\Users\38975\IdeaProjects\roa-libraries\db-interactor-test-framework-adapter\target\javadocs\apidocs\type-search-index.js = 1770236616753

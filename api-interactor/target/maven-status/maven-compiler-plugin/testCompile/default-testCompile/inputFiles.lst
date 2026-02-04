@@ -1,0 +1,17 @@
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\test\java\io\cyborgcode\roa\api\authentication\BaseAuthenticationClientTest.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\test\java\io\cyborgcode\roa\api\authentication\mock\AnotherAuthClient.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\test\java\io\cyborgcode\roa\api\authentication\mock\TestAuthenticationClient.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\test\java\io\cyborgcode\roa\api\client\RestClientImplTest.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\test\java\io\cyborgcode\roa\api\config\ApiConfigHolderTest.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\test\java\io\cyborgcode\roa\api\config\ApiConfigTest.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\test\java\io\cyborgcode\roa\api\config\SystemPropertyTest.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\test\java\io\cyborgcode\roa\api\core\EndpointTest.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\test\java\io\cyborgcode\roa\api\core\mock\MockEndpoint.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\test\java\io\cyborgcode\roa\api\core\mock\MockTestableEndpoint.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\test\java\io\cyborgcode\roa\api\core\mock\TestEnum.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\test\java\io\cyborgcode\roa\api\core\ParametrizedEndpointTest.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\test\java\io\cyborgcode\roa\api\log\LogApiTest.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\test\java\io\cyborgcode\roa\api\service\mock\MockAuthClient.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\test\java\io\cyborgcode\roa\api\service\RestServiceTest.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\test\java\io\cyborgcode\roa\api\validator\RestAssertionTargetTest.java
+C:\Users\38975\IdeaProjects\roa-libraries\api-interactor\src\test\java\io\cyborgcode\roa\api\validator\RestResponseValidatorImplTest.java

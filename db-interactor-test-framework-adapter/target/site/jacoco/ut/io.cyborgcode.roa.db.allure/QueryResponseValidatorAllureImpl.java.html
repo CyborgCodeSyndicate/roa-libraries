@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>QueryResponseValidatorAllureImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Database Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.db.allure</a> &gt; <span class="el_source">QueryResponseValidatorAllureImpl.java</span></div><h1>QueryResponseValidatorAllureImpl.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.db.allure;
+
+import io.cyborgcode.roa.db.json.JsonPathExtractor;
+import io.cyborgcode.roa.db.validator.QueryResponseValidatorImpl;
+import io.qameta.allure.Allure;
+import java.util.Map;
+import org.springframework.stereotype.Component;
+
+/**
+ * Enhances {@code QueryResponseValidatorImpl} with Allure reporting.
+ *
+ * &lt;p&gt;This class extends {@link QueryResponseValidatorImpl} to integrate Allure
+ * logging, ensuring query validation details are captured in test reports.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@Component
+public class QueryResponseValidatorAllureImpl extends QueryResponseValidatorImpl {
+
+   /**
+    * Constructs a new {@code QueryResponseValidatorAllureImpl} with the given JSON Path extractor.
+    *
+    * @param jsonPathExtractor The {@link JsonPathExtractor} used for extracting values from query responses.
+    */
+   public QueryResponseValidatorAllureImpl(final JsonPathExtractor jsonPathExtractor) {
+<span class="fc" id="L26">      super(jsonPathExtractor);</span>
+<span class="fc" id="L27">   }</span>
+
+   /**
+    * Logs the validation target using Allure reporting.
+    *
+    * &lt;p&gt;This method overrides the parent implementation to add Allure step-based logging,
+    * ensuring that validation details are included in the test execution report.
+    *
+    * @param data The extracted response data mapped to assertion keys.
+    */
+   @Override
+   protected void printAssertionTarget(final Map&lt;String, Object&gt; data) {
+<span class="fc" id="L39">      super.printAssertionTarget(data);</span>
+<span class="fc" id="L40">      Allure.step(&quot;Validating query response with &quot; + data.size() + &quot; assertion(s)&quot;, () -&gt;</span>
+<span class="fc" id="L41">            Allure.addAttachment(&quot;Data to be validated&quot;, data.toString()));</span>
+<span class="fc" id="L42">   }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

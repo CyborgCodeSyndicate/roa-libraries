@@ -1,0 +1,1 @@
+{"uuid":"dab1e741-463f-4ea6-84ea-d87e898d4f4a","name":"validate(Consumer<SoftAssertions>) should delegate to super and return self","children":["50d6332c-cdbd-4304-83a0-f1f9f2c83b50"],"befores":[],"afters":[],"start":1769887555923,"stop":1769887556006}

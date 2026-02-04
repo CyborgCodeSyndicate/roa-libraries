@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="io.cyborgcode.roa.ui.components.accordion.AccordionServiceImplTest" time="8.589" tests="0" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="checkbox.default.type" value="DUMMY_CHECKBOX"/>
+    <property name="java.specification.version" value="17"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="toggle.default.type" value="DUMMY_TOGGLE"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.class.path" value="C:\Users\38975\.m2\repository\org\apache\maven\surefire\surefire-booter\3.5.4\surefire-booter-3.5.4.jar;C:\Users\38975\.m2\repository\org\apache\maven\surefire\surefire-api\3.5.4\surefire-api-3.5.4.jar;C:\Users\38975\.m2\repository\org\apache\maven\surefire\surefire-extensions-spi\3.5.4\surefire-extensions-spi-3.5.4.jar;C:\Users\38975\.m2\repository\org\apache\maven\surefire\surefire-shared-utils\3.5.4\surefire-shared-utils-3.5.4.jar;C:\Users\38975\.m2\repository\org\apache\maven\surefire\surefire-logger-api\3.5.4\surefire-logger-api-3.5.4.jar;C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor\target\test-classes;C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor\target\classes;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-java\4.40.0\selenium-java-4.40.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-api\4.40.0\selenium-api-4.40.0.jar;C:\Users\38975\.m2\repository\org\jspecify\jspecify\1.0.0\jspecify-1.0.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-chrome-driver\4.40.0\selenium-chrome-driver-4.40.0.jar;C:\Users\38975\.m2\repository\com\google\auto\service\auto-service-annotations\1.1.1\auto-service-annotations-1.1.1.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-chromium-driver\4.40.0\selenium-chromium-driver-4.40.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-json\4.40.0\selenium-json-4.40.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-manager\4.40.0\selenium-manager-4.40.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v142\4.40.0\selenium-devtools-v142-4.40.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v143\4.40.0\selenium-devtools-v143-4.40.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v144\4.40.0\selenium-devtools-v144-4.40.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-edge-driver\4.40.0\selenium-edge-driver-4.40.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-firefox-driver\4.40.0\selenium-firefox-driver-4.40.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-http\4.40.0\selenium-http-4.40.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-ie-driver\4.40.0\selenium-ie-driver-4.40.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-remote-driver\4.40.0\selenium-remote-driver-4.40.0.jar;C:\Users\38975\.m2\repository\com\google\guava\guava\33.5.0-jre\guava-33.5.0-jre.jar;C:\Users\38975\.m2\repository\com\google\guava\failureaccess\1.0.3\failureaccess-1.0.3.jar;C:\Users\38975\.m2\repository\com\google\guava\listenablefuture\9999.0-empty-to-avoid-conflict-with-guava\listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar;C:\Users\38975\.m2\repository\com\google\j2objc\j2objc-annotations\3.1\j2objc-annotations-3.1.jar;C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-api\1.58.0\opentelemetry-api-1.58.0.jar;C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-context\1.58.0\opentelemetry-context-1.58.0.jar;C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-common\1.55.0\opentelemetry-common-1.55.0.jar;C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-exporter-logging\1.58.0\opentelemetry-exporter-logging-1.58.0.jar;C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-sdk-common\1.58.0\opentelemetry-sdk-common-1.58.0.jar;C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-sdk-extension-autoconfigure-spi\1.58.0\opentelemetry-sdk-extension-autoconfigure-spi-1.58.0.jar;C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-sdk-extension-autoconfigure\1.58.0\opentelemetry-sdk-extension-autoconfigure-1.58.0.jar;C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-sdk-trace\1.58.0\opentelemetry-sdk-trace-1.58.0.jar;C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-sdk\1.58.0\opentelemetry-sdk-1.58.0.jar;C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-sdk-metrics\1.55.0\opentelemetry-sdk-metrics-1.55.0.jar;C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-sdk-logs\1.55.0\opentelemetry-sdk-logs-1.55.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-os\4.40.0\selenium-os-4.40.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-safari-driver\4.40.0\selenium-safari-driver-4.40.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-support\4.40.0\selenium-support-4.40.0.jar;C:\Users\38975\.m2\repository\org\projectlombok\lombok\1.18.42\lombok-1.18.42.jar;C:\Users\38975\.m2\repository\org\aeonbits\owner\owner\1.0.12\owner-1.0.12.jar;C:\Users\38975\.m2\repository\io\github\bonigarcia\webdrivermanager\6.3.3\webdrivermanager-6.3.3.jar;C:\Users\38975\.m2\repository\org\slf4j\slf4j-api\2.0.17\slf4j-api-2.0.17.jar;C:\Users\38975\.m2\repository\com\google\code\gson\gson\2.13.2\gson-2.13.2.jar;C:\Users\38975\.m2\repository\com\google\errorprone\error_prone_annotations\2.46.0\error_prone_annotations-2.46.0.jar;C:\Users\38975\.m2\repository\com\github\docker-java\docker-java\3.6.0\docker-java-3.6.0.jar;C:\Users\38975\.m2\repository\com\github\docker-java\docker-java-core\3.6.0\docker-java-core-3.6.0.jar;C:\Users\38975\.m2\repository\com\github\docker-java\docker-java-api\3.6.0\docker-java-api-3.6.0.jar;C:\Users\38975\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.20\jackson-annotations-2.20.jar;C:\Users\38975\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.20.2\jackson-databind-2.20.2.jar;C:\Users\38975\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.20.2\jackson-core-2.20.2.jar;C:\Users\38975\.m2\repository\org\slf4j\jcl-over-slf4j\2.0.17\jcl-over-slf4j-2.0.17.jar;C:\Users\38975\.m2\repository\com\github\docker-java\docker-java-transport-httpclient5\3.6.0\docker-java-transport-httpclient5-3.6.0.jar;C:\Users\38975\.m2\repository\com\github\docker-java\docker-java-transport\3.6.0\docker-java-transport-3.6.0.jar;C:\Users\38975\.m2\repository\net\java\dev\jna\jna\5.18.1\jna-5.18.1.jar;C:\Users\38975\.m2\repository\org\brotli\dec\0.1.2\dec-0.1.2.jar;C:\Users\38975\.m2\repository\org\apache\commons\commons-lang3\3.20.0\commons-lang3-3.20.0.jar;C:\Users\38975\.m2\repository\org\apache\commons\commons-compress\1.28.0\commons-compress-1.28.0.jar;C:\Users\38975\.m2\repository\commons-codec\commons-codec\1.19.0\commons-codec-1.19.0.jar;C:\Users\38975\.m2\repository\commons-io\commons-io\2.21.0\commons-io-2.21.0.jar;C:\Users\38975\.m2\repository\org\apache\httpcomponents\client5\httpclient5\5.6\httpclient5-5.6.jar;C:\Users\38975\.m2\repository\org\apache\httpcomponents\core5\httpcore5\5.4\httpcore5-5.4.jar;C:\Users\38975\.m2\repository\org\apache\httpcomponents\core5\httpcore5-h2\5.3.6\httpcore5-h2-5.3.6.jar;C:\Users\38975\.m2\repository\io\cyborgcode\utilities\commons\1.0.0-rc-2\commons-1.0.0-rc-2.jar;C:\Users\38975\.m2\repository\org\apache\logging\log4j\log4j-layout-template-json\2.25.3\log4j-layout-template-json-2.25.3.jar;C:\Users\38975\.m2\repository\org\apache\logging\log4j\log4j-core\2.25.3\log4j-core-2.25.3.jar;C:\Users\38975\.m2\repository\org\apache\logging\log4j\log4j-api\2.25.3\log4j-api-2.25.3.jar;C:\Users\38975\.m2\repository\org\reflections\reflections\0.10.2\reflections-0.10.2.jar;C:\Users\38975\.m2\repository\org\javassist\javassist\3.28.0-GA\javassist-3.28.0-GA.jar;C:\Users\38975\.m2\repository\org\openjdk\nashorn\nashorn-core\15.7\nashorn-core-15.7.jar;C:\Users\38975\.m2\repository\org\ow2\asm\asm\9.9.1\asm-9.9.1.jar;C:\Users\38975\.m2\repository\org\ow2\asm\asm-commons\7.3.1\asm-commons-7.3.1.jar;C:\Users\38975\.m2\repository\org\ow2\asm\asm-analysis\7.3.1\asm-analysis-7.3.1.jar;C:\Users\38975\.m2\repository\org\ow2\asm\asm-tree\7.3.1\asm-tree-7.3.1.jar;C:\Users\38975\.m2\repository\org\ow2\asm\asm-util\7.3.1\asm-util-7.3.1.jar;C:\Users\38975\IdeaProjects\roa-libraries\assertions\target\assertions-0.0.0.jar;C:\Users\38975\.m2\repository\org\junit\jupiter\junit-jupiter\6.0.2\junit-jupiter-6.0.2.jar;C:\Users\38975\.m2\repository\org\junit\jupiter\junit-jupiter-api\6.0.2\junit-jupiter-api-6.0.2.jar;C:\Users\38975\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\38975\.m2\repository\org\junit\platform\junit-platform-commons\6.0.2\junit-platform-commons-6.0.2.jar;C:\Users\38975\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\38975\.m2\repository\org\junit\jupiter\junit-jupiter-params\6.0.2\junit-jupiter-params-6.0.2.jar;C:\Users\38975\.m2\repository\org\junit\jupiter\junit-jupiter-engine\6.0.2\junit-jupiter-engine-6.0.2.jar;C:\Users\38975\.m2\repository\org\junit\platform\junit-platform-engine\6.0.2\junit-platform-engine-6.0.2.jar;C:\Users\38975\.m2\repository\org\mockito\mockito-core\5.21.0\mockito-core-5.21.0.jar;C:\Users\38975\.m2\repository\net\bytebuddy\byte-buddy\1.18.4\byte-buddy-1.18.4.jar;C:\Users\38975\.m2\repository\net\bytebuddy\byte-buddy-agent\1.17.8\byte-buddy-agent-1.17.8.jar;C:\Users\38975\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\38975\.m2\repository\org\mockito\mockito-junit-jupiter\5.21.0\mockito-junit-jupiter-5.21.0.jar;C:\Users\38975\.m2\repository\org\assertj\assertj-core\3.27.6\assertj-core-3.27.6.jar;C:\Users\38975\.m2\repository\com\github\spotbugs\spotbugs-annotations\4.9.8\spotbugs-annotations-4.9.8.jar;C:\Users\38975\.m2\repository\com\google\code\findbugs\jsr305\3.0.2\jsr305-3.0.2.jar;C:\Users\38975\.m2\repository\org\apache\maven\surefire\surefire-junit-platform\3.5.4\surefire-junit-platform-3.5.4.jar;C:\Users\38975\.m2\repository\org\apache\maven\surefire\common-java5\3.5.4\common-java5-3.5.4.jar;C:\Users\38975\.m2\repository\org\junit\platform\junit-platform-launcher\6.0.2\junit-platform-launcher-6.0.2.jar"/>
+    <property name="java.vm.vendor" value="OpenLogic"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="table.default.type" value="DUMMY_TABLE"/>
+    <property name="java.vendor.url" value="https://openlogic.com/"/>
+    <property name="user.timezone" value="Europe/Skopje"/>
+    <property name="ui.config.file" value="ui-config"/>
+    <property name="java.vm.specification.version" value="17"/>
+    <property name="os.name" value="Windows 10"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.boot.library.path" value="C:\Users\38975\Downloads\openlogic-openjdk-17.0.13+11-windows-x64\bin"/>
+    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter C:\Users\38975\AppData\Local\Temp\surefire6510743213036146872 2026-02-04T21-14-44_377-jvmRun1 surefire-20260204211817410_74tmp surefire_3-20260204211817410_75tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor\target\test-classes;C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor\target\classes;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-java\4.40.0\selenium-java-4.40.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-api\4.40.0\selenium-api-4.40.0.jar;C:\Users\38975\.m2\repository\org\jspecify\jspecify\1.0.0\jspecify-1.0.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-chrome-driver\4.40.0\selenium-chrome-driver-4.40.0.jar;C:\Users\38975\.m2\repository\com\google\auto\service\auto-service-annotations\1.1.1\auto-service-annotations-1.1.1.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-chromium-driver\4.40.0\selenium-chromium-driver-4.40.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-json\4.40.0\selenium-json-4.40.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-manager\4.40.0\selenium-manager-4.40.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v142\4.40.0\selenium-devtools-v142-4.40.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v143\4.40.0\selenium-devtools-v143-4.40.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v144\4.40.0\selenium-devtools-v144-4.40.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-edge-driver\4.40.0\selenium-edge-driver-4.40.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-firefox-driver\4.40.0\selenium-firefox-driver-4.40.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-http\4.40.0\selenium-http-4.40.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-ie-driver\4.40.0\selenium-ie-driver-4.40.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-remote-driver\4.40.0\selenium-remote-driver-4.40.0.jar;C:\Users\38975\.m2\repository\com\google\guava\guava\33.5.0-jre\guava-33.5.0-jre.jar;C:\Users\38975\.m2\repository\com\google\guava\failureaccess\1.0.3\failureaccess-1.0.3.jar;C:\Users\38975\.m2\repository\com\google\guava\listenablefuture\9999.0-empty-to-avoid-conflict-with-guava\listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar;C:\Users\38975\.m2\repository\com\google\j2objc\j2objc-annotations\3.1\j2objc-annotations-3.1.jar;C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-api\1.58.0\opentelemetry-api-1.58.0.jar;C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-context\1.58.0\opentelemetry-context-1.58.0.jar;C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-common\1.55.0\opentelemetry-common-1.55.0.jar;C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-exporter-logging\1.58.0\opentelemetry-exporter-logging-1.58.0.jar;C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-sdk-common\1.58.0\opentelemetry-sdk-common-1.58.0.jar;C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-sdk-extension-autoconfigure-spi\1.58.0\opentelemetry-sdk-extension-autoconfigure-spi-1.58.0.jar;C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-sdk-extension-autoconfigure\1.58.0\opentelemetry-sdk-extension-autoconfigure-1.58.0.jar;C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-sdk-trace\1.58.0\opentelemetry-sdk-trace-1.58.0.jar;C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-sdk\1.58.0\opentelemetry-sdk-1.58.0.jar;C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-sdk-metrics\1.55.0\opentelemetry-sdk-metrics-1.55.0.jar;C:\Users\38975\.m2\repository\io\opentelemetry\opentelemetry-sdk-logs\1.55.0\opentelemetry-sdk-logs-1.55.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-os\4.40.0\selenium-os-4.40.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-safari-driver\4.40.0\selenium-safari-driver-4.40.0.jar;C:\Users\38975\.m2\repository\org\seleniumhq\selenium\selenium-support\4.40.0\selenium-support-4.40.0.jar;C:\Users\38975\.m2\repository\org\projectlombok\lombok\1.18.42\lombok-1.18.42.jar;C:\Users\38975\.m2\repository\org\aeonbits\owner\owner\1.0.12\owner-1.0.12.jar;C:\Users\38975\.m2\repository\io\github\bonigarcia\webdrivermanager\6.3.3\webdrivermanager-6.3.3.jar;C:\Users\38975\.m2\repository\org\slf4j\slf4j-api\2.0.17\slf4j-api-2.0.17.jar;C:\Users\38975\.m2\repository\com\google\code\gson\gson\2.13.2\gson-2.13.2.jar;C:\Users\38975\.m2\repository\com\google\errorprone\error_prone_annotations\2.46.0\error_prone_annotations-2.46.0.jar;C:\Users\38975\.m2\repository\com\github\docker-java\docker-java\3.6.0\docker-java-3.6.0.jar;C:\Users\38975\.m2\repository\com\github\docker-java\docker-java-core\3.6.0\docker-java-core-3.6.0.jar;C:\Users\38975\.m2\repository\com\github\docker-java\docker-java-api\3.6.0\docker-java-api-3.6.0.jar;C:\Users\38975\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.20\jackson-annotations-2.20.jar;C:\Users\38975\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.20.2\jackson-databind-2.20.2.jar;C:\Users\38975\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.20.2\jackson-core-2.20.2.jar;C:\Users\38975\.m2\repository\org\slf4j\jcl-over-slf4j\2.0.17\jcl-over-slf4j-2.0.17.jar;C:\Users\38975\.m2\repository\com\github\docker-java\docker-java-transport-httpclient5\3.6.0\docker-java-transport-httpclient5-3.6.0.jar;C:\Users\38975\.m2\repository\com\github\docker-java\docker-java-transport\3.6.0\docker-java-transport-3.6.0.jar;C:\Users\38975\.m2\repository\net\java\dev\jna\jna\5.18.1\jna-5.18.1.jar;C:\Users\38975\.m2\repository\org\brotli\dec\0.1.2\dec-0.1.2.jar;C:\Users\38975\.m2\repository\org\apache\commons\commons-lang3\3.20.0\commons-lang3-3.20.0.jar;C:\Users\38975\.m2\repository\org\apache\commons\commons-compress\1.28.0\commons-compress-1.28.0.jar;C:\Users\38975\.m2\repository\commons-codec\commons-codec\1.19.0\commons-codec-1.19.0.jar;C:\Users\38975\.m2\repository\commons-io\commons-io\2.21.0\commons-io-2.21.0.jar;C:\Users\38975\.m2\repository\org\apache\httpcomponents\client5\httpclient5\5.6\httpclient5-5.6.jar;C:\Users\38975\.m2\repository\org\apache\httpcomponents\core5\httpcore5\5.4\httpcore5-5.4.jar;C:\Users\38975\.m2\repository\org\apache\httpcomponents\core5\httpcore5-h2\5.3.6\httpcore5-h2-5.3.6.jar;C:\Users\38975\.m2\repository\io\cyborgcode\utilities\commons\1.0.0-rc-2\commons-1.0.0-rc-2.jar;C:\Users\38975\.m2\repository\org\apache\logging\log4j\log4j-layout-template-json\2.25.3\log4j-layout-template-json-2.25.3.jar;C:\Users\38975\.m2\repository\org\apache\logging\log4j\log4j-core\2.25.3\log4j-core-2.25.3.jar;C:\Users\38975\.m2\repository\org\apache\logging\log4j\log4j-api\2.25.3\log4j-api-2.25.3.jar;C:\Users\38975\.m2\repository\org\reflections\reflections\0.10.2\reflections-0.10.2.jar;C:\Users\38975\.m2\repository\org\javassist\javassist\3.28.0-GA\javassist-3.28.0-GA.jar;C:\Users\38975\.m2\repository\org\openjdk\nashorn\nashorn-core\15.7\nashorn-core-15.7.jar;C:\Users\38975\.m2\repository\org\ow2\asm\asm\9.9.1\asm-9.9.1.jar;C:\Users\38975\.m2\repository\org\ow2\asm\asm-commons\7.3.1\asm-commons-7.3.1.jar;C:\Users\38975\.m2\repository\org\ow2\asm\asm-analysis\7.3.1\asm-analysis-7.3.1.jar;C:\Users\38975\.m2\repository\org\ow2\asm\asm-tree\7.3.1\asm-tree-7.3.1.jar;C:\Users\38975\.m2\repository\org\ow2\asm\asm-util\7.3.1\asm-util-7.3.1.jar;C:\Users\38975\IdeaProjects\roa-libraries\assertions\target\assertions-0.0.0.jar;C:\Users\38975\.m2\repository\org\junit\jupiter\junit-jupiter\6.0.2\junit-jupiter-6.0.2.jar;C:\Users\38975\.m2\repository\org\junit\jupiter\junit-jupiter-api\6.0.2\junit-jupiter-api-6.0.2.jar;C:\Users\38975\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\38975\.m2\repository\org\junit\platform\junit-platform-commons\6.0.2\junit-platform-commons-6.0.2.jar;C:\Users\38975\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\38975\.m2\repository\org\junit\jupiter\junit-jupiter-params\6.0.2\junit-jupiter-params-6.0.2.jar;C:\Users\38975\.m2\repository\org\junit\jupiter\junit-jupiter-engine\6.0.2\junit-jupiter-engine-6.0.2.jar;C:\Users\38975\.m2\repository\org\junit\platform\junit-platform-engine\6.0.2\junit-platform-engine-6.0.2.jar;C:\Users\38975\.m2\repository\org\mockito\mockito-core\5.21.0\mockito-core-5.21.0.jar;C:\Users\38975\.m2\repository\net\bytebuddy\byte-buddy\1.18.4\byte-buddy-1.18.4.jar;C:\Users\38975\.m2\repository\net\bytebuddy\byte-buddy-agent\1.17.8\byte-buddy-agent-1.17.8.jar;C:\Users\38975\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\38975\.m2\repository\org\mockito\mockito-junit-jupiter\5.21.0\mockito-junit-jupiter-5.21.0.jar;C:\Users\38975\.m2\repository\org\assertj\assertj-core\3.27.6\assertj-core-3.27.6.jar;C:\Users\38975\.m2\repository\com\github\spotbugs\spotbugs-annotations\4.9.8\spotbugs-annotations-4.9.8.jar;C:\Users\38975\.m2\repository\com\google\code\findbugs\jsr305\3.0.2\jsr305-3.0.2.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\38975"/>
+    <property name="wait.duration.in.seconds" value="2"/>
+    <property name="user.language" value="en"/>
+    <property name="loader.default.type" value="DUMMY_LOADER"/>
+    <property name="sun.stderr.encoding" value="UTF-8"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2024-10-15"/>
+    <property name="java.home" value="C:\Users\38975\Downloads\openlogic-openjdk-17.0.13+11-windows-x64"/>
+    <property name="file.separator" value="\"/>
+    <property name="style.color" value="always"/>
+    <property name="basedir" value="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="sun.stdout.encoding" value="UTF-8"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="list.default.type" value="DUMMY_LIST"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="link.default.type" value="DUMMY_LINK"/>
+    <property name="tab.default.type" value="DUMMY_TAB"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="select.default.type" value="DUMMY_SELECT"/>
+    <property name="java.runtime.version" value="17.0.13+11-adhoc..jdk17u"/>
+    <property name="user.name" value="38975"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="alert.default.type" value="DUMMY_ALERT"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="radio.default.type" value="DUMMY_RADIO"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="accordion.default.type" value="DUMMY_ACCORDION"/>
+    <property name="java.vendor.version" value="OpenLogic-OpenJDK"/>
+    <property name="maven.ext.class.path" value="C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2025.2.4\plugins\maven\lib\maven-event-listener.jar"/>
+    <property name="localRepository" value="C:\Users\38975\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://techsupport.roguewave.com/"/>
+    <property name="java.io.tmpdir" value="C:\Users\38975\AppData\Local\Temp\"/>
+    <property name="modal.default.type" value="DUMMY_MODAL"/>
+    <property name="idea.version" value="2025.2.4"/>
+    <property name="java.version" value="17.0.13"/>
+    <property name="user.dir" value="C:\Users\38975\IdeaProjects\roa-libraries\ui-interactor"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="jansi.passthrough" value="true"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="input.default.type" value="DUMMY_INPUT"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="project.packages" value="io.cyborgcode.roa"/>
+    <property name="native.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="C:\Users\38975\Downloads\openlogic-openjdk-17.0.13+11-windows-x64\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Users\38975\Downloads\openlogic-openjdk-17.0.13+11-windows-x64\bin;C:\Users\38975\Downloads\allure-commandline-2.29.0\allure-2.29.0\bin;C:\Program Files\Gpg4win\..\GnuPG\bin;C:\Program Files\Maven\apache-maven-3.9.12\bin;C:\Program Files\nodejs\;C:\Users\38975\AppData\Local\Programs\Python\Python313\Scripts\;C:\Users\38975\AppData\Local\Programs\Python\Python313\;C:\Users\38975\AppData\Local\Microsoft\WindowsApps;C:\Users\38975\AppData\Local\Programs\Git\cmd;C:\Users\38975\AppData\Roaming\npm;."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="java.vendor" value="OpenLogic"/>
+    <property name="java.vm.version" value="17.0.13+11-adhoc..jdk17u"/>
+    <property name="java.specification.maintenance.version" value="1"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="maven.repo.local" value="C:\Users\38975\.m2\repository"/>
+    <property name="java.class.version" value="61.0"/>
+    <property name="button.default.type" value="DUMMY_BUTTON"/>
+  </properties>
+  <testcase name="componentIsCachedAndReused" classname="AccordionServiceImpl Unit Test" time="7.765">
+    <system-out><![CDATA[Expanding accordion DUMMY_ACCORDION inside container with text: [Panel1, Panel2]
+Collapsing accordion DUMMY_ACCORDION inside container with text: [Panel1, Panel2]
+Checking if accordion DUMMY_ACCORDION is enabled inside container with text: [Panel1, Panel2]
+]]></system-out>
+    <system-err><![CDATA[SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+2026-02-04T20:18:29.802466600Z main ERROR Script support is not enabled
+2026-02-04T20:18:29.819429400Z main ERROR Null object returned for ScriptFilter in Filters.
+2026-02-04T20:18:29.837621300Z main ERROR Script support is not enabled
+2026-02-04T20:18:29.917858300Z main ERROR Script support is not enabled
+2026-02-04T20:18:29.917858300Z main ERROR Null object returned for ScriptFilter in Filters.
+2026-02-04T20:18:30.148279900Z main ERROR Script support is not enabled
+]]></system-err>
+  </testcase>
+  <testcase name="isEnabledWithByLocator" classname="Status Check Operations Delegation" time="0.299">
+    <system-out><![CDATA[Checking if accordion DUMMY_ACCORDION is enabled using locator By.id: accordion
+]]></system-out>
+  </testcase>
+  <testcase name="areEnabledWithContainerAndText" classname="Status Check Operations Delegation" time="0.018">
+    <system-out><![CDATA[Checking if accordion DUMMY_ACCORDION is enabled inside container with text: [Panel1, Panel2]
+]]></system-out>
+  </testcase>
+  <testcase name="areEnabledWithByLocator" classname="Status Check Operations Delegation" time="0.019">
+    <system-out><![CDATA[Checking if accordions DUMMY_ACCORDION are enabled using locators [By.id: accordion]
+]]></system-out>
+  </testcase>
+  <testcase name="areEnabledWithTextOnly" classname="Status Check Operations Delegation" time="0.014">
+    <system-out><![CDATA[Checking if accordion DUMMY_ACCORDION is enabled with text: [Panel1, Panel2]
+]]></system-out>
+  </testcase>
+  <testcase name="getAll" classname="Get Information Operations Delegation" time="0.04">
+    <system-out><![CDATA[Getting all accordions for DUMMY_ACCORDION
+]]></system-out>
+  </testcase>
+  <testcase name="getAllByLocator" classname="Get Information Operations Delegation" time="0.012">
+    <system-out><![CDATA[Getting all accordions for DUMMY_ACCORDION, using locator By.id: accordion
+]]></system-out>
+  </testcase>
+  <testcase name="getText" classname="Get Information Operations Delegation" time="0.023">
+    <system-out><![CDATA[Getting text for accordion DUMMY_ACCORDION using locator
+]]></system-out>
+  </testcase>
+  <testcase name="getExpanded" classname="Get Information Operations Delegation" time="0.048">
+    <system-out><![CDATA[Getting expanded accordions for DUMMY_ACCORDION inside container container
+]]></system-out>
+  </testcase>
+  <testcase name="getExpandedByLocator" classname="Get Information Operations Delegation" time="0.008">
+    <system-out><![CDATA[Getting expanded accordions for DUMMY_ACCORDION, using locator By.id: accordion
+]]></system-out>
+  </testcase>
+  <testcase name="getCollapsed" classname="Get Information Operations Delegation" time="0.012">
+    <system-out><![CDATA[Getting collapsed accordions for DUMMY_ACCORDION inside container container
+]]></system-out>
+  </testcase>
+  <testcase name="getTitle" classname="Get Information Operations Delegation" time="0.013">
+    <system-out><![CDATA[Getting title for accordion DUMMY_ACCORDION using locator
+]]></system-out>
+  </testcase>
+  <testcase name="getCollapsedByLocator" classname="Get Information Operations Delegation" time="0.008">
+    <system-out><![CDATA[Getting collapsed accordions for DUMMY_ACCORDION, using locator By.id: accordion
+]]></system-out>
+  </testcase>
+  <testcase name="collapseWithContainerAndStrategy" classname="Collapse Operations Delegation" time="0.079">
+    <system-out><![CDATA[Collapsing accordion DUMMY_ACCORDION inside container using strategy: strategy
+]]></system-out>
+  </testcase>
+  <testcase name="collapseWithContainerAndText" classname="Collapse Operations Delegation" time="0.012">
+    <system-out><![CDATA[Collapsing accordion DUMMY_ACCORDION inside container with text: [Panel1, Panel2]
+]]></system-out>
+  </testcase>
+  <testcase name="collapseWithByLocator" classname="Collapse Operations Delegation" time="0.007">
+    <system-out><![CDATA[Collapsing accordion DUMMY_ACCORDION using locators
+]]></system-out>
+  </testcase>
+  <testcase name="collapseWithTextOnly" classname="Collapse Operations Delegation" time="0.009">
+    <system-out><![CDATA[Collapsing accordion DUMMY_ACCORDION with text: [Panel1, Panel2]
+]]></system-out>
+  </testcase>
+  <testcase name="expandWithByLocator" classname="Expand Operations Delegation" time="0.011">
+    <system-out><![CDATA[Expanding accordion DUMMY_ACCORDION using locators
+]]></system-out>
+  </testcase>
+  <testcase name="expandWithTextOnly" classname="Expand Operations Delegation" time="0.008">
+    <system-out><![CDATA[Expanding accordion DUMMY_ACCORDION with text: [Panel1, Panel2]
+]]></system-out>
+  </testcase>
+  <testcase name="expandWithContainerAndText" classname="Expand Operations Delegation" time="0.008">
+    <system-out><![CDATA[Expanding accordion DUMMY_ACCORDION inside container with text: [Panel1, Panel2]
+]]></system-out>
+  </testcase>
+  <testcase name="expandWithContainerAndStrategy" classname="Expand Operations Delegation" time="0.008">
+    <system-out><![CDATA[Expanding accordion DUMMY_ACCORDION inside container using strategy: strategy
+]]></system-out>
+  </testcase>
+</testsuite>

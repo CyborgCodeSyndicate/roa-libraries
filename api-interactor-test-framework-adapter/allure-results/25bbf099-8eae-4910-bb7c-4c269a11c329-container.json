@@ -1,0 +1,1 @@
+{"uuid":"25bbf099-8eae-4910-bb7c-4c269a11c329","name":"beforeTestExecution should wrap instantiation errors in IllegalStateException","children":["fd8a1c90-a8de-49b0-8d6d-dbb8466f3099"],"befores":[],"afters":[],"start":1770236543807,"stop":1770236543838}

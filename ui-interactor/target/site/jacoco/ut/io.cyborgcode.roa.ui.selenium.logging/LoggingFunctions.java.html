@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoggingFunctions.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.selenium.logging</a> &gt; <span class="el_source">LoggingFunctions.java</span></div><h1>LoggingFunctions.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.selenium.logging;
+
+import io.cyborgcode.roa.ui.log.LogUi;
+import io.cyborgcode.roa.ui.selenium.enums.WebElementAction;
+import io.cyborgcode.roa.ui.selenium.helper.LocatorParser;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
+import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
+import org.openqa.selenium.ElementNotInteractableException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+/**
+ * Provides logging functions for exception handling during Selenium WebDriver interactions.
+ * This class logs detailed information for various exceptions encountered while performing
+ * actions such as finding elements, clicking, sending keys, and submitting forms.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class LoggingFunctions {
+
+   private static final String OUTER_HTML = &quot;outerHTML&quot;;
+   private static final String INNER_HTML = &quot;innerHTML&quot;;
+   private static final int MAX_LENGTH = 1000;
+   private static final String PAGE_SOURCE_UNAVAILABLE = &quot;Page source unavailable.&quot;;
+
+
+   private LoggingFunctions() {
+   }
+
+   /**
+    * Logs a {@link NoSuchElementException} when an element cannot be found from the root level.
+    *
+    * @param target The WebDriver instance.
+    * @param action The WebElement action being performed.
+    * @param args   The method arguments.
+    * @param e      The thrown exception.
+    */
+   public static void logFindElementFromRootNoSuchElementException(final Object target, final WebElementAction action,
+         final Object[] args, final InvocationTargetException e) {
+<span class="fc" id="L45">      By locator = LocatorParser.extractLocator(args);</span>
+<span class="fc" id="L46">      Throwable cause = e.getCause();</span>
+<span class="fc" id="L47">      WebDriver driver = (WebDriver) target;</span>
+<span class="fc" id="L48">      String pageSource = truncateString(driver.getPageSource(), MAX_LENGTH);</span>
+<span class="fc" id="L49">      String additionalInfo = String.format(</span>
+            &quot;Exception [%s]: Failed to locate element using locator [%s] at the root level.%n&quot;
+                  + &quot;Possible reasons: incorrect locator, element not present in the DOM, or slow page loading.%n%n&quot;
+                  + &quot;Current Page Source (truncated):%n%s&quot;,
+<span class="fc" id="L53">            cause.getClass().getSimpleName(), locator, pageSource);</span>
+<span class="fc" id="L54">      logException(cause.getClass(), target, action.getMethodName(), args, additionalInfo);</span>
+<span class="fc" id="L55">   }</span>
+
+   /**
+    * Logs a {@link NoSuchElementException} when an element cannot be found from another element.
+    *
+    * @param target The target WebElement.
+    * @param action The WebElement action being performed.
+    * @param args   The method arguments.
+    * @param e      The thrown exception.
+    */
+   public static void logNoSuchElementException(final Object target, final WebElementAction action,
+         final Object[] args, final InvocationTargetException e) {
+<span class="fc" id="L67">      Throwable cause = e.getCause();</span>
+<span class="fc" id="L68">      By locator = LocatorParser.extractLocator(args);</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">      WebElement element = target instanceof WebElement we ? we : null;</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">      if (element == null) {</span>
+<span class="fc" id="L71">         logException(cause.getClass(), target, action.getMethodName(), args,</span>
+<span class="fc" id="L72">               &quot;Exception [&quot; + cause.getClass().getSimpleName()</span>
+                     + &quot;]: Element is null, possibly due to a stale reference or incorrect locator.&quot;);
+<span class="fc" id="L74">         return;</span>
+      }
+<span class="fc" id="L76">      String outerHtml = truncateString(element.getDomAttribute(OUTER_HTML), MAX_LENGTH);</span>
+<span class="fc" id="L77">      String innerHtml = truncateString(element.getDomAttribute(INNER_HTML), MAX_LENGTH);</span>
+<span class="fc" id="L78">      String elementDetails = LocatorParser.getElementDetails(element, outerHtml, innerHtml);</span>
+<span class="fc bfc" id="L79" title="All 5 branches covered.">      String actionMessage = switch (action) {</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">         case FIND_ELEMENT, FIND_ELEMENTS -&gt; locator != null</span>
+<span class="fc" id="L81">               ? String.format(&quot;Exception [%s]: Unable to locate element [%s] using locator [%s].&quot;,</span>
+<span class="fc" id="L82">               cause.getClass().getSimpleName(), element.getTagName(), locator)</span>
+<span class="fc" id="L83">               : String.format(&quot;Exception [%s]: Unable to locate element [%s], but no locator was provided.&quot;,</span>
+<span class="fc" id="L84">               cause.getClass().getSimpleName(), element.getTagName());</span>
+<span class="fc" id="L85">         case CLICK -&gt; String.format(&quot;Exception [%s]: Click action failed on element [%s] with text [%s].&quot;,</span>
+<span class="fc" id="L86">               cause.getClass().getSimpleName(), element.getTagName(), element.getText());</span>
+<span class="fc" id="L87">         case SEND_KEYS -&gt; String.format(&quot;Exception [%s]: Unable to send keys to element [%s] with text [%s].&quot;,</span>
+<span class="fc" id="L88">               cause.getClass().getSimpleName(), element.getTagName(), element.getText());</span>
+<span class="fc" id="L89">         case SUBMIT -&gt; String.format(&quot;Exception [%s]: Unable to submit form using element [%s].&quot;,</span>
+<span class="fc" id="L90">               cause.getClass().getSimpleName(), element.getTagName());</span>
+<span class="fc" id="L91">         default -&gt; &quot;Unknown action.&quot;;</span>
+      };
+<span class="fc" id="L93">      String additionalInfo = actionMessage + &quot;\n&quot; + elementDetails;</span>
+<span class="fc" id="L94">      logException(cause.getClass(), target, action.getMethodName(), args, additionalInfo);</span>
+<span class="fc" id="L95">   }</span>
+
+   /**
+    * Logs an {@link ElementNotInteractableException} when an element cannot be interacted with.
+    *
+    * @param target The target WebElement.
+    * @param action The WebElement action being performed.
+    * @param args   The method arguments.
+    * @param e      The thrown exception.
+    */
+   public static void logElementNotInteractableException(final Object target, final WebElementAction action,
+         final Object[] args, final InvocationTargetException e) {
+<span class="fc" id="L107">      Throwable cause = e.getCause();</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">      WebElement element = target instanceof WebElement we ? we : null;</span>
+<span class="fc bfc" id="L109" title="All 2 branches covered.">      if (element == null) {</span>
+<span class="fc" id="L110">         logException(cause.getClass(), target, action.getMethodName(), args,</span>
+               &quot;Element is null, cannot log additional info.&quot;);
+<span class="fc" id="L112">         return;</span>
+      }
+<span class="fc" id="L114">      String outerHtml = truncateString(element.getDomAttribute(OUTER_HTML), MAX_LENGTH);</span>
+<span class="fc" id="L115">      String innerHtml = truncateString(element.getDomAttribute(INNER_HTML), MAX_LENGTH);</span>
+<span class="fc" id="L116">      String elementDetails = LocatorParser.getElementDetails(element, outerHtml, innerHtml);</span>
+<span class="fc" id="L117">      String additionalInfo = String.format(</span>
+            &quot;Exception [%s]: Element [%s] with text [%s] is not interactable when attempting to perform %s().%n&quot;
+                  + &quot;Possible reasons: hidden, disabled, overlapped, or detached from the DOM.%n%nElement Details:%n%s&quot;,
+<span class="fc" id="L120">            cause.getClass().getSimpleName(), element.getTagName(), element.getText(), action.getMethodName(),</span>
+            elementDetails);
+<span class="fc" id="L122">      logException(cause.getClass(), target, action.getMethodName(), args, additionalInfo);</span>
+<span class="fc" id="L123">   }</span>
+
+   /**
+    * Logs an {@link org.openqa.selenium.InvalidSelectorException} when an invalid selector is used.
+    *
+    * @param target The WebDriver or WebElement instance where the action occurred.
+    * @param action The WebElement action being performed.
+    * @param args   The method arguments, expected to contain a locator.
+    * @param e      The thrown exception.
+    */
+   public static void logClickInvalidSelectorException(final Object target, final WebElementAction action,
+         final Object[] args, final InvocationTargetException e) {
+<span class="fc" id="L135">      By locator = LocatorParser.extractLocator(args);</span>
+<span class="fc" id="L136">      Throwable cause = e.getCause();</span>
+<span class="fc" id="L137">      String additionalInfo = String.format(&quot;Invalid selector while clicking element. Malformed locator: [%s].&quot;,</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">            locator != null ? locator.toString() : &quot;null&quot;);</span>
+<span class="fc" id="L139">      logException(cause.getClass(), target, action.getMethodName(), args, additionalInfo);</span>
+<span class="fc" id="L140">   }</span>
+
+   /**
+    * Logs an {@link ElementClickInterceptedException} when an element cannot be clicked.
+    *
+    * @param target The target WebElement.
+    * @param action The WebElement action being performed.
+    * @param args   The method arguments.
+    * @param e      The thrown exception.
+    */
+   public static void logElementClickInterceptedException(final Object target, final WebElementAction action,
+         final Object[] args, final InvocationTargetException e) {
+<span class="fc" id="L152">      Throwable cause = e.getCause();</span>
+<span class="fc" id="L153">      WebElement element = null;</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">      if (target instanceof WebElement webElement) {</span>
+<span class="fc" id="L155">         element = webElement;</span>
+      }
+<span class="fc bfc" id="L157" title="All 2 branches covered.">      if (element == null) {</span>
+<span class="fc" id="L158">         logException(cause.getClass(), target, action.getMethodName(), args,</span>
+               &quot;Element is null, cannot log additional info.&quot;);
+<span class="fc" id="L160">         return;</span>
+      }
+<span class="fc" id="L162">      String outerHtml = truncateString(element.getDomAttribute(OUTER_HTML), MAX_LENGTH);</span>
+<span class="fc" id="L163">      String innerHtml = truncateString(element.getDomAttribute(INNER_HTML), MAX_LENGTH);</span>
+<span class="fc" id="L164">      String elementDetails = LocatorParser.getElementDetails(element, outerHtml, innerHtml);</span>
+<span class="fc" id="L165">      String blockingLocator = LocatorParser.extractLocatorFromMessage(cause.getMessage());</span>
+<span class="fc" id="L166">      String additionalInfo = String.format(</span>
+            &quot;Failed to %s on element:%n%s%nLocator of the blocking element: [%s]&quot;,
+<span class="fc" id="L168">            action.getMethodName(), elementDetails, blockingLocator);</span>
+<span class="fc" id="L169">      logException(cause.getClass(), target, action.getMethodName(), args, additionalInfo);</span>
+<span class="fc" id="L170">   }</span>
+
+   /**
+    * Logs a {@link TimeoutException} when an element is not found within a given time frame.
+    *
+    * @param target The WebDriver or WebElement instance where the action occurred.
+    * @param action The WebElement action being performed.
+    * @param args   The method arguments, expected to contain a locator and an optional timeout duration.
+    * @param e      The thrown exception.
+    */
+   public static void logClickTimeoutException(final Object target, final WebElementAction action,
+         final Object[] args, final InvocationTargetException e) {
+<span class="fc" id="L182">      Throwable cause = e.getCause();</span>
+<span class="fc" id="L183">      By locator = LocatorParser.extractLocator(args);</span>
+<span class="fc" id="L184">      long timeout = 0L;</span>
+<span class="pc bpc" id="L185" title="1 of 6 branches missed.">      if (args != null &amp;&amp; args.length &gt; 1 &amp;&amp; args[1] instanceof Long l) {</span>
+<span class="fc" id="L186">         timeout = l;</span>
+      }
+<span class="fc bfc" id="L188" title="All 2 branches covered.">      String timeoutMessage = timeout &gt; 0 ? &quot;Waited for &quot; + timeout + &quot; milliseconds.&quot; : &quot;No specific timeout set.&quot;;</span>
+<span class="fc" id="L189">      String additionalInfo = String.format(</span>
+            &quot;Timeout while waiting for element to meet condition: [%s]. Locator: [%s]. %s&quot;,
+<span class="fc bfc" id="L191" title="All 2 branches covered.">            action.getMethodName(), locator != null ? locator.toString() : &quot;Unknown locator&quot;, timeoutMessage);</span>
+<span class="fc" id="L192">      logException(cause.getClass(), target, action.getMethodName(), args, additionalInfo);</span>
+<span class="fc" id="L193">   }</span>
+
+
+   private static void logException(Class&lt;? extends Throwable&gt; throwable, Object target, String methodName,
+         Object[] methodArgs, String additionalInfo) {
+<span class="fc" id="L198">      LogUi.extended(&quot;Exception: [{}] thrown on target: [{}({})] from method: [{}] called with argument types: [{}]&quot;,</span>
+<span class="fc" id="L199">            throwable.getSimpleName(),</span>
+<span class="fc" id="L200">            target.getClass().getSimpleName(),</span>
+<span class="fc" id="L201">            target.toString(),</span>
+            methodName,
+<span class="fc" id="L203">            printMethodArgsClasses(methodArgs));</span>
+<span class="fc" id="L204">      LogUi.extended(&quot;Additional Info for the problem: {}&quot;, additionalInfo);</span>
+<span class="fc" id="L205">   }</span>
+
+   private static String printMethodArgsClasses(Object[] methodArgs) {
+<span class="fc bfc" id="L208" title="All 4 branches covered.">      if (methodArgs == null || methodArgs.length == 0) {</span>
+<span class="fc" id="L209">         return &quot;&quot;;</span>
+      }
+<span class="fc" id="L211">      return Arrays.stream(methodArgs)</span>
+<span class="fc bfc" id="L212" title="All 2 branches covered.">            .map(arg -&gt; arg == null ? &quot;null&quot; : arg.getClass().getSimpleName())</span>
+<span class="fc" id="L213">            .collect(Collectors.joining(&quot;,&quot;));</span>
+   }
+
+   private static String truncateString(String input, int length) {
+<span class="fc bfc" id="L217" title="All 2 branches covered.">      if (input == null) {</span>
+<span class="fc" id="L218">         return PAGE_SOURCE_UNAVAILABLE;</span>
+      }
+<span class="fc bfc" id="L220" title="All 2 branches covered.">      return input.length() &gt; length ? input.substring(0, length) + &quot;...&quot; : input;</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

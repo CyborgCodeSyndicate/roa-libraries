@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DatabaseConfiguration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Database Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.db.config</a> &gt; <span class="el_source">DatabaseConfiguration.java</span></div><h1>DatabaseConfiguration.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.db.config;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ * Represents the configuration settings for database connections.
+ *
+ * &lt;p&gt;This class holds essential details such as the database type, host, port,
+ * credentials, and database name required to establish a connection.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@Getter
+@Builder
+@Setter
+public class DatabaseConfiguration {
+
+   /**
+    * The type of database (e.g., PostgreSQL, MySQL, h2).
+    */
+   private DbType&lt;?&gt; dbType;
+
+   /**
+    * The hostname or IP address of the database server.
+    */
+   private String host;
+
+   /**
+    * The port number used for database connections.
+    */
+   private Integer port;
+
+   /**
+    * The name of the database.
+    */
+   private String database;
+
+   /**
+    * The username for authenticating the database connection.
+    */
+   private String dbUser;
+
+   /**
+    * The password for authenticating the database connection.
+    */
+   private String dbPassword;
+
+   /**
+    * If set, this full JDBC URL will be used as the cache key instead
+    * of the host/port/database combination.
+    */
+   private String fullConnectionString;
+
+   /**
+    * Builds a unique key from protocol, host, port and database name.
+    * Used when {@link #fullConnectionString} is null.
+    *
+    * @return A string of the form &quot;protocol://host:port/database&quot;
+    */
+   public String buildUrlKey() {
+<span class="fc" id="L63">      return String.format(&quot;%s://%s:%d/%s&quot;,</span>
+<span class="fc" id="L64">            dbType.protocol(),</span>
+            host,
+            port,
+            database);
+   }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

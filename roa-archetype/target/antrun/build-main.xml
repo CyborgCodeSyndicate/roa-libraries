@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-antrun-" default="main">
+  <target name="main">
+    <mkdir dir="C:\Users\38975\IdeaProjects\roa-libraries\roa-archetype\target/javadoc-stub" />
+    <echo file="C:\Users\38975\IdeaProjects\roa-libraries\roa-archetype\target/javadoc-stub/index.html">&lt;html>&lt;body>
+&lt;h1>roa-archetype&lt;/h1>
+&lt;p>Maven archetype (template project). No Java sources.&lt;/p>
+&lt;/body>&lt;/html></echo>
+  </target>
+</project>

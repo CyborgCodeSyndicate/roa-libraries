@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WebDriverEventListener.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.selenium.listeners</a> &gt; <span class="el_source">WebDriverEventListener.java</span></div><h1>WebDriverEventListener.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.selenium.listeners;
+
+import io.cyborgcode.roa.ui.log.LogUi;
+import io.cyborgcode.roa.ui.selenium.enums.WebElementAction;
+import io.cyborgcode.roa.ui.selenium.logging.ExceptionLogging;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElementInspector;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Optional;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.events.WebDriverListener;
+
+/**
+ * Custom WebDriver event listener for logging and exception handling.
+ *
+ * &lt;p&gt;This class implements {@link WebDriverListener} to provide logging before and after element interactions
+ * and manage exception handling for WebDriver actions.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+<span class="fc" id="L22">public class WebDriverEventListener implements WebDriverListener {</span>
+
+   /**
+    * Logs an informational message before an element is clicked.
+    *
+    * @param element The WebElement that is about to be clicked.
+    */
+   @Override
+   public void beforeClick(final WebElement element) {
+<span class="fc" id="L31">      LogUi.extended(&quot;Element: '{}' is about to get clicked&quot;, element.toString());</span>
+<span class="fc" id="L32">   }</span>
+
+   /**
+    * Logs an informational message after an element is clicked.
+    *
+    * @param element The WebElement that was clicked.
+    */
+   @Override
+   public void afterClick(final WebElement element) {
+<span class="fc" id="L41">      LogUi.extended(&quot;Element: '{}' was clicked&quot;, element.toString());</span>
+<span class="fc" id="L42">   }</span>
+
+   /**
+    * Handles errors occurring during WebDriver method executions.
+    *
+    * &lt;p&gt;This method logs the exception details and determines if the exception should be handled by
+    * the framework or logged as unhandled.
+    *
+    * @param target The object on which the method was invoked.
+    * @param method The method that caused the exception.
+    * @param args   The arguments passed to the method.
+    * @param e      The invocation target exception.
+    */
+   @Override
+   public void onError(final Object target, final Method method, final Object[] args,
+                       final InvocationTargetException e) {
+<span class="fc" id="L58">      Throwable cause = e.getCause();</span>
+
+<span class="fc" id="L60">      LogUi.extended(&quot;Exception in method {}: {}&quot;, method.getName(), cause.getMessage());</span>
+<span class="fc" id="L61">      SmartWebElementInspector.Result result = SmartWebElementInspector.inspectStackTrace(cause);</span>
+
+<span class="fc bfc" id="L63" title="All 2 branches covered.">      if (result.comingFromWait()) {</span>
+<span class="fc" id="L64">         return;</span>
+      }
+
+<span class="fc bfc" id="L67" title="All 2 branches covered.">      if (result.foundAnnotatedMethod()) {</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">         if (result.foundHandleException()) {</span>
+<span class="fc" id="L69">            LogUi.error(&quot;Exception was not handled&quot;);</span>
+         } else {
+<span class="fc" id="L71">            LogUi.info(&quot;Framework will try to handle the exception&quot;);</span>
+         }
+      } else {
+<span class="fc" id="L74">         LogUi.info(&quot;No implementation in framework for exception handling in this method&quot;);</span>
+      }
+<span class="fc" id="L76">      exceptionLogging(target, method, args, e, cause);</span>
+
+<span class="fc" id="L78">   }</span>
+
+   /**
+    * Logs and handles exceptions based on predefined criteria.
+    *
+    * @param target The object on which the method was invoked.
+    * @param method The method that caused the exception.
+    * @param args   The arguments passed to the method.
+    * @param e      The invocation target exception.
+    * @param cause  The root cause of the exception.
+    */
+   private static void exceptionLogging(final Object target, final Method method, final Object[] args,
+                                        final InvocationTargetException e, final Throwable cause) {
+<span class="fc" id="L91">      Optional&lt;ExceptionLogging&gt; matched = Arrays.stream(ExceptionLogging.values())</span>
+<span class="fc" id="L92">            .filter(log -&gt; matchesLogCriteria(log, target, method, args, cause)).findFirst();</span>
+
+<span class="fc" id="L94">      matched.ifPresent(exceptionLogging -&gt; {</span>
+<span class="fc" id="L95">         WebElementAction action = exceptionLogging.getAction();</span>
+<span class="fc" id="L96">         exceptionLogging.getExceptionLoggingMap().get(cause.getClass()).accept(target, action, args, e);</span>
+<span class="fc" id="L97">      });</span>
+<span class="fc" id="L98">   }</span>
+
+   /**
+    * Checks whether an exception matches the criteria for logging and handling.
+    *
+    * @param log    The exception logging configuration.
+    * @param target The object on which the method was invoked.
+    * @param method The method that caused the exception.
+    * @param args   The arguments passed to the method.
+    * @param cause  The root cause of the exception.
+    * @return True if the exception matches the criteria, false otherwise.
+    */
+   private static boolean matchesLogCriteria(final ExceptionLogging log, final Object target, final Method method,
+                                             final Object[] args, final Throwable cause) {
+<span class="fc bfc" id="L112" title="All 2 branches covered.">      return isTargetValid(log, target)</span>
+<span class="fc bfc" id="L113" title="All 2 branches covered.">            &amp;&amp; isMethodValid(log, method)</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">            &amp;&amp; isCauseValid(log, cause)</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">            &amp;&amp; areArgumentsCompatible(method, args);</span>
+   }
+
+   private static boolean isTargetValid(ExceptionLogging log, Object target) {
+<span class="fc" id="L119">      return log.getTargetClass().isAssignableFrom(target.getClass());</span>
+   }
+
+   private static boolean isMethodValid(ExceptionLogging log, Method method) {
+<span class="fc" id="L123">      return log.getAction().getMethodName().equals(method.getName());</span>
+   }
+
+   private static boolean isCauseValid(ExceptionLogging log, Throwable cause) {
+<span class="fc" id="L127">      return log.getExceptionLoggingMap().containsKey(cause.getClass());</span>
+   }
+
+   private static boolean areArgumentsCompatible(Method method, Object[] args) {
+<span class="fc" id="L131">      Class&lt;?&gt;[] paramTypes = method.getParameterTypes();</span>
+<span class="fc" id="L132">      Class&lt;?&gt;[] argTypes = Arrays.stream(args)</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">            .map(arg -&gt; arg == null ? null : arg.getClass())</span>
+<span class="fc" id="L134">            .toArray(Class&lt;?&gt;[]::new);</span>
+
+<span class="fc bfc" id="L136" title="All 2 branches covered.">      if (paramTypes.length != argTypes.length) {</span>
+<span class="fc" id="L137">         return false;</span>
+      }
+
+<span class="fc bfc" id="L140" title="All 2 branches covered.">      for (int i = 0; i &lt; paramTypes.length; i++) {</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">         if (!isArgumentAssignable(paramTypes[i], argTypes[i])) {</span>
+<span class="fc" id="L142">            return false;</span>
+         }
+      }
+
+<span class="fc" id="L146">      return true;</span>
+   }
+
+   private static boolean isArgumentAssignable(Class&lt;?&gt; paramType, Class&lt;?&gt; argType) {
+<span class="fc bfc" id="L150" title="All 2 branches covered.">      if (argType == null) {</span>
+<span class="pc bpc" id="L151" title="1 of 2 branches missed.">         return !paramType.isPrimitive();</span>
+      }
+<span class="fc" id="L153">      return paramType.isAssignableFrom(argType);</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,0 +1,775 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ListServiceFluent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.service.fluent</a> &gt; <span class="el_source">ListServiceFluent.java</span></div><h1>ListServiceFluent.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.service.fluent;
+
+import io.cyborgcode.roa.framework.storage.Storage;
+import io.cyborgcode.roa.ui.components.base.ComponentType;
+import io.cyborgcode.roa.ui.components.list.ItemListService;
+import io.cyborgcode.roa.ui.insertion.Insertion;
+import io.cyborgcode.roa.ui.selenium.ListUiElement;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.qameta.allure.Allure;
+import java.util.Arrays;
+import java.util.List;
+import org.assertj.core.api.Assertions;
+import org.openqa.selenium.By;
+
+import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
+
+/**
+ * Fluent service for interacting with list UI elements.
+ *
+ * &lt;p&gt;Provides methods for selecting, validating, and interacting with lists in a structured manner.
+ *
+ * &lt;p&gt;The generic type {@code T} represents the UI service fluent implementation that extends {@link UiServiceFluent},
+ * allowing method chaining for seamless interaction.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@SuppressWarnings({&quot;java:S5960&quot;, &quot;unchecked&quot;})
+public class ListServiceFluent&lt;T extends UiServiceFluent&lt;?&gt;&gt; implements Insertion {
+
+   private static final String VALIDATING_SELECTED_ITEMS = &quot;Validating Selected Items&quot;;
+   private final ItemListService itemListService;
+   private final T uiServiceFluent;
+   private final Storage storage;
+   private final SmartWebDriver driver;
+
+   /**
+    * Constructs a new ListServiceFluent instance.
+    *
+    * @param uiServiceFluent The UI service fluent instance.
+    * @param storage         The storage instance for UI states.
+    * @param itemListService The list service for interacting with UI elements.
+    * @param webDriver       The smart web driver instance.
+    */
+   public ListServiceFluent(T uiServiceFluent, Storage storage, ItemListService itemListService,
+<span class="fc" id="L45">                            SmartWebDriver webDriver) {</span>
+<span class="fc" id="L46">      this.itemListService = itemListService;</span>
+<span class="fc" id="L47">      this.uiServiceFluent = uiServiceFluent;</span>
+<span class="fc" id="L48">      this.storage = storage;</span>
+<span class="fc" id="L49">      driver = webDriver;</span>
+<span class="fc" id="L50">   }</span>
+
+   /**
+    * Selects items from the list.
+    *
+    * @param element The list UI element.
+    * @param values  The values to select.
+    * @return The fluent UI service instance.
+    */
+   public T select(final ListUiElement element, final String... values) {
+<span class="fc" id="L60">      Allure.step(&quot;[UI - List] [UI - List] Select values from list: &quot; + Arrays.toString(values));</span>
+<span class="fc" id="L61">      element.before().accept(driver);</span>
+<span class="fc" id="L62">      itemListService.select(element.componentType(), element.locator(), values);</span>
+<span class="fc" id="L63">      element.after().accept(driver);</span>
+<span class="fc" id="L64">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Deselects items from the list.
+    *
+    * @param element The list UI element.
+    * @param values  The values to deselect.
+    * @return The fluent UI service instance.
+    */
+   public T deSelect(final ListUiElement element, final String... values) {
+<span class="fc" id="L75">      Allure.step(&quot;[UI - List] Deselect values from list: &quot; + Arrays.toString(values));</span>
+<span class="fc" id="L76">      element.before().accept(driver);</span>
+<span class="fc" id="L77">      itemListService.deSelect(element.componentType(), element.locator(), values);</span>
+<span class="fc" id="L78">      element.after().accept(driver);</span>
+<span class="fc" id="L79">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Checks if the given values are selected in the list.
+    *
+    * @param element The list UI element.
+    * @param values  The values to check.
+    * @return The fluent UI service instance.
+    */
+   public T areSelected(final ListUiElement element, final String... values) {
+<span class="fc" id="L90">      Allure.step(</span>
+<span class="fc" id="L91">            &quot;[UI - List] Check if values are selected in the list: &quot; + Arrays.toString(values));</span>
+<span class="fc" id="L92">      element.before().accept(driver);</span>
+<span class="fc" id="L93">      boolean selected = itemListService.areSelected(element.componentType(), element.locator(), values);</span>
+<span class="fc" id="L94">      element.after().accept(driver);</span>
+<span class="fc" id="L95">      storage.sub(UI).put(element.enumImpl(), selected);</span>
+<span class="fc" id="L96">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates that the given values are selected in the list.
+    *
+    * @param element The list UI element.
+    * @param values  The expected selected values.
+    * @return The fluent UI service instance.
+    */
+   public T validateAreSelected(final ListUiElement element, final String... values) {
+<span class="fc" id="L107">      Allure.step(</span>
+<span class="fc" id="L108">            &quot;[UI - List] Validate if values are selected in the list: &quot; + Arrays.toString(values));</span>
+<span class="fc" id="L109">      return validateAreSelected(element, true, false, values);</span>
+   }
+
+   /**
+    * Validates that the specified values are selected in the given list element.
+    *
+    * @param element The {@link ListUiElement} representing the list UI component.
+    * @param soft    A boolean indicating whether the validation should be performed softly.
+    *                If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @param values  The expected values that should be selected in the list.
+    * @return The fluent UI service instance.
+    */
+   public T validateAreSelected(final ListUiElement element, boolean soft, final String... values) {
+<span class="fc" id="L122">      Allure.step(&quot;[UI - List] Validate if values are selected (soft: &quot; + soft + &quot;): &quot;</span>
+<span class="fc" id="L123">            + Arrays.toString(values));</span>
+<span class="fc" id="L124">      return validateAreSelected(element, true, soft, values);</span>
+   }
+
+   private T validateAreSelected(final ListUiElement element, boolean shouldBeSelected, boolean soft,
+                                 final String... values) {
+<span class="fc" id="L129">      element.before().accept(driver);</span>
+<span class="fc" id="L130">      boolean selected = itemListService.areSelected(element.componentType(), element.locator(), values);</span>
+<span class="fc" id="L131">      element.after().accept(driver);</span>
+<span class="fc" id="L132">      storage.sub(UI).put(element.enumImpl(), selected);</span>
+
+<span class="fc bfc" id="L134" title="All 2 branches covered.">      String assertionMessage = shouldBeSelected</span>
+<span class="fc" id="L135">            ? &quot;Validating list items are selected&quot;</span>
+<span class="fc" id="L136">            : &quot;Validating list items are not selected&quot;;</span>
+
+<span class="fc bfc" id="L138" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L139">         return (T) uiServiceFluent.validate(</span>
+               softAssertions -&gt; {
+<span class="fc bfc" id="L141" title="All 2 branches covered.">                  if (shouldBeSelected) {</span>
+<span class="fc" id="L142">                     softAssertions.assertThat(selected).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L144">                     softAssertions.assertThat(selected).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L146">               }</span>
+         );
+      } else {
+<span class="fc" id="L149">         return (T) uiServiceFluent.validate(</span>
+               () -&gt; {
+<span class="fc bfc" id="L151" title="All 2 branches covered.">                  if (shouldBeSelected) {</span>
+<span class="fc" id="L152">                     Assertions.assertThat(selected).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L154">                     Assertions.assertThat(selected).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L156">               }</span>
+         );
+      }
+   }
+
+   /**
+    * Validates that the given values are not selected in the list.
+    *
+    * @param element The list UI element.
+    * @param values  The expected unselected values.
+    * @return The fluent UI service instance.
+    */
+   public T validateAreNotSelected(final ListUiElement element, final String... values) {
+<span class="fc" id="L169">      Allure.step(&quot;[UI - List] Validate if values are not selected in the list: &quot;</span>
+<span class="fc" id="L170">            + Arrays.toString(values));</span>
+<span class="fc" id="L171">      return validateAreSelected(element, false, false, values);</span>
+   }
+
+   /**
+    * Validates that the specified values are not selected in the given list element.
+    *
+    * @param element The {@link ListUiElement} representing the list UI component.
+    * @param soft    A boolean indicating whether the validation should be performed softly.
+    *                If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @param values  The values that should not be selected in the list.
+    * @return The fluent UI service instance.
+    */
+   public T validateAreNotSelected(final ListUiElement element, boolean soft, final String... values) {
+<span class="fc" id="L184">      Allure.step(&quot;[UI - List] Validate if values are not selected (soft: &quot; + soft + &quot;): &quot;</span>
+<span class="fc" id="L185">            + Arrays.toString(values));</span>
+<span class="fc" id="L186">      return validateAreSelected(element, false, soft, values);</span>
+   }
+
+   /**
+    * Checks if the specified value is selected in the given list element.
+    *
+    * @param element The {@link ListUiElement} representing the list UI component.
+    * @param value   The value to check for selection.
+    * @return The fluent UI service instance.
+    */
+   public T isSelected(final ListUiElement element, final String value) {
+<span class="fc" id="L197">      Allure.step(&quot;[UI - List] Check if value is selected in the list: &quot; + value);</span>
+<span class="fc" id="L198">      element.before().accept(driver);</span>
+<span class="fc" id="L199">      boolean selected = itemListService.isSelected(element.componentType(), element.locator(), value);</span>
+<span class="fc" id="L200">      element.after().accept(driver);</span>
+<span class="fc" id="L201">      storage.sub(UI).put(element.enumImpl(), selected);</span>
+<span class="fc" id="L202">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates that the specified value is selected in the given list element.
+    *
+    * @param element The {@link ListUiElement} representing the list UI component.
+    * @param value   The value that should be selected.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsSelected(final ListUiElement element, final String value) {
+<span class="fc" id="L213">      Allure.step(&quot;[UI - List] Validate if value is selected in the list: &quot; + value);</span>
+<span class="fc" id="L214">      return validateAreSelected(element, true, false, value);</span>
+   }
+
+   /**
+    * Validates that the specified value is selected in the given list element.
+    *
+    * @param element The {@link ListUiElement} representing the list UI component.
+    * @param soft    A boolean indicating whether the validation should be performed softly.
+    *                If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @param value   The value that should be selected.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsSelected(final ListUiElement element, boolean soft, final String value) {
+<span class="fc" id="L227">      Allure.step(&quot;[UI - List] Validate if value is selected (soft: &quot; + soft + &quot;): &quot; + value);</span>
+<span class="fc" id="L228">      return validateAreSelected(element, true, soft, value);</span>
+   }
+
+   /**
+    * Validates that the specified value is not selected in the given list element.
+    *
+    * @param element The {@link ListUiElement} representing the list UI component.
+    * @param value   The value that should not be selected.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsNotSelected(final ListUiElement element, final String value) {
+<span class="fc" id="L239">      Allure.step(&quot;[UI - List] Validate if value is not selected in the list: &quot; + value);</span>
+<span class="fc" id="L240">      return validateAreSelected(element, false, false, value);</span>
+   }
+
+   /**
+    * Validates that the specified value is not selected in the given list element.
+    *
+    * @param element The {@link ListUiElement} representing the list UI component.
+    * @param soft    A boolean indicating whether the validation should be performed softly.
+    *                If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @param value   The value that should not be selected.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsNotSelected(final ListUiElement element, boolean soft, final String value) {
+<span class="fc" id="L253">      Allure.step(&quot;[UI - List] Validate if value is not selected (soft: &quot; + soft + &quot;): &quot; + value);</span>
+<span class="fc" id="L254">      return validateAreSelected(element, false, soft, value);</span>
+   }
+
+   /**
+    * Checks if the given values are enabled in the list.
+    *
+    * @param element The list UI element.
+    * @param values  The values to check.
+    * @return The fluent UI service instance.
+    */
+   public T areEnabled(final ListUiElement element, final String... values) {
+<span class="fc" id="L265">      Allure.step(</span>
+<span class="fc" id="L266">            &quot;[UI - List] Check if values are enabled in the list: &quot; + Arrays.toString(values));</span>
+<span class="fc" id="L267">      element.before().accept(driver);</span>
+<span class="fc" id="L268">      boolean enabled = itemListService.areEnabled(element.componentType(), element.locator(), values);</span>
+<span class="fc" id="L269">      element.after().accept(driver);</span>
+<span class="fc" id="L270">      storage.sub(UI).put(element.enumImpl(), enabled);</span>
+<span class="fc" id="L271">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates that the list items are enabled.
+    *
+    * @param element The list UI element.
+    * @param values  The values to validate.
+    * @return The fluent UI service instance.
+    */
+   public T validateAreEnabled(final ListUiElement element, final String... values) {
+<span class="fc" id="L282">      Allure.step(</span>
+<span class="fc" id="L283">            &quot;[UI - List] Validate if values are enabled in the list: &quot; + Arrays.toString(values));</span>
+<span class="fc" id="L284">      return validateAreEnabled(element, true, false, values);</span>
+   }
+
+   /**
+    * Validates that the specified values in the given list element are enabled.
+    *
+    * @param element The {@link ListUiElement} representing the list UI component.
+    * @param soft    A boolean indicating whether the validation should be performed softly.
+    *                If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @param values  The values that should be enabled.
+    * @return The fluent UI service instance.
+    */
+   public T validateAreEnabled(final ListUiElement element, boolean soft, final String... values) {
+<span class="fc" id="L297">      Allure.step(&quot;[UI - List] Validate if values are enabled (soft: &quot; + soft + &quot;): &quot;</span>
+<span class="fc" id="L298">            + Arrays.toString(values));</span>
+<span class="fc" id="L299">      return validateAreEnabled(element, true, soft, values);</span>
+   }
+
+   private T validateAreEnabled(final ListUiElement element, boolean shouldBeEnabled, boolean soft,
+                                final String... values) {
+<span class="fc" id="L304">      element.before().accept(driver);</span>
+<span class="fc" id="L305">      boolean enabled = itemListService.areEnabled(element.componentType(), element.locator(), values);</span>
+<span class="fc" id="L306">      element.after().accept(driver);</span>
+<span class="fc" id="L307">      storage.sub(UI).put(element.enumImpl(), enabled);</span>
+
+<span class="fc bfc" id="L309" title="All 2 branches covered.">      String assertionMessage = shouldBeEnabled</span>
+<span class="fc" id="L310">            ? &quot;Validating list items are enabled&quot;</span>
+<span class="fc" id="L311">            : &quot;Validating list items are disabled&quot;;</span>
+
+<span class="fc bfc" id="L313" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L314">         return (T) uiServiceFluent.validate(</span>
+               softAssertions -&gt; {
+<span class="fc bfc" id="L316" title="All 2 branches covered.">                  if (shouldBeEnabled) {</span>
+<span class="fc" id="L317">                     softAssertions.assertThat(enabled).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L319">                     softAssertions.assertThat(enabled).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L321">               }</span>
+         );
+      } else {
+<span class="fc" id="L324">         return (T) uiServiceFluent.validate(</span>
+               () -&gt; {
+<span class="fc bfc" id="L326" title="All 2 branches covered.">                  if (shouldBeEnabled) {</span>
+<span class="fc" id="L327">                     Assertions.assertThat(enabled).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L329">                     Assertions.assertThat(enabled).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L331">               }</span>
+         );
+      }
+   }
+
+   /**
+    * Validates that the specified values in the given list element are disabled.
+    *
+    * @param element The {@link ListUiElement} representing the list UI component.
+    * @param values  The values that should be disabled.
+    * @return The fluent UI service instance.
+    */
+   public T validateAreDisabled(final ListUiElement element, final String... values) {
+<span class="fc" id="L344">      Allure.step(&quot;[UI - List] Validate that the specified values in the list are disabled&quot;);</span>
+<span class="fc" id="L345">      return validateAreEnabled(element, false, false, values);</span>
+   }
+
+   /**
+    * Validates that the specified values in the given list element are disabled.
+    *
+    * @param element The {@link ListUiElement} representing the list UI component.
+    * @param soft    A boolean indicating whether the validation should be performed softly.
+    *                If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @param values  The values that should be disabled.
+    * @return The fluent UI service instance.
+    */
+   public T validateAreDisabled(final ListUiElement element, boolean soft, final String... values) {
+<span class="fc" id="L358">      Allure.step(&quot;[UI - List] Validate that the specified values in the list are disabled&quot;);</span>
+<span class="fc" id="L359">      return validateAreEnabled(element, false, soft, values);</span>
+   }
+
+   /**
+    * Checks if the specified value in the given list element is enabled.
+    *
+    * @param element The {@link ListUiElement} representing the list UI component.
+    * @param value   The specific value to check for being enabled.
+    * @return The fluent UI service instance.
+    */
+   public T isEnabled(final ListUiElement element, final String value) {
+<span class="fc" id="L370">      Allure.step(&quot;[UI - List] Check if the specified value is enabled&quot;);</span>
+
+<span class="fc" id="L372">      element.before().accept(driver);</span>
+<span class="fc" id="L373">      boolean enabled = itemListService.isEnabled(element.componentType(), element.locator(), value);</span>
+<span class="fc" id="L374">      element.after().accept(driver);</span>
+<span class="fc" id="L375">      storage.sub(UI).put(element.enumImpl(), enabled);</span>
+<span class="fc" id="L376">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates that the specified value in the given list element is enabled.
+    *
+    * @param element The {@link ListUiElement} representing the list UI component.
+    * @param value   The specific value that should be enabled.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsEnabled(final ListUiElement element, final String value) {
+<span class="fc" id="L387">      Allure.step(&quot;[UI - List] Validate that the specified value is enabled&quot;);</span>
+<span class="fc" id="L388">      return validateAreEnabled(element, true, false, value);</span>
+   }
+
+   /**
+    * Validates that the specified value in the given list element is enabled.
+    *
+    * @param element The {@link ListUiElement} representing the list UI component.
+    * @param soft    A boolean indicating whether the validation should be performed softly.
+    *                If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @param value   The specific value that should be enabled.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsEnabled(final ListUiElement element, boolean soft, final String value) {
+<span class="fc" id="L401">      Allure.step(&quot;[UI - List] Validate that the specified value is enabled&quot;);</span>
+<span class="fc" id="L402">      return validateAreEnabled(element, true, soft, value);</span>
+   }
+
+   /**
+    * Validates that the specified value in the given list element is disabled.
+    *
+    * @param element The {@link ListUiElement} representing the list UI component.
+    * @param value   The specific value that should be disabled.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsDisabled(final ListUiElement element, final String value) {
+<span class="fc" id="L413">      Allure.step(&quot;[UI - List] Validate that the specified value is disabled&quot;);</span>
+<span class="fc" id="L414">      return validateAreEnabled(element, false, false, value);</span>
+   }
+
+   /**
+    * Validates that the specified value in the given list element is disabled.
+    *
+    * @param element The {@link ListUiElement} representing the list UI component.
+    * @param soft    A boolean indicating whether the validation should be performed softly.
+    *                If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @param value   The specific value that should be disabled.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsDisabled(final ListUiElement element, boolean soft, final String value) {
+<span class="fc" id="L427">      Allure.step(&quot;[UI - List] Validate that the specified value is disabled&quot;);</span>
+<span class="fc" id="L428">      return validateAreEnabled(element, false, soft, value);</span>
+   }
+
+   /**
+    * Checks if the given values are visible in the list.
+    *
+    * @param element The list UI element.
+    * @param values  The values to check.
+    * @return The fluent UI service instance.
+    */
+   public T areVisible(final ListUiElement element, final String... values) {
+<span class="fc" id="L439">      Allure.step(&quot;[UI - List] Check if the specified values are visible&quot;);</span>
+
+<span class="fc" id="L441">      element.before().accept(driver);</span>
+<span class="fc" id="L442">      boolean visible = itemListService.areVisible(element.componentType(), element.locator(), values);</span>
+<span class="fc" id="L443">      element.after().accept(driver);</span>
+<span class="fc" id="L444">      storage.sub(UI).put(element.enumImpl(), visible);</span>
+<span class="fc" id="L445">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates that the given values are visible in the list.
+    *
+    * @param element The list UI element.
+    * @param values  The expected visible values.
+    * @return The fluent UI service instance.
+    */
+   public T validateAreVisible(final ListUiElement element, final String... values) {
+<span class="fc" id="L456">      Allure.step(&quot;[UI - List] Validate that the specified values are visible in the list&quot;);</span>
+<span class="fc" id="L457">      return validateAreVisible(element, true, false, values);</span>
+   }
+
+   /**
+    * Validates that the specified values in the given list element are visible.
+    *
+    * @param element The {@link ListUiElement} representing the list UI component.
+    * @param soft    A boolean indicating whether the validation should be performed softly.
+    *                If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @param values  The specific values that should be visible.
+    * @return The fluent UI service instance.
+    */
+   public T validateAreVisible(final ListUiElement element, boolean soft, final String... values) {
+<span class="fc" id="L470">      Allure.step(&quot;[UI - List] Validate that the specified values are visible in the list&quot;);</span>
+<span class="fc" id="L471">      return validateAreVisible(element, true, soft, values);</span>
+   }
+
+   private T validateAreVisible(final ListUiElement element, boolean shouldBeVisible, boolean soft,
+                                final String... values) {
+<span class="fc" id="L476">      element.before().accept(driver);</span>
+<span class="fc" id="L477">      boolean visible = itemListService.areVisible(element.componentType(), element.locator(), values);</span>
+<span class="fc" id="L478">      element.after().accept(driver);</span>
+<span class="fc" id="L479">      storage.sub(UI).put(element.enumImpl(), visible);</span>
+
+<span class="fc bfc" id="L481" title="All 2 branches covered.">      String assertionMessage = shouldBeVisible</span>
+<span class="fc" id="L482">            ? &quot;Validating list items are visible&quot;</span>
+<span class="fc" id="L483">            : &quot;Validating list items are hidden&quot;;</span>
+
+<span class="fc bfc" id="L485" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L486">         return (T) uiServiceFluent.validate(</span>
+               softAssertions -&gt; {
+<span class="fc bfc" id="L488" title="All 2 branches covered.">                  if (shouldBeVisible) {</span>
+<span class="fc" id="L489">                     softAssertions.assertThat(visible).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L491">                     softAssertions.assertThat(visible).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L493">               }</span>
+         );
+      } else {
+<span class="fc" id="L496">         return (T) uiServiceFluent.validate(</span>
+               () -&gt; {
+<span class="fc bfc" id="L498" title="All 2 branches covered.">                  if (shouldBeVisible) {</span>
+<span class="fc" id="L499">                     Assertions.assertThat(visible).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L501">                     Assertions.assertThat(visible).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L503">               }</span>
+         );
+      }
+   }
+
+   /**
+    * Validates that the specified values in the given list element are hidden.
+    *
+    * @param element The {@link ListUiElement} representing the list UI component.
+    * @param values  The specific values that should be hidden.
+    * @return The fluent UI service instance.
+    */
+   public T validateAreHidden(final ListUiElement element, final String... values) {
+<span class="fc" id="L516">      Allure.step(&quot;[UI - List] Validate that the specified values are hidden in the list&quot;);</span>
+<span class="fc" id="L517">      return validateAreVisible(element, false, false, values);</span>
+   }
+
+   /**
+    * Validates that the specified values in the given list element are hidden.
+    *
+    * @param element The {@link ListUiElement} representing the list UI component.
+    * @param soft    A boolean indicating whether the validation should be performed softly.
+    *                If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @param values  The specific values that should be hidden.
+    * @return The fluent UI service instance.
+    */
+   public T validateAreHidden(final ListUiElement element, boolean soft, final String... values) {
+<span class="fc" id="L530">      Allure.step(&quot;[UI - List] Validate that the specified values are hidden in the list&quot;);</span>
+<span class="fc" id="L531">      return validateAreVisible(element, false, soft, values);</span>
+   }
+
+   /**
+    * Checks if the specified value in the given list element is visible.
+    *
+    * @param element The {@link ListUiElement} representing the list UI component.
+    * @param value   The specific value to check for visibility.
+    * @return The fluent UI service instance.
+    */
+   public T isVisible(final ListUiElement element, final String value) {
+<span class="fc" id="L542">      Allure.step(&quot;[UI - List] Check if the specified value is visible&quot;);</span>
+
+<span class="fc" id="L544">      element.before().accept(driver);</span>
+<span class="fc" id="L545">      boolean visible = itemListService.isVisible(element.componentType(), element.locator(), value);</span>
+<span class="fc" id="L546">      element.after().accept(driver);</span>
+<span class="fc" id="L547">      storage.sub(UI).put(element.enumImpl(), visible);</span>
+<span class="fc" id="L548">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates that the specified value in the given list element is visible.
+    *
+    * @param element The {@link ListUiElement} representing the list UI component.
+    * @param value   The specific value that should be visible.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsVisible(final ListUiElement element, final String value) {
+<span class="fc" id="L559">      Allure.step(&quot;[UI - List] Validate that the specified value is visible&quot;);</span>
+<span class="fc" id="L560">      return validateAreVisible(element, true, false, value);</span>
+   }
+
+   /**
+    * Validates that the specified value in the given list element is visible.
+    *
+    * @param element The {@link ListUiElement} representing the list UI component.
+    * @param soft    A boolean indicating whether the validation should be performed softly.
+    *                If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @param value   The specific value that should be visible.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsVisible(final ListUiElement element, boolean soft, final String value) {
+<span class="fc" id="L573">      Allure.step(&quot;[UI - List] Validate that the specified value is visible&quot;);</span>
+<span class="fc" id="L574">      return validateAreVisible(element, true, soft, value);</span>
+   }
+
+   /**
+    * Validates that the specified value in the given list element is hidden.
+    *
+    * @param element The {@link ListUiElement} representing the list UI component.
+    * @param value   The specific value that should be hidden.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsHidden(final ListUiElement element, final String value) {
+<span class="fc" id="L585">      Allure.step(&quot;[UI - List] Validate that the specified value is hidden&quot;);</span>
+<span class="fc" id="L586">      return validateAreVisible(element, false, false, value);</span>
+   }
+
+   /**
+    * Validates that the specified value in the given list element is hidden.
+    *
+    * @param element The {@link ListUiElement} representing the list UI component.
+    * @param soft    A boolean indicating whether the validation should be performed softly.
+    *                If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @param value   The specific value that should be hidden.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsHidden(final ListUiElement element, boolean soft, final String value) {
+<span class="fc" id="L599">      Allure.step(&quot;[UI - List] Validate that the specified value is hidden&quot;);</span>
+<span class="fc" id="L600">      return validateAreVisible(element, false, soft, value);</span>
+   }
+
+   /**
+    * Retrieves the selected items from the list.
+    *
+    * @param element The list UI element.
+    * @return The fluent UI service instance.
+    */
+   public T getSelected(final ListUiElement element) {
+<span class="fc" id="L610">      Allure.step(&quot;[UI - List] Retrieve selected items from the list&quot;);</span>
+<span class="fc" id="L611">      element.before().accept(driver);</span>
+<span class="fc" id="L612">      List&lt;String&gt; selectedItems = itemListService.getSelected(element.componentType(), element.locator());</span>
+<span class="fc" id="L613">      element.after().accept(driver);</span>
+<span class="fc" id="L614">      storage.sub(UI).put(element.enumImpl(), selectedItems);</span>
+<span class="fc" id="L615">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates that the specified items are selected within the given list UI element.
+    *
+    * @param element        The {@link ListUiElement} representing the list UI component.
+    * @param expectedValues The expected values that should be selected.
+    * @return The fluent UI service instance, allowing for method chaining.
+    */
+   public T validateSelectedItems(final ListUiElement element, final String... expectedValues) {
+<span class="fc" id="L626">      Allure.step(&quot;[UI - List] Validate that the specified items are selected&quot;);</span>
+<span class="fc" id="L627">      return validateSelectedItems(element, true, false, expectedValues);</span>
+   }
+
+   /**
+    * Validates that the specified items are selected within the given list UI element.
+    *
+    * @param element        The {@link ListUiElement} representing the list UI component.
+    * @param soft           A boolean indicating whether the validation should be performed softly.
+    *                       If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @param expectedValues The expected values that should be selected.
+    * @return The fluent UI service instance, allowing for method chaining.
+    */
+   public T validateSelectedItems(final ListUiElement element, boolean soft, final String... expectedValues) {
+<span class="fc" id="L640">      Allure.step(&quot;[UI - List] Validate that the specified items are selected&quot;);</span>
+<span class="fc" id="L641">      return validateSelectedItems(element, true, soft, expectedValues);</span>
+   }
+
+   private T validateSelectedItems(final ListUiElement element, boolean shouldBeSelected, boolean soft,
+                                   final String... expectedValues) {
+<span class="fc" id="L646">      element.before().accept(driver);</span>
+<span class="fc" id="L647">      List&lt;String&gt; selectedItems = itemListService.getSelected(element.componentType(), element.locator());</span>
+<span class="fc" id="L648">      element.after().accept(driver);</span>
+<span class="fc" id="L649">      storage.sub(UI).put(element.enumImpl(), selectedItems);</span>
+
+<span class="fc bfc" id="L651" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L652">         return (T) uiServiceFluent.validate(</span>
+               softAssertions -&gt; {
+<span class="fc bfc" id="L654" title="All 2 branches covered.">                  if (shouldBeSelected) {</span>
+<span class="fc" id="L655">                     softAssertions.assertThat(selectedItems).as(VALIDATING_SELECTED_ITEMS)</span>
+<span class="fc" id="L656">                           .containsAll(Arrays.asList(expectedValues));</span>
+                  } else {
+<span class="fc" id="L658">                     softAssertions.assertThat(selectedItems).as(VALIDATING_SELECTED_ITEMS)</span>
+<span class="fc" id="L659">                           .doesNotContainAnyElementsOf(Arrays.asList(expectedValues));</span>
+                  }
+<span class="fc" id="L661">               }</span>
+         );
+      } else {
+<span class="fc" id="L664">         return (T) uiServiceFluent.validate(</span>
+               () -&gt; {
+<span class="fc bfc" id="L666" title="All 2 branches covered.">                  if (shouldBeSelected) {</span>
+<span class="fc" id="L667">                     Assertions.assertThat(selectedItems).as(VALIDATING_SELECTED_ITEMS)</span>
+<span class="fc" id="L668">                           .containsAll(Arrays.asList(expectedValues));</span>
+                  } else {
+<span class="fc" id="L670">                     Assertions.assertThat(selectedItems).as(VALIDATING_SELECTED_ITEMS)</span>
+<span class="fc" id="L671">                           .doesNotContainAnyElementsOf(Arrays.asList(expectedValues));</span>
+                  }
+<span class="fc" id="L673">               }</span>
+         );
+      }
+   }
+
+   /**
+    * Validates that the specified items are not selected within the given list UI element.
+    *
+    * @param element        The {@link ListUiElement} representing the list UI component.
+    * @param expectedValues The expected values that should not be selected.
+    * @return The fluent UI service instance, allowing for method chaining.
+    */
+   public T validateNotSelectedItems(final ListUiElement element, final String... expectedValues) {
+<span class="fc" id="L686">      Allure.step(&quot;[UI - List] Validate that the specified items are not selected&quot;);</span>
+<span class="fc" id="L687">      return validateSelectedItems(element, false, false, expectedValues);</span>
+   }
+
+   /**
+    * Validates that the specified items are not selected within the given list UI element.
+    *
+    * @param element        The {@link ListUiElement} representing the list UI component.
+    * @param soft           A boolean indicating whether the validation should be performed softly.
+    *                       If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @param expectedValues The expected values that should not be selected.
+    * @return The fluent UI service instance, allowing for method chaining.
+    */
+   public T validateNotSelectedItems(final ListUiElement element, boolean soft, final String... expectedValues) {
+<span class="fc" id="L700">      Allure.step(&quot;[UI - List] Validate that the specified items are not selected&quot;);</span>
+<span class="fc" id="L701">      return validateSelectedItems(element, false, soft, expectedValues);</span>
+   }
+
+   /**
+    * Retrieves all available items in the list.
+    *
+    * @param element The list UI element.
+    * @return The fluent UI service instance.
+    */
+   public T getAll(final ListUiElement element) {
+<span class="fc" id="L711">      Allure.step(&quot;[UI - List] Retrieve all items from the list&quot;);</span>
+
+<span class="fc" id="L713">      element.before().accept(driver);</span>
+<span class="fc" id="L714">      List&lt;String&gt; allItems = itemListService.getAll(element.componentType(), element.locator());</span>
+<span class="fc" id="L715">      element.after().accept(driver);</span>
+<span class="fc" id="L716">      storage.sub(UI).put(element.enumImpl(), allItems);</span>
+<span class="fc" id="L717">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates that all expected items are present within the given list UI element.
+    *
+    * @param element        The {@link ListUiElement} representing the list UI component.
+    * @param expectedValues The expected values that should be present in the list.
+    * @return The fluent UI service instance, allowing for method chaining.
+    */
+   public T validateAllItems(final ListUiElement element, final String... expectedValues) {
+<span class="fc" id="L728">      Allure.step(&quot;[UI - List] Validate that all expected items are present in the list&quot;);</span>
+<span class="fc" id="L729">      return validateAllItems(element, false, expectedValues);</span>
+   }
+
+   /**
+    * Validates that all expected items are present within the given list UI element.
+    *
+    * @param element        The {@link ListUiElement} representing the list UI component.
+    * @param soft           A boolean indicating whether the validation should be performed softly.
+    *                       If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @param expectedValues The expected values that should be present in the list.
+    * @return The fluent UI service instance, allowing for method chaining.
+    */
+   public T validateAllItems(final ListUiElement element, boolean soft, final String... expectedValues) {
+<span class="fc" id="L742">      Allure.step(&quot;[UI - List] Validate that all expected items are present in the list&quot;);</span>
+<span class="fc" id="L743">      element.before().accept(driver);</span>
+<span class="fc" id="L744">      List&lt;String&gt; allItems = itemListService.getSelected(element.componentType(), element.locator());</span>
+<span class="fc" id="L745">      element.after().accept(driver);</span>
+<span class="fc" id="L746">      storage.sub(UI).put(element.enumImpl(), allItems);</span>
+
+<span class="fc bfc" id="L748" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L749">         return (T) uiServiceFluent.validate(</span>
+<span class="fc" id="L750">               softAssertions -&gt; softAssertions.assertThat(allItems)</span>
+<span class="fc" id="L751">                     .as(&quot;Validating Items&quot;).containsAll(Arrays.asList(expectedValues))</span>
+         );
+      } else {
+<span class="fc" id="L754">         return (T) uiServiceFluent.validate(</span>
+<span class="fc" id="L755">               () -&gt; Assertions.assertThat(allItems)</span>
+<span class="fc" id="L756">                     .as(&quot;Validating Items&quot;).containsAll(Arrays.asList(expectedValues))</span>
+         );
+      }
+   }
+
+   /**
+    * Inserts values into the list.
+    *
+    * @param componentType The type of the list component.
+    * @param locator       The locator of the list element.
+    * @param values        The values to insert.
+    */
+   @Override
+   public void insertion(final ComponentType componentType, final By locator, final Object... values) {
+<span class="fc" id="L770">      Allure.step(&quot;[UI - List] Insert values into the list&quot;);</span>
+<span class="fc" id="L771">      itemListService.insertion(componentType, locator, values);</span>
+<span class="fc" id="L772">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

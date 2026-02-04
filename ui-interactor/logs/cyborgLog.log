@@ -1,0 +1,1010 @@
+Expanding accordion DUMMY_ACCORDION inside container with text: [Panel1, Panel2]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Expanding accordion DUMMY_ACCORDION inside container with text: [Panel1, Panel2]","thread_name":"main","@timestamp":"2026-02-04T21:18:30.226+0100","level":"STEP","logger_name":"ROA.UI"}
+Collapsing accordion DUMMY_ACCORDION inside container with text: [Panel1, Panel2]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Collapsing accordion DUMMY_ACCORDION inside container with text: [Panel1, Panel2]","thread_name":"main","@timestamp":"2026-02-04T21:18:30.258+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if accordion DUMMY_ACCORDION is enabled inside container with text: [Panel1, Panel2]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if accordion DUMMY_ACCORDION is enabled inside container with text: [Panel1, Panel2]","thread_name":"main","@timestamp":"2026-02-04T21:18:30.260+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if accordion DUMMY_ACCORDION is enabled using locator By.id: accordion
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if accordion DUMMY_ACCORDION is enabled using locator By.id: accordion","thread_name":"main","@timestamp":"2026-02-04T21:18:30.340+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if accordion DUMMY_ACCORDION is enabled inside container with text: [Panel1, Panel2]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if accordion DUMMY_ACCORDION is enabled inside container with text: [Panel1, Panel2]","thread_name":"main","@timestamp":"2026-02-04T21:18:30.646+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if accordions DUMMY_ACCORDION are enabled using locators [By.id: accordion]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if accordions DUMMY_ACCORDION are enabled using locators [By.id: accordion]","thread_name":"main","@timestamp":"2026-02-04T21:18:30.672+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if accordion DUMMY_ACCORDION is enabled with text: [Panel1, Panel2]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if accordion DUMMY_ACCORDION is enabled with text: [Panel1, Panel2]","thread_name":"main","@timestamp":"2026-02-04T21:18:30.685+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting all accordions for DUMMY_ACCORDION
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting all accordions for DUMMY_ACCORDION","thread_name":"main","@timestamp":"2026-02-04T21:18:30.718+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting all accordions for DUMMY_ACCORDION, using locator By.id: accordion
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting all accordions for DUMMY_ACCORDION, using locator By.id: accordion","thread_name":"main","@timestamp":"2026-02-04T21:18:30.764+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting text for accordion DUMMY_ACCORDION using locator
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting text for accordion DUMMY_ACCORDION using locator","thread_name":"main","@timestamp":"2026-02-04T21:18:30.775+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting expanded accordions for DUMMY_ACCORDION inside container container
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting expanded accordions for DUMMY_ACCORDION inside container container","thread_name":"main","@timestamp":"2026-02-04T21:18:30.838+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting expanded accordions for DUMMY_ACCORDION, using locator By.id: accordion
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting expanded accordions for DUMMY_ACCORDION, using locator By.id: accordion","thread_name":"main","@timestamp":"2026-02-04T21:18:30.848+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting collapsed accordions for DUMMY_ACCORDION inside container container
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting collapsed accordions for DUMMY_ACCORDION inside container container","thread_name":"main","@timestamp":"2026-02-04T21:18:30.863+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting title for accordion DUMMY_ACCORDION using locator
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting title for accordion DUMMY_ACCORDION using locator","thread_name":"main","@timestamp":"2026-02-04T21:18:30.878+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting collapsed accordions for DUMMY_ACCORDION, using locator By.id: accordion
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting collapsed accordions for DUMMY_ACCORDION, using locator By.id: accordion","thread_name":"main","@timestamp":"2026-02-04T21:18:30.890+0100","level":"STEP","logger_name":"ROA.UI"}
+Collapsing accordion DUMMY_ACCORDION inside container using strategy: strategy
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Collapsing accordion DUMMY_ACCORDION inside container using strategy: strategy","thread_name":"main","@timestamp":"2026-02-04T21:18:30.972+0100","level":"STEP","logger_name":"ROA.UI"}
+Collapsing accordion DUMMY_ACCORDION inside container with text: [Panel1, Panel2]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Collapsing accordion DUMMY_ACCORDION inside container with text: [Panel1, Panel2]","thread_name":"main","@timestamp":"2026-02-04T21:18:30.991+0100","level":"STEP","logger_name":"ROA.UI"}
+Collapsing accordion DUMMY_ACCORDION using locators
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Collapsing accordion DUMMY_ACCORDION using locators","thread_name":"main","@timestamp":"2026-02-04T21:18:31.001+0100","level":"STEP","logger_name":"ROA.UI"}
+Collapsing accordion DUMMY_ACCORDION with text: [Panel1, Panel2]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Collapsing accordion DUMMY_ACCORDION with text: [Panel1, Panel2]","thread_name":"main","@timestamp":"2026-02-04T21:18:31.011+0100","level":"STEP","logger_name":"ROA.UI"}
+Expanding accordion DUMMY_ACCORDION using locators
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Expanding accordion DUMMY_ACCORDION using locators","thread_name":"main","@timestamp":"2026-02-04T21:18:31.030+0100","level":"STEP","logger_name":"ROA.UI"}
+Expanding accordion DUMMY_ACCORDION with text: [Panel1, Panel2]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Expanding accordion DUMMY_ACCORDION with text: [Panel1, Panel2]","thread_name":"main","@timestamp":"2026-02-04T21:18:31.039+0100","level":"STEP","logger_name":"ROA.UI"}
+Expanding accordion DUMMY_ACCORDION inside container with text: [Panel1, Panel2]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Expanding accordion DUMMY_ACCORDION inside container with text: [Panel1, Panel2]","thread_name":"main","@timestamp":"2026-02-04T21:18:31.049+0100","level":"STEP","logger_name":"ROA.UI"}
+Expanding accordion DUMMY_ACCORDION inside container using strategy: strategy
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Expanding accordion DUMMY_ACCORDION inside container using strategy: strategy","thread_name":"main","@timestamp":"2026-02-04T21:18:31.059+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if alert is visible at: null
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if alert is visible at: null","thread_name":"main","@timestamp":"2026-02-04T21:18:32.751+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting value from alert: DUMMY_ALERT
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting value from alert: DUMMY_ALERT","thread_name":"main","@timestamp":"2026-02-04T21:18:32.783+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if alert is visible: DUMMY_ALERT
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if alert is visible: DUMMY_ALERT","thread_name":"main","@timestamp":"2026-02-04T21:18:32.816+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting value from alert located by: null
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting value from alert located by: null","thread_name":"main","@timestamp":"2026-02-04T21:18:32.833+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting value from alert: DUMMY_ALERT
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting value from alert: DUMMY_ALERT","thread_name":"main","@timestamp":"2026-02-04T21:18:32.861+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if alert is visible: DUMMY_ALERT
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if alert is visible: DUMMY_ALERT","thread_name":"main","@timestamp":"2026-02-04T21:18:32.891+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if alert is visible at: By.id: alert
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if alert is visible at: By.id: alert","thread_name":"main","@timestamp":"2026-02-04T21:18:32.904+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting value from alert located by: By.id: alert
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting value from alert located by: By.id: alert","thread_name":"main","@timestamp":"2026-02-04T21:18:32.919+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting value from alert: DUMMY_ALERT
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting value from alert: DUMMY_ALERT","thread_name":"main","@timestamp":"2026-02-04T21:18:32.937+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if alert is visible: DUMMY_ALERT
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if alert is visible: DUMMY_ALERT","thread_name":"main","@timestamp":"2026-02-04T21:18:32.938+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if button is visible: ClickMe
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if button is visible: ClickMe","thread_name":"main","@timestamp":"2026-02-04T21:18:33.648+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if button is visible in container
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if button is visible in container","thread_name":"main","@timestamp":"2026-02-04T21:18:33.658+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if button is visible using locator: By.id: button
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if button is visible using locator: By.id: button","thread_name":"main","@timestamp":"2026-02-04T21:18:33.666+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if button is visible: ClickMe
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if button is visible: ClickMe","thread_name":"main","@timestamp":"2026-02-04T21:18:33.678+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if button is enabled using locator: By.id: button
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if button is enabled using locator: By.id: button","thread_name":"main","@timestamp":"2026-02-04T21:18:33.700+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if button is enabled in container
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if button is enabled in container","thread_name":"main","@timestamp":"2026-02-04T21:18:33.716+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if button is enabled: ClickMe
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if button is enabled: ClickMe","thread_name":"main","@timestamp":"2026-02-04T21:18:33.732+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if button is enabled: ClickMe
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if button is enabled: ClickMe","thread_name":"main","@timestamp":"2026-02-04T21:18:33.754+0100","level":"STEP","logger_name":"ROA.UI"}
+Clicking button: ClickMe in container
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Clicking button: ClickMe in container","thread_name":"main","@timestamp":"2026-02-04T21:18:33.771+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if button is enabled in container
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if button is enabled in container","thread_name":"main","@timestamp":"2026-02-04T21:18:33.773+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if button is visible: null
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if button is visible: null","thread_name":"main","@timestamp":"2026-02-04T21:18:33.792+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if button is enabled: ClickMe
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if button is enabled: ClickMe","thread_name":"main","@timestamp":"2026-02-04T21:18:33.807+0100","level":"STEP","logger_name":"ROA.UI"}
+Clicking button: ClickMe in container
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Clicking button: ClickMe in container","thread_name":"main","@timestamp":"2026-02-04T21:18:33.829+0100","level":"STEP","logger_name":"ROA.UI"}
+Clicking button: null in container
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Clicking button: null in container","thread_name":"main","@timestamp":"2026-02-04T21:18:33.840+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if button is visible: ClickMe
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if button is visible: ClickMe","thread_name":"main","@timestamp":"2026-02-04T21:18:33.849+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if button is enabled: null
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if button is enabled: null","thread_name":"main","@timestamp":"2026-02-04T21:18:33.867+0100","level":"STEP","logger_name":"ROA.UI"}
+Performing table insertion in cell element
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Performing table insertion in cell element","thread_name":"main","@timestamp":"2026-02-04T21:18:33.962+0100","level":"STEP","logger_name":"ROA.UI"}
+Clicking button: ClickMe in container
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Clicking button: ClickMe in container","thread_name":"main","@timestamp":"2026-02-04T21:18:33.976+0100","level":"STEP","logger_name":"ROA.UI"}
+Clicking button in container
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Clicking button in container","thread_name":"main","@timestamp":"2026-02-04T21:18:33.984+0100","level":"STEP","logger_name":"ROA.UI"}
+Clicking button: ClickMe
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Clicking button: ClickMe","thread_name":"main","@timestamp":"2026-02-04T21:18:33.992+0100","level":"STEP","logger_name":"ROA.UI"}
+Clicking button using locator: By.id: button
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Clicking button using locator: By.id: button","thread_name":"main","@timestamp":"2026-02-04T21:18:33.999+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting all checkboxes DUMMY_CHECKBOX by locator
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting all checkboxes DUMMY_CHECKBOX by locator","thread_name":"main","@timestamp":"2026-02-04T21:18:34.780+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting selected checkboxes DUMMY_CHECKBOX
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting selected checkboxes DUMMY_CHECKBOX","thread_name":"main","@timestamp":"2026-02-04T21:18:34.790+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting selected checkboxes DUMMY_CHECKBOX by locator
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting selected checkboxes DUMMY_CHECKBOX by locator","thread_name":"main","@timestamp":"2026-02-04T21:18:34.797+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting all checkboxes DUMMY_CHECKBOX
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting all checkboxes DUMMY_CHECKBOX","thread_name":"main","@timestamp":"2026-02-04T21:18:34.805+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting value into checkbox DUMMY_CHECKBOX
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting value into checkbox DUMMY_CHECKBOX","thread_name":"main","@timestamp":"2026-02-04T21:18:34.817+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting checkbox DUMMY_CHECKBOX with text InsertedValue
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting checkbox DUMMY_CHECKBOX with text InsertedValue","thread_name":"main","@timestamp":"2026-02-04T21:18:34.818+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if checkboxes DUMMY_CHECKBOX are selected
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if checkboxes DUMMY_CHECKBOX are selected","thread_name":"main","@timestamp":"2026-02-04T21:18:34.840+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if checkbox DUMMY_CHECKBOX is selected
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if checkbox DUMMY_CHECKBOX is selected","thread_name":"main","@timestamp":"2026-02-04T21:18:34.851+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if checkboxes DUMMY_CHECKBOX are selected by locator
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if checkboxes DUMMY_CHECKBOX are selected by locator","thread_name":"main","@timestamp":"2026-02-04T21:18:34.861+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if checkbox DUMMY_CHECKBOX is selected by locator
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if checkbox DUMMY_CHECKBOX is selected by locator","thread_name":"main","@timestamp":"2026-02-04T21:18:34.868+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if checkbox DUMMY_CHECKBOX is selected
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if checkbox DUMMY_CHECKBOX is selected","thread_name":"main","@timestamp":"2026-02-04T21:18:34.884+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if checkboxes DUMMY_CHECKBOX are selected
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if checkboxes DUMMY_CHECKBOX are selected","thread_name":"main","@timestamp":"2026-02-04T21:18:34.899+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if checkbox DUMMY_CHECKBOX is enabled by locator
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if checkbox DUMMY_CHECKBOX is enabled by locator","thread_name":"main","@timestamp":"2026-02-04T21:18:34.944+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if checkboxes DUMMY_CHECKBOX are enabled
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if checkboxes DUMMY_CHECKBOX are enabled","thread_name":"main","@timestamp":"2026-02-04T21:18:34.957+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if checkbox DUMMY_CHECKBOX is enabled
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if checkbox DUMMY_CHECKBOX is enabled","thread_name":"main","@timestamp":"2026-02-04T21:18:34.976+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if checkboxes DUMMY_CHECKBOX are enabled by locator
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if checkboxes DUMMY_CHECKBOX are enabled by locator","thread_name":"main","@timestamp":"2026-02-04T21:18:34.988+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if checkbox DUMMY_CHECKBOX is enabled
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if checkbox DUMMY_CHECKBOX is enabled","thread_name":"main","@timestamp":"2026-02-04T21:18:34.994+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if checkboxes DUMMY_CHECKBOX are enabled
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if checkboxes DUMMY_CHECKBOX are enabled","thread_name":"main","@timestamp":"2026-02-04T21:18:35.001+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting checkbox DUMMY_CHECKBOX with text A, B
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting checkbox DUMMY_CHECKBOX with text A, B","thread_name":"main","@timestamp":"2026-02-04T21:18:35.014+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if checkboxes DUMMY_CHECKBOX are selected
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if checkboxes DUMMY_CHECKBOX are selected","thread_name":"main","@timestamp":"2026-02-04T21:18:35.024+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting checkbox DUMMY_CHECKBOX with text no text added
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting checkbox DUMMY_CHECKBOX with text no text added","thread_name":"main","@timestamp":"2026-02-04T21:18:35.033+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if checkboxes DUMMY_CHECKBOX are selected
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if checkboxes DUMMY_CHECKBOX are selected","thread_name":"main","@timestamp":"2026-02-04T21:18:35.041+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting selected checkboxes DUMMY_CHECKBOX
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting selected checkboxes DUMMY_CHECKBOX","thread_name":"main","@timestamp":"2026-02-04T21:18:35.048+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting checkbox DUMMY_CHECKBOX with text A, B
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting checkbox DUMMY_CHECKBOX with text A, B","thread_name":"main","@timestamp":"2026-02-04T21:18:35.064+0100","level":"STEP","logger_name":"ROA.UI"}
+Deselecting checkbox DUMMY_CHECKBOX with text A, B
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Deselecting checkbox DUMMY_CHECKBOX with text A, B","thread_name":"main","@timestamp":"2026-02-04T21:18:35.065+0100","level":"STEP","logger_name":"ROA.UI"}
+Deselecting checkbox DUMMY_CHECKBOX with text A, B
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Deselecting checkbox DUMMY_CHECKBOX with text A, B","thread_name":"main","@timestamp":"2026-02-04T21:18:35.079+0100","level":"STEP","logger_name":"ROA.UI"}
+Deselecting checkbox DUMMY_CHECKBOX by locator
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Deselecting checkbox DUMMY_CHECKBOX by locator","thread_name":"main","@timestamp":"2026-02-04T21:18:35.088+0100","level":"STEP","logger_name":"ROA.UI"}
+Deselecting checkbox DUMMY_CHECKBOX with text A
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Deselecting checkbox DUMMY_CHECKBOX with text A","thread_name":"main","@timestamp":"2026-02-04T21:18:35.094+0100","level":"STEP","logger_name":"ROA.UI"}
+Deselecting checkbox DUMMY_CHECKBOX using strategy strategy
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Deselecting checkbox DUMMY_CHECKBOX using strategy strategy","thread_name":"main","@timestamp":"2026-02-04T21:18:35.108+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting checkbox DUMMY_CHECKBOX with text A, B
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting checkbox DUMMY_CHECKBOX with text A, B","thread_name":"main","@timestamp":"2026-02-04T21:18:35.124+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting checkbox DUMMY_CHECKBOX by locator
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting checkbox DUMMY_CHECKBOX by locator","thread_name":"main","@timestamp":"2026-02-04T21:18:35.148+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting checkbox DUMMY_CHECKBOX with text A
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting checkbox DUMMY_CHECKBOX with text A","thread_name":"main","@timestamp":"2026-02-04T21:18:35.165+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting checkbox DUMMY_CHECKBOX using strategy strategy
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting checkbox DUMMY_CHECKBOX using strategy strategy","thread_name":"main","@timestamp":"2026-02-04T21:18:35.180+0100","level":"STEP","logger_name":"ROA.UI"}
+Failed to create instance of io.cyborgcode.roa.ui.components.factory.mock.FailInputImpl
+java.lang.reflect.InvocationTargetException
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:481)
+	at io.cyborgcode.roa.ui.components.factory.ComponentFactory.createInstance(ComponentFactory.java:282)
+	at io.cyborgcode.roa.ui.components.factory.ComponentFactory.lambda$getComponent$1(ComponentFactory.java:250)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at io.cyborgcode.roa.ui.components.factory.ComponentFactory.getComponent(ComponentFactory.java:250)
+	at io.cyborgcode.roa.ui.components.factory.ComponentFactory.getInputComponent(ComponentFactory.java:72)
+	at io.cyborgcode.roa.ui.components.factory.ComponentFactoryTest.lambda$getComponent_CreationFailed_ThrowsComponentCreationException$10(ComponentFactoryTest.java:155)
+	at org.assertj.core.api.ThrowableAssert.catchThrowable(ThrowableAssert.java:63)
+	at org.assertj.core.api.AssertionsForClassTypes.catchThrowable(AssertionsForClassTypes.java:905)
+	at org.assertj.core.api.Assertions.catchThrowable(Assertions.java:1473)
+	at io.cyborgcode.roa.ui.components.factory.ComponentFactoryTest.getComponent_CreationFailed_ThrowsComponentCreationException(ComponentFactoryTest.java:155)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:701)
+	at org.junit.platform.commons.support.ReflectionSupport.invokeMethod(ReflectionSupport.java:502)
+	at org.junit.jupiter.engine.support.MethodReflectionUtils.invoke(MethodReflectionUtils.java:45)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:61)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:124)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:163)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:148)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:123)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:105)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:99)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:66)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:47)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:39)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:104)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:98)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invokeVoid(InterceptingExecutableInvoker.java:71)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$0(TestMethodTestDescriptor.java:219)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:215)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:157)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:70)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:176)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:36)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:52)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:58)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.executeEngine(EngineExecutionOrchestrator.java:246)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.failOrExecuteEngine(EngineExecutionOrchestrator.java:218)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:179)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:108)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:66)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:157)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:65)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:125)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:58)
+	at org.junit.platform.launcher.core.InterceptingLauncher.lambda$execute$2(InterceptingLauncher.java:57)
+	at org.junit.platform.launcher.core.ClasspathAlignmentCheckingLauncherInterceptor.intercept(ClasspathAlignmentCheckingLauncherInterceptor.java:25)
+	at org.junit.platform.launcher.core.InterceptingLauncher.execute(InterceptingLauncher.java:56)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:58)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.apache.maven.surefire.api.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:125)
+	at org.apache.maven.surefire.junitplatform.LauncherAdapter.executeWithCancellationToken(LauncherAdapter.java:68)
+	at org.apache.maven.surefire.junitplatform.LauncherAdapter.execute(LauncherAdapter.java:54)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:203)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:168)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:136)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+Caused by: java.lang.IllegalStateException: Simulated constructor failure!
+	at io.cyborgcode.roa.ui.components.factory.mock.FailInputImpl.<init>(FailInputImpl.java:15)
+	... 100 more
+{"exception":{"exception_class":"java.lang.reflect.InvocationTargetException","exception_message":null,"stacktrace":"java.lang.reflect.InvocationTargetException\r\n\tat java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)\r\n\tat java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)\r\n\tat java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)\r\n\tat java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:481)\r\n\tat io.cyborgcode.roa.ui.components.factory.ComponentFactory.createInstance(ComponentFactory.java:282)\r\n\tat io.cyborgcode.roa.ui.components.factory.ComponentFactory.lambda$getComponent$1(ComponentFactory.java:250)\r\n\tat java.base/java.util.Optional.map(Optional.java:260)\r\n\tat io.cyborgcode.roa.ui.components.factory.ComponentFactory.getComponent(ComponentFactory.java:250)\r\n\tat io.cyborgcode.roa.ui.components.factory.ComponentFactory.getInputComponent(ComponentFactory.java:72)\r\n\tat io.cyborgcode.roa.ui.components.factory.ComponentFactoryTest.lambda$getComponent_CreationFailed_ThrowsComponentCreationException$10(ComponentFactoryTest.java:155)\r\n\tat org.assertj.core.api.ThrowableAssert.catchThrowable(ThrowableAssert.java:63)\r\n\tat org.assertj.core.api.AssertionsForClassTypes.catchThrowable(AssertionsForClassTypes.java:905)\r\n\tat org.assertj.core.api.Assertions.catchThrowable(Assertions.java:1473)\r\n\tat io.cyborgcode.roa.ui.components.factory.ComponentFactoryTest.getComponent_CreationFailed_ThrowsComponentCreationException(ComponentFactoryTest.java:155)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:569)\r\n\tat org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:701)\r\n\tat org.junit.platform.commons.support.ReflectionSupport.invokeMethod(ReflectionSupport.java:502)\r\n\tat org.junit.jupiter.engine.support.MethodReflectionUtils.invoke(MethodReflectionUtils.java:45)\r\n\tat org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:61)\r\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:124)\r\n\tat org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:163)\r\n\tat org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:148)\r\n\tat org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)\r\n\tat org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:123)\r\n\tat org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:105)\r\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:99)\r\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:66)\r\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:47)\r\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:39)\r\n\tat org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:104)\r\n\tat org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:98)\r\n\tat org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invokeVoid(InterceptingExecutableInvoker.java:71)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$0(TestMethodTestDescriptor.java:219)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:215)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:157)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:70)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:176)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)\r\n\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1511)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)\r\n\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1511)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)\r\n\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:36)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:52)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:58)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.executeEngine(EngineExecutionOrchestrator.java:246)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.failOrExecuteEngine(EngineExecutionOrchestrator.java:218)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:179)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:108)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:66)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:157)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:65)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:125)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)\r\n\tat org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:58)\r\n\tat org.junit.platform.launcher.core.InterceptingLauncher.lambda$execute$2(InterceptingLauncher.java:57)\r\n\tat org.junit.platform.launcher.core.ClasspathAlignmentCheckingLauncherInterceptor.intercept(ClasspathAlignmentCheckingLauncherInterceptor.java:25)\r\n\tat org.junit.platform.launcher.core.InterceptingLauncher.execute(InterceptingLauncher.java:56)\r\n\tat org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:58)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:569)\r\n\tat org.apache.maven.surefire.api.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:125)\r\n\tat org.apache.maven.surefire.junitplatform.LauncherAdapter.executeWithCancellationToken(LauncherAdapter.java:68)\r\n\tat org.apache.maven.surefire.junitplatform.LauncherAdapter.execute(LauncherAdapter.java:54)\r\n\tat org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:203)\r\n\tat org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:168)\r\n\tat org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:136)\r\n\tat org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)\r\n\tat org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)\r\n\tat org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)\r\n\tat org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)\r\nCaused by: java.lang.IllegalStateException: Simulated constructor failure!\r\n\tat io.cyborgcode.roa.ui.components.factory.mock.FailInputImpl.<init>(FailInputImpl.java:15)\r\n\t... 100 more\r\n"},"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Failed to create instance of io.cyborgcode.roa.ui.components.factory.mock.FailInputImpl","thread_name":"main","@timestamp":"2026-02-04T21:18:35.465+0100","level":"ERROR","logger_name":"ROA.UI"}
+Inserting value: 'value' into input component of type: 'DUMMY_INPUT'.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting value: 'value' into input component of type: 'DUMMY_INPUT'.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.503+0100","level":"STEP","logger_name":"ROA.UI"}
+Clearing value in input component of type: 'DUMMY_INPUT'.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Clearing value in input component of type: 'DUMMY_INPUT'.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.506+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting value: 'null' into input component of type: 'DUMMY_INPUT'.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting value: 'null' into input component of type: 'DUMMY_INPUT'.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.541+0100","level":"STEP","logger_name":"ROA.UI"}
+Fetching error message from input component of type: 'DUMMY_INPUT'.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Fetching error message from input component of type: 'DUMMY_INPUT'.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.551+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if input component of type: 'DUMMY_INPUT' is enabled.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if input component of type: 'DUMMY_INPUT' is enabled.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.576+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting value: 'value' into input component of type: 'DUMMY_INPUT'.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting value: 'value' into input component of type: 'DUMMY_INPUT'.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.582+0100","level":"STEP","logger_name":"ROA.UI"}
+Fetching value from input component of type: 'DUMMY_INPUT'.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Fetching value from input component of type: 'DUMMY_INPUT'.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.591+0100","level":"STEP","logger_name":"ROA.UI"}
+Fetching value from input field labeled: 'label' of type: 'DUMMY_INPUT'.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Fetching value from input field labeled: 'label' of type: 'DUMMY_INPUT'.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.602+0100","level":"STEP","logger_name":"ROA.UI"}
+Fetching value from input component of type: 'DUMMY_INPUT'.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Fetching value from input component of type: 'DUMMY_INPUT'.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.614+0100","level":"STEP","logger_name":"ROA.UI"}
+Fetching value from input component of type: 'DUMMY_INPUT'.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Fetching value from input component of type: 'DUMMY_INPUT'.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.621+0100","level":"STEP","logger_name":"ROA.UI"}
+Fetching value from input field labeled: 'label' of type: 'DUMMY_INPUT'.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Fetching value from input field labeled: 'label' of type: 'DUMMY_INPUT'.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.628+0100","level":"STEP","logger_name":"ROA.UI"}
+Applying table filter for component type: 'DUMMY_INPUT' with strategy: 'filterStrategy'.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Applying table filter for component type: 'DUMMY_INPUT' with strategy: 'filterStrategy'.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.650+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting values into table cell for component type: 'DUMMY_INPUT'.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting values into table cell for component type: 'DUMMY_INPUT'.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.666+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting value into component of type: 'DUMMY_INPUT' using locator.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting value into component of type: 'DUMMY_INPUT' using locator.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.675+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting value: 'value' into input component of type: 'DUMMY_INPUT'.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting value: 'value' into input component of type: 'DUMMY_INPUT'.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.676+0100","level":"STEP","logger_name":"ROA.UI"}
+Clearing value in input field labeled: 'label' of type: 'DUMMY_INPUT'.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Clearing value in input field labeled: 'label' of type: 'DUMMY_INPUT'.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.707+0100","level":"STEP","logger_name":"ROA.UI"}
+Clearing value in input component of type: 'DUMMY_INPUT'.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Clearing value in input component of type: 'DUMMY_INPUT'.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.713+0100","level":"STEP","logger_name":"ROA.UI"}
+Clearing value in input component of type: 'DUMMY_INPUT'.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Clearing value in input component of type: 'DUMMY_INPUT'.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.721+0100","level":"STEP","logger_name":"ROA.UI"}
+Clearing value in input field labeled: 'label' of type: 'DUMMY_INPUT'.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Clearing value in input field labeled: 'label' of type: 'DUMMY_INPUT'.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.730+0100","level":"STEP","logger_name":"ROA.UI"}
+Fetching error message from input component of type: 'DUMMY_INPUT'.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Fetching error message from input component of type: 'DUMMY_INPUT'.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.740+0100","level":"STEP","logger_name":"ROA.UI"}
+Fetching error message from input field labeled: 'label' of type: 'DUMMY_INPUT'.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Fetching error message from input field labeled: 'label' of type: 'DUMMY_INPUT'.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.747+0100","level":"STEP","logger_name":"ROA.UI"}
+Fetching error message from input field labeled: 'label' of type: 'DUMMY_INPUT'.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Fetching error message from input field labeled: 'label' of type: 'DUMMY_INPUT'.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.756+0100","level":"STEP","logger_name":"ROA.UI"}
+Fetching error message from input component of type: 'DUMMY_INPUT'.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Fetching error message from input component of type: 'DUMMY_INPUT'.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.764+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if input component of type: 'DUMMY_INPUT' is enabled.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if input component of type: 'DUMMY_INPUT' is enabled.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.782+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if input component of type: 'DUMMY_INPUT' is enabled.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if input component of type: 'DUMMY_INPUT' is enabled.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.789+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if input field labeled: 'label' of type: 'DUMMY_INPUT' is enabled.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if input field labeled: 'label' of type: 'DUMMY_INPUT' is enabled.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.796+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if input field labeled: 'label' of type: 'DUMMY_INPUT' is enabled.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if input field labeled: 'label' of type: 'DUMMY_INPUT' is enabled.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.802+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting value: 'value' into input field labeled: 'label' of type: 'DUMMY_INPUT'.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting value: 'value' into input field labeled: 'label' of type: 'DUMMY_INPUT'.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.818+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting value: 'value' into input field labeled: 'label' of type: 'DUMMY_INPUT'.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting value: 'value' into input field labeled: 'label' of type: 'DUMMY_INPUT'.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.825+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting value: 'value' into input component of type: 'DUMMY_INPUT'.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting value: 'value' into input component of type: 'DUMMY_INPUT'.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.831+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting value: 'value' into input component of type: 'DUMMY_INPUT'.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting value: 'value' into input component of type: 'DUMMY_INPUT'.","thread_name":"main","@timestamp":"2026-02-04T21:18:37.837+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting values value1, value2 in cell for link DUMMY_LINK
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting values value1, value2 in cell for link DUMMY_LINK","thread_name":"main","@timestamp":"2026-02-04T21:18:38.948+0100","level":"STEP","logger_name":"ROA.UI"}
+Clicking link DUMMY_LINK with text LinkText
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Clicking link DUMMY_LINK with text LinkText","thread_name":"main","@timestamp":"2026-02-04T21:18:38.965+0100","level":"STEP","logger_name":"ROA.UI"}
+Clicking link DUMMY_LINK using locator By.id: link
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Clicking link DUMMY_LINK using locator By.id: link","thread_name":"main","@timestamp":"2026-02-04T21:18:38.988+0100","level":"STEP","logger_name":"ROA.UI"}
+Clicking link DUMMY_LINK
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Clicking link DUMMY_LINK","thread_name":"main","@timestamp":"2026-02-04T21:18:38.997+0100","level":"STEP","logger_name":"ROA.UI"}
+Clicking link DUMMY_LINK with text LinkText
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Clicking link DUMMY_LINK with text LinkText","thread_name":"main","@timestamp":"2026-02-04T21:18:39.004+0100","level":"STEP","logger_name":"ROA.UI"}
+Double-clicking link DUMMY_LINK with text LinkText
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Double-clicking link DUMMY_LINK with text LinkText","thread_name":"main","@timestamp":"2026-02-04T21:18:39.015+0100","level":"STEP","logger_name":"ROA.UI"}
+Double-clicking link DUMMY_LINK with text LinkText
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Double-clicking link DUMMY_LINK with text LinkText","thread_name":"main","@timestamp":"2026-02-04T21:18:39.020+0100","level":"STEP","logger_name":"ROA.UI"}
+Double-clicking link DUMMY_LINK using locator By.id: link
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Double-clicking link DUMMY_LINK using locator By.id: link","thread_name":"main","@timestamp":"2026-02-04T21:18:39.029+0100","level":"STEP","logger_name":"ROA.UI"}
+Double-clicking link DUMMY_LINK
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Double-clicking link DUMMY_LINK","thread_name":"main","@timestamp":"2026-02-04T21:18:39.036+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if link DUMMY_LINK is enabled with text LinkText
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if link DUMMY_LINK is enabled with text LinkText","thread_name":"main","@timestamp":"2026-02-04T21:18:39.045+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if link DUMMY_LINK is enabled using locator By.id: link
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if link DUMMY_LINK is enabled using locator By.id: link","thread_name":"main","@timestamp":"2026-02-04T21:18:39.051+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if link DUMMY_LINK is enabled
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if link DUMMY_LINK is enabled","thread_name":"main","@timestamp":"2026-02-04T21:18:39.057+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if link DUMMY_LINK is enabled with text LinkText
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if link DUMMY_LINK is enabled with text LinkText","thread_name":"main","@timestamp":"2026-02-04T21:18:39.064+0100","level":"STEP","logger_name":"ROA.UI"}
+Clicking link DUMMY_LINK with text LinkText
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Clicking link DUMMY_LINK with text LinkText","thread_name":"main","@timestamp":"2026-02-04T21:18:39.078+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if link DUMMY_LINK is enabled using locator By.id: link
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if link DUMMY_LINK is enabled using locator By.id: link","thread_name":"main","@timestamp":"2026-02-04T21:18:39.079+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if link DUMMY_LINK is visible with text LinkText
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if link DUMMY_LINK is visible with text LinkText","thread_name":"main","@timestamp":"2026-02-04T21:18:39.089+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if link DUMMY_LINK is visible with text LinkText
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if link DUMMY_LINK is visible with text LinkText","thread_name":"main","@timestamp":"2026-02-04T21:18:39.097+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if link DUMMY_LINK is visible
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if link DUMMY_LINK is visible","thread_name":"main","@timestamp":"2026-02-04T21:18:39.104+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if link DUMMY_LINK is visible using locator By.id: link
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if link DUMMY_LINK is visible using locator By.id: link","thread_name":"main","@timestamp":"2026-02-04T21:18:39.110+0100","level":"STEP","logger_name":"ROA.UI"}
+De-selecting items item1, item2 from list DUMMY_LIST
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"De-selecting items item1, item2 from list DUMMY_LIST","thread_name":"main","@timestamp":"2026-02-04T21:18:39.988+0100","level":"STEP","logger_name":"ROA.UI"}
+De-selecting items from list DUMMY_LIST using strategy strategy
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"De-selecting items from list DUMMY_LIST using strategy strategy","thread_name":"main","@timestamp":"2026-02-04T21:18:39.997+0100","level":"STEP","logger_name":"ROA.UI"}
+De-selecting items item1, item2 from list DUMMY_LIST using locator By.id: list
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"De-selecting items item1, item2 from list DUMMY_LIST using locator By.id: list","thread_name":"main","@timestamp":"2026-02-04T21:18:40.003+0100","level":"STEP","logger_name":"ROA.UI"}
+De-selecting items item1, item2 from list DUMMY_LIST
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"De-selecting items item1, item2 from list DUMMY_LIST","thread_name":"main","@timestamp":"2026-02-04T21:18:40.014+0100","level":"STEP","logger_name":"ROA.UI"}
+De-selecting items from list DUMMY_LIST using locator [By.id: item1, By.id: item2]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"De-selecting items from list DUMMY_LIST using locator [By.id: item1, By.id: item2]","thread_name":"main","@timestamp":"2026-02-04T21:18:40.022+0100","level":"STEP","logger_name":"ROA.UI"}
+De-selecting items from list DUMMY_LIST using locator By.id: list and strategy strategy
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"De-selecting items from list DUMMY_LIST using locator By.id: list and strategy strategy","thread_name":"main","@timestamp":"2026-02-04T21:18:40.029+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if items are enabled in list DUMMY_LIST using locator [By.id: item1, By.id: item2]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if items are enabled in list DUMMY_LIST using locator [By.id: item1, By.id: item2]","thread_name":"main","@timestamp":"2026-02-04T21:18:40.043+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if item is enabled in list DUMMY_LIST using locator By.id: item1
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if item is enabled in list DUMMY_LIST using locator By.id: item1","thread_name":"main","@timestamp":"2026-02-04T21:18:40.052+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if items are enabled in list DUMMY_LIST using locator [By.id: item1]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if items are enabled in list DUMMY_LIST using locator [By.id: item1]","thread_name":"main","@timestamp":"2026-02-04T21:18:40.052+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if items item1, item2 are enabled in list DUMMY_LIST
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if items item1, item2 are enabled in list DUMMY_LIST","thread_name":"main","@timestamp":"2026-02-04T21:18:40.062+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if items item1, item2 are enabled in list DUMMY_LIST using locator By.id: list
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if items item1, item2 are enabled in list DUMMY_LIST using locator By.id: list","thread_name":"main","@timestamp":"2026-02-04T21:18:40.070+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if item item1 is enabled in list DUMMY_LIST using locator By.id: list
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if item item1 is enabled in list DUMMY_LIST using locator By.id: list","thread_name":"main","@timestamp":"2026-02-04T21:18:40.085+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if items item1 are enabled in list DUMMY_LIST using locator By.id: list
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if items item1 are enabled in list DUMMY_LIST using locator By.id: list","thread_name":"main","@timestamp":"2026-02-04T21:18:40.086+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if items item1, item2 are enabled in list DUMMY_LIST
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if items item1, item2 are enabled in list DUMMY_LIST","thread_name":"main","@timestamp":"2026-02-04T21:18:40.095+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if item item1 is enabled in list DUMMY_LIST
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if item item1 is enabled in list DUMMY_LIST","thread_name":"main","@timestamp":"2026-02-04T21:18:40.105+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if items item1 are enabled in list DUMMY_LIST
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if items item1 are enabled in list DUMMY_LIST","thread_name":"main","@timestamp":"2026-02-04T21:18:40.105+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if item item1 is enabled in list DUMMY_LIST
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if item item1 is enabled in list DUMMY_LIST","thread_name":"main","@timestamp":"2026-02-04T21:18:40.113+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if items item1 are enabled in list DUMMY_LIST
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if items item1 are enabled in list DUMMY_LIST","thread_name":"main","@timestamp":"2026-02-04T21:18:40.113+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if item item1 is selected in list DUMMY_LIST
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if item item1 is selected in list DUMMY_LIST","thread_name":"main","@timestamp":"2026-02-04T21:18:40.123+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if items item1 are selected in list DUMMY_LIST
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if items item1 are selected in list DUMMY_LIST","thread_name":"main","@timestamp":"2026-02-04T21:18:40.124+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if items item1, item2 are selected in list DUMMY_LIST using locator By.id: list
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if items item1, item2 are selected in list DUMMY_LIST using locator By.id: list","thread_name":"main","@timestamp":"2026-02-04T21:18:40.131+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if items are selected in list DUMMY_LIST using locator [By.id: item1, By.id: item2]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if items are selected in list DUMMY_LIST using locator [By.id: item1, By.id: item2]","thread_name":"main","@timestamp":"2026-02-04T21:18:40.143+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if item item1 is selected in list DUMMY_LIST
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if item item1 is selected in list DUMMY_LIST","thread_name":"main","@timestamp":"2026-02-04T21:18:40.226+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if items item1 are selected in list DUMMY_LIST
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if items item1 are selected in list DUMMY_LIST","thread_name":"main","@timestamp":"2026-02-04T21:18:40.226+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if items item1, item2 are selected in list DUMMY_LIST
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if items item1, item2 are selected in list DUMMY_LIST","thread_name":"main","@timestamp":"2026-02-04T21:18:40.238+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if item is selected in list DUMMY_LIST using locator By.id: item1
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if item is selected in list DUMMY_LIST using locator By.id: item1","thread_name":"main","@timestamp":"2026-02-04T21:18:40.249+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if items are selected in list DUMMY_LIST using locator [By.id: item1]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if items are selected in list DUMMY_LIST using locator [By.id: item1]","thread_name":"main","@timestamp":"2026-02-04T21:18:40.250+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if item item1 is selected in list DUMMY_LIST using locator By.id: list
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if item item1 is selected in list DUMMY_LIST using locator By.id: list","thread_name":"main","@timestamp":"2026-02-04T21:18:40.270+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if items item1 are selected in list DUMMY_LIST using locator By.id: list
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if items item1 are selected in list DUMMY_LIST using locator By.id: list","thread_name":"main","@timestamp":"2026-02-04T21:18:40.271+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if items item1, item2 are selected in list DUMMY_LIST
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if items item1, item2 are selected in list DUMMY_LIST","thread_name":"main","@timestamp":"2026-02-04T21:18:40.287+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting items item1, item2 from list DUMMY_LIST
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting items item1, item2 from list DUMMY_LIST","thread_name":"main","@timestamp":"2026-02-04T21:18:40.297+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting items from list DUMMY_LIST using locator [By.id: item1, By.id: item2]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting items from list DUMMY_LIST using locator [By.id: item1, By.id: item2]","thread_name":"main","@timestamp":"2026-02-04T21:18:40.305+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting items from list DUMMY_LIST using strategy strategy
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting items from list DUMMY_LIST using strategy strategy","thread_name":"main","@timestamp":"2026-02-04T21:18:40.313+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting items item1, item2 from list DUMMY_LIST using locator By.id: list
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting items item1, item2 from list DUMMY_LIST using locator By.id: list","thread_name":"main","@timestamp":"2026-02-04T21:18:40.327+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting items from list DUMMY_LIST using locator By.id: list and strategy strategy
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting items from list DUMMY_LIST using locator By.id: list and strategy strategy","thread_name":"main","@timestamp":"2026-02-04T21:18:40.333+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting items item1, item2 from list DUMMY_LIST
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting items item1, item2 from list DUMMY_LIST","thread_name":"main","@timestamp":"2026-02-04T21:18:40.338+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting all items from list DUMMY_LIST using container
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting all items from list DUMMY_LIST using container","thread_name":"main","@timestamp":"2026-02-04T21:18:40.347+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting selected items from list DUMMY_LIST using container
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting selected items from list DUMMY_LIST using container","thread_name":"main","@timestamp":"2026-02-04T21:18:40.355+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting selected items from list DUMMY_LIST using locator By.id: list
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting selected items from list DUMMY_LIST using locator By.id: list","thread_name":"main","@timestamp":"2026-02-04T21:18:40.363+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting all items from list DUMMY_LIST using locator By.id: list
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting all items from list DUMMY_LIST using locator By.id: list","thread_name":"main","@timestamp":"2026-02-04T21:18:40.368+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if items are visible in list DUMMY_LIST using locator [By.id: item1, By.id: item2]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if items are visible in list DUMMY_LIST using locator [By.id: item1, By.id: item2]","thread_name":"main","@timestamp":"2026-02-04T21:18:40.381+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if item item1 is visible in list DUMMY_LIST
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if item item1 is visible in list DUMMY_LIST","thread_name":"main","@timestamp":"2026-02-04T21:18:40.390+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if items item1 are visible in list DUMMY_LIST
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if items item1 are visible in list DUMMY_LIST","thread_name":"main","@timestamp":"2026-02-04T21:18:40.390+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if items item1, item2 are visible in list DUMMY_LIST using locator By.id: list
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if items item1, item2 are visible in list DUMMY_LIST using locator By.id: list","thread_name":"main","@timestamp":"2026-02-04T21:18:40.397+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if item is visible in list DUMMY_LIST using locator By.id: item1
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if item is visible in list DUMMY_LIST using locator By.id: item1","thread_name":"main","@timestamp":"2026-02-04T21:18:40.405+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if items are visible in list DUMMY_LIST using locator [By.id: item1]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if items are visible in list DUMMY_LIST using locator [By.id: item1]","thread_name":"main","@timestamp":"2026-02-04T21:18:40.406+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if item item1 is visible in list DUMMY_LIST using locator By.id: list
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if item item1 is visible in list DUMMY_LIST using locator By.id: list","thread_name":"main","@timestamp":"2026-02-04T21:18:40.412+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if items item1 are visible in list DUMMY_LIST using locator By.id: list
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if items item1 are visible in list DUMMY_LIST using locator By.id: list","thread_name":"main","@timestamp":"2026-02-04T21:18:40.412+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if items item1, item2 are visible in list DUMMY_LIST
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if items item1, item2 are visible in list DUMMY_LIST","thread_name":"main","@timestamp":"2026-02-04T21:18:40.420+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if item item1 is visible in list DUMMY_LIST
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if item item1 is visible in list DUMMY_LIST","thread_name":"main","@timestamp":"2026-02-04T21:18:40.428+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if items item1 are visible in list DUMMY_LIST
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if items item1 are visible in list DUMMY_LIST","thread_name":"main","@timestamp":"2026-02-04T21:18:40.431+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if items item1, item2 are visible in list DUMMY_LIST
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if items item1, item2 are visible in list DUMMY_LIST","thread_name":"main","@timestamp":"2026-02-04T21:18:40.439+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting items item1, item2 from list DUMMY_LIST
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting items item1, item2 from list DUMMY_LIST","thread_name":"main","@timestamp":"2026-02-04T21:18:40.454+0100","level":"STEP","logger_name":"ROA.UI"}
+De-selecting items item1, item2 from list DUMMY_LIST
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"De-selecting items item1, item2 from list DUMMY_LIST","thread_name":"main","@timestamp":"2026-02-04T21:18:40.454+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting values [item1, 2, true] into component DUMMY_LIST using locator By.id: list
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting values [item1, 2, true] into component DUMMY_LIST using locator By.id: list","thread_name":"main","@timestamp":"2026-02-04T21:18:40.466+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting items item1, 2, true from list DUMMY_LIST using locator By.id: list
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting items item1, 2, true from list DUMMY_LIST using locator By.id: list","thread_name":"main","@timestamp":"2026-02-04T21:18:40.467+0100","level":"STEP","logger_name":"ROA.UI"}
+Waiting for loader DUMMY_LOADER to be shown using locator By.id: loader for 5 seconds
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Waiting for loader DUMMY_LOADER to be shown using locator By.id: loader for 5 seconds","thread_name":"main","@timestamp":"2026-02-04T21:18:41.506+0100","level":"STEP","logger_name":"ROA.UI"}
+Waiting for loader DUMMY_LOADER to be removed for 5 seconds
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Waiting for loader DUMMY_LOADER to be removed for 5 seconds","thread_name":"main","@timestamp":"2026-02-04T21:18:41.511+0100","level":"STEP","logger_name":"ROA.UI"}
+Waiting for loader DUMMY_LOADER to be removed using locator By.id: loader for 5 seconds
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Waiting for loader DUMMY_LOADER to be removed using locator By.id: loader for 5 seconds","thread_name":"main","@timestamp":"2026-02-04T21:18:41.520+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking visibility of loader DUMMY_LOADER using locator By.id: loader
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking visibility of loader DUMMY_LOADER using locator By.id: loader","thread_name":"main","@timestamp":"2026-02-04T21:18:41.526+0100","level":"STEP","logger_name":"ROA.UI"}
+Waiting for loader DUMMY_LOADER to be shown using container for 5 seconds
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Waiting for loader DUMMY_LOADER to be shown using container for 5 seconds","thread_name":"main","@timestamp":"2026-02-04T21:18:41.531+0100","level":"STEP","logger_name":"ROA.UI"}
+Waiting for loader DUMMY_LOADER to be removed using container for 5 seconds
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Waiting for loader DUMMY_LOADER to be removed using container for 5 seconds","thread_name":"main","@timestamp":"2026-02-04T21:18:41.536+0100","level":"STEP","logger_name":"ROA.UI"}
+Waiting for loader DUMMY_LOADER to be shown for 5 seconds
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Waiting for loader DUMMY_LOADER to be shown for 5 seconds","thread_name":"main","@timestamp":"2026-02-04T21:18:41.540+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking visibility of loader DUMMY_LOADER using container
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking visibility of loader DUMMY_LOADER using container","thread_name":"main","@timestamp":"2026-02-04T21:18:41.545+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking visibility of loader DUMMY_LOADER using container
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking visibility of loader DUMMY_LOADER using container","thread_name":"main","@timestamp":"2026-02-04T21:18:41.553+0100","level":"STEP","logger_name":"ROA.UI"}
+Waiting for loader DUMMY_LOADER to be shown for 5 seconds
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Waiting for loader DUMMY_LOADER to be shown for 5 seconds","thread_name":"main","@timestamp":"2026-02-04T21:18:41.555+0100","level":"STEP","logger_name":"ROA.UI"}
+Clicking button with text OK in modal DUMMY_MODAL using container
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Clicking button with text OK in modal DUMMY_MODAL using container","thread_name":"main","@timestamp":"2026-02-04T21:18:42.140+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if modal DUMMY_MODAL is opened
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if modal DUMMY_MODAL is opened","thread_name":"main","@timestamp":"2026-02-04T21:18:42.146+0100","level":"STEP","logger_name":"ROA.UI"}
+Closing modal DUMMY_MODAL
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Closing modal DUMMY_MODAL","thread_name":"main","@timestamp":"2026-02-04T21:18:42.151+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting body text of modal DUMMY_MODAL
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting body text of modal DUMMY_MODAL","thread_name":"main","@timestamp":"2026-02-04T21:18:42.156+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting title of modal DUMMY_MODAL
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting title of modal DUMMY_MODAL","thread_name":"main","@timestamp":"2026-02-04T21:18:42.161+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting content title of modal DUMMY_MODAL
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting content title of modal DUMMY_MODAL","thread_name":"main","@timestamp":"2026-02-04T21:18:42.166+0100","level":"STEP","logger_name":"ROA.UI"}
+Clicking button with locator By.id: modal in modal DUMMY_MODAL
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Clicking button with locator By.id: modal in modal DUMMY_MODAL","thread_name":"main","@timestamp":"2026-02-04T21:18:42.172+0100","level":"STEP","logger_name":"ROA.UI"}
+Clicking button with text Submit in modal DUMMY_MODAL
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Clicking button with text Submit in modal DUMMY_MODAL","thread_name":"main","@timestamp":"2026-02-04T21:18:42.177+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if modal DUMMY_MODAL is opened
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if modal DUMMY_MODAL is opened","thread_name":"main","@timestamp":"2026-02-04T21:18:42.186+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting title of modal DUMMY_MODAL
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting title of modal DUMMY_MODAL","thread_name":"main","@timestamp":"2026-02-04T21:18:42.187+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting radio button with text Option1 for radio component DUMMY_RADIO
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting radio button with text Option1 for radio component DUMMY_RADIO","thread_name":"main","@timestamp":"2026-02-04T21:18:42.809+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting radio button with text Option1 in container container for radio component DUMMY_RADIO
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting radio button with text Option1 in container container for radio component DUMMY_RADIO","thread_name":"main","@timestamp":"2026-02-04T21:18:42.815+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting radio button with strategy strategy in container container for radio component DUMMY_RADIO
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting radio button with strategy strategy in container container for radio component DUMMY_RADIO","thread_name":"main","@timestamp":"2026-02-04T21:18:42.822+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting radio button with locator By.id: radio for radio component DUMMY_RADIO
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting radio button with locator By.id: radio for radio component DUMMY_RADIO","thread_name":"main","@timestamp":"2026-02-04T21:18:42.827+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting radio button with text Option1 for radio component DUMMY_RADIO
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting radio button with text Option1 for radio component DUMMY_RADIO","thread_name":"main","@timestamp":"2026-02-04T21:18:42.836+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if radio button with text Option1 is selected for radio component DUMMY_RADIO
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if radio button with text Option1 is selected for radio component DUMMY_RADIO","thread_name":"main","@timestamp":"2026-02-04T21:18:42.836+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if radio button with locator By.id: radio is visible for radio component DUMMY_RADIO
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if radio button with locator By.id: radio is visible for radio component DUMMY_RADIO","thread_name":"main","@timestamp":"2026-02-04T21:18:42.846+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if radio button with text Option1 is visible for radio component DUMMY_RADIO
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if radio button with text Option1 is visible for radio component DUMMY_RADIO","thread_name":"main","@timestamp":"2026-02-04T21:18:42.851+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if radio button with text Option1 is visible in container container for radio component DUMMY_RADIO
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if radio button with text Option1 is visible in container container for radio component DUMMY_RADIO","thread_name":"main","@timestamp":"2026-02-04T21:18:42.858+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting all radio buttons from container container for radio component DUMMY_RADIO
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting all radio buttons from container container for radio component DUMMY_RADIO","thread_name":"main","@timestamp":"2026-02-04T21:18:42.873+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting selected radio button text from container container for radio component DUMMY_RADIO
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting selected radio button text from container container for radio component DUMMY_RADIO","thread_name":"main","@timestamp":"2026-02-04T21:18:42.887+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting selected radio button text from locator By.id: radio for radio component DUMMY_RADIO
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting selected radio button text from locator By.id: radio for radio component DUMMY_RADIO","thread_name":"main","@timestamp":"2026-02-04T21:18:42.909+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting all radio buttons from locator By.id: radio for radio component DUMMY_RADIO
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting all radio buttons from locator By.id: radio for radio component DUMMY_RADIO","thread_name":"main","@timestamp":"2026-02-04T21:18:42.946+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if radio button with locator By.id: radio is selected for radio component DUMMY_RADIO
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if radio button with locator By.id: radio is selected for radio component DUMMY_RADIO","thread_name":"main","@timestamp":"2026-02-04T21:18:42.969+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if radio button with text Option1 is selected in container container for radio component DUMMY_RADIO
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if radio button with text Option1 is selected in container container for radio component DUMMY_RADIO","thread_name":"main","@timestamp":"2026-02-04T21:18:42.977+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if radio button with text Option1 is selected for radio component DUMMY_RADIO
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if radio button with text Option1 is selected for radio component DUMMY_RADIO","thread_name":"main","@timestamp":"2026-02-04T21:18:42.983+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting values [Option1] for radio component DUMMY_RADIO using locator By.id: radio
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting values [Option1] for radio component DUMMY_RADIO using locator By.id: radio","thread_name":"main","@timestamp":"2026-02-04T21:18:42.992+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting radio button with locator By.id: radio for radio component DUMMY_RADIO
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting radio button with locator By.id: radio for radio component DUMMY_RADIO","thread_name":"main","@timestamp":"2026-02-04T21:18:42.993+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if radio button with locator By.id: radio is enabled for radio component DUMMY_RADIO
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if radio button with locator By.id: radio is enabled for radio component DUMMY_RADIO","thread_name":"main","@timestamp":"2026-02-04T21:18:43.007+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if radio button with text Option1 is enabled for radio component DUMMY_RADIO
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if radio button with text Option1 is enabled for radio component DUMMY_RADIO","thread_name":"main","@timestamp":"2026-02-04T21:18:43.012+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if radio button with text Option1 is enabled in container container for radio component DUMMY_RADIO
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if radio button with text Option1 is enabled in container container for radio component DUMMY_RADIO","thread_name":"main","@timestamp":"2026-02-04T21:18:43.019+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting options [option1, option2] in container with locator By.id: testSelect for select component DUMMY_SELECT
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting options [option1, option2] in container with locator By.id: testSelect for select component DUMMY_SELECT","thread_name":"main","@timestamp":"2026-02-04T21:18:43.590+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting options with strategy strategy in container with locator By.id: testSelect for select component DUMMY_SELECT
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting options with strategy strategy in container with locator By.id: testSelect for select component DUMMY_SELECT","thread_name":"main","@timestamp":"2026-02-04T21:18:43.597+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting available options in container container for select component DUMMY_SELECT
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting available options in container container for select component DUMMY_SELECT","thread_name":"main","@timestamp":"2026-02-04T21:18:43.603+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting available options in container with locator By.id: testSelect for select component DUMMY_SELECT
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting available options in container with locator By.id: testSelect for select component DUMMY_SELECT","thread_name":"main","@timestamp":"2026-02-04T21:18:43.607+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if option optionValue is visible in container with locator By.id: testSelect for select component DUMMY_SELECT
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if option optionValue is visible in container with locator By.id: testSelect for select component DUMMY_SELECT","thread_name":"main","@timestamp":"2026-02-04T21:18:43.638+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if option optionValue is enabled in container with locator By.id: testSelect for select component DUMMY_SELECT
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if option optionValue is enabled in container with locator By.id: testSelect for select component DUMMY_SELECT","thread_name":"main","@timestamp":"2026-02-04T21:18:43.643+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if option optionValue is enabled in container container for select component DUMMY_SELECT
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if option optionValue is enabled in container container for select component DUMMY_SELECT","thread_name":"main","@timestamp":"2026-02-04T21:18:43.649+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting option option1 in container with locator By.id: testSelect for select component DUMMY_SELECT
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting option option1 in container with locator By.id: testSelect for select component DUMMY_SELECT","thread_name":"main","@timestamp":"2026-02-04T21:18:43.655+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting options [option1] in container with locator By.id: testSelect for select component DUMMY_SELECT
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting options [option1] in container with locator By.id: testSelect for select component DUMMY_SELECT","thread_name":"main","@timestamp":"2026-02-04T21:18:43.655+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting selected options in container with locator By.id: testSelect for select component DUMMY_SELECT
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting selected options in container with locator By.id: testSelect for select component DUMMY_SELECT","thread_name":"main","@timestamp":"2026-02-04T21:18:43.670+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting selected options in container container for select component DUMMY_SELECT
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting selected options in container container for select component DUMMY_SELECT","thread_name":"main","@timestamp":"2026-02-04T21:18:43.690+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if option optionValue is visible in container container for select component DUMMY_SELECT
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if option optionValue is visible in container container for select component DUMMY_SELECT","thread_name":"main","@timestamp":"2026-02-04T21:18:43.699+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting options with strategy strategy in container container for select component DUMMY_SELECT
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting options with strategy strategy in container container for select component DUMMY_SELECT","thread_name":"main","@timestamp":"2026-02-04T21:18:43.710+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting options [option1, option2] in container container for select component DUMMY_SELECT
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting options [option1, option2] in container container for select component DUMMY_SELECT","thread_name":"main","@timestamp":"2026-02-04T21:18:43.724+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting option option1 in container container for select component DUMMY_SELECT
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting option option1 in container container for select component DUMMY_SELECT","thread_name":"main","@timestamp":"2026-02-04T21:18:43.740+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting options [option1] in container container for select component DUMMY_SELECT
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting options [option1] in container container for select component DUMMY_SELECT","thread_name":"main","@timestamp":"2026-02-04T21:18:43.743+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting option option1 in container container for select component DUMMY_SELECT
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting option option1 in container container for select component DUMMY_SELECT","thread_name":"main","@timestamp":"2026-02-04T21:18:43.763+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting options [option1] in container container for select component DUMMY_SELECT
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting options [option1] in container container for select component DUMMY_SELECT","thread_name":"main","@timestamp":"2026-02-04T21:18:43.764+0100","level":"STEP","logger_name":"ROA.UI"}
+Getting available options in container container for select component DUMMY_SELECT
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Getting available options in container container for select component DUMMY_SELECT","thread_name":"main","@timestamp":"2026-02-04T21:18:43.769+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting values [42, true, 3.14] for select component DUMMY_SELECT using locator By.id: testSelect
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting values [42, true, 3.14] for select component DUMMY_SELECT using locator By.id: testSelect","thread_name":"main","@timestamp":"2026-02-04T21:18:43.787+0100","level":"STEP","logger_name":"ROA.UI"}
+Selecting options [42, true, 3.14] in container with locator By.id: testSelect for select component DUMMY_SELECT
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Selecting options [42, true, 3.14] in container with locator By.id: testSelect for select component DUMMY_SELECT","thread_name":"main","@timestamp":"2026-02-04T21:18:43.789+0100","level":"STEP","logger_name":"ROA.UI"}
+Filtering table for class 'BadCustomFilterRow' on column 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@430e9d37' using strategy 'SELECT' with values [filter value]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Filtering table for class 'BadCustomFilterRow' on column 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@430e9d37' using strategy 'SELECT' with values [filter value]","thread_name":"main","@timestamp":"2026-02-04T21:18:45.396+0100","level":"STEP","logger_name":"ROA.UI"}
+Filtering table for class 'DummyRow' on column 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@2f9bd5ac' using strategy 'SELECT' with values [filter value]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Filtering table for class 'DummyRow' on column 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@2f9bd5ac' using strategy 'SELECT' with values [filter value]","thread_name":"main","@timestamp":"2026-02-04T21:18:45.532+0100","level":"STEP","logger_name":"ROA.UI"}
+Filtering table for class 'FilterRow' on column 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@1885d990' using strategy 'SELECT' with values [filter value]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Filtering table for class 'FilterRow' on column 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@1885d990' using strategy 'SELECT' with values [filter value]","thread_name":"main","@timestamp":"2026-02-04T21:18:45.558+0100","level":"STEP","logger_name":"ROA.UI"}
+Filtering table for class 'CustomFilterRow' on column 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@59f4df4e' using strategy 'UNSELECT' with values [filter value]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Filtering table for class 'CustomFilterRow' on column 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@59f4df4e' using strategy 'UNSELECT' with values [filter value]","thread_name":"main","@timestamp":"2026-02-04T21:18:45.578+0100","level":"STEP","logger_name":"ROA.UI"}
+Filtering table for class 'FilterRow' on column 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@3d2162c5' using strategy 'SELECT_ONLY' with values [filter value, another]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Filtering table for class 'FilterRow' on column 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@3d2162c5' using strategy 'SELECT_ONLY' with values [filter value, another]","thread_name":"main","@timestamp":"2026-02-04T21:18:45.599+0100","level":"STEP","logger_name":"ROA.UI"}
+Filtering table for class 'FilterRow' on column 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@37e57a20' using strategy 'SELECT' with values [filter value]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Filtering table for class 'FilterRow' on column 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@37e57a20' using strategy 'SELECT' with values [filter value]","thread_name":"main","@timestamp":"2026-02-04T21:18:45.622+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting cell value(s) using data for row 1 for class 'CustomInsertionRow'
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting cell value(s) using data for row 1 for class 'CustomInsertionRow'","thread_name":"main","@timestamp":"2026-02-04T21:18:45.648+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting cell value in row 1 for class 'CustomInsertionRow', field 'io.cyborgcode.roa.ui.components.table.service.TableImpl$$Lambda$1171/0x0000020c214ef878@5d98522c', cell index 1
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting cell value in row 1 for class 'CustomInsertionRow', field 'io.cyborgcode.roa.ui.components.table.service.TableImpl$$Lambda$1171/0x0000020c214ef878@5d98522c', cell index 1","thread_name":"main","@timestamp":"2026-02-04T21:18:45.659+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting cell value(s) using data for row 1 for class 'InsertionRow'
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting cell value(s) using data for row 1 for class 'InsertionRow'","thread_name":"main","@timestamp":"2026-02-04T21:18:45.680+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting cell value in row 1 for class 'InsertionRow', field 'io.cyborgcode.roa.ui.components.table.service.TableImpl$$Lambda$1171/0x0000020c214ef878@30386e95', cell index 1
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting cell value in row 1 for class 'InsertionRow', field 'io.cyborgcode.roa.ui.components.table.service.TableImpl$$Lambda$1171/0x0000020c214ef878@30386e95', cell index 1","thread_name":"main","@timestamp":"2026-02-04T21:18:45.681+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting cell value in row matching criteria [match] for class 'CustomInsertionRow', field 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@6fefaeba', cell index 1
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting cell value in row matching criteria [match] for class 'CustomInsertionRow', field 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@6fefaeba', cell index 1","thread_name":"main","@timestamp":"2026-02-04T21:18:45.702+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting cell value(s) using data for row 1 for class 'RowWithCustomInsertion'
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting cell value(s) using data for row 1 for class 'RowWithCustomInsertion'","thread_name":"main","@timestamp":"2026-02-04T21:18:45.729+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting cell value in row 1 for class 'RowWithCustomInsertion', field 'io.cyborgcode.roa.ui.components.table.service.TableImpl$$Lambda$1171/0x0000020c214ef878@7d9a5edf', cell index 1
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting cell value in row 1 for class 'RowWithCustomInsertion', field 'io.cyborgcode.roa.ui.components.table.service.TableImpl$$Lambda$1171/0x0000020c214ef878@7d9a5edf', cell index 1","thread_name":"main","@timestamp":"2026-02-04T21:18:45.731+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting cell value in row matching criteria [match] for class 'InsertionRow', field 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@1f619466', cell index 1
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting cell value in row matching criteria [match] for class 'InsertionRow', field 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@1f619466', cell index 1","thread_name":"main","@timestamp":"2026-02-04T21:18:45.749+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting cell value(s) into field 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@6f475ede' for row 1 for class 'DummyRow'
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting cell value(s) into field 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@6f475ede' for row 1 for class 'DummyRow'","thread_name":"main","@timestamp":"2026-02-04T21:18:45.775+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting cell value in row 1 for class 'DummyRow', field 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@6f475ede', cell index 1
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting cell value in row 1 for class 'DummyRow', field 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@6f475ede', cell index 1","thread_name":"main","@timestamp":"2026-02-04T21:18:45.777+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting cell value(s) using data for row 1 for class 'InsertionRow'
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting cell value(s) using data for row 1 for class 'InsertionRow'","thread_name":"main","@timestamp":"2026-02-04T21:18:45.812+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting cell value in row 1 for class 'InsertionRow', field 'io.cyborgcode.roa.ui.components.table.service.TableImpl$$Lambda$1171/0x0000020c214ef878@205b3a1a', cell index 1
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting cell value in row 1 for class 'InsertionRow', field 'io.cyborgcode.roa.ui.components.table.service.TableImpl$$Lambda$1171/0x0000020c214ef878@205b3a1a', cell index 1","thread_name":"main","@timestamp":"2026-02-04T21:18:45.815+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting cell value in row 1 for class 'InsertionRow', field 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@48715ab', cell index 1
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting cell value in row 1 for class 'InsertionRow', field 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@48715ab', cell index 1","thread_name":"main","@timestamp":"2026-02-04T21:18:45.832+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting cell value(s) using data for row matching criteria [match] for class 'InsertionRow'
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting cell value(s) using data for row matching criteria [match] for class 'InsertionRow'","thread_name":"main","@timestamp":"2026-02-04T21:18:45.851+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting cell value in row matching criteria [match] for class 'InsertionRow', field 'io.cyborgcode.roa.ui.components.table.service.TableImpl$$Lambda$1171/0x0000020c214ef878@5802572b', cell index 1
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting cell value in row matching criteria [match] for class 'InsertionRow', field 'io.cyborgcode.roa.ui.components.table.service.TableImpl$$Lambda$1171/0x0000020c214ef878@5802572b', cell index 1","thread_name":"main","@timestamp":"2026-02-04T21:18:45.853+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting cell value(s) using data for row 1 for class 'InsertionRow'
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting cell value(s) using data for row 1 for class 'InsertionRow'","thread_name":"main","@timestamp":"2026-02-04T21:18:45.871+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting cell value in row 1 for class 'InsertionRow', field 'io.cyborgcode.roa.ui.components.table.service.TableImpl$$Lambda$1171/0x0000020c214ef878@46eb5c0c', cell index 1
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting cell value in row 1 for class 'InsertionRow', field 'io.cyborgcode.roa.ui.components.table.service.TableImpl$$Lambda$1171/0x0000020c214ef878@46eb5c0c', cell index 1","thread_name":"main","@timestamp":"2026-02-04T21:18:45.872+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting cell value(s) using data for row matching criteria [match] for class 'CustomInsertionRow'
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting cell value(s) using data for row matching criteria [match] for class 'CustomInsertionRow'","thread_name":"main","@timestamp":"2026-02-04T21:18:45.887+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting cell value in row matching criteria [match] for class 'CustomInsertionRow', field 'io.cyborgcode.roa.ui.components.table.service.TableImpl$$Lambda$1171/0x0000020c214ef878@109a5573', cell index 1
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting cell value in row matching criteria [match] for class 'CustomInsertionRow', field 'io.cyborgcode.roa.ui.components.table.service.TableImpl$$Lambda$1171/0x0000020c214ef878@109a5573', cell index 1","thread_name":"main","@timestamp":"2026-02-04T21:18:45.887+0100","level":"STEP","logger_name":"ROA.UI"}
+Inserting cell value in row 1 for class 'CustomInsertionRow', field 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@216bd6cd', cell index 1
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Inserting cell value in row 1 for class 'CustomInsertionRow', field 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@216bd6cd', cell index 1","thread_name":"main","@timestamp":"2026-02-04T21:18:45.903+0100","level":"STEP","logger_name":"ROA.UI"}
+Sorting table for class 'DummyRow' on column 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@6409a49a' using sorting strategy 'DESC'
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Sorting table for class 'DummyRow' on column 'io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@6409a49a' using sorting strategy 'DESC'","thread_name":"main","@timestamp":"2026-02-04T21:18:45.920+0100","level":"STEP","logger_name":"ROA.UI"}
+Reading entire table as class 'MissingTableInfoRow'
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Reading entire table as class 'MissingTableInfoRow'","thread_name":"main","@timestamp":"2026-02-04T21:18:46.206+0100","level":"STEP","logger_name":"ROA.UI"}
+Reading entire table as class 'ListFieldRow'
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Reading entire table as class 'ListFieldRow'","thread_name":"main","@timestamp":"2026-02-04T21:18:46.217+0100","level":"STEP","logger_name":"ROA.UI"}
+Reading table as class 'DummyRow' with fields [io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@2caf282e]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Reading table as class 'DummyRow' with fields [io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@2caf282e]","thread_name":"main","@timestamp":"2026-02-04T21:18:46.235+0100","level":"STEP","logger_name":"ROA.UI"}
+Reading table rows from 2 to 4 as class 'DummyRow' with fields [io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@7c9e149]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Reading table rows from 2 to 4 as class 'DummyRow' with fields [io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@7c9e149]","thread_name":"main","@timestamp":"2026-02-04T21:18:46.254+0100","level":"STEP","logger_name":"ROA.UI"}
+Reading table rows from 1 to 2 as class 'DummyRow' with fields null
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Reading table rows from 1 to 2 as class 'DummyRow' with fields null","thread_name":"main","@timestamp":"2026-02-04T21:18:46.268+0100","level":"STEP","logger_name":"ROA.UI"}
+Reading table as class 'RowWithMissingLocator' with fields [io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@c2d0e93]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Reading table as class 'RowWithMissingLocator' with fields [io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@c2d0e93]","thread_name":"main","@timestamp":"2026-02-04T21:18:46.284+0100","level":"STEP","logger_name":"ROA.UI"}
+Reading row number 1 as class 'DummyRow' with fields [io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@37c48490]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Reading row number 1 as class 'DummyRow' with fields [io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@37c48490]","thread_name":"main","@timestamp":"2026-02-04T21:18:46.310+0100","level":"STEP","logger_name":"ROA.UI"}
+Reading row number 2 as class 'DummyRow'
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Reading row number 2 as class 'DummyRow'","thread_name":"main","@timestamp":"2026-02-04T21:18:46.345+0100","level":"STEP","logger_name":"ROA.UI"}
+Reading row number 0 as class 'DummyRow'
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Reading row number 0 as class 'DummyRow'","thread_name":"main","@timestamp":"2026-02-04T21:18:46.353+0100","level":"STEP","logger_name":"ROA.UI"}
+Reading row number 1 as class 'DummyRow'
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Reading row number 1 as class 'DummyRow'","thread_name":"main","@timestamp":"2026-02-04T21:18:46.361+0100","level":"STEP","logger_name":"ROA.UI"}
+Reading row matching criteria [no match] as class 'DummyRow'
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Reading row matching criteria [no match] as class 'DummyRow'","thread_name":"main","@timestamp":"2026-02-04T21:18:46.392+0100","level":"STEP","logger_name":"ROA.UI"}
+Reading entire table as class 'MultiSectionRow'
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Reading entire table as class 'MultiSectionRow'","thread_name":"main","@timestamp":"2026-02-04T21:18:46.423+0100","level":"STEP","logger_name":"ROA.UI"}
+Reading entire table as class 'DummyRow'
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Reading entire table as class 'DummyRow'","thread_name":"main","@timestamp":"2026-02-04T21:18:46.436+0100","level":"STEP","logger_name":"ROA.UI"}
+Reading table rows from 2 to 4 as class 'DummyRow'
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Reading table rows from 2 to 4 as class 'DummyRow'","thread_name":"main","@timestamp":"2026-02-04T21:18:46.455+0100","level":"STEP","logger_name":"ROA.UI"}
+Reading table rows from 4 to 2 as class 'DummyRow'
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Reading table rows from 4 to 2 as class 'DummyRow'","thread_name":"main","@timestamp":"2026-02-04T21:18:46.461+0100","level":"STEP","logger_name":"ROA.UI"}
+Requested start/end range is invalid: 4-2. Returning empty list.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Requested start/end range is invalid: 4-2. Returning empty list.","thread_name":"main","@timestamp":"2026-02-04T21:18:46.462+0100","level":"WARN","logger_name":"ROA.UI"}
+Reading table rows from 4 to 10 as class 'DummyRow'
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Reading table rows from 4 to 10 as class 'DummyRow'","thread_name":"main","@timestamp":"2026-02-04T21:18:46.463+0100","level":"STEP","logger_name":"ROA.UI"}
+Reading row matching criteria [match] as class 'DummyRow' with fields [io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@749aa36f]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Reading row matching criteria [match] as class 'DummyRow' with fields [io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$1159/0x0000020c214e6ca8@749aa36f]","thread_name":"main","@timestamp":"2026-02-04T21:18:46.481+0100","level":"STEP","logger_name":"ROA.UI"}
+Reading row number 1 as class 'DummyRow'
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Reading row number 1 as class 'DummyRow'","thread_name":"main","@timestamp":"2026-02-04T21:18:46.491+0100","level":"STEP","logger_name":"ROA.UI"}
+Reading table as class 'DummyRow' with fields null
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Reading table as class 'DummyRow' with fields null","thread_name":"main","@timestamp":"2026-02-04T21:18:46.505+0100","level":"STEP","logger_name":"ROA.UI"}
+Reading table as class 'DummyRow' with fields []
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Reading table as class 'DummyRow' with fields []","thread_name":"main","@timestamp":"2026-02-04T21:18:46.509+0100","level":"STEP","logger_name":"ROA.UI"}
+Reading table as class 'DummyRow' with fields null
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Reading table as class 'DummyRow' with fields null","thread_name":"main","@timestamp":"2026-02-04T21:18:46.521+0100","level":"STEP","logger_name":"ROA.UI"}
+Reading row matching criteria [match] as class 'DummyRow'
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Reading row matching criteria [match] as class 'DummyRow'","thread_name":"main","@timestamp":"2026-02-04T21:18:46.531+0100","level":"STEP","logger_name":"ROA.UI"}
+No accepted value could be applied via FieldInvoker. Possible illegal field or setter in io.cyborgcode.roa.ui.components.table.service.TableImplTest$DummyRow
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"No accepted value could be applied via FieldInvoker. Possible illegal field or setter in io.cyborgcode.roa.ui.components.table.service.TableImplTest$DummyRow","thread_name":"main","@timestamp":"2026-02-04T21:18:46.569+0100","level":"ERROR","logger_name":"ROA.UI"}
+Deactivating toggle Off for toggle component DUMMY_TOGGLE
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Deactivating toggle Off for toggle component DUMMY_TOGGLE","thread_name":"main","@timestamp":"2026-02-04T21:18:48.304+0100","level":"STEP","logger_name":"ROA.UI"}
+Deactivating toggle with locator By.id: toggle for toggle component DUMMY_TOGGLE
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Deactivating toggle with locator By.id: toggle for toggle component DUMMY_TOGGLE","thread_name":"main","@timestamp":"2026-02-04T21:18:48.309+0100","level":"STEP","logger_name":"ROA.UI"}
+Deactivating toggle Off in container container for toggle component DUMMY_TOGGLE
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Deactivating toggle Off in container container for toggle component DUMMY_TOGGLE","thread_name":"main","@timestamp":"2026-02-04T21:18:48.318+0100","level":"STEP","logger_name":"ROA.UI"}
+Activating toggle On in container container for toggle component DUMMY_TOGGLE
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Activating toggle On in container container for toggle component DUMMY_TOGGLE","thread_name":"main","@timestamp":"2026-02-04T21:18:48.326+0100","level":"STEP","logger_name":"ROA.UI"}
+Activating toggle with locator By.id: toggle for toggle component DUMMY_TOGGLE
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Activating toggle with locator By.id: toggle for toggle component DUMMY_TOGGLE","thread_name":"main","@timestamp":"2026-02-04T21:18:48.330+0100","level":"STEP","logger_name":"ROA.UI"}
+Activating toggle On for toggle component DUMMY_TOGGLE
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Activating toggle On for toggle component DUMMY_TOGGLE","thread_name":"main","@timestamp":"2026-02-04T21:18:48.333+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if toggle On is enabled for toggle component DUMMY_TOGGLE
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if toggle On is enabled for toggle component DUMMY_TOGGLE","thread_name":"main","@timestamp":"2026-02-04T21:18:48.338+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if toggle with locator By.id: toggle is enabled for toggle component DUMMY_TOGGLE
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if toggle with locator By.id: toggle is enabled for toggle component DUMMY_TOGGLE","thread_name":"main","@timestamp":"2026-02-04T21:18:48.344+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if toggle On is enabled in container container for toggle component DUMMY_TOGGLE
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if toggle On is enabled in container container for toggle component DUMMY_TOGGLE","thread_name":"main","@timestamp":"2026-02-04T21:18:48.347+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if toggle On is activated in container container for toggle component DUMMY_TOGGLE
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if toggle On is activated in container container for toggle component DUMMY_TOGGLE","thread_name":"main","@timestamp":"2026-02-04T21:18:48.355+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if toggle with locator By.id: toggle is activated for toggle component DUMMY_TOGGLE
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if toggle with locator By.id: toggle is activated for toggle component DUMMY_TOGGLE","thread_name":"main","@timestamp":"2026-02-04T21:18:48.359+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if toggle On is activated for toggle component DUMMY_TOGGLE
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if toggle On is activated for toggle component DUMMY_TOGGLE","thread_name":"main","@timestamp":"2026-02-04T21:18:48.365+0100","level":"STEP","logger_name":"ROA.UI"}
+Activating toggle On in container container for toggle component DUMMY_TOGGLE
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Activating toggle On in container container for toggle component DUMMY_TOGGLE","thread_name":"main","@timestamp":"2026-02-04T21:18:48.372+0100","level":"STEP","logger_name":"ROA.UI"}
+Checking if toggle On is enabled in container container for toggle component DUMMY_TOGGLE
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Checking if toggle On is enabled in container container for toggle component DUMMY_TOGGLE","thread_name":"main","@timestamp":"2026-02-04T21:18:48.373+0100","level":"STEP","logger_name":"ROA.UI"}
+Creating driver using provider [DriverProvider$MockitoMock$reSrEpUp]. Headless: [false], Remote: [false], Remote URL: [null]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Creating driver using provider [DriverProvider$MockitoMock$reSrEpUp]. Headless: [false], Remote: [false], Remote URL: [null]","thread_name":"main","@timestamp":"2026-02-04T21:18:49.274+0100","level":"INFO","logger_name":"ROA.UI"}
+Creating driver using provider [DriverProvider$MockitoMock$reSrEpUp]. Headless: [false], Remote: [false], Remote URL: [null]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Creating driver using provider [DriverProvider$MockitoMock$reSrEpUp]. Headless: [false], Remote: [false], Remote URL: [null]","thread_name":"main","@timestamp":"2026-02-04T21:18:49.306+0100","level":"INFO","logger_name":"ROA.UI"}
+Creating driver using provider [DriverProvider$MockitoMock$reSrEpUp]. Headless: [true], Remote: [false], Remote URL: [null]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Creating driver using provider [DriverProvider$MockitoMock$reSrEpUp]. Headless: [true], Remote: [false], Remote URL: [null]","thread_name":"main","@timestamp":"2026-02-04T21:18:49.333+0100","level":"INFO","logger_name":"ROA.UI"}
+Creating driver using provider [DriverProvider$MockitoMock$reSrEpUp]. Headless: [false], Remote: [false], Remote URL: [null]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Creating driver using provider [DriverProvider$MockitoMock$reSrEpUp]. Headless: [false], Remote: [false], Remote URL: [null]","thread_name":"main","@timestamp":"2026-02-04T21:18:49.351+0100","level":"INFO","logger_name":"ROA.UI"}
+Creating driver using provider [DriverProvider$MockitoMock$reSrEpUp]. Headless: [false], Remote: [true], Remote URL: [invalid-url]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Creating driver using provider [DriverProvider$MockitoMock$reSrEpUp]. Headless: [false], Remote: [true], Remote URL: [invalid-url]","thread_name":"main","@timestamp":"2026-02-04T21:18:49.360+0100","level":"INFO","logger_name":"ROA.UI"}
+Creating driver using provider [DriverProvider$MockitoMock$reSrEpUp]. Headless: [false], Remote: [true], Remote URL: [http://example.com:4444/wd/hub]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Creating driver using provider [DriverProvider$MockitoMock$reSrEpUp]. Headless: [false], Remote: [true], Remote URL: [http://example.com:4444/wd/hub]","thread_name":"main","@timestamp":"2026-02-04T21:18:49.668+0100","level":"INFO","logger_name":"ROA.UI"}
+Creating driver using provider [DriverProvider$MockitoMock$reSrEpUp]. Headless: [false], Remote: [false], Remote URL: [null]
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Creating driver using provider [DriverProvider$MockitoMock$reSrEpUp]. Headless: [false], Remote: [false], Remote URL: [null]","thread_name":"main","@timestamp":"2026-02-04T21:18:49.693+0100","level":"INFO","logger_name":"ROA.UI"}
+Chrome driver is downloaded with version: '123.45'
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Chrome driver is downloaded with version: '123.45'","thread_name":"main","@timestamp":"2026-02-04T21:18:51.999+0100","level":"INFO","logger_name":"ROA.UI"}
+Finished data insertion for [DummyDTO].
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Finished data insertion for [DummyDTO].","thread_name":"main","@timestamp":"2026-02-04T21:18:53.729+0100","level":"INFO","logger_name":"ROA.UI"}
+Finished data insertion for [MixedDTO].
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Finished data insertion for [MixedDTO].","thread_name":"main","@timestamp":"2026-02-04T21:18:53.748+0100","level":"INFO","logger_name":"ROA.UI"}
+Finished data insertion for [DummyDTO].
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Finished data insertion for [DummyDTO].","thread_name":"main","@timestamp":"2026-02-04T21:18:53.751+0100","level":"INFO","logger_name":"ROA.UI"}
+Finished data insertion for [DummyDTO].
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Finished data insertion for [DummyDTO].","thread_name":"main","@timestamp":"2026-02-04T21:18:53.754+0100","level":"INFO","logger_name":"ROA.UI"}
+Finished data insertion for [NoAnnotationDTO].
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Finished data insertion for [NoAnnotationDTO].","thread_name":"main","@timestamp":"2026-02-04T21:18:53.886+0100","level":"INFO","logger_name":"ROA.UI"}
+Finished data insertion for [ExampleDTOUI].
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Finished data insertion for [ExampleDTOUI].","thread_name":"main","@timestamp":"2026-02-04T21:18:53.895+0100","level":"INFO","logger_name":"ROA.UI"}
+Test message
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Test message","thread_name":"main","@timestamp":"2026-02-04T21:18:53.942+0100","level":"VALIDATION","logger_name":"ROA.UI"}
+Exception handled: Element not interactable
+Build info: version: '4.40.0', revision: 'b3333f1'
+System info: os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.13'
+Driver info: driver.version: unknown
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Exception handled: Element not interactable\nBuild info: version: '4.40.0', revision: 'b3333f1'\nSystem info: os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.13'\nDriver info: driver.version: unknown","thread_name":"main","@timestamp":"2026-02-04T21:18:57.499+0100","level":"ERROR","logger_name":"ROA.UI"}
+Framework attempted to handle an exception in method 'click', but the handler failed with: RuntimeException: Test
+java.lang.RuntimeException: Test
+	at io.cyborgcode.roa.ui.selenium.smart.SmartWebElementTest$ElementActionTests.lambda$performActionWithWaitShouldHandleExceptions$23(SmartWebElementTest.java:747)
+	at io.cyborgcode.roa.ui.selenium.smart.SmartWebElement.handleException(SmartWebElement.java:229)
+	at io.cyborgcode.roa.ui.selenium.smart.SmartWebElement.performActionWithWait(SmartWebElement.java:286)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at io.cyborgcode.roa.ui.selenium.smart.SmartWebElementTest$ElementActionTests.lambda$performActionWithWaitShouldHandleExceptions$24(SmartWebElementTest.java:771)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:54)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3223)
+	at io.cyborgcode.roa.ui.selenium.smart.SmartWebElementTest$ElementActionTests.performActionWithWaitShouldHandleExceptions(SmartWebElementTest.java:769)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:701)
+	at org.junit.platform.commons.support.ReflectionSupport.invokeMethod(ReflectionSupport.java:502)
+	at org.junit.jupiter.engine.support.MethodReflectionUtils.invoke(MethodReflectionUtils.java:45)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:61)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:124)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:163)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:148)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:123)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:105)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:99)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:66)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:47)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:39)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:104)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:98)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invokeVoid(InterceptingExecutableInvoker.java:71)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$0(TestMethodTestDescriptor.java:219)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:215)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:157)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:70)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:176)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:36)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:52)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:58)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.executeEngine(EngineExecutionOrchestrator.java:246)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.failOrExecuteEngine(EngineExecutionOrchestrator.java:218)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:179)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:108)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:66)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:157)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:65)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:125)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:58)
+	at org.junit.platform.launcher.core.InterceptingLauncher.lambda$execute$2(InterceptingLauncher.java:57)
+	at org.junit.platform.launcher.core.ClasspathAlignmentCheckingLauncherInterceptor.intercept(ClasspathAlignmentCheckingLauncherInterceptor.java:25)
+	at org.junit.platform.launcher.core.InterceptingLauncher.execute(InterceptingLauncher.java:56)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:58)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.apache.maven.surefire.api.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:125)
+	at org.apache.maven.surefire.junitplatform.LauncherAdapter.executeWithCancellationToken(LauncherAdapter.java:68)
+	at org.apache.maven.surefire.junitplatform.LauncherAdapter.execute(LauncherAdapter.java:54)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:203)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:168)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:136)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+{"exception":{"exception_class":"java.lang.RuntimeException","exception_message":"Test","stacktrace":"java.lang.RuntimeException: Test\r\n\tat io.cyborgcode.roa.ui.selenium.smart.SmartWebElementTest$ElementActionTests.lambda$performActionWithWaitShouldHandleExceptions$23(SmartWebElementTest.java:747)\r\n\tat io.cyborgcode.roa.ui.selenium.smart.SmartWebElement.handleException(SmartWebElement.java:229)\r\n\tat io.cyborgcode.roa.ui.selenium.smart.SmartWebElement.performActionWithWait(SmartWebElement.java:286)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:569)\r\n\tat io.cyborgcode.roa.ui.selenium.smart.SmartWebElementTest$ElementActionTests.lambda$performActionWithWaitShouldHandleExceptions$24(SmartWebElementTest.java:771)\r\n\tat org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:54)\r\n\tat org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)\r\n\tat org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3223)\r\n\tat io.cyborgcode.roa.ui.selenium.smart.SmartWebElementTest$ElementActionTests.performActionWithWaitShouldHandleExceptions(SmartWebElementTest.java:769)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:569)\r\n\tat org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:701)\r\n\tat org.junit.platform.commons.support.ReflectionSupport.invokeMethod(ReflectionSupport.java:502)\r\n\tat org.junit.jupiter.engine.support.MethodReflectionUtils.invoke(MethodReflectionUtils.java:45)\r\n\tat org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:61)\r\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:124)\r\n\tat org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:163)\r\n\tat org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:148)\r\n\tat org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)\r\n\tat org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:123)\r\n\tat org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:105)\r\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:99)\r\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:66)\r\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:47)\r\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:39)\r\n\tat org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:104)\r\n\tat org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:98)\r\n\tat org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invokeVoid(InterceptingExecutableInvoker.java:71)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$0(TestMethodTestDescriptor.java:219)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:215)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:157)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:70)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:176)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)\r\n\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1511)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)\r\n\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1511)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)\r\n\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1511)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)\r\n\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:36)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:52)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:58)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.executeEngine(EngineExecutionOrchestrator.java:246)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.failOrExecuteEngine(EngineExecutionOrchestrator.java:218)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:179)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:108)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:66)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:157)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:65)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:125)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)\r\n\tat org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:58)\r\n\tat org.junit.platform.launcher.core.InterceptingLauncher.lambda$execute$2(InterceptingLauncher.java:57)\r\n\tat org.junit.platform.launcher.core.ClasspathAlignmentCheckingLauncherInterceptor.intercept(ClasspathAlignmentCheckingLauncherInterceptor.java:25)\r\n\tat org.junit.platform.launcher.core.InterceptingLauncher.execute(InterceptingLauncher.java:56)\r\n\tat org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:58)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:569)\r\n\tat org.apache.maven.surefire.api.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:125)\r\n\tat org.apache.maven.surefire.junitplatform.LauncherAdapter.executeWithCancellationToken(LauncherAdapter.java:68)\r\n\tat org.apache.maven.surefire.junitplatform.LauncherAdapter.execute(LauncherAdapter.java:54)\r\n\tat org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:203)\r\n\tat org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:168)\r\n\tat org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:136)\r\n\tat org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)\r\n\tat org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)\r\n\tat org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)\r\n\tat org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)\r\n"},"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Framework attempted to handle an exception in method 'click', but the handler failed with: RuntimeException: Test","thread_name":"main","@timestamp":"2026-02-04T21:18:57.500+0100","level":"ERROR","logger_name":"ROA.UI"}
+Propagating original exception: ElementNotInteractableException: Element not interactable
+Build info: version: '4.40.0', revision: 'b3333f1'
+System info: os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.13'
+Driver info: driver.version: unknown
+org.openqa.selenium.ElementNotInteractableException: Element not interactable
+Build info: version: '4.40.0', revision: 'b3333f1'
+System info: os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.13'
+Driver info: driver.version: unknown
+	at io.cyborgcode.roa.ui.selenium.smart.SmartWebElementTest$ElementActionTests.performActionWithWaitShouldHandleExceptions(SmartWebElementTest.java:723)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:701)
+	at org.junit.platform.commons.support.ReflectionSupport.invokeMethod(ReflectionSupport.java:502)
+	at org.junit.jupiter.engine.support.MethodReflectionUtils.invoke(MethodReflectionUtils.java:45)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:61)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:124)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:163)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:148)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:123)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:105)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:99)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:66)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:47)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:39)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:104)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:98)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invokeVoid(InterceptingExecutableInvoker.java:71)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$0(TestMethodTestDescriptor.java:219)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:215)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:157)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:70)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:176)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:36)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:52)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:58)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.executeEngine(EngineExecutionOrchestrator.java:246)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.failOrExecuteEngine(EngineExecutionOrchestrator.java:218)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:179)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:108)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:66)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:157)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:65)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:125)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:58)
+	at org.junit.platform.launcher.core.InterceptingLauncher.lambda$execute$2(InterceptingLauncher.java:57)
+	at org.junit.platform.launcher.core.ClasspathAlignmentCheckingLauncherInterceptor.intercept(ClasspathAlignmentCheckingLauncherInterceptor.java:25)
+	at org.junit.platform.launcher.core.InterceptingLauncher.execute(InterceptingLauncher.java:56)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:58)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.apache.maven.surefire.api.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:125)
+	at org.apache.maven.surefire.junitplatform.LauncherAdapter.executeWithCancellationToken(LauncherAdapter.java:68)
+	at org.apache.maven.surefire.junitplatform.LauncherAdapter.execute(LauncherAdapter.java:54)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:203)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:168)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:136)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+	Suppressed: java.lang.RuntimeException: Test
+		at io.cyborgcode.roa.ui.selenium.smart.SmartWebElementTest$ElementActionTests.lambda$performActionWithWaitShouldHandleExceptions$23(SmartWebElementTest.java:747)
+		at io.cyborgcode.roa.ui.selenium.smart.SmartWebElement.handleException(SmartWebElement.java:229)
+		at io.cyborgcode.roa.ui.selenium.smart.SmartWebElement.performActionWithWait(SmartWebElement.java:286)
+		at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+		at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+		at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+		at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+		at io.cyborgcode.roa.ui.selenium.smart.SmartWebElementTest$ElementActionTests.lambda$performActionWithWaitShouldHandleExceptions$24(SmartWebElementTest.java:771)
+		at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:54)
+		at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+		at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3223)
+		at io.cyborgcode.roa.ui.selenium.smart.SmartWebElementTest$ElementActionTests.performActionWithWaitShouldHandleExceptions(SmartWebElementTest.java:769)
+		... 95 more
+{"exception":{"exception_class":"org.openqa.selenium.ElementNotInteractableException","exception_message":"Element not interactable\nBuild info: version: '4.40.0', revision: 'b3333f1'\nSystem info: os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.13'\nDriver info: driver.version: unknown","stacktrace":"org.openqa.selenium.ElementNotInteractableException: Element not interactable\nBuild info: version: '4.40.0', revision: 'b3333f1'\nSystem info: os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.13'\nDriver info: driver.version: unknown\r\n\tat io.cyborgcode.roa.ui.selenium.smart.SmartWebElementTest$ElementActionTests.performActionWithWaitShouldHandleExceptions(SmartWebElementTest.java:723)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:569)\r\n\tat org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:701)\r\n\tat org.junit.platform.commons.support.ReflectionSupport.invokeMethod(ReflectionSupport.java:502)\r\n\tat org.junit.jupiter.engine.support.MethodReflectionUtils.invoke(MethodReflectionUtils.java:45)\r\n\tat org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:61)\r\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:124)\r\n\tat org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:163)\r\n\tat org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:148)\r\n\tat org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)\r\n\tat org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:123)\r\n\tat org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:105)\r\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:99)\r\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:66)\r\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:47)\r\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:39)\r\n\tat org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:104)\r\n\tat org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:98)\r\n\tat org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invokeVoid(InterceptingExecutableInvoker.java:71)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$0(TestMethodTestDescriptor.java:219)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:215)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:157)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:70)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:176)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)\r\n\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1511)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)\r\n\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1511)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)\r\n\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1511)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)\r\n\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:36)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:52)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:58)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.executeEngine(EngineExecutionOrchestrator.java:246)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.failOrExecuteEngine(EngineExecutionOrchestrator.java:218)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:179)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:108)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:66)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:157)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:65)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:125)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)\r\n\tat org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:58)\r\n\tat org.junit.platform.launcher.core.InterceptingLauncher.lambda$execute$2(InterceptingLauncher.java:57)\r\n\tat org.junit.platform.launcher.core.ClasspathAlignmentCheckingLauncherInterceptor.intercept(ClasspathAlignmentCheckingLauncherInterceptor.java:25)\r\n\tat org.junit.platform.launcher.core.InterceptingLauncher.execute(InterceptingLauncher.java:56)\r\n\tat org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:58)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:569)\r\n\tat org.apache.maven.surefire.api.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:125)\r\n\tat org.apache.maven.surefire.junitplatform.LauncherAdapter.executeWithCancellationToken(LauncherAdapter.java:68)\r\n\tat org.apache.maven.surefire.junitplatform.LauncherAdapter.execute(LauncherAdapter.java:54)\r\n\tat org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:203)\r\n\tat org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:168)\r\n\tat org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:136)\r\n\tat org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)\r\n\tat org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)\r\n\tat org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)\r\n\tat org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)\r\n\tSuppressed: java.lang.RuntimeException: Test\r\n\t\tat io.cyborgcode.roa.ui.selenium.smart.SmartWebElementTest$ElementActionTests.lambda$performActionWithWaitShouldHandleExceptions$23(SmartWebElementTest.java:747)\r\n\t\tat io.cyborgcode.roa.ui.selenium.smart.SmartWebElement.handleException(SmartWebElement.java:229)\r\n\t\tat io.cyborgcode.roa.ui.selenium.smart.SmartWebElement.performActionWithWait(SmartWebElement.java:286)\r\n\t\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\t\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\r\n\t\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\t\tat java.base/java.lang.reflect.Method.invoke(Method.java:569)\r\n\t\tat io.cyborgcode.roa.ui.selenium.smart.SmartWebElementTest$ElementActionTests.lambda$performActionWithWaitShouldHandleExceptions$24(SmartWebElementTest.java:771)\r\n\t\tat org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:54)\r\n\t\tat org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)\r\n\t\tat org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3223)\r\n\t\tat io.cyborgcode.roa.ui.selenium.smart.SmartWebElementTest$ElementActionTests.performActionWithWaitShouldHandleExceptions(SmartWebElementTest.java:769)\r\n\t\t... 95 more\r\n"},"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Propagating original exception: ElementNotInteractableException: Element not interactable\nBuild info: version: '4.40.0', revision: 'b3333f1'\nSystem info: os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.13'\nDriver info: driver.version: unknown","thread_name":"main","@timestamp":"2026-02-04T21:18:57.503+0100","level":"ERROR","logger_name":"ROA.UI"}

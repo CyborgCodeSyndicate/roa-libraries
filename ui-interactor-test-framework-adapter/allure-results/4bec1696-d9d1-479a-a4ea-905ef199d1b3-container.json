@@ -1,0 +1,1 @@
+{"uuid":"4bec1696-d9d1-479a-a4ea-905ef199d1b3","name":"insertCellValueAsData with row and wrong data object should throw IllegalArgumentException","children":["9dedd4eb-74af-4bef-b976-038cabf4f982"],"befores":[],"afters":[],"start":1770236713557,"stop":1770236713726}

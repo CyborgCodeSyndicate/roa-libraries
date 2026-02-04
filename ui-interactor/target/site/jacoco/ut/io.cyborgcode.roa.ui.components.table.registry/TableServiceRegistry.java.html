@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TableServiceRegistry.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.table.registry</a> &gt; <span class="el_source">TableServiceRegistry.java</span></div><h1>TableServiceRegistry.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.table.registry;
+
+import io.cyborgcode.roa.ui.components.base.ComponentType;
+import io.cyborgcode.roa.ui.components.table.filters.TableFilter;
+import io.cyborgcode.roa.ui.components.table.insertion.TableInsertion;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * Registry for managing table-related services.
+ *
+ * &lt;p&gt;This class provides a centralized registry for storing and retrieving
+ * {@link TableInsertion} and {@link TableFilter} services based on their
+ * associated {@link ComponentType}. It ensures efficient lookups and
+ * dynamic service assignment for table operations.
+ *
+ * &lt;p&gt;Used in {@code TableImpl} and {@code TableServiceImpl} to manage
+ * cell insertion and filtering mechanisms.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+<span class="fc" id="L22">public class TableServiceRegistry {</span>
+
+   /**
+    * Stores registered {@link TableInsertion} services mapped to their component types.
+    */
+<span class="fc" id="L27">   private final Map&lt;Class&lt;? extends ComponentType&gt;, TableInsertion&gt; tableInsertionRegistry = new ConcurrentHashMap&lt;&gt;();</span>
+
+   /**
+    * Stores registered {@link TableFilter} services mapped to their component types.
+    */
+<span class="fc" id="L32">   private final Map&lt;Class&lt;? extends ComponentType&gt;, TableFilter&gt; tableFilterRegistry = new ConcurrentHashMap&lt;&gt;();</span>
+
+   /**
+    * Registers a {@link TableInsertion} service for a specific {@link ComponentType}.
+    *
+    * @param type    The component type for which the service is registered.
+    * @param service The {@link TableInsertion} implementation to be registered.
+    */
+   public void registerService(Class&lt;? extends ComponentType&gt; type, TableInsertion service) {
+<span class="fc" id="L41">      tableInsertionRegistry.put(type, service);</span>
+<span class="fc" id="L42">   }</span>
+
+   /**
+    * Registers a {@link TableFilter} service for a specific {@link ComponentType}.
+    *
+    * @param type    The component type for which the service is registered.
+    * @param service The {@link TableFilter} implementation to be registered.
+    */
+   public void registerService(Class&lt;? extends ComponentType&gt; type, TableFilter service) {
+<span class="fc" id="L51">      tableFilterRegistry.put(type, service);</span>
+<span class="fc" id="L52">   }</span>
+
+   /**
+    * Retrieves the registered {@link TableInsertion} service for the specified component type.
+    *
+    * @param type The component type associated with the service.
+    * @return The corresponding {@link TableInsertion} service, or {@code null} if not registered.
+    */
+   public TableInsertion getTableService(Class&lt;? extends ComponentType&gt; type) {
+<span class="fc" id="L61">      return tableInsertionRegistry.get(type);</span>
+   }
+
+   /**
+    * Retrieves the registered {@link TableFilter} service for the specified component type.
+    *
+    * @param type The component type associated with the service.
+    * @return The corresponding {@link TableFilter} service, or {@code null} if not registered.
+    */
+   public TableFilter getFilterService(Class&lt;? extends ComponentType&gt; type) {
+<span class="fc" id="L71">      return tableFilterRegistry.get(type);</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

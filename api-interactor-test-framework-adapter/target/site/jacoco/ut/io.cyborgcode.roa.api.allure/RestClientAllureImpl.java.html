@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RestClientAllureImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Api Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.api.allure</a> &gt; <span class="el_source">RestClientAllureImpl.java</span></div><h1>RestClientAllureImpl.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.api.allure;
+
+import io.cyborgcode.roa.api.client.RestClientImpl;
+import io.qameta.allure.Allure;
+import io.restassured.response.Response;
+import org.springframework.stereotype.Component;
+
+/**
+ * Enhances {@link RestClientImpl} with Allure reporting capabilities.
+ *
+ * &lt;p&gt;This class logs API request and response details to Allure, attaching
+ * HTTP method, headers, body, response time, status codes, and other key
+ * request/response metadata.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@Component
+<span class="fc" id="L18">public class RestClientAllureImpl extends RestClientImpl {</span>
+
+   private static final String ATTACHMENT_HTTP_METHOD = &quot;HTTP Method&quot;;
+   private static final String ATTACHMENT_URL = &quot;URL&quot;;
+   private static final String ATTACHMENT_HEADERS = &quot;Headers&quot;;
+   private static final String ATTACHMENT_REQUEST_BODY = &quot;Request Body&quot;;
+   private static final String ATTACHMENT_RESPONSE_TIME = &quot;Response Time (ms)&quot;;
+   private static final String ATTACHMENT_STATUS_CODE = &quot;Status Code&quot;;
+   private static final String ATTACHMENT_RESPONSE_HEADERS = &quot;Response Headers&quot;;
+   private static final String ATTACHMENT_RESPONSE_BODY = &quot;Response Body&quot;;
+   private static final int MAX_BODY_LENGTH = 10_000;
+
+   /**
+    * Logs API request details and attaches them to Allure reports.
+    *
+    * @param methodName The HTTP method used for the request.
+    * @param finalUrl   The request URL.
+    * @param body       The request body, if applicable.
+    * @param headers    The request headers.
+    */
+   @Override
+   protected void printRequest(final String methodName, final String finalUrl, final String body,
+                               final String headers) {
+<span class="fc" id="L41">      super.printRequest(methodName, finalUrl, body, headers);</span>
+<span class="fc" id="L42">      logRequestDetails(methodName, finalUrl, headers, body);</span>
+<span class="fc" id="L43">   }</span>
+
+   /**
+    * Logs API response details and attaches them to Allure reports.
+    *
+    * @param methodName The HTTP method used for the request.
+    * @param finalUrl   The request URL.
+    * @param response   The received response.
+    * @param duration   The time taken to execute the request in milliseconds.
+    */
+   @Override
+   protected void printResponse(final String methodName, final String finalUrl, final Response response,
+                                final long duration) {
+<span class="fc" id="L56">      super.printResponse(methodName, finalUrl, response, duration);</span>
+<span class="fc" id="L57">      logResponseDetails(methodName, finalUrl, response, duration);</span>
+<span class="fc" id="L58">   }</span>
+
+   /**
+    * Logs request details as Allure attachments.
+    *
+    * @param methodName The HTTP method used.
+    * @param url        The request URL.
+    * @param headers    The request headers.
+    * @param body       The request body, if applicable.
+    */
+   private void logRequestDetails(String methodName, String url, String headers, String body) {
+<span class="fc" id="L69">      Allure.step(String.format(&quot;Sending request to endpoint %s-%s.&quot;, methodName, url), () -&gt; {</span>
+<span class="fc" id="L70">         addAttachmentIfPresent(ATTACHMENT_HTTP_METHOD, methodName);</span>
+<span class="fc" id="L71">         addAttachmentIfPresent(ATTACHMENT_URL, url);</span>
+<span class="fc" id="L72">         addQueryParamsAttachment(url);</span>
+<span class="fc" id="L73">         addAttachmentIfPresent(ATTACHMENT_HEADERS, headers);</span>
+<span class="fc" id="L74">         addAttachmentIfPresent(ATTACHMENT_REQUEST_BODY, body);</span>
+<span class="fc" id="L75">      });</span>
+<span class="fc" id="L76">   }</span>
+
+   /**
+    * Logs response details as Allure attachments.
+    *
+    * @param methodName The HTTP method used.
+    * @param url        The request URL.
+    * @param response   The API response.
+    * @param duration   The execution time in milliseconds.
+    */
+   private void logResponseDetails(String methodName, String url, Response response, long duration) {
+<span class="fc" id="L87">      int statusCode = response.getStatusCode();</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">      boolean isError = statusCode &gt;= 400;</span>
+
+<span class="fc bfc" id="L90" title="All 2 branches covered.">      String stepTitle = isError</span>
+<span class="fc" id="L91">            ? String.format(&quot;❌ Error Response: %d from %s-%s in %dms.&quot;, statusCode, methodName, url, duration)</span>
+<span class="fc" id="L92">            : String.format(&quot;✅ Response: %d from %s-%s in %dms.&quot;, statusCode, methodName, url, duration);</span>
+
+<span class="fc" id="L94">      Allure.step(stepTitle, () -&gt; {</span>
+<span class="fc" id="L95">         addAttachmentIfPresent(ATTACHMENT_HTTP_METHOD, methodName);</span>
+<span class="fc" id="L96">         addAttachmentIfPresent(ATTACHMENT_URL, url);</span>
+<span class="fc" id="L97">         addAttachmentIfPresent(ATTACHMENT_RESPONSE_TIME, String.valueOf(duration));</span>
+<span class="fc" id="L98">         addAttachmentIfPresent(ATTACHMENT_STATUS_CODE, String.valueOf(statusCode));</span>
+
+         // Safely handle null headers
+<span class="fc bfc" id="L101" title="All 2 branches covered.">         String headers = response.getHeaders() != null ? response.getHeaders().toString() : &quot;&quot;;</span>
+<span class="fc" id="L102">         addAttachmentIfPresent(ATTACHMENT_RESPONSE_HEADERS, headers);</span>
+
+         // Safely handle null body
+<span class="fc" id="L105">         String body = &quot;&quot;;</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">         if (response.getBody() != null) {</span>
+<span class="fc" id="L107">            body = response.getBody().prettyPrint();</span>
+         }
+<span class="fc" id="L109">         addAttachmentIfPresent(ATTACHMENT_RESPONSE_BODY, body);</span>
+<span class="fc" id="L110">      });</span>
+<span class="fc" id="L111">   }</span>
+
+   /**
+    * Adds an attachment to Allure if the content is not null or empty.
+    *
+    * @param name    The attachment name.
+    * @param content The attachment content.
+    */
+   private void addAttachmentIfPresent(String name, String content) {
+<span class="fc bfc" id="L120" title="All 4 branches covered.">      if (content != null &amp;&amp; !content.trim().isEmpty()) {</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">         if (content.length() &gt; MAX_BODY_LENGTH) {</span>
+<span class="fc" id="L122">            content = content.substring(0, MAX_BODY_LENGTH) + &quot;... (truncated)&quot;;</span>
+         }
+<span class="fc" id="L124">         Allure.addAttachment(name, content);</span>
+      }
+<span class="fc" id="L126">   }</span>
+
+   private void addQueryParamsAttachment(String url) {
+<span class="fc bfc" id="L129" title="All 2 branches covered.">      if (url.contains(&quot;?&quot;)) {</span>
+<span class="fc" id="L130">         String queryParams = url.substring(url.indexOf(&quot;?&quot;) + 1);</span>
+<span class="fc" id="L131">         addAttachmentIfPresent(&quot;Query Parameters&quot;, queryParams);</span>
+      }
+<span class="fc" id="L133">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

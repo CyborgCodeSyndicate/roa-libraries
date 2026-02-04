@@ -1,0 +1,1 @@
+{"uuid":"cbb77452-d2a6-4b1d-991e-e494ee7e14d6","name":"areSelected should call checkboxService.areSelected, store result and return uiServiceFluent","children":["6722c4cb-8b51-4d06-a690-ffd84adfe14d"],"befores":[],"afters":[],"start":1770236703697,"stop":1770236703710}

@@ -1,0 +1,1 @@
+{"uuid":"bce72e11-a7a1-4238-a138-e6340a430523","name":"isVisible should call itemListService.isVisible, store result and return uiServiceFluent","children":["98523a8e-db8e-43c8-bcff-e4a74686dd15"],"befores":[],"afters":[],"start":1769887549927,"stop":1769887549942}

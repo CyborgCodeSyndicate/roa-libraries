@@ -1,0 +1,1 @@
+{"uuid":"f96a08c3-e558-4639-88d9-ea9fee439991","name":"Should fallback to data.toString() when JSON serialization fails","children":["7090a680-40f9-4008-81aa-c6d254965a9d"],"befores":[],"afters":[],"start":1770236464980,"stop":1770236465028}

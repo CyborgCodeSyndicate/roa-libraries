@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BaseDbConnectorService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Database Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.db.connector</a> &gt; <span class="el_source">BaseDbConnectorService.java</span></div><h1>BaseDbConnectorService.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.db.connector;
+
+import io.cyborgcode.roa.db.config.DatabaseConfiguration;
+import io.cyborgcode.roa.db.config.DbType;
+import io.cyborgcode.roa.db.log.LogDb;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import org.springframework.stereotype.Component;
+
+/**
+ * Manages database connections and driver registrations.
+ *
+ * &lt;p&gt;This service handles database connections by registering drivers,
+ * creating new connections, and caching them for reuse. It supports
+ * multiple database types and ensures efficient connection management.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@Component
+<span class="fc" id="L26">public class BaseDbConnectorService {</span>
+
+<span class="fc" id="L28">   private static final Map&lt;String, Connection&gt; connectionMap = new ConcurrentHashMap&lt;&gt;();</span>
+<span class="fc" id="L29">   private static final Set&lt;DbType&lt;?&gt;&gt; registeredTypes = Collections.synchronizedSet(new HashSet&lt;&gt;());</span>
+
+   /**
+    * Retrieves or creates a database connection based on the provided configuration.
+    *
+    * @param dbConfig The database configuration.
+    * @return A {@link Connection} instance for the specified database.
+    */
+   public Connection getConnection(DatabaseConfiguration dbConfig) {
+<span class="fc" id="L38">      DbType&lt;?&gt; dbType = dbConfig.getDbType();</span>
+<span class="fc" id="L39">      registerDriverIfNecessary(dbType);</span>
+<span class="fc" id="L40">      String url = buildConnectionUrl(dbConfig);</span>
+<span class="fc" id="L41">      return connectionMap.computeIfAbsent(url, u -&gt; createConnection(u, dbConfig));</span>
+   }
+
+   /**
+    * Registers a database driver if it has not been registered before.
+    *
+    * @param dbType The database type.
+    */
+   private void registerDriverIfNecessary(DbType&lt;?&gt; dbType) {
+<span class="fc bfc" id="L50" title="All 2 branches covered.">      if (!registeredTypes.contains(dbType)) {</span>
+<span class="fc" id="L51">         synchronized (registeredTypes) {</span>
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">            if (!registeredTypes.contains(dbType)) {</span>
+               try {
+<span class="fc" id="L54">                  DriverManager.registerDriver(dbType.driver());</span>
+<span class="fc" id="L55">                  registeredTypes.add(dbType);</span>
+<span class="fc" id="L56">                  LogDb.info(&quot;Registered database driver for type: {}&quot;, dbType);</span>
+<span class="fc" id="L57">               } catch (SQLException e) {</span>
+<span class="fc" id="L58">                  throw new IllegalStateException(&quot;Failed to register database driver for type: &quot; + dbType, e);</span>
+<span class="fc" id="L59">               }</span>
+            }
+<span class="fc" id="L61">         }</span>
+      }
+<span class="fc" id="L63">   }</span>
+
+   /**
+    * Constructs the connection URL for the database.
+    *
+    * @param dbConfig The database configuration.
+    * @return The constructed database connection URL.
+    */
+   private String buildConnectionUrl(DatabaseConfiguration dbConfig) {
+<span class="fc bfc" id="L72" title="All 2 branches covered.">      String url = dbConfig.getFullConnectionString() != null</span>
+<span class="fc" id="L73">            ? dbConfig.getFullConnectionString()</span>
+<span class="fc" id="L74">            : dbConfig.buildUrlKey();</span>
+<span class="fc" id="L75">      LogDb.debug(&quot;Built connection URL: {}&quot;, url);</span>
+<span class="fc" id="L76">      return url;</span>
+   }
+
+   /**
+    * Creates a new database connection.
+    *
+    * @param url      The connection URL.
+    * @param dbConfig The database configuration containing credentials.
+    * @return A new {@link Connection} instance.
+    * @throws IllegalStateException If the connection fails to be established.
+    */
+   private Connection createConnection(String url, DatabaseConfiguration dbConfig) {
+      try {
+<span class="fc" id="L89">         Connection connection = DriverManager.getConnection(url, dbConfig.getDbUser(), dbConfig.getDbPassword());</span>
+<span class="fc" id="L90">         LogDb.info(&quot;Successfully created connection for URL: {}&quot;, url);</span>
+<span class="fc" id="L91">         return connection;</span>
+<span class="fc" id="L92">      } catch (SQLException e) {</span>
+<span class="fc" id="L93">         throw new IllegalStateException(&quot;Failed to create connection for URL: &quot; + url, e);</span>
+      }
+   }
+
+   /**
+    * Closes all active database connections and clears cached connections.
+    */
+   public void closeConnections() {
+<span class="fc" id="L101">      connectionMap.forEach((url, connection) -&gt; {</span>
+         try {
+<span class="fc bfc" id="L103" title="All 2 branches covered.">            if (!connection.isClosed()) {</span>
+<span class="fc" id="L104">               connection.close();</span>
+<span class="fc" id="L105">               LogDb.info(&quot;Closed connection for URL: {}&quot;, url);</span>
+            }
+<span class="fc" id="L107">         } catch (SQLException e) {</span>
+<span class="fc" id="L108">            LogDb.warn(&quot;Failed to close connection for URL: {}&quot;, url, e);</span>
+<span class="fc" id="L109">         }</span>
+<span class="fc" id="L110">      });</span>
+<span class="fc" id="L111">      connectionMap.clear();</span>
+<span class="fc" id="L112">      registeredTypes.clear();</span>
+<span class="fc" id="L113">      LogDb.info(&quot;Cleared all connections and registered types.&quot;);</span>
+<span class="fc" id="L114">   }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

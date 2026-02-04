@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ToggleUiElement.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.selenium</a> &gt; <span class="el_source">ToggleUiElement.java</span></div><h1>ToggleUiElement.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.selenium;
+
+import io.cyborgcode.roa.ui.components.base.ComponentType;
+import io.cyborgcode.roa.ui.components.toggle.ToggleService;
+
+/**
+ * Represents a UI element for toggle switch components within the framework.
+ *
+ * &lt;p&gt;This interface extends {@link UiElement} and provides a default implementation
+ * for retrieving the associated component type, ensuring that toggle elements
+ * can be interacted with in a standardized manner.
+ *
+ * &lt;p&gt;Toggle switches allow users to enable or disable specific settings in the UI.
+ * This interface facilitates automation of toggle interactions, such as activation,
+ * deactivation, and state validation.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public interface ToggleUiElement extends UiElement {
+
+   /**
+    * Retrieves the component type associated with this toggle element.
+    *
+    * &lt;p&gt;The default implementation returns {@link ToggleService#DEFAULT_TYPE},
+    * ensuring that the toggle element is recognized as part of the toggle service.
+    *
+    * @param &lt;T&gt; The component type.
+    * @return The component type associated with this toggle element.
+    */
+   @Override
+   default &lt;T extends ComponentType&gt; T componentType() {
+<span class="fc" id="L32">      return (T) ToggleService.DEFAULT_TYPE;</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

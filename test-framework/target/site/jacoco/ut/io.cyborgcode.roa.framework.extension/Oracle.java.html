@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Oracle.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Core Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.framework.extension</a> &gt; <span class="el_source">Oracle.java</span></div><h1>Oracle.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.framework.extension;
+
+import io.cyborgcode.roa.framework.annotation.StaticTestData;
+import io.cyborgcode.roa.framework.decorators.DecoratorsFactory;
+import io.cyborgcode.roa.framework.exceptions.StaticTestDataInitializationException;
+import io.cyborgcode.roa.framework.log.LogQuest;
+import io.cyborgcode.roa.framework.quest.Quest;
+import io.cyborgcode.roa.framework.quest.QuestFactory;
+import io.cyborgcode.roa.framework.quest.SuperQuest;
+import io.cyborgcode.roa.framework.storage.Storage;
+import io.cyborgcode.roa.framework.storage.StorageKeysTest;
+import io.cyborgcode.roa.framework.storage.StoreKeys;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Consumer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ParameterResolutionException;
+import org.junit.jupiter.api.extension.ParameterResolver;
+import org.springframework.context.ApplicationContext;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import static io.cyborgcode.roa.framework.storage.StorageKeysTest.STATIC_DATA;
+import static io.cyborgcode.roa.framework.storage.StoreKeys.QUEST;
+import static org.junit.jupiter.api.extension.ExtensionContext.Namespace.GLOBAL;
+
+/**
+ * JUnit 5 {@code ParameterResolver} extension for injecting a {@code Quest} instance
+ * into test methods, handling static test data provisioning via {@code @TestStaticData}.
+ *
+ * &lt;p&gt;This extension resolves and provides a test execution context ({@code Quest})
+ * for parameter injection and initializes static test data before test execution.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@Order(Integer.MIN_VALUE)
+@ExtendWith(SpringExtension.class)
+<span class="fc" id="L45">public class Oracle implements ParameterResolver {</span>
+
+   /**
+    * Determines whether the parameter is eligible for resolution by checking if it is of type {@code Quest}.
+    *
+    * @param parameterContext The context of the parameter to resolve.
+    * @param extensionContext The context of the test execution.
+    * @return {@code true} if the parameter type is assignable to {@code Quest}, otherwise {@code false}.
+    * @throws ParameterResolutionException If an error occurs while resolving the parameter.
+    */
+   @Override
+   public boolean supportsParameter(final ParameterContext parameterContext, final ExtensionContext extensionContext)
+         throws ParameterResolutionException {
+<span class="fc" id="L58">      var parameterType = parameterContext.getParameter().getType();</span>
+<span class="fc" id="L59">      return Quest.class.isAssignableFrom(parameterType);</span>
+   }
+
+   /**
+    * Resolves and injects a {@code Quest} instance into the test method.
+    *
+    * &lt;p&gt;This method initializes a new {@code Quest} instance, decorates it with additional
+    * test utilities, and loads any static test data if defined by {@code @TestStaticData}.
+    *
+    * @param parameterContext The context of the parameter to resolve.
+    * @param extensionContext The context of the test execution.
+    * @return The resolved {@code Quest} instance.
+    * @throws ParameterResolutionException If the required test context cannot be instantiated.
+    */
+   @Override
+   public Object resolveParameter(final ParameterContext parameterContext, final ExtensionContext extensionContext)
+         throws ParameterResolutionException {
+<span class="fc" id="L76">      ApplicationContext appCtx = SpringExtension.getApplicationContext(extensionContext);</span>
+<span class="fc" id="L77">      QuestFactory questFactory = appCtx.getBean(QuestFactory.class);</span>
+<span class="fc" id="L78">      DecoratorsFactory decoratorsFactory = appCtx.getBean(DecoratorsFactory.class);</span>
+
+<span class="fc" id="L80">      Quest quest = questFactory.createQuest();</span>
+<span class="fc" id="L81">      SuperQuest superQuest = decoratorsFactory.decorate(quest, SuperQuest.class);</span>
+<span class="fc" id="L82">      Map&lt;String, Object&gt; staticTestData = getStaticTestData(extensionContext);</span>
+<span class="fc" id="L83">      Storage storage = superQuest.getStorage();</span>
+<span class="fc" id="L84">      storage.put(STATIC_DATA, staticTestData);</span>
+<span class="fc" id="L85">      addHooksDataInTestStorage(storage, extensionContext);</span>
+<span class="fc" id="L86">      LogQuest.info(&quot;The quest: '{}' has begun and is crafted.&quot;, extensionContext.getDisplayName());</span>
+<span class="fc" id="L87">      ExtensionContext.Store store = extensionContext.getStore(GLOBAL);</span>
+<span class="fc" id="L88">      store.put(QUEST, quest);</span>
+      @SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L90">      List&lt;Consumer&lt;SuperQuest&gt;&gt; consumers = (List&lt;Consumer&lt;SuperQuest&gt;&gt;) store.get(StoreKeys.QUEST_CONSUMERS);</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">      if (Objects.nonNull(consumers)) {</span>
+<span class="fc" id="L92">         consumers.forEach(</span>
+<span class="fc" id="L93">               questConsumer -&gt; questConsumer.accept(decoratorsFactory.decorate(quest, SuperQuest.class)));</span>
+      }
+<span class="fc" id="L95">      return quest;</span>
+   }
+
+   /**
+    * Retrieves and instantiates static test data defined via {@code @StaticTestData}.
+    *
+    * &lt;p&gt;If a test method is annotated with {@code @StaticTestData}, this method
+    * dynamically instantiates the specified data provider and extracts its test data.
+    *
+    * @param extensionContext The context of the test execution.
+    * @return A map containing static test data, or {@code null} if no provider is defined.
+    */
+   private static Map&lt;String, Object&gt; getStaticTestData(final ExtensionContext extensionContext) {
+<span class="fc" id="L108">      Optional&lt;Method&gt; testMethod = extensionContext.getTestMethod();</span>
+<span class="fc bfc" id="L109" title="All 2 branches covered.">      if (testMethod.isPresent()) {</span>
+<span class="fc" id="L110">         StaticTestData staticDataAnnotation = testMethod.get().getAnnotation(StaticTestData.class);</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">         if (staticDataAnnotation != null) {</span>
+            try {
+<span class="fc" id="L113">               return staticDataAnnotation.value().getDeclaredConstructor()</span>
+<span class="fc" id="L114">                     .newInstance().staticTestData();</span>
+
+<span class="fc" id="L116">            } catch (InstantiationException | IllegalAccessException | InvocationTargetException</span>
+                     | NoSuchMethodException e) {
+<span class="fc" id="L118">               throw new StaticTestDataInitializationException(e);</span>
+            }
+         }
+      }
+<span class="fc" id="L122">      return new HashMap&lt;&gt;();</span>
+   }
+
+   /**
+    * Copies test-level hook parameters from the JUnit {@code ExtensionContext} store
+    * into the framework's {@code Storage}.
+    *
+    * &lt;p&gt;This method is used to propagate test-specific hook data (such as setup/teardown metadata)
+    * from the JUnit context into the test execution context, allowing it to be accessed during the test run.
+    *
+    * @param storage The test storage object where hook data should be inserted.
+    * @param context The JUnit extension context containing the stored hook parameters.
+    */
+   private static void addHooksDataInTestStorage(Storage storage, ExtensionContext context) {
+<span class="fc" id="L136">      Map&lt;Object, Object&gt; hooksStorage = context.getStore(GLOBAL).get(StoreKeys.HOOKS_PARAMS, Map.class);</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">      if (hooksStorage != null) {</span>
+<span class="fc" id="L138">         storage.put(StorageKeysTest.HOOKS, hooksStorage);</span>
+      }
+<span class="fc" id="L140">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

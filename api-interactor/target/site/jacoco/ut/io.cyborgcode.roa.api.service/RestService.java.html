@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RestService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Api Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.api.service</a> &gt; <span class="el_source">RestService.java</span></div><h1>RestService.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.api.service;
+
+import io.cyborgcode.roa.api.authentication.AuthenticationKey;
+import io.cyborgcode.roa.api.authentication.BaseAuthenticationClient;
+import io.cyborgcode.roa.api.client.RestClient;
+import io.cyborgcode.roa.api.core.Endpoint;
+import io.cyborgcode.roa.api.exceptions.RestServiceException;
+import io.cyborgcode.roa.api.validator.RestResponseValidator;
+import io.cyborgcode.roa.validator.core.Assertion;
+import io.cyborgcode.roa.validator.core.AssertionResult;
+import io.restassured.http.Header;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+import java.util.Objects;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+
+/**
+ * Handles API request execution and response validation.
+ *
+ * &lt;p&gt;This service provides methods to execute API requests, validate responses, and manage authentication.
+ * It integrates with {@link RestClient} for request execution and {@link RestResponseValidator} for validation.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@Service
+@Scope(&quot;prototype&quot;)
+public class RestService {
+
+   private final RestClient restClient;
+   private final RestResponseValidator restResponseValidator;
+   private BaseAuthenticationClient baseAuthenticationClient;
+
+   private AuthenticationKey authenticationKey;
+   @Setter
+   private boolean cacheAuthentication;
+
+   /**
+    * Constructs a new {@code RestService} instance.
+    *
+    * @param restClient            The client responsible for executing API requests.
+    * @param restResponseValidator The validator for API responses.
+    */
+   @Autowired
+<span class="fc" id="L49">   public RestService(RestClient restClient, final RestResponseValidator restResponseValidator) {</span>
+<span class="fc" id="L50">      this.restClient = restClient;</span>
+<span class="fc" id="L51">      this.restResponseValidator = restResponseValidator;</span>
+<span class="fc" id="L52">   }</span>
+
+   /**
+    * Constructs a new {@code RestService} instance with caching configuration.
+    *
+    * @param restClient            The client responsible for executing API requests.
+    * @param restResponseValidator The validator for API responses.
+    * @param cacheAuthentication   Whether authentication should be cached.
+    */
+   public RestService(RestClient restClient, final RestResponseValidator restResponseValidator,
+<span class="fc" id="L62">                      boolean cacheAuthentication) {</span>
+<span class="fc" id="L63">      this.restClient = restClient;</span>
+<span class="fc" id="L64">      this.restResponseValidator = restResponseValidator;</span>
+<span class="fc" id="L65">      this.cacheAuthentication = cacheAuthentication;</span>
+<span class="fc" id="L66">   }</span>
+
+   /**
+    * Executes a request without a body.
+    *
+    * @param endpoint The API endpoint to call.
+    * @return The response from the API.
+    */
+   public Response request(Endpoint&lt;?&gt; endpoint) {
+<span class="fc" id="L75">      return executeRequest(endpoint, null);</span>
+   }
+
+   /**
+    * Executes a request with a specified body.
+    *
+    * @param endpoint The API endpoint to call.
+    * @param body     The request body.
+    * @return The response from the API.
+    */
+   public Response request(Endpoint&lt;?&gt; endpoint, Object body) {
+<span class="fc" id="L86">      return executeRequest(endpoint, body);</span>
+   }
+
+   /**
+    * Validates a response against the provided assertions.
+    *
+    * @param response   The response to validate.
+    * @param assertions The assertions to apply.
+    * @param &lt;T&gt;        The type of the assertion results.
+    * @return A list of assertion results.
+    * @throws IllegalArgumentException if the response or assertions are null.
+    */
+   public &lt;T&gt; List&lt;AssertionResult&lt;T&gt;&gt; validate(Response response, Assertion... assertions) {
+<span class="fc bfc" id="L99" title="All 2 branches covered.">      if (response == null) {</span>
+<span class="fc" id="L100">         throw new IllegalArgumentException(&quot;Response cannot be null for validation.&quot;);</span>
+      }
+<span class="fc bfc" id="L102" title="All 4 branches covered.">      if (assertions == null || assertions.length == 0) {</span>
+<span class="fc" id="L103">         throw new IllegalArgumentException(&quot;At least one assertion must be provided.&quot;);</span>
+      }
+<span class="fc" id="L105">      return restResponseValidator.validateResponse(response, assertions);</span>
+   }
+
+   /**
+    * Executes a request and validates the response.
+    *
+    * @param endpoint   The API endpoint to call.
+    * @param assertions The assertions to apply.
+    * @param &lt;T&gt;        The type of the assertion results.
+    * @return A list of assertion results.
+    */
+   public &lt;T&gt; List&lt;AssertionResult&lt;T&gt;&gt; requestAndValidate(Endpoint&lt;?&gt; endpoint, Assertion... assertions) {
+<span class="fc" id="L117">      return requestAndValidate(endpoint, null, assertions);</span>
+   }
+
+   /**
+    * Executes a request with a body and validates the response.
+    *
+    * @param endpoint   The API endpoint to call.
+    * @param body       The request body.
+    * @param assertions The assertions to apply.
+    * @param &lt;T&gt;        The type of the assertion results.
+    * @return A list of assertion results.
+    */
+   public &lt;T&gt; List&lt;AssertionResult&lt;T&gt;&gt; requestAndValidate(Endpoint&lt;?&gt; endpoint, Object body, Assertion... assertions) {
+<span class="fc" id="L130">      return validate(request(endpoint, body), assertions);</span>
+   }
+
+   /**
+    * Authenticates a user using a specified authentication client.
+    *
+    * @param username                  The username for authentication.
+    * @param password                  The password for authentication.
+    * @param authenticationClientClass The authentication client class to use.
+    * @throws RestServiceException if authentication fails.
+    */
+   public void authenticate(String username, String password,
+                            Class&lt;? extends BaseAuthenticationClient&gt; authenticationClientClass) {
+<span class="fc" id="L143">      Objects.requireNonNull(username, &quot;Username must not be null&quot;);</span>
+<span class="fc" id="L144">      Objects.requireNonNull(password, &quot;Password must not be null&quot;);</span>
+<span class="fc" id="L145">      Objects.requireNonNull(authenticationClientClass, &quot;Authentication client class must not be null&quot;);</span>
+      try {
+<span class="fc" id="L147">         baseAuthenticationClient = authenticationClientClass.getDeclaredConstructor().newInstance();</span>
+<span class="fc" id="L148">         authenticationKey = baseAuthenticationClient.authenticate(this, username, password, cacheAuthentication);</span>
+
+<span class="fc" id="L150">      } catch (InstantiationException | IllegalAccessException | InvocationTargetException</span>
+               | NoSuchMethodException e) {
+<span class="fc" id="L152">         throw new RestServiceException(&quot;Error instantiating or authenticating with BaseAuthenticationClient.&quot;, e);</span>
+<span class="fc" id="L153">      }</span>
+<span class="fc" id="L154">   }</span>
+
+   /**
+    * Executes a request to the specified endpoint.
+    *
+    * @param endpoint The API endpoint.
+    * @param body     The request body (optional).
+    * @return The API response.
+    * @throws RestServiceException if an error occurs during request execution.
+    */
+   private Response executeRequest(Endpoint&lt;?&gt; endpoint, Object body) {
+<span class="fc bfc" id="L165" title="All 2 branches covered.">      if (endpoint == null) {</span>
+<span class="fc" id="L166">         throw new RestServiceException(&quot;Endpoint cannot be null.&quot;);</span>
+      }
+      try {
+<span class="fc" id="L169">         RequestSpecification spec = endpoint.prepareRequestSpec(body);</span>
+
+<span class="fc bfc" id="L171" title="All 4 branches covered.">         if (baseAuthenticationClient != null &amp;&amp; authenticationKey != null) {</span>
+<span class="fc" id="L172">            Header header = baseAuthenticationClient.getAuthentication(authenticationKey);</span>
+<span class="fc bfc" id="L173" title="All 2 branches covered.">            if (header != null) {</span>
+<span class="fc" id="L174">               spec.header(header);</span>
+            }
+         }
+
+<span class="fc" id="L178">         return restClient.execute(spec, endpoint.method());</span>
+<span class="fc" id="L179">      } catch (Exception e) {</span>
+<span class="fc" id="L180">         throw new RestServiceException(&quot;Error executing request for endpoint: &quot; + endpoint.url(), e);</span>
+      }
+   }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

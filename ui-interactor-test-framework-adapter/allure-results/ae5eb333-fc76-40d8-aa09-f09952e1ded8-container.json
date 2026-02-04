@@ -1,0 +1,1 @@
+{"uuid":"ae5eb333-fc76-40d8-aa09-f09952e1ded8","name":"validateNotSelectedItems with soft parameter should call validateSelectedItems with correct parameters","children":["cf3922fc-504b-4700-9279-75b1bdaedf60"],"befores":[],"afters":[],"start":1769887550110,"stop":1769887550133}

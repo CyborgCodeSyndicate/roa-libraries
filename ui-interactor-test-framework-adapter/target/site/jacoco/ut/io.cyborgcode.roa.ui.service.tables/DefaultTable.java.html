@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DefaultTable.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.service.tables</a> &gt; <span class="el_source">DefaultTable.java</span></div><h1>DefaultTable.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.service.tables;
+
+import io.cyborgcode.roa.ui.annotations.ImplementationOfType;
+import io.cyborgcode.roa.ui.components.table.service.TableImpl;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+
+/**
+ * Default implementation of a table component extending {@link TableImpl}.
+ *
+ * &lt;p&gt;This class is annotated with {@code @ImplementationOfType(&quot;DEFAULT&quot;)}, indicating that it serves as the
+ * default implementation of a table in the framework. Currently, it does not add additional functionality
+ * beyond what is provided by {@link TableImpl}.
+ *
+ * &lt;p&gt;This class is a placeholder and can be extended in the future to provide additional table-specific behavior.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@ImplementationOfType(&quot;DEFAULT&quot;)
+public class DefaultTable extends TableImpl {
+
+   /**
+    * Constructs an instance of {@code DefaultTable} using the provided WebDriver.
+    *
+    * @param smartWebDriver The instance of {@link SmartWebDriver} used for interacting with the table.
+    */
+   public DefaultTable(final SmartWebDriver smartWebDriver) {
+<span class="fc" id="L27">      super(smartWebDriver);</span>
+<span class="fc" id="L28">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TableAssertionTypes.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.validator</a> &gt; <span class="el_source">TableAssertionTypes.java</span></div><h1>TableAssertionTypes.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.validator;
+
+import io.cyborgcode.roa.validator.core.AssertionType;
+import java.util.List;
+
+/**
+ * Enum representing different types of table assertions.
+ *
+ * &lt;p&gt;Each entry corresponds to a specific validation check that can be performed on a table.
+ * These assertions ensure data integrity, uniqueness, and expected behavior within table elements.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+<span class="fc" id="L14">public enum TableAssertionTypes implements AssertionType&lt;TableAssertionTypes&gt; {</span>
+
+   /**
+    * Asserts that the table is not empty.
+    * Expected type: {@link List}
+    */
+<span class="fc" id="L20">   TABLE_NOT_EMPTY(List.class),</span>
+
+   /**
+    * Asserts that the table contains the expected number of rows.
+    * Expected type: {@link List}
+    */
+<span class="fc" id="L26">   TABLE_ROW_COUNT(List.class),</span>
+
+   /**
+    * Asserts that every row in the table contains specific expected values.
+    * Expected type: {@link List}
+    */
+<span class="fc" id="L32">   EVERY_ROW_CONTAINS_VALUES(List.class),</span>
+
+   /**
+    * Asserts that the table does not contain a specific row.
+    * Expected type: {@link List}
+    */
+<span class="fc" id="L38">   TABLE_DOES_NOT_CONTAIN_ROW(List.class),</span>
+
+   /**
+    * Asserts that all rows in the table are unique.
+    * Expected type: {@link List}
+    */
+<span class="fc" id="L44">   ALL_ROWS_ARE_UNIQUE(List.class),</span>
+
+   /**
+    * Asserts that there are no empty cells in the table.
+    * Expected type: {@link List}
+    */
+<span class="fc" id="L50">   NO_EMPTY_CELLS(List.class),</span>
+
+   /**
+    * Asserts that all values in a given column are unique.
+    * Expected type: {@link List}
+    */
+<span class="fc" id="L56">   COLUMN_VALUES_ARE_UNIQUE(List.class),</span>
+
+   /**
+    * Asserts that the entire table data matches the expected data.
+    * Expected type: {@link List}
+    */
+<span class="fc" id="L62">   TABLE_DATA_MATCHES_EXPECTED(List.class),</span>
+
+   /**
+    * Asserts that a given row is not empty.
+    * Expected type: {@link List}
+    */
+<span class="fc" id="L68">   ROW_NOT_EMPTY(List.class),</span>
+
+   /**
+    * Asserts that a given row contains specific expected values.
+    * Expected type: {@link List}
+    */
+<span class="fc" id="L74">   ROW_CONTAINS_VALUES(List.class),</span>
+
+   /**
+    * Asserts that all cells in the table are enabled.
+    * Expected type: {@link List}
+    */
+<span class="fc" id="L80">   ALL_CELLS_ENABLED(List.class),</span>
+
+   /**
+    * Asserts that all cells in the table are clickable.
+    * Expected type: {@link List}
+    */
+<span class="fc" id="L86">   ALL_CELLS_CLICKABLE(List.class);</span>
+
+   /**
+    * The data type that this assertion type supports.
+    */
+   private final Class&lt;?&gt; supportedType;
+
+   /**
+    * Constructor for defining the assertion type and its supported data type.
+    *
+    * @param supportedType The class type that this assertion operates on.
+    * @param &lt;T&gt;           Generic type parameter for supported type.
+    */
+<span class="fc" id="L99">   &lt;T&gt; TableAssertionTypes(Class&lt;T&gt; supportedType) {</span>
+<span class="fc" id="L100">      this.supportedType = supportedType;</span>
+<span class="fc" id="L101">   }</span>
+
+   /**
+    * Returns the type of the current enum value.
+    *
+    * @return The current enum instance.
+    */
+   @Override
+   public TableAssertionTypes type() {
+<span class="fc" id="L110">      return this;</span>
+   }
+
+   /**
+    * Gets the class type that this assertion type supports.
+    *
+    * @return The supported class type.
+    */
+   @Override
+   public Class&lt;?&gt; getSupportedType() {
+<span class="fc" id="L120">      return supportedType;</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

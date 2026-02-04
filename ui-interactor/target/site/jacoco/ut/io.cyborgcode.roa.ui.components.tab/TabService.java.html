@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TabService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.tab</a> &gt; <span class="el_source">TabService.java</span></div><h1>TabService.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.tab;
+
+import io.cyborgcode.roa.ui.components.button.ButtonService;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import io.cyborgcode.utilities.reflections.ReflectionUtil;
+import org.openqa.selenium.By;
+
+import static io.cyborgcode.roa.ui.config.UiConfigHolder.getUiConfig;
+
+/**
+ * Provides an interface for interacting with tab elements in a UI automation framework,
+ * extending the capabilities of {@link ButtonService}. By referencing a {@link TabComponentType}
+ * and the {@link #DEFAULT_TYPE}, implementations can handle tab-based navigation and
+ * state checks consistently across various UI designs.
+ *
+ * &lt;p&gt;Classes implementing this interface generally leverage Selenium-based strategies to
+ * identify tabs either by container (using {@link SmartWebElement}) or locator (using {@link By}),
+ * ensuring a flexible approach that accommodates multiple application layouts.
+ *
+ * &lt;p&gt;No usage examples are included here.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public interface TabService extends ButtonService {
+
+<span class="fc" id="L26">   TabComponentType DEFAULT_TYPE = getDefaultType();</span>
+
+   /**
+    * Retrieves the default tab component type from the configuration.
+    *
+    * @return The default TabComponentType.
+    */
+   private static TabComponentType getDefaultType() {
+      try {
+<span class="fc" id="L35">         return ReflectionUtil.findEnumImplementationsOfInterface(TabComponentType.class,</span>
+<span class="fc" id="L36">               getUiConfig().tabDefaultType(),</span>
+<span class="fc" id="L37">               getUiConfig().projectPackages());</span>
+<span class="fc" id="L38">      } catch (Exception ignored) {</span>
+<span class="fc" id="L39">         return null;</span>
+      }
+   }
+
+   /**
+    * Checks if a tab with the specified text inside a container is selected, using the default tab component type.
+    *
+    * @param container The SmartWebElement container that contains the tab.
+    * @param tabText   The text of the tab to select.
+    * @return true if the tab is selected, false otherwise.
+    */
+   default boolean isSelected(SmartWebElement container, String tabText) {
+<span class="fc" id="L51">      return isSelected(DEFAULT_TYPE, container, tabText);</span>
+   }
+
+   /**
+    * Checks if a tab with the specified text inside a container is selected, using the given tab component type.
+    *
+    * @param componentType The specific tab component type.
+    * @param container     The SmartWebElement container that contains the tab.
+    * @param tabText       The text of the tab to select.
+    * @return true if the tab is selected, false otherwise.
+    */
+   boolean isSelected(TabComponentType componentType, SmartWebElement container, String tabText);
+
+   /**
+    * Checks if a tab inside a container is selected, using the default tab component type.
+    *
+    * @param container The SmartWebElement container that contains the tab.
+    * @return true if the tab is selected, false otherwise.
+    */
+   default boolean isSelected(SmartWebElement container) {
+<span class="fc" id="L71">      return isSelected(DEFAULT_TYPE, container);</span>
+   }
+
+   /**
+    * Checks if a tab inside a container is selected, using the given tab component type.
+    *
+    * @param componentType The specific tab component type.
+    * @param container     The SmartWebElement container that contains the tab.
+    * @return true if the tab is selected, false otherwise.
+    */
+   boolean isSelected(TabComponentType componentType, SmartWebElement container);
+
+   /**
+    * Checks if a tab with the specified text is selected, using the default tab component type.
+    *
+    * @param tabText The text of the tab to select.
+    * @return true if the tab is selected, false otherwise.
+    */
+   default boolean isSelected(String tabText) {
+<span class="fc" id="L90">      return isSelected(DEFAULT_TYPE, tabText);</span>
+   }
+
+   /**
+    * Checks if a tab with the specified text is selected, using the given tab component type.
+    *
+    * @param componentType The specific tab component type.
+    * @param tabText       The text of the tab to select.
+    * @return true if the tab is selected, false otherwise.
+    */
+   boolean isSelected(TabComponentType componentType, String tabText);
+
+   /**
+    * Checks if a tab located by the specified locator is selected, using the default tab component type.
+    *
+    * @param tabLocator The By locator for the tab to select.
+    * @return true if the tab is selected, false otherwise.
+    */
+   default boolean isSelected(By tabLocator) {
+<span class="fc" id="L109">      return isSelected(DEFAULT_TYPE, tabLocator);</span>
+   }
+
+   /**
+    * Checks if a tab located by the specified locator is selected, using the given tab component type.
+    *
+    * @param componentType The specific tab component type.
+    * @param tabLocator    The By locator for the tab to select.
+    * @return true if the tab is selected, false otherwise.
+    */
+   boolean isSelected(TabComponentType componentType, By tabLocator);
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,0 +1,1 @@
+{"uuid":"92cd2c65-fff2-41ef-8450-b2e0c9465c48","name":"resolveParameter should throw StaticTestDataInitializationException when prvider instantiation fails","children":["403626ec-1ac0-458b-b2d4-7f1956ddae67"],"befores":[],"afters":[],"start":1769887277135,"stop":1769887277162}

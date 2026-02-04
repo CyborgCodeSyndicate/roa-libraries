@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RelationalDbClientAllure.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Database Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.db.allure</a> &gt; <span class="el_source">RelationalDbClientAllure.java</span></div><h1>RelationalDbClientAllure.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.db.allure;
+
+import io.cyborgcode.roa.db.client.RelationalDbClient;
+import io.cyborgcode.roa.db.config.DatabaseConfiguration;
+import io.cyborgcode.roa.db.connector.BaseDbConnectorService;
+import io.cyborgcode.roa.db.query.QueryResponse;
+import io.qameta.allure.Allure;
+
+/**
+ * Enhances {@code RelationalDbClient} with Allure reporting.
+ *
+ * &lt;p&gt;This class extends {@link RelationalDbClient} to integrate Allure logging,
+ * ensuring SQL query execution details are captured in test reports.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class RelationalDbClientAllure extends RelationalDbClient {
+
+   /**
+    * Constructs a new {@code RelationalDbClientAllure} instance with the specified connector and
+    * database configuration.
+    *
+    * @param connector The database connection service.
+    * @param dbConfig  The database configuration details.
+    */
+   public RelationalDbClientAllure(final BaseDbConnectorService connector, final DatabaseConfiguration dbConfig) {
+<span class="fc" id="L27">      super(connector, dbConfig);</span>
+<span class="fc" id="L28">   }</span>
+
+   /**
+    * Logs the executed SQL query using Allure reporting.
+    *
+    * &lt;p&gt;This method overrides the parent implementation to include Allure step-based logging,
+    * ensuring that query execution details are captured in test reports.
+    *
+    * @param query The SQL query being executed.
+    */
+   @Override
+   protected void printQuery(final String query) {
+<span class="fc" id="L40">      super.printQuery(query);</span>
+<span class="fc" id="L41">      Allure.step(String.format(&quot;Executing SQL query: %s&quot;, query));</span>
+<span class="fc" id="L42">   }</span>
+
+   /**
+    * Logs the query execution response details with Allure reporting.
+    *
+    * &lt;p&gt;This method overrides the parent implementation to attach the executed SQL query,
+    * execution duration, and query results (if available) to Allure reports.
+    *
+    * @param query    The executed SQL query.
+    * @param response The query response containing results.
+    * @param duration The execution duration in milliseconds.
+    */
+   @Override
+   protected void printResponse(final String query, final QueryResponse response, final long duration) {
+<span class="fc" id="L56">      super.printResponse(query, response, duration);</span>
+<span class="fc" id="L57">      Allure.step(String.format(&quot;Finished executing query in %dms&quot;, duration), () -&gt; {</span>
+<span class="fc" id="L58">         addAttachmentIfPresent(&quot;Executed SQL&quot;, query);</span>
+<span class="fc" id="L59">         addAttachmentIfPresent(&quot;Duration (ms)&quot;, String.valueOf(duration));</span>
+
+<span class="fc bfc" id="L61" title="All 2 branches covered.">         if (!response.getRows().isEmpty()) {</span>
+<span class="fc" id="L62">            addAttachmentIfPresent(&quot;Result Rows&quot;, response.toString());</span>
+         }
+<span class="fc" id="L64">      });</span>
+<span class="fc" id="L65">   }</span>
+
+   /**
+    * Adds an attachment to Allure reports if the provided content is not empty.
+    *
+    * @param name    The attachment name.
+    * @param content The content to be attached.
+    */
+   private void addAttachmentIfPresent(String name, String content) {
+<span class="fc bfc" id="L74" title="All 4 branches covered.">      if (content != null &amp;&amp; !content.trim().isEmpty()) {</span>
+<span class="fc" id="L75">         Allure.addAttachment(name, content);</span>
+      }
+<span class="fc" id="L77">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

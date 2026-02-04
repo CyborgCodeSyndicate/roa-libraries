@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AlertServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.alert</a> &gt; <span class="el_source">AlertServiceImpl.java</span></div><h1>AlertServiceImpl.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.alert;
+
+import io.cyborgcode.roa.ui.components.base.AbstractComponentService;
+import io.cyborgcode.roa.ui.components.factory.ComponentFactory;
+import io.cyborgcode.roa.ui.log.LogUi;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import org.openqa.selenium.By;
+
+/**
+ * Default implementation of {@link AlertService} that manages retrieval and interactions
+ * with various {@link Alert} implementations.
+ *
+ * &lt;p&gt;This class leverages a cache for created alert components, reducing overhead when
+ * performing repeated operations. Each method delegates to a retrieved or newly created
+ * {@link Alert} instance appropriate to the given {@link AlertComponentType}.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class AlertServiceImpl extends AbstractComponentService&lt;AlertComponentType, Alert&gt;
+      implements AlertService {
+
+   /**
+    * Constructs a new {@code AlertServiceImpl} with the given WebDriver.
+    *
+    * @param driver The {@link SmartWebDriver} used for UI interactions.
+    */
+   public AlertServiceImpl(SmartWebDriver driver) {
+<span class="fc" id="L29">      super(driver);</span>
+<span class="fc" id="L30">   }</span>
+
+   /**
+    * Creates a new {@link Alert} instance for the specified type by calling
+    * {@link ComponentFactory#getAlertComponent(AlertComponentType, SmartWebDriver)}.
+    *
+    * @param componentType The enum constant representing the alert type.
+    * @return A new or cached {@link Alert} instance for the given type.
+    */
+   @Override
+   protected Alert createComponent(final AlertComponentType componentType) {
+<span class="fc" id="L41">      return ComponentFactory.getAlertComponent(componentType, driver);</span>
+   }
+
+   /**
+    * Retrieves the value of an alert using the specified component type and a container element.
+    *
+    * @param componentType The specific alert component type.
+    * @param container     The container element housing the alert.
+    * @return The text displayed by the alert.
+    */
+   @Override
+   public String getValue(final AlertComponentType componentType, final SmartWebElement container) {
+<span class="fc" id="L53">      LogUi.step(&quot;Getting value from alert: &quot; + componentType);</span>
+<span class="fc" id="L54">      return alertComponent(componentType).getValue(container);</span>
+   }
+
+   /**
+    * Retrieves the value of an alert using the specified component type and a locator.
+    *
+    * @param componentType    The specific alert component type.
+    * @param containerLocator A {@link By} locator identifying the alert element.
+    * @return The text displayed by the alert.
+    */
+   @Override
+   public String getValue(final AlertComponentType componentType, final By containerLocator) {
+<span class="fc" id="L66">      LogUi.step(&quot;Getting value from alert located by: &quot; + containerLocator);</span>
+<span class="fc" id="L67">      return alertComponent(componentType).getValue(containerLocator);</span>
+   }
+
+   /**
+    * Checks if an alert is visible using the specified component type and a container element.
+    *
+    * @param componentType The specific alert component type.
+    * @param container     The container element housing the alert.
+    * @return {@code true} if the alert is visible, otherwise {@code false}.
+    */
+   @Override
+   public boolean isVisible(final AlertComponentType componentType, final SmartWebElement container) {
+<span class="fc" id="L79">      LogUi.step(&quot;Checking if alert is visible: &quot; + componentType);</span>
+<span class="fc" id="L80">      return alertComponent(componentType).isVisible(container);</span>
+   }
+
+   /**
+    * Checks if an alert is visible using the specified component type and a locator.
+    *
+    * @param componentType    The specific alert component type.
+    * @param containerLocator A {@link By} locator identifying the alert element.
+    * @return {@code true} if the alert is visible, otherwise {@code false}.
+    */
+   @Override
+   public boolean isVisible(final AlertComponentType componentType, final By containerLocator) {
+<span class="fc" id="L92">      LogUi.step(&quot;Checking if alert is visible at: &quot; + containerLocator);</span>
+<span class="fc" id="L93">      return alertComponent(componentType).isVisible(containerLocator);</span>
+   }
+
+   /**
+    * Retrieves or creates (and caches) the {@link Alert} instance for the specified type.
+    *
+    * @param componentType The enum constant representing the alert type.
+    * @return The alert implementation associated with the given type.
+    */
+   private Alert alertComponent(final AlertComponentType componentType) {
+<span class="fc" id="L103">      return getOrCreateComponent(componentType);</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

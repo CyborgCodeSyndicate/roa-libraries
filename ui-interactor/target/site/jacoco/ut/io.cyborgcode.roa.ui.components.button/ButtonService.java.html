@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ButtonService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.button</a> &gt; <span class="el_source">ButtonService.java</span></div><h1>ButtonService.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.button;
+
+import io.cyborgcode.roa.ui.components.table.insertion.TableInsertion;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import io.cyborgcode.utilities.reflections.ReflectionUtil;
+import org.openqa.selenium.By;
+
+import static io.cyborgcode.roa.ui.config.UiConfigHolder.getUiConfig;
+
+/**
+ * Provides service-level methods for interacting with button UI components.
+ *
+ * &lt;p&gt;This interface defines operations to click buttons and to check their enabled
+ * and visible states, delegating the actual interactions to specific implementations
+ * based on the configured {@link ButtonComponentType}.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public interface ButtonService extends TableInsertion {
+
+<span class="fc" id="L21">   ButtonComponentType DEFAULT_TYPE = getDefaultType();</span>
+
+   /**
+    * Retrieves the default button component type from the configuration.
+    *
+    * @return The default ButtonComponentType.
+    */
+   private static ButtonComponentType getDefaultType() {
+      try {
+<span class="fc" id="L30">         return ReflectionUtil.findEnumImplementationsOfInterface(ButtonComponentType.class,</span>
+<span class="fc" id="L31">               getUiConfig().buttonDefaultType(),</span>
+<span class="fc" id="L32">               getUiConfig().projectPackages());</span>
+<span class="fc" id="L33">      } catch (Exception ignored) {</span>
+<span class="fc" id="L34">         return null;</span>
+      }
+   }
+
+   /**
+    * Clicks a button with the specified text inside a container, using the default button component type.
+    *
+    * @param container  The SmartWebElement container that contains the button.
+    * @param buttonText The text of the button to click.
+    */
+   default void click(SmartWebElement container, String buttonText) {
+<span class="fc" id="L45">      click(DEFAULT_TYPE, container, buttonText);</span>
+<span class="fc" id="L46">   }</span>
+
+   /**
+    * Clicks a button with the specified text inside a container, using the given button component type.
+    *
+    * @param componentType The specific button component type.
+    * @param container     The SmartWebElement container that contains the button.
+    * @param buttonText    The text of the button to click.
+    */
+   &lt;T extends ButtonComponentType&gt; void click(T componentType, SmartWebElement container, String buttonText);
+
+   /**
+    * Clicks a button inside a container, using the default button component type.
+    *
+    * @param container The SmartWebElement container that contains the button.
+    */
+   default void click(SmartWebElement container) {
+<span class="fc" id="L63">      click(DEFAULT_TYPE, container);</span>
+<span class="fc" id="L64">   }</span>
+
+   /**
+    * Clicks a button inside a container, using the given button component type.
+    *
+    * @param componentType The specific button component type.
+    * @param container     The SmartWebElement container that contains the button.
+    */
+   &lt;T extends ButtonComponentType&gt; void click(T componentType, SmartWebElement container);
+
+   /**
+    * Clicks a button with the specified text, using the default button component type.
+    *
+    * @param buttonText The text of the button to click.
+    */
+   default void click(String buttonText) {
+<span class="fc" id="L80">      click(DEFAULT_TYPE, buttonText);</span>
+<span class="fc" id="L81">   }</span>
+
+   /**
+    * Clicks a button with the specified text, using the given button component type.
+    *
+    * @param componentType The specific button component type.
+    * @param buttonText    The text of the button to click.
+    */
+   &lt;T extends ButtonComponentType&gt; void click(T componentType, String buttonText);
+
+   /**
+    * Clicks a button located by the specified locator, using the default button component type.
+    *
+    * @param buttonLocator The By locator for the button to click.
+    */
+   default void click(By buttonLocator) {
+<span class="fc" id="L97">      click(DEFAULT_TYPE, buttonLocator);</span>
+<span class="fc" id="L98">   }</span>
+
+   /**
+    * Clicks a button located by the specified locator, using the given button component type.
+    *
+    * @param componentType The specific button component type.
+    * @param buttonLocator The By locator for the button to click.
+    */
+   &lt;T extends ButtonComponentType&gt; void click(T componentType, By buttonLocator);
+
+   /**
+    * Checks if a button with the specified text inside a container is enabled, using the default button component type.
+    *
+    * @param container  The SmartWebElement container that contains the button.
+    * @param buttonText The text of the button to check.
+    * @return true if the button is enabled, false otherwise.
+    */
+   default boolean isEnabled(SmartWebElement container, String buttonText) {
+<span class="fc" id="L116">      return isEnabled(DEFAULT_TYPE, container, buttonText);</span>
+   }
+
+   /**
+    * Checks if a button with the specified text inside a container is enabled, using the given button component type.
+    *
+    * @param componentType The specific button component type.
+    * @param container     The SmartWebElement container that contains the button.
+    * @param buttonText    The text of the button to check.
+    * @return true if the button is enabled, false otherwise.
+    */
+   &lt;T extends ButtonComponentType&gt; boolean isEnabled(T componentType, SmartWebElement container, String buttonText);
+
+   /**
+    * Checks if a button inside a container is enabled, using the default button component type.
+    *
+    * @param container The SmartWebElement container that contains the button.
+    * @return true if the button is enabled, false otherwise.
+    */
+   default boolean isEnabled(SmartWebElement container) {
+<span class="fc" id="L136">      return isEnabled(DEFAULT_TYPE, container);</span>
+   }
+
+   /**
+    * Checks if a button inside a container is enabled, using the given button component type.
+    *
+    * @param componentType The specific button component type.
+    * @param container     The SmartWebElement container that contains the button.
+    * @return true if the button is enabled, false otherwise.
+    */
+   &lt;T extends ButtonComponentType&gt; boolean isEnabled(T componentType, SmartWebElement container);
+
+   /**
+    * Checks if a button with the specified text is enabled, using the default button component type.
+    *
+    * @param buttonText The text of the button to check.
+    * @return true if the button is enabled, false otherwise.
+    */
+   default boolean isEnabled(String buttonText) {
+<span class="fc" id="L155">      return isEnabled(DEFAULT_TYPE, buttonText);</span>
+   }
+
+   /**
+    * Checks if a button with the specified text is enabled, using the given button component type.
+    *
+    * @param componentType The specific button component type.
+    * @param buttonText    The text of the button to check.
+    * @return true if the button is enabled, false otherwise.
+    */
+   &lt;T extends ButtonComponentType&gt; boolean isEnabled(T componentType, String buttonText);
+
+   /**
+    * Checks if a button located by the specified locator is enabled, using the default button component type.
+    *
+    * @param buttonLocator The By locator for the button to check.
+    * @return true if the button is enabled, false otherwise.
+    */
+   default boolean isEnabled(By buttonLocator) {
+<span class="fc" id="L174">      return isEnabled(DEFAULT_TYPE, buttonLocator);</span>
+   }
+
+   /**
+    * Checks if a button located by the specified locator is enabled, using the given button component type.
+    *
+    * @param componentType The specific button component type.
+    * @param buttonLocator The By locator for the button to check.
+    * @return true if the button is enabled, false otherwise.
+    */
+   &lt;T extends ButtonComponentType&gt; boolean isEnabled(T componentType, By buttonLocator);
+
+   /**
+    * Checks if a button with the specified text inside a container is visible, using the default button component type.
+    *
+    * @param container  The SmartWebElement container that contains the button.
+    * @param buttonText The text of the button to check.
+    * @return true if the button is visible, false otherwise.
+    */
+   default boolean isVisible(SmartWebElement container, String buttonText) {
+<span class="fc" id="L194">      return isVisible(DEFAULT_TYPE, container, buttonText);</span>
+   }
+
+   /**
+    * Checks if a button with the specified text inside a container is visible, using the given button component type.
+    *
+    * @param componentType The specific button component type.
+    * @param container     The SmartWebElement container that contains the button.
+    * @param buttonText    The text of the button to check.
+    * @return true if the button is visible, false otherwise.
+    */
+   &lt;T extends ButtonComponentType&gt; boolean isVisible(T componentType, SmartWebElement container, String buttonText);
+
+   /**
+    * Checks if a button inside a container is visible, using the default button component type.
+    *
+    * @param container The SmartWebElement container that contains the button.
+    * @return true if the button is visible, false otherwise.
+    */
+   default boolean isVisible(SmartWebElement container) {
+<span class="fc" id="L214">      return isVisible(DEFAULT_TYPE, container);</span>
+   }
+
+   /**
+    * Checks if a button inside a container is visible, using the given button component type.
+    *
+    * @param componentType The specific button component type.
+    * @param container     The SmartWebElement container that contains the button.
+    * @return true if the button is visible, false otherwise.
+    */
+   &lt;T extends ButtonComponentType&gt; boolean isVisible(T componentType, SmartWebElement container);
+
+   /**
+    * Checks if a button with the specified text is visible, using the default button component type.
+    *
+    * @param buttonText The text of the button to check.
+    * @return true if the button is visible, false otherwise.
+    */
+   default boolean isVisible(String buttonText) {
+<span class="fc" id="L233">      return isVisible(DEFAULT_TYPE, buttonText);</span>
+   }
+
+   /**
+    * Checks if a button with the specified text is visible, using the given button component type.
+    *
+    * @param componentType The specific button component type.
+    * @param buttonText    The text of the button to check.
+    * @return true if the button is visible, false otherwise.
+    */
+   &lt;T extends ButtonComponentType&gt; boolean isVisible(T componentType, String buttonText);
+
+   /**
+    * Checks if a button located by the specified locator is visible, using the default button component type.
+    *
+    * @param buttonLocator The By locator for the button to check.
+    * @return true if the button is visible, false otherwise.
+    */
+   default boolean isVisible(By buttonLocator) {
+<span class="fc" id="L252">      return isVisible(DEFAULT_TYPE, buttonLocator);</span>
+   }
+
+   /**
+    * Checks if a button located by the specified locator is visible, using the given button component type.
+    *
+    * @param componentType The specific button component type.
+    * @param buttonLocator The By locator for the button to check.
+    * @return true if the button is visible, false otherwise.
+    */
+   &lt;T extends ButtonComponentType&gt; boolean isVisible(T componentType, By buttonLocator);
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

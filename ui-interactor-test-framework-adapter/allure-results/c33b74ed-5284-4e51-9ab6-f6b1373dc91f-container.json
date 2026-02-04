@@ -1,0 +1,1 @@
+{"uuid":"c33b74ed-5284-4e51-9ab6-f6b1373dc91f","name":"validate(Runnable) should delegate to super and return self","children":["30d345f9-671e-4555-8796-5f16ed8c415f"],"befores":[],"afters":[],"start":1770237541557,"stop":1770237541576}

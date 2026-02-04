@@ -1,0 +1,22 @@
+Query 'SELECT 1' executed in 100ms, result count: 0
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Query 'SELECT 1' executed in 100ms, result count: 0","thread_name":"main","@timestamp":"2026-02-04T21:23:23.049+0100","level":"STEP","logger_name":"ROA.DB"}
+Executing database query: SELECT 1
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Executing database query: SELECT 1","thread_name":"main","@timestamp":"2026-02-04T21:23:23.104+0100","level":"STEP","logger_name":"ROA.DB"}
+Query 'SELECT 1' executed in 200ms, result count: 1
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Query 'SELECT 1' executed in 200ms, result count: 1","thread_name":"main","@timestamp":"2026-02-04T21:23:23.158+0100","level":"STEP","logger_name":"ROA.DB"}
+Support for convention-based @Component names is deprecated and will be removed in a future version of the framework. Please annotate the 'value' attribute in @io.cyborgcode.roa.framework.annotation.Ring with @AliasFor(annotation=Component.class) to declare an explicit alias for @Component's 'value' attribute.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Support for convention-based @Component names is deprecated and will be removed in a future version of the framework. Please annotate the 'value' attribute in @io.cyborgcode.roa.framework.annotation.Ring with @AliasFor(annotation=Component.class) to declare an explicit alias for @Component's 'value' attribute.","thread_name":"main","@timestamp":"2026-02-04T21:23:24.848+0100","level":"WARN","logger_name":"org.springframework.context.annotation.AnnotationBeanNameGenerator"}
+✔ Validation passed: Validation (Expected: expected, Actual: actual)
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"✔ Validation passed: Validation (Expected: expected, Actual: actual)","thread_name":"main","@timestamp":"2026-02-04T21:23:30.625+0100","level":"VALIDATION","logger_name":"ROA.TEST"}
+Starting hard validation...
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Starting hard validation...","thread_name":"main","@timestamp":"2026-02-04T21:23:30.893+0100","level":"VALIDATION","logger_name":"ROA.TEST"}
+Hard validation completed successfully.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Hard validation completed successfully.","thread_name":"main","@timestamp":"2026-02-04T21:23:30.894+0100","level":"VALIDATION","logger_name":"ROA.TEST"}
+✔ Validation passed: Validation (Expected: expected, Actual: actual)
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"✔ Validation passed: Validation (Expected: expected, Actual: actual)","thread_name":"main","@timestamp":"2026-02-04T21:23:30.925+0100","level":"VALIDATION","logger_name":"ROA.TEST"}
+The quest has dropped the ring.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"The quest has dropped the ring.","thread_name":"main","@timestamp":"2026-02-04T21:23:31.018+0100","level":"INFO","logger_name":"ROA.TEST"}
+Starting soft validation.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Starting soft validation.","thread_name":"main","@timestamp":"2026-02-04T21:23:31.019+0100","level":"VALIDATION","logger_name":"ROA.TEST"}
+Condition satisfied on attempt #1, returning result.
+{"@version":1,"source_host":"DESKTOP-4TIJ8R7","message":"Condition satisfied on attempt #1, returning result.","thread_name":"main","@timestamp":"2026-02-04T21:23:31.232+0100","level":"INFO","logger_name":"Cyborg.COMMON"}

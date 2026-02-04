@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InsertionServiceElementImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.service</a> &gt; <span class="el_source">InsertionServiceElementImpl.java</span></div><h1>InsertionServiceElementImpl.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.service;
+
+import io.cyborgcode.roa.ui.annotations.InsertionElement;
+import io.cyborgcode.roa.ui.components.base.ComponentType;
+import io.cyborgcode.roa.ui.insertion.BaseInsertionService;
+import io.cyborgcode.roa.ui.insertion.InsertionServiceRegistry;
+import io.cyborgcode.roa.ui.selenium.UiElement;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import org.openqa.selenium.By;
+
+/**
+ * Implementation of the {@link BaseInsertionService} that processes UI elements annotated with
+ * {@link InsertionElement}.
+ *
+ * &lt;p&gt;This class provides functionality to:
+ * &lt;ul&gt;
+ *   &lt;li&gt;Retrieve UI element metadata from {@link InsertionElement} annotations.&lt;/li&gt;
+ *   &lt;li&gt;Identify the corresponding {@link ComponentType} for a UI element.&lt;/li&gt;
+ *   &lt;li&gt;Build Selenium locators for elements.&lt;/li&gt;
+ *   &lt;li&gt;Perform pre-insertion and post-insertion actions.&lt;/li&gt;
+ *   &lt;li&gt;Sort fields based on their insertion order.&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * &lt;p&gt;It utilizes an {@link InsertionServiceRegistry} to manage different insertion strategies and relies on
+ * a {@link SmartWebDriver} instance for interacting with web elements.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class InsertionServiceElementImpl extends BaseInsertionService&lt;InsertionElement&gt; {
+
+   /**
+    * WebDriver instance used for interacting with UI elements.
+    */
+   private final SmartWebDriver webDriver;
+
+   /**
+    * Constructs an {@code InsertionServiceElementImpl} instance.
+    *
+    * @param serviceRegistry The registry managing available insertion services.
+    * @param webDriver       The WebDriver instance for element interaction.
+    */
+   public InsertionServiceElementImpl(final InsertionServiceRegistry serviceRegistry,
+                                      final SmartWebDriver webDriver) {
+<span class="fc" id="L44">      super(serviceRegistry);</span>
+<span class="fc" id="L45">      this.webDriver = webDriver;</span>
+<span class="fc" id="L46">   }</span>
+
+   /**
+    * Returns the annotation class handled by this insertion service.
+    *
+    * @return {@code InsertionElement.class}.
+    */
+   @Override
+   protected Class&lt;InsertionElement&gt; getAnnotationClass() {
+<span class="fc" id="L55">      return InsertionElement.class;</span>
+   }
+
+   /**
+    * Extracts the insertion order defined in the {@link InsertionElement} annotation.
+    *
+    * @param annotation The annotation instance attached to the field.
+    * @return The insertion order declared by the annotation.
+    */
+   @Override
+   protected int getOrder(final InsertionElement annotation) {
+<span class="fc" id="L66">      return annotation.order();</span>
+   }
+
+   /**
+    * Resolves the {@link ComponentType} enum class for the UI element described by the annotation.
+    *
+    * @param annotation The annotation instance attached to the field.
+    * @return The enum class representing the component type.
+    */
+   @Override
+   protected Class&lt;? extends ComponentType&gt; getComponentTypeEnumClass(final InsertionElement annotation) {
+<span class="fc" id="L77">      final UiElement uiElement = (UiElement) Enum.valueOf(</span>
+<span class="fc" id="L78">            (Class&lt;? extends Enum&gt;) annotation.locatorClass(),</span>
+<span class="fc" id="L79">            annotation.elementEnum()</span>
+      );
+<span class="fc" id="L81">      return uiElement.componentType().getClass();</span>
+   }
+
+   /**
+    * Builds a Selenium {@link By} locator for the UI element specified by the annotation.
+    *
+    * @param annotation The annotation instance attached to the field.
+    * @return A Selenium locator targeting the element.
+    */
+   @Override
+   protected By buildLocator(final InsertionElement annotation) {
+<span class="fc" id="L92">      final UiElement uiElement = (UiElement) Enum.valueOf(</span>
+<span class="fc" id="L93">            (Class&lt;? extends Enum&gt;) annotation.locatorClass(),</span>
+<span class="fc" id="L94">            annotation.elementEnum()</span>
+      );
+<span class="fc" id="L96">      return uiElement.locator();</span>
+   }
+
+   /**
+    * Retrieves the {@link ComponentType} of the UI element specified by the annotation.
+    *
+    * @param annotation The annotation instance attached to the field.
+    * @return The component type for the element.
+    */
+   @Override
+   protected ComponentType getType(final InsertionElement annotation) {
+<span class="fc" id="L107">      final UiElement uiElement = (UiElement) Enum.valueOf(</span>
+<span class="fc" id="L108">            (Class&lt;? extends Enum&gt;) annotation.locatorClass(),</span>
+<span class="fc" id="L109">            annotation.elementEnum()</span>
+      );
+<span class="fc" id="L111">      return uiElement.componentType();</span>
+   }
+
+   /**
+    * Executes any pre-insertion action defined by the {@link UiElement#before()} consumer.
+    *
+    * @param annotation The annotation instance attached to the field.
+    */
+   @Override
+   protected void beforeInsertion(final InsertionElement annotation) {
+<span class="fc" id="L121">      final UiElement uiElement = (UiElement) Enum.valueOf(</span>
+<span class="fc" id="L122">            (Class&lt;? extends Enum&gt;) annotation.locatorClass(),</span>
+<span class="fc" id="L123">            annotation.elementEnum()</span>
+      );
+<span class="fc" id="L125">      uiElement.before().accept(webDriver);</span>
+<span class="fc" id="L126">   }</span>
+
+   /**
+    * Executes any post-insertion action defined by the {@link UiElement#after()} consumer.
+    *
+    * @param annotation The annotation instance attached to the field.
+    */
+   @Override
+   protected void afterInsertion(final InsertionElement annotation) {
+<span class="fc" id="L135">      final UiElement uiElement = (UiElement) Enum.valueOf(</span>
+<span class="fc" id="L136">            (Class&lt;? extends Enum&gt;) annotation.locatorClass(),</span>
+<span class="fc" id="L137">            annotation.elementEnum()</span>
+      );
+<span class="fc" id="L139">      uiElement.after().accept(webDriver);</span>
+<span class="fc" id="L140">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

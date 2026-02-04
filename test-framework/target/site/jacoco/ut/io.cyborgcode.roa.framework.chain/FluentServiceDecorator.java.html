@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FluentServiceDecorator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Core Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.framework.chain</a> &gt; <span class="el_source">FluentServiceDecorator.java</span></div><h1>FluentServiceDecorator.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.framework.chain;
+
+import io.cyborgcode.roa.framework.quest.SuperQuest;
+import io.cyborgcode.roa.validator.core.AssertionResult;
+import java.util.List;
+import lombok.experimental.Delegate;
+
+/**
+ * A decorator for {@code FluentService}, enabling extended functionality.
+ *
+ * &lt;p&gt;This class acts as a wrapper around an existing {@code FluentService} instance,
+ * allowing additional behavior to be introduced without modifying the original implementation.
+ * It delegates all method calls to the wrapped {@code FluentService} instance.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public final class FluentServiceDecorator extends FluentService {
+
+   /**
+    * The wrapped instance of {@code FluentService}.
+    */
+   @Delegate
+   private final FluentService fluentService;
+
+   /**
+    * Constructs a new {@code FluentServiceDecorator} wrapping the specified fluent service.
+    *
+    * @param fluentService The {@code FluentService} instance to be wrapped.
+    */
+<span class="fc" id="L30">   public FluentServiceDecorator(FluentService fluentService) {</span>
+<span class="fc" id="L31">      this.fluentService = fluentService;</span>
+<span class="fc" id="L32">   }</span>
+
+   /**
+    * Sets the associated {@code SuperQuest} instance.
+    *
+    * @param quest The {@code SuperQuest} instance to be assigned.
+    */
+   @Override
+   public void setQuest(SuperQuest quest) {
+<span class="fc" id="L41">      fluentService.setQuest(quest);</span>
+<span class="fc" id="L42">   }</span>
+
+   /**
+    * Performs validation on a list of assertion results by delegating to the wrapped service.
+    *
+    * @param assertionResults The list of assertion results to be validated.
+    */
+   @Override
+   public void validation(List&lt;AssertionResult&lt;Object&gt;&gt; assertionResults) {
+<span class="fc" id="L51">      fluentService.validation(assertionResults);</span>
+<span class="fc" id="L52">   }</span>
+
+   /**
+    * Executes any post-quest setup initialization logic by delegating to the wrapped service.
+    */
+   @Override
+   public void postQuestSetupInitialization() {
+<span class="fc" id="L59">      fluentService.postQuestSetupInitialization();</span>
+<span class="fc" id="L60">   }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

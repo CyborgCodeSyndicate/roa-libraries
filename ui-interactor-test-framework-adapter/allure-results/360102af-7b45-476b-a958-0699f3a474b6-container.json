@@ -1,0 +1,1 @@
+{"uuid":"360102af-7b45-476b-a958-0699f3a474b6","name":"isEnabled should call checkboxService.isEnabled, store result and return uiServiceFluent","children":["a961f740-4abd-4dc8-917e-111bd384b0ec"],"befores":[],"afters":[],"start":1770237534894,"stop":1770237534909}

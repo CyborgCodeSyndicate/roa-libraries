@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TableElement.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.service.tables</a> &gt; <span class="el_source">TableElement.java</span></div><h1>TableElement.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.service.tables;
+
+import io.cyborgcode.roa.ui.components.table.base.TableComponentType;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import java.util.function.Consumer;
+
+/**
+ * Represents a table element that can be interacted with in the UI.
+ *
+ * &lt;p&gt;This interface provides methods for retrieving table metadata, such as
+ * its type, row representation class, and lifecycle hooks (before and after actions).
+ *
+ * &lt;p&gt;Implementations of this interface are used to define specific tables
+ * and their associated behaviors within the test automation framework.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public interface TableElement&lt;K extends Enum&lt;K&gt;&gt; {
+
+   /**
+    * Retrieves the table type for the implementing table.
+    *
+    * &lt;p&gt;By default, this method returns {@link DefaultTableTypes#DEFAULT}.
+    * Implementations may override this method to provide a custom table type.
+    *
+    * @param &lt;T&gt; The type of {@link TableComponentType}.
+    * @return The table type associated with this table element.
+    */
+   @SuppressWarnings(&quot;unchecked&quot;)
+   default &lt;T extends TableComponentType&gt; T tableType() {
+<span class="fc" id="L31">      return (T) DefaultTableTypes.DEFAULT;</span>
+   }
+
+   /**
+    * Retrieves the class representing the rows of the table.
+    *
+    * @param &lt;T&gt; The type of the row representation class.
+    * @return The {@link Class} representing the table rows.
+    */
+   &lt;T&gt; Class&lt;T&gt; rowsRepresentationClass();
+
+   /**
+    * Retrieves the enumeration instance representing this table element.
+    *
+    * @return An {@link Enum} instance associated with this table element.
+    */
+   K enumImpl();
+
+   /**
+    * Provides a before-action hook that is executed before interacting with the table.
+    *
+    * &lt;p&gt;This method allows implementations to define preconditions,
+    * such as waiting for the table to load.
+    *
+    * @return A {@link Consumer} accepting {@link SmartWebDriver} for executing preconditions.
+    */
+   default Consumer&lt;SmartWebDriver&gt; before() {
+<span class="fc" id="L58">      return smartWebDriver -&gt; {</span>
+<span class="fc" id="L59">      };</span>
+   }
+
+   /**
+    * Provides an after-action hook that is executed after interacting with the table.
+    *
+    * &lt;p&gt;This method allows implementations to define post-interaction actions,
+    * such as logging interactions or refreshing the UI state.
+    *
+    * @return A {@link Consumer} accepting {@link SmartWebDriver} for executing postconditions.
+    */
+   default Consumer&lt;SmartWebDriver&gt; after() {
+<span class="fc" id="L71">      return smartWebDriver -&gt; {</span>
+<span class="fc" id="L72">      };</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,0 +1,1 @@
+{"uuid":"feb06e4d-7e65-49bc-8096-fc78e815983a","name":"doubleClick should call linkService.doubleClick and return uiServiceFluent","children":["74a093d0-d2a5-44b3-a89d-3b6445871454"],"befores":[],"afters":[],"start":1770237535986,"stop":1770237535998}

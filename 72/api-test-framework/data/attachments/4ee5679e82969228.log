@@ -1,0 +1,14 @@
+🤖 CYBORG 🤖 2026-01-17T20:02:16,522 [scenario=AdvancedExamplesTest.showsSlimmerTestsViaCustomServiceRing] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2026-01-17T20:02:16,527 [scenario=AdvancedExamplesTest.showsSlimmerTestsViaCustomServiceRing] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2026-01-17T20:02:16,544 [scenario=AdvancedExamplesTest.showsSlimmerTestsViaCustomServiceRing] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2026-01-17T20:02:16,551 [scenario=AdvancedExamplesTest.showsSlimmerTestsViaCustomServiceRing] INFO  [QUEST] - The quest: 'showsSlimmerTestsViaCustomServiceRing(Quest, LoginDto)' has begun and is crafted.
+🤖 CYBORG 🤖 2026-01-17T20:02:16,602 [scenario=AdvancedExamplesTest.showsSlimmerTestsViaCustomServiceRing] INFO  [QUEST] - The quest has used the ring: 'Ring of Custom'
+🤖 CYBORG 🤖 2026-01-17T20:02:16,606 [scenario=AdvancedExamplesTest.showsSlimmerTestsViaCustomServiceRing] INFO  [QUEST] - The quest has used the ring: 'API'
+🤖 CYBORG 🤖 2026-01-17T20:02:16,616 [scenario=AdvancedExamplesTest.showsSlimmerTestsViaCustomServiceRing] STEP  [API] - Sending request to endpoint POST-https://reqres.in/api/login.
+🤖 CYBORG 🤖 2026-01-17T20:02:16,622 [scenario=AdvancedExamplesTest.showsSlimmerTestsViaCustomServiceRing] EXTENDED [API] - Request body: {
+🤖 CYBORG 🤖 2026-01-17T20:02:16,629 [scenario=AdvancedExamplesTest.showsSlimmerTestsViaCustomServiceRing] EXTENDED [API] - Request headers: Content-Type=application/json
+🤖 CYBORG 🤖 2026-01-17T20:02:20,762 [scenario=AdvancedExamplesTest.showsSlimmerTestsViaCustomServiceRing] STEP  [API] - Response with status: 503 received from endpoint: POST-https://reqres.in/api/login in 4119ms.
+🤖 CYBORG 🤖 2026-01-17T20:02:20,769 [scenario=AdvancedExamplesTest.showsSlimmerTestsViaCustomServiceRing] EXTENDED [API] - Response body: <html>
+🤖 CYBORG 🤖 2026-01-17T20:02:20,772 [scenario=AdvancedExamplesTest.showsSlimmerTestsViaCustomServiceRing] EXTENDED [API] - Response headers: Date=Sat, 17 Jan 2026 20:02:20 GMT
+🤖 CYBORG 🤖 2026-01-17T20:02:20,778 [scenario=AdvancedExamplesTest.showsSlimmerTestsViaCustomServiceRing] WARN  [API] - Request to endpoint POST-https://reqres.in/api/login took too long: 4119ms.
+🤖 CYBORG 🤖 2026-01-17T20:02:20,790 [scenario=AdvancedExamplesTest.showsSlimmerTestsViaCustomServiceRing] INFO  [QUEST] - The quest of 'showsSlimmerTestsViaCustomServiceRing(Quest, LoginDto)' has ended in defeat. Status: FAILED. Duration: 4 seconds.

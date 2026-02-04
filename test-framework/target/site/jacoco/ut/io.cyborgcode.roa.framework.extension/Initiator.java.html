@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Initiator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Core Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.framework.extension</a> &gt; <span class="el_source">Initiator.java</span></div><h1>Initiator.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.framework.extension;
+
+import io.cyborgcode.roa.framework.allure.CustomAllureListener;
+import io.cyborgcode.roa.framework.allure.StepType;
+import io.cyborgcode.roa.framework.annotation.Journey;
+import io.cyborgcode.roa.framework.annotation.JourneyData;
+import io.cyborgcode.roa.framework.decorators.DecoratorsFactory;
+import io.cyborgcode.roa.framework.log.LogQuest;
+import io.cyborgcode.roa.framework.parameters.DataForge;
+import io.cyborgcode.roa.framework.parameters.PreQuestJourney;
+import io.cyborgcode.roa.framework.quest.Quest;
+import io.cyborgcode.roa.framework.quest.SuperQuest;
+import io.cyborgcode.roa.framework.util.ObjectFormatter;
+import io.cyborgcode.utilities.reflections.ReflectionUtil;
+import io.qameta.allure.Allure;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.InvocationInterceptor;
+import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
+import org.springframework.context.ApplicationContext;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import static io.cyborgcode.roa.framework.config.FrameworkConfigHolder.getFrameworkConfig;
+import static io.cyborgcode.roa.framework.storage.StorageKeysTest.PRE_ARGUMENTS;
+import static io.cyborgcode.roa.framework.storage.StoreKeys.QUEST;
+
+/**
+ * JUnit 5 {@code InvocationInterceptor} extension that processes pre-test setup
+ * for test methods annotated with {@code @PreQuest}.
+ *
+ * &lt;p&gt;This extension extracts all {@code @PreQuest} annotations from a test method,
+ * sorts them based on execution order, and executes the corresponding preconditions
+ * before the test runs. The preconditions are dynamically resolved and injected
+ * into the test execution context.
+ * &lt;/p&gt;
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@Order(Integer.MAX_VALUE)
+<span class="fc" id="L45">public class Initiator implements InvocationInterceptor {</span>
+
+   /**
+    * Intercepts test method execution to process {@code @PreQuest} preconditions.
+    *
+    * @param invocation        The invocation context of the test method.
+    * @param invocationContext Reflective context of the method.
+    * @param extensionContext  Context of the test execution.
+    * @throws Throwable If an error occurs while processing preconditions.
+    */
+   @Override
+   public void interceptTestMethod(Invocation&lt;Void&gt; invocation, ReflectiveInvocationContext&lt;Method&gt; invocationContext,
+                                   ExtensionContext extensionContext) throws Throwable {
+
+<span class="fc" id="L59">      Optional&lt;Method&gt; testMethod = extensionContext.getTestMethod();</span>
+
+<span class="fc bfc" id="L61" title="All 4 branches covered.">      if (testMethod.isPresent() &amp;&amp; testMethod.get().getAnnotationsByType(Journey.class).length &gt; 0) {</span>
+<span class="fc" id="L62">         Quest quest = (Quest) extensionContext.getStore(ExtensionContext.Namespace.GLOBAL).get(QUEST);</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">         if (quest == null) {</span>
+<span class="fc" id="L64">            throw new IllegalStateException(&quot;Quest not found in the global store&quot;);</span>
+         }
+
+<span class="fc" id="L67">         List&lt;Journey&gt; sortedPreQuestAnnotations = getSortedJourneys(testMethod.get());</span>
+
+<span class="fc" id="L69">         ApplicationContext appCtx = SpringExtension.getApplicationContext(extensionContext);</span>
+<span class="fc" id="L70">         DecoratorsFactory decoratorsFactory = appCtx.getBean(DecoratorsFactory.class);</span>
+<span class="fc" id="L71">         SuperQuest superQuest = decoratorsFactory.decorate(quest, SuperQuest.class);</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">         if (!CustomAllureListener.isStepActive(StepType.PROCESSING_PRE_QUESTS.getDisplayName())) {</span>
+<span class="fc" id="L73">            CustomAllureListener.startStep(StepType.PROCESSING_PRE_QUESTS);</span>
+         }
+<span class="fc" id="L75">         sortedPreQuestAnnotations.forEach(preQuest -&gt; processPreQuest(preQuest, superQuest));</span>
+<span class="pc bpc" id="L76" title="1 of 2 branches missed.">         if (CustomAllureListener.isStepActive(StepType.PROCESSING_PRE_QUESTS.getDisplayName())) {</span>
+<span class="nc" id="L77">            CustomAllureListener.stopStep();</span>
+         }
+      }
+<span class="fc bfc" id="L80" title="All 2 branches covered.">      if (!CustomAllureListener.isStepActive(StepType.TEST_EXECUTION.getDisplayName())) {</span>
+<span class="fc" id="L81">         CustomAllureListener.startStep(StepType.TEST_EXECUTION);</span>
+      }
+<span class="fc" id="L83">      invocation.proceed();</span>
+<span class="fc" id="L84">   }</span>
+
+   /**
+    * Retrieves and sorts {@code @Journey} annotations based on their execution order.
+    *
+    * @param method The test method containing {@code @Journey} annotations.
+    * @return A sorted list of {@code @Journey} annotations.
+    */
+   private List&lt;Journey&gt; getSortedJourneys(Method method) {
+<span class="fc" id="L93">      return Arrays.stream(method.getAnnotationsByType(Journey.class))</span>
+<span class="fc" id="L94">            .sorted(Comparator.comparing(Journey::order))</span>
+<span class="fc" id="L95">            .toList();</span>
+   }
+
+   /**
+    * Processes a single {@code @Journey} annotation, resolving and executing its precondition logic.
+    *
+    * @param preQuest   The {@code @Journey} annotation representing the precondition.
+    * @param superQuest The test execution context enriched with preconditions.
+    */
+   private void processPreQuest(Journey preQuest, SuperQuest superQuest) {
+<span class="fc" id="L105">      String journey = preQuest.value();</span>
+<span class="fc" id="L106">      JourneyData[] journeyData = preQuest.journeyData();</span>
+
+<span class="fc" id="L108">      PreQuestJourney&lt;?&gt; preQuestJourney = ReflectionUtil.findEnumImplementationsOfInterface(</span>
+<span class="fc" id="L109">            PreQuestJourney.class, journey, getFrameworkConfig().projectPackages());</span>
+
+<span class="fc" id="L111">      Object[] processedData = Arrays.stream(journeyData)</span>
+<span class="fc" id="L112">            .map(dataEnumStr -&gt; processJourneyData(dataEnumStr, superQuest))</span>
+<span class="fc" id="L113">            .toArray();</span>
+
+<span class="fc" id="L115">      String stepName = StepType.PROCESSING_PRE_QUEST.getDisplayName() + &quot;: &quot; + preQuestJourney.toString();</span>
+<span class="fc" id="L116">      CustomAllureListener.startStep(stepName);</span>
+<span class="fc" id="L117">      String attachmentName = journey + &quot;-Data&quot;;</span>
+
+<span class="fc" id="L119">      String formattedData = ObjectFormatter.formatProcessedData(journeyData, processedData);</span>
+<span class="fc" id="L120">      Allure.addAttachment(attachmentName, formattedData);</span>
+
+<span class="fc" id="L122">      preQuestJourney.journey().accept(superQuest, processedData);</span>
+<span class="pc bpc" id="L123" title="1 of 2 branches missed.">      if (CustomAllureListener.isStepActive(stepName)) {</span>
+<span class="fc" id="L124">         CustomAllureListener.stopStep();</span>
+      }
+<span class="fc" id="L126">   }</span>
+
+   /**
+    * Resolves test data for {@code @JourneyData} annotations.
+    *
+    * @param journeyData The {@code @JourneyData} annotation containing the data model reference.
+    * @param quest       The test execution context where the resolved data is stored.
+    * @return The resolved test data object.
+    */
+   private Object processJourneyData(JourneyData journeyData, SuperQuest quest) {
+<span class="fc" id="L136">      DataForge&lt;?&gt; dataForge = ReflectionUtil.findEnumImplementationsOfInterface(</span>
+<span class="fc" id="L137">            DataForge.class, journeyData.value(), getFrameworkConfig().projectPackages());</span>
+
+      Object argument;
+<span class="fc bfc" id="L140" title="All 2 branches covered.">      if (journeyData.late()) {</span>
+<span class="fc" id="L141">         LogQuest.extended(&quot;Creating data using late binding for: {}&quot;, journeyData.value());</span>
+<span class="fc" id="L142">         argument = dataForge.dataCreator();</span>
+      } else {
+<span class="fc" id="L144">         LogQuest.extended(&quot;Creating data for: {}&quot;, journeyData.value());</span>
+<span class="fc" id="L145">         argument = dataForge.dataCreator().create();</span>
+      }
+<span class="fc" id="L147">      quest.getStorage().sub(PRE_ARGUMENTS).put(dataForge.enumImpl(), argument);</span>
+<span class="fc" id="L148">      return argument;</span>
+   }
+
+}
+
+
+
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

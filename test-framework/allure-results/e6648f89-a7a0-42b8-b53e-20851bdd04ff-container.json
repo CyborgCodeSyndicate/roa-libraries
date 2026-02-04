@@ -1,0 +1,1 @@
+{"uuid":"e6648f89-a7a0-42b8-b53e-20851bdd04ff","name":"decorate() should throw IllegalStateException when constructor throws exception","children":["8fb7c8a6-7616-4395-ab55-ce2321b77248"],"befores":[],"afters":[],"start":1769887273781,"stop":1769887273830}

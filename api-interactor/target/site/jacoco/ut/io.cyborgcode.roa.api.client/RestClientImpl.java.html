@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RestClientImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Api Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.api.client</a> &gt; <span class="el_source">RestClientImpl.java</span></div><h1>RestClientImpl.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.api.client;
+
+import io.cyborgcode.roa.api.log.LogApi;
+import io.restassured.http.Method;
+import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
+import io.restassured.specification.FilterableRequestSpecification;
+import io.restassured.specification.RequestSpecification;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
+
+import static io.cyborgcode.roa.api.config.ApiConfigHolder.getApiConfig;
+import static io.cyborgcode.roa.api.log.LogApi.extended;
+import static io.cyborgcode.roa.api.log.LogApi.step;
+
+/**
+ * Implementation of {@code RestClient} for executing REST API requests.
+ *
+ * &lt;p&gt;This class provides an abstraction for sending HTTP requests using RestAssured,
+ * logging request/response details, and handling execution logic.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@Component
+@NoArgsConstructor
+public class RestClientImpl implements RestClient {
+
+   private static final long SLOW_REQUEST_THRESHOLD_MS = 2000;
+   private static final String LOG_TEMPLATE_RESPONSE_BODY = &quot;Response body: {}.&quot;;
+
+   /**
+    * This configuration provides settings for API request execution, including logging behavior,
+    * response body truncation, and other configurable options.
+    */
+<span class="fc" id="L38">   private static final Map&lt;Method, Function&lt;RequestSpecification, Response&gt;&gt; METHOD_EXECUTORS = Map.of(</span>
+         Method.GET, RequestSpecification::get,
+         Method.POST, RequestSpecification::post,
+         Method.PUT, RequestSpecification::put,
+         Method.DELETE, RequestSpecification::delete,
+         Method.PATCH, RequestSpecification::patch,
+         Method.HEAD, RequestSpecification::head
+   );
+
+   /**
+    * Hook for measuring time—override in tests to simulate slow calls.
+    */
+   protected long currentTimeNanos() {
+<span class="fc" id="L51">      return System.nanoTime();</span>
+   }
+
+   /**
+    * Executes an API request with the specified request specification and HTTP method.
+    *
+    * &lt;p&gt;This method logs the request details, sends the request, logs the response,
+    * and returns the response.
+    *
+    * @param spec   The {@code RequestSpecification} containing request details.
+    * @param method The HTTP method to use for the request.
+    * @return The {@code Response} received from the server.
+    * @throws IllegalArgumentException If the request specification is not a {@code FilterableRequestSpecification}
+    *                                  or if the HTTP method is not supported.
+    */
+   @Override
+   public Response execute(final RequestSpecification spec, final Method method) {
+<span class="fc bfc" id="L68" title="All 2 branches covered.">      if (method == null) {</span>
+<span class="fc" id="L69">         throw new IllegalArgumentException(&quot;HTTP method must not be null&quot;);</span>
+      }
+
+<span class="fc bfc" id="L72" title="All 2 branches covered.">      if (!(spec instanceof FilterableRequestSpecification filterableSpec)) {</span>
+<span class="fc" id="L73">         throw new IllegalArgumentException(&quot;RequestSpecification is not of type FilterableRequestSpecification&quot;);</span>
+      }
+
+<span class="fc" id="L76">      String url = filterableSpec.getURI();</span>
+<span class="fc" id="L77">      String methodName = method.name();</span>
+
+<span class="fc" id="L79">      String rawRequestBody = Optional.ofNullable(filterableSpec.getBody()).map(Object::toString).orElse(null);</span>
+<span class="fc" id="L80">      String prettyRequestBody = tryPrettyPrintJson(rawRequestBody);</span>
+
+<span class="fc" id="L82">      String requestHeaders = Optional.ofNullable(filterableSpec.getHeaders())</span>
+<span class="fc" id="L83">            .map(Object::toString)</span>
+<span class="fc" id="L84">            .orElse(&quot;&quot;);</span>
+
+<span class="fc" id="L86">      printRequest(methodName, url, prettyRequestBody, requestHeaders);</span>
+
+<span class="fc" id="L88">      long startTime = currentTimeNanos();</span>
+
+<span class="fc" id="L90">      Response response = Optional.ofNullable(METHOD_EXECUTORS.get(method))</span>
+<span class="fc" id="L91">            .orElseThrow(() -&gt; new IllegalArgumentException(&quot;HTTP method &quot; + method + &quot; is not supported&quot;))</span>
+<span class="fc" id="L92">            .apply(spec);</span>
+
+<span class="fc" id="L94">      long duration = (currentTimeNanos() - startTime) / 1_000_000;</span>
+<span class="fc" id="L95">      printResponse(methodName, url, response, duration);</span>
+
+<span class="fc bfc" id="L97" title="All 2 branches covered.">      if (duration &gt; SLOW_REQUEST_THRESHOLD_MS) {</span>
+<span class="fc" id="L98">         LogApi.warn(&quot;Request to endpoint {}-{} took too long: {}ms.&quot;, methodName, url, duration);</span>
+      }
+
+<span class="fc" id="L101">      return response;</span>
+   }
+
+
+   /**
+    * Logs the request details before execution.
+    *
+    * @param methodName The HTTP method used for the request.
+    * @param finalUrl   The full request URL.
+    * @param body       The request body (if applicable).
+    * @param headers    The request headers.
+    */
+   protected void printRequest(final String methodName, final String finalUrl, String body, String headers) {
+<span class="fc" id="L114">      step(&quot;Sending request to endpoint {}-{}.&quot;, methodName, finalUrl);</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">      extended(&quot;Request body: {}.&quot;, body != null ? body : &quot;&quot;);</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">      extended(&quot;Request headers: {}.&quot;, headers != null ? headers : &quot;&quot;);</span>
+<span class="fc" id="L117">   }</span>
+
+   /**
+    * Logs the response details after execution.
+    *
+    * @param methodName The HTTP method used for the request.
+    * @param finalUrl   The full request URL.
+    * @param response   The response received from the server.
+    * @param duration   The duration of the request execution in milliseconds.
+    */
+   protected void printResponse(final String methodName, final String finalUrl, final Response response,
+                                final long duration) {
+<span class="fc" id="L129">      step(&quot;Response with status: {} received from endpoint: {}-{} in {}ms.&quot;,</span>
+<span class="fc" id="L130">            response.getStatusCode(), methodName, finalUrl, duration);</span>
+
+<span class="fc bfc" id="L132" title="All 2 branches covered.">      if (response.body() != null) {</span>
+<span class="fc" id="L133">         String bodyStr = response.body().asPrettyString();</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">         if (getApiConfig().logFullBody()) {</span>
+<span class="fc" id="L135">            extended(LOG_TEMPLATE_RESPONSE_BODY, bodyStr);</span>
+         } else {
+<span class="fc" id="L137">            int limit = Math.min(bodyStr.length(), getApiConfig().shortenBody());</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">            extended(LOG_TEMPLATE_RESPONSE_BODY, bodyStr.substring(0, limit) + (bodyStr.length() &gt; limit ? &quot;...&quot; : &quot;&quot;));</span>
+         }
+<span class="fc" id="L140">      } else {</span>
+<span class="fc" id="L141">         extended(LOG_TEMPLATE_RESPONSE_BODY, &quot;&quot;);</span>
+      }
+
+<span class="fc bfc" id="L144" title="All 2 branches covered.">      extended(&quot;Response headers: {}.&quot;, response.getHeaders() != null ? response.getHeaders().toString() : &quot;&quot;);</span>
+<span class="fc" id="L145">   }</span>
+
+   /**
+    * Attempts to pretty-print JSON request bodies.
+    *
+    * @param content The raw JSON string.
+    * @return The formatted JSON string if valid, otherwise returns the original content.
+    */
+   protected String tryPrettyPrintJson(String content) {
+<span class="fc bfc" id="L154" title="All 4 branches covered.">      if (content == null || content.trim().isEmpty()) {</span>
+<span class="fc" id="L155">         return content;</span>
+      }
+      try {
+<span class="fc" id="L158">         return new JsonPath(content).prettify();</span>
+<span class="fc" id="L159">      } catch (Exception e) {</span>
+<span class="fc" id="L160">         return content;</span>
+      }
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

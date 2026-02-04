@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BaseInsertionService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.insertion</a> &gt; <span class="el_source">BaseInsertionService.java</span></div><h1>BaseInsertionService.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.insertion;
+
+import io.cyborgcode.roa.ui.components.base.ComponentType;
+import io.cyborgcode.roa.ui.log.LogUi;
+import io.cyborgcode.utilities.reflections.exceptions.ReflectionException;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import org.openqa.selenium.By;
+
+/**
+ * Abstract base class for insertion services that handle inserting data into UI components.
+ *
+ * &lt;p&gt;This class defines a generic mechanism to process annotated fields in an object
+ * and insert corresponding values into the UI using registered insertion services.
+ *
+ * &lt;p&gt;Implementing classes must define specific behaviors for extracting field annotations,
+ * determining component types, building locators, and retrieving enum values.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public abstract class BaseInsertionService&lt;A extends Annotation&gt; implements InsertionService {
+
+   /**
+    * Registry that manages different insertion services.
+    */
+   protected final InsertionServiceRegistry serviceRegistry;
+
+   /**
+    * Constructs a new {@code BaseInsertionService} instance.
+    *
+    * @param serviceRegistry The registry containing available insertion services.
+    */
+<span class="fc" id="L36">   protected BaseInsertionService(final InsertionServiceRegistry serviceRegistry) {</span>
+<span class="fc" id="L37">      this.serviceRegistry = serviceRegistry;</span>
+<span class="fc" id="L38">   }</span>
+
+   /**
+    * Processes the provided data object, extracts annotated fields, and inserts values
+    * into corresponding UI components.
+    *
+    * &lt;p&gt;The method:
+    * &lt;ol&gt;
+    *   &lt;li&gt;Retrieves all declared fields of the given object.&lt;/li&gt;
+    *   &lt;li&gt;Filters and sorts the fields based on the implementation logic.&lt;/li&gt;
+    *   &lt;li&gt;For each field:
+    *     &lt;ul&gt;
+    *       &lt;li&gt;Retrieves the annotation (if present).&lt;/li&gt;
+    *       &lt;li&gt;Identifies the corresponding {@link ComponentType}.&lt;/li&gt;
+    *       &lt;li&gt;Fetches the appropriate insertion service.&lt;/li&gt;
+    *       &lt;li&gt;Builds the locator and retrieves the field value.&lt;/li&gt;
+    *       &lt;li&gt;Performs pre-insertion operations (if any).&lt;/li&gt;
+    *       &lt;li&gt;Invokes the insertion service to insert the value.&lt;/li&gt;
+    *       &lt;li&gt;Performs post-insertion operations (if any).&lt;/li&gt;
+    *     &lt;/ul&gt;
+    *   &lt;/li&gt;
+    * &lt;/ol&gt;
+    *
+    * @param data The object containing values to be inserted into UI components.
+    * @throws IllegalStateException If no insertion service is found for a component type.
+    * @throws RuntimeException      If field access fails.
+    */
+   @SuppressWarnings(&quot;java:S3011&quot;)
+   @Override
+   public void insertData(final Object data) {
+<span class="fc" id="L68">      final Field[] fields = data.getClass().getDeclaredFields();</span>
+<span class="fc" id="L69">      final List&lt;Field&gt; targetedFields = filterAndSortFields(fields);</span>
+
+<span class="fc bfc" id="L71" title="All 2 branches covered.">      for (Field field : targetedFields) {</span>
+<span class="fc" id="L72">         final A annotation = field.getAnnotation(getAnnotationClass());</span>
+
+<span class="fc" id="L74">         field.setAccessible(true);</span>
+         try {
+<span class="fc" id="L76">            final Class&lt;? extends ComponentType&gt; enumClass = getComponentTypeEnumClass(annotation);</span>
+<span class="fc" id="L77">            final Class&lt;? extends ComponentType&gt; componentTypeClass = extractComponentTypeClass(enumClass);</span>
+<span class="fc" id="L78">            final Insertion service = serviceRegistry.getService(componentTypeClass);</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">            if (service == null) {</span>
+<span class="fc" id="L80">               throw new IllegalStateException(</span>
+<span class="fc" id="L81">                     &quot;No InsertionService registered for: &quot; + componentTypeClass.getSimpleName()</span>
+               );
+            }
+
+<span class="fc" id="L85">            final By locator = buildLocator(annotation);</span>
+<span class="fc" id="L86">            final Object valueForField = field.get(data);</span>
+
+<span class="fc bfc" id="L88" title="All 2 branches covered.">            if (valueForField != null) {</span>
+<span class="fc" id="L89">               beforeInsertion(annotation);</span>
+<span class="fc" id="L90">               service.insertion(getType(annotation), locator, valueForField);</span>
+<span class="fc" id="L91">               afterInsertion(annotation);</span>
+            }
+<span class="nc" id="L93">         } catch (IllegalAccessException e) {</span>
+<span class="nc" id="L94">            throw new ReflectionException(&quot;Failed to access field: &quot; + field.getName(), e);</span>
+<span class="fc" id="L95">         }</span>
+<span class="fc" id="L96">      }</span>
+<span class="fc" id="L97">      LogUi.info(&quot;Finished data insertion for [{}].&quot;, data.getClass().getSimpleName());</span>
+<span class="fc" id="L98">   }</span>
+
+   /**
+    * Returns the annotation type that this insertion service handles.
+    *
+    * @return the {@code Class} object of the annotation this service processes
+    */
+   protected abstract Class&lt;A&gt; getAnnotationClass();
+
+   /**
+    * Determines the processing order for fields annotated with this service’s annotation.
+    *
+    * &lt;p&gt;Fields with lower order values are processed before fields with higher values.&lt;/p&gt;
+    *
+    * @param annotation the annotation instance found on the field
+    * @return an integer representing the priority (lower means earlier)
+    */
+   protected abstract int getOrder(A annotation);
+
+   /**
+    * Determines the enum class that implements {@link ComponentType} for the given annotation.
+    *
+    * &lt;p&gt;This method is used to locate the specific enum type which defines the set of
+    * component types associated with the annotation. Implementations should inspect the
+    * annotation’s attributes to return the correct enum class.&lt;/p&gt;
+    *
+    * @param annotation the annotation instance from which to derive the component-type enum
+    * @return the {@code Class} object of an enum that implements {@link ComponentType}
+    */
+   protected abstract Class&lt;? extends ComponentType&gt; getComponentTypeEnumClass(A annotation);
+
+   /**
+    * Builds the locator (e.g., XPath, CSS Selector) for identifying the target component.
+    *
+    * @param annotation The annotation containing locator information.
+    * @return The Selenium {@link By} locator for the component.
+    */
+   protected abstract By buildLocator(A annotation);
+
+   /**
+    * Maps an annotation to its corresponding {@link ComponentType} enum value.
+    *
+    * &lt;p&gt;This tells the service which UI component type to use for insertion.&lt;/p&gt;
+    *
+    * @param annotation the annotation instance to inspect
+    * @return the enum constant (implementing {@code ComponentType}) for this annotation
+    */
+   protected abstract ComponentType getType(A annotation);
+
+   /**
+    * Hook method to execute any pre-insertion logic.
+    *
+    * &lt;p&gt;Implementing classes can override this to define actions before an insertion occurs.
+    *
+    * @param annotation The annotation associated with the field being inserted.
+    */
+   protected void beforeInsertion(A annotation) {
+      // Can be overridden by subclasses if pre-insertion logic is needed
+<span class="fc" id="L156">   }</span>
+
+   /**
+    * Hook method to execute any post-insertion logic.
+    *
+    * &lt;p&gt;Implementing classes can override this to define actions after an insertion occurs.
+    *
+    * @param annotation The annotation associated with the field that was inserted.
+    */
+   protected void afterInsertion(A annotation) {
+      // default no-op
+<span class="fc" id="L167">   }</span>
+
+   /**
+    * Filters and sorts the fields of an object before processing insertions.
+    *
+    * &lt;p&gt;Implementations can define sorting logic to prioritize certain fields over others.
+    *
+    * @param fields The list of declared fields in the object.
+    * @return A filtered and sorted list of fields to be processed.
+    */
+   protected final List&lt;Field&gt; filterAndSortFields(final Field[] fields) {
+<span class="fc" id="L178">      return Arrays.stream(fields)</span>
+<span class="fc" id="L179">            .filter(field -&gt; field.isAnnotationPresent(getAnnotationClass()))</span>
+<span class="fc" id="L180">            .sorted(Comparator.comparingInt(field -&gt;</span>
+<span class="fc" id="L181">                  getOrder(field.getAnnotation(getAnnotationClass()))))</span>
+<span class="fc" id="L182">            .toList();</span>
+   }
+
+   /**
+    * Resolves the specific interface that implements {@link ComponentType} from a given enum class.
+    *
+    * &lt;p&gt;If the provided {@code componentTypeClass} directly implements {@code ComponentType},
+    * it is returned immediately. Otherwise, this method inspects its interfaces and returns
+    * the first one that in turn extends {@code ComponentType}.&lt;/p&gt;
+    *
+    * @param componentTypeClass the enum class (or interface) to inspect for a ComponentType implementation
+    * @return the interface class which extends {@code ComponentType}
+    * @throws IllegalStateException if no interface extending {@code ComponentType} is found
+    */
+   protected static Class&lt;? extends ComponentType&gt; extractComponentTypeClass(
+         final Class&lt;? extends ComponentType&gt; componentTypeClass) {
+<span class="fc bfc" id="L198" title="All 2 branches covered.">      if (Arrays.asList(componentTypeClass.getInterfaces()).contains(ComponentType.class)) {</span>
+<span class="fc" id="L199">         return componentTypeClass;</span>
+      }
+
+<span class="fc" id="L202">      @SuppressWarnings(&quot;unchecked&quot;) final Class&lt;? extends ComponentType&gt; resolved =</span>
+<span class="fc" id="L203">            (Class&lt;? extends ComponentType&gt;) Arrays.stream(componentTypeClass.getInterfaces())</span>
+<span class="fc" id="L204">                  .filter(inter -&gt; Arrays.asList(inter.getInterfaces())</span>
+<span class="fc" id="L205">                        .contains(ComponentType.class))</span>
+<span class="fc" id="L206">                  .findFirst()</span>
+<span class="fc" id="L207">                  .orElseThrow(() -&gt; new IllegalStateException(</span>
+                        &quot;No interface extending ComponentType found in &quot; + componentTypeClass
+                  ));
+<span class="fc" id="L210">      return resolved;</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UiTestExtension.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.extensions</a> &gt; <span class="el_source">UiTestExtension.java</span></div><h1>UiTestExtension.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.extensions;
+
+import io.cyborgcode.roa.framework.allure.CustomAllureListener;
+import io.cyborgcode.roa.framework.assertion.CustomSoftAssertion;
+import io.cyborgcode.roa.framework.decorators.DecoratorsFactory;
+import io.cyborgcode.roa.framework.exceptions.ServiceInitializationException;
+import io.cyborgcode.roa.framework.log.LogQuest;
+import io.cyborgcode.roa.framework.quest.Quest;
+import io.cyborgcode.roa.framework.quest.SuperQuest;
+import io.cyborgcode.roa.framework.storage.Storage;
+import io.cyborgcode.roa.framework.storage.StoreKeys;
+import io.cyborgcode.roa.ui.annotations.AuthenticateViaUi;
+import io.cyborgcode.roa.ui.annotations.InterceptRequests;
+import io.cyborgcode.roa.ui.authentication.BaseLoginClient;
+import io.cyborgcode.roa.ui.authentication.LoginCredentials;
+import io.cyborgcode.roa.ui.components.interceptor.ApiResponse;
+import io.cyborgcode.roa.ui.exceptions.AuthenticationUiException;
+import io.cyborgcode.roa.ui.log.LogUi;
+import io.cyborgcode.roa.ui.parameters.DataIntercept;
+import io.cyborgcode.roa.ui.selenium.exceptions.UiInteractionException;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.service.fluent.SuperUiServiceFluent;
+import io.cyborgcode.roa.ui.service.fluent.UiServiceFluent;
+import io.cyborgcode.roa.ui.util.ResponseFormatter;
+import io.cyborgcode.roa.ui.validator.TableAssertionFunctions;
+import io.cyborgcode.roa.ui.validator.TableAssertionTypes;
+import io.cyborgcode.roa.validator.registry.AssertionRegistry;
+import io.cyborgcode.utilities.reflections.ReflectionUtil;
+import io.qameta.allure.Allure;
+import java.io.ByteArrayInputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.security.CodeSource;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
+import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
+import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.TestExecutionExceptionHandler;
+import org.junit.platform.launcher.LauncherSession;
+import org.junit.platform.launcher.LauncherSessionListener;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.devtools.DevTools;
+import org.openqa.selenium.devtools.v144.network.Network;
+import org.openqa.selenium.devtools.v144.network.model.RequestId;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import static io.cyborgcode.roa.framework.allure.StepType.TEAR_DOWN;
+import static io.cyborgcode.roa.framework.config.FrameworkConfigHolder.getFrameworkConfig;
+import static io.cyborgcode.roa.framework.util.TestContextManager.getSuperQuest;
+import static io.cyborgcode.roa.ui.config.UiConfigHolder.getUiConfig;
+import static io.cyborgcode.roa.ui.config.UiFrameworkConfigHolder.getUiFrameworkConfig;
+import static io.cyborgcode.roa.ui.storage.StorageKeysUi.PASSWORD;
+import static io.cyborgcode.roa.ui.storage.StorageKeysUi.RESPONSES;
+import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
+import static io.cyborgcode.roa.ui.storage.StorageKeysUi.USERNAME;
+
+/**
+ * JUnit 5 test extension for managing UI-related test execution lifecycle.
+ *
+ * &lt;p&gt;This extension provides support for:
+ * &lt;ul&gt;
+ *     &lt;li&gt;Intercepting UI-related HTTP requests using {@link InterceptRequests}.&lt;/li&gt;
+ *     &lt;li&gt;Automating login via UI authentication using {@link AuthenticateViaUi}.&lt;/li&gt;
+ *     &lt;li&gt;Capturing screenshots on test failures and optionally on passed tests.&lt;/li&gt;
+ *     &lt;li&gt;Registering UI assertions and handling WebDriver session cleanup.&lt;/li&gt;
+ *     &lt;li&gt;Intercepting backend requests in Chrome DevTools.&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * &lt;p&gt;It integrates with {@link SmartWebDriver} for Selenium interactions and works
+ * with {@link Quest} for structured test execution.
+ * &lt;/p&gt;
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+<span class="fc" id="L89">public class UiTestExtension implements BeforeTestExecutionCallback, AfterTestExecutionCallback,</span>
+   TestExecutionExceptionHandler, LauncherSessionListener {
+
+   private static final String SELENIUM_PACKAGE = &quot;org.openqa.selenium&quot;;
+   private static final String UI_MODULE_PACKAGE = &quot;cyborgcode.roa.ui&quot;;
+
+   static {
+<span class="fc" id="L96">      AssertionRegistry.registerCustomAssertion(TableAssertionTypes.TABLE_NOT_EMPTY,</span>
+         TableAssertionFunctions::validateTableNotEmpty);
+<span class="fc" id="L98">      AssertionRegistry.registerCustomAssertion(TableAssertionTypes.TABLE_ROW_COUNT,</span>
+         TableAssertionFunctions::validateTableRowCount);
+<span class="fc" id="L100">      AssertionRegistry.registerCustomAssertion(TableAssertionTypes.EVERY_ROW_CONTAINS_VALUES,</span>
+         TableAssertionFunctions::validateEveryRowContainsValues);
+<span class="fc" id="L102">      AssertionRegistry.registerCustomAssertion(TableAssertionTypes.TABLE_DOES_NOT_CONTAIN_ROW,</span>
+         TableAssertionFunctions::validateTableDoesNotContainRow);
+<span class="fc" id="L104">      AssertionRegistry.registerCustomAssertion(TableAssertionTypes.ALL_ROWS_ARE_UNIQUE,</span>
+         TableAssertionFunctions::validateAllRowsAreUnique);
+<span class="fc" id="L106">      AssertionRegistry.registerCustomAssertion(TableAssertionTypes.NO_EMPTY_CELLS,</span>
+         TableAssertionFunctions::validateNoEmptyCells);
+<span class="fc" id="L108">      AssertionRegistry.registerCustomAssertion(TableAssertionTypes.COLUMN_VALUES_ARE_UNIQUE,</span>
+         TableAssertionFunctions::validateColumnValuesAreUnique);
+<span class="fc" id="L110">      AssertionRegistry.registerCustomAssertion(TableAssertionTypes.TABLE_DATA_MATCHES_EXPECTED,</span>
+         TableAssertionFunctions::validateTableDataMatchesExpected);
+<span class="fc" id="L112">      AssertionRegistry.registerCustomAssertion(TableAssertionTypes.ROW_NOT_EMPTY,</span>
+         TableAssertionFunctions::validateRowNotEmpty);
+<span class="fc" id="L114">      AssertionRegistry.registerCustomAssertion(TableAssertionTypes.ROW_CONTAINS_VALUES,</span>
+         TableAssertionFunctions::validateRowContainsValues);
+<span class="fc" id="L116">      AssertionRegistry.registerCustomAssertion(TableAssertionTypes.ALL_CELLS_ENABLED,</span>
+         TableAssertionFunctions::validateAllCellsEnabled);
+<span class="fc" id="L118">      AssertionRegistry.registerCustomAssertion(TableAssertionTypes.ALL_CELLS_CLICKABLE,</span>
+         TableAssertionFunctions::validateAllCellsClickable);
+<span class="fc" id="L120">   }</span>
+
+   /**
+    * Executes actions before the test runs, such as:
+    * &lt;ul&gt;
+    *     &lt;li&gt;Intercepting UI-related requests.&lt;/li&gt;
+    *     &lt;li&gt;Setting up authentication via UI.&lt;/li&gt;
+    *     &lt;li&gt;Registering custom assertions.&lt;/li&gt;
+    * &lt;/ul&gt;
+    *
+    * @param context The current test execution context.
+    */
+   @Override
+   public void beforeTestExecution(final ExtensionContext context) {
+<span class="fc" id="L134">      context.getTestMethod().ifPresent(method -&gt; {</span>
+<span class="fc" id="L135">         processInterceptRequestsAnnotation(context, method);</span>
+<span class="fc" id="L136">         registerAssertionConsumer(context);</span>
+<span class="fc" id="L137">         processAuthenticateViaUiAsAnnotation(context, method);</span>
+<span class="fc" id="L138">         registerCustomServices(context);</span>
+<span class="fc" id="L139">      });</span>
+<span class="fc" id="L140">   }</span>
+
+
+   private void registerCustomServices(ExtensionContext context) {
+
+<span class="fc" id="L145">      Consumer&lt;SuperQuest&gt; questConsumer = UiTestExtension::postQuestCreationRegisterCustomServices;</span>
+<span class="fc" id="L146">      addQuestConsumer(context, questConsumer);</span>
+<span class="fc" id="L147">   }</span>
+
+
+   private void processInterceptRequestsAnnotation(ExtensionContext context, Method method) {
+<span class="fc" id="L151">      Optional.ofNullable(method.getAnnotation(InterceptRequests.class))</span>
+<span class="fc" id="L152">         .ifPresent(intercept -&gt; {</span>
+            String[] urlsForIntercepting;
+            try {
+<span class="fc" id="L155">               List&lt;Class&lt;? extends Enum&gt;&gt; enumClassImplementations =</span>
+<span class="fc" id="L156">                  ReflectionUtil.findEnumClassImplementationsOfInterface(</span>
+<span class="fc" id="L157">                     DataIntercept.class, getFrameworkConfig().projectPackages());</span>
+
+<span class="fc bfc" id="L159" title="All 2 branches covered.">               if (enumClassImplementations.isEmpty()) {</span>
+<span class="fc" id="L160">                  urlsForIntercepting = intercept.requestUrlSubStrings();</span>
+               } else {
+<span class="fc" id="L162">                  List&lt;String&gt; resolvedEndpoints = Arrays.stream(intercept.requestUrlSubStrings())</span>
+<span class="fc" id="L163">                     .map(target -&gt; {</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">                        for (Class&lt;? extends Enum&gt; enumClass : enumClassImplementations) {</span>
+                           try {
+                              @SuppressWarnings(&quot;rawtypes&quot;)
+<span class="fc" id="L167">                              Enum enumValue = Enum.valueOf((Class) enumClass, target);</span>
+<span class="fc" id="L168">                              return ((DataIntercept&lt;?&gt;) enumValue).getEndpointSubString();</span>
+<span class="fc" id="L169">                           } catch (IllegalArgumentException ignore) {</span>
+                              //ignore
+                           }
+<span class="fc" id="L172">                        }</span>
+<span class="fc" id="L173">                        return target;</span>
+                     })
+<span class="fc" id="L175">                     .toList();</span>
+
+<span class="fc" id="L177">                  urlsForIntercepting = resolvedEndpoints.toArray(new String[0]);</span>
+               }
+<span class="fc" id="L179">            } catch (Exception e) {</span>
+<span class="fc" id="L180">               urlsForIntercepting = intercept.requestUrlSubStrings();</span>
+<span class="fc" id="L181">            }</span>
+
+<span class="fc" id="L183">            final String[] finalUrlsForIntercepting = urlsForIntercepting;</span>
+<span class="fc" id="L184">            Consumer&lt;SuperQuest&gt; questConsumer =</span>
+<span class="fc" id="L185">               quest -&gt; postQuestCreationIntercept(quest, finalUrlsForIntercepting);</span>
+<span class="fc" id="L186">            addQuestConsumer(context, questConsumer);</span>
+<span class="fc" id="L187">         });</span>
+<span class="fc" id="L188">   }</span>
+
+
+   private static void postQuestCreationIntercept(final SuperQuest quest, final String[] urlsForIntercepting) {
+<span class="fc" id="L192">      SmartWebDriver artifact = quest.artifact(UiServiceFluent.class, SmartWebDriver.class);</span>
+<span class="fc" id="L193">      WebDriver driver = unwrapDriver(artifact.getOriginal());</span>
+<span class="fc bfc" id="L194" title="All 2 branches covered.">      if (driver instanceof ChromeDriver chromeDriver) {</span>
+<span class="fc" id="L195">         DevTools chromeDevTools = chromeDriver.getDevTools();</span>
+<span class="fc" id="L196">         chromeDevTools.createSession();</span>
+<span class="fc" id="L197">         chromeDevTools.send(Network.enable(Optional.empty(), Optional.empty(), Optional.empty(),</span>
+<span class="fc" id="L198">            Optional.empty(), Optional.empty()));</span>
+
+<span class="fc" id="L200">         Map&lt;String, String&gt; requestMethodMap = new ConcurrentHashMap&lt;&gt;();</span>
+
+
+<span class="fc" id="L203">         chromeDevTools.addListener(Network.requestWillBeSent(), event -&gt; {</span>
+<span class="fc" id="L204">            String method = event.getRequest().getMethod();</span>
+<span class="fc" id="L205">            RequestId requestId = event.getRequestId();</span>
+<span class="fc" id="L206">            requestMethodMap.put(requestId.toString(), method);</span>
+<span class="fc" id="L207">         });</span>
+
+<span class="fc" id="L209">         chromeDevTools.addListener(Network.responseReceived(), entry -&gt; {</span>
+<span class="fc" id="L210">            RequestId requestId = entry.getRequestId();</span>
+<span class="fc" id="L211">            int statusCode = entry.getResponse().getStatus();</span>
+<span class="fc" id="L212">            String method = requestMethodMap.get(requestId.toString());</span>
+<span class="fc" id="L213">            String url = entry.getResponse().getUrl();</span>
+<span class="fc" id="L214">            ApiResponse response = new ApiResponse(url, method, statusCode);</span>
+
+<span class="fc bfc" id="L216" title="All 2 branches covered.">            if (checkUrl(urlsForIntercepting, url)) {</span>
+               try {
+<span class="fc" id="L218">                  String body = chromeDevTools.send(Network.getResponseBody(entry.getRequestId())).getBody();</span>
+<span class="fc" id="L219">                  response.setBody(body);</span>
+<span class="fc" id="L220">               } catch (Exception e) {</span>
+<span class="fc" id="L221">                  response.setBody(&quot;Error retrieving response body: &quot; + e.getMessage());</span>
+<span class="fc" id="L222">               }</span>
+            }
+<span class="fc" id="L224">            addResponseInStorage(quest.getStorage(), response);</span>
+<span class="fc" id="L225">         });</span>
+<span class="fc" id="L226">      } else {</span>
+<span class="fc" id="L227">         throw new IllegalArgumentException(&quot;Intercepting Backend Requests is only acceptable with Chrome browser&quot;);</span>
+      }
+<span class="fc" id="L229">   }</span>
+
+
+   private void processAuthenticateViaUiAsAnnotation(ExtensionContext context, Method method) {
+<span class="fc" id="L233">      Optional.ofNullable(method.getAnnotation(AuthenticateViaUi.class))</span>
+<span class="fc" id="L234">         .ifPresent(login -&gt; {</span>
+            try {
+<span class="fc" id="L236">               ApplicationContext appCtx = SpringExtension.getApplicationContext(context);</span>
+<span class="fc" id="L237">               DecoratorsFactory decoratorsFactory = appCtx.getBean(DecoratorsFactory.class);</span>
+<span class="fc" id="L238">               LoginCredentials credentials = login.credentials().getDeclaredConstructor().newInstance();</span>
+<span class="fc" id="L239">               Consumer&lt;SuperQuest&gt; questConsumer =</span>
+<span class="pc" id="L240">                  quest -&gt; postQuestCreationLogin(quest, decoratorsFactory, credentials.username(),</span>
+<span class="fc" id="L241">                     credentials.password(), login.type(), login.cacheCredentials());</span>
+<span class="fc" id="L242">               addQuestConsumer(context, questConsumer);</span>
+<span class="fc" id="L243">            } catch (InstantiationException | IllegalAccessException | InvocationTargetException</span>
+                     | NoSuchMethodException e) {
+<span class="fc" id="L245">               throw new AuthenticationUiException(&quot;Failed to instantiate login credentials&quot;, e);</span>
+<span class="fc" id="L246">            }</span>
+<span class="fc" id="L247">         });</span>
+<span class="fc" id="L248">   }</span>
+
+
+   private void registerAssertionConsumer(ExtensionContext context) {
+<span class="fc" id="L252">      Consumer&lt;SuperQuest&gt; questConsumer = quest -&gt; postQuestCreationAssertion(quest, context.getDisplayName());</span>
+<span class="fc" id="L253">      addQuestConsumer(context, questConsumer);</span>
+<span class="fc" id="L254">   }</span>
+
+
+   private void addQuestConsumer(ExtensionContext context, Consumer&lt;SuperQuest&gt; questConsumer) {
+<span class="fc" id="L258">      var consumers = getOrCreateQuestConsumers(context);</span>
+<span class="fc" id="L259">      consumers.add(questConsumer);</span>
+<span class="fc" id="L260">   }</span>
+
+
+   @SuppressWarnings(&quot;unchecked&quot;)
+   private List&lt;Consumer&lt;SuperQuest&gt;&gt; getOrCreateQuestConsumers(ExtensionContext context) {
+<span class="fc" id="L265">      return (List&lt;Consumer&lt;SuperQuest&gt;&gt;) context.getStore(ExtensionContext.Namespace.GLOBAL)</span>
+<span class="fc" id="L266">         .computeIfAbsent(StoreKeys.QUEST_CONSUMERS,</span>
+<span class="fc" id="L267">            key -&gt; new ArrayList&lt;&gt;());</span>
+   }
+
+
+   private static void addResponseInStorage(Storage storage, ApiResponse apiResponse) {
+<span class="fc" id="L272">      List&lt;ApiResponse&gt; responses = storage.sub(UI).get(RESPONSES, new ParameterizedTypeReference&lt;&gt;() {</span>
+      });
+<span class="fc bfc" id="L274" title="All 2 branches covered.">      if (responses == null) {</span>
+<span class="fc" id="L275">         responses = new ArrayList&lt;&gt;();</span>
+      }
+<span class="fc" id="L277">      responses.add(apiResponse);</span>
+<span class="fc" id="L278">      storage.sub(UI).put(RESPONSES, responses);</span>
+
+<span class="fc" id="L280">      LogUi.extended(&quot;Response added to storage: URL={}, Status={}&quot;, apiResponse.getUrl(), apiResponse.getStatus());</span>
+<span class="fc" id="L281">   }</span>
+
+
+   private static boolean checkUrl(String[] urlsForIntercepting, String url) {
+<span class="fc" id="L285">      return Arrays.stream(urlsForIntercepting).anyMatch(url::contains);</span>
+   }
+
+
+   /**
+    * Executes actions after the test completes, such as:
+    * &lt;ul&gt;
+    *     &lt;li&gt;Taking screenshots if enabled.&lt;/li&gt;
+    *     &lt;li&gt;Cleaning up the WebDriver session.&lt;/li&gt;
+    * &lt;/ul&gt;
+    *
+    * @param context The current test execution context.
+    */
+   @Override
+   public void afterTestExecution(ExtensionContext context) {
+<span class="fc" id="L300">      ApplicationContext appCtx = SpringExtension.getApplicationContext(context);</span>
+<span class="fc" id="L301">      DecoratorsFactory decoratorsFactory = appCtx.getBean(DecoratorsFactory.class);</span>
+<span class="fc" id="L302">      SmartWebDriver smartWebDriver = getSmartWebDriver(decoratorsFactory, context);</span>
+<span class="fc" id="L303">      WebDriver driver = unwrapDriver(smartWebDriver);</span>
+<span class="fc bfc" id="L304" title="All 4 branches covered.">      if (context.getExecutionException().isEmpty() &amp;&amp; getUiFrameworkConfig().makeScreenshotOnPassedTest()) {</span>
+<span class="fc" id="L305">         takeScreenshot(driver, context.getDisplayName());</span>
+      }
+<span class="fc" id="L307">      List&lt;ApiResponse&gt; responses = getSuperQuest(context).getStorage().sub(UI).getAllByClass(RESPONSES,</span>
+         ApiResponse.class);
+<span class="fc bfc" id="L309" title="All 2 branches covered.">      if (!responses.isEmpty()) {</span>
+<span class="fc" id="L310">         String formattedResponses = ResponseFormatter.formatResponses(responses);</span>
+<span class="fc" id="L311">         Allure.addAttachment(&quot;Intercepted Requests&quot;, &quot;text/html&quot;,</span>
+<span class="fc" id="L312">            new ByteArrayInputStream(formattedResponses.getBytes(StandardCharsets.UTF_8)), &quot;.html&quot;);</span>
+      }
+<span class="fc bfc" id="L314" title="All 2 branches covered.">      if (!smartWebDriver.isKeepDriverForSession()) {</span>
+<span class="fc" id="L315">         driver.quit();</span>
+<span class="fc" id="L316">         LogUi.info(&quot;WebDriver closed successfully.&quot;);</span>
+      }
+<span class="fc" id="L318">   }</span>
+
+
+   /**
+    * Handles test execution exceptions by capturing a screenshot and throwing the error.
+    *
+    * @param context   The current test execution context.
+    * @param throwable The exception that occurred during test execution.
+    * @throws Throwable The rethrown exception.
+    */
+   @Override
+   public void handleTestExecutionException(ExtensionContext context, Throwable throwable) throws Throwable {
+<span class="fc" id="L330">      LogUi.error(&quot;Unhandled exception during UI test execution ({}).&quot;,</span>
+<span class="fc" id="L331">         context.getDisplayName(), throwable);</span>
+
+<span class="fc" id="L333">      ApplicationContext appCtx = SpringExtension.getApplicationContext(context);</span>
+<span class="fc" id="L334">      DecoratorsFactory decoratorsFactory = appCtx.getBean(DecoratorsFactory.class);</span>
+
+<span class="fc" id="L336">      SmartWebDriver smartWebDriver = getSmartWebDriver(decoratorsFactory, context);</span>
+<span class="fc" id="L337">      WebDriver driver = unwrapDriver(smartWebDriver);</span>
+<span class="fc" id="L338">      takeScreenshot(driver, context.getDisplayName());</span>
+<span class="fc bfc" id="L339" title="All 2 branches covered.">      if (!smartWebDriver.isKeepDriverForSession()) {</span>
+<span class="fc" id="L340">         driver.quit();</span>
+      }
+<span class="fc" id="L342">      throw throwable;</span>
+   }
+
+
+   @Override
+   public void launcherSessionClosed(LauncherSession session) {
+<span class="fc" id="L348">      BaseLoginClient.getDriverToKeep().forEach(smartWebDriver -&gt; {</span>
+<span class="fc" id="L349">         WebDriver driver = unwrapDriver(smartWebDriver);</span>
+<span class="fc" id="L350">         driver.quit();</span>
+<span class="fc" id="L351">      });</span>
+
+<span class="fc" id="L353">   }</span>
+
+
+   private static void postQuestCreationRegisterCustomServices(SuperQuest quest) {
+<span class="fc" id="L357">      String[] projectPackages = getUiConfig().projectPackages();</span>
+
+<span class="fc" id="L359">      List&lt;Class&lt;? extends UiServiceFluent&gt;&gt; customUiServices =</span>
+<span class="fc" id="L360">         ReflectionUtil.findImplementationsOfInterface(</span>
+            UiServiceFluent.class,
+            projectPackages
+         );
+
+<span class="fc bfc" id="L365" title="All 2 branches covered.">      if (customUiServices.size() &gt; 1) {</span>
+<span class="fc bfc" id="L366" title="All 2 branches covered.">         if (haveMultipleCodeSources(customUiServices)) {</span>
+
+<span class="fc" id="L368">            customUiServices =</span>
+<span class="fc" id="L369">               ReflectionUtil.findImplementationsOfInterface(</span>
+                  UiServiceFluent.class,
+                  projectPackages[0]
+               );
+         }
+
+<span class="fc bfc" id="L375" title="All 2 branches covered.">         if (customUiServices.size() &gt; 1) {</span>
+<span class="fc" id="L376">            throw new IllegalStateException(</span>
+               &quot;There is more than one UI service that extends UiServiceFluent. Only 1 is allowed. Found: &quot;
+                  + customUiServices
+            );
+         }
+      }
+<span class="fc bfc" id="L382" title="All 2 branches covered.">      if (!customUiServices.isEmpty()) {</span>
+<span class="fc" id="L383">         Class&lt;? extends UiServiceFluent&gt; customUiServiceFluentClass = customUiServices.get(0);</span>
+         try {
+<span class="fc" id="L385">            SmartWebDriver driver = quest.artifact(UiServiceFluent.class, SmartWebDriver.class);</span>
+<span class="fc" id="L386">            quest.registerRing(customUiServiceFluentClass, customUiServiceFluentClass.getDeclaredConstructor(</span>
+<span class="fc" id="L387">               SmartWebDriver.class, SuperQuest.class).newInstance(driver, quest));</span>
+<span class="fc" id="L388">            quest.removeRing(UiServiceFluent.class);</span>
+<span class="fc" id="L389">         } catch (InstantiationException | IllegalAccessException | InvocationTargetException</span>
+                  | NoSuchMethodException e) {
+<span class="fc" id="L391">            throw new ServiceInitializationException(&quot;Failed to register custom UI service&quot;, e);</span>
+<span class="fc" id="L392">         }</span>
+      }
+
+<span class="fc" id="L395">   }</span>
+
+   private static boolean haveMultipleCodeSources(List&lt;Class&lt;? extends UiServiceFluent&gt;&gt; classes) {
+<span class="fc" id="L398">      return classes.stream()</span>
+<span class="fc" id="L399">         .map(UiTestExtension::getCodeSourceLocationSafe)</span>
+<span class="fc" id="L400">         .distinct()</span>
+<span class="fc" id="L401">         .limit(2)              // we only care if there are at least 2 different ones</span>
+<span class="fc bfc" id="L402" title="All 2 branches covered.">         .count() &gt; 1;</span>
+   }
+
+   private static URL getCodeSourceLocationSafe(Class&lt;?&gt; clazz) {
+<span class="fc" id="L406">      CodeSource codeSource = clazz.getProtectionDomain().getCodeSource();</span>
+<span class="fc bfc" id="L407" title="All 2 branches covered.">      return codeSource != null ? codeSource.getLocation() : null;</span>
+   }
+
+
+   private static void postQuestCreationLogin(SuperQuest quest, DecoratorsFactory decoratorsFactory,
+                                              final String username, final String password,
+                                              final Class&lt;? extends BaseLoginClient&gt; type, boolean cache) {
+<span class="fc" id="L414">      quest.getStorage().sub(UI).put(USERNAME, username);</span>
+<span class="fc" id="L415">      quest.getStorage().sub(UI).put(PASSWORD, password);</span>
+<span class="fc" id="L416">      UiServiceFluent&lt;?&gt; uiServiceFluent = quest.use(UiServiceFluent.class);</span>
+
+      try {
+<span class="nc" id="L419">         BaseLoginClient baseLoginClient = type.getDeclaredConstructor().newInstance();</span>
+<span class="nc" id="L420">         baseLoginClient.login(decoratorsFactory.decorate(uiServiceFluent, SuperUiServiceFluent.class), username,</span>
+            password, cache);
+<span class="fc" id="L422">      } catch (InstantiationException | IllegalAccessException | InvocationTargetException</span>
+               | NoSuchMethodException e) {
+<span class="fc" id="L424">         throw new AuthenticationUiException(&quot;Failed to instantiate or execute login client&quot;, e);</span>
+<span class="nc" id="L425">      }</span>
+<span class="nc" id="L426">   }</span>
+
+
+   private static void postQuestCreationAssertion(SuperQuest quest, String testName) {
+<span class="fc" id="L430">      SmartWebDriver smartWebDriver = quest.artifact(UiServiceFluent.class, SmartWebDriver.class);</span>
+<span class="fc" id="L431">      quest.getSoftAssertions().registerObjectForPostErrorHandling(SmartWebDriver.class, smartWebDriver);</span>
+
+<span class="fc" id="L433">      CustomSoftAssertion.registerCustomAssertion(</span>
+         SmartWebDriver.class,
+<span class="fc" id="L435">         (assertionError, driver) -&gt; takeScreenshot(unwrapDriver(driver.getOriginal()),</span>
+            &quot;soft_assert_failure_&quot; + testName),
+<span class="fc" id="L437">         stackTrace -&gt; Arrays.stream(stackTrace)</span>
+<span class="fc bfc" id="L438" title="All 2 branches covered.">            .anyMatch(element -&gt; element.getClassName().contains(SELENIUM_PACKAGE)</span>
+<span class="fc bfc" id="L439" title="All 2 branches covered.">               || element.getClassName().contains(UI_MODULE_PACKAGE))</span>
+      );
+<span class="fc" id="L441">   }</span>
+
+
+   private static void takeScreenshot(WebDriver driver, String testName) {
+<span class="fc bfc" id="L445" title="All 2 branches covered.">      if (!Objects.equals(CustomAllureListener.getActiveStepName(), TEAR_DOWN.getDisplayName())) {</span>
+<span class="fc" id="L446">         CustomAllureListener.stopStep();</span>
+<span class="fc" id="L447">         CustomAllureListener.startStep(TEAR_DOWN);</span>
+      }
+      try {
+<span class="fc" id="L450">         TakesScreenshot screenshot = (TakesScreenshot) driver;</span>
+<span class="fc" id="L451">         byte[] screenshotBytes = screenshot.getScreenshotAs(OutputType.BYTES);</span>
+<span class="fc" id="L452">         Allure.addAttachment(testName, new ByteArrayInputStream(screenshotBytes));</span>
+<span class="fc" id="L453">         LogQuest.info(&quot;Screenshot taken and stored for: &quot; + testName);</span>
+<span class="fc" id="L454">      } catch (Exception e) {</span>
+<span class="fc" id="L455">         LogUi.error(&quot;Failed to take screenshot for test '{}': {}&quot;, testName, e.getMessage());</span>
+<span class="fc" id="L456">      }</span>
+<span class="fc" id="L457">   }</span>
+
+
+   private static SmartWebDriver getSmartWebDriver(DecoratorsFactory decoratorsFactory, ExtensionContext context) {
+<span class="fc" id="L461">      Quest quest = (Quest) context.getStore(ExtensionContext.Namespace.GLOBAL).get(StoreKeys.QUEST);</span>
+<span class="fc" id="L462">      SuperQuest superQuest = decoratorsFactory.decorate(quest, SuperQuest.class);</span>
+<span class="fc" id="L463">      return superQuest.artifact(UiServiceFluent.class, SmartWebDriver.class);</span>
+   }
+
+
+   private static WebDriver unwrapDriver(WebDriver maybeProxy) {
+      try {
+<span class="fc" id="L469">         Method getOriginalMethod = maybeProxy.getClass().getMethod(&quot;getOriginal&quot;);</span>
+<span class="fc" id="L470">         return (WebDriver) getOriginalMethod.invoke(maybeProxy);</span>
+<span class="fc" id="L471">      } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {</span>
+<span class="fc" id="L472">         throw new UiInteractionException(&quot;Failed to unwrap WebDriver&quot;, e);</span>
+      }
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

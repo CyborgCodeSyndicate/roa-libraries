@@ -1,0 +1,1 @@
+{"uuid":"0264f245-efde-4b09-bee2-fb2ef60ecfd4","name":"getFrameworkConfig should return real config instance when not mocked","children":["2264cac6-abf9-416d-be1f-fde55f2e5811"],"befores":[],"afters":[],"start":1770236450487,"stop":1770236450609}

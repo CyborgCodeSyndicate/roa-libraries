@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ParametrizedQuery.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Database Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.db.query</a> &gt; <span class="el_source">ParametrizedQuery.java</span></div><h1>ParametrizedQuery.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.db.query;
+
+import io.cyborgcode.roa.db.config.DatabaseConfiguration;
+import io.cyborgcode.roa.db.log.LogDb;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Represents a database query with dynamic parameters.
+ *
+ * &lt;p&gt;This class allows the use of placeholders in SQL queries, which can be replaced
+ * with actual values at runtime. It ensures safe and structured query modification.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class ParametrizedQuery&lt;T extends Enum&lt;T&gt;&gt; implements DbQuery&lt;T&gt; {
+
+   private final DbQuery&lt;T&gt; original;
+<span class="fc" id="L19">   private final Map&lt;String, Object&gt; params = new HashMap&lt;&gt;();</span>
+
+   /**
+    * Constructs a {@code ParametrizedQuery} based on an existing query.
+    *
+    * @param original The original {@link DbQuery} to parameterize.
+    */
+<span class="fc" id="L26">   public ParametrizedQuery(DbQuery&lt;T&gt; original) {</span>
+<span class="fc" id="L27">      this.original = original;</span>
+<span class="fc" id="L28">   }</span>
+
+   /**
+    * Returns the formatted query string with applied parameters.
+    *
+    * &lt;p&gt;Replaces placeholders in the format {@code {paramName}} with their actual values.
+    *
+    * @return The formatted SQL query.
+    */
+   @Override
+   public String query() {
+<span class="fc" id="L39">      String q = original.query();</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">      for (Map.Entry&lt;String, Object&gt; entry : params.entrySet()) {</span>
+<span class="fc" id="L41">         String placeholder = &quot;{&quot; + entry.getKey() + &quot;}&quot;;</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">         q = q.replace(placeholder, entry.getValue() != null ? entry.getValue().toString() : &quot;null&quot;);</span>
+<span class="fc" id="L43">      }</span>
+<span class="fc" id="L44">      return q;</span>
+   }
+
+   /**
+    * Retrieves the database configuration associated with this query.
+    *
+    * @return The {@link DatabaseConfiguration} for this query.
+    */
+   @Override
+   public DatabaseConfiguration config() {
+<span class="fc" id="L54">      return original.config();</span>
+   }
+
+   /**
+    * Retrieves the associated enumeration implementation for the query.
+    *
+    * @return The enum representing the query.
+    */
+   @Override
+   public T enumImpl() {
+<span class="fc" id="L64">      return original.enumImpl();</span>
+   }
+
+   /**
+    * Adds a parameter to the query.
+    *
+    * &lt;p&gt;Creates a new instance with the updated parameters while preserving existing ones.
+    *
+    * @param name  The name of the placeholder parameter.
+    * @param value The value to replace the placeholder.
+    * @return A new {@code ParametrizedQuery} instance with the added parameter.
+    */
+   @Override
+   @SuppressWarnings(&quot;java:S1854&quot;)
+   public DbQuery&lt;T&gt; withParam(String name, Object value) {
+<span class="fc" id="L79">      LogDb.debug(&quot;Adding parameter '{}' with value '{}' to the query.&quot;, name, value);</span>
+<span class="fc" id="L80">      ParametrizedQuery&lt;T&gt; copy = new ParametrizedQuery&lt;&gt;(this.original);</span>
+<span class="fc" id="L81">      copy.params.putAll(this.params);</span>
+<span class="fc" id="L82">      copy.params.put(name, value);</span>
+<span class="fc" id="L83">      return copy;</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

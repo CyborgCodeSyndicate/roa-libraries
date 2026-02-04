@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ParametrizedEndpoint.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Api Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.api.core</a> &gt; <span class="el_source">ParametrizedEndpoint.java</span></div><h1>ParametrizedEndpoint.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.api.core;
+
+import io.cyborgcode.roa.api.log.LogApi;
+import io.restassured.http.Method;
+import io.restassured.specification.RequestSpecification;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * A wrapper for {@link Endpoint} that allows adding query parameters, path parameters, and headers dynamically.
+ *
+ * &lt;p&gt;This class enables the creation of new endpoint instances with modified parameters while maintaining immutability.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class ParametrizedEndpoint&lt;T extends Enum&lt;T&gt;&gt; implements Endpoint&lt;T&gt; {
+
+   private final Endpoint&lt;T&gt; original;
+   private final Map&lt;String, Object&gt; pathParams;
+   private final Map&lt;String, Object&gt; queryParams;
+   private final Map&lt;String, List&lt;String&gt;&gt; additionalHeaders;
+
+   /**
+    * Constructs a new {@code ParametrizedEndpoint} with no additional parameters.
+    *
+    * @param original The original endpoint being wrapped.
+    */
+   ParametrizedEndpoint(Endpoint&lt;T&gt; original) {
+<span class="fc" id="L33">      this(original, new HashMap&lt;&gt;(), new HashMap&lt;&gt;(), new HashMap&lt;&gt;());</span>
+<span class="fc" id="L34">   }</span>
+
+   private ParametrizedEndpoint(Endpoint&lt;T&gt; original, Map&lt;String, Object&gt; pathParams, Map&lt;String, Object&gt; queryParams,
+<span class="fc" id="L37">                                Map&lt;String, List&lt;String&gt;&gt; additionalHeaders) {</span>
+<span class="fc" id="L38">      this.original = original;</span>
+<span class="fc" id="L39">      this.pathParams = Collections.unmodifiableMap(new HashMap&lt;&gt;(pathParams));</span>
+<span class="fc" id="L40">      this.queryParams = Collections.unmodifiableMap(new HashMap&lt;&gt;(queryParams));</span>
+<span class="fc" id="L41">      this.additionalHeaders = Collections.unmodifiableMap(new HashMap&lt;&gt;(additionalHeaders));</span>
+<span class="fc" id="L42">   }</span>
+
+   /**
+    * Retrieves the HTTP method of the endpoint.
+    *
+    * @return The HTTP method.
+    */
+   @Override
+   public Method method() {
+<span class="fc" id="L51">      return original.method();</span>
+   }
+
+   /**
+    * Retrieves the URL path of the endpoint.
+    *
+    * @return The endpoint URL.
+    */
+   @Override
+   public String url() {
+<span class="fc" id="L61">      return original.url();</span>
+   }
+
+   /**
+    * Retrieves the enum representation of the endpoint.
+    *
+    * @return The enum representing this endpoint.
+    */
+   @Override
+   public T enumImpl() {
+<span class="fc" id="L71">      return original.enumImpl();</span>
+   }
+
+   /**
+    * Retrieves the base URL from the API configuration.
+    *
+    * @return The base URL.
+    */
+   @Override
+   public String baseUrl() {
+<span class="fc" id="L81">      return original.baseUrl();</span>
+   }
+
+   /**
+    * Retrieves the headers, including any additional headers added dynamically.
+    *
+    * @return A map containing merged headers.
+    */
+   @Override
+   public Map&lt;String, List&lt;String&gt;&gt; headers() {
+<span class="fc" id="L91">      Map&lt;String, List&lt;String&gt;&gt; mergedHeaders = new HashMap&lt;&gt;(original.headers());</span>
+<span class="fc" id="L92">      additionalHeaders.forEach(</span>
+<span class="fc" id="L93">            (key, value) -&gt; mergedHeaders.computeIfAbsent(key, k -&gt; new ArrayList&lt;&gt;()).addAll(value));</span>
+<span class="fc" id="L94">      return Collections.unmodifiableMap(mergedHeaders);</span>
+   }
+
+   /**
+    * Prepares a {@link RequestSpecification} with path parameters, query parameters, and headers.
+    *
+    * @param body The request body (optional).
+    * @return The configured {@link RequestSpecification} instance.
+    */
+   @Override
+   public RequestSpecification prepareRequestSpec(Object body) {
+<span class="fc" id="L105">      RequestSpecification spec = original.prepareRequestSpec(body);</span>
+<span class="fc" id="L106">      spec.pathParams(pathParams);</span>
+<span class="fc" id="L107">      spec.queryParams(queryParams);</span>
+<span class="fc" id="L108">      headers().forEach((key, values) -&gt; spec.header(key, String.join(&quot;,&quot;, values)));</span>
+
+<span class="fc" id="L110">      LogApi.info(&quot;Prepared RequestSpecification with pathParams: {}, queryParams: {}, headers: {}&quot;,</span>
+<span class="fc" id="L111">            pathParams, queryParams, headers());</span>
+
+<span class="fc" id="L113">      return spec;</span>
+   }
+
+   /**
+    * Creates a new {@code ParametrizedEndpoint} with an added query parameter.
+    *
+    * @param key   The query parameter name.
+    * @param value The query parameter value.
+    * @return A new instance with the query parameter added.
+    * @throws IllegalArgumentException if the key or value is invalid.
+    */
+   @Override
+   public ParametrizedEndpoint&lt;T&gt; withQueryParam(String key, Object value) {
+<span class="fc" id="L126">      validateParam(key, value);</span>
+<span class="fc" id="L127">      Map&lt;String, Object&gt; newQueryParams = new HashMap&lt;&gt;(this.queryParams);</span>
+<span class="fc" id="L128">      newQueryParams.put(key, value);</span>
+<span class="fc" id="L129">      return new ParametrizedEndpoint&lt;&gt;(this.original, this.pathParams, newQueryParams, this.additionalHeaders);</span>
+   }
+
+   /**
+    * Creates a new {@code ParametrizedEndpoint} with an added path parameter.
+    *
+    * @param key   The path parameter name.
+    * @param value The path parameter value.
+    * @return A new instance with the path parameter added.
+    * @throws IllegalArgumentException if the key or value is invalid.
+    */
+   @Override
+   public ParametrizedEndpoint&lt;T&gt; withPathParam(String key, Object value) {
+<span class="fc" id="L142">      validateParam(key, value);</span>
+<span class="fc" id="L143">      Map&lt;String, Object&gt; newPathParams = new HashMap&lt;&gt;(this.pathParams);</span>
+<span class="fc" id="L144">      newPathParams.put(key, value);</span>
+<span class="fc" id="L145">      return new ParametrizedEndpoint&lt;&gt;(this.original, newPathParams, this.queryParams, this.additionalHeaders);</span>
+   }
+
+   /**
+    * Creates a new {@code ParametrizedEndpoint} with an added request header.
+    *
+    * @param key   The header name.
+    * @param value The header value.
+    * @return A new instance with the header added.
+    * @throws IllegalArgumentException if the key or value is invalid.
+    */
+   @Override
+   public ParametrizedEndpoint&lt;T&gt; withHeader(String key, String value) {
+<span class="fc" id="L158">      validateParam(key, value);</span>
+<span class="fc" id="L159">      Map&lt;String, List&lt;String&gt;&gt; newHeaders = new HashMap&lt;&gt;(this.additionalHeaders);</span>
+<span class="fc" id="L160">      newHeaders.computeIfAbsent(key, k -&gt; new ArrayList&lt;&gt;()).add(value);</span>
+<span class="fc" id="L161">      return new ParametrizedEndpoint&lt;&gt;(this.original, this.pathParams, this.queryParams, newHeaders);</span>
+   }
+
+   /**
+    * Creates a new {@code ParametrizedEndpoint} with a multi-value request header.
+    *
+    * @param key    The header name.
+    * @param values A list of values for the header.
+    * @return A new instance with the header added.
+    * @throws IllegalArgumentException if the key or values are invalid.
+    */
+   @Override
+   public ParametrizedEndpoint&lt;T&gt; withHeader(String key, List&lt;String&gt; values) {
+<span class="fc" id="L174">      validateParam(key, values);</span>
+<span class="fc" id="L175">      Map&lt;String, List&lt;String&gt;&gt; newHeaders = new HashMap&lt;&gt;(this.additionalHeaders);</span>
+<span class="fc" id="L176">      newHeaders.computeIfAbsent(key, k -&gt; new ArrayList&lt;&gt;()).addAll(values);</span>
+<span class="fc" id="L177">      return new ParametrizedEndpoint&lt;&gt;(this.original, this.pathParams, this.queryParams, newHeaders);</span>
+   }
+
+   /**
+    * Validates a parameter key and value.
+    *
+    * @param key   The parameter key.
+    * @param value The parameter value.
+    * @throws IllegalArgumentException if the key is null/empty or if the value is invalid.
+    */
+   private void validateParam(String key, Object value) {
+<span class="fc bfc" id="L188" title="All 4 branches covered.">      if (key == null || key.isEmpty()) {</span>
+<span class="fc" id="L189">         throw new IllegalArgumentException(&quot;Header key must not be null or empty&quot;);</span>
+      }
+<span class="fc bfc" id="L191" title="All 2 branches covered.">      if (value == null) {</span>
+<span class="fc" id="L192">         throw new IllegalArgumentException(&quot;Header value must not be null for key: &quot; + key);</span>
+      }
+<span class="fc bfc" id="L194" title="All 4 branches covered.">      if (value instanceof Collection &amp;&amp; ((Collection&lt;?&gt;) value).isEmpty()) {</span>
+<span class="fc" id="L195">         throw new IllegalArgumentException(&quot;Header value list must not be empty for key: &quot; + key);</span>
+      }
+<span class="fc" id="L197">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

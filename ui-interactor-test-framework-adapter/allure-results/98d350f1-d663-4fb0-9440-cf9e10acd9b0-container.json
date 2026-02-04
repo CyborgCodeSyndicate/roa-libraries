@@ -1,0 +1,1 @@
+{"uuid":"98d350f1-d663-4fb0-9440-cf9e10acd9b0","name":"refresh should call driver.navigate().refresh()","children":["58a98f00-a63f-47e9-8e23-d80823118d2d"],"befores":[],"afters":[],"start":1769887552471,"stop":1769887552484}

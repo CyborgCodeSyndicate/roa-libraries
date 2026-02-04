@@ -1,0 +1,1167 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TableImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.table.service</a> &gt; <span class="el_source">TableImpl.java</span></div><h1>TableImpl.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.table.service;
+
+import io.cyborgcode.roa.ui.components.base.BaseComponent;
+import io.cyborgcode.roa.ui.components.base.ComponentType;
+import io.cyborgcode.roa.ui.components.table.annotations.CellFilter;
+import io.cyborgcode.roa.ui.components.table.annotations.CellInsertion;
+import io.cyborgcode.roa.ui.components.table.annotations.CustomCellFilter;
+import io.cyborgcode.roa.ui.components.table.annotations.CustomCellInsertion;
+import io.cyborgcode.roa.ui.components.table.annotations.TableCellLocator;
+import io.cyborgcode.roa.ui.components.table.annotations.TableInfo;
+import io.cyborgcode.roa.ui.components.table.base.TableField;
+import io.cyborgcode.roa.ui.components.table.exceptions.TableException;
+import io.cyborgcode.roa.ui.components.table.filters.CellFilterComponent;
+import io.cyborgcode.roa.ui.components.table.filters.CellFilterFunction;
+import io.cyborgcode.roa.ui.components.table.filters.FilterStrategy;
+import io.cyborgcode.roa.ui.components.table.filters.TableFilter;
+import io.cyborgcode.roa.ui.components.table.insertion.CellInsertionComponent;
+import io.cyborgcode.roa.ui.components.table.insertion.CellInsertionFunction;
+import io.cyborgcode.roa.ui.components.table.insertion.TableInsertion;
+import io.cyborgcode.roa.ui.components.table.model.CellLocator;
+import io.cyborgcode.roa.ui.components.table.model.TableCell;
+import io.cyborgcode.roa.ui.components.table.model.TableLocators;
+import io.cyborgcode.roa.ui.components.table.registry.TableServiceRegistry;
+import io.cyborgcode.roa.ui.components.table.sort.SortingStrategy;
+import io.cyborgcode.roa.ui.log.LogUi;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import io.cyborgcode.utilities.reflections.ReflectionUtil;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import lombok.Setter;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NotFoundException;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import static io.cyborgcode.roa.ui.config.UiConfigHolder.getUiConfig;
+
+/**
+ * Base implementation of the {@link Table} interface, providing core functionalities
+ * for reading, filtering, sorting, and inserting values into table elements in the UI.
+ *
+ * &lt;p&gt;This class defines an abstraction over table interactions and supports table-specific
+ * operations such as row retrieval, cell value insertion, and custom filtering.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@SuppressWarnings(&quot;java:S3011&quot;)
+public abstract class TableImpl extends BaseComponent implements Table {
+
+   public static final String NO_LOCATOR_FOR_FIELD_EXCEPTION = &quot;No locator found for the provided field.&quot;;
+   private static final String READING_CLASS = &quot;Reading entire table as class '%s'&quot;;
+   private static final String READING_CLASS_WITH_FIELDS = &quot;Reading table as class '%s' with fields %s&quot;;
+   private static final String READING_RANGE = &quot;Reading table rows from %d to %d as class '%s'&quot;;
+   private static final String READING_RANGE_WITH_FIELDS =
+         &quot;Reading table rows from %d to %d as class '%s' with fields %s&quot;;
+   private static final String READING_ROW = &quot;Reading row number %d as class '%s'&quot;;
+   private static final String READING_ROW_WITH_FIELDS = &quot;Reading row number %d as class '%s' with fields %s&quot;;
+   private static final String READING_ROW_CRITERIA = &quot;Reading row matching criteria %s as class '%s'&quot;;
+   private static final String READING_ROW_CRITERIA_WITH_FIELDS =
+         &quot;Reading row matching criteria %s as class '%s' with fields %s&quot;;
+   private static final String INSERT_CELL_ROW_CRITERIA =
+         &quot;Inserting cell value in row matching criteria %s for class '%s', field '%s', cell index %d&quot;;
+   private static final String INSERT_CELL_ROW =
+         &quot;Inserting cell value in row %d for class '%s', field '%s', cell index %d&quot;;
+   private static final String INSERT_CELL_FIELD_CRITERIA =
+         &quot;Inserting cell value(s) into field '%s' for row matching criteria %s for class '%s'&quot;;
+   private static final String INSERT_CELL_FIELD_ROW =
+         &quot;Inserting cell value(s) into field '%s' for row %d for class '%s'&quot;;
+   private static final String INSERT_CELL_DATA_CRITERIA =
+         &quot;Inserting cell value(s) using data for row matching criteria %s for class '%s'&quot;;
+   private static final String INSERT_CELL_DATA_ROW = &quot;Inserting cell value(s) using data for row %d for class '%s'&quot;;
+   private static final String FILTERING =
+         &quot;Filtering table for class '%s' on column '%s' using strategy '%s' with values %s&quot;;
+   private static final String SORTING = &quot;Sorting table for class '%s' on column '%s' using sorting strategy '%s'&quot;;
+   private static final String INVALID_FIELD_TYPE = &quot;Some fields are not TableCell or List&lt;TableCell&gt;.&quot;;
+   private final List&lt;Object&gt; acceptedValues;
+   @Setter
+   protected TableServiceRegistry serviceRegistry;
+
+   /**
+    * Constructs a {@code TableImpl} instance with the specified {@link SmartWebDriver}.
+    *
+    * @param smartWebDriver The WebDriver instance for interacting with the table.
+    */
+   protected TableImpl(final SmartWebDriver smartWebDriver) {
+<span class="nc" id="L104">      super(smartWebDriver);</span>
+<span class="nc" id="L105">      this.acceptedValues = List.of(</span>
+            new TableCell(&quot;&quot;),
+<span class="nc" id="L107">            List.of()</span>
+      );
+<span class="nc" id="L109">   }</span>
+
+   /**
+    * Constructs a {@code TableImpl} instance with the specified {@link SmartWebDriver}
+    * and {@link TableServiceRegistry}.
+    *
+    * @param smartWebDriver  The WebDriver instance for interacting with the table.
+    * @param serviceRegistry The service registry for managing table insertions and filters.
+    */
+   protected TableImpl(final SmartWebDriver smartWebDriver,
+                       final TableServiceRegistry serviceRegistry) {
+<span class="fc" id="L120">      super(smartWebDriver);</span>
+<span class="fc" id="L121">      this.serviceRegistry = serviceRegistry;</span>
+<span class="fc" id="L122">      this.acceptedValues = List.of(</span>
+            new TableCell(&quot;&quot;),
+<span class="fc" id="L124">            List.of()</span>
+      );
+<span class="fc" id="L126">   }</span>
+
+   /**
+    * Reads all rows from the table and maps them to objects of the specified class type.
+    *
+    * @param clazz The class type representing the table rows.
+    * @param &lt;T&gt;   The type of the row representation.
+    * @return A list of objects representing the table rows.
+    */
+   @Override
+   public final &lt;T&gt; List&lt;T&gt; readTable(final Class&lt;T&gt; clazz) {
+<span class="fc" id="L137">      LogUi.step(String.format(READING_CLASS, clazz.getSimpleName()));</span>
+<span class="fc" id="L138">      return readTableInternal(clazz, null, null, null);</span>
+   }
+
+   /**
+    * Reads the table with only the specified fields.
+    *
+    * @param clazz  The class type representing the table rows.
+    * @param fields The fields to be extracted from the table.
+    * @param &lt;T&gt;    The type of the row representation.
+    * @return A list of objects representing the table rows with selected fields.
+    */
+   @Override
+   @SafeVarargs
+   public final &lt;T&gt; List&lt;T&gt; readTable(final Class&lt;T&gt; clazz, final TableField&lt;T&gt;... fields) {
+<span class="fc" id="L152">      LogUi.step(String.format(READING_CLASS_WITH_FIELDS, clazz.getSimpleName(), Arrays.toString(fields)));</span>
+<span class="fc bfc" id="L153" title="All 2 branches covered.">      return readTableInternal(clazz, (fields == null) ? null : List.of(fields), null, null);</span>
+   }
+
+   /**
+    * Reads a specific range of rows from the table.
+    *
+    * @param start The starting row index (inclusive).
+    * @param end   The ending row index (exclusive).
+    * @param clazz The class type representing the table rows.
+    * @param &lt;T&gt;   The type of the row representation.
+    * @return A list of objects representing the selected rows.
+    */
+   @Override
+   public final &lt;T&gt; List&lt;T&gt; readTable(final int start, final int end, final Class&lt;T&gt; clazz) {
+<span class="fc" id="L167">      LogUi.step(String.format(READING_RANGE, start, end, clazz.getSimpleName()));</span>
+<span class="fc" id="L168">      return readTableInternal(clazz, null, start, end);</span>
+   }
+
+   /**
+    * Reads a specific range of rows from the table with only the specified fields.
+    *
+    * &lt;p&gt;This method allows extracting a subset of rows from the table between the given indices,
+    * and retrieves only the specified fields from each row.
+    *
+    * @param start  The starting row index (inclusive, 1-based index).
+    * @param end    The ending row index (exclusive, 1-based index).
+    * @param clazz  The class type representing the table rows.
+    * @param fields The fields to be extracted from the table. If not provided, all fields are retrieved.
+    * @param &lt;T&gt;    The type of the row representation.
+    * @return A list of objects representing the selected rows with chosen fields.
+    * @throws IndexOutOfBoundsException if the start or end indices are invalid.
+    */
+   @Override
+   @SafeVarargs
+   public final &lt;T&gt; List&lt;T&gt; readTable(final int start, final int end, final Class&lt;T&gt; clazz,
+                                      final TableField&lt;T&gt;... fields) {
+<span class="fc" id="L189">      LogUi.step(String.format(READING_RANGE_WITH_FIELDS, start, end, clazz.getSimpleName(), Arrays.toString(fields)));</span>
+<span class="fc bfc" id="L190" title="All 2 branches covered.">      return readTableInternal(clazz, (fields == null) ? null : Arrays.asList(fields), start, end);</span>
+   }
+
+   /**
+    * Reads a single row from the table based on the row index.
+    *
+    * @param row   The row index (1-based index).
+    * @param clazz The class type representing the table row.
+    * @param &lt;T&gt;   The type of the row representation.
+    * @return An object representing the row.
+    */
+   @Override
+   public final &lt;T&gt; T readRow(final int row, final Class&lt;T&gt; clazz) {
+<span class="fc" id="L203">      LogUi.step(String.format(READING_ROW, row, clazz.getSimpleName()));</span>
+<span class="fc" id="L204">      return readRowInternal(row - 1, clazz, null);</span>
+   }
+
+   /**
+    * Reads a row that matches the provided search criteria.
+    *
+    * @param searchCriteria A list of values to match in the row.
+    * @param clazz          The class type representing the table row.
+    * @param &lt;T&gt;            The type of the row representation.
+    * @return The first matching row.
+    */
+   @Override
+   public final &lt;T&gt; T readRow(final List&lt;String&gt; searchCriteria, final Class&lt;T&gt; clazz) {
+<span class="fc" id="L217">      LogUi.step(String.format(READING_ROW_CRITERIA, searchCriteria, clazz.getSimpleName()));</span>
+<span class="fc" id="L218">      return readRowInternal(searchCriteria, clazz, null);</span>
+   }
+
+   /**
+    * Reads a specific row from the table, retrieving only the specified fields.
+    *
+    * &lt;p&gt;This method fetches a single row from the table based on its index (1-based),
+    * and extracts only the specified fields if provided. If no fields are provided,
+    * all fields of the row are retrieved.
+    *
+    * @param row    The row index to be read (1-based index).
+    * @param clazz  The class type representing the table row structure.
+    * @param fields The specific fields to be extracted from the row. If not provided, all fields are retrieved.
+    * @param &lt;T&gt;    The type representing the table row.
+    * @return An object representing the row with the selected fields.
+    * @throws IndexOutOfBoundsException if the row index is out of range.
+    */
+   @Override
+   @SafeVarargs
+   public final &lt;T&gt; T readRow(final int row, final Class&lt;T&gt; clazz, final TableField&lt;T&gt;... fields) {
+<span class="fc" id="L238">      LogUi.step(String.format(READING_ROW_WITH_FIELDS, row, clazz.getSimpleName(), Arrays.toString(fields)));</span>
+<span class="fc" id="L239">      return readRowInternal(row - 1, clazz, fields);</span>
+   }
+
+   /**
+    * Reads a row from the table that matches the provided search criteria, retrieving only specified fields.
+    *
+    * &lt;p&gt;This method searches for a row in the table that contains all the specified search criteria.
+    * It then extracts only the specified fields if provided. If no fields are provided,
+    * all fields of the row are retrieved.
+    *
+    * @param searchCriteria A list of strings representing the criteria that must be matched within the row.
+    * @param clazz          The class type representing the table row structure.
+    * @param fields         The specific fields to be extracted from the matched row.
+    * @param &lt;T&gt;            The type representing the table row.
+    * @return An object representing the matching row with the selected fields.
+    * @throws NotFoundException if no row matches the search criteria.
+    */
+   @Override
+   @SafeVarargs
+   public final &lt;T&gt; T readRow(final List&lt;String&gt; searchCriteria, final Class&lt;T&gt; clazz, final TableField&lt;T&gt;... fields) {
+<span class="fc" id="L259">      LogUi.step(String.format(READING_ROW_CRITERIA_WITH_FIELDS, searchCriteria, clazz.getSimpleName(),</span>
+<span class="fc" id="L260">            Arrays.toString(fields)));</span>
+<span class="fc" id="L261">      return readRowInternal(searchCriteria, clazz, fields);</span>
+   }
+
+   /**
+    * Inserts a value into a specific cell in the table row that matches the given search criteria.
+    *
+    * &lt;p&gt;This method locates a row in the table based on the provided search criteria and
+    * inserts the specified values into a particular field in that row.
+    *
+    * @param searchCriteria A list of strings used to identify the target row.
+    * @param rowClass       The class type representing the table row structure.
+    * @param field          The specific field within the row where the value should be inserted.
+    * @param cellIndex      The index of the cell (1-based) where the value should be inserted.
+    * @param values         The values to be inserted into the specified cell.
+    * @param &lt;T&gt;            The type representing the table row.
+    * @throws NotFoundException         if no row matches the search criteria.
+    * @throws IndexOutOfBoundsException if the cell index is out of range.
+    */
+   @Override
+   public final &lt;T&gt; void insertCellValue(final List&lt;String&gt; searchCriteria, final Class&lt;T&gt; rowClass,
+                                         final TableField&lt;T&gt; field, final int cellIndex, final String... values) {
+<span class="fc" id="L282">      LogUi.step(String.format(INSERT_CELL_ROW_CRITERIA, searchCriteria, rowClass.getSimpleName(), field, cellIndex));</span>
+<span class="fc" id="L283">      insertCellValueInternal(searchCriteria, rowClass, field, cellIndex, values);</span>
+<span class="fc" id="L284">   }</span>
+
+   /**
+    * Inserts a value into a specific cell within a row.
+    *
+    * @param row       The row index (1-based index).
+    * @param rowClass  The class type representing the table row.
+    * @param field     The table field to insert the value into.
+    * @param cellIndex The index of the cell in the row (1-based index).
+    * @param values    The values to be inserted.
+    * @param &lt;T&gt;       The type of the row representation.
+    */
+   @Override
+   public final &lt;T&gt; void insertCellValue(final int row, final Class&lt;T&gt; rowClass, final TableField&lt;T&gt; field,
+                                         final int cellIndex, final String... values) {
+<span class="fc" id="L299">      LogUi.step(String.format(INSERT_CELL_ROW, row, rowClass.getSimpleName(), field, cellIndex));</span>
+<span class="fc" id="L300">      insertCellValueInternal(row - 1, rowClass, field, cellIndex, values);</span>
+<span class="fc" id="L301">   }</span>
+
+   /**
+    * Inserts values into multiple cells in the table row that matches the given search criteria.
+    *
+    * &lt;p&gt;This method locates a row in the table based on the provided search criteria and inserts values
+    * into multiple fields of that row by iterating over the fields of the provided data object.
+    *
+    * @param searchCriteria A list of strings used to identify the target row.
+    * @param clazz          The class type representing the table row structure.
+    * @param data           The object containing the values to be inserted into the corresponding row fields.
+    * @param &lt;T&gt;            The type representing the table row.
+    * @throws NotFoundException if no row matches the search criteria.
+    */
+   @Override
+   public final &lt;T&gt; void insertCellValue(final List&lt;String&gt; searchCriteria, final Class&lt;T&gt; clazz, final T data) {
+<span class="fc" id="L317">      LogUi.step(String.format(INSERT_CELL_DATA_CRITERIA, searchCriteria, clazz.getSimpleName()));</span>
+<span class="fc" id="L318">      processInsertCellValue((fieldInvoker, strings) -&gt; {</span>
+<span class="pc bpc" id="L319" title="1 of 2 branches missed.">         if (strings.length == 1) {</span>
+<span class="fc" id="L320">            insertCellValue(searchCriteria, clazz, fieldInvoker, 1, strings);</span>
+         } else {
+<span class="nc bnc" id="L322" title="All 2 branches missed.">            for (int i = 0; i &lt; strings.length; i++) {</span>
+<span class="nc" id="L323">               insertCellValue(searchCriteria, clazz, fieldInvoker, i + 1, strings[i]);</span>
+            }
+         }
+<span class="fc" id="L326">      }, clazz, data);</span>
+<span class="fc" id="L327">   }</span>
+
+   /**
+    * Inserts values into a specific cell in the table row that matches the given search criteria.
+    *
+    * &lt;p&gt;This method finds a row in the table based on the provided search criteria and inserts values
+    * into the specified field of that row.
+    *
+    * @param searchCriteria A list of strings used to identify the target row.
+    * @param clazz          The class type representing the table row structure.
+    * @param field          The specific field within the row where the values should be inserted.
+    * @param values         The values to be inserted into the specified field.
+    * @param &lt;T&gt;            The type representing the table row.
+    * @throws NotFoundException if no row matches the search criteria.
+    */
+   @Override
+   public final &lt;T&gt; void insertCellValue(final List&lt;String&gt; searchCriteria, final Class&lt;T&gt; clazz,
+                                         final TableField&lt;T&gt; field, final String... values) {
+<span class="nc" id="L345">      LogUi.step(String.format(INSERT_CELL_FIELD_CRITERIA, field, searchCriteria, clazz.getSimpleName()));</span>
+<span class="nc" id="L346">      Table.super.insertCellValue(searchCriteria, clazz, field, values);</span>
+<span class="nc" id="L347">   }</span>
+
+   /**
+    * Inserts values into a specific cell in the table row at the given row index.
+    *
+    * &lt;p&gt;This method finds the row in the table based on the provided row index (1-based)
+    * and inserts values into the specified field of that row.
+    *
+    * @param row    The row index where the values should be inserted (1-based index).
+    * @param clazz  The class type representing the table row structure.
+    * @param field  The specific field within the row where the values should be inserted.
+    * @param values The values to be inserted into the specified field.
+    * @param &lt;T&gt;    The type representing the table row.
+    * @throws IndexOutOfBoundsException if the row index is out of range.
+    */
+   @Override
+   public final &lt;T&gt; void insertCellValue(final int row, final Class&lt;T&gt; clazz, final TableField&lt;T&gt; field,
+                                         final String... values) {
+<span class="fc" id="L365">      LogUi.step(String.format(INSERT_CELL_FIELD_ROW, field, row, clazz.getSimpleName()));</span>
+<span class="nc" id="L366">      Table.super.insertCellValue(row, clazz, field, values);</span>
+<span class="nc" id="L367">   }</span>
+
+   /**
+    * Inserts values into multiple cells in the table row at the given row index.
+    *
+    * &lt;p&gt;This method finds the row in the table based on the provided row index (1-based)
+    * and inserts values into multiple fields of that row by iterating over the fields of the provided data object.
+    *
+    * @param row   The row index where the values should be inserted (1-based index).
+    * @param clazz The class type representing the table row structure.
+    * @param data  The object containing the values to be inserted into the corresponding row fields.
+    * @param &lt;T&gt;   The type representing the table row.
+    * @throws IndexOutOfBoundsException if the row index is out of range.
+    */
+   @Override
+   public final &lt;T&gt; void insertCellValue(final int row, final Class&lt;T&gt; clazz, final T data) {
+<span class="fc" id="L383">      LogUi.step(String.format(INSERT_CELL_DATA_ROW, row, clazz.getSimpleName()));</span>
+<span class="fc" id="L384">      processInsertCellValue((fieldInvoker, strings) -&gt; {</span>
+<span class="pc bpc" id="L385" title="1 of 2 branches missed.">         if (strings.length == 1) {</span>
+<span class="fc" id="L386">            insertCellValue(row, clazz, fieldInvoker, 1, strings);</span>
+         } else {
+<span class="nc bnc" id="L388" title="All 2 branches missed.">            for (int i = 0; i &lt; strings.length; i++) {</span>
+<span class="nc" id="L389">               insertCellValue(row, clazz, fieldInvoker, i + 1, strings[i]);</span>
+            }
+         }
+<span class="fc" id="L392">      }, clazz, data);</span>
+<span class="fc" id="L393">   }</span>
+
+   /**
+    * Filters a table column based on a specified filtering strategy.
+    *
+    * @param tclass         The class type representing the table row.
+    * @param column         The table field representing the column to be filtered.
+    * @param filterStrategy The filtering strategy to be applied.
+    * @param values         The values used for filtering.
+    * @param &lt;T&gt;            The type of the row representation.
+    */
+   @Override
+   public final &lt;T&gt; void filterTable(final Class&lt;T&gt; tclass, final TableField&lt;T&gt; column,
+                                     final FilterStrategy filterStrategy, final String... values) {
+<span class="fc" id="L407">      LogUi.step(String.format(FILTERING, tclass.getSimpleName(), column, filterStrategy, Arrays.toString(values)));</span>
+<span class="fc" id="L408">      final Map&lt;String, List&lt;CellLocator&gt;&gt; tableSectionLocatorsMap =</span>
+<span class="fc" id="L409">            getTableSectionLocatorsMap(tclass, List.of(column));</span>
+
+<span class="fc" id="L411">      final Map.Entry&lt;String, List&lt;CellLocator&gt;&gt; firstEntry = tableSectionLocatorsMap.entrySet().stream()</span>
+<span class="fc" id="L412">            .findFirst()</span>
+<span class="pc" id="L413">            .orElseThrow(() -&gt; new IllegalStateException(NO_LOCATOR_FOR_FIELD_EXCEPTION));</span>
+
+<span class="fc" id="L415">      final String tableSection = firstEntry.getKey();</span>
+<span class="fc" id="L416">      final CellLocator cellLocator = firstEntry.getValue().get(0);</span>
+
+<span class="fc" id="L418">      TableLocators tableLocators = getTableLocators(tclass);</span>
+<span class="fc" id="L419">      SmartWebElement tableContainer = getTableContainer(tableLocators.getTableContainerLocator());</span>
+<span class="fc" id="L420">      SmartWebElement headerRow = getHeaderRow(tableContainer, tableLocators.getHeaderRowLocator(), tableSection);</span>
+<span class="fc" id="L421">      filterCells(cellLocator, headerRow, filterStrategy, values);</span>
+<span class="fc" id="L422">   }</span>
+
+   /**
+    * Sorts a table column based on a specified sorting strategy.
+    *
+    * @param tclass          The class type representing the table row.
+    * @param column          The table field representing the column to be sorted.
+    * @param sortingStrategy The sorting strategy to be applied.
+    * @param &lt;T&gt;             The type of the row representation.
+    */
+   @Override
+   public final &lt;T&gt; void sortTable(final Class&lt;T&gt; tclass, final TableField&lt;T&gt; column,
+                                   final SortingStrategy sortingStrategy) {
+<span class="fc" id="L435">      LogUi.step(String.format(SORTING, tclass.getSimpleName(), column, sortingStrategy));</span>
+
+<span class="fc" id="L437">      final Map&lt;String, List&lt;CellLocator&gt;&gt; tableSectionLocatorsMap =</span>
+<span class="fc" id="L438">            getTableSectionLocatorsMap(tclass, List.of(column));</span>
+
+<span class="fc" id="L440">      final Map.Entry&lt;String, List&lt;CellLocator&gt;&gt; firstEntry = tableSectionLocatorsMap.entrySet().stream()</span>
+<span class="fc" id="L441">            .findFirst()</span>
+<span class="pc" id="L442">            .orElseThrow(() -&gt; new IllegalStateException(NO_LOCATOR_FOR_FIELD_EXCEPTION));</span>
+
+<span class="fc" id="L444">      final String tableSection = firstEntry.getKey();</span>
+<span class="fc" id="L445">      final CellLocator cellLocator = firstEntry.getValue().get(0);</span>
+
+<span class="fc" id="L447">      TableLocators tableLocators = getTableLocators(tclass);</span>
+<span class="fc" id="L448">      SmartWebElement tableContainer = getTableContainer(tableLocators.getTableContainerLocator());</span>
+<span class="fc" id="L449">      SmartWebElement headerRow = getHeaderRow(tableContainer, tableLocators.getHeaderRowLocator(), tableSection);</span>
+<span class="fc" id="L450">      sortTable(headerRow.findSmartElement(cellLocator.getHeaderCellLocator()), sortingStrategy);</span>
+<span class="fc" id="L451">   }</span>
+
+   /**
+    * Sorts the table based on the given header cell and sorting strategy.
+    *
+    * &lt;p&gt;This method provides an extension point for subclasses to define how sorting is applied to a table.
+    * It can be overridden to implement specific sorting logic.
+    *
+    * @param headerCell      The SmartWebElement representing the header cell to be clicked for sorting.
+    * @param sortingStrategy The {@link SortingStrategy} defining the sorting direction (e.g., ascending or descending).
+    */
+   protected void sortTable(SmartWebElement headerCell, SortingStrategy sortingStrategy) {
+
+<span class="nc" id="L464">   }</span>
+
+   /**
+    * Retrieves the table container element using the specified locator.
+    *
+    * &lt;p&gt;This method is protected to allow subclasses to modify or override the way the table container is located.
+    * It ensures that the SmartWebElement representing the table container is retrieved correctly.
+    *
+    * @param tableContainerLocator The locator used to find the table container.
+    * @return A {@link SmartWebElement} representing the table container.
+    */
+   protected SmartWebElement getTableContainer(By tableContainerLocator) {
+<span class="fc" id="L476">      return driver.findSmartElement(tableContainerLocator);</span>
+   }
+
+   /**
+    * Retrieves all rows from the specified table container.
+    *
+    * &lt;p&gt;This method waits until all rows are visible before retrieving them. It can be overridden by subclasses
+    * to customize how table rows are retrieved.
+    *
+    * @param tableContainer   The SmartWebElement representing the table container.
+    * @param tableRowsLocator The locator used to find the table rows.
+    * @param section          The table section from which rows should be retrieved (optional).
+    * @return A list of {@link SmartWebElement} representing the table rows.
+    */
+   protected List&lt;SmartWebElement&gt; getRows(SmartWebElement tableContainer, By tableRowsLocator, String section) {
+<span class="fc" id="L491">      driver.getWait()</span>
+<span class="fc" id="L492">            .until(ExpectedConditions.visibilityOfNestedElementsLocatedBy(tableContainer, tableRowsLocator));</span>
+<span class="fc" id="L493">      return tableContainer.findSmartElements(tableRowsLocator);</span>
+   }
+
+   /**
+    * Retrieves the header row of a table.
+    *
+    * &lt;p&gt;This method locates and returns the header row within the given table container. It can be
+    * overridden by subclasses to implement custom header retrieval logic.
+    *
+    * @param tableContainer   The SmartWebElement representing the table container.
+    * @param headerRowLocator The locator used to find the header row.
+    * @param tableSection     The section of the table where the header row is located (optional).
+    * @return A {@link SmartWebElement} representing the header row.
+    */
+   protected SmartWebElement getHeaderRow(SmartWebElement tableContainer, By headerRowLocator, String tableSection) {
+<span class="fc" id="L508">      return tableContainer.findSmartElement(headerRowLocator);</span>
+   }
+
+
+   private &lt;T&gt; List&lt;T&gt; readTableInternal(final Class&lt;T&gt; rowClass,
+                                         final List&lt;TableField&lt;T&gt;&gt; fields,
+                                         final Integer start,
+                                         final Integer end) {
+<span class="fc" id="L516">      TableLocators tableLocators = getTableLocators(rowClass);</span>
+<span class="fc" id="L517">      SmartWebElement tableContainer = getTableContainer(tableLocators.getTableContainerLocator());</span>
+
+<span class="fc" id="L519">      final Map&lt;String, List&lt;CellLocator&gt;&gt; tableSectionLocatorsMap =</span>
+<span class="fc" id="L520">            getTableSectionLocatorsMap(rowClass, fields);</span>
+
+<span class="fc" id="L522">      final Map&lt;String, List&lt;SmartWebElement&gt;&gt; rowsMap =</span>
+<span class="fc" id="L523">            tableSectionLocatorsMap.keySet().stream()</span>
+<span class="fc" id="L524">                  .collect(Collectors.toMap(</span>
+<span class="fc" id="L525">                        Function.identity(),</span>
+<span class="fc" id="L526">                        section -&gt; readRowsInRange(tableContainer, tableLocators.getTableRowsLocator(), section,</span>
+                              start, end)
+                  ));
+
+<span class="fc" id="L530">      return mergeRowsAcrossSections(rowsMap, tableSectionLocatorsMap, rowClass);</span>
+   }
+
+
+   private List&lt;SmartWebElement&gt; readRowsInRange(SmartWebElement tableContainer, By tableRowsLocator,
+                                                 final String tableSection,
+                                                 final Integer start,
+                                                 final Integer end) {
+<span class="fc" id="L538">      final List&lt;SmartWebElement&gt; allRows = getRows(tableContainer, tableRowsLocator, tableSection);</span>
+
+<span class="pc bpc" id="L540" title="1 of 4 branches missed.">      if (start != null &amp;&amp; end != null) {</span>
+<span class="fc" id="L541">         final int fromIndex = Math.max(0, start - 1);</span>
+<span class="fc" id="L542">         final int toIndex = Math.min(allRows.size(), end);</span>
+<span class="fc bfc" id="L543" title="All 2 branches covered.">         if (fromIndex &gt;= toIndex) {</span>
+<span class="fc" id="L544">            LogUi.warn(&quot;Requested start/end range is invalid: {}-{}. Returning empty list.&quot;, start, end);</span>
+<span class="fc" id="L545">            return Collections.emptyList();</span>
+         }
+<span class="fc" id="L547">         return allRows.subList(fromIndex, toIndex);</span>
+      }
+<span class="fc" id="L549">      return allRows;</span>
+   }
+
+
+   private &lt;T&gt; List&lt;T&gt; mergeRowsAcrossSections(final Map&lt;String, List&lt;SmartWebElement&gt;&gt; rowsPerSection,
+                                               final Map&lt;String, List&lt;CellLocator&gt;&gt; locatorsMap,
+                                               final Class&lt;T&gt; rowClass) {
+<span class="fc" id="L556">      final List&lt;T&gt; results = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L558">      rowsPerSection.values().stream().findFirst().ifPresent(rows -&gt; {</span>
+<span class="fc bfc" id="L559" title="All 2 branches covered.">         for (int i = 0; i &lt; rows.size(); i++) {</span>
+<span class="fc" id="L560">            T mergedRow = null;</span>
+<span class="fc bfc" id="L561" title="All 2 branches covered.">            for (Map.Entry&lt;String, List&lt;SmartWebElement&gt;&gt; entry : rowsPerSection.entrySet()) {</span>
+<span class="fc" id="L562">               final String section = entry.getKey();</span>
+<span class="fc" id="L563">               final SmartWebElement rowElement = entry.getValue().get(i);</span>
+
+<span class="fc" id="L565">               final T partialRow = readSingleRow(rowClass, locatorsMap.get(section), rowElement);</span>
+<span class="fc" id="L566">               mergedRow = mergeObjects(mergedRow, partialRow);</span>
+<span class="fc" id="L567">            }</span>
+<span class="fc" id="L568">            results.add(mergedRow);</span>
+         }
+<span class="fc" id="L570">      });</span>
+<span class="fc" id="L571">      return results;</span>
+   }
+
+
+   private &lt;T&gt; T readRowInternal(final Object rowIdentifier,
+                                 final Class&lt;T&gt; rowClass,
+                                 final TableField&lt;T&gt;[] fields) {
+<span class="fc" id="L578">      TableLocators tableLocators = getTableLocators(rowClass);</span>
+<span class="fc" id="L579">      SmartWebElement tableContainer = getTableContainer(tableLocators.getTableContainerLocator());</span>
+<span class="fc" id="L580">      final Map&lt;String, List&lt;CellLocator&gt;&gt; locatorsMap =</span>
+<span class="fc bfc" id="L581" title="All 2 branches covered.">            getTableSectionLocatorsMap(rowClass, (fields == null) ? null : Arrays.asList(fields));</span>
+
+<span class="fc" id="L583">      final Map&lt;String, SmartWebElement&gt; rowElementMap = locatorsMap.keySet()</span>
+<span class="fc" id="L584">            .stream()</span>
+<span class="fc" id="L585">            .collect(Collectors.toMap(</span>
+<span class="fc" id="L586">                  Function.identity(),</span>
+<span class="fc" id="L587">                  section -&gt; findRowElement(tableContainer,</span>
+<span class="fc" id="L588">                        tableLocators.getTableRowsLocator(),</span>
+                        rowIdentifier, section)
+            ));
+
+<span class="fc" id="L592">      T mergedRow = null;</span>
+<span class="fc bfc" id="L593" title="All 2 branches covered.">      for (Map.Entry&lt;String, SmartWebElement&gt; entry : rowElementMap.entrySet()) {</span>
+<span class="fc" id="L594">         final T partialRow = readSingleRow(rowClass, locatorsMap.get(entry.getKey()), entry.getValue());</span>
+<span class="fc" id="L595">         mergedRow = mergeObjects(mergedRow, partialRow);</span>
+<span class="fc" id="L596">      }</span>
+
+<span class="fc" id="L598">      return mergedRow;</span>
+   }
+
+
+   private SmartWebElement findRowElement(SmartWebElement tableContainer, By tableRowsLocator,
+                                          final Object rowIdentifier,
+                                          final String section) {
+<span class="fc" id="L605">      final List&lt;SmartWebElement&gt; rows = getRows(tableContainer, tableRowsLocator, section);</span>
+
+<span class="fc bfc" id="L607" title="All 2 branches covered.">      if (rowIdentifier instanceof Integer rowIndex) {</span>
+<span class="fc bfc" id="L608" title="All 4 branches covered.">         if (rowIndex &lt; 0 || rowIndex &gt;= rows.size()) {</span>
+<span class="fc" id="L609">            throw new IndexOutOfBoundsException(String.format(</span>
+<span class="fc" id="L610">                  &quot;Requested row index %d is out of valid range [1..%d]&quot;, rowIndex + 1, rows.size()</span>
+            ));
+         }
+<span class="fc" id="L613">         return rows.get(rowIndex);</span>
+<span class="pc bpc" id="L614" title="1 of 2 branches missed.">      } else if (rowIdentifier instanceof List&lt;?&gt; criteria) {</span>
+<span class="fc" id="L615">         return findRowByCriteria(criteria, rows);</span>
+      } else {
+<span class="nc" id="L617">         throw new IllegalArgumentException(&quot;Unsupported row identifier type: &quot; + rowIdentifier);</span>
+      }
+   }
+
+
+   private SmartWebElement findRowByCriteria(final List&lt;?&gt; searchCriteria, final List&lt;SmartWebElement&gt; rows) {
+<span class="fc" id="L623">      return rows.stream()</span>
+<span class="fc" id="L624">            .filter(row -&gt; searchCriteria.stream().allMatch(</span>
+<span class="fc" id="L625">                  criterion -&gt; Optional.ofNullable(row.getText())</span>
+<span class="fc" id="L626">                        .orElse(&quot;&quot;)</span>
+<span class="fc" id="L627">                        .contains(String.valueOf(criterion))</span>
+            ))
+<span class="fc" id="L629">            .findFirst()</span>
+<span class="fc" id="L630">            .orElseThrow(() -&gt; new NotFoundException(</span>
+                  &quot;No row found containing all criteria: &quot; + searchCriteria
+            ));
+   }
+
+
+   private &lt;T&gt; T readSingleRow(final Class&lt;T&gt; rowClass,
+                               final List&lt;CellLocator&gt; cellLocators,
+                               final SmartWebElement rowElement) {
+<span class="fc" id="L639">      final T rowInstance = createInstance(rowClass);</span>
+<span class="fc bfc" id="L640" title="All 2 branches covered.">      for (CellLocator cellLocator : cellLocators) {</span>
+<span class="fc" id="L641">         populateFieldValue(rowInstance, rowElement, cellLocator);</span>
+<span class="fc" id="L642">      }</span>
+<span class="fc" id="L643">      return rowInstance;</span>
+   }
+
+
+   private &lt;T&gt; void populateFieldValue(final T rowInstance,
+                                       final SmartWebElement rowElement,
+                                       final CellLocator cellLocator) {
+<span class="fc" id="L650">      final By locator = cellLocator.getLocator();</span>
+<span class="fc" id="L651">      final By textLocator = cellLocator.getCellTextLocator();</span>
+<span class="fc" id="L652">      final String fieldName = cellLocator.getFieldName();</span>
+<span class="fc" id="L653">      final boolean isCollection = cellLocator.isCollection();</span>
+
+<span class="fc bfc" id="L655" title="All 2 branches covered.">      if (!isCollection) {</span>
+<span class="fc" id="L656">         final TableCell singleCell = buildTableCell(rowElement, locator, textLocator);</span>
+<span class="fc" id="L657">         invokeSetter(rowInstance, fieldName, singleCell);</span>
+<span class="fc" id="L658">      } else {</span>
+<span class="fc" id="L659">         final List&lt;SmartWebElement&gt; cellElements = rowElement.findSmartElements(locator);</span>
+<span class="fc" id="L660">         final List&lt;TableCell&gt; tableCells = cellElements.stream()</span>
+<span class="fc" id="L661">               .map(elem -&gt; buildTableCell(elem, null, textLocator))</span>
+<span class="fc" id="L662">               .toList();</span>
+<span class="fc" id="L663">         invokeSetter(rowInstance, fieldName, tableCells);</span>
+      }
+<span class="fc" id="L665">   }</span>
+
+
+   private TableCell buildTableCell(final SmartWebElement container,
+                                    final By cellLocator,
+                                    final By textLocator) {
+<span class="fc bfc" id="L671" title="All 2 branches covered.">      final SmartWebElement cellElement = (cellLocator == null)</span>
+<span class="fc" id="L672">            ? container</span>
+<span class="fc" id="L673">            : container.findSmartElement(cellLocator);</span>
+
+<span class="fc" id="L675">      final String text = cellElement.findSmartElement(textLocator).getText();</span>
+<span class="fc" id="L676">      return new TableCell(cellElement, text);</span>
+   }
+
+
+   private &lt;T&gt; T createInstance(final Class&lt;T&gt; clazz) {
+      try {
+<span class="fc" id="L682">         return clazz.getDeclaredConstructor().newInstance();</span>
+<span class="fc" id="L683">      } catch (ReflectiveOperationException e) {</span>
+<span class="fc" id="L684">         final String message = &quot;Could not create a new instance of class: &quot; + clazz.getName();</span>
+<span class="fc" id="L685">         LogUi.error(message, e);</span>
+<span class="fc" id="L686">         throw new IllegalStateException(message, e);</span>
+      }
+   }
+
+
+   private &lt;T&gt; T mergeObjects(final T t1, final T t2) {
+<span class="fc bfc" id="L692" title="All 2 branches covered.">      if (t1 == null) {</span>
+<span class="fc" id="L693">         return t2;</span>
+      }
+<span class="pc bpc" id="L695" title="1 of 2 branches missed.">      if (t2 == null) {</span>
+<span class="nc" id="L696">         return t1;</span>
+      }
+
+<span class="fc" id="L699">      final Field[] fields = t1.getClass().getDeclaredFields();</span>
+<span class="fc bfc" id="L700" title="All 2 branches covered.">      for (Field field : fields) {</span>
+<span class="fc" id="L701">         field.setAccessible(true);</span>
+         try {
+<span class="fc" id="L703">            final Object value1 = field.get(t1);</span>
+<span class="fc bfc" id="L704" title="All 2 branches covered.">            if (value1 == null) {</span>
+<span class="fc" id="L705">               final Object value2 = field.get(t2);</span>
+<span class="pc bpc" id="L706" title="1 of 2 branches missed.">               if (value2 != null) {</span>
+<span class="fc" id="L707">                  field.set(t1, value2);</span>
+               }
+            }
+<span class="nc" id="L710">         } catch (IllegalAccessException e) {</span>
+<span class="nc" id="L711">            final String message = &quot;Cannot access field: &quot; + field.getName();</span>
+<span class="nc" id="L712">            LogUi.error(message, e);</span>
+<span class="fc" id="L713">         }</span>
+      }
+<span class="fc" id="L715">      return t1;</span>
+   }
+
+
+   private void invokeSetter(final Object targetObject, final String fieldName, final Object value) {
+<span class="fc bfc" id="L720" title="All 6 branches covered.">      if (targetObject == null || fieldName == null || value == null) {</span>
+<span class="fc" id="L721">         return;</span>
+      }
+
+<span class="fc" id="L724">      Class&lt;?&gt; paramType = value.getClass();</span>
+<span class="fc bfc" id="L725" title="All 2 branches covered.">      if (List.class.isAssignableFrom(paramType)) {</span>
+<span class="fc" id="L726">         paramType = List.class; // For generics consistency</span>
+      }
+
+<span class="fc" id="L729">      final String setterName = &quot;set&quot; + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);</span>
+
+      try {
+<span class="fc" id="L732">         final Method setter = targetObject.getClass().getDeclaredMethod(setterName, paramType);</span>
+<span class="fc" id="L733">         setter.invoke(targetObject, value);</span>
+<span class="fc" id="L734">      } catch (NoSuchMethodException e) {</span>
+<span class="fc" id="L735">         final String message = String.format(</span>
+               &quot;Setter not found: %s(%s) in class %s&quot;,
+               setterName,
+<span class="fc" id="L738">               paramType.getSimpleName(),</span>
+<span class="fc" id="L739">               targetObject.getClass().getName()</span>
+         );
+<span class="fc" id="L741">         LogUi.error(message, e);</span>
+<span class="fc" id="L742">      } catch (IllegalAccessException | InvocationTargetException e) {</span>
+<span class="fc" id="L743">         final String message = String.format(</span>
+               &quot;Failed to invoke setter: %s on %s&quot;,
+               setterName,
+<span class="fc" id="L746">               targetObject.getClass().getName()</span>
+         );
+<span class="fc" id="L748">         LogUi.error(message, e);</span>
+<span class="fc" id="L749">      }</span>
+<span class="fc" id="L750">   }</span>
+
+
+   private &lt;T&gt; Map&lt;String, List&lt;CellLocator&gt;&gt; getTableSectionLocatorsMap(final Class&lt;T&gt; rowClass,
+                                                                         final List&lt;TableField&lt;T&gt;&gt; fields) {
+      final List&lt;CellLocator&gt; cellLocators;
+<span class="fc bfc" id="L756" title="All 4 branches covered.">      if (fields == null || fields.isEmpty()) {</span>
+<span class="fc" id="L757">         cellLocators = extractAnnotatedFields(rowClass, Collections.emptyList());</span>
+      } else {
+<span class="fc" id="L759">         cellLocators = extractAnnotatedFields(rowClass, fields);</span>
+      }
+
+<span class="fc" id="L762">      return cellLocators.stream()</span>
+<span class="fc" id="L763">            .collect(Collectors.groupingBy(CellLocator::getTableSection));</span>
+   }
+
+
+   private &lt;T&gt; List&lt;CellLocator&gt; extractAnnotatedFields(final Class&lt;T&gt; clazz,
+                                                        final List&lt;TableField&lt;T&gt;&gt; fields) {
+<span class="fc" id="L769">      final T rowInstance = createInstance(clazz);</span>
+
+<span class="fc bfc" id="L771" title="All 2 branches covered.">      if (!fields.isEmpty()) {</span>
+<span class="fc" id="L772">         validateFieldInvokers(rowInstance, fields);</span>
+      }
+
+<span class="fc" id="L775">      final Field[] declaredFields = clazz.getDeclaredFields();</span>
+      final List&lt;Field&gt; validFields;
+<span class="fc bfc" id="L777" title="All 2 branches covered.">      if (fields.isEmpty()) {</span>
+<span class="fc" id="L778">         validFields = Arrays.stream(declaredFields)</span>
+<span class="fc" id="L779">               .filter(f -&gt; f.isAnnotationPresent(TableCellLocator.class))</span>
+<span class="fc" id="L780">               .toList();</span>
+      } else {
+<span class="fc" id="L782">         validFields = Arrays.stream(declaredFields)</span>
+<span class="fc" id="L783">               .filter(f -&gt; {</span>
+<span class="fc" id="L784">                  boolean hasValue = false;</span>
+                  try {
+<span class="fc" id="L786">                     f.setAccessible(true);</span>
+<span class="pc bpc" id="L787" title="1 of 2 branches missed.">                     hasValue = (f.get(rowInstance) != null);</span>
+<span class="pc bpc" id="L788" title="1 of 4 branches missed.">                     if (hasValue &amp;&amp; !f.isAnnotationPresent(TableCellLocator.class)) {</span>
+<span class="fc" id="L789">                        throw new IllegalArgumentException(</span>
+<span class="fc" id="L790">                              &quot;Field &quot; + f.getName()</span>
+                                    + &quot; is missing a @TableCellLocator annotation.&quot;
+                        );
+                     }
+<span class="nc" id="L794">                  } catch (IllegalAccessException ex) {</span>
+<span class="nc" id="L795">                     LogUi.error(&quot;Cannot access field: {}&quot;, f.getName(), ex);</span>
+<span class="fc" id="L796">                  }</span>
+<span class="fc" id="L797">                  return hasValue;</span>
+               })
+<span class="fc" id="L799">               .toList();</span>
+      }
+
+<span class="fc" id="L802">      final boolean validSyntax = validFields.stream()</span>
+<span class="fc" id="L803">            .allMatch(</span>
+<span class="fc bfc" id="L804" title="All 4 branches covered.">                  f -&gt; isListOfTableCell(f) || TableCell.class.isAssignableFrom(f.getType()));</span>
+<span class="fc bfc" id="L805" title="All 2 branches covered.">      if (!validSyntax) {</span>
+<span class="fc" id="L806">         LogUi.error(INVALID_FIELD_TYPE);</span>
+<span class="fc" id="L807">         throw new TableException(&quot;Invalid field type for table cell usage.&quot;);</span>
+      }
+
+<span class="fc" id="L810">      return validFields.stream()</span>
+<span class="fc" id="L811">            .map(this::mapToCellLocator)</span>
+<span class="fc" id="L812">            .toList();</span>
+   }
+
+
+   private boolean isListOfTableCell(final Field field) {
+<span class="fc bfc" id="L817" title="All 2 branches covered.">      if (!List.class.isAssignableFrom(field.getType())) {</span>
+<span class="fc" id="L818">         return false;</span>
+      }
+<span class="fc" id="L820">      final Type genericType = field.getGenericType();</span>
+<span class="pc bpc" id="L821" title="1 of 2 branches missed.">      if (genericType instanceof ParameterizedType parameterizedType) {</span>
+<span class="fc" id="L822">         final Type[] typeArguments = parameterizedType.getActualTypeArguments();</span>
+<span class="pc bpc" id="L823" title="2 of 4 branches missed.">         return (typeArguments.length == 1) &amp;&amp; (typeArguments[0] == TableCell.class);</span>
+      }
+<span class="nc" id="L825">      return false;</span>
+   }
+
+
+   private CellLocator mapToCellLocator(final Field field) {
+<span class="fc" id="L830">      final TableCellLocator annotation = field.getAnnotation(TableCellLocator.class);</span>
+<span class="fc" id="L831">      final FindBy.FindByBuilder builder = new FindBy.FindByBuilder();</span>
+
+<span class="fc" id="L833">      final By cellBy = builder.buildIt(annotation.cellLocator(), null);</span>
+<span class="fc" id="L834">      final By cellTextBy = builder.buildIt(annotation.cellTextLocator(), null);</span>
+<span class="fc" id="L835">      final By cellHeaderBy = builder.buildIt(annotation.headerCellLocator(), null);</span>
+
+<span class="fc" id="L837">      final CellInsertionComponent cellInsertionComponent = Optional.ofNullable(</span>
+<span class="fc" id="L838">                  field.getAnnotation(CellInsertion.class)</span>
+<span class="fc" id="L839">            ).map(ci -&gt; new CellInsertionComponent(ci.type(), ci.componentType(), ci.order()))</span>
+<span class="fc" id="L840">            .orElse(null);</span>
+
+<span class="fc" id="L842">      final Class&lt;? extends CellInsertionFunction&gt; customCellInsertion = Optional.ofNullable(</span>
+<span class="fc" id="L843">            field.getAnnotation(CustomCellInsertion.class)</span>
+<span class="fc" id="L844">      ).map(CustomCellInsertion::insertionFunction).orElse(null);</span>
+
+
+<span class="fc" id="L847">      final CellFilterComponent cellFilterComponent = Optional.ofNullable(</span>
+<span class="fc" id="L848">                  field.getAnnotation(CellFilter.class)</span>
+<span class="fc" id="L849">            ).map(ci -&gt; new CellFilterComponent(ci.type(), ci.componentType()))</span>
+<span class="fc" id="L850">            .orElse(null);</span>
+
+<span class="fc" id="L852">      final Class&lt;? extends CellFilterFunction&gt; customCellFilter = Optional.ofNullable(</span>
+<span class="fc" id="L853">            field.getAnnotation(CustomCellFilter.class)</span>
+<span class="fc" id="L854">      ).map(CustomCellFilter::cellFilterFunction).orElse(null);</span>
+
+<span class="fc" id="L856">      final boolean isCollection = Collection.class.isAssignableFrom(field.getType());</span>
+
+<span class="fc" id="L858">      return new CellLocator(</span>
+<span class="fc" id="L859">            field.getName(),</span>
+            cellBy,
+            cellTextBy,
+            cellHeaderBy,
+            isCollection,
+<span class="fc" id="L864">            annotation.tableSection(),</span>
+            cellInsertionComponent,
+            customCellInsertion,
+            cellFilterComponent,
+            customCellFilter
+      );
+   }
+
+
+   private &lt;T&gt; void validateFieldInvokers(final T instance, final List&lt;TableField&lt;T&gt;&gt; fields) {
+<span class="fc bfc" id="L874" title="All 2 branches covered.">      for (TableField&lt;T&gt; setter : fields) {</span>
+<span class="fc" id="L875">         boolean success = false;</span>
+<span class="fc bfc" id="L876" title="All 2 branches covered.">         for (Object testValue : acceptedValues) {</span>
+            try {
+<span class="fc" id="L878">               setter.invoke(instance, testValue);</span>
+<span class="fc" id="L879">               success = true;</span>
+<span class="fc" id="L880">               break;</span>
+<span class="fc" id="L881">            } catch (InvocationTargetException | IllegalAccessException ex) {</span>
+               // Try next accepted value
+            }
+<span class="fc" id="L884">         }</span>
+<span class="fc bfc" id="L885" title="All 2 branches covered.">         if (!success) {</span>
+<span class="fc" id="L886">            final String msg = &quot;No accepted value could be applied via FieldInvoker. &quot;</span>
+<span class="fc" id="L887">                  + &quot;Possible illegal field or setter in &quot; + instance.getClass().getName();</span>
+<span class="fc" id="L888">            LogUi.error(msg);</span>
+<span class="fc" id="L889">            throw new IllegalArgumentException(msg);</span>
+         }
+<span class="fc" id="L891">      }</span>
+<span class="fc" id="L892">   }</span>
+
+
+   private &lt;T&gt; void insertCellValueInternal(final Object rowIdentifier,
+                                            final Class&lt;T&gt; rowClass,
+                                            final TableField&lt;T&gt; field,
+                                            final int cellIndex,
+                                            final String... values) {
+<span class="fc" id="L900">      TableLocators tableLocators = getTableLocators(rowClass);</span>
+<span class="fc" id="L901">      SmartWebElement tableContainer = getTableContainer(tableLocators.getTableContainerLocator());</span>
+<span class="fc" id="L902">      final Map&lt;String, List&lt;CellLocator&gt;&gt; tableSectionLocatorsMap =</span>
+<span class="fc" id="L903">            getTableSectionLocatorsMap(rowClass, List.of(field));</span>
+<span class="fc" id="L904">      final Map.Entry&lt;String, List&lt;CellLocator&gt;&gt; firstEntry = tableSectionLocatorsMap.entrySet().stream()</span>
+<span class="fc" id="L905">            .findFirst()</span>
+<span class="pc" id="L906">            .orElseThrow(() -&gt; new IllegalStateException(</span>
+                  NO_LOCATOR_FOR_FIELD_EXCEPTION));
+
+<span class="fc" id="L909">      final String tableSection = firstEntry.getKey();</span>
+<span class="fc" id="L910">      final CellLocator cellLocator = firstEntry.getValue().get(0);</span>
+
+      final SmartWebElement rowElement;
+<span class="fc bfc" id="L913" title="All 2 branches covered.">      if (rowIdentifier instanceof List&lt;?&gt; criteria) {</span>
+<span class="fc" id="L914">         rowElement = findRowByCriteria(criteria,</span>
+<span class="fc" id="L915">               getRows(tableContainer, tableLocators.getTableRowsLocator(), tableSection));</span>
+<span class="pc bpc" id="L916" title="1 of 2 branches missed.">      } else if (rowIdentifier instanceof Integer rowIndex) {</span>
+<span class="fc" id="L917">         final List&lt;SmartWebElement&gt; rows = getRows(tableContainer, tableLocators.getTableRowsLocator(),</span>
+               tableSection);
+<span class="pc bpc" id="L919" title="2 of 4 branches missed.">         if (rowIndex &lt; 0 || rowIndex &gt;= rows.size()) {</span>
+<span class="nc" id="L920">            throw new IndexOutOfBoundsException(String.format(</span>
+<span class="nc" id="L921">                  &quot;Requested row index %d is out of valid range [1..%d]&quot;, rowIndex + 1, rows.size()</span>
+            ));
+         }
+<span class="fc" id="L924">         rowElement = rows.get(rowIndex);</span>
+<span class="fc" id="L925">      } else {</span>
+<span class="nc" id="L926">         throw new IllegalArgumentException(&quot;Unsupported row identifier type: &quot; + rowIdentifier);</span>
+      }
+
+<span class="fc" id="L929">      insertInCell(cellLocator, rowElement, values, cellIndex);</span>
+<span class="fc" id="L930">   }</span>
+
+
+   private void insertInCell(final CellLocator cellLocator,
+                             final SmartWebElement rowElement,
+                             final String[] values,
+                             final int cellIndex) {
+<span class="fc" id="L937">      final CellInsertionComponent component = cellLocator.getCellInsertionComponent();</span>
+<span class="fc" id="L938">      final Class&lt;? extends CellInsertionFunction&gt; customFunction = cellLocator.getCustomCellInsertion();</span>
+
+<span class="fc bfc" id="L940" title="All 4 branches covered.">      if (component == null &amp;&amp; customFunction == null) {</span>
+<span class="fc" id="L941">         throw new TableException(</span>
+<span class="fc" id="L942">               &quot;No table cell insertion method provided for field: &quot; + cellLocator.getFieldName()</span>
+         );
+      }
+
+<span class="fc" id="L946">      final List&lt;SmartWebElement&gt; cells = rowElement.findSmartElements(cellLocator.getLocator());</span>
+<span class="pc bpc" id="L947" title="2 of 6 branches missed.">      if (cells.isEmpty() || cellIndex &lt;= 0 || cellIndex &gt; cells.size()) {</span>
+<span class="fc" id="L948">         throw new TableException(String.format(</span>
+<span class="fc" id="L949">               &quot;Invalid cell index: %d for locator: %s&quot;, cellIndex, cellLocator.getLocator()</span>
+         ));
+      }
+
+<span class="fc" id="L953">      final SmartWebElement targetCell = cells.get(cellIndex - 1);</span>
+
+<span class="fc bfc" id="L955" title="All 2 branches covered.">      if (component != null) {</span>
+<span class="fc" id="L956">         insertUsingComponent(component, targetCell, values);</span>
+      } else {
+<span class="fc" id="L958">         insertUsingCustomFunction(customFunction, targetCell, values);</span>
+      }
+<span class="fc" id="L960">   }</span>
+
+
+   private void insertUsingComponent(final CellInsertionComponent component,
+                                     final SmartWebElement targetCell,
+                                     final String[] values) {
+<span class="fc bfc" id="L966" title="All 2 branches covered.">      if (serviceRegistry == null) {</span>
+<span class="fc" id="L967">         throw new IllegalStateException(</span>
+               &quot;Your instance of table is not having registered services. You can't use CellInsertion annotation.&quot;);
+      }
+      try {
+<span class="fc" id="L971">         final Class&lt;? extends ComponentType&gt; type = component.getType();</span>
+
+<span class="fc" id="L973">         Enum&lt;?&gt; componentInstance =</span>
+<span class="fc" id="L974">               (Enum&lt;?&gt;) ReflectionUtil.findEnumImplementationsOfInterface(type, component.getComponentType(),</span>
+<span class="fc" id="L975">                     getUiConfig().projectPackages());</span>
+<span class="fc" id="L976">         final TableInsertion service = serviceRegistry.getTableService(type);</span>
+<span class="fc" id="L977">         service.tableInsertion(targetCell, (ComponentType) componentInstance, values);</span>
+<span class="nc" id="L978">      } catch (Exception e) {</span>
+<span class="nc" id="L979">         throw new TableException(</span>
+<span class="nc" id="L980">               &quot;Failed to insert using component: &quot; + component.getComponentType(), e</span>
+         );
+<span class="fc" id="L982">      }</span>
+<span class="fc" id="L983">   }</span>
+
+
+   private void insertUsingCustomFunction(final Class&lt;? extends CellInsertionFunction&gt; customFunction,
+                                          final SmartWebElement targetCell,
+                                          final String[] values) {
+      try {
+<span class="fc" id="L990">         Constructor&lt;? extends CellInsertionFunction&gt; constructor = customFunction.getDeclaredConstructor();</span>
+<span class="fc" id="L991">         constructor.setAccessible(true);</span>
+<span class="fc" id="L992">         final CellInsertionFunction functionInstance = constructor.newInstance();</span>
+<span class="fc" id="L993">         functionInstance.accept(targetCell, values);</span>
+<span class="nc" id="L994">      } catch (ReflectiveOperationException e) {</span>
+<span class="nc" id="L995">         throw new TableException(</span>
+<span class="nc" id="L996">               &quot;Failed to instantiate custom cell insertion function: &quot; + customFunction.getName(), e</span>
+         );
+<span class="fc" id="L998">      }</span>
+<span class="fc" id="L999">   }</span>
+
+
+   private void filterCells(final CellLocator cellLocator,
+                            final SmartWebElement headerRowElement,
+                            final FilterStrategy filterStrategy,
+                            final String[] values) {
+<span class="fc" id="L1006">      final CellFilterComponent component = cellLocator.getCellFilterComponent();</span>
+<span class="fc" id="L1007">      final Class&lt;? extends CellFilterFunction&gt; customFunction = cellLocator.getCustomCellFilter();</span>
+
+<span class="fc bfc" id="L1009" title="All 4 branches covered.">      if (component == null &amp;&amp; customFunction == null) {</span>
+<span class="fc" id="L1010">         throw new TableException(</span>
+<span class="fc" id="L1011">               &quot;No table cell insertion method provided for field: &quot; + cellLocator.getFieldName()</span>
+         );
+      }
+
+<span class="fc" id="L1015">      final SmartWebElement targetCell = headerRowElement.findSmartElement(cellLocator.getHeaderCellLocator());</span>
+
+
+<span class="fc bfc" id="L1018" title="All 2 branches covered.">      if (component != null) {</span>
+<span class="fc" id="L1019">         filterCellsUsingComponent(component, targetCell, filterStrategy, values);</span>
+      } else {
+<span class="fc" id="L1021">         filterCellsUsingCustomFunction(customFunction, targetCell, filterStrategy, values);</span>
+      }
+<span class="fc" id="L1023">   }</span>
+
+
+   private void filterCellsUsingComponent(final CellFilterComponent component,
+                                          final SmartWebElement targetCell, FilterStrategy filterStrategy,
+                                          final String[] values) {
+<span class="fc bfc" id="L1029" title="All 2 branches covered.">      if (serviceRegistry == null) {</span>
+<span class="fc" id="L1030">         throw new IllegalStateException(</span>
+               &quot;Your instance of table is not having registered services. You can't use CellFilter annotation.&quot;);
+      }
+      try {
+<span class="fc" id="L1034">         final Class&lt;? extends ComponentType&gt; type = component.getType();</span>
+<span class="fc" id="L1035">         final Enum&lt;?&gt; componentInstance =</span>
+<span class="fc" id="L1036">               (Enum&lt;?&gt;) ReflectionUtil.findEnumImplementationsOfInterface(type, component.getComponentType(),</span>
+<span class="fc" id="L1037">                     getUiConfig().projectPackages());</span>
+<span class="fc" id="L1038">         final TableFilter service = serviceRegistry.getFilterService(type);</span>
+<span class="fc" id="L1039">         service.tableFilter(targetCell, (ComponentType) componentInstance, filterStrategy, values);</span>
+<span class="fc" id="L1040">      } catch (Exception e) {</span>
+<span class="fc" id="L1041">         throw new TableException(</span>
+<span class="fc" id="L1042">               &quot;Failed to filter using component: &quot; + component.getComponentType(), e</span>
+         );
+<span class="fc" id="L1044">      }</span>
+<span class="fc" id="L1045">   }</span>
+
+
+   private void filterCellsUsingCustomFunction(final Class&lt;? extends CellFilterFunction&gt; customFunction,
+                                               final SmartWebElement targetCell, FilterStrategy filterStrategy,
+                                               final String[] values) {
+      try {
+<span class="fc" id="L1052">         final CellFilterFunction functionInstance = customFunction.getDeclaredConstructor().newInstance();</span>
+<span class="fc" id="L1053">         functionInstance.accept(targetCell, filterStrategy, values);</span>
+<span class="fc" id="L1054">      } catch (ReflectiveOperationException e) {</span>
+<span class="fc" id="L1055">         throw new TableException(</span>
+<span class="fc" id="L1056">               &quot;Failed to instantiate custom cell filter function: &quot; + customFunction.getName(), e</span>
+         );
+<span class="fc" id="L1058">      }</span>
+<span class="fc" id="L1059">   }</span>
+
+
+   private &lt;T&gt; void processInsertCellValue(BiConsumer&lt;TableField&lt;T&gt;, String[]&gt; action, Class&lt;T&gt; classType, T data) {
+<span class="fc" id="L1063">      Map&lt;TableField&lt;T&gt;, String[]&gt; invokersMap = prepareFieldInvokersMap(classType, data);</span>
+<span class="fc" id="L1064">      invokersMap.forEach(action);</span>
+<span class="fc" id="L1065">   }</span>
+
+
+   private &lt;T&gt; Map&lt;TableField&lt;T&gt;, String[]&gt; prepareFieldInvokersMap(Class&lt;T&gt; classType, T data) {
+<span class="fc" id="L1069">      return Arrays.stream(classType.getDeclaredFields())</span>
+<span class="fc bfc" id="L1070" title="All 4 branches covered.">            .filter(field -&gt; field.isAnnotationPresent(CellInsertion.class) || field.isAnnotationPresent(</span>
+                  CustomCellInsertion.class))
+<span class="pc bpc" id="L1072" title="2 of 4 branches missed.">            .filter(field -&gt; isListOfTableCell(field) || TableCell.class.isAssignableFrom(field.getType()))</span>
+<span class="fc" id="L1073">            .map(field -&gt; {</span>
+<span class="fc bfc" id="L1074" title="All 2 branches covered.">               int order = field.isAnnotationPresent(CellInsertion.class)</span>
+<span class="fc" id="L1075">                     ? field.getAnnotation(CellInsertion.class).order()</span>
+<span class="fc" id="L1076">                     : field.getAnnotation(CustomCellInsertion.class).order();</span>
+
+<span class="fc" id="L1078">               TableField&lt;T&gt; fieldInvoker = (instance, value) -&gt; {</span>
+<span class="fc" id="L1079">                  field.setAccessible(true);</span>
+<span class="fc" id="L1080">                  field.set(instance, value);</span>
+<span class="fc" id="L1081">               };</span>
+
+<span class="fc" id="L1083">               String[] stringValues = convertFieldValueToStrings(field, data);</span>
+
+<span class="fc" id="L1085">               return new OrderedFieldInvokerAndValues&lt;&gt;(fieldInvoker, order, stringValues);</span>
+            })
+<span class="fc" id="L1087">            .sorted(Comparator.comparingInt(OrderedFieldInvokerAndValues::order))</span>
+<span class="fc" id="L1088">            .collect(Collectors.toMap(</span>
+                  OrderedFieldInvokerAndValues::fieldInvoker,
+                  OrderedFieldInvokerAndValues::stringValues,
+<span class="nc" id="L1091">                  (v1, v2) -&gt; v1,</span>
+                  LinkedHashMap::new
+            ));
+   }
+
+
+   private String[] convertFieldValueToStrings(Field field, Object data) {
+<span class="fc" id="L1098">      field.setAccessible(true);</span>
+      try {
+<span class="fc" id="L1100">         Object value = field.get(data);</span>
+<span class="fc bfc" id="L1101" title="All 2 branches covered.">         if (value instanceof TableCell cell) {</span>
+<span class="pc bpc" id="L1102" title="1 of 2 branches missed.">            return cell.getText() == null ? new String[0] : new String[] {cell.getText()};</span>
+<span class="fc bfc" id="L1103" title="All 2 branches covered.">         } else if (value instanceof List&lt;?&gt; list) {</span>
+<span class="fc" id="L1104">            return list.stream()</span>
+<span class="fc" id="L1105">                  .filter(TableCell.class::isInstance)</span>
+<span class="fc" id="L1106">                  .map(TableCell.class::cast)</span>
+<span class="fc" id="L1107">                  .map(TableCell::getText)</span>
+<span class="fc" id="L1108">                  .filter(Objects::nonNull)</span>
+<span class="fc" id="L1109">                  .toArray(String[]::new);</span>
+         }
+<span class="nc" id="L1111">      } catch (IllegalAccessException e) {</span>
+<span class="nc" id="L1112">         throw new TableException(&quot;Unable to access field: &quot; + field.getName(), e);</span>
+<span class="fc" id="L1113">      }</span>
+<span class="fc" id="L1114">      return new String[0];</span>
+   }
+
+   private TableLocators getTableLocators(Class&lt;?&gt; clazz) {
+<span class="fc" id="L1118">      TableInfo annotation = clazz.getAnnotation(TableInfo.class);</span>
+<span class="fc bfc" id="L1119" title="All 2 branches covered.">      if (annotation == null) {</span>
+<span class="fc" id="L1120">         throw new IllegalArgumentException(</span>
+<span class="fc" id="L1121">               &quot;Your class: &quot; + clazz.getSimpleName() + &quot;is missing @TableInfo annotation for the table container&quot;);</span>
+      }
+<span class="fc" id="L1123">      final FindBy.FindByBuilder builder = new FindBy.FindByBuilder();</span>
+<span class="fc" id="L1124">      By tableContainerLocator = builder.buildIt(annotation.tableContainerLocator(), null);</span>
+<span class="fc" id="L1125">      By tableRowsLocator = builder.buildIt(annotation.rowsLocator(), null);</span>
+<span class="fc" id="L1126">      By headerRowLocator = builder.buildIt(annotation.headerRowLocator(), null);</span>
+<span class="fc" id="L1127">      return new TableLocators(tableContainerLocator, tableRowsLocator, headerRowLocator);</span>
+   }
+
+<span class="fc" id="L1130">   private record OrderedFieldInvokerAndValues&lt;T&gt;(</span>
+         TableField&lt;T&gt; fieldInvoker,
+         int order,
+         String[] stringValues
+   ) {
+      @Override
+      public boolean equals(Object o) {
+<span class="nc bnc" id="L1137" title="All 2 branches missed.">         if (this == o) {</span>
+<span class="nc" id="L1138">            return true;</span>
+         }
+<span class="nc bnc" id="L1140" title="All 2 branches missed.">         if (!(o instanceof OrderedFieldInvokerAndValues&lt;?&gt; that)) {</span>
+<span class="nc" id="L1141">            return false;</span>
+         }
+<span class="nc bnc" id="L1143" title="All 2 branches missed.">         return order == that.order</span>
+<span class="nc bnc" id="L1144" title="All 2 branches missed.">               &amp;&amp; Objects.equals(fieldInvoker, that.fieldInvoker)</span>
+<span class="nc bnc" id="L1145" title="All 2 branches missed.">               &amp;&amp; Arrays.equals(stringValues, that.stringValues);</span>
+      }
+
+      @Override
+      public int hashCode() {
+<span class="nc" id="L1150">         int result = Objects.hash(fieldInvoker, order);</span>
+<span class="nc" id="L1151">         result = 31 * result + Arrays.hashCode(stringValues);</span>
+<span class="nc" id="L1152">         return result;</span>
+      }
+
+      @Override
+      public String toString() {
+<span class="nc" id="L1157">         return &quot;OrderedFieldInvokerAndValues[&quot;</span>
+               + &quot;fieldInvoker=&quot; + fieldInvoker
+               + &quot;, order=&quot; + order
+<span class="nc" id="L1160">               + &quot;, stringValues=&quot; + Arrays.toString(stringValues)</span>
+               + ']';
+      }
+   }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CheckboxServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.checkbox</a> &gt; <span class="el_source">CheckboxServiceImpl.java</span></div><h1>CheckboxServiceImpl.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.checkbox;
+
+import io.cyborgcode.roa.ui.components.base.AbstractComponentService;
+import io.cyborgcode.roa.ui.components.base.ComponentType;
+import io.cyborgcode.roa.ui.components.factory.ComponentFactory;
+import io.cyborgcode.roa.ui.log.LogUi;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import io.cyborgcode.roa.ui.util.strategy.Strategy;
+import java.util.List;
+import org.openqa.selenium.By;
+
+/**
+ * Provides service-level operations for interacting with checkbox components.
+ *
+ * &lt;p&gt;This class handles selection, deselection, verification of states (selected/enabled),
+ * and retrieval of checkbox values, delegating the interactions to appropriate
+ * {@link Checkbox} implementations based on the given {@link CheckboxComponentType}.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class CheckboxServiceImpl extends AbstractComponentService&lt;CheckboxComponentType, Checkbox&gt;
+      implements CheckboxService {
+
+
+   private static final String SELECT_WITH_TEXT = &quot;Selecting checkbox %s with text %s&quot;;
+   private static final String SELECT_USING_STRATEGY = &quot;Selecting checkbox %s using strategy %s&quot;;
+   private static final String SELECT_BY_LOCATOR = &quot;Selecting checkbox %s by locator&quot;;
+
+   private static final String DESELECT_WITH_TEXT = &quot;Deselecting checkbox %s with text %s&quot;;
+   private static final String DESELECT_USING_STRATEGY = &quot;Deselecting checkbox %s using strategy %s&quot;;
+   private static final String DESELECT_BY_LOCATOR = &quot;Deselecting checkbox %s by locator&quot;;
+
+   private static final String CHECKBOXES_SELECTED = &quot;Checking if checkboxes %s are selected&quot;;
+   private static final String CHECKBOXES_SELECTED_BY_LOCATOR = &quot;Checking if checkboxes %s are selected by locator&quot;;
+   private static final String CHECKBOX_SELECTED = &quot;Checking if checkbox %s is selected&quot;;
+   private static final String CHECKBOX_SELECTED_BY_LOCATOR = &quot;Checking if checkbox %s is selected by locator&quot;;
+
+   private static final String CHECKBOXES_ENABLED = &quot;Checking if checkboxes %s are enabled&quot;;
+   private static final String CHECKBOXES_ENABLED_BY_LOCATOR = &quot;Checking if checkboxes %s are enabled by locator&quot;;
+   private static final String CHECKBOX_ENABLED = &quot;Checking if checkbox %s is enabled&quot;;
+   private static final String CHECKBOX_ENABLED_BY_LOCATOR = &quot;Checking if checkbox %s is enabled by locator&quot;;
+
+   private static final String GET_SELECTED_CHECKBOXES = &quot;Getting selected checkboxes %s&quot;;
+   private static final String GET_SELECTED_CHECKBOXES_BY_LOCATOR = &quot;Getting selected checkboxes %s by locator&quot;;
+   private static final String GET_ALL_CHECKBOXES = &quot;Getting all checkboxes %s&quot;;
+   private static final String GET_ALL_CHECKBOXES_BY_LOCATOR = &quot;Getting all checkboxes %s by locator&quot;;
+
+   private static final String INSERT_VALUE_INTO_CHECKBOX = &quot;Inserting value into checkbox %s&quot;;
+
+   /**
+    * Constructs a new CheckboxServiceImpl using the specified SmartWebDriver.
+    *
+    * @param driver the SmartWebDriver used for UI interactions.
+    */
+   public CheckboxServiceImpl(SmartWebDriver driver) {
+<span class="fc" id="L57">      super(driver);</span>
+<span class="fc" id="L58">   }</span>
+
+   /**
+    * Creates a new Checkbox instance for the given component type.
+    *
+    * @param componentType the checkbox component type.
+    * @return a new or cached Checkbox instance.
+    */
+   @Override
+   protected Checkbox createComponent(CheckboxComponentType componentType) {
+<span class="fc" id="L68">      return ComponentFactory.getCheckBoxComponent(componentType, driver);</span>
+   }
+
+   /**
+    * Selects checkboxes inside a container based on their text.
+    *
+    * @param componentType the checkbox component type.
+    * @param container     the container holding the checkboxes.
+    * @param checkBoxText  the text of the checkboxes to select.
+    */
+   @Override
+   public void select(final CheckboxComponentType componentType, final SmartWebElement container,
+                      final String... checkBoxText) {
+<span class="fc bfc" id="L81" title="All 2 branches covered.">      String text = checkBoxText != null ? String.join(&quot;, &quot;, checkBoxText) : &quot;no text added&quot;;</span>
+<span class="fc" id="L82">      LogUi.step(String.format(SELECT_WITH_TEXT, componentType, text));</span>
+<span class="fc" id="L83">      checkboxComponent(componentType).select(container, checkBoxText);</span>
+<span class="fc" id="L84">   }</span>
+
+   /**
+    * Selects a checkbox inside a container based on a strategy.
+    *
+    * @param componentType the checkbox component type.
+    * @param container     the container holding the checkboxes.
+    * @param strategy      the selection strategy.
+    * @return the selected checkbox text.
+    */
+   @Override
+   public String select(final CheckboxComponentType componentType, final SmartWebElement container,
+                        final Strategy strategy) {
+<span class="fc" id="L97">      LogUi.step(String.format(SELECT_USING_STRATEGY, componentType, strategy));</span>
+<span class="fc" id="L98">      return checkboxComponent(componentType).select(container, strategy);</span>
+   }
+
+   /**
+    * Selects checkboxes based on their text.
+    *
+    * @param componentType the checkbox component type.
+    * @param checkBoxText  the text of the checkboxes to select.
+    */
+   @Override
+   public void select(final CheckboxComponentType componentType, final String... checkBoxText) {
+<span class="fc" id="L109">      LogUi.step(String.format(SELECT_WITH_TEXT, componentType, String.join(&quot;, &quot;, checkBoxText)));</span>
+<span class="fc" id="L110">      checkboxComponent(componentType).select(checkBoxText);</span>
+<span class="fc" id="L111">   }</span>
+
+   /**
+    * Selects checkboxes identified by their locators.
+    *
+    * @param componentType   the checkbox component type.
+    * @param checkBoxLocator the locators of the checkboxes to select.
+    */
+   @Override
+   public void select(final CheckboxComponentType componentType, final By... checkBoxLocator) {
+<span class="fc" id="L121">      LogUi.step(String.format(SELECT_BY_LOCATOR, componentType));</span>
+<span class="fc" id="L122">      checkboxComponent(componentType).select(checkBoxLocator);</span>
+<span class="fc" id="L123">   }</span>
+
+   /**
+    * Deselects checkboxes inside a container based on their text.
+    *
+    * @param componentType the checkbox component type.
+    * @param container     the container holding the checkboxes.
+    * @param checkBoxText  the text of the checkboxes to deselect.
+    */
+   @Override
+   public void deSelect(final CheckboxComponentType componentType, final SmartWebElement container,
+                        final String... checkBoxText) {
+<span class="fc" id="L135">      LogUi.step(String.format(DESELECT_WITH_TEXT, componentType, String.join(&quot;, &quot;, checkBoxText)));</span>
+<span class="fc" id="L136">      checkboxComponent(componentType).deSelect(container, checkBoxText);</span>
+<span class="fc" id="L137">   }</span>
+
+   /**
+    * Deselects a checkbox inside a container based on a strategy.
+    *
+    * @param componentType the checkbox component type.
+    * @param container     the container holding the checkboxes.
+    * @param strategy      the deselection strategy.
+    * @return the deselected checkbox text.
+    */
+   @Override
+   public String deSelect(final CheckboxComponentType componentType, final SmartWebElement container,
+                          final Strategy strategy) {
+<span class="fc" id="L150">      LogUi.step(String.format(DESELECT_USING_STRATEGY, componentType, strategy));</span>
+<span class="fc" id="L151">      return checkboxComponent(componentType).deSelect(container, strategy);</span>
+   }
+
+   /**
+    * Deselects checkboxes based on their text.
+    *
+    * @param componentType the checkbox component type.
+    * @param checkBoxText  the text of the checkboxes to deselect.
+    */
+   @Override
+   public void deSelect(final CheckboxComponentType componentType, final String... checkBoxText) {
+<span class="fc" id="L162">      LogUi.step(String.format(DESELECT_WITH_TEXT, componentType, String.join(&quot;, &quot;, checkBoxText)));</span>
+<span class="fc" id="L163">      checkboxComponent(componentType).deSelect(checkBoxText);</span>
+<span class="fc" id="L164">   }</span>
+
+   /**
+    * Deselects checkboxes identified by their locators.
+    *
+    * @param componentType   the checkbox component type.
+    * @param checkBoxLocator the locators of the checkboxes to deselect.
+    */
+   @Override
+   public void deSelect(final CheckboxComponentType componentType, final By... checkBoxLocator) {
+<span class="fc" id="L174">      LogUi.step(String.format(DESELECT_BY_LOCATOR, componentType));</span>
+<span class="fc" id="L175">      checkboxComponent(componentType).deSelect(checkBoxLocator);</span>
+<span class="fc" id="L176">   }</span>
+
+   /**
+    * Checks if the specified checkboxes inside a container are selected.
+    *
+    * @param componentType the checkbox component type.
+    * @param container     the container holding the checkboxes.
+    * @param checkBoxText  the text of the checkboxes to verify.
+    * @return true if all specified checkboxes are selected; false otherwise.
+    */
+   @Override
+   public boolean areSelected(final CheckboxComponentType componentType, final SmartWebElement container,
+                              final String... checkBoxText) {
+<span class="fc" id="L189">      LogUi.step(String.format(CHECKBOXES_SELECTED, componentType));</span>
+<span class="fc" id="L190">      return checkboxComponent(componentType).areSelected(container, checkBoxText);</span>
+   }
+
+   /**
+    * Checks if the checkboxes with the specified text are selected.
+    *
+    * @param componentType the checkbox component type.
+    * @param checkBoxText  the text of the checkboxes to verify.
+    * @return true if all specified checkboxes are selected, false otherwise.
+    */
+   @Override
+   public boolean areSelected(final CheckboxComponentType componentType, final String... checkBoxText) {
+<span class="fc" id="L202">      LogUi.step(String.format(CHECKBOXES_SELECTED, componentType));</span>
+<span class="fc" id="L203">      return checkboxComponent(componentType).areSelected(checkBoxText);</span>
+   }
+
+   /**
+    * Checks if the checkboxes with the specified text are selected.
+    *
+    * @param componentType   the checkbox component type.
+    * @param checkBoxLocator the locators of the checkboxes to verify.
+    * @return true if all specified checkboxes are selected, false otherwise.
+    */
+   @Override
+   public boolean areSelected(final CheckboxComponentType componentType, final By... checkBoxLocator) {
+<span class="fc" id="L215">      LogUi.step(String.format(CHECKBOXES_SELECTED_BY_LOCATOR, componentType));</span>
+<span class="fc" id="L216">      return checkboxComponent(componentType).areSelected(checkBoxLocator);</span>
+   }
+
+   /**
+    * Checks if a checkbox inside a container is selected.
+    *
+    * @param componentType the checkbox component type.
+    * @param container     the container holding the checkbox.
+    * @param checkBoxText  the text of the checkbox to verify.
+    * @return true if the checkbox is selected, false otherwise.
+    */
+   @Override
+   public boolean isSelected(final CheckboxComponentType componentType, final SmartWebElement container,
+                             final String checkBoxText) {
+<span class="fc" id="L230">      LogUi.step(String.format(CHECKBOX_SELECTED, componentType));</span>
+<span class="fc" id="L231">      return checkboxComponent(componentType).areSelected(container, checkBoxText);</span>
+   }
+
+   /**
+    * Checks if a checkbox with the specified text is selected.
+    *
+    * @param componentType the checkbox component type.
+    * @param checkBoxText  the text of the checkbox to verify.
+    * @return true if the checkbox is selected, false otherwise.
+    */
+   @Override
+   public boolean isSelected(final CheckboxComponentType componentType, final String checkBoxText) {
+<span class="fc" id="L243">      LogUi.step(String.format(CHECKBOX_SELECTED, componentType));</span>
+<span class="fc" id="L244">      return checkboxComponent(componentType).areSelected(checkBoxText);</span>
+   }
+
+   /**
+    * Checks if a checkbox identified by a locator is selected.
+    *
+    * @param componentType   the checkbox component type.
+    * @param checkBoxLocator the locator of the checkbox to verify.
+    * @return true if the checkbox is selected, false otherwise.
+    */
+   @Override
+   public boolean isSelected(final CheckboxComponentType componentType, final By checkBoxLocator) {
+<span class="fc" id="L256">      LogUi.step(String.format(CHECKBOX_SELECTED_BY_LOCATOR, componentType));</span>
+<span class="fc" id="L257">      return checkboxComponent(componentType).areSelected(checkBoxLocator);</span>
+   }
+
+   /**
+    * Checks if the checkboxes with the specified text inside a container are enabled.
+    *
+    * @param componentType the checkbox component type.
+    * @param container     the container holding the checkboxes.
+    * @param checkBoxText  the text of the checkboxes to verify.
+    * @return true if all specified checkboxes are enabled, false otherwise.
+    */
+   @Override
+   public boolean areEnabled(final CheckboxComponentType componentType, final SmartWebElement container,
+                             final String... checkBoxText) {
+<span class="fc" id="L271">      LogUi.step(String.format(CHECKBOXES_ENABLED, componentType));</span>
+<span class="fc" id="L272">      return checkboxComponent(componentType).areEnabled(container, checkBoxText);</span>
+   }
+
+   /**
+    * Checks if the checkboxes with the specified text are enabled.
+    *
+    * @param componentType the checkbox component type.
+    * @param checkBoxText  the text of the checkboxes to verify.
+    * @return true if all specified checkboxes are enabled, false otherwise.
+    */
+   @Override
+   public boolean areEnabled(final CheckboxComponentType componentType, final String... checkBoxText) {
+<span class="fc" id="L284">      LogUi.step(String.format(CHECKBOXES_ENABLED, componentType));</span>
+<span class="fc" id="L285">      return checkboxComponent(componentType).areEnabled(checkBoxText);</span>
+   }
+
+   /**
+    * Checks if the checkboxes identified by their locators are enabled.
+    *
+    * @param componentType   the checkbox component type.
+    * @param checkBoxLocator the locators of the checkboxes to verify.
+    * @return true if all specified checkboxes are enabled, false otherwise.
+    */
+   @Override
+   public boolean areEnabled(final CheckboxComponentType componentType, final By... checkBoxLocator) {
+<span class="fc" id="L297">      LogUi.step(String.format(CHECKBOXES_ENABLED_BY_LOCATOR, componentType));</span>
+<span class="fc" id="L298">      return checkboxComponent(componentType).areEnabled(checkBoxLocator);</span>
+   }
+
+   /**
+    * Checks if a checkbox inside a container is enabled.
+    *
+    * @param componentType the checkbox component type.
+    * @param container     the container holding the checkbox.
+    * @param checkBoxText  the text of the checkbox to verify.
+    * @return true if the checkbox is enabled, false otherwise.
+    */
+   @Override
+   public boolean isEnabled(final CheckboxComponentType componentType, final SmartWebElement container,
+                            final String checkBoxText) {
+<span class="fc" id="L312">      LogUi.step(String.format(CHECKBOX_ENABLED, componentType));</span>
+<span class="fc" id="L313">      return checkboxComponent(componentType).areEnabled(container, checkBoxText);</span>
+   }
+
+   /**
+    * Checks if a checkbox with the specified text is enabled.
+    *
+    * @param componentType the checkbox component type.
+    * @param checkBoxText  the text of the checkbox to verify.
+    * @return true if the checkbox is enabled, false otherwise.
+    */
+   @Override
+   public boolean isEnabled(final CheckboxComponentType componentType, final String checkBoxText) {
+<span class="fc" id="L325">      LogUi.step(String.format(CHECKBOX_ENABLED, componentType));</span>
+<span class="fc" id="L326">      return checkboxComponent(componentType).areEnabled(checkBoxText);</span>
+   }
+
+   /**
+    * Checks if a checkbox identified by a locator is enabled.
+    *
+    * @param componentType   the checkbox component type.
+    * @param checkBoxLocator the locator of the checkbox to verify.
+    * @return true if the checkbox is enabled, false otherwise.
+    */
+   @Override
+   public boolean isEnabled(final CheckboxComponentType componentType, final By checkBoxLocator) {
+<span class="fc" id="L338">      LogUi.step(String.format(CHECKBOX_ENABLED_BY_LOCATOR, componentType));</span>
+<span class="fc" id="L339">      return checkboxComponent(componentType).areEnabled(checkBoxLocator);</span>
+   }
+
+   /**
+    * Retrieves a list of all selected checkboxes inside a container.
+    *
+    * @param componentType the checkbox component type.
+    * @param container     the container holding the checkboxes.
+    * @return a list of selected checkbox texts.
+    */
+   @Override
+   public List&lt;String&gt; getSelected(final CheckboxComponentType componentType, final SmartWebElement container) {
+<span class="fc" id="L351">      LogUi.step(String.format(GET_SELECTED_CHECKBOXES, componentType));</span>
+<span class="fc" id="L352">      return checkboxComponent(componentType).getSelected(container);</span>
+   }
+
+   /**
+    * Retrieves a list of all selected checkboxes inside a container identified by its locator.
+    *
+    * @param componentType    the checkbox component type.
+    * @param containerLocator the locator of the container holding the checkboxes.
+    * @return a list of selected checkbox texts.
+    */
+   @Override
+   public List&lt;String&gt; getSelected(final CheckboxComponentType componentType, final By containerLocator) {
+<span class="fc" id="L364">      LogUi.step(String.format(GET_SELECTED_CHECKBOXES_BY_LOCATOR, componentType));</span>
+<span class="fc" id="L365">      return checkboxComponent(componentType).getSelected(containerLocator);</span>
+   }
+
+   /**
+    * Retrieves a list of all checkboxes inside a container.
+    *
+    * @param componentType the checkbox component type.
+    * @param container     the container holding the checkboxes.
+    * @return a list of all checkbox texts.
+    */
+   @Override
+   public List&lt;String&gt; getAll(final CheckboxComponentType componentType, final SmartWebElement container) {
+<span class="fc" id="L377">      LogUi.step(String.format(GET_ALL_CHECKBOXES, componentType));</span>
+<span class="fc" id="L378">      return checkboxComponent(componentType).getAll(container);</span>
+   }
+
+   /**
+    * Retrieves a list of all checkboxes inside a container identified by its locator.
+    *
+    * @param componentType    the checkbox component type.
+    * @param containerLocator the locator of the container holding the checkboxes.
+    * @return a list of all checkbox texts.
+    */
+   @Override
+   public List&lt;String&gt; getAll(final CheckboxComponentType componentType, final By containerLocator) {
+<span class="fc" id="L390">      LogUi.step(String.format(GET_ALL_CHECKBOXES_BY_LOCATOR, componentType));</span>
+<span class="fc" id="L391">      return checkboxComponent(componentType).getAll(containerLocator);</span>
+   }
+
+   /**
+    * Performs an insertion action on a checkbox component.
+    *
+    * @param componentType the checkbox component type.
+    * @param locator       the locator for the checkbox.
+    * @param values        optional values for the insertion action.
+    */
+   @Override
+   public void insertion(final ComponentType componentType, final By locator, final Object... values) {
+<span class="fc bfc" id="L403" title="All 2 branches covered.">      if (!(componentType instanceof CheckboxComponentType checkboxType)) {</span>
+<span class="fc" id="L404">         throw new IllegalArgumentException(&quot;Component type needs to be from: CheckboxComponentType.&quot;);</span>
+      }
+<span class="fc" id="L406">      LogUi.step(String.format(INSERT_VALUE_INTO_CHECKBOX, checkboxType));</span>
+<span class="fc" id="L407">      select(checkboxType, (String) values[0]);</span>
+<span class="fc" id="L408">   }</span>
+
+   /**
+    * Retrieves the Checkbox instance for the given component type.
+    *
+    * @param componentType the checkbox component type.
+    * @return the Checkbox instance.
+    */
+   private Checkbox checkboxComponent(CheckboxComponentType componentType) {
+<span class="fc" id="L417">      return getOrCreateComponent(componentType);</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

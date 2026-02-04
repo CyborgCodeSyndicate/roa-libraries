@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="12.0.1">
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\assertions\src\main\java\io\cyborgcode\roa\validator\core\AssertionTarget.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\assertions\src\main\java\io\cyborgcode\roa\validator\core\AssertionType.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\assertions\src\main\java\io\cyborgcode\roa\validator\core\AssertionTypes.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\assertions\src\main\java\io\cyborgcode\roa\validator\exceptions\InvalidAssertionException.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\assertions\src\main\java\io\cyborgcode\roa\validator\functions\AssertionFunctions.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\assertions\src\main\java\io\cyborgcode\roa\validator\registry\AssertionRegistry.java">
+</file>
+<file name="C:\Users\38975\IdeaProjects\roa-libraries\assertions\src\main\java\io\cyborgcode\roa\validator\util\AssertionUtil.java">
+</file>
+</checkstyle>

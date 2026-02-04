@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RadioServiceFluent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.service.fluent</a> &gt; <span class="el_source">RadioServiceFluent.java</span></div><h1>RadioServiceFluent.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.service.fluent;
+
+
+import io.cyborgcode.roa.framework.storage.Storage;
+import io.cyborgcode.roa.ui.components.base.ComponentType;
+import io.cyborgcode.roa.ui.components.radio.RadioService;
+import io.cyborgcode.roa.ui.insertion.Insertion;
+import io.cyborgcode.roa.ui.selenium.RadioUiElement;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.qameta.allure.Allure;
+import java.util.Arrays;
+import java.util.List;
+import org.assertj.core.api.Assertions;
+import org.openqa.selenium.By;
+
+import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
+
+/**
+ * A fluent service class for interacting with radio button components in a UI automation framework.
+ *
+ * &lt;p&gt;Provides methods for selecting, validating, enabling, and retrieving radio button values.
+ *
+ * &lt;p&gt;The generic type {@code T} represents the UI service fluent implementation that extends {@link UiServiceFluent},
+ * enabling method chaining for seamless interaction.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@SuppressWarnings({&quot;java:S5960&quot;, &quot;unchecked&quot;})
+public class RadioServiceFluent&lt;T extends UiServiceFluent&lt;?&gt;&gt; implements Insertion {
+
+   private static final String UI_RADIO_VALIDATING_IF_RADIO_BUTTON_IS = &quot;[UI - Radio] Validating if radio button is &quot;;
+
+   private final RadioService radioService;
+   private final T uiServiceFluent;
+   private final Storage storage;
+   private final SmartWebDriver driver;
+
+   /**
+    * Constructs a new {@code RadioServiceFluent} instance.
+    *
+    * @param uiServiceFluent The parent fluent UI service instance.
+    * @param storage         The storage instance for saving UI-related values.
+    * @param radioService    The service responsible for handling radio button interactions.
+    * @param webDriver       The smart web driver instance.
+    */
+   public RadioServiceFluent(T uiServiceFluent, Storage storage, RadioService radioService,
+<span class="fc" id="L47">                             SmartWebDriver webDriver) {</span>
+<span class="fc" id="L48">      this.radioService = radioService;</span>
+<span class="fc" id="L49">      this.uiServiceFluent = uiServiceFluent;</span>
+<span class="fc" id="L50">      this.storage = storage;</span>
+<span class="fc" id="L51">      driver = webDriver;</span>
+<span class="fc" id="L52">   }</span>
+
+   /**
+    * Selects the given radio button element.
+    *
+    * @param element The {@link RadioUiElement} representing the radio button.
+    * @return The fluent UI service instance.
+    */
+   public T select(final RadioUiElement element) {
+<span class="fc" id="L61">      Allure.step(&quot;[UI - Radio] Selecting radio button: &quot; + element.enumImpl());</span>
+<span class="fc" id="L62">      element.before().accept(driver);</span>
+<span class="fc" id="L63">      radioService.select(element.componentType(), element.locator());</span>
+<span class="fc" id="L64">      element.after().accept(driver);</span>
+<span class="fc" id="L65">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Checks if the specified radio button is enabled.
+    *
+    * @param element The {@link RadioUiElement} to check.
+    * @return The fluent UI service instance.
+    */
+   public T isEnabled(final RadioUiElement element) {
+<span class="fc" id="L75">      Allure.step(&quot;[UI - Radio] Checking if radio button is enabled: &quot; + element.enumImpl());</span>
+<span class="fc" id="L76">      element.before().accept(driver);</span>
+<span class="fc" id="L77">      boolean enabled = radioService.isEnabled(element.componentType(), element.locator());</span>
+<span class="fc" id="L78">      element.after().accept(driver);</span>
+<span class="fc" id="L79">      storage.sub(UI).put(element.enumImpl(), enabled);</span>
+<span class="fc" id="L80">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates whether the specified radio button element is enabled.
+    *
+    * @param element The {@link RadioUiElement} representing the radio button.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsEnabled(final RadioUiElement element) {
+<span class="fc" id="L90">      return validateIsEnabled(element, true, false);</span>
+   }
+
+   /**
+    * Validates whether the radio button is enabled.
+    *
+    * @param element The {@link RadioUiElement} to validate.
+    * @param soft    Whether to perform a soft assertion.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsEnabled(final RadioUiElement element, boolean soft) {
+<span class="fc" id="L101">      return validateIsEnabled(element, true, soft);</span>
+   }
+
+   private T validateIsEnabled(final RadioUiElement element, boolean shouldBeEnabled, boolean soft) {
+<span class="fc bfc" id="L105" title="All 2 branches covered.">      Allure.step(UI_RADIO_VALIDATING_IF_RADIO_BUTTON_IS + (shouldBeEnabled ? &quot;enabled&quot; : &quot;disabled&quot;) + &quot;: &quot;</span>
+<span class="fc" id="L106">            + element.enumImpl());</span>
+<span class="fc" id="L107">      element.before().accept(driver);</span>
+<span class="fc" id="L108">      boolean enabled = radioService.isEnabled(element.componentType(), element.locator());</span>
+<span class="fc" id="L109">      element.after().accept(driver);</span>
+<span class="fc" id="L110">      storage.sub(UI).put(element.enumImpl(), enabled);</span>
+
+<span class="fc bfc" id="L112" title="All 2 branches covered.">      String assertionMessage = shouldBeEnabled</span>
+<span class="fc" id="L113">            ? &quot;Validating radio input is enabled&quot;</span>
+<span class="fc" id="L114">            : &quot;Validating radio input is disabled&quot;;</span>
+
+<span class="fc bfc" id="L116" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L117">         return (T) uiServiceFluent.validate(</span>
+               softAssertions -&gt; {
+<span class="fc bfc" id="L119" title="All 2 branches covered.">                  if (shouldBeEnabled) {</span>
+<span class="fc" id="L120">                     softAssertions.assertThat(enabled).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L122">                     softAssertions.assertThat(enabled).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L124">               }</span>
+         );
+      } else {
+<span class="fc" id="L127">         return (T) uiServiceFluent.validate(</span>
+               () -&gt; {
+<span class="fc bfc" id="L129" title="All 2 branches covered.">                  if (shouldBeEnabled) {</span>
+<span class="fc" id="L130">                     Assertions.assertThat(enabled).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L132">                     Assertions.assertThat(enabled).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L134">               }</span>
+         );
+      }
+   }
+
+   /**
+    * Validates whether the specified radio button element is disabled.
+    *
+    * @param element The {@link RadioUiElement} representing the radio button.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsDisabled(final RadioUiElement element) {
+<span class="fc" id="L146">      return validateIsEnabled(element, false, false);</span>
+   }
+
+   /**
+    * Validates whether the radio button is disabled.
+    *
+    * @param element The {@link RadioUiElement} to validate.
+    * @param soft    Whether to perform a soft assertion.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsDisabled(final RadioUiElement element, boolean soft) {
+<span class="fc" id="L157">      return validateIsEnabled(element, false, soft);</span>
+   }
+
+   /**
+    * Checks if the specified radio button is selected.
+    *
+    * @param element The {@link RadioUiElement} to check.
+    * @return The fluent UI service instance.
+    */
+   public T isSelected(final RadioUiElement element) {
+<span class="fc" id="L167">      Allure.step(&quot;[UI - Radio] Checking if radio button is selected: &quot; + element.enumImpl());</span>
+<span class="fc" id="L168">      element.before().accept(driver);</span>
+<span class="fc" id="L169">      boolean selected = radioService.isSelected(element.componentType(), element.locator());</span>
+<span class="fc" id="L170">      element.after().accept(driver);</span>
+<span class="fc" id="L171">      storage.sub(UI).put(element.enumImpl(), selected);</span>
+<span class="fc" id="L172">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates whether the specified radio button element is selected.
+    *
+    * @param element The {@link RadioUiElement} representing the radio button.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsSelected(final RadioUiElement element) {
+<span class="fc" id="L182">      return validateIsSelected(element, true, false);</span>
+   }
+
+   /**
+    * Validates whether the specified radio button element is selected, with an option for soft validation.
+    *
+    * @param element The {@link RadioUiElement} representing the radio button.
+    * @param soft    A boolean indicating whether the validation should be performed softly.
+    *                If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsSelected(final RadioUiElement element, boolean soft) {
+<span class="fc" id="L194">      return validateIsSelected(element, true, soft);</span>
+   }
+
+   private T validateIsSelected(final RadioUiElement element, boolean shouldBeSelected, boolean soft) {
+<span class="fc bfc" id="L198" title="All 2 branches covered.">      Allure.step(UI_RADIO_VALIDATING_IF_RADIO_BUTTON_IS + (shouldBeSelected ? &quot;selected&quot; : &quot;not selected&quot;) + &quot;: &quot;</span>
+<span class="fc" id="L199">            + element.enumImpl());</span>
+<span class="fc" id="L200">      element.before().accept(driver);</span>
+<span class="fc" id="L201">      boolean selected = radioService.isSelected(element.componentType(), element.locator());</span>
+<span class="fc" id="L202">      element.after().accept(driver);</span>
+<span class="fc" id="L203">      storage.sub(UI).put(element.enumImpl(), selected);</span>
+
+<span class="fc bfc" id="L205" title="All 2 branches covered.">      String assertionMessage = shouldBeSelected</span>
+<span class="fc" id="L206">            ? &quot;Validating radio input is selected&quot;</span>
+<span class="fc" id="L207">            : &quot;Validating radio input is not selected&quot;;</span>
+
+<span class="fc bfc" id="L209" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L210">         return (T) uiServiceFluent.validate(</span>
+               softAssertions -&gt; {
+<span class="fc bfc" id="L212" title="All 2 branches covered.">                  if (shouldBeSelected) {</span>
+<span class="fc" id="L213">                     softAssertions.assertThat(selected).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L215">                     softAssertions.assertThat(selected).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L217">               }</span>
+         );
+      } else {
+<span class="fc" id="L220">         return (T) uiServiceFluent.validate(</span>
+               () -&gt; {
+<span class="fc bfc" id="L222" title="All 2 branches covered.">                  if (shouldBeSelected) {</span>
+<span class="fc" id="L223">                     Assertions.assertThat(selected).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L225">                     Assertions.assertThat(selected).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L227">               }</span>
+         );
+      }
+   }
+
+   /**
+    * Validates whether the specified radio button element is not selected.
+    *
+    * @param element The {@link RadioUiElement} representing the radio button.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsNotSelected(final RadioUiElement element) {
+<span class="fc" id="L239">      return validateIsSelected(element, false, false);</span>
+   }
+
+   /**
+    * Validates whether the specified radio button element is not selected, with an option for soft validation.
+    *
+    * @param element The {@link RadioUiElement} representing the radio button.
+    * @param soft    A boolean indicating whether the validation should be performed softly.
+    *                If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsNotSelected(final RadioUiElement element, boolean soft) {
+<span class="fc" id="L251">      return validateIsSelected(element, false, soft);</span>
+   }
+
+   /**
+    * Checks whether the specified radio button element is visible.
+    *
+    * @param element The {@link RadioUiElement} representing the radio button.
+    * @return The fluent UI service instance.
+    */
+   public T isVisible(final RadioUiElement element) {
+<span class="fc" id="L261">      Allure.step(&quot;[UI - Radio] Checking if radio button is visible: &quot; + element.enumImpl());</span>
+<span class="fc" id="L262">      element.before().accept(driver);</span>
+<span class="fc" id="L263">      boolean visible = radioService.isVisible(element.componentType(), element.locator());</span>
+<span class="fc" id="L264">      element.after().accept(driver);</span>
+<span class="fc" id="L265">      storage.sub(UI).put(element.enumImpl(), visible);</span>
+<span class="fc" id="L266">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates whether the specified radio button element is visible.
+    *
+    * @param element The {@link RadioUiElement} representing the radio button.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsVisible(final RadioUiElement element) {
+<span class="fc" id="L276">      return validateIsVisible(element, true, false);</span>
+   }
+
+   /**
+    * Validates whether the specified radio button element is visible, with an option for soft validation.
+    *
+    * @param element The {@link RadioUiElement} representing the radio button.
+    * @param soft    A boolean indicating whether the validation should be performed softly.
+    *                If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsVisible(final RadioUiElement element, boolean soft) {
+<span class="fc" id="L288">      return validateIsVisible(element, true, soft);</span>
+   }
+
+   private T validateIsVisible(final RadioUiElement element, boolean shouldBeVisible, boolean soft) {
+<span class="fc bfc" id="L292" title="All 2 branches covered.">      Allure.step(UI_RADIO_VALIDATING_IF_RADIO_BUTTON_IS + (shouldBeVisible ? &quot;visible&quot; : &quot;hidden&quot;) + &quot;: &quot;</span>
+<span class="fc" id="L293">            + element.enumImpl());</span>
+<span class="fc" id="L294">      element.before().accept(driver);</span>
+<span class="fc" id="L295">      boolean visible = radioService.isVisible(element.componentType(), element.locator());</span>
+<span class="fc" id="L296">      element.after().accept(driver);</span>
+<span class="fc" id="L297">      storage.sub(UI).put(element.enumImpl(), visible);</span>
+
+<span class="fc bfc" id="L299" title="All 2 branches covered.">      String assertionMessage = shouldBeVisible</span>
+<span class="fc" id="L300">            ? &quot;Validating radio input is visible&quot;</span>
+<span class="fc" id="L301">            : &quot;Validating radio input is hidden&quot;;</span>
+
+<span class="fc bfc" id="L303" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L304">         return (T) uiServiceFluent.validate(</span>
+               softAssertions -&gt; {
+<span class="fc bfc" id="L306" title="All 2 branches covered.">                  if (shouldBeVisible) {</span>
+<span class="fc" id="L307">                     softAssertions.assertThat(visible).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L309">                     softAssertions.assertThat(visible).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L311">               }</span>
+         );
+      } else {
+<span class="fc" id="L314">         return (T) uiServiceFluent.validate(</span>
+               () -&gt; {
+<span class="fc bfc" id="L316" title="All 2 branches covered.">                  if (shouldBeVisible) {</span>
+<span class="fc" id="L317">                     Assertions.assertThat(visible).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L319">                     Assertions.assertThat(visible).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L321">               }</span>
+         );
+      }
+   }
+
+   /**
+    * Validates whether the specified radio button element is hidden.
+    *
+    * @param element The {@link RadioUiElement} representing the radio button.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsHidden(final RadioUiElement element) {
+<span class="fc" id="L333">      return validateIsVisible(element, false, false);</span>
+   }
+
+   /**
+    * Validates whether the specified radio button element is hidden, with an option for soft validation.
+    *
+    * @param element The {@link RadioUiElement} representing the radio button.
+    * @param soft    A boolean indicating whether the validation should be performed softly.
+    *                If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @return The fluent UI service instance.
+    */
+   public T validateIsHidden(final RadioUiElement element, boolean soft) {
+<span class="fc" id="L345">      return validateIsVisible(element, false, soft);</span>
+   }
+
+   /**
+    * Retrieves the selected radio button's value.
+    *
+    * @param element The {@link RadioUiElement} to check.
+    * @return The fluent UI service instance.
+    */
+   public T getSelected(final RadioUiElement element) {
+<span class="fc" id="L355">      Allure.step(&quot;[UI - Radio] Retrieving selected value for radio button: &quot; + element.enumImpl());</span>
+<span class="fc" id="L356">      element.before().accept(driver);</span>
+<span class="fc" id="L357">      String selectedValue = radioService.getSelected(element.componentType(), element.locator());</span>
+<span class="fc" id="L358">      element.after().accept(driver);</span>
+<span class="fc" id="L359">      storage.sub(UI).put(element.enumImpl(), selectedValue);</span>
+<span class="fc" id="L360">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates whether the specified radio button element has the expected selected value.
+    *
+    * @param element  The {@link RadioUiElement} representing the radio button.
+    * @param expected The expected value of the selected radio button.
+    * @return The fluent UI service instance.
+    */
+   public T validateSelected(final RadioUiElement element, String expected) {
+<span class="fc" id="L371">      Allure.step(&quot;[UI - Radio] Validating selected value for radio button: &quot; + element.enumImpl()</span>
+            + &quot; (Expected: &quot; + expected + &quot;)&quot;);
+<span class="fc" id="L373">      return validateSelected(element, expected, false);</span>
+   }
+
+   /**
+    * Validates that the selected radio button matches the expected value.
+    *
+    * @param element  The {@link RadioUiElement} to validate.
+    * @param expected The expected value.
+    * @param soft     Whether to perform a soft assertion.
+    * @return The fluent UI service instance.
+    */
+   public T validateSelected(final RadioUiElement element, String expected, boolean soft) {
+<span class="fc" id="L385">      Allure.step(&quot;[UI - Radio] Validating selected value for radio button: &quot; + element.enumImpl()</span>
+            + &quot; (Expected: &quot; + expected + &quot;, Soft: &quot; + soft + &quot;)&quot;);
+<span class="fc" id="L387">      element.before().accept(driver);</span>
+<span class="fc" id="L388">      String selectedRadioInput = radioService.getSelected(element.componentType(), element.locator());</span>
+<span class="fc" id="L389">      element.after().accept(driver);</span>
+<span class="fc" id="L390">      storage.sub(UI).put(element.enumImpl(), selectedRadioInput);</span>
+
+<span class="fc bfc" id="L392" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L393">         return (T) uiServiceFluent.validate(</span>
+<span class="fc" id="L394">               softAssertions -&gt; softAssertions.assertThat(selectedRadioInput)</span>
+<span class="fc" id="L395">                     .as(&quot;Validating selected radio Input&quot;).isEqualTo(expected)</span>
+         );
+      } else {
+<span class="fc" id="L398">         return (T) uiServiceFluent.validate(</span>
+<span class="fc" id="L399">               () -&gt; Assertions.assertThat(selectedRadioInput)</span>
+<span class="fc" id="L400">                     .as(&quot;Validating selected radio Input&quot;).isEqualTo(expected)</span>
+         );
+      }
+   }
+
+   /**
+    * Retrieves all available radio button options.
+    *
+    * @param element The {@link RadioUiElement} representing the radio button group.
+    * @return The fluent UI service instance.
+    */
+   public T getAll(final RadioUiElement element) {
+<span class="fc" id="L412">      Allure.step(&quot;[UI - Radio] Retrieving all radio button options for: &quot; + element.enumImpl());</span>
+<span class="fc" id="L413">      element.before().accept(driver);</span>
+<span class="fc" id="L414">      List&lt;String&gt; allItems = radioService.getAll(element.componentType(), element.locator());</span>
+<span class="fc" id="L415">      element.after().accept(driver);</span>
+<span class="fc" id="L416">      storage.sub(UI).put(element.enumImpl(), allItems);</span>
+<span class="fc" id="L417">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates that all available radio button inputs within the specified element match the expected values.
+    *
+    * @param element        The {@link RadioUiElement} representing the radio button group.
+    * @param expectedValues The expected values of all selectable radio inputs.
+    * @return The fluent UI service instance.
+    */
+   public T validateAllRadioInputs(final RadioUiElement element, final String... expectedValues) {
+<span class="fc" id="L428">      Allure.step(&quot;[UI - Radio] Validating all radio inputs for: &quot; + element.enumImpl() + &quot; (Expected Values: &quot;</span>
+<span class="fc" id="L429">            + Arrays.toString(expectedValues) + &quot;)&quot;);</span>
+<span class="fc" id="L430">      return validateAllRadioInputs(element, false, expectedValues);</span>
+   }
+
+   /**
+    * Validates that the available radio button options match the expected values.
+    *
+    * @param element        The {@link RadioUiElement} to validate.
+    * @param expectedValues The expected options.
+    * @param soft           Whether to perform a soft assertion.
+    * @return The fluent UI service instance.
+    */
+   public T validateAllRadioInputs(final RadioUiElement element, boolean soft,
+                                   final String... expectedValues) {
+<span class="fc" id="L443">      Allure.step(&quot;[UI - Radio] Validating all radio inputs for: &quot; + element.enumImpl() + &quot; (Soft: &quot; + soft</span>
+<span class="fc" id="L444">            + &quot;, Expected Values: &quot; + Arrays.toString(expectedValues) + &quot;)&quot;);</span>
+<span class="fc" id="L445">      element.before().accept(driver);</span>
+<span class="fc" id="L446">      List&lt;String&gt; selectedRadioInputs = radioService.getAll(element.componentType(), element.locator());</span>
+<span class="fc" id="L447">      element.after().accept(driver);</span>
+<span class="fc" id="L448">      storage.sub(UI).put(element.enumImpl(), selectedRadioInputs);</span>
+
+<span class="fc bfc" id="L450" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L451">         return (T) uiServiceFluent.validate(</span>
+<span class="fc" id="L452">               softAssertions -&gt; softAssertions.assertThat(selectedRadioInputs)</span>
+<span class="fc" id="L453">                     .as(&quot;Validating radio inputs&quot;).containsAll(Arrays.asList(expectedValues))</span>
+         );
+      } else {
+<span class="fc" id="L456">         return (T) uiServiceFluent.validate(</span>
+<span class="fc" id="L457">               () -&gt; Assertions.assertThat(selectedRadioInputs)</span>
+<span class="fc" id="L458">                     .as(&quot;Validating radio inputs&quot;).containsAll(Arrays.asList(expectedValues))</span>
+         );
+      }
+   }
+
+   /**
+    * Performs an insertion operation on the specified radio button element.
+    *
+    * @param componentType The type of the component.
+    * @param locator       The locator of the radio button.
+    * @param values        The values to insert.
+    */
+   @Override
+   public void insertion(final ComponentType componentType, final By locator, final Object... values) {
+<span class="fc" id="L472">      Allure.step(&quot;[UI - Radio] Performing insertion on radio button (ComponentType: &quot; + componentType</span>
+            + &quot;, Locator: &quot; + locator + &quot;)&quot;);
+<span class="fc" id="L474">      radioService.insertion(componentType, locator, values);</span>
+<span class="fc" id="L475">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

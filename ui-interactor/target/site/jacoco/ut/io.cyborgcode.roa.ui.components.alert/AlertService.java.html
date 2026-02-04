@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AlertService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.alert</a> &gt; <span class="el_source">AlertService.java</span></div><h1>AlertService.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.alert;
+
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import io.cyborgcode.utilities.reflections.ReflectionUtil;
+import org.openqa.selenium.By;
+
+import static io.cyborgcode.roa.ui.config.UiConfigHolder.getUiConfig;
+
+/**
+ * Provides service-level methods for retrieving and checking the visibility
+ * of alert components, either by a user-specified type or a default configuration.
+ *
+ * &lt;p&gt;Each method resolves the appropriate {@link AlertComponentType}—for instance,
+ * corresponding to a particular UI framework—and delegates to the correct
+ * {@link Alert} implementation under the hood.
+ *
+ * &lt;p&gt;The default alert type can be overridden by specifying an {@link AlertComponentType} parameter,
+ * allowing different UI implementations (e.g., Bootstrap, Material Design, etc.).
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public interface AlertService {
+
+<span class="fc" id="L24">   AlertComponentType DEFAULT_TYPE = getDefaultType();</span>
+
+   /**
+    * Retrieves the default alert component type from the configuration.
+    *
+    * @return The default AlertComponentType.
+    */
+   private static AlertComponentType getDefaultType() {
+      try {
+<span class="fc" id="L33">         return ReflectionUtil.findEnumImplementationsOfInterface(AlertComponentType.class,</span>
+<span class="fc" id="L34">               getUiConfig().alertDefaultType(),</span>
+<span class="fc" id="L35">               getUiConfig().projectPackages());</span>
+<span class="fc" id="L36">      } catch (Exception ignored) {</span>
+<span class="fc" id="L37">         return null;</span>
+      }
+   }
+
+   /**
+    * Retrieves the value of an alert within the specified container, using the default alert component type.
+    *
+    * @param container The SmartWebElement container that contains the alert.
+    * @return The value of the alert as a String.
+    */
+   default String getValue(SmartWebElement container) {
+<span class="fc" id="L48">      return getValue(DEFAULT_TYPE, container);</span>
+   }
+
+   /**
+    * Retrieves the value of an alert within the specified container, using the given alert component type.
+    *
+    * @param componentType The specific alert component type.
+    * @param container     The SmartWebElement container that contains the alert.
+    * @return The value of the alert as a String.
+    */
+   String getValue(AlertComponentType componentType, SmartWebElement container);
+
+   /**
+    * Retrieves the value of an alert located by the specified locator, using the default alert component type.
+    *
+    * @param containerLocator The locator for the container that contains the alert.
+    * @return The value of the alert as a String.
+    */
+   default String getValue(By containerLocator) {
+<span class="fc" id="L67">      return getValue(DEFAULT_TYPE, containerLocator);</span>
+   }
+
+   /**
+    * Retrieves the value of an alert located by the specified locator, using the given alert component type.
+    *
+    * @param componentType    The specific alert component type.
+    * @param containerLocator The locator for the container that contains the alert.
+    * @return The value of the alert as a String.
+    */
+   String getValue(AlertComponentType componentType, By containerLocator);
+
+   /**
+    * Checks if an alert within the specified container is visible, using the default alert component type.
+    *
+    * @param container The SmartWebElement container that contains the alert.
+    * @return true if the alert is visible, false otherwise.
+    */
+   default boolean isVisible(SmartWebElement container) {
+<span class="fc" id="L86">      return isVisible(DEFAULT_TYPE, container);</span>
+   }
+
+   /**
+    * Checks if an alert within the specified container is visible, using the given alert component type.
+    *
+    * @param componentType The specific alert component type.
+    * @param container     The SmartWebElement container that contains the alert.
+    * @return true if the alert is visible, false otherwise.
+    */
+   boolean isVisible(AlertComponentType componentType, SmartWebElement container);
+
+   /**
+    * Checks if an alert located by the specified locator is visible, using the default alert component type.
+    *
+    * @param containerLocator The locator for the container that contains the alert.
+    * @return true if the alert is visible, false otherwise.
+    */
+   default boolean isVisible(By containerLocator) {
+<span class="fc" id="L105">      return isVisible(DEFAULT_TYPE, containerLocator);</span>
+   }
+
+   /**
+    * Checks if an alert located by the specified locator is visible, using the given alert component type.
+    *
+    * @param componentType    The specific alert component type.
+    * @param containerLocator The locator for the container that contains the alert.
+    * @return true if the alert is visible, false otherwise.
+    */
+   boolean isVisible(AlertComponentType componentType, By containerLocator);
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

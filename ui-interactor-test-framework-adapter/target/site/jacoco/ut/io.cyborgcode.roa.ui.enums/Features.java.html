@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Features.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.enums</a> &gt; <span class="el_source">Features.java</span></div><h1>Features.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.enums;
+
+import lombok.Getter;
+
+/**
+ * Enum representing various UI features available in the framework.
+ *
+ * &lt;p&gt;Each feature corresponds to a specific UI component or functionality within the test automation framework.
+ * These features help in organizing and accessing different UI-related services dynamically.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+<span class="fc" id="L13">@Getter</span>
+public enum Features {
+
+   /**
+    * Represents input field interactions in the UI.
+    */
+<span class="fc" id="L19">   INPUT_FIELDS(&quot;inputField&quot;),</span>
+
+   /**
+    * Represents table interactions in the UI.
+    */
+<span class="fc" id="L24">   TABLE(&quot;table&quot;),</span>
+
+   /**
+    * Represents button field interactions in the UI.
+    */
+<span class="fc" id="L29">   BUTTON_FIELDS(&quot;buttonField&quot;),</span>
+
+   /**
+    * Represents radio button field interactions in the UI.
+    */
+<span class="fc" id="L34">   RADIO_FIELDS(&quot;radioField&quot;),</span>
+
+   /**
+    * Represents checkbox field interactions in the UI.
+    */
+<span class="fc" id="L39">   CHECKBOX_FIELDS(&quot;checkboxField&quot;),</span>
+
+   /**
+    * Represents toggle switch field interactions in the UI.
+    */
+<span class="fc" id="L44">   TOGGLE_FIELDS(&quot;toggleField&quot;),</span>
+
+   /**
+    * Represents select dropdown interactions in the UI.
+    */
+<span class="fc" id="L49">   SELECT_FIELDS(&quot;selectField&quot;),</span>
+
+   /**
+    * Represents list field interactions in the UI.
+    */
+<span class="fc" id="L54">   LIST_FIELDS(&quot;listField&quot;),</span>
+
+   /**
+    * Represents loader field interactions in the UI.
+    */
+<span class="fc" id="L59">   LOADER_FIELDS(&quot;loaderField&quot;),</span>
+
+   /**
+    * Represents hyperlink interactions in the UI.
+    */
+<span class="fc" id="L64">   LINK_FIELDS(&quot;linkField&quot;),</span>
+
+   /**
+    * Represents alert pop-up interactions in the UI.
+    */
+<span class="fc" id="L69">   ALERT_FIELDS(&quot;alertField&quot;),</span>
+
+   /**
+    * Represents tab navigation interactions in the UI.
+    */
+<span class="fc" id="L74">   TAB_FIELDS(&quot;tabField&quot;),</span>
+
+   /**
+    * Represents request interception functionality.
+    */
+<span class="fc" id="L79">   REQUESTS_INTERCEPTOR(&quot;interceptor&quot;),</span>
+
+   /**
+    * Represents validation mechanisms within the framework.
+    */
+<span class="fc" id="L84">   VALIDATION(&quot;validation&quot;),</span>
+
+   /**
+    * Represents navigation actions in the UI.
+    */
+<span class="fc" id="L89">   NAVIGATION(&quot;navigation&quot;),</span>
+
+   /**
+    * Represents data insertion functionality for UI components.
+    */
+<span class="fc" id="L94">   DATA_INSERTION(&quot;insertionService&quot;);</span>
+
+   /**
+    * The associated field name for the feature.
+    */
+   private final String fieldName;
+
+   /**
+    * Constructs a UI feature with the specified field name.
+    *
+    * @param fieldName The corresponding field name for the feature.
+    */
+<span class="fc" id="L106">   Features(final String fieldName) {</span>
+<span class="fc" id="L107">      this.fieldName = fieldName;</span>
+<span class="fc" id="L108">   }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

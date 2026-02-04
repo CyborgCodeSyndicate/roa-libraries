@@ -1,0 +1,1 @@
+{"uuid":"4e7b7921-4d55-48b4-bdf8-16ce87c493e4","name":"validateIsSelected with returnBool=false should execute lambda and handle assertion failure","children":["73b135c8-c1cd-4bef-86d9-74a27006f532"],"befores":[],"afters":[],"start":1769887554457,"stop":1769887554479}

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DataExtractorsTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Core Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.framework.storage</a> &gt; <span class="el_source">DataExtractorsTest.java</span></div><h1>DataExtractorsTest.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.framework.storage;
+
+
+import java.util.Map;
+
+/**
+ * Provides utility methods for creating {@link DataExtractor} instances that retrieve
+ * static test data from the framework's storage.
+ *
+ * &lt;p&gt;This class focuses on accessing and returning values from the static test data map,
+ * allowing tests to dynamically fetch pre-defined data by a string key.
+ *
+ * &lt;p&gt;Generic Type {@code T}: the type of the data retrieved from the static test data map.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class DataExtractorsTest {
+
+   private DataExtractorsTest() {
+   }
+
+   /**
+    * Creates a {@link DataExtractor} for retrieving a specific value from the static test data map.
+    *
+    * &lt;p&gt;The returned extractor locates the static test data map within the storage and fetches
+    * the object associated with the provided key.
+    *
+    * @param key the string key identifying the data in the static test data map
+    * @param &lt;T&gt; the type of the data to be extracted
+    * @return a {@code DataExtractor} that retrieves the specified value from static test data
+    */
+   public static &lt;T&gt; DataExtractor&lt;T&gt; staticTestData(String key) {
+<span class="fc" id="L33">      return new DataExtractorImpl&lt;&gt;(</span>
+            StorageKeysTest.STATIC_DATA,
+            raw -&gt; {
+<span class="fc" id="L36">               Map&lt;String, Object&gt; staticTestData = (Map&lt;String, Object&gt;) raw;</span>
+<span class="fc" id="L37">               return (T) staticTestData.get(key);</span>
+            }
+      );
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

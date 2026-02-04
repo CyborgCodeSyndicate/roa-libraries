@@ -1,0 +1,16 @@
+🤖 CYBORG 🤖 2026-01-28T13:15:39,373 [scenario=TableComponentExampleTests.readTableRowWithSpecifiedColumns_validateCell] INFO  [UI] - Creating driver using provider [ChromeDriverProvider]. Headless: [true], Remote: [true], Remote URL: [http://localhost:4444]
+🤖 CYBORG 🤖 2026-01-28T13:15:42,219 [scenario=TableComponentExampleTests.readTableRowWithSpecifiedColumns_validateCell] INFO  [QUEST] - The quest: 'readTableRowWithSpecifiedColumns_validateCell(Quest)' has begun and is crafted.
+🤖 CYBORG 🤖 2026-01-28T13:15:42,321 [scenario=TableComponentExampleTests.readTableRowWithSpecifiedColumns_validateCell] INFO  [QUEST] - The quest has used the ring: 'io.cyborgcode.ui.simple.test.framework.ui.AppUiService'
+🤖 CYBORG 🤖 2026-01-28T13:15:43,265 [scenario=TableComponentExampleTests.readTableRowWithSpecifiedColumns_validateCell] STEP  [UI] - Clicking button using locator: By.id: signin_button
+🤖 CYBORG 🤖 2026-01-28T13:15:44,047 [scenario=TableComponentExampleTests.readTableRowWithSpecifiedColumns_validateCell] STEP  [UI] - Inserting value: 'username' into input component of type: 'BOOTSTRAP_INPUT_TYPE'.
+🤖 CYBORG 🤖 2026-01-28T13:15:45,144 [scenario=TableComponentExampleTests.readTableRowWithSpecifiedColumns_validateCell] STEP  [UI] - Inserting value: 'password' into input component of type: 'BOOTSTRAP_INPUT_TYPE'.
+🤖 CYBORG 🤖 2026-01-28T13:15:45,881 [scenario=TableComponentExampleTests.readTableRowWithSpecifiedColumns_validateCell] STEP  [UI] - Clicking button using locator: By.cssSelector: input[value='Sign in']
+🤖 CYBORG 🤖 2026-01-28T13:15:46,748 [scenario=TableComponentExampleTests.readTableRowWithSpecifiedColumns_validateCell] STEP  [UI] - Clicking button using locator: By.id: online-banking
+🤖 CYBORG 🤖 2026-01-28T13:15:47,241 [scenario=TableComponentExampleTests.readTableRowWithSpecifiedColumns_validateCell] STEP  [UI] - Clicking link BOOTSTRAP_LINK_TYPE using locator By.id: money_map_link
+🤖 CYBORG 🤖 2026-01-28T13:15:49,683 [scenario=TableComponentExampleTests.readTableRowWithSpecifiedColumns_validateCell] STEP  [UI] - Reading row number 1 as class 'OutFlow' with fields [io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$2182/0x00007f160c879fc8@1a8413dc, io.cyborgcode.roa.ui.components.table.base.TableField$$Lambda$2182/0x00007f160c879fc8@4e2c4789]
+🤖 CYBORG 🤖 2026-01-28T13:15:50,328 [scenario=TableComponentExampleTests.readTableRowWithSpecifiedColumns_validateCell] VALIDATION [QUEST] - Starting hard validation...
+🤖 CYBORG 🤖 2026-01-28T13:15:50,333 [scenario=TableComponentExampleTests.readTableRowWithSpecifiedColumns_validateCell] VALIDATION [QUEST] - Hard validation completed successfully.
+🤖 CYBORG 🤖 2026-01-28T13:15:50,337 [scenario=TableComponentExampleTests.readTableRowWithSpecifiedColumns_validateCell] INFO  [QUEST] - The quest has dropped the ring.
+🤖 CYBORG 🤖 2026-01-28T13:15:50,340 [scenario=TableComponentExampleTests.readTableRowWithSpecifiedColumns_validateCell] INFO  [QUEST] - The quest has reached his end
+🤖 CYBORG 🤖 2026-01-28T13:15:50,554 [scenario=TableComponentExampleTests.readTableRowWithSpecifiedColumns_validateCell] INFO  [UI] - WebDriver closed successfully.
+🤖 CYBORG 🤖 2026-01-28T13:15:50,599 [scenario=TableComponentExampleTests.readTableRowWithSpecifiedColumns_validateCell] INFO  [QUEST] - The quest of 'readTableRowWithSpecifiedColumns_validateCell(Quest)' has concluded with glory. Status: SUCCESS. Duration: 12 seconds.

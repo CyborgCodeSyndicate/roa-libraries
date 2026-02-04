@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Craftsman.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Core Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.framework.extension</a> &gt; <span class="el_source">Craftsman.java</span></div><h1>Craftsman.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.framework.extension;
+
+import io.cyborgcode.roa.framework.annotation.Craft;
+import io.cyborgcode.roa.framework.log.LogQuest;
+import io.cyborgcode.roa.framework.parameters.DataForge;
+import io.cyborgcode.roa.framework.parameters.Late;
+import io.cyborgcode.roa.framework.quest.SuperQuest;
+import io.cyborgcode.utilities.reflections.ReflectionUtil;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ParameterResolutionException;
+import org.junit.jupiter.api.extension.ParameterResolver;
+
+import static io.cyborgcode.roa.framework.config.FrameworkConfigHolder.getFrameworkConfig;
+import static io.cyborgcode.roa.framework.util.TestContextManager.getSuperQuest;
+import static io.cyborgcode.roa.framework.util.TestContextManager.initializeParameterTracking;
+import static io.cyborgcode.roa.framework.util.TestContextManager.storeArgument;
+
+/**
+ * JUnit 5 {@code ParameterResolver} for injecting test data using the {@code @Craft} annotation.
+ *
+ * &lt;p&gt;This extension dynamically resolves parameters annotated with {@code @Craft},
+ * creating instances of the required model based on the provided configuration.
+ * The resolved object is retrieved through reflection and stored within the test execution context.
+ *
+ * &lt;p&gt;The resolver supports both immediate and lazy instantiation via the {@code Late} wrapper.
+ * The created objects are injected into the test method at runtime, allowing
+ * seamless data provisioning for test cases.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+<span class="fc" id="L32">public class Craftsman implements ParameterResolver {</span>
+
+   /**
+    * Determines whether the parameter is eligible for resolution by checking
+    * for the presence of the {@code @Craft} annotation.
+    *
+    * @param parameterContext The context of the parameter to resolve.
+    * @param extensionContext The context of the test execution.
+    * @return {@code true} if the parameter is annotated with {@code @Craft}, otherwise {@code false}.
+    * @throws ParameterResolutionException If an error occurs while resolving the parameter.
+    */
+   @Override
+   public boolean supportsParameter(final ParameterContext parameterContext, final ExtensionContext extensionContext)
+         throws ParameterResolutionException {
+<span class="fc" id="L46">      return parameterContext.isAnnotated(Craft.class);</span>
+   }
+
+   /**
+    * Resolves and injects the required test data for parameters annotated with {@code @Craft}.
+    *
+    * &lt;p&gt;The method identifies the expected data model, retrieves or generates the corresponding
+    * instance, and injects it into the test method. If the model is wrapped in a {@code Late} instance,
+    * it will be initialized lazily.
+    *
+    * @param parameterContext The context of the parameter to resolve.
+    * @param extensionContext The context of the test execution.
+    * @return The resolved parameter object.
+    * @throws ParameterResolutionException If the required data model cannot be instantiated.
+    */
+   @Override
+   public Object resolveParameter(final ParameterContext parameterContext, final ExtensionContext extensionContext)
+         throws ParameterResolutionException {
+<span class="fc" id="L64">      LogQuest.debug(&quot;Resolving parameter: {}&quot;, parameterContext.getParameter().getName());</span>
+<span class="fc" id="L65">      initializeParameterTracking(extensionContext);</span>
+
+<span class="fc" id="L67">      Class&lt;?&gt; parameterType = parameterContext.getParameter().getType();</span>
+<span class="fc" id="L68">      boolean isLateResolution = parameterType.isAssignableFrom(Late.class);</span>
+
+<span class="fc" id="L70">      return resolveParameterInternal(parameterContext, extensionContext, isLateResolution);</span>
+   }
+
+   private Object resolveParameterInternal(ParameterContext parameterContext,
+                                           ExtensionContext extensionContext, boolean isLate) {
+      try {
+<span class="fc" id="L76">         Craft craft = parameterContext.findAnnotation(Craft.class)</span>
+<span class="fc" id="L77">               .orElseThrow(() -&gt; new ParameterResolutionException(</span>
+<span class="fc" id="L78">                     &quot;Missing @Craft annotation on parameter: &quot; + parameterContext.getParameter().getName()));</span>
+<span class="fc" id="L79">         SuperQuest superQuest = getSuperQuest(extensionContext);</span>
+
+<span class="fc" id="L81">         DataForge&lt;?&gt; dataForge = ReflectionUtil.findEnumImplementationsOfInterface(</span>
+<span class="fc" id="L82">               DataForge.class, craft.model(), getFrameworkConfig().projectPackages());</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">         Object argument = isLate ? dataForge.dataCreator() : dataForge.dataCreator().create();</span>
+
+<span class="fc" id="L85">         storeArgument(superQuest, dataForge, argument, extensionContext);</span>
+
+<span class="fc" id="L87">         return argument;</span>
+<span class="fc" id="L88">      } catch (Exception e) {</span>
+<span class="fc" id="L89">         throw new ParameterResolutionException(&quot;Failed to resolve parameter: &quot;</span>
+<span class="fc" id="L90">               + parameterContext.getParameter().getName(), e);</span>
+      }
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

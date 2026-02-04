@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AlertServiceFluent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.service.fluent</a> &gt; <span class="el_source">AlertServiceFluent.java</span></div><h1>AlertServiceFluent.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.service.fluent;
+
+import io.cyborgcode.roa.framework.storage.Storage;
+import io.cyborgcode.roa.ui.components.alert.AlertService;
+import io.cyborgcode.roa.ui.selenium.AlertUiElement;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.qameta.allure.Allure;
+import org.assertj.core.api.Assertions;
+
+import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
+
+/**
+ * Provides fluent API methods for interacting with Alert UI components.
+ *
+ * &lt;p&gt;This class encapsulates interactions with Alert elements, allowing retrieval,
+ * validation, and visibility checks. It integrates with {@link AlertService} to
+ * perform operations in a structured manner.
+ *
+ * &lt;p&gt;The generic type {@code T} represents the main UI service fluent class that this service extends,
+ * allowing method chaining within the fluent API structure.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@SuppressWarnings({&quot;java:S5960&quot;, &quot;unchecked&quot;})
+public class AlertServiceFluent&lt;T extends UiServiceFluent&lt;?&gt;&gt; {
+
+   private final AlertService alertService;
+   private final T uiServiceFluent;
+   private final Storage storage;
+   private final SmartWebDriver driver;
+
+   /**
+    * Constructs an instance of {@link AlertServiceFluent}.
+    *
+    * @param uiServiceFluent The main UI service fluent instance.
+    * @param storage         The storage object for maintaining test state.
+    * @param alertService    The service handling alert interactions.
+    * @param webDriver       The instance of {@link SmartWebDriver}.
+    */
+   public AlertServiceFluent(T uiServiceFluent, Storage storage, AlertService alertService,
+<span class="fc" id="L41">                             SmartWebDriver webDriver) {</span>
+<span class="fc" id="L42">      this.alertService = alertService;</span>
+<span class="fc" id="L43">      this.uiServiceFluent = uiServiceFluent;</span>
+<span class="fc" id="L44">      this.storage = storage;</span>
+<span class="fc" id="L45">      this.driver = webDriver;</span>
+<span class="fc" id="L46">   }</span>
+
+   /**
+    * Retrieves the value of the specified alert element.
+    *
+    * @param element The alert UI element.
+    * @return The current fluent service instance for method chaining.
+    */
+   public T getValue(final AlertUiElement element) {
+<span class="fc" id="L55">      Allure.step(String.format(&quot;[UI - Alert] Retrieving value for alert with componentType: %s, locator: %s&quot;,</span>
+<span class="fc" id="L56">            element.componentType(), element.locator()));</span>
+<span class="fc" id="L57">      element.before().accept(driver);</span>
+<span class="fc" id="L58">      String value = alertService.getValue(element.componentType(), element.locator());</span>
+<span class="fc" id="L59">      element.after().accept(driver);</span>
+<span class="fc" id="L60">      storage.sub(UI).put(element.enumImpl(), value);</span>
+<span class="fc" id="L61">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates that the alert element's value matches the expected value.
+    *
+    * @param element       The alert UI element.
+    * @param expectedValue The expected value of the alert.
+    * @return The current fluent service instance for method chaining.
+    */
+   public T validateValue(final AlertUiElement element, String expectedValue) {
+<span class="fc" id="L72">      return validateValue(element, expectedValue, false);</span>
+   }
+
+   /**
+    * Validates that the alert element's value matches the expected value with an option for soft assertions.
+    *
+    * @param element       The alert UI element.
+    * @param expectedValue The expected value of the alert.
+    * @param soft          Whether to perform a soft assertion.
+    * @return The current fluent service instance for method chaining.
+    */
+   public T validateValue(final AlertUiElement element, String expectedValue, boolean soft) {
+<span class="fc" id="L84">      Allure.step(String.format(&quot;[UI - Alert] Validating value for alert with componentType: %s, locator: %s&quot;,</span>
+<span class="fc" id="L85">            element.componentType(), element.locator()));</span>
+<span class="fc" id="L86">      element.before().accept(driver);</span>
+<span class="fc" id="L87">      String value = alertService.getValue(element.componentType(), element.locator());</span>
+<span class="fc" id="L88">      element.after().accept(driver);</span>
+<span class="fc" id="L89">      storage.sub(UI).put(element.enumImpl(), value);</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L91">         return (T) uiServiceFluent.validate(</span>
+<span class="fc" id="L92">               softAssertions -&gt; softAssertions.assertThat(value).as(&quot;Validating Alert value&quot;)</span>
+<span class="fc" id="L93">                     .isEqualTo(expectedValue));</span>
+      } else {
+<span class="fc" id="L95">         return (T) uiServiceFluent.validate(</span>
+<span class="pc" id="L96">               () -&gt; Assertions.assertThat(value).as(&quot;Validating Alert value&quot;)</span>
+<span class="nc" id="L97">                     .isEqualTo(expectedValue));</span>
+      }
+   }
+
+   /**
+    * Checks if the specified alert element is visible.
+    *
+    * @param element The alert UI element.
+    * @return The current fluent service instance for method chaining.
+    */
+   public T isVisible(final AlertUiElement element) {
+<span class="fc" id="L108">      Allure.step(String.format(&quot;[UI - Alert] Checking visibility for alert with componentType: %s, locator: %s&quot;,</span>
+<span class="fc" id="L109">            element.componentType(), element.locator()));</span>
+<span class="fc" id="L110">      element.before().accept(driver);</span>
+<span class="fc" id="L111">      boolean enabled = alertService.isVisible(element.componentType(), element.locator());</span>
+<span class="fc" id="L112">      element.after().accept(driver);</span>
+<span class="fc" id="L113">      storage.sub(UI).put(element.enumImpl(), enabled);</span>
+<span class="fc" id="L114">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates if the specified alert element is visible.
+    *
+    * @param element The alert UI element.
+    * @return The current fluent service instance for method chaining.
+    */
+   public T validateIsVisible(final AlertUiElement element) {
+<span class="fc" id="L124">      return validateIsVisible(element, true, false);</span>
+   }
+
+   /**
+    * Validates if the specified alert element is visible with an option for soft assertions.
+    *
+    * @param element The alert UI element.
+    * @param soft    Whether to perform a soft assertion.
+    * @return The current fluent service instance for method chaining.
+    */
+   public T validateIsVisible(final AlertUiElement element, boolean soft) {
+<span class="fc" id="L135">      return validateIsVisible(element, true, soft);</span>
+   }
+
+   /**
+    * Validates if the specified alert element is visible or hidden based on the provided flag.
+    *
+    * @param element         The alert UI element.
+    * @param shouldBeVisible Whether the element should be visible.
+    * @param soft            Whether to perform a soft assertion.
+    * @return The current fluent service instance for method chaining.
+    */
+   private T validateIsVisible(final AlertUiElement element, boolean shouldBeVisible, boolean soft) {
+<span class="fc" id="L147">      Allure.step(String.format(&quot;[UI - Alert] Validating visibility for alert with componentType: %s, locator: %s&quot;,</span>
+<span class="fc" id="L148">            element.componentType(), element.locator()));</span>
+<span class="fc" id="L149">      element.before().accept(driver);</span>
+<span class="fc" id="L150">      boolean visible = alertService.isVisible(element.componentType(), element.locator());</span>
+<span class="fc" id="L151">      element.after().accept(driver);</span>
+<span class="fc" id="L152">      storage.sub(UI).put(element.enumImpl(), visible);</span>
+
+<span class="fc bfc" id="L154" title="All 2 branches covered.">      String assertionMessage = shouldBeVisible</span>
+<span class="fc" id="L155">            ? &quot;Validating Alert is visible&quot;</span>
+<span class="fc" id="L156">            : &quot;Validating Alert is hidden&quot;;</span>
+
+<span class="fc bfc" id="L158" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L159">         return (T) uiServiceFluent.validate(</span>
+               softAssertions -&gt; {
+<span class="fc bfc" id="L161" title="All 2 branches covered.">                  if (shouldBeVisible) {</span>
+<span class="fc" id="L162">                     softAssertions.assertThat(visible).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L164">                     softAssertions.assertThat(visible).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L166">               }</span>
+         );
+      } else {
+<span class="fc" id="L169">         return (T) uiServiceFluent.validate(</span>
+               () -&gt; {
+<span class="fc bfc" id="L171" title="All 2 branches covered.">                  if (shouldBeVisible) {</span>
+<span class="fc" id="L172">                     Assertions.assertThat(visible).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L174">                     Assertions.assertThat(visible).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L176">               }</span>
+         );
+      }
+   }
+
+   /**
+    * Validates if the specified alert element is hidden.
+    *
+    * @param element The alert UI element.
+    * @return The current fluent service instance for method chaining.
+    */
+   public T validateIsHidden(final AlertUiElement element) {
+<span class="fc" id="L188">      return validateIsVisible(element, false, false);</span>
+   }
+
+   /**
+    * Validates if the specified alert element is hidden with an option for soft assertions.
+    *
+    * @param element The alert UI element.
+    * @param soft    Whether to perform a soft assertion.
+    * @return The current fluent service instance for method chaining.
+    */
+   public T validateIsHidden(final AlertUiElement element, boolean soft) {
+<span class="fc" id="L199">      return validateIsVisible(element, false, soft);</span>
+   }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

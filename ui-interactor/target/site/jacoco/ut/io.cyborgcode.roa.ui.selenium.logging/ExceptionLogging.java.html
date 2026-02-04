@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ExceptionLogging.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.selenium.logging</a> &gt; <span class="el_source">ExceptionLogging.java</span></div><h1>ExceptionLogging.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.selenium.logging;
+
+import io.cyborgcode.roa.ui.selenium.enums.WebElementAction;
+import io.cyborgcode.roa.ui.util.FourConsumer;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
+import java.util.Map;
+import lombok.Getter;
+import org.openqa.selenium.ElementClickInterceptedException;
+import org.openqa.selenium.ElementNotInteractableException;
+import org.openqa.selenium.InvalidSelectorException;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+/**
+ * Enum representing different exception logging scenarios for Selenium WebDriver actions.
+ *
+ * &lt;p&gt;Each entry in the enum defines a WebDriver or WebElement action along with
+ * a mapping of exception types to their corresponding logging functions.
+ * This facilitates structured logging when exceptions occur during UI interactions.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+<span class="fc" id="L26">@Getter</span>
+public enum ExceptionLogging {
+   /**
+    * Logs exceptions when attempting to find a single element from the root WebDriver.
+    */
+<span class="fc" id="L31">   FIND_ELEMENT_FROM_ROOT(WebDriver.class, WebElementAction.FIND_ELEMENT,</span>
+<span class="fc" id="L32">         Map.of(NoSuchElementException.class, LoggingFunctions::logFindElementFromRootNoSuchElementException)),</span>
+
+   /**
+    * Logs exceptions when attempting to find multiple elements from the root WebDriver.
+    */
+<span class="fc" id="L37">   FIND_ELEMENTS_FROM_ROOT(WebDriver.class, WebElementAction.FIND_ELEMENTS,</span>
+<span class="fc" id="L38">         Map.of(NoSuchElementException.class, LoggingFunctions::logFindElementFromRootNoSuchElementException)),</span>
+
+   /**
+    * Logs exceptions when attempting to find a single element within another WebElement.
+    */
+<span class="fc" id="L43">   FIND_ELEMENT_FROM_ELEMENT(WebElement.class, WebElementAction.FIND_ELEMENT,</span>
+<span class="fc" id="L44">         Map.of(NoSuchElementException.class, LoggingFunctions::logNoSuchElementException)),</span>
+
+   /**
+    * Logs exceptions when attempting to find multiple elements within another WebElement.
+    */
+<span class="fc" id="L49">   FIND_ELEMENTS_FROM_ELEMENT(WebElement.class, WebElementAction.FIND_ELEMENTS,</span>
+<span class="fc" id="L50">         Map.of(NoSuchElementException.class, LoggingFunctions::logNoSuchElementException)),</span>
+
+   /**
+    * Logs exceptions related to clicking a WebElement, including various interaction failures.
+    */
+<span class="fc" id="L55">   CLICK(WebElement.class, WebElementAction.CLICK,</span>
+<span class="fc" id="L56">         Map.of(NoSuchElementException.class, LoggingFunctions::logNoSuchElementException,</span>
+               ElementNotInteractableException.class, LoggingFunctions::logElementNotInteractableException,
+               InvalidSelectorException.class, LoggingFunctions::logClickInvalidSelectorException,
+               ElementClickInterceptedException.class, LoggingFunctions::logElementClickInterceptedException,
+               TimeoutException.class, LoggingFunctions::logClickTimeoutException)),
+
+   /**
+    * Logs exceptions related to sending keys to a WebElement.
+    */
+<span class="fc" id="L65">   SEND_KEYS(WebElement.class, WebElementAction.SEND_KEYS,</span>
+<span class="fc" id="L66">         Map.of(NoSuchElementException.class, LoggingFunctions::logNoSuchElementException,</span>
+               ElementNotInteractableException.class, LoggingFunctions::logElementNotInteractableException,
+               ElementClickInterceptedException.class, LoggingFunctions::logElementClickInterceptedException)),
+
+   /**
+    * Logs exceptions related to submitting a WebElement.
+    */
+<span class="fc" id="L73">   SUBMIT(WebElement.class, WebElementAction.SUBMIT,</span>
+<span class="fc" id="L74">         Map.of(NoSuchElementException.class, LoggingFunctions::logNoSuchElementException,</span>
+               ElementNotInteractableException.class, LoggingFunctions::logElementNotInteractableException));
+
+   /**
+    * The class type this exception logging applies to (WebDriver or WebElement).
+    */
+   private final Class&lt;?&gt; targetClass;
+
+   /**
+    * The WebElementAction associated with this exception logging case.
+    */
+   private final WebElementAction action;
+
+   /**
+    * A mapping of exception types to their respective logging functions.
+    */
+   private final Map&lt;Class&lt;? extends Throwable&gt;, FourConsumer&lt;Object, WebElementAction, Object[],
+         InvocationTargetException&gt;&gt; exceptionLoggingMap;
+
+   /**
+    * Constructs an exception logging entry for a given action and exception mapping.
+    *
+    * @param targetClass         The class type this logging applies to (WebDriver or WebElement).
+    * @param action              The WebElementAction associated with this exception logging case.
+    * @param exceptionLoggingMap A map of exception classes to their respective logging functions.
+    */
+   ExceptionLogging(final Class&lt;?&gt; targetClass, final WebElementAction action,
+         Map&lt;Class&lt;? extends Throwable&gt;, FourConsumer&lt;Object, WebElementAction, Object[],
+<span class="fc" id="L102">               InvocationTargetException&gt;&gt; exceptionLoggingMap) {</span>
+<span class="fc" id="L103">      this.targetClass = targetClass;</span>
+<span class="fc" id="L104">      this.action = action;</span>
+<span class="fc" id="L105">      this.exceptionLoggingMap = exceptionLoggingMap;</span>
+<span class="fc" id="L106">   }</span>
+
+
+   public Map&lt;Class&lt;? extends Throwable&gt;, FourConsumer&lt;Object, WebElementAction, Object[],
+         InvocationTargetException&gt;&gt; getExceptionLoggingMap() {
+<span class="fc" id="L111">      return Collections.unmodifiableMap(exceptionLoggingMap);</span>
+   }
+}
+
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

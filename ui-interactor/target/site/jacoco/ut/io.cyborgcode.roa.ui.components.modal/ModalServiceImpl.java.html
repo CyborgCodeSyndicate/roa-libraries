@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ModalServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.modal</a> &gt; <span class="el_source">ModalServiceImpl.java</span></div><h1>ModalServiceImpl.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.modal;
+
+import io.cyborgcode.roa.ui.components.base.AbstractComponentService;
+import io.cyborgcode.roa.ui.components.factory.ComponentFactory;
+import io.cyborgcode.roa.ui.log.LogUi;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import org.openqa.selenium.By;
+
+/**
+ * Implementation of the {@link ModalService} interface, providing functionality to check
+ * if modals are open, click modal buttons, retrieve textual content, and close modals.
+ * Extends {@link AbstractComponentService} to handle creation and retrieval of
+ * {@link Modal} instances.
+ *
+ * &lt;p&gt;This class uses {@link ModalComponentType} to identify modals in a UI automation
+ * framework, ensuring consistent interactions via containers and direct locators.
+ *
+ * &lt;p&gt;Method implementations delegate to an internally retrieved {@link Modal} object
+ * for each specified component type.
+ *
+ * &lt;p&gt;All public methods align with the contract defined by {@link ModalService},
+ * ensuring compatibility and standardization across different modal implementations.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class ModalServiceImpl extends AbstractComponentService&lt;ModalComponentType, Modal&gt;
+      implements ModalService {
+
+   private static final String CHECK_MODAL_OPENED = &quot;Checking if modal %s is opened&quot;;
+   private static final String CLICK_BUTTON_WITH_TEXT_CONTAINER =
+         &quot;Clicking button with text %s in modal %s using container&quot;;
+   private static final String CLICK_BUTTON_WITH_TEXT = &quot;Clicking button with text %s in modal %s&quot;;
+   private static final String CLICK_BUTTON_WITH_LOCATOR = &quot;Clicking button with locator %s in modal %s&quot;;
+   private static final String GET_MODAL_TITLE = &quot;Getting title of modal %s&quot;;
+   private static final String GET_MODAL_BODY_TEXT = &quot;Getting body text of modal %s&quot;;
+   private static final String GET_MODAL_CONTENT_TITLE = &quot;Getting content title of modal %s&quot;;
+   private static final String CLOSE_MODAL = &quot;Closing modal %s&quot;;
+
+   /**
+    * Constructs a new {@code ModalServiceImpl} with the provided {@link SmartWebDriver}.
+    *
+    * @param driver the {@link SmartWebDriver} used to interact with browser elements.
+    */
+   public ModalServiceImpl(SmartWebDriver driver) {
+<span class="fc" id="L46">      super(driver);</span>
+<span class="fc" id="L47">   }</span>
+
+   /**
+    * Creates and returns a {@link Modal} component instance based on the provided
+    * {@link ModalComponentType}.
+    *
+    * @param componentType the specific modal component type.
+    * @return a new {@link Modal} instance for the given component type.
+    */
+   @Override
+   protected Modal createComponent(ModalComponentType componentType) {
+<span class="fc" id="L58">      return ComponentFactory.getModalComponent(componentType, driver);</span>
+   }
+
+   /**
+    * Checks whether the modal identified by the provided component type is currently open.
+    *
+    * @param componentType the modal component type.
+    * @return true if the modal is open, otherwise false.
+    */
+   @Override
+   public boolean isOpened(final ModalComponentType componentType) {
+<span class="fc" id="L69">      LogUi.step(String.format(CHECK_MODAL_OPENED, componentType));</span>
+<span class="fc" id="L70">      return modalComponent(componentType).isOpened();</span>
+   }
+
+   /**
+    * Clicks a button inside the modal, identified by its text, within the specified container.
+    *
+    * @param componentType   the modal component type.
+    * @param container       the container in which the button is located.
+    * @param modalButtonText the text of the button to click.
+    */
+   @Override
+   public void clickButton(final ModalComponentType componentType, final SmartWebElement container,
+                           final String modalButtonText) {
+<span class="fc" id="L83">      LogUi.step(String.format(CLICK_BUTTON_WITH_TEXT_CONTAINER, modalButtonText, componentType));</span>
+<span class="fc" id="L84">      modalComponent(componentType).clickButton(container, modalButtonText);</span>
+<span class="fc" id="L85">   }</span>
+
+   /**
+    * Clicks a button inside the modal, identified by its text, without specifying a container.
+    *
+    * @param componentType   the modal component type.
+    * @param modalButtonText the text of the button to click.
+    */
+   @Override
+   public void clickButton(final ModalComponentType componentType, final String modalButtonText) {
+<span class="fc" id="L95">      LogUi.step(String.format(CLICK_BUTTON_WITH_TEXT, modalButtonText, componentType));</span>
+<span class="fc" id="L96">      modalComponent(componentType).clickButton(modalButtonText);</span>
+<span class="fc" id="L97">   }</span>
+
+   /**
+    * Clicks a button inside the modal, identified by a locator.
+    *
+    * @param componentType      the modal component type.
+    * @param modalButtonLocator the locator of the button to click.
+    */
+   @Override
+   public void clickButton(final ModalComponentType componentType, final By modalButtonLocator) {
+<span class="fc" id="L107">      LogUi.step(String.format(CLICK_BUTTON_WITH_LOCATOR, modalButtonLocator, componentType));</span>
+<span class="fc" id="L108">      modalComponent(componentType).clickButton(modalButtonLocator);</span>
+<span class="fc" id="L109">   }</span>
+
+   /**
+    * Retrieves the title text of the modal associated with the provided component type.
+    *
+    * @param componentType the modal component type.
+    * @return the title text of the modal, or an empty string if no title is present.
+    */
+   @Override
+   public String getTitle(final ModalComponentType componentType) {
+<span class="fc" id="L119">      LogUi.step(String.format(GET_MODAL_TITLE, componentType));</span>
+<span class="fc" id="L120">      return modalComponent(componentType).getTitle();</span>
+   }
+
+   /**
+    * Retrieves the body text of the modal associated with the provided component type.
+    *
+    * @param componentType the modal component type.
+    * @return the main body text of the modal, or an empty string if no body text is present.
+    */
+   @Override
+   public String getBodyText(final ModalComponentType componentType) {
+<span class="fc" id="L131">      LogUi.step(String.format(GET_MODAL_BODY_TEXT, componentType));</span>
+<span class="fc" id="L132">      return modalComponent(componentType).getBodyText();</span>
+   }
+
+   /**
+    * Retrieves the content title of the modal, if separate from the main title.
+    *
+    * @param componentType the modal component type.
+    * @return the content title, or an empty string if not present.
+    */
+   @Override
+   public String getContentTitle(final ModalComponentType componentType) {
+<span class="fc" id="L143">      LogUi.step(String.format(GET_MODAL_CONTENT_TITLE, componentType));</span>
+<span class="fc" id="L144">      return modalComponent(componentType).getContentTitle();</span>
+   }
+
+   /**
+    * Closes the modal identified by the provided component type.
+    *
+    * @param componentType the modal component type.
+    */
+   @Override
+   public void close(final ModalComponentType componentType) {
+<span class="fc" id="L154">      LogUi.step(String.format(CLOSE_MODAL, componentType));</span>
+<span class="fc" id="L155">      modalComponent(componentType).close();</span>
+<span class="fc" id="L156">   }</span>
+
+   /**
+    * Retrieves or creates a modal for the specified component type.
+    *
+    * @param componentType the modal component type.
+    * @return an existing or newly created {@link Modal}.
+    */
+   private Modal modalComponent(final ModalComponentType componentType) {
+<span class="fc" id="L165">      return getOrCreateComponent(componentType);</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

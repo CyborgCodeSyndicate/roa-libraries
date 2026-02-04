@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BaseAuthenticationClient.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Api Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.api.authentication</a> &gt; <span class="el_source">BaseAuthenticationClient.java</span></div><h1>BaseAuthenticationClient.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.api.authentication;
+
+import io.cyborgcode.roa.api.log.LogApi;
+import io.cyborgcode.roa.api.service.RestService;
+import io.restassured.http.Header;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import lombok.NonNull;
+
+/**
+ * Abstract base class for authentication clients.
+ *
+ * &lt;p&gt;Provides a caching mechanism for authentication headers and defines
+ * a template method for implementing authentication logic.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+<span class="fc" id="L18">public abstract class BaseAuthenticationClient implements AuthenticationClient {</span>
+
+   /**
+    * Stores authentication headers mapped by their corresponding authentication keys.
+    */
+<span class="fc" id="L23">   protected static final Map&lt;AuthenticationKey, Header&gt; userAuthenticationHeaderMap = new ConcurrentHashMap&lt;&gt;();</span>
+
+   /**
+    * Authenticates a user and caches the authentication header if caching is enabled.
+    *
+    * @param restService The {@code RestService} instance handling the authentication request.
+    * @param username    The username for authentication.
+    * @param password    The password for authentication.
+    * @param cache       Whether to cache the authentication header.
+    * @return The generated {@code AuthenticationKey}.
+    */
+   @Override
+<span class="fc bfc" id="L35" title="All 2 branches covered.">   public AuthenticationKey authenticate(final @NonNull RestService restService,</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">                                         @NonNull final String username,</span>
+                                         final String password,
+                                         boolean cache) {
+<span class="fc" id="L39">      AuthenticationKey authenticationKey = new AuthenticationKey(username, password, this.getClass());</span>
+
+<span class="fc bfc" id="L41" title="All 2 branches covered.">      if (!cache) {</span>
+<span class="fc" id="L42">         Header header = authenticateImpl(restService, username, password);</span>
+<span class="fc" id="L43">         userAuthenticationHeaderMap.put(authenticationKey, header);</span>
+<span class="fc" id="L44">         LogApi.info(&quot;Successfully authenticated user: {}&quot;, username);</span>
+<span class="fc" id="L45">      } else {</span>
+<span class="fc" id="L46">         userAuthenticationHeaderMap.computeIfAbsent(authenticationKey, key -&gt; {</span>
+<span class="fc" id="L47">            Header header = authenticateImpl(restService, username, password);</span>
+<span class="fc" id="L48">            LogApi.info(&quot;Successfully authenticated user: {}&quot;, username);</span>
+<span class="fc" id="L49">            return header;</span>
+         });
+      }
+<span class="fc" id="L52">      return authenticationKey;</span>
+   }
+
+   /**
+    * Retrieves the authentication header associated with the given authentication key.
+    *
+    * @param authenticationKey The authentication key identifying the session.
+    * @return The corresponding authentication header, or {@code null} if not found.
+    */
+   public Header getAuthentication(final AuthenticationKey authenticationKey) {
+<span class="fc bfc" id="L62" title="All 2 branches covered.">      if (authenticationKey == null) {</span>
+<span class="fc" id="L63">         LogApi.error(&quot;AuthenticationKey is null. Cannot retrieve authentication header.&quot;);</span>
+<span class="fc" id="L64">         throw new IllegalArgumentException(&quot;AuthenticationKey cannot be null.&quot;);</span>
+      }
+<span class="fc" id="L66">      return userAuthenticationHeaderMap.get(authenticationKey);</span>
+   }
+
+   /**
+    * Performs the actual authentication process and returns the authentication header.
+    *
+    * @param restService The {@code RestService} instance handling the request.
+    * @param username    The username for authentication.
+    * @param password    The password for authentication.
+    * @return The authentication header containing credentials.
+    */
+   protected abstract Header authenticateImpl(RestService restService, String username, String password);
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LinkServiceFluent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.service.fluent</a> &gt; <span class="el_source">LinkServiceFluent.java</span></div><h1>LinkServiceFluent.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.service.fluent;
+
+import io.cyborgcode.roa.framework.storage.Storage;
+import io.cyborgcode.roa.ui.components.link.LinkService;
+import io.cyborgcode.roa.ui.selenium.LinkUiElement;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.qameta.allure.Allure;
+import org.assertj.core.api.Assertions;
+
+import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
+
+/**
+ * Provides a fluent interface for interacting with link UI elements.
+ *
+ * &lt;p&gt;This class enables various link-related operations such as clicking,
+ * double-clicking, and validation of visibility and enablement.
+ *
+ * &lt;p&gt;The generic type {@code T} represents the UI service fluent implementation that extends {@link UiServiceFluent},
+ * allowing method chaining for seamless interaction.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@SuppressWarnings({&quot;java:S5960&quot;, &quot;unchecked&quot;})
+public class LinkServiceFluent&lt;T extends UiServiceFluent&lt;?&gt;&gt; {
+
+   private final LinkService linkService;
+   private final T uiServiceFluent;
+   private final Storage storage;
+   private final SmartWebDriver driver;
+
+   /**
+    * Constructs a {@code LinkServiceFluent} instance.
+    *
+    * @param uiServiceFluent The UI service fluent instance to allow method chaining.
+    * @param storage         The storage instance for tracking UI state.
+    * @param linkService     The service handling link-related operations.
+    * @param webDriver       The SmartWebDriver instance.
+    */
+   public LinkServiceFluent(T uiServiceFluent, Storage storage, LinkService linkService,
+<span class="fc" id="L40">                            SmartWebDriver webDriver) {</span>
+<span class="fc" id="L41">      this.linkService = linkService;</span>
+<span class="fc" id="L42">      this.uiServiceFluent = uiServiceFluent;</span>
+<span class="fc" id="L43">      this.storage = storage;</span>
+<span class="fc" id="L44">      driver = webDriver;</span>
+<span class="fc" id="L45">   }</span>
+
+   /**
+    * Clicks on the specified link element.
+    *
+    * @param element The {@link LinkUiElement} to be clicked.
+    * @return The current {@link UiServiceFluent} instance for method chaining.
+    */
+   public T click(final LinkUiElement element) {
+<span class="fc" id="L54">      Allure.step(&quot;[UI - Link] Clicking on the link element: &quot; + element);</span>
+<span class="fc" id="L55">      element.before().accept(driver);</span>
+<span class="fc" id="L56">      linkService.click(element.componentType(), element.locator());</span>
+<span class="fc" id="L57">      element.after().accept(driver);</span>
+<span class="fc" id="L58">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Performs a double-click action on the specified link element.
+    *
+    * @param element The {@link LinkUiElement} to be double-clicked.
+    * @return The current {@link UiServiceFluent} instance for method chaining.
+    */
+   public T doubleClick(final LinkUiElement element) {
+<span class="fc" id="L68">      Allure.step(&quot;[UI - Link] Double-clicking on the link element: &quot; + element);</span>
+<span class="fc" id="L69">      element.before().accept(driver);</span>
+<span class="fc" id="L70">      linkService.doubleClick(element.componentType(), element.locator());</span>
+<span class="fc" id="L71">      element.after().accept(driver);</span>
+<span class="fc" id="L72">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Checks if the specified link element is enabled.
+    *
+    * @param element The {@link LinkUiElement} to check.
+    * @return The current {@link UiServiceFluent} instance for method chaining.
+    */
+   public T isEnabled(final LinkUiElement element) {
+<span class="fc" id="L82">      Allure.step(&quot;[UI - Link] Checking if the link element is enabled: &quot; + element);</span>
+<span class="fc" id="L83">      element.before().accept(driver);</span>
+<span class="fc" id="L84">      boolean enabled = linkService.isEnabled(element.componentType(), element.locator());</span>
+<span class="fc" id="L85">      element.after().accept(driver);</span>
+<span class="fc" id="L86">      storage.sub(UI).put(element.enumImpl(), enabled);</span>
+<span class="fc" id="L87">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates that the specified link element is enabled.
+    *
+    * @param element The {@link LinkUiElement} to validate.
+    * @return The current {@link UiServiceFluent} instance for method chaining.
+    */
+   public T validateIsEnabled(final LinkUiElement element) {
+<span class="fc" id="L97">      return validateIsEnabled(element, true, false);</span>
+   }
+
+   /**
+    * Validates whether the specified link element is enabled, with an option for soft assertions.
+    *
+    * @param element The {@link LinkUiElement} to validate.
+    * @param soft    {@code true} to perform a soft assertion.
+    * @return The current {@link UiServiceFluent} instance for method chaining.
+    */
+   public T validateIsEnabled(final LinkUiElement element, boolean soft) {
+<span class="fc" id="L108">      return validateIsEnabled(element, true, soft);</span>
+   }
+
+   private T validateIsEnabled(final LinkUiElement element, boolean shouldBeEnabled, boolean soft) {
+<span class="fc" id="L112">      Allure.step(</span>
+<span class="fc bfc" id="L113" title="All 2 branches covered.">            &quot;[UI - Link] Validating if the link element should be &quot; + (shouldBeEnabled ? &quot;enabled&quot; : &quot;disabled&quot;) + &quot;: &quot;</span>
+                  + element);
+<span class="fc" id="L115">      element.before().accept(driver);</span>
+<span class="fc" id="L116">      boolean enabled = linkService.isEnabled(element.componentType(), element.locator());</span>
+<span class="fc" id="L117">      element.after().accept(driver);</span>
+<span class="fc" id="L118">      storage.sub(UI).put(element.enumImpl(), enabled);</span>
+
+<span class="fc bfc" id="L120" title="All 2 branches covered.">      String assertionMessage = shouldBeEnabled</span>
+<span class="fc" id="L121">            ? &quot;Validating link is enabled&quot;</span>
+<span class="fc" id="L122">            : &quot;Validating link is disabled&quot;;</span>
+
+<span class="fc bfc" id="L124" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L125">         return (T) uiServiceFluent.validate(</span>
+               softAssertions -&gt; {
+<span class="fc bfc" id="L127" title="All 2 branches covered.">                  if (shouldBeEnabled) {</span>
+<span class="fc" id="L128">                     softAssertions.assertThat(enabled).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L130">                     softAssertions.assertThat(enabled).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L132">               }</span>
+         );
+      } else {
+<span class="fc" id="L135">         return (T) uiServiceFluent.validate(</span>
+               () -&gt; {
+<span class="fc bfc" id="L137" title="All 2 branches covered.">                  if (shouldBeEnabled) {</span>
+<span class="fc" id="L138">                     Assertions.assertThat(enabled).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L140">                     Assertions.assertThat(enabled).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L142">               }</span>
+         );
+      }
+   }
+
+   /**
+    * Validates that the specified link element is disabled.
+    *
+    * @param element The {@link LinkUiElement} to validate.
+    * @return The current {@link UiServiceFluent} instance for method chaining.
+    */
+   public T validateIsDisabled(final LinkUiElement element) {
+<span class="fc" id="L154">      return validateIsEnabled(element, false, false);</span>
+   }
+
+   /**
+    * Validates whether the specified link element is disabled, with an option for soft assertions.
+    *
+    * @param element The {@link LinkUiElement} to validate.
+    * @param soft    {@code true} to perform a soft assertion.
+    * @return The current {@link UiServiceFluent} instance for method chaining.
+    */
+   public T validateIsDisabled(final LinkUiElement element, boolean soft) {
+<span class="fc" id="L165">      return validateIsEnabled(element, false, soft);</span>
+   }
+
+   /**
+    * Checks if the specified link element is visible.
+    *
+    * @param element The {@link LinkUiElement} to check.
+    * @return The current {@link UiServiceFluent} instance for method chaining.
+    */
+   public T isVisible(final LinkUiElement element) {
+<span class="fc" id="L175">      Allure.step(&quot;[UI - Link] Checking if the link element is visible: &quot; + element);</span>
+<span class="fc" id="L176">      element.before().accept(driver);</span>
+<span class="fc" id="L177">      boolean visible = linkService.isVisible(element.componentType(), element.locator());</span>
+<span class="fc" id="L178">      element.after().accept(driver);</span>
+<span class="fc" id="L179">      storage.sub(UI).put(element.enumImpl(), visible);</span>
+<span class="fc" id="L180">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates that the specified link element is visible.
+    *
+    * @param element The {@link LinkUiElement} to validate.
+    * @return The current {@link UiServiceFluent} instance for method chaining.
+    */
+   public T validateIsVisible(final LinkUiElement element) {
+<span class="fc" id="L190">      return validateIsVisible(element, true, false);</span>
+   }
+
+   /**
+    * Validates whether the specified link element is visible, with an option for soft assertions.
+    *
+    * @param element The {@link LinkUiElement} to validate.
+    * @param soft    {@code true} to perform a soft assertion.
+    * @return The current {@link UiServiceFluent} instance for method chaining.
+    */
+   public T validateIsVisible(final LinkUiElement element, boolean soft) {
+<span class="fc" id="L201">      return validateIsVisible(element, true, soft);</span>
+   }
+
+   private T validateIsVisible(final LinkUiElement element, boolean shouldBeVisible, boolean soft) {
+<span class="fc" id="L205">      Allure.step(</span>
+<span class="fc bfc" id="L206" title="All 2 branches covered.">            &quot;[UI - Link] Validating if the link element should be &quot; + (shouldBeVisible ? &quot;visible&quot; : &quot;hidden&quot;) + &quot;: &quot;</span>
+                  + element);
+<span class="fc" id="L208">      element.before().accept(driver);</span>
+<span class="fc" id="L209">      boolean visible = linkService.isVisible(element.componentType(), element.locator());</span>
+<span class="fc" id="L210">      element.after().accept(driver);</span>
+<span class="fc" id="L211">      storage.sub(UI).put(element.enumImpl(), visible);</span>
+
+<span class="fc bfc" id="L213" title="All 2 branches covered.">      String assertionMessage = shouldBeVisible</span>
+<span class="fc" id="L214">            ? &quot;Validating link is visible&quot;</span>
+<span class="fc" id="L215">            : &quot;Validating link is hidden&quot;;</span>
+
+<span class="fc bfc" id="L217" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L218">         return (T) uiServiceFluent.validate(</span>
+               softAssertions -&gt; {
+<span class="fc bfc" id="L220" title="All 2 branches covered.">                  if (shouldBeVisible) {</span>
+<span class="fc" id="L221">                     softAssertions.assertThat(visible).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L223">                     softAssertions.assertThat(visible).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L225">               }</span>
+         );
+      } else {
+<span class="fc" id="L228">         return (T) uiServiceFluent.validate(</span>
+               () -&gt; {
+<span class="fc bfc" id="L230" title="All 2 branches covered.">                  if (shouldBeVisible) {</span>
+<span class="fc" id="L231">                     Assertions.assertThat(visible).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L233">                     Assertions.assertThat(visible).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L235">               }</span>
+         );
+      }
+   }
+
+   /**
+    * Validates that the specified link element is hidden.
+    *
+    * @param element The {@link LinkUiElement} to validate.
+    * @return The current {@link UiServiceFluent} instance for method chaining.
+    */
+   public T validateIsHidden(final LinkUiElement element) {
+<span class="fc" id="L247">      return validateIsVisible(element, false, false);</span>
+   }
+
+   /**
+    * Validates whether the specified link element is hidden, with an option for soft assertions.
+    *
+    * @param element The {@link LinkUiElement} to validate.
+    * @param soft    {@code true} to perform a soft assertion.
+    * @return The current {@link UiServiceFluent} instance for method chaining.
+    */
+   public T validateIsHidden(final LinkUiElement element, boolean soft) {
+<span class="fc" id="L258">      return validateIsVisible(element, false, soft);</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

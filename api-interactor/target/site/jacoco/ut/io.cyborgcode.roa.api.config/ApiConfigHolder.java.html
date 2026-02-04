@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ApiConfigHolder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Api Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.api.config</a> &gt; <span class="el_source">ApiConfigHolder.java</span></div><h1>ApiConfigHolder.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.api.config;
+
+import org.aeonbits.owner.ConfigCache;
+
+/**
+ * Singleton holder for API configuration settings.
+ *
+ * &lt;p&gt;This class provides a centralized mechanism to retrieve and cache
+ * the API configuration using the {@code Owner} library.
+ * It ensures that the configuration is only loaded once and reused throughout the application.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class ApiConfigHolder {
+
+   private ApiConfigHolder() {
+   }
+
+   private static ApiConfig config;
+
+   /**
+    * Retrieves the API configuration instance.
+    *
+    * &lt;p&gt;If the configuration is not already loaded, it is initialized
+    * using {@code ConfigCache.getOrCreate(ApiConfig.class)}.
+    *
+    * @return The {@code ApiConfig} instance.
+    */
+   public static ApiConfig getApiConfig() {
+<span class="fc bfc" id="L30" title="All 2 branches covered.">      if (config == null) {</span>
+<span class="fc" id="L31">         config = ConfigCache.getOrCreate(ApiConfig.class);</span>
+      }
+<span class="fc" id="L33">      return config;</span>
+   }
+
+   /**
+    * For testing purposes only.
+    *
+    * &lt;p&gt;Resets the cached {@link ApiConfig} instance. This method should only be used in unit tests
+    * to ensure test isolation and prevent state leakage between tests.
+    * &lt;/p&gt;
+    */
+   static void resetForTest() {
+<span class="fc" id="L44">      config = null;</span>
+<span class="fc" id="L45">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

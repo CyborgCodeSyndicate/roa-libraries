@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SelectServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.select</a> &gt; <span class="el_source">SelectServiceImpl.java</span></div><h1>SelectServiceImpl.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.select;
+
+import io.cyborgcode.roa.ui.components.base.AbstractComponentService;
+import io.cyborgcode.roa.ui.components.base.ComponentType;
+import io.cyborgcode.roa.ui.components.factory.ComponentFactory;
+import io.cyborgcode.roa.ui.log.LogUi;
+import io.cyborgcode.roa.ui.insertion.Insertion;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import io.cyborgcode.roa.ui.util.strategy.Strategy;
+import java.util.Arrays;
+import java.util.List;
+import org.openqa.selenium.By;
+
+/**
+ * Implementation of the {@link SelectService} interface, providing methods to select options,
+ * retrieve available and selected options, and determine if certain options are visible or enabled.
+ * Extends {@link AbstractComponentService} to handle the creation and retrieval of {@link Select}
+ * instances.
+ *
+ * &lt;p&gt;This class relies on the {@link SelectComponentType} to identify the correct component for
+ * select-type elements, allowing test automation to manage dropdowns, multi-select fields, or
+ * similar widgets in a consistent manner.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class SelectServiceImpl extends AbstractComponentService&lt;SelectComponentType, Select&gt; implements SelectService {
+
+   private static final String SELECT_OPTIONS_CONTAINER =
+         &quot;Selecting options %s in container %s for select component %s&quot;;
+   private static final String SELECT_OPTION_CONTAINER = &quot;Selecting option %s in container %s for select component %s&quot;;
+   private static final String SELECT_OPTIONS_LOCATOR =
+         &quot;Selecting options %s in container with locator %s for select component %s&quot;;
+   private static final String SELECT_OPTION_LOCATOR =
+         &quot;Selecting option %s in container with locator %s for select component %s&quot;;
+   private static final String SELECT_OPTIONS_STRATEGY_CONTAINER =
+         &quot;Selecting options with strategy %s in container %s for select component %s&quot;;
+   private static final String SELECT_OPTIONS_STRATEGY_LOCATOR =
+         &quot;Selecting options with strategy %s in container with locator %s for select component %s&quot;;
+
+   private static final String GET_AVAILABLE_OPTIONS_CONTAINER =
+         &quot;Getting available options in container %s for select component %s&quot;;
+   private static final String GET_AVAILABLE_OPTIONS_LOCATOR =
+         &quot;Getting available options in container with locator %s for select component %s&quot;;
+   private static final String GET_SELECTED_OPTIONS_CONTAINER =
+         &quot;Getting selected options in container %s for select component %s&quot;;
+   private static final String GET_SELECTED_OPTIONS_LOCATOR =
+         &quot;Getting selected options in container with locator %s for select component %s&quot;;
+
+   private static final String CHECK_OPTION_VISIBLE_CONTAINER =
+         &quot;Checking if option %s is visible in container %s for select component %s&quot;;
+   private static final String CHECK_OPTION_VISIBLE_LOCATOR =
+         &quot;Checking if option %s is visible in container with locator %s for select component %s&quot;;
+
+   private static final String CHECK_OPTION_ENABLED_CONTAINER =
+         &quot;Checking if option %s is enabled in container %s for select component %s&quot;;
+   private static final String CHECK_OPTION_ENABLED_LOCATOR =
+         &quot;Checking if option %s is enabled in container with locator %s for select component %s&quot;;
+
+   private static final String INSERT_SELECT_VALUES_LOCATOR =
+         &quot;Inserting values %s for select component %s using locator %s&quot;;
+
+   /**
+    * Constructs a new {@code SelectServiceImpl} with the specified {@link SmartWebDriver}.
+    *
+    * @param driver the smart web driver for interacting with browser elements.
+    */
+   public SelectServiceImpl(SmartWebDriver driver) {
+<span class="fc" id="L69">      super(driver);</span>
+<span class="fc" id="L70">   }</span>
+
+   /**
+    * Creates and returns a {@link Select} component instance based on the provided
+    * {@link SelectComponentType}.
+    *
+    * @param componentType the select component type.
+    * @return a new or existing {@link Select} instance.
+    */
+   @Override
+   protected Select createComponent(final SelectComponentType componentType) {
+<span class="fc" id="L81">      return ComponentFactory.getSelectComponent(componentType, driver);</span>
+   }
+
+   /**
+    * Selects one or more options by text or value within a container.
+    *
+    * @param componentType the select component type.
+    * @param container     the container holding the select element.
+    * @param values        one or more option values to select.
+    */
+   @Override
+   public void selectOptions(final SelectComponentType componentType, final SmartWebElement container,
+                             final String... values) {
+<span class="fc" id="L94">      LogUi.step(String.format(SELECT_OPTIONS_CONTAINER, Arrays.toString(values), container, componentType));</span>
+<span class="fc" id="L95">      selectComponent(componentType).selectOptions(container, values);</span>
+<span class="fc" id="L96">   }</span>
+
+   /**
+    * Selects one or more options within a container identified by a locator.
+    *
+    * @param componentType    the select component type.
+    * @param containerLocator the locator for the container.
+    * @param values           one or more option values to select.
+    */
+   @Override
+   public void selectOptions(final SelectComponentType componentType, final By containerLocator,
+                             final String... values) {
+<span class="fc" id="L108">      LogUi.step(String.format(SELECT_OPTIONS_LOCATOR, Arrays.toString(values), containerLocator, componentType));</span>
+<span class="fc" id="L109">      selectComponent(componentType).selectOptions(containerLocator, values);</span>
+<span class="fc" id="L110">   }</span>
+
+   /**
+    * Selects options using a custom {@link Strategy}, returning the list of newly selected
+    * option texts.
+    *
+    * @param componentType the select component type.
+    * @param container     the container holding the select element.
+    * @param strategy      the strategy to apply.
+    * @return a list of texts representing the selected options.
+    */
+   @Override
+   public List&lt;String&gt; selectOptions(final SelectComponentType componentType, final SmartWebElement container,
+                                     final Strategy strategy) {
+<span class="fc" id="L124">      LogUi.step(String.format(SELECT_OPTIONS_STRATEGY_CONTAINER, strategy, container, componentType));</span>
+<span class="fc" id="L125">      return selectComponent(componentType).selectOptions(container, strategy);</span>
+   }
+
+   /**
+    * Selects options using a custom {@link Strategy} within a container identified by a locator,
+    * returning the list of newly selected option texts.
+    *
+    * @param componentType    the select component type.
+    * @param containerLocator the locator for the container.
+    * @param strategy         the strategy to apply.
+    * @return a list of texts representing the selected options.
+    */
+   @Override
+   public List&lt;String&gt; selectOptions(final SelectComponentType componentType, final By containerLocator,
+                                     final Strategy strategy) {
+<span class="fc" id="L140">      LogUi.step(String.format(SELECT_OPTIONS_STRATEGY_LOCATOR, strategy, containerLocator, componentType));</span>
+<span class="fc" id="L141">      return selectComponent(componentType).selectOptions(containerLocator, strategy);</span>
+   }
+
+   /**
+    * Selects a single option by text or value within a container. Delegates to
+    * {@link #selectOptions(SelectComponentType, SmartWebElement, String...)}.
+    *
+    * @param componentType the select component type.
+    * @param container     the container holding the select element.
+    * @param value         the value of the option to select.
+    */
+   @Override
+   public void selectOption(final SelectComponentType componentType, final SmartWebElement container,
+                            final String value) {
+<span class="fc" id="L155">      LogUi.step(String.format(SELECT_OPTION_CONTAINER, value, container, componentType));</span>
+<span class="fc" id="L156">      selectOptions(componentType, container, value);</span>
+<span class="fc" id="L157">   }</span>
+
+   /**
+    * Selects a single option by text or value within a container identified by a locator.
+    * Delegates to {@link #selectOptions(SelectComponentType, By, String...)}.
+    *
+    * @param componentType    the select component type.
+    * @param containerLocator the locator for the container.
+    * @param value            the value of the option to select.
+    */
+   @Override
+   public void selectOption(final SelectComponentType componentType, final By containerLocator,
+                            final String value) {
+<span class="fc" id="L170">      LogUi.step(String.format(SELECT_OPTION_LOCATOR, value, containerLocator, componentType));</span>
+<span class="fc" id="L171">      selectOptions(componentType, containerLocator, value);</span>
+<span class="fc" id="L172">   }</span>
+
+   /**
+    * Retrieves all available options in a select component within the specified container.
+    *
+    * @param componentType the select component type.
+    * @param container     the container holding the select element.
+    * @return a list of all available option texts.
+    */
+   @Override
+   public List&lt;String&gt; getAvailableOptions(final SelectComponentType componentType, final SmartWebElement container) {
+<span class="fc" id="L183">      LogUi.step(String.format(GET_AVAILABLE_OPTIONS_CONTAINER, container, componentType));</span>
+<span class="fc" id="L184">      return selectComponent(componentType).getAvailableOptions(container);</span>
+   }
+
+   /**
+    * Retrieves all available options in a select component, identified by a container locator.
+    *
+    * @param componentType    the select component type.
+    * @param containerLocator the locator for the container.
+    * @return a list of all available option texts.
+    */
+   @Override
+   public List&lt;String&gt; getAvailableOptions(final SelectComponentType componentType, final By containerLocator) {
+<span class="fc" id="L196">      LogUi.step(String.format(GET_AVAILABLE_OPTIONS_LOCATOR, containerLocator, componentType));</span>
+<span class="fc" id="L197">      return selectComponent(componentType).getAvailableOptions(containerLocator);</span>
+   }
+
+   /**
+    * Retrieves all currently selected options within a container holding a select component.
+    *
+    * @param componentType the select component type.
+    * @param container     the container holding the select element.
+    * @return a list of texts representing the selected options.
+    */
+   @Override
+   public List&lt;String&gt; getSelectedOptions(final SelectComponentType componentType, final SmartWebElement container) {
+<span class="fc" id="L209">      LogUi.step(String.format(GET_SELECTED_OPTIONS_CONTAINER, container, componentType));</span>
+<span class="fc" id="L210">      return selectComponent(componentType).getSelectedOptions(container);</span>
+   }
+
+   /**
+    * Retrieves all currently selected options from a select component, identified by a container locator.
+    *
+    * @param componentType    the select component type.
+    * @param containerLocator the locator for the container.
+    * @return a list of texts representing the selected options.
+    */
+   @Override
+   public List&lt;String&gt; getSelectedOptions(final SelectComponentType componentType, final By containerLocator) {
+<span class="fc" id="L222">      LogUi.step(String.format(GET_SELECTED_OPTIONS_LOCATOR, containerLocator, componentType));</span>
+<span class="fc" id="L223">      return selectComponent(componentType).getSelectedOptions(containerLocator);</span>
+   }
+
+   /**
+    * Checks if a specific option is visible in the select component within the given container.
+    *
+    * @param componentType the select component type.
+    * @param container     the container holding the select element.
+    * @param value         the text or value of the option.
+    * @return true if the option is visible, otherwise false.
+    */
+   @Override
+   public boolean isOptionVisible(final SelectComponentType componentType, final SmartWebElement container,
+                                  final String value) {
+<span class="fc" id="L237">      LogUi.step(String.format(CHECK_OPTION_VISIBLE_CONTAINER, value, container, componentType));</span>
+<span class="fc" id="L238">      return selectComponent(componentType).isOptionVisible(container, value);</span>
+   }
+
+   /**
+    * Checks if a specific option is visible in the select component identified by a container locator.
+    *
+    * @param componentType    the select component type.
+    * @param containerLocator the locator for the container.
+    * @param value            the text or value of the option.
+    * @return true if the option is visible, otherwise false.
+    */
+   @Override
+   public boolean isOptionVisible(final SelectComponentType componentType, final By containerLocator,
+                                  final String value) {
+<span class="fc" id="L252">      LogUi.step(String.format(CHECK_OPTION_VISIBLE_LOCATOR, value, containerLocator, componentType));</span>
+<span class="fc" id="L253">      return selectComponent(componentType).isOptionVisible(containerLocator, value);</span>
+   }
+
+   /**
+    * Checks if a specific option is enabled in the select component within the given container.
+    *
+    * @param componentType the select component type.
+    * @param container     the container holding the select element.
+    * @param value         the text or value of the option.
+    * @return true if the option is enabled, otherwise false.
+    */
+   @Override
+   public boolean isOptionEnabled(final SelectComponentType componentType, final SmartWebElement container,
+                                  final String value) {
+<span class="fc" id="L267">      LogUi.step(String.format(CHECK_OPTION_ENABLED_CONTAINER, value, container, componentType));</span>
+<span class="fc" id="L268">      return selectComponent(componentType).isOptionEnabled(container, value);</span>
+   }
+
+   /**
+    * Checks if a specific option is enabled in the select component identified by a container locator.
+    *
+    * @param componentType    the select component type.
+    * @param containerLocator the locator for the container.
+    * @param value            the text or value of the option.
+    * @return true if the option is enabled, otherwise false.
+    */
+   @Override
+   public boolean isOptionEnabled(final SelectComponentType componentType, final By containerLocator,
+                                  final String value) {
+<span class="fc" id="L282">      LogUi.step(String.format(CHECK_OPTION_ENABLED_LOCATOR, value, containerLocator, componentType));</span>
+<span class="fc" id="L283">      return selectComponent(componentType).isOptionEnabled(containerLocator, value);</span>
+   }
+
+   /**
+    * Inserts data by selecting one or more options based on the provided array of values.
+    * This supports the {@link Insertion} contract.
+    *
+    * @param componentType the component type (expected to be a {@link SelectComponentType}).
+    * @param locator       the locator identifying the container.
+    * @param values        the values to be selected.
+    */
+   @Override
+   public void insertion(final ComponentType componentType, final By locator, final Object... values) {
+<span class="fc bfc" id="L296" title="All 2 branches covered.">      if (!(componentType instanceof SelectComponentType selectType)) {</span>
+<span class="fc" id="L297">         throw new IllegalArgumentException(&quot;Component type needs to be from: SelectComponentType.&quot;);</span>
+      }
+<span class="fc" id="L299">      LogUi.step(String.format(INSERT_SELECT_VALUES_LOCATOR, Arrays.toString(values), componentType, locator));</span>
+<span class="fc" id="L300">      String[] stringValues = Arrays.stream(values)</span>
+<span class="fc" id="L301">            .map(String::valueOf)</span>
+<span class="fc" id="L302">            .toArray(String[]::new);</span>
+<span class="fc" id="L303">      selectOptions(selectType, locator, stringValues);</span>
+<span class="fc" id="L304">   }</span>
+
+   /**
+    * Retrieves the underlying {@link Select} instance for the specified component type.
+    *
+    * @param componentType the select component type.
+    * @return the {@link Select} instance handling operations on this component type.
+    */
+   private Select selectComponent(final SelectComponentType componentType) {
+<span class="fc" id="L313">      return getOrCreateComponent(componentType);</span>
+   }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

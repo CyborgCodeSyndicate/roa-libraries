@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AccordionServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.accordion</a> &gt; <span class="el_source">AccordionServiceImpl.java</span></div><h1>AccordionServiceImpl.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.accordion;
+
+import io.cyborgcode.roa.ui.components.base.AbstractComponentService;
+import io.cyborgcode.roa.ui.components.factory.ComponentFactory;
+import io.cyborgcode.roa.ui.log.LogUi;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import io.cyborgcode.roa.ui.util.strategy.Strategy;
+import java.util.Arrays;
+import java.util.List;
+import org.openqa.selenium.By;
+
+/**
+ * Default implementation of {@link AccordionService} that delegates accordion actions
+ * to a cached or newly created {@link Accordion} instance.
+ *
+ * &lt;p&gt;This class extends {@link AbstractComponentService}, enabling the framework
+ * to maintain and reuse accordion implementations across multiple test interactions.
+ * Each method resolves the appropriate {@link AccordionComponentType} to retrieve
+ * the correct implementation, then calls the matching methods on the retrieved
+ * {@link Accordion}.
+ *
+ * &lt;p&gt;Typical usage involves specifying which accordion component type to interact with
+ * (e.g., different Material Design or Bootstrap variants), and then calling methods
+ * like {@code expand()}, {@code collapse()}, or {@code getExpanded()} to operate on
+ * those panels.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class AccordionServiceImpl extends AbstractComponentService&lt;AccordionComponentType, Accordion&gt;
+      implements AccordionService {
+
+   /**
+    * Constructs a new {@code AccordionServiceImpl} with the given driver.
+    *
+    * @param driver The {@link SmartWebDriver} instance used for UI interactions.
+    */
+   public AccordionServiceImpl(SmartWebDriver driver) {
+<span class="fc" id="L39">      super(driver);</span>
+<span class="fc" id="L40">   }</span>
+
+   /**
+    * Creates a new {@link Accordion} instance for the specified type using the {@link ComponentFactory}.
+    *
+    * @param componentType The enum constant representing the accordion type.
+    * @return A new or cached {@link Accordion} instance for the given type.
+    */
+   @Override
+   protected Accordion createComponent(final AccordionComponentType componentType) {
+<span class="fc" id="L50">      return ComponentFactory.getAccordionComponent(componentType, driver);</span>
+   }
+
+   /**
+    * Expands specified panels inside the accordion container for a given type.
+    *
+    * @param componentType The specific accordion component type.
+    * @param container     The container holding the accordion.
+    * @param accordionText The text of the panels to expand.
+    */
+   @Override
+   public void expand(final AccordionComponentType componentType, final SmartWebElement container,
+                      final String... accordionText) {
+<span class="fc" id="L63">      LogUi.step(&quot;Expanding accordion {} inside container with text: {}&quot;, componentType, accordionText);</span>
+<span class="fc" id="L64">      accordionComponent(componentType).expand(container, accordionText);</span>
+<span class="fc" id="L65">   }</span>
+
+   /**
+    * Expands an accordion panel using a strategy for panel selection.
+    *
+    * @param componentType The specific accordion component type.
+    * @param container     The container holding the accordion.
+    * @param strategy      The selection strategy (e.g. random, first).
+    * @return The text or identifier of the panel that was expanded.
+    */
+   @Override
+   public String expand(final AccordionComponentType componentType, final SmartWebElement container,
+                        final Strategy strategy) {
+<span class="fc" id="L78">      LogUi.step(&quot;Expanding accordion {} inside container using strategy: {}&quot;, componentType, strategy);</span>
+<span class="fc" id="L79">      return accordionComponent(componentType).expand(container, strategy);</span>
+   }
+
+   /**
+    * Expands panels identified by text labels for a given accordion type.
+    *
+    * @param componentType The specific accordion component type.
+    * @param accordionText The text of the panels to expand.
+    */
+   @Override
+   public void expand(final AccordionComponentType componentType, final String... accordionText) {
+<span class="fc" id="L90">      LogUi.step(&quot;Expanding accordion {} with text: {}&quot;, componentType, accordionText);</span>
+<span class="fc" id="L91">      accordionComponent(componentType).expand(accordionText);</span>
+<span class="fc" id="L92">   }</span>
+
+   /**
+    * Expands accordion panels identified by locators for a given type.
+    *
+    * @param componentType    The specific accordion component type.
+    * @param accordionLocator One or more locators identifying the panels to expand.
+    */
+   @Override
+   public void expand(final AccordionComponentType componentType, final By... accordionLocator) {
+<span class="fc" id="L102">      LogUi.step(&quot;Expanding accordion {} using locators&quot;, componentType);</span>
+<span class="fc" id="L103">      accordionComponent(componentType).expand(accordionLocator);</span>
+<span class="fc" id="L104">   }</span>
+
+   /**
+    * Collapses specified panels inside the accordion container for a given type.
+    *
+    * @param componentType The specific accordion component type.
+    * @param container     The container holding the accordion.
+    * @param accordionText The text of the panels to collapse.
+    */
+   @Override
+   public void collapse(final AccordionComponentType componentType, final SmartWebElement container,
+                        final String... accordionText) {
+<span class="fc" id="L116">      LogUi.step(&quot;Collapsing accordion {} inside container with text: {}&quot;, componentType, accordionText);</span>
+<span class="fc" id="L117">      accordionComponent(componentType).collapse(container, accordionText);</span>
+<span class="fc" id="L118">   }</span>
+
+   /**
+    * Collapses an accordion panel using a strategy for panel selection.
+    *
+    * @param componentType The specific accordion component type.
+    * @param container     The container holding the accordion.
+    * @param strategy      The selection strategy (e.g. random, first).
+    * @return The text or identifier of the panel that was collapsed.
+    */
+   @Override
+   public String collapse(final AccordionComponentType componentType, final SmartWebElement container,
+                          final Strategy strategy) {
+<span class="fc" id="L131">      LogUi.step(&quot;Collapsing accordion {} inside container using strategy: {}&quot;, componentType, strategy);</span>
+<span class="fc" id="L132">      return accordionComponent(componentType).collapse(container, strategy);</span>
+   }
+
+   /**
+    * Collapses panels identified by text labels for a given accordion type.
+    *
+    * @param componentType The specific accordion component type.
+    * @param accordionText The text of the panels to collapse.
+    */
+   @Override
+   public void collapse(final AccordionComponentType componentType, final String... accordionText) {
+<span class="fc" id="L143">      LogUi.step(&quot;Collapsing accordion {} with text: {}&quot;, componentType, accordionText);</span>
+<span class="fc" id="L144">      accordionComponent(componentType).collapse(accordionText);</span>
+<span class="fc" id="L145">   }</span>
+
+   /**
+    * Collapses accordion panels identified by locators for a given type.
+    *
+    * @param componentType    The specific accordion component type.
+    * @param accordionLocator One or more locators identifying the panels to collapse.
+    */
+   @Override
+   public void collapse(final AccordionComponentType componentType, final By... accordionLocator) {
+<span class="fc" id="L155">      LogUi.step(&quot;Collapsing accordion {} using locators&quot;, componentType);</span>
+<span class="fc" id="L156">      accordionComponent(componentType).collapse(accordionLocator);</span>
+<span class="fc" id="L157">   }</span>
+
+   /**
+    * Checks if specified accordion panels are enabled for a given type, within a specific container.
+    *
+    * @param componentType The specific accordion component type.
+    * @param container     The container holding the accordion.
+    * @param accordionText The text of the panels to check.
+    * @return {@code true} if all specified panels are enabled, otherwise {@code false}.
+    */
+   @Override
+   public boolean areEnabled(final AccordionComponentType componentType, final SmartWebElement container,
+                             final String... accordionText) {
+<span class="fc" id="L170">      LogUi.step(&quot;Checking if accordion {} is enabled inside container with text: {}&quot;, componentType, accordionText);</span>
+<span class="fc" id="L171">      return accordionComponent(componentType).areEnabled(container, accordionText);</span>
+   }
+
+   /**
+    * Checks if specified accordion panels are enabled for a given type, identified by text.
+    *
+    * @param componentType The specific accordion component type.
+    * @param accordionText The text of the panels to check.
+    * @return {@code true} if all specified panels are enabled, otherwise {@code false}.
+    */
+   @Override
+   public boolean areEnabled(final AccordionComponentType componentType, final String... accordionText) {
+<span class="fc" id="L183">      LogUi.step(&quot;Checking if accordion {} is enabled with text: {}&quot;, componentType, accordionText);</span>
+<span class="fc" id="L184">      return accordionComponent(componentType).areEnabled(accordionText);</span>
+   }
+
+   /**
+    * Checks if accordion panels identified by locators are enabled for a given type.
+    *
+    * @param componentType    The specific accordion component type.
+    * @param accordionLocator One or more locators identifying the panels to check.
+    * @return {@code true} if all specified panels are enabled, otherwise {@code false}.
+    */
+   @Override
+   public boolean areEnabled(final AccordionComponentType componentType, final By... accordionLocator) {
+<span class="fc" id="L196">      LogUi.step(&quot;Checking if accordions {} are enabled using locators {}&quot;, componentType,</span>
+<span class="fc" id="L197">            Arrays.asList(accordionLocator));</span>
+<span class="fc" id="L198">      return accordionComponent(componentType).areEnabled(accordionLocator);</span>
+   }
+
+   /**
+    * Checks if accordion panel identified by locator is enabled for a given type.
+    *
+    * @param componentType    The specific accordion component type.
+    * @param accordionLocator The locator identifying the panel to check.
+    * @return {@code true} if the specified accordion panel is enabled, otherwise {@code false}.
+    */
+   @Override
+   public boolean isEnabled(final AccordionComponentType componentType, final By accordionLocator) {
+<span class="fc" id="L210">      LogUi.step(&quot;Checking if accordion {} is enabled using locator {}&quot;, componentType, accordionLocator);</span>
+<span class="fc" id="L211">      return accordionComponent(componentType).areEnabled(accordionLocator);</span>
+   }
+
+   /**
+    * Retrieves a list of expanded panels for a given type, within a specific container.
+    *
+    * @param componentType The specific accordion component type.
+    * @param container     The container holding the accordion.
+    * @return A list of expanded panel titles.
+    */
+   @Override
+   public List&lt;String&gt; getExpanded(final AccordionComponentType componentType, final SmartWebElement container) {
+<span class="fc" id="L223">      LogUi.step(&quot;Getting expanded accordions for {} inside container {}&quot;, componentType, container);</span>
+<span class="fc" id="L224">      return accordionComponent(componentType).getExpanded(container);</span>
+   }
+
+   /**
+    * Retrieves a list of expanded panels for a given type, within a specific container identified by locator.
+    *
+    * @param componentType    The specific accordion component type.
+    * @param containerLocator The container locator holding the accordion panels.
+    * @return A list of expanded panel titles.
+    */
+   @Override
+   public List&lt;String&gt; getExpanded(final AccordionComponentType componentType, final By containerLocator) {
+<span class="fc" id="L236">      LogUi.step(&quot;Getting expanded accordions for {}, using locator {}&quot;, componentType, containerLocator);</span>
+<span class="fc" id="L237">      return accordionComponent(componentType).getExpanded(containerLocator);</span>
+   }
+
+   /**
+    * Retrieves a list of collapsed panels for a given type, within a specific container.
+    *
+    * @param componentType The specific accordion component type.
+    * @param container     The container holding the accordion.
+    * @return A list of collapsed panel titles.
+    */
+   @Override
+   public List&lt;String&gt; getCollapsed(final AccordionComponentType componentType, final SmartWebElement container) {
+<span class="fc" id="L249">      LogUi.step(&quot;Getting collapsed accordions for {} inside container {}&quot;, componentType, container);</span>
+<span class="fc" id="L250">      return accordionComponent(componentType).getCollapsed(container);</span>
+   }
+
+   /**
+    * Retrieves a list of collapsed panels for a given type, within a specific container identified by locator.
+    *
+    * @param componentType    The specific accordion component type.
+    * @param containerLocator The container locator holding the accordion panels.
+    * @return A list of collapsed panel titles.
+    */
+   @Override
+   public List&lt;String&gt; getCollapsed(final AccordionComponentType componentType, final By containerLocator) {
+<span class="fc" id="L262">      LogUi.step(&quot;Getting collapsed accordions for {}, using locator {}&quot;, componentType, containerLocator);</span>
+<span class="fc" id="L263">      return accordionComponent(componentType).getCollapsed(containerLocator);</span>
+   }
+
+   /**
+    * Retrieves a list of all panel texts (both expanded and collapsed) for a given type
+    * within a specific container.
+    *
+    * @param componentType The specific accordion component type.
+    * @param container     The container holding the accordion.
+    * @return A list of all panel texts.
+    */
+   @Override
+   public List&lt;String&gt; getAll(final AccordionComponentType componentType, final SmartWebElement container) {
+<span class="fc" id="L276">      LogUi.step(&quot;Getting all accordions for {}&quot;, componentType);</span>
+<span class="fc" id="L277">      return accordionComponent(componentType).getAll(container);</span>
+   }
+
+   /**
+    * Retrieves a list of all panel texts (both expanded and collapsed) for a given type
+    * within a specific container identified by locator.
+    *
+    * @param componentType    The specific accordion component type.
+    * @param containerLocator The container holding the accordion panels.
+    * @return A list of all panel texts.
+    */
+   @Override
+   public List&lt;String&gt; getAll(final AccordionComponentType componentType, final By containerLocator) {
+<span class="fc" id="L290">      LogUi.step(&quot;Getting all accordions for {}, using locator {}&quot;, componentType, containerLocator);</span>
+<span class="fc" id="L291">      return accordionComponent(componentType).getAll(containerLocator);</span>
+   }
+
+   /**
+    * Retrieves the title of an accordion panel for a given type, identified by a locator.
+    *
+    * @param componentType    The specific accordion component type.
+    * @param accordionLocator The locator of container holding the accordion panels.
+    * @return The panel's title text.
+    */
+   @Override
+   public String getTitle(final AccordionComponentType componentType, final By accordionLocator) {
+<span class="fc" id="L303">      LogUi.step(&quot;Getting title for accordion {} using locator&quot;, componentType);</span>
+<span class="fc" id="L304">      return accordionComponent(componentType).getTitle(accordionLocator);</span>
+   }
+
+   /**
+    * Retrieves the text content of an accordion panel for a given type, identified by a locator.
+    *
+    * @param componentType    The specific accordion component type.
+    * @param accordionLocator The locator of the panel.
+    * @return The panel's text content.
+    */
+   @Override
+   public String getText(final AccordionComponentType componentType, final By accordionLocator) {
+<span class="fc" id="L316">      LogUi.step(&quot;Getting text for accordion {} using locator&quot;, componentType);</span>
+<span class="fc" id="L317">      return accordionComponent(componentType).getText(accordionLocator);</span>
+   }
+
+   /**
+    * Retrieves or creates (caches) the {@link Accordion} implementation for the specified type.
+    *
+    * @param componentType The enum constant representing the accordion type.
+    * @return The accordion implementation associated with the given type.
+    */
+   private Accordion accordionComponent(final AccordionComponentType componentType) {
+<span class="fc" id="L327">      return getOrCreateComponent(componentType);</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

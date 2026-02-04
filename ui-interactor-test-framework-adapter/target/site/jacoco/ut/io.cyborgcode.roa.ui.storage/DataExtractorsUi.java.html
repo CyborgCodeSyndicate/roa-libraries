@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DataExtractorsUi.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.storage</a> &gt; <span class="el_source">DataExtractorsUi.java</span></div><h1>DataExtractorsUi.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.storage;
+
+import com.jayway.jsonpath.JsonPath;
+import io.cyborgcode.roa.framework.storage.DataExtractor;
+import io.cyborgcode.roa.framework.storage.DataExtractorImpl;
+import io.cyborgcode.roa.ui.components.interceptor.ApiResponse;
+import io.cyborgcode.roa.ui.util.table.TableReflectionUtil;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+
+/**
+ * Utility class providing data extraction mechanisms for UI-related data storage and retrieval.
+ *
+ * &lt;p&gt;This class contains static methods for extracting data from API responses and table elements.
+ * It provides functionalities to:
+ * &lt;ul&gt;
+ *   &lt;li&gt;Extract JSON data from stored API responses.&lt;/li&gt;
+ *   &lt;li&gt;Retrieve specific table rows based on search criteria or index.&lt;/li&gt;
+ *   &lt;li&gt;Process and filter data for validation and assertions.&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class DataExtractorsUi {
+
+   private DataExtractorsUi() {
+   }
+
+   /**
+    * Creates a {@link DataExtractor} to retrieve a value from a stored API response body using a JSONPath expression.
+    *
+    * @param responsePrefix The prefix of the API response URL used to filter relevant responses.
+    * @param jsonPath       The JSONPath expression used to extract data from the response body.
+    * @param &lt;T&gt;            The expected return type of the extracted data.
+    * @return A {@link DataExtractor} that retrieves the specified value from the API response.
+    */
+   public static &lt;T&gt; DataExtractor&lt;T&gt; responseBodyExtraction(String responsePrefix, String jsonPath) {
+<span class="fc" id="L39">      return responseBodyExtraction(responsePrefix, jsonPath, 1);</span>
+   }
+
+   /**
+    * Creates a {@link DataExtractor} to retrieve a value from a stored API response body using a JSONPath expression.
+    *
+    * @param responsePrefix The prefix of the API response URL used to filter relevant responses.
+    * @param jsonPath       The JSONPath expression used to extract data from the response body.
+    * @param index          The index (from the most recent) of the filtered API responses to extract data from.
+    * @param &lt;T&gt;            The expected return type of the extracted data.
+    * @return A {@link DataExtractor} that retrieves the specified value from the API response.
+    * @throws IllegalArgumentException If the provided index is out of range.
+    */
+   public static &lt;T&gt; DataExtractor&lt;T&gt; responseBodyExtraction(String responsePrefix, String jsonPath, int index) {
+<span class="fc" id="L53">      return new DataExtractorImpl&lt;&gt;(</span>
+            StorageKeysUi.UI,
+            StorageKeysUi.RESPONSES,
+            raw -&gt; {
+<span class="fc" id="L57">               List&lt;ApiResponse&gt; responses = (List&lt;ApiResponse&gt;) raw;</span>
+
+<span class="fc" id="L59">               List&lt;ApiResponse&gt; filteredResponses = responses.stream()</span>
+<span class="fc" id="L60">                     .filter(</span>
+<span class="fc" id="L61">                           response -&gt; response.getUrl().startsWith(responsePrefix))</span>
+<span class="fc" id="L62">                     .toList();</span>
+
+<span class="fc" id="L64">               int adjustedIndex = filteredResponses.size() - index;</span>
+<span class="fc bfc" id="L65" title="All 4 branches covered.">               if (adjustedIndex &lt; 0 || adjustedIndex &gt;= filteredResponses.size()) {</span>
+<span class="fc" id="L66">                  throw new IllegalArgumentException(&quot;Invalid index for response list.&quot;);</span>
+               }
+
+<span class="fc" id="L69">               ApiResponse selectedResponse = filteredResponses.get(adjustedIndex);</span>
+
+<span class="fc" id="L71">               return JsonPath.read(selectedResponse.getBody(), jsonPath);</span>
+            }
+      );
+   }
+
+
+   /**
+    * Creates a {@link DataExtractor} to retrieve a specific table row from storage based on search criteria.
+    *
+    * &lt;p&gt;This method searches stored table data for a row containing all specified indicator values.
+    * It compares row values case-insensitively after trimming whitespace.
+    *
+    * @param key        The key used to retrieve the stored table data.
+    * @param indicators The values used to search for a matching row.
+    * @param &lt;T&gt;        The expected return type of the extracted table row.
+    * @return A {@link DataExtractor} that retrieves the matching row from the table.
+    */
+   public static &lt;T&gt; DataExtractor&lt;T&gt; tableRowExtractor(Enum&lt;?&gt; key, String... indicators) {
+<span class="fc" id="L89">      return new DataExtractorImpl&lt;&gt;(</span>
+            StorageKeysUi.UI,
+            key,
+            raw -&gt; {
+<span class="fc" id="L93">               List&lt;T&gt; rows = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">               if (List.class.isAssignableFrom(raw.getClass())) {</span>
+<span class="fc" id="L95">                  rows = (List&lt;T&gt;) raw;</span>
+               } else {
+<span class="fc" id="L97">                  rows.add((T) raw);</span>
+               }
+
+<span class="fc" id="L100">               return rows.stream().filter(row -&gt; {</span>
+<span class="fc" id="L101">                  List&lt;String&gt; rowValues = TableReflectionUtil.extractTextsFromRow(row);</span>
+<span class="fc" id="L102">                  List&lt;String&gt; modifiedRowValues = TableReflectionUtil.lowerCaseAndTrim(rowValues);</span>
+<span class="fc" id="L103">                  List&lt;String&gt; modifiedIndicators = TableReflectionUtil.lowerCaseAndTrim(List.of(indicators));</span>
+<span class="fc" id="L104">                  return new HashSet&lt;&gt;(modifiedRowValues).containsAll(modifiedIndicators);</span>
+<span class="fc" id="L105">               }).findFirst().orElse(null);</span>
+            }
+      );
+   }
+
+   /**
+    * Creates a {@link DataExtractor} to retrieve a specific table row from storage based on its index.
+    *
+    * @param key   The key used to retrieve the stored table data.
+    * @param index The zero-based index of the row to retrieve.
+    * @param &lt;T&gt;   The expected return type of the extracted table row.
+    * @return A {@link DataExtractor} that retrieves the row at the specified index.
+    * @throws IndexOutOfBoundsException If the index is out of range.
+    */
+   public static &lt;T&gt; DataExtractor&lt;T&gt; tableRowExtractor(Enum&lt;?&gt; key, int index) {
+<span class="fc" id="L120">      return new DataExtractorImpl&lt;&gt;(</span>
+            StorageKeysUi.UI,
+            key,
+            raw -&gt; {
+<span class="fc" id="L124">               List&lt;T&gt; rows = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">               if (List.class.isAssignableFrom(raw.getClass())) {</span>
+<span class="fc" id="L126">                  rows = (List&lt;T&gt;) raw;</span>
+               } else {
+<span class="fc" id="L128">                  rows.add((T) raw);</span>
+               }
+
+<span class="fc" id="L131">               return rows.get(index);</span>
+            }
+      );
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

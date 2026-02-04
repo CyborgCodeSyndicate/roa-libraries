@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RadioServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.radio</a> &gt; <span class="el_source">RadioServiceImpl.java</span></div><h1>RadioServiceImpl.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.radio;
+
+import io.cyborgcode.roa.ui.components.base.AbstractComponentService;
+import io.cyborgcode.roa.ui.components.base.ComponentType;
+import io.cyborgcode.roa.ui.components.factory.ComponentFactory;
+import io.cyborgcode.roa.ui.insertion.Insertion;
+import io.cyborgcode.roa.ui.log.LogUi;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import io.cyborgcode.roa.ui.util.strategy.Strategy;
+import java.util.Arrays;
+import java.util.List;
+import org.openqa.selenium.By;
+
+/**
+ * Implementation of the {@link RadioService} interface, providing methods to select radio buttons,
+ * verify their state (enabled, selected, visible), and retrieve their text values. Extends
+ * {@link AbstractComponentService} to manage creation and retrieval of {@link Radio} instances.
+ *
+ * &lt;p&gt;This class delegates core functionality to an internally retrieved {@link Radio} instance,
+ * created for each specified {@link RadioComponentType}. Methods conform to the {@link RadioService}
+ * contract, ensuring a uniform approach to handling radio buttons across various UI designs.
+ *
+ * &lt;p&gt;All public methods handle operations such as checking button states, locating elements by
+ * container or locator, and selecting them by text or strategy. The {@code insertion} method also
+ * implements the {@link Insertion} interface for data
+ * insertion scenarios.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class RadioServiceImpl extends AbstractComponentService&lt;RadioComponentType, Radio&gt; implements RadioService {
+
+   private static final String SELECT_RADIO_WITH_TEXT_CONTAINER =
+         &quot;Selecting radio button with text %s in container %s for radio component %s&quot;;
+   private static final String SELECT_RADIO_WITH_STRATEGY =
+         &quot;Selecting radio button with strategy %s in container %s for radio component %s&quot;;
+   private static final String SELECT_RADIO_WITH_TEXT = &quot;Selecting radio button with text %s for radio component %s&quot;;
+   private static final String SELECT_RADIO_WITH_LOCATOR =
+         &quot;Selecting radio button with locator %s for radio component %s&quot;;
+
+   private static final String CHECK_RADIO_ENABLED_CONTAINER =
+         &quot;Checking if radio button with text %s is enabled in container %s for radio component %s&quot;;
+   private static final String CHECK_RADIO_ENABLED_TEXT =
+         &quot;Checking if radio button with text %s is enabled for radio component %s&quot;;
+   private static final String CHECK_RADIO_ENABLED_LOCATOR =
+         &quot;Checking if radio button with locator %s is enabled for radio component %s&quot;;
+
+   private static final String CHECK_RADIO_SELECTED_CONTAINER =
+         &quot;Checking if radio button with text %s is selected in container %s for radio component %s&quot;;
+   private static final String CHECK_RADIO_SELECTED_TEXT =
+         &quot;Checking if radio button with text %s is selected for radio component %s&quot;;
+   private static final String CHECK_RADIO_SELECTED_LOCATOR =
+         &quot;Checking if radio button with locator %s is selected for radio component %s&quot;;
+
+   private static final String CHECK_RADIO_VISIBLE_CONTAINER =
+         &quot;Checking if radio button with text %s is visible in container %s for radio component %s&quot;;
+   private static final String CHECK_RADIO_VISIBLE_TEXT =
+         &quot;Checking if radio button with text %s is visible for radio component %s&quot;;
+   private static final String CHECK_RADIO_VISIBLE_LOCATOR =
+         &quot;Checking if radio button with locator %s is visible for radio component %s&quot;;
+
+   private static final String GET_SELECTED_RADIO_CONTAINER =
+         &quot;Getting selected radio button text from container %s for radio component %s&quot;;
+   private static final String GET_SELECTED_RADIO_LOCATOR =
+         &quot;Getting selected radio button text from locator %s for radio component %s&quot;;
+
+   private static final String GET_ALL_RADIOS_CONTAINER =
+         &quot;Getting all radio buttons from container %s for radio component %s&quot;;
+   private static final String GET_ALL_RADIOS_LOCATOR =
+         &quot;Getting all radio buttons from locator %s for radio component %s&quot;;
+
+   private static final String INSERT_RADIO_VALUES_LOCATOR =
+         &quot;Inserting values %s for radio component %s using locator %s&quot;;
+
+   /**
+    * Constructs a new {@code RadioServiceImpl} with the provided {@link SmartWebDriver}.
+    *
+    * @param driver the smart web driver for interacting with browser elements.
+    */
+   public RadioServiceImpl(SmartWebDriver driver) {
+<span class="fc" id="L81">      super(driver);</span>
+<span class="fc" id="L82">   }</span>
+
+   /**
+    * Creates and returns a {@link Radio} component based on the given {@link RadioComponentType}.
+    *
+    * @param componentType the type of the radio component.
+    * @return a new or existing {@link Radio} instance for the specified component type.
+    */
+   @Override
+   protected Radio createComponent(final RadioComponentType componentType) {
+<span class="fc" id="L92">      return ComponentFactory.getRadioComponent(componentType, driver);</span>
+   }
+
+   /**
+    * Selects a radio button by text within a given container, using the specified {@link RadioComponentType}.
+    *
+    * @param componentType   the radio component type.
+    * @param container       the container holding the radio buttons.
+    * @param radioButtonText the text of the radio button to select.
+    */
+   @Override
+   public void select(final RadioComponentType componentType, final SmartWebElement container,
+                      final String radioButtonText) {
+<span class="fc" id="L105">      LogUi.step(String.format(SELECT_RADIO_WITH_TEXT_CONTAINER, radioButtonText, container, componentType));</span>
+<span class="fc" id="L106">      radioComponent(componentType).select(container, radioButtonText);</span>
+<span class="fc" id="L107">   }</span>
+
+   /**
+    * Selects a radio button within a given container using a custom {@link Strategy}, returning
+    * the text of the selected button.
+    *
+    * @param componentType the radio component type.
+    * @param container     the container holding the radio buttons.
+    * @param strategy      the selection strategy.
+    * @return the text of the selected radio button.
+    */
+   @Override
+   public String select(final RadioComponentType componentType, final SmartWebElement container,
+                        final Strategy strategy) {
+<span class="fc" id="L121">      LogUi.step(String.format(SELECT_RADIO_WITH_STRATEGY, strategy, container, componentType));</span>
+<span class="fc" id="L122">      return radioComponent(componentType).select(container, strategy);</span>
+   }
+
+   /**
+    * Selects a radio button by text without specifying a container, using the given {@link RadioComponentType}.
+    *
+    * @param componentType   the radio component type.
+    * @param radioButtonText the text of the radio button to select.
+    */
+   @Override
+   public void select(final RadioComponentType componentType, final String radioButtonText) {
+<span class="fc" id="L133">      LogUi.step(String.format(SELECT_RADIO_WITH_TEXT, radioButtonText, componentType));</span>
+<span class="fc" id="L134">      radioComponent(componentType).select(radioButtonText);</span>
+<span class="fc" id="L135">   }</span>
+
+   /**
+    * Selects a radio button identified by a locator, using the specified {@link RadioComponentType}.
+    *
+    * @param componentType      the radio component type.
+    * @param radioButtonLocator the locator referencing the radio button.
+    */
+   @Override
+   public void select(final RadioComponentType componentType, final By radioButtonLocator) {
+<span class="fc" id="L145">      LogUi.step(String.format(SELECT_RADIO_WITH_LOCATOR, radioButtonLocator, componentType));</span>
+<span class="fc" id="L146">      radioComponent(componentType).select(radioButtonLocator);</span>
+<span class="fc" id="L147">   }</span>
+
+   /**
+    * Checks if a radio button is enabled within the specified container, identified by text.
+    *
+    * @param componentType   the radio component type.
+    * @param container       the container holding the radio button.
+    * @param radioButtonText the text of the radio button to check.
+    * @return true if enabled, otherwise false.
+    */
+   @Override
+   public boolean isEnabled(final RadioComponentType componentType, final SmartWebElement container,
+                            final String radioButtonText) {
+<span class="fc" id="L160">      LogUi.step(String.format(CHECK_RADIO_ENABLED_CONTAINER, radioButtonText, container, componentType));</span>
+<span class="fc" id="L161">      return radioComponent(componentType).isEnabled(container, radioButtonText);</span>
+   }
+
+   /**
+    * Checks if a radio button, identified by text, is enabled without specifying a container.
+    *
+    * @param componentType   the radio component type.
+    * @param radioButtonText the text of the radio button to check.
+    * @return true if enabled, otherwise false.
+    */
+   @Override
+   public boolean isEnabled(final RadioComponentType componentType, final String radioButtonText) {
+<span class="fc" id="L173">      LogUi.step(String.format(CHECK_RADIO_ENABLED_TEXT, radioButtonText, componentType));</span>
+<span class="fc" id="L174">      return radioComponent(componentType).isEnabled(radioButtonText);</span>
+   }
+
+   /**
+    * Checks if a radio button identified by a locator is enabled.
+    *
+    * @param componentType      the radio component type.
+    * @param radioButtonLocator the locator referencing the radio button.
+    * @return true if enabled, otherwise false.
+    */
+   @Override
+   public boolean isEnabled(final RadioComponentType componentType, final By radioButtonLocator) {
+<span class="fc" id="L186">      LogUi.step(String.format(CHECK_RADIO_ENABLED_LOCATOR, radioButtonLocator, componentType));</span>
+<span class="fc" id="L187">      return radioComponent(componentType).isEnabled(radioButtonLocator);</span>
+   }
+
+   /**
+    * Checks if a radio button is selected within the specified container, identified by text.
+    *
+    * @param componentType   the radio component type.
+    * @param container       the container holding the radio button.
+    * @param radioButtonText the text of the radio button to check.
+    * @return true if selected, otherwise false.
+    */
+   @Override
+   public boolean isSelected(final RadioComponentType componentType, final SmartWebElement container,
+                             final String radioButtonText) {
+<span class="fc" id="L201">      LogUi.step(String.format(CHECK_RADIO_SELECTED_CONTAINER, radioButtonText, container, componentType));</span>
+<span class="fc" id="L202">      return radioComponent(componentType).isSelected(container, radioButtonText);</span>
+   }
+
+   /**
+    * Checks if a radio button, identified by text, is selected without specifying a container.
+    *
+    * @param componentType   the radio component type.
+    * @param radioButtonText the text of the radio button to check.
+    * @return true if selected, otherwise false.
+    */
+   @Override
+   public boolean isSelected(final RadioComponentType componentType, final String radioButtonText) {
+<span class="fc" id="L214">      LogUi.step(String.format(CHECK_RADIO_SELECTED_TEXT, radioButtonText, componentType));</span>
+<span class="fc" id="L215">      return radioComponent(componentType).isSelected(radioButtonText);</span>
+   }
+
+   /**
+    * Checks if a radio button identified by a locator is selected.
+    *
+    * @param componentType      the radio component type.
+    * @param radioButtonLocator the locator referencing the radio button.
+    * @return true if selected, otherwise false.
+    */
+   @Override
+   public boolean isSelected(final RadioComponentType componentType, final By radioButtonLocator) {
+<span class="fc" id="L227">      LogUi.step(String.format(CHECK_RADIO_SELECTED_LOCATOR, radioButtonLocator, componentType));</span>
+<span class="fc" id="L228">      return radioComponent(componentType).isSelected(radioButtonLocator);</span>
+   }
+
+   /**
+    * Checks if a radio button is visible within the specified container, identified by text.
+    *
+    * @param componentType   the radio component type.
+    * @param container       the container holding the radio button.
+    * @param radioButtonText the text of the radio button to check.
+    * @return true if visible, otherwise false.
+    */
+   @Override
+   public boolean isVisible(final RadioComponentType componentType, final SmartWebElement container,
+                            final String radioButtonText) {
+<span class="fc" id="L242">      LogUi.step(String.format(CHECK_RADIO_VISIBLE_CONTAINER, radioButtonText, container, componentType));</span>
+<span class="fc" id="L243">      return radioComponent(componentType).isVisible(container, radioButtonText);</span>
+   }
+
+   /**
+    * Checks if a radio button, identified by text, is visible without specifying a container.
+    *
+    * @param componentType   the radio component type.
+    * @param radioButtonText the text of the radio button to check.
+    * @return true if visible, otherwise false.
+    */
+   @Override
+   public boolean isVisible(final RadioComponentType componentType, final String radioButtonText) {
+<span class="fc" id="L255">      LogUi.step(String.format(CHECK_RADIO_VISIBLE_TEXT, radioButtonText, componentType));</span>
+<span class="fc" id="L256">      return radioComponent(componentType).isVisible(radioButtonText);</span>
+   }
+
+   /**
+    * Checks if a radio button identified by a locator is visible.
+    *
+    * @param componentType      the radio component type.
+    * @param radioButtonLocator the locator referencing the radio button.
+    * @return true if visible, otherwise false.
+    */
+   @Override
+   public boolean isVisible(final RadioComponentType componentType, final By radioButtonLocator) {
+<span class="fc" id="L268">      LogUi.step(String.format(CHECK_RADIO_VISIBLE_LOCATOR, radioButtonLocator, componentType));</span>
+<span class="fc" id="L269">      return radioComponent(componentType).isVisible(radioButtonLocator);</span>
+   }
+
+   /**
+    * Retrieves the text of the currently selected radio button within a container.
+    *
+    * @param componentType the radio component type.
+    * @param container     the container holding the radio buttons.
+    * @return the text of the selected radio button, or an empty string if none is selected.
+    */
+   @Override
+   public String getSelected(final RadioComponentType componentType, final SmartWebElement container) {
+<span class="fc" id="L281">      LogUi.step(String.format(GET_SELECTED_RADIO_CONTAINER, container, componentType));</span>
+<span class="fc" id="L282">      return radioComponent(componentType).getSelected(container);</span>
+   }
+
+   /**
+    * Retrieves the text of the currently selected radio button within a container specified by a locator.
+    *
+    * @param componentType    the radio component type.
+    * @param containerLocator the locator referencing the container holding the radio buttons.
+    * @return the text of the selected radio button, or an empty string if none is selected.
+    */
+   @Override
+   public String getSelected(final RadioComponentType componentType, final By containerLocator) {
+<span class="fc" id="L294">      LogUi.step(String.format(GET_SELECTED_RADIO_LOCATOR, containerLocator, componentType));</span>
+<span class="fc" id="L295">      return radioComponent(componentType).getSelected(containerLocator);</span>
+   }
+
+   /**
+    * Retrieves a list of all available radio button texts in the specified container.
+    *
+    * @param componentType the radio component type.
+    * @param container     the container holding the radio buttons.
+    * @return a list of all radio button texts.
+    */
+   @Override
+   public List&lt;String&gt; getAll(final RadioComponentType componentType, final SmartWebElement container) {
+<span class="fc" id="L307">      LogUi.step(String.format(GET_ALL_RADIOS_CONTAINER, container, componentType));</span>
+<span class="fc" id="L308">      return radioComponent(componentType).getAll(container);</span>
+   }
+
+   /**
+    * Retrieves a list of all available radio button texts in a container specified by a locator.
+    *
+    * @param componentType    the radio component type.
+    * @param containerLocator the locator referencing the container holding the radio buttons.
+    * @return a list of all radio button texts.
+    */
+   @Override
+   public List&lt;String&gt; getAll(final RadioComponentType componentType, final By containerLocator) {
+<span class="fc" id="L320">      LogUi.step(String.format(GET_ALL_RADIOS_LOCATOR, containerLocator, componentType));</span>
+<span class="fc" id="L321">      return radioComponent(componentType).getAll(containerLocator);</span>
+   }
+
+   /**
+    * Inserts (selects) a radio button based on the first passed value. Used by the
+    * {@link Insertion} interface.
+    *
+    * @param componentType the {@link ComponentType} identifying the radio component.
+    * @param locator       the locator for the container or element.
+    * @param values        an array of objects, expected to contain at least one string representing the radio text.
+    */
+   @Override
+   public void insertion(final ComponentType componentType, final By locator, final Object... values) {
+<span class="fc bfc" id="L334" title="All 2 branches covered.">      if (!(componentType instanceof RadioComponentType radioType)) {</span>
+<span class="fc" id="L335">         throw new IllegalArgumentException(&quot;Component type needs to be from: RadioComponentType.&quot;);</span>
+      }
+<span class="fc" id="L337">      LogUi.step(String.format(INSERT_RADIO_VALUES_LOCATOR, Arrays.toString(values), componentType, locator));</span>
+<span class="fc" id="L338">      select(radioType, locator);</span>
+<span class="fc" id="L339">   }</span>
+
+   /**
+    * Retrieves or creates the {@link Radio} instance for the specified component type.
+    *
+    * @param componentType the radio component type.
+    * @return the {@link Radio} instance associated with the given component type.
+    */
+   private Radio radioComponent(final RadioComponentType componentType) {
+<span class="fc" id="L348">      return getOrCreateComponent(componentType);</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

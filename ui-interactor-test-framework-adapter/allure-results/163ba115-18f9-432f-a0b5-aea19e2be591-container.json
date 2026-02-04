@@ -1,0 +1,1 @@
+{"uuid":"163ba115-18f9-432f-a0b5-aea19e2be591","name":"clickElementInCell with row and data should call tableService with the correct arguments","children":["c702f9f9-e490-435c-81eb-5853e9357ea0"],"befores":[],"afters":[],"start":1770237543244,"stop":1770237543261}

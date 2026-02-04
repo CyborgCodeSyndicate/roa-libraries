@@ -1,0 +1,56 @@
+-J-Duser.language=
+-J-Duser.country=
+@options
+@packages
+-classpath
+'C:/Users/38975/.m2/repository/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar'
+-encoding
+'UTF-8'
+-protected
+-source
+'17'
+-sourcepath
+'C:/Users/38975/IdeaProjects/roa-libraries/assertions/src/main/java;C:/Users/38975/IdeaProjects/roa-libraries/assertions/target/generated-sources/annotations'
+-author
+-bottom
+'Copyright &#169; 2026 <a href="https://cyborgcode.io">Cyborg Code Syndicate</a>. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/38975/IdeaProjects/roa-libraries/assertions/target/javadocs/apidocs'
+-docencoding
+'UTF-8'
+-Xdoclint:none
+-doctitle
+'Ring of Automation Assertion Library 0.0.0 API'
+-linksource
+-use
+-version
+-windowtitle
+'Ring of Automation Assertion Library 0.0.0 API'
+io.cyborgcode.roa.validator.core
+io.cyborgcode.roa.validator.exceptions
+io.cyborgcode.roa.validator.functions
+io.cyborgcode.roa.validator.registry
+io.cyborgcode.roa.validator.util
+C:\Users\38975\.m2\repository\org\projectlombok\lombok\1.18.42\lombok-1.18.42.jar = 1760802573302
+C:\Users\38975\IdeaProjects\roa-libraries\assertions\src\main\java = 1769893962123
+C:\Users\38975\IdeaProjects\roa-libraries\assertions\target\generated-sources\annotations = 1770236072957
+C:\Users\38975\IdeaProjects\roa-libraries\assertions\target\javadocs\apidocs\allclasses-index.html = 1770236095393
+C:\Users\38975\IdeaProjects\roa-libraries\assertions\target\javadocs\apidocs\allpackages-index.html = 1770236095406
+C:\Users\38975\IdeaProjects\roa-libraries\assertions\target\javadocs\apidocs\element-list = 1770236094727
+C:\Users\38975\IdeaProjects\roa-libraries\assertions\target\javadocs\apidocs\help-doc.html = 1770236095522
+C:\Users\38975\IdeaProjects\roa-libraries\assertions\target\javadocs\apidocs\index-all.html = 1770236095488
+C:\Users\38975\IdeaProjects\roa-libraries\assertions\target\javadocs\apidocs\index.html = 1770236095361
+C:\Users\38975\IdeaProjects\roa-libraries\assertions\target\javadocs\apidocs\jquery-ui.overrides.css = 1770236095681
+C:\Users\38975\IdeaProjects\roa-libraries\assertions\target\javadocs\apidocs\member-search-index.js = 1770236095441
+C:\Users\38975\IdeaProjects\roa-libraries\assertions\target\javadocs\apidocs\module-search-index.js = 1770236095416
+C:\Users\38975\IdeaProjects\roa-libraries\assertions\target\javadocs\apidocs\overview-summary.html = 1770236095506
+C:\Users\38975\IdeaProjects\roa-libraries\assertions\target\javadocs\apidocs\overview-tree.html = 1770236095346
+C:\Users\38975\IdeaProjects\roa-libraries\assertions\target\javadocs\apidocs\package-search-index.js = 1770236095425
+C:\Users\38975\IdeaProjects\roa-libraries\assertions\target\javadocs\apidocs\script.js = 1770236095547
+C:\Users\38975\IdeaProjects\roa-libraries\assertions\target\javadocs\apidocs\search.js = 1770236095567
+C:\Users\38975\IdeaProjects\roa-libraries\assertions\target\javadocs\apidocs\serialized-form.html = 1770236094902
+C:\Users\38975\IdeaProjects\roa-libraries\assertions\target\javadocs\apidocs\stylesheet.css = 1770236095537
+C:\Users\38975\IdeaProjects\roa-libraries\assertions\target\javadocs\apidocs\tag-search-index.js = 1770236095452
+C:\Users\38975\IdeaProjects\roa-libraries\assertions\target\javadocs\apidocs\type-search-index.js = 1770236095433

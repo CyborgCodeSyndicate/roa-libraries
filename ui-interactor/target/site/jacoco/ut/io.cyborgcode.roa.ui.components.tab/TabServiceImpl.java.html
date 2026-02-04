@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TabServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.tab</a> &gt; <span class="el_source">TabServiceImpl.java</span></div><h1>TabServiceImpl.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.tab;
+
+import io.cyborgcode.roa.ui.components.base.AbstractComponentService;
+import io.cyborgcode.roa.ui.components.base.ComponentType;
+import io.cyborgcode.roa.ui.components.button.ButtonComponentType;
+import io.cyborgcode.roa.ui.components.factory.ComponentFactory;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import org.openqa.selenium.By;
+
+/**
+ * Implementation of the {@link TabService} interface, offering functionality for tab
+ * interactions such as clicking, verifying if tabs are enabled, visible, or selected.
+ * Extends {@link AbstractComponentService} to manage creation and retrieval of
+ * {@link Tab} instances.
+ *
+ * &lt;p&gt;This class references {@link TabComponentType} to determine the specific tab component,
+ * ensuring consistent handling of tab-based elements across different UI designs.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class TabServiceImpl extends AbstractComponentService&lt;TabComponentType, Tab&gt; implements TabService {
+
+   /**
+    * Constructs a new {@code TabServiceImpl} with the given {@link SmartWebDriver}.
+    *
+    * @param driver the smart web driver used to interact with browser elements.
+    */
+   public TabServiceImpl(SmartWebDriver driver) {
+<span class="fc" id="L30">      super(driver);</span>
+<span class="fc" id="L31">   }</span>
+
+   /**
+    * Creates a new {@link Tab} component for the specified {@link TabComponentType}.
+    *
+    * @param componentType the tab component type.
+    * @return a new or existing {@link Tab} instance.
+    */
+   @Override
+   protected Tab createComponent(final TabComponentType componentType) {
+<span class="fc" id="L41">      return ComponentFactory.getTabComponent(componentType, driver);</span>
+   }
+
+   /**
+    * Clicks a tab, identified by text, within the specified container.
+    *
+    * @param componentType the type of the tab component.
+    * @param container     the container element holding the tab.
+    * @param tabText       the text identifying the tab.
+    * @param &lt;T&gt;           a type extending {@link ButtonComponentType}.
+    */
+   @Override
+   public &lt;T extends ButtonComponentType&gt; void click(final T componentType, final SmartWebElement container,
+                                                     final String tabText) {
+<span class="fc" id="L55">      tabComponent((TabComponentType) componentType).click(container, tabText);</span>
+<span class="fc" id="L56">   }</span>
+
+   /**
+    * Clicks a tab within a specified container, without referring to the tab text.
+    *
+    * @param componentType the type of the tab component.
+    * @param container     the container element holding the tab.
+    * @param &lt;T&gt;           a type extending {@link ButtonComponentType}.
+    */
+   @Override
+   public &lt;T extends ButtonComponentType&gt; void click(final T componentType, final SmartWebElement container) {
+<span class="fc" id="L67">      tabComponent((TabComponentType) componentType).click(container);</span>
+<span class="fc" id="L68">   }</span>
+
+   /**
+    * Clicks a tab identified by text, without referencing a container.
+    *
+    * @param componentType the type of the tab component.
+    * @param tabText       the text identifying the tab.
+    * @param &lt;T&gt;           a type extending {@link ButtonComponentType}.
+    */
+   @Override
+   public &lt;T extends ButtonComponentType&gt; void click(final T componentType, final String tabText) {
+<span class="fc" id="L79">      tabComponent((TabComponentType) componentType).click(tabText);</span>
+<span class="fc" id="L80">   }</span>
+
+   /**
+    * Clicks a tab identified by a locator.
+    *
+    * @param componentType the type of the tab component.
+    * @param tabLocator    the locator for the tab.
+    * @param &lt;T&gt;           a type extending {@link ButtonComponentType}.
+    */
+   @Override
+   public &lt;T extends ButtonComponentType&gt; void click(final T componentType, final By tabLocator) {
+<span class="fc" id="L91">      tabComponent((TabComponentType) componentType).click(tabLocator);</span>
+<span class="fc" id="L92">   }</span>
+
+   /**
+    * Checks if a tab, identified by text, is enabled within a specified container.
+    *
+    * @param componentType the type of the tab component.
+    * @param container     the container element holding the tab.
+    * @param tabText       the text identifying the tab.
+    * @param &lt;T&gt;           a type extending {@link ButtonComponentType}.
+    * @return true if the tab is enabled, otherwise false.
+    */
+   @Override
+   public &lt;T extends ButtonComponentType&gt; boolean isEnabled(final T componentType, final SmartWebElement container,
+                                                            final String tabText) {
+<span class="fc" id="L106">      return tabComponent((TabComponentType) componentType).isEnabled(container, tabText);</span>
+   }
+
+   /**
+    * Checks if a tab is enabled within a specified container, without referring to tab text.
+    *
+    * @param componentType the type of the tab component.
+    * @param container     the container element holding the tab.
+    * @param &lt;T&gt;           a type extending {@link ButtonComponentType}.
+    * @return true if the tab is enabled, otherwise false.
+    */
+   @Override
+   public &lt;T extends ButtonComponentType&gt; boolean isEnabled(final T componentType, final SmartWebElement container) {
+<span class="fc" id="L119">      return tabComponent((TabComponentType) componentType).isEnabled(container);</span>
+   }
+
+   /**
+    * Checks if a tab, identified by text, is enabled without referencing a container.
+    *
+    * @param componentType the type of the tab component.
+    * @param tabText       the text identifying the tab.
+    * @param &lt;T&gt;           a type extending {@link ButtonComponentType}.
+    * @return true if the tab is enabled, otherwise false.
+    */
+   @Override
+   public &lt;T extends ButtonComponentType&gt; boolean isEnabled(final T componentType, final String tabText) {
+<span class="fc" id="L132">      return tabComponent((TabComponentType) componentType).isEnabled(tabText);</span>
+   }
+
+   /**
+    * Checks if a tab, identified by a locator, is enabled.
+    *
+    * @param componentType the type of the tab component.
+    * @param tabLocator    the locator for the tab.
+    * @param &lt;T&gt;           a type extending {@link ButtonComponentType}.
+    * @return true if the tab is enabled, otherwise false.
+    */
+   @Override
+   public &lt;T extends ButtonComponentType&gt; boolean isEnabled(final T componentType, final By tabLocator) {
+<span class="fc" id="L145">      return tabComponent((TabComponentType) componentType).isEnabled(tabLocator);</span>
+   }
+
+   /**
+    * Checks if a tab, identified by text, is visible within a specified container.
+    *
+    * @param componentType the type of the tab component.
+    * @param container     the container element holding the tab.
+    * @param tabText       the text identifying the tab.
+    * @param &lt;T&gt;           a type extending {@link ButtonComponentType}.
+    * @return true if the tab is visible, otherwise false.
+    */
+   @Override
+   public &lt;T extends ButtonComponentType&gt; boolean isVisible(final T componentType, final SmartWebElement container,
+                                                            final String tabText) {
+<span class="fc" id="L160">      return tabComponent((TabComponentType) componentType).isVisible(container, tabText);</span>
+   }
+
+   /**
+    * Checks if a tab is visible within a specified container, without referencing tab text.
+    *
+    * @param componentType the type of the tab component.
+    * @param container     the container element holding the tab.
+    * @param &lt;T&gt;           a type extending {@link ButtonComponentType}.
+    * @return true if the tab is visible, otherwise false.
+    */
+   @Override
+   public &lt;T extends ButtonComponentType&gt; boolean isVisible(final T componentType, final SmartWebElement container) {
+<span class="fc" id="L173">      return tabComponent((TabComponentType) componentType).isVisible(container);</span>
+   }
+
+   /**
+    * Checks if a tab, identified by text, is visible without referencing a container.
+    *
+    * @param componentType the type of the tab component.
+    * @param tabText       the text identifying the tab.
+    * @param &lt;T&gt;           a type extending {@link ButtonComponentType}.
+    * @return true if the tab is visible, otherwise false.
+    */
+   @Override
+   public &lt;T extends ButtonComponentType&gt; boolean isVisible(final T componentType, final String tabText) {
+<span class="fc" id="L186">      return tabComponent((TabComponentType) componentType).isVisible(tabText);</span>
+   }
+
+   /**
+    * Checks if a tab, identified by a locator, is visible.
+    *
+    * @param componentType the type of the tab component.
+    * @param tabLocator    the locator for the tab.
+    * @param &lt;T&gt;           a type extending {@link ButtonComponentType}.
+    * @return true if the tab is visible, otherwise false.
+    */
+   @Override
+   public &lt;T extends ButtonComponentType&gt; boolean isVisible(final T componentType, final By tabLocator) {
+<span class="fc" id="L199">      return tabComponent((TabComponentType) componentType).isVisible(tabLocator);</span>
+   }
+
+   /**
+    * Checks if a tab, identified by text, is selected within the specified container.
+    *
+    * @param componentType the type of the tab component.
+    * @param container     the container element holding the tab.
+    * @param tabText       the text identifying the tab.
+    * @return true if the tab is selected, otherwise false.
+    */
+   @Override
+   public boolean isSelected(final TabComponentType componentType, final SmartWebElement container,
+                             final String tabText) {
+<span class="fc" id="L213">      return tabComponent(componentType).isSelected(container, tabText);</span>
+   }
+
+   /**
+    * Checks if a tab is selected within the specified container, without referring to tab text.
+    *
+    * @param componentType the type of the tab component.
+    * @param container     the container element holding the tab.
+    * @return true if the tab is selected, otherwise false.
+    */
+   @Override
+   public boolean isSelected(final TabComponentType componentType, final SmartWebElement container) {
+<span class="fc" id="L225">      return tabComponent(componentType).isSelected(container);</span>
+   }
+
+   /**
+    * Checks if a tab, identified by text, is selected without referencing a container.
+    *
+    * @param componentType the type of the tab component.
+    * @param tabText       the text identifying the tab.
+    * @return true if the tab is selected, otherwise false.
+    */
+   @Override
+   public boolean isSelected(final TabComponentType componentType, final String tabText) {
+<span class="fc" id="L237">      return tabComponent(componentType).isSelected(tabText);</span>
+   }
+
+   /**
+    * Checks if a tab, identified by a locator, is selected.
+    *
+    * @param componentType the type of the tab component.
+    * @param tabLocator    the locator for the tab.
+    * @return true if the tab is selected, otherwise false.
+    */
+   @Override
+   public boolean isSelected(final TabComponentType componentType, final By tabLocator) {
+<span class="fc" id="L249">      return tabComponent(componentType).isSelected(tabLocator);</span>
+   }
+
+   /**
+    * Performs a table insertion action by clicking a tab within a cell element.
+    *
+    * @param cellElement   the table cell element containing the tab.
+    * @param componentType the component type, expected to be a {@link TabComponentType}.
+    * @param values        additional values (currently unused).
+    */
+   @Override
+   public void tableInsertion(final SmartWebElement cellElement, final ComponentType componentType,
+                              final String... values) {
+<span class="fc bfc" id="L262" title="All 2 branches covered.">      if (!(componentType instanceof TabComponentType tabType)) {</span>
+<span class="fc" id="L263">         throw new IllegalArgumentException(&quot;Component type needs to be from: TabComponentType.&quot;);</span>
+      }
+<span class="fc" id="L265">      tabComponent(tabType).clickElementInCell(cellElement);</span>
+<span class="fc" id="L266">   }</span>
+
+   /**
+    * Retrieves the {@link Tab} component for the specified {@link TabComponentType}.
+    *
+    * @param componentType the tab component type.
+    * @return a {@link Tab} instance for managing tab interactions.
+    */
+   private Tab tabComponent(final TabComponentType componentType) {
+<span class="fc" id="L275">      return getOrCreateComponent(componentType);</span>
+   }
+
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AccordionService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.accordion</a> &gt; <span class="el_source">AccordionService.java</span></div><h1>AccordionService.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.accordion;
+
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import io.cyborgcode.roa.ui.util.strategy.Strategy;
+import io.cyborgcode.utilities.reflections.ReflectionUtil;
+import io.cyborgcode.roa.ui.components.factory.ComponentFactory;
+import java.util.List;
+import org.openqa.selenium.By;
+
+import static io.cyborgcode.roa.ui.config.UiConfigHolder.getUiConfig;
+
+/**
+ * Provides high-level service operations for accordion UI components.
+ *
+ * &lt;p&gt;This interface extends the functionality of {@link Accordion} by offering
+ * default methods that rely on a {@link AccordionComponentType}—either a
+ * user-specified type or a globally configured default. Service methods
+ * include expanding and collapsing accordion panels, checking whether panels
+ * are enabled, and retrieving their text content.
+ *
+ * &lt;p&gt;An implementation such as {@code AccordionServiceImpl} internally delegates
+ * to the framework’s {@link ComponentFactory}
+ * to create the correct {@code Accordion} instance based on the chosen
+ * {@code AccordionComponentType}. This design enables easy swapping of
+ * accordion implementations (e.g., Bootstrap-based, Material-based)
+ * without changing test code.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public interface AccordionService {
+
+<span class="fc" id="L32">   AccordionComponentType DEFAULT_TYPE = getDefaultType();</span>
+
+   /**
+    * Retrieves the default accordion component type.
+    *
+    * @return The default accordion component type.
+    */
+   private static AccordionComponentType getDefaultType() {
+      try {
+<span class="fc" id="L41">         return ReflectionUtil.findEnumImplementationsOfInterface(AccordionComponentType.class,</span>
+<span class="fc" id="L42">               getUiConfig().accordionDefaultType(),</span>
+<span class="fc" id="L43">               getUiConfig().projectPackages());</span>
+<span class="fc" id="L44">      } catch (Exception ignored) {</span>
+<span class="fc" id="L45">         return null;</span>
+      }
+   }
+
+   /**
+    * Expands specified panels inside the accordion, using the default accordion component type.
+    *
+    * @param container     The accordion container.
+    * @param accordionText The text of the panels to expand.
+    */
+   default void expand(SmartWebElement container, String... accordionText) {
+<span class="fc" id="L56">      expand(DEFAULT_TYPE, container, accordionText);</span>
+<span class="fc" id="L57">   }</span>
+
+   /**
+    * Expands specified panels inside the accordion, using the given accordion component type.
+    *
+    * @param componentType The specific accordion component type.
+    * @param container     The accordion container.
+    * @param accordionText The text of the panels to expand.
+    */
+   void expand(AccordionComponentType componentType, SmartWebElement container, String... accordionText);
+
+   /**
+    * Expands a panel inside the accordion using a strategy, with the default accordion component type.
+    *
+    * @param container The accordion container.
+    * @param strategy  The expansion strategy.
+    * @return The expanded panel title.
+    */
+   default String expand(SmartWebElement container, Strategy strategy) {
+<span class="fc" id="L76">      return expand(DEFAULT_TYPE, container, strategy);</span>
+   }
+
+   /**
+    * Expands a panel inside the accordion using a strategy, with the given accordion component type.
+    *
+    * @param componentType The specific accordion component type.
+    * @param container     The accordion container.
+    * @param strategy      The expansion strategy.
+    * @return The expanded panel title.
+    */
+   String expand(AccordionComponentType componentType, SmartWebElement container, Strategy strategy);
+
+   /**
+    * Expands specified panels inside the accordion, using the default accordion component type.
+    *
+    * @param accordionText The text of the panels to expand.
+    */
+   default void expand(String... accordionText) {
+<span class="fc" id="L95">      expand(DEFAULT_TYPE, accordionText);</span>
+<span class="fc" id="L96">   }</span>
+
+   /**
+    * Expands specified panels inside the accordion, using the given accordion component type.
+    *
+    * @param componentType The specific accordion component type.
+    * @param accordionText The text of the panels to expand.
+    */
+   void expand(AccordionComponentType componentType, String... accordionText);
+
+   /**
+    * Expands specified panels inside the accordion, identified by locators, using the default accordion component type.
+    *
+    * @param accordionLocator The locator of the panels to expand.
+    */
+   default void expand(By... accordionLocator) {
+<span class="fc" id="L112">      expand(DEFAULT_TYPE, accordionLocator);</span>
+<span class="fc" id="L113">   }</span>
+
+   /**
+    * Expands specified panels inside the accordion, identified by locators, using the given accordion component type.
+    *
+    * @param componentType    The specific accordion component type.
+    * @param accordionLocator The locator of the panels to expand.
+    */
+   void expand(AccordionComponentType componentType, By... accordionLocator);
+
+   /**
+    * Collapses specified panels inside the accordion, using the default accordion component type.
+    *
+    * @param container     The accordion container.
+    * @param accordionText The text of the panels to collapse.
+    */
+   default void collapse(SmartWebElement container, String... accordionText) {
+<span class="fc" id="L130">      collapse(DEFAULT_TYPE, container, accordionText);</span>
+<span class="fc" id="L131">   }</span>
+
+   /**
+    * Collapses specified panels inside the accordion, using the given accordion component type.
+    *
+    * @param componentType The specific accordion component type.
+    * @param container     The accordion container.
+    * @param accordionText The text of the panels to collapse.
+    */
+   void collapse(AccordionComponentType componentType, SmartWebElement container, String... accordionText);
+
+   /**
+    * Collapses a panel inside the accordion using a strategy, with the default accordion component type.
+    *
+    * @param container The accordion container.
+    * @param strategy  The collapse strategy.
+    * @return The collapsed panel title.
+    */
+   default String collapse(SmartWebElement container, Strategy strategy) {
+<span class="fc" id="L150">      return collapse(DEFAULT_TYPE, container, strategy);</span>
+   }
+
+   /**
+    * Collapses a panel inside the accordion using a strategy, with the given accordion component type.
+    *
+    * @param componentType The specific accordion component type.
+    * @param container     The accordion container.
+    * @param strategy      The collapse strategy.
+    * @return The collapsed panel title.
+    */
+   String collapse(AccordionComponentType componentType, SmartWebElement container, Strategy strategy);
+
+   /**
+    * Collapses specified panels inside the accordion, using the default accordion component type.
+    *
+    * @param accordionText The text of the panels to collapse.
+    */
+   default void collapse(String... accordionText) {
+<span class="fc" id="L169">      collapse(DEFAULT_TYPE, accordionText);</span>
+<span class="fc" id="L170">   }</span>
+
+   /**
+    * Collapses specified panels inside the accordion, using the given accordion component type.
+    *
+    * @param componentType The specific accordion component type.
+    * @param accordionText The text of the panels to collapse.
+    */
+   void collapse(AccordionComponentType componentType, String... accordionText);
+
+   /**
+    * Collapses specified panels inside the accordion, identified by locators, using the default accordion
+    * component type.
+    *
+    * @param accordionLocator The locator of the panels to collapse.
+    */
+   default void collapse(By... accordionLocator) {
+<span class="fc" id="L187">      collapse(DEFAULT_TYPE, accordionLocator);</span>
+<span class="fc" id="L188">   }</span>
+
+   /**
+    * Collapses specified panels inside the accordion, identified by locators, using the given accordion component type.
+    *
+    * @param componentType    The specific accordion component type.
+    * @param accordionLocator The locator of the panels to collapse.
+    */
+   void collapse(AccordionComponentType componentType, By... accordionLocator);
+
+   /**
+    * Checks if specified panels inside the accordion are enabled, using the default accordion component type.
+    *
+    * @param container     The accordion container.
+    * @param accordionText The text of the panels to check.
+    * @return true if all specified panels are enabled, false otherwise.
+    */
+   default boolean areEnabled(SmartWebElement container, String... accordionText) {
+<span class="fc" id="L206">      return areEnabled(DEFAULT_TYPE, container, accordionText);</span>
+   }
+
+   /**
+    * Checks if specified panels inside the accordion are enabled, using the given accordion component type.
+    *
+    * @param componentType The specific accordion component type.
+    * @param container     The accordion container.
+    * @param accordionText The text of the panels to check.
+    * @return true if all specified panels are enabled, false otherwise.
+    */
+   boolean areEnabled(AccordionComponentType componentType, SmartWebElement container, String... accordionText);
+
+   /**
+    * Checks if specified panels inside the accordion are enabled, using the default accordion component type.
+    *
+    * @param accordionText The text of the panels to check.
+    * @return true if all specified panels are enabled, false otherwise.
+    */
+   default boolean areEnabled(String... accordionText) {
+<span class="fc" id="L226">      return areEnabled(DEFAULT_TYPE, accordionText);</span>
+   }
+
+   /**
+    * Checks if specified panels inside the accordion are enabled, using the given accordion component type.
+    *
+    * @param componentType The specific accordion component type.
+    * @param accordionText The text of the panels to check.
+    * @return true if all specified panels are enabled, false otherwise.
+    */
+   boolean areEnabled(AccordionComponentType componentType, String... accordionText);
+
+   /**
+    * Checks if specified panels inside the accordion are enabled, using the default accordion component type.
+    *
+    * @param accordionLocator The locator of the panels to check.
+    * @return true if all specified panels are enabled, false otherwise.
+    */
+   default boolean areEnabled(By... accordionLocator) {
+<span class="fc" id="L245">      return areEnabled(DEFAULT_TYPE, accordionLocator);</span>
+   }
+
+   /**
+    * Checks if specified panels inside the accordion are enabled, using the given accordion component type.
+    *
+    * @param componentType    The specific accordion component type.
+    * @param accordionLocator The locator of the panels to check.
+    * @return true if all specified panels are enabled, false otherwise.
+    */
+   boolean areEnabled(AccordionComponentType componentType, By... accordionLocator);
+
+   /**
+    * Checks if specified panel inside the accordion is enabled, using the default accordion component type.
+    *
+    * @param accordionLocator The locator of the panel to check.
+    * @return true if all specified panel is enabled, false otherwise.
+    */
+   default boolean isEnabled(By accordionLocator) {
+<span class="fc" id="L264">      return isEnabled(DEFAULT_TYPE, accordionLocator);</span>
+   }
+
+   /**
+    * Checks if specified panel inside the accordion is enabled, using the given accordion component type.
+    *
+    * @param componentType    The specific accordion component type.
+    * @param accordionLocator The locator of the panel to check.
+    * @return true if all specified panel is enabled, false otherwise.
+    */
+   boolean isEnabled(AccordionComponentType componentType, By accordionLocator);
+
+   /**
+    * Retrieves a list of currently expanded panels inside the accordion, using the default accordion component type
+    * within a container element.
+    *
+    * @param container The accordion container.
+    * @return A list of expanded panel titles.
+    */
+   default List&lt;String&gt; getExpanded(SmartWebElement container) {
+<span class="fc" id="L284">      return getExpanded(DEFAULT_TYPE, container);</span>
+   }
+
+   /**
+    * Retrieves a list of currently expanded panels inside the accordion, using the given accordion component type
+    * within a container element.
+    *
+    * @param componentType The specific accordion component type.
+    * @param container     The accordion container.
+    * @return A list of expanded panel titles.
+    */
+   List&lt;String&gt; getExpanded(AccordionComponentType componentType, SmartWebElement container);
+
+   /**
+    * Retrieves a list of currently expanded panels inside the accordion, using the default accordion component type
+    * identified by a locator.
+    *
+    * @param containerLocator The {@link By} locator for the accordion elements.
+    * @return A list of expanded panel titles.
+    */
+   default List&lt;String&gt; getExpanded(By containerLocator) {
+<span class="fc" id="L305">      return getExpanded(DEFAULT_TYPE, containerLocator);</span>
+   }
+
+   /**
+    * Retrieves a list of currently expanded panels inside the accordion, using the default accordion component type
+    * identified by a locator.
+    *
+    * @param componentType The specific accordion component type.
+    * @param containerLocator The {@link By} locator for the accordion elements.
+    * @return A list of expanded panel titles.
+    */
+   List&lt;String&gt; getExpanded(AccordionComponentType componentType, By containerLocator);
+
+   /**
+    * Retrieves a list of currently collapsed panels inside the accordion, using the default accordion component type
+    * within a container element.
+    *
+    * @param container The accordion container.
+    * @return A list of collapsed panel titles.
+    */
+   default List&lt;String&gt; getCollapsed(SmartWebElement container) {
+<span class="fc" id="L326">      return getCollapsed(DEFAULT_TYPE, container);</span>
+   }
+
+   /**
+    * Retrieves a list of currently collapsed panels inside the accordion, using the given accordion component type
+    * within a container element.
+    *
+    * @param componentType The specific accordion component type.
+    * @param container     The accordion container.
+    * @return A list of collapsed panel titles.
+    */
+   List&lt;String&gt; getCollapsed(AccordionComponentType componentType, SmartWebElement container);
+
+   /**
+    * Retrieves a list of currently collapsed panels inside the accordion, using the default accordion component type
+    * identified by a locator.
+    *
+    * @param containerLocator The {@link By} locator for the accordion elements.
+    * @return A list of collapsed panel titles.
+    */
+   default List&lt;String&gt; getCollapsed(By containerLocator) {
+<span class="fc" id="L347">      return getCollapsed(DEFAULT_TYPE, containerLocator);</span>
+   }
+
+   /**
+    * Retrieves a list of currently collapsed panels inside the accordion, using the given accordion component type
+    * identified by a locator.
+    *
+    * @param componentType The specific accordion component type.
+    * @param containerLocator The {@link By} locator for the accordion elements.
+    * @return A list of collapsed panel titles.
+    */
+   List&lt;String&gt; getCollapsed(AccordionComponentType componentType, By containerLocator);
+
+   /**
+    * Retrieves a list of all panel texts inside the accordion, using the default accordion component type
+    * within a container element.
+    *
+    * @param container The accordion container.
+    * @return A list of all panel texts.
+    */
+   default List&lt;String&gt; getAll(SmartWebElement container) {
+<span class="fc" id="L368">      return getAll(DEFAULT_TYPE, container);</span>
+   }
+
+   /**
+    * Retrieves a list of all panel texts inside the accordion, using the given accordion component type
+    * within a container element.
+    *
+    * @param componentType The specific accordion component type.
+    * @param container     The accordion container.
+    * @return A list of all panel texts.
+    */
+   List&lt;String&gt; getAll(AccordionComponentType componentType, SmartWebElement container);
+
+   /**
+    * Retrieves a list of all panel texts inside the accordion, using the default accordion component type
+    * identified by a locator.
+    *
+    * @param containerLocator The {@link By} locator for the accordion elements.
+    * @return A list of all panel texts.
+    */
+   default List&lt;String&gt; getAll(By containerLocator) {
+<span class="fc" id="L389">      return getAll(DEFAULT_TYPE, containerLocator);</span>
+   }
+
+   /**
+    * Retrieves a list of all panel texts inside the accordion, using the given accordion component type
+    * identified by a locator.
+    *
+    * @param componentType The specific accordion component type.
+    * @param containerLocator The {@link By} locator for the accordion elements.
+    * @return A list of all panel texts.
+    */
+   List&lt;String&gt; getAll(AccordionComponentType componentType, By containerLocator);
+
+   /**
+    * Retrieves the title of a panel inside the accordion, using the default accordion component type.
+    *
+    * @param accordionLocator The locator of the panel.
+    * @return The title of the panel.
+    */
+   default String getTitle(By accordionLocator) {
+<span class="fc" id="L409">      return getTitle(DEFAULT_TYPE, accordionLocator);</span>
+   }
+
+   /**
+    * Retrieves the title of a panel inside the accordion, using the given accordion component type.
+    *
+    * @param componentType    The specific accordion component type.
+    * @param accordionLocator The locator of the panel.
+    * @return The title of the panel.
+    */
+   String getTitle(AccordionComponentType componentType, By accordionLocator);
+
+   /**
+    * Retrieves the text content of a panel inside the accordion, using the default accordion component type.
+    *
+    * @param accordionLocator The locator of the panel.
+    * @return The text content of the panel.
+    */
+   default String getText(By accordionLocator) {
+<span class="fc" id="L428">      return getText(DEFAULT_TYPE, accordionLocator);</span>
+   }
+
+   /**
+    * Retrieves the text content of a panel inside the accordion, using the given accordion component type.
+    *
+    * @param componentType    The specific accordion component type.
+    * @param accordionLocator The locator of the panel.
+    * @return The text content of the panel.
+    */
+   String getText(AccordionComponentType componentType, By accordionLocator);
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

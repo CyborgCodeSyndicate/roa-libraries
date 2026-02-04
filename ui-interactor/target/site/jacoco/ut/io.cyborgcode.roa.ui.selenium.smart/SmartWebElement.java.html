@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SmartWebElement.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.selenium.smart</a> &gt; <span class="el_source">SmartWebElement.java</span></div><h1>SmartWebElement.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.selenium.smart;
+
+import io.cyborgcode.roa.ui.annotations.HandleUiException;
+import io.cyborgcode.roa.ui.log.LogUi;
+import io.cyborgcode.roa.ui.selenium.decorators.WebElementDecorator;
+import io.cyborgcode.roa.ui.selenium.enums.WebElementAction;
+import io.cyborgcode.roa.ui.selenium.handling.ExceptionHandlingWebElement;
+import io.cyborgcode.roa.ui.selenium.locating.SmartFinder;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.time.Duration;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.SneakyThrows;
+import org.jspecify.annotations.NullMarked;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import static io.cyborgcode.roa.ui.config.UiConfigHolder.getUiConfig;
+
+/**
+ * A custom wrapper for {@link WebElement} that enhances interactions by adding wait mechanisms,
+ * exception handling, and support for Shadow DOM elements.
+ *
+ * &lt;p&gt;It integrates with Selenium while providing additional functionality such as smart waiting,
+ * exception management, and Shadow DOM compatibility.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@SuppressFBWarnings(value = &quot;CT_CONSTRUCTOR_THROW&quot;, justification = &quot;Constructor validates inputs properly &quot;
+      + &quot;and throwing exceptions is acceptable.&quot;)
+public class SmartWebElement extends WebElementDecorator {
+
+   @Getter
+   @Setter
+   private WebDriver driver;
+   private final WebDriverWait wait;
+
+   /**
+    * Constructs a {@code SmartWebElement} wrapping the given {@link WebElement}.
+    *
+    * @param original The original {@link WebElement} instance.
+    * @param driver   The {@link WebDriver} instance.
+    */
+   public SmartWebElement(WebElement original, WebDriver driver) {
+<span class="fc" id="L56">      super(original);</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">      if (driver == null) {</span>
+<span class="nc" id="L58">         throw new IllegalArgumentException(&quot;driver must not be null&quot;);</span>
+      }
+<span class="fc" id="L60">      this.driver = driver;</span>
+<span class="fc" id="L61">      this.wait = new WebDriverWait(driver, Duration.ofSeconds(getUiConfig().waitDuration()));</span>
+<span class="fc" id="L62">   }</span>
+
+   /**
+    * Finds multiple {@link SmartWebElement}s matching the given {@link By} locator.
+    *
+    * @param by The {@link By} locator used to find elements.
+    * @return A list of {@link SmartWebElement}, or an empty list if no elements are found.
+    */
+   @HandleUiException
+   public List&lt;SmartWebElement&gt; findSmartElements(By by) {
+<span class="fc bfc" id="L72" title="All 2 branches covered.">      if (!getUiConfig().useWrappedSeleniumFunctions()) {</span>
+<span class="fc" id="L73">         return SmartFinder.findElementsNoWrap(this, by);</span>
+      }
+
+      try {
+<span class="fc bfc" id="L77" title="All 2 branches covered.">         if (getUiConfig().useShadowRoot()) {</span>
+<span class="fc" id="L78">            return SmartFinder.findElementsWithShadowRootElement(this, by, this::waitWithoutFailure);</span>
+         } else {
+<span class="fc" id="L80">            return SmartFinder.findElementsNormally(this, by, this::waitWithoutFailure);</span>
+         }
+<span class="fc" id="L82">      } catch (Exception e) {</span>
+<span class="fc" id="L83">         return handleException(&quot;findElements&quot;, e, new Object[] {by});</span>
+      }
+   }
+
+   /**
+    * Finds a single {@link SmartWebElement} using the given {@link By} locator.
+    *
+    * @param by The {@link By} locator used to find the element.
+    * @return The found {@link SmartWebElement}, or handles the exception if the element is not found.
+    */
+   @HandleUiException
+   public SmartWebElement findSmartElement(By by) {
+<span class="fc bfc" id="L95" title="All 2 branches covered.">      if (!getUiConfig().useWrappedSeleniumFunctions()) {</span>
+<span class="fc" id="L96">         return SmartFinder.findElementNoWrap(this, by);</span>
+      }
+      try {
+<span class="fc bfc" id="L99" title="All 2 branches covered.">         if (getUiConfig().useShadowRoot()) {</span>
+<span class="fc" id="L100">            return SmartFinder.findElementWithShadowRootElement(this, by, this::waitWithoutFailure);</span>
+         } else {
+<span class="fc" id="L102">            return SmartFinder.findElementNormally(this, by, this::waitWithoutFailure);</span>
+         }
+<span class="fc" id="L104">      } catch (Exception e) {</span>
+<span class="fc" id="L105">         return handleException(&quot;findElement&quot;, e, new Object[] {by});</span>
+      }
+   }
+
+   /**
+    * Clicks the element, ensuring it is clickable before performing the action.
+    */
+   @Override
+   @HandleUiException
+   public void click() {
+<span class="fc bfc" id="L115" title="All 2 branches covered.">      if (!getUiConfig().useWrappedSeleniumFunctions()) {</span>
+<span class="fc" id="L116">         original.click();</span>
+<span class="fc" id="L117">         return;</span>
+      }
+<span class="fc" id="L119">      performActionWithWait(element -&gt; super.click(), WebElementAction.CLICK.getMethodName());</span>
+<span class="fc" id="L120">   }</span>
+
+   /**
+    * Performs a double-click action on the element.
+    */
+   @HandleUiException
+   public void doubleClick() {
+<span class="fc" id="L127">      Actions actions = new Actions(driver);</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">      if (!getUiConfig().useWrappedSeleniumFunctions()) {</span>
+<span class="fc" id="L129">         actions.doubleClick();</span>
+<span class="fc" id="L130">         return;</span>
+      }
+      try {
+<span class="fc" id="L133">         waitWithoutFailure(ExpectedConditions.elementToBeClickable(this));</span>
+<span class="fc" id="L134">         actions.doubleClick();</span>
+<span class="fc" id="L135">      } catch (Exception e) {</span>
+<span class="fc" id="L136">         handleException(&quot;doubleClick&quot;, e, new Object[0]);</span>
+<span class="fc" id="L137">      }</span>
+<span class="fc" id="L138">   }</span>
+
+   /**
+    * Clears the text inside the element, ensuring it is interactable.
+    */
+   @Override
+   @HandleUiException
+   public void clear() {
+<span class="fc bfc" id="L146" title="All 2 branches covered.">      if (!getUiConfig().useWrappedSeleniumFunctions()) {</span>
+<span class="fc" id="L147">         original.clear();</span>
+<span class="fc" id="L148">         return;</span>
+      }
+<span class="fc" id="L150">      performActionWithWait(element -&gt; super.clear(), WebElementAction.CLEAR.getMethodName());</span>
+<span class="fc" id="L151">   }</span>
+
+   /**
+    * Sends keystrokes to the element, ensuring it is interactable.
+    *
+    * @param keysToSend The sequence of keys to send.
+    */
+   @Override
+   @NullMarked
+   public void sendKeys(CharSequence... keysToSend) {
+<span class="fc bfc" id="L161" title="All 2 branches covered.">      if (!getUiConfig().useWrappedSeleniumFunctions()) {</span>
+<span class="fc" id="L162">         original.sendKeys(keysToSend);</span>
+<span class="fc" id="L163">         return;</span>
+      }
+<span class="fc" id="L165">      performActionWithWait(element -&gt; super.sendKeys(keysToSend), WebElementAction.SEND_KEYS.getMethodName());</span>
+<span class="fc" id="L166">   }</span>
+
+   /**
+    * Submits the form associated with this element.
+    */
+   @Override
+   public void submit() {
+<span class="fc bfc" id="L173" title="All 2 branches covered.">      if (!getUiConfig().useWrappedSeleniumFunctions()) {</span>
+<span class="fc" id="L174">         original.submit();</span>
+<span class="fc" id="L175">         return;</span>
+      }
+<span class="fc" id="L177">      performActionWithWait(element -&gt; super.submit(), WebElementAction.SUBMIT.getMethodName());</span>
+<span class="fc" id="L178">   }</span>
+
+   /**
+    * Clears the element and then sends the specified keys.
+    *
+    * @param keysToSend The sequence of keys to send.
+    */
+   public void clearAndSendKeys(CharSequence... keysToSend) {
+<span class="fc" id="L186">      clear();</span>
+<span class="fc" id="L187">      sendKeys(keysToSend);</span>
+<span class="fc" id="L188">   }</span>
+
+   /**
+    * Checks whether the element is enabled and visible.
+    *
+    * @return {@code true} if the element is enabled and visible, otherwise {@code false}.
+    */
+   public boolean isEnabledAndVisible() {
+<span class="fc" id="L196">      waitWithoutFailure(ExpectedConditions.and(</span>
+<span class="fc" id="L197">            ExpectedConditions.visibilityOf(this),</span>
+<span class="fc" id="L198">            ExpectedConditions.elementToBeClickable(this)</span>
+      ));
+<span class="fc" id="L200">      return true;</span>
+   }
+
+   /**
+    * Handles exceptions by searching for predefined exception handling strategies.
+    *
+    * @param methodName The method where the exception occurred.
+    * @param exception  The thrown exception.
+    * @param params     The method parameters.
+    * @return The handled result or rethrows the exception if no strategy is found.
+    */
+<span class="fc" id="L211">   @SneakyThrows</span>
+   @SuppressWarnings(&quot;unchecked&quot;)
+   private &lt;T&gt; T handleException(String methodName, Exception exception, Object[] params) {
+<span class="fc bfc" id="L214" title="All 2 branches covered.">      Throwable cause = exception.getCause() != null ? exception.getCause() : exception;</span>
+
+      Optional&lt;ExceptionHandlingWebElement&gt; exceptionHandlingOptional =
+<span class="fc" id="L217">            Arrays.stream(ExceptionHandlingWebElement.values())</span>
+<span class="fc" id="L218">                  .filter(enumVal -&gt;</span>
+<span class="fc bfc" id="L219" title="All 2 branches covered.">                        enumVal.getMethodName().equals(methodName)</span>
+<span class="pc bpc" id="L220" title="1 of 2 branches missed.">                              &amp;&amp; Objects.nonNull(enumVal.getExceptionHandlingMap().get(cause.getClass()))</span>
+                  )
+<span class="fc" id="L222">                  .findFirst();</span>
+
+<span class="fc bfc" id="L224" title="All 2 branches covered.">      if (exceptionHandlingOptional.isPresent()) {</span>
+         try {
+<span class="fc" id="L226">            return (T) exceptionHandlingOptional.get()</span>
+<span class="fc" id="L227">                  .getExceptionHandlingMap()</span>
+<span class="fc" id="L228">                  .get(cause.getClass())</span>
+<span class="fc" id="L229">                  .apply(driver, this, exception, params);</span>
+<span class="fc" id="L230">         } catch (Exception handlerException) {</span>
+<span class="fc" id="L231">            LogUi.error(&quot;Framework attempted to handle an exception in method '&quot; + methodName</span>
+<span class="fc" id="L232">                  + &quot;', but the handler failed with: &quot; + handlerException.getClass().getSimpleName() + &quot;: &quot;</span>
+<span class="fc" id="L233">                  + handlerException.getMessage(), handlerException);</span>
+<span class="fc" id="L234">            exception.addSuppressed(handlerException);</span>
+<span class="fc" id="L235">            LogUi.error(&quot;Propagating original exception: &quot; + exception.getClass().getSimpleName()</span>
+<span class="fc" id="L236">                  + &quot;: &quot; + exception.getMessage(), exception);</span>
+<span class="fc" id="L237">            throw exception;</span>
+         }
+      } else {
+<span class="pc bpc" id="L240" title="3 of 4 branches missed.">         String locator = (params.length &gt; 0 &amp;&amp; params[0] instanceof By) ? params[0].toString() : &quot;Unknown locator&quot;;</span>
+<span class="fc" id="L241">         String exceptionMessage = exception.getClass().getSimpleName();</span>
+
+<span class="fc" id="L243">         String errorMessage = String.format(</span>
+               &quot;[BROKEN] Exception handling failed for method '%s'. Exception: '%s'. Parameters: Locator - '%s'.&quot;,
+               methodName, exceptionMessage, locator
+         );
+<span class="fc" id="L247">         LogUi.error(errorMessage);</span>
+<span class="fc" id="L248">         throw exception;</span>
+      }
+   }
+
+   /**
+    * Returns the string representation of the original WebElement.
+    *
+    * @return The string representation of the wrapped WebElement.
+    */
+   @Override
+   public String toString() {
+<span class="nc" id="L259">      return original.toString();</span>
+   }
+
+   /**
+    * Executes a waiting condition while suppressing failures.
+    *
+    * @param expectedConditions The condition to wait for.
+    */
+   private &lt;T&gt; void waitWithoutFailure(Function&lt;WebDriver, T&gt; expectedConditions) {
+      try {
+<span class="fc" id="L269">         wait.until(expectedConditions);</span>
+<span class="nc" id="L270">      } catch (Exception ignore) {</span>
+         //ignore wait failure
+<span class="fc" id="L272">      }</span>
+<span class="fc" id="L273">   }</span>
+
+   /**
+    * Performs an action on the element after waiting for it to become clickable.
+    *
+    * @param action     The action to perform.
+    * @param actionName The name of the action being performed.
+    */
+   private void performActionWithWait(Consumer&lt;SmartWebElement&gt; action, String actionName) {
+      try {
+<span class="fc" id="L283">         waitWithoutFailure(ExpectedConditions.elementToBeClickable(this));</span>
+<span class="fc" id="L284">         action.accept(this);</span>
+<span class="fc" id="L285">      } catch (Exception e) {</span>
+<span class="nc" id="L286">         handleException(actionName, e, new Object[0]);</span>
+<span class="fc" id="L287">      }</span>
+<span class="fc" id="L288">   }</span>
+
+   /**
+    * Waits until an element's attribute value changes from its initial value.
+    *
+    * @param attributeName         The name of the attribute.
+    * @param initialAttributeValue The initial value of the attribute.
+    */
+   public void waitUntilAttributeValueIsChanged(String attributeName, String initialAttributeValue) {
+<span class="fc" id="L297">      WebDriverWait customWait = new WebDriverWait(driver, Duration.ofSeconds(2));</span>
+      try {
+<span class="fc" id="L299">         customWait.until(attributeValueChanged(attributeName, initialAttributeValue));</span>
+<span class="nc" id="L300">      } catch (Exception ignore) {</span>
+         //ignore wait failure
+<span class="fc" id="L302">      }</span>
+<span class="fc" id="L303">   }</span>
+
+
+   private ExpectedCondition&lt;Boolean&gt; attributeValueChanged(final String attributeName, final String initialValue) {
+<span class="fc" id="L307">      return webDriver -&gt; {</span>
+<span class="fc" id="L308">         String currentValue = getDomAttribute(attributeName);</span>
+<span class="fc bfc" id="L309" title="All 2 branches covered.">         return !initialValue.equals(currentValue);</span>
+      };
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WebElementDecorator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.selenium.decorators</a> &gt; <span class="el_source">WebElementDecorator.java</span></div><h1>WebElementDecorator.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.selenium.decorators;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import lombok.Getter;
+import lombok.experimental.Delegate;
+import org.openqa.selenium.WebElement;
+
+/**
+ * A base decorator class for {@link WebElement} that provides a wrapper for additional functionality.
+ *
+ * &lt;p&gt;This abstract class delegates all method calls to the original {@link WebElement}, allowing
+ * extensions to enhance WebElement interactions without modifying the core Selenium API.
+ *
+ * &lt;p&gt;Subclasses can override specific methods to add custom behavior, such as logging, exception handling,
+ * or custom waiting mechanisms.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@SuppressFBWarnings(value = &quot;CT_CONSTRUCTOR_THROW&quot;, justification = &quot;Constructor validates inputs properly &quot;
+      + &quot;and throwing exceptions is acceptable.&quot;)
+@Getter
+public abstract class WebElementDecorator implements WebElement {
+
+   /**
+    * The original {@link WebElement} instance wrapped by this decorator.
+    */
+   @Delegate
+   protected final WebElement original;
+
+   /**
+    * Constructs a new {@code WebElementDecorator} wrapping the specified WebElement.
+    *
+    * @param original The original WebElement to be wrapped.
+    */
+<span class="fc" id="L35">   protected WebElementDecorator(WebElement original) {</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">      if (original == null) {</span>
+<span class="fc" id="L37">         throw new IllegalArgumentException(&quot;original WebElement must not be null&quot;);</span>
+      }
+<span class="fc" id="L39">      this.original = original;</span>
+<span class="fc" id="L40">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

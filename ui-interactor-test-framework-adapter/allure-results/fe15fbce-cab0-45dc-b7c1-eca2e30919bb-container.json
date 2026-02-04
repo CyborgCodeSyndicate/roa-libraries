@@ -1,0 +1,1 @@
+{"uuid":"fe15fbce-cab0-45dc-b7c1-eca2e30919bb","name":"switchToNewTab should not switch if no new window handle exists","children":["cf4fc703-aab5-48fb-b164-99354d75cb81"],"befores":[],"afters":[],"start":1770237538455,"stop":1770237538469}

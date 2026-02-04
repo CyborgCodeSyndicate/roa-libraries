@@ -1,0 +1,1 @@
+{"uuid":"ba7c1217-9960-48b2-af92-8d26f3a632f4","name":"closeCurrentTab should do nothing if there is no Window opened","children":["dc1e239a-58c4-4c1c-8e60-6221d588f906"],"befores":[],"afters":[],"start":1770237538099,"stop":1770237538283}

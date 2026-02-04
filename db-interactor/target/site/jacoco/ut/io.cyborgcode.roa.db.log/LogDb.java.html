@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LogDb.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Database Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.db.log</a> &gt; <span class="el_source">LogDb.java</span></div><h1>LogDb.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.db.log;
+
+import io.cyborgcode.utilities.logging.LogCore;
+
+/**
+ * Provides logging utilities for database-related operations.
+ *
+ * &lt;p&gt;This class serves as the centralized logger for database interactions, offering
+ * multiple log levels such as informational, warnings, debugging, validation, and step-based logging.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public final class LogDb extends LogCore {
+
+   private static LogDb instance;
+
+   private LogDb() {
+<span class="fc" id="L18">      super(&quot;ROA.DB&quot;, &quot;DB&quot;);</span>
+<span class="fc" id="L19">   }</span>
+
+   /**
+    * Logs an informational message.
+    *
+    * @param message The message to log.
+    * @param args    Optional arguments to format the message.
+    */
+   public static void info(String message, Object... args) {
+<span class="fc" id="L28">      getInstance().infoLog(message, args);</span>
+<span class="fc" id="L29">   }</span>
+
+   /**
+    * Logs a warning message.
+    *
+    * @param message The warning message.
+    * @param args    Optional arguments to format the message.
+    */
+   public static void warn(String message, Object... args) {
+<span class="fc" id="L38">      getInstance().warnLog(message, args);</span>
+<span class="fc" id="L39">   }</span>
+
+   /**
+    * Logs an error message.
+    *
+    * @param message The error message.
+    * @param args    Optional arguments to format the message.
+    */
+   public static void error(String message, Object... args) {
+<span class="fc" id="L48">      getInstance().errorLog(message, args);</span>
+<span class="fc" id="L49">   }</span>
+
+   /**
+    * Logs a debug message.
+    *
+    * @param message The debug message.
+    * @param args    Optional arguments to format the message.
+    */
+   public static void debug(String message, Object... args) {
+<span class="fc" id="L58">      getInstance().debugLog(message, args);</span>
+<span class="fc" id="L59">   }</span>
+
+   /**
+    * Logs a trace-level message.
+    *
+    * @param message The trace message.
+    * @param args    Optional arguments to format the message.
+    */
+   public static void trace(String message, Object... args) {
+<span class="fc" id="L68">      getInstance().traceLog(message, args);</span>
+<span class="fc" id="L69">   }</span>
+
+   /**
+    * Logs a step message to track database operations.
+    *
+    * @param message The step description.
+    * @param args    Optional arguments to format the message.
+    */
+   public static void step(String message, Object... args) {
+<span class="fc" id="L78">      getInstance().stepLog(message, args);</span>
+<span class="fc" id="L79">   }</span>
+
+   /**
+    * Logs a validation message for database assertions.
+    *
+    * @param message The validation message.
+    * @param args    Optional arguments to format the message.
+    */
+   public static void validation(String message, Object... args) {
+<span class="fc" id="L88">      getInstance().validationLog(message, args);</span>
+<span class="fc" id="L89">   }</span>
+
+   /**
+    * Logs extended details when debugging is enabled.
+    *
+    * @param message The extended log message.
+    * @param args    Optional arguments to format the message.
+    */
+   public static void extended(String message, Object... args) {
+<span class="fc" id="L98">      getInstance().extendedLog(message, args);</span>
+<span class="fc" id="L99">   }</span>
+
+   /**
+    * Extends the logging functionality using a custom log core instance.
+    *
+    * @param instance The custom log instance to extend.
+    * @param &lt;T&gt;      A subclass of {@link LogCore}.
+    */
+   public static &lt;T extends LogCore&gt; void extend(final T instance) {
+<span class="fc" id="L108">      LogDb.instance = (LogDb) instance;</span>
+<span class="fc" id="L109">   }</span>
+
+   /**
+    * Retrieves the singleton instance of {@code LogDb}.
+    *
+    * @return The singleton instance of {@code LogDb}.
+    */
+   private static LogDb getInstance() {
+<span class="fc bfc" id="L117" title="All 2 branches covered.">      if (instance == null) {</span>
+<span class="fc" id="L118">         instance = new LogDb();</span>
+      }
+<span class="fc" id="L120">      return instance;</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

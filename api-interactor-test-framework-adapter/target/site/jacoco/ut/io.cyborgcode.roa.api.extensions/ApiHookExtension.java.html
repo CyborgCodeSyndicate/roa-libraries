@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ApiHookExtension.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Api Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.api.extensions</a> &gt; <span class="el_source">ApiHookExtension.java</span></div><h1>ApiHookExtension.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.api.extensions;
+
+import io.cyborgcode.roa.api.allure.RestClientAllureImpl;
+import io.cyborgcode.roa.api.allure.RestResponseValidatorAllureImpl;
+import io.cyborgcode.roa.api.annotations.ApiHook;
+import io.cyborgcode.roa.api.hooks.ApiHookFlow;
+import io.cyborgcode.roa.api.service.RestService;
+import io.cyborgcode.roa.framework.exceptions.HookExecutionException;
+import io.cyborgcode.roa.framework.hooks.HookExecution;
+import io.cyborgcode.roa.framework.storage.StoreKeys;
+import io.cyborgcode.utilities.reflections.ReflectionUtil;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import org.junit.jupiter.api.extension.AfterAllCallback;
+import org.junit.jupiter.api.extension.BeforeAllCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
+
+import static io.cyborgcode.roa.api.config.ApiConfigHolder.getApiConfig;
+import static io.cyborgcode.roa.framework.util.PropertiesUtil.addSystemProperties;
+
+/**
+ * A JUnit 5 extension that processes {@link ApiHook} annotations on a test class
+ *
+ * &lt;p&gt;During {@code beforeAll()} it executes any {@code @ApiHook(..., when=HookExecution.BEFORE, ...)} hooks,
+ * and during {@code afterAll()} it executes any {@code @ApiHook(..., when=HookExecution.AFTER, ...)} hooks.
+ * All hook outputs are collected into a map and stored under the key {@link StoreKeys#HOOKS_PARAMS}
+ * in the JUnit extension context’s GLOBAL namespace.
+ *
+ *
+ * &lt;p&gt;Hooks are looked up reflectively by type via {@link ReflectionUtil#findEnumImplementationsOfInterface},
+ * then applied via their {@link ApiHookFlow#flow()} consumer.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+<span class="fc" id="L37">public class ApiHookExtension implements BeforeAllCallback, AfterAllCallback {</span>
+
+   static {
+<span class="fc" id="L40">      synchronized (ApiHookExtension.class) {</span>
+<span class="fc" id="L41">         addSystemProperties();</span>
+<span class="fc" id="L42">      }</span>
+<span class="fc" id="L43">   }</span>
+
+   private RestService restService;
+
+   /**
+    * Called once before all tests in the class.
+    *
+    * &lt;p&gt;Gathers all {@link ApiHook} annotations on the test class with
+    * {@link HookExecution#BEFORE}, orders them by {@linkplain ApiHook#order() order},
+    * and invokes {@link #executeHook} on each. Finally, stores the resulting
+    * parameters map under {@link StoreKeys#HOOKS_PARAMS}.
+    *
+    * @param context the current JUnit extension context
+    * @throws Exception if any reflection or hook‐flow error occurs; wrapped in {@link RuntimeException}
+    */
+   @Override
+   public void beforeAll(final ExtensionContext context) throws Exception {
+<span class="fc" id="L60">      Map&lt;Object, Object&gt; hooksStorage = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L61">      ApiHook[] apiHooks = context.getRequiredTestClass().getAnnotationsByType(ApiHook.class);</span>
+<span class="fc" id="L62">      Arrays.stream(apiHooks)</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">            .filter(apiHook -&gt; apiHook.when() == HookExecution.BEFORE)</span>
+<span class="fc" id="L64">            .sorted(Comparator.comparingInt(ApiHook::order))</span>
+<span class="fc" id="L65">            .forEach(apiHook -&gt; executeHook(apiHook, hooksStorage));</span>
+<span class="fc" id="L66">      context.getStore(ExtensionContext.Namespace.GLOBAL).put(StoreKeys.HOOKS_PARAMS, hooksStorage);</span>
+<span class="fc" id="L67">   }</span>
+
+   /**
+    * Called once after all tests in the class.
+    *
+    * &lt;p&gt;Gathers all {@link ApiHook} annotations on the test class with
+    * {@link HookExecution#AFTER}, orders them by {@linkplain ApiHook#order() order},
+    * and invokes {@link #executeHook} on each. Finally, stores the resulting
+    * parameters map under {@link StoreKeys#HOOKS_PARAMS}.
+    *
+    * @param context the current JUnit extension context
+    * @throws Exception if any reflection or hook‐flow error occurs; wrapped in {@link RuntimeException}
+    */
+   @Override
+   public void afterAll(final ExtensionContext context) throws Exception {
+<span class="fc" id="L82">      Map&lt;Object, Object&gt; hooksStorage = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L83">      ApiHook[] apiHooks = context.getRequiredTestClass().getAnnotationsByType(ApiHook.class);</span>
+<span class="fc" id="L84">      Arrays.stream(apiHooks)</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">            .filter(apiHook -&gt; apiHook.when() == HookExecution.AFTER)</span>
+<span class="fc" id="L86">            .sorted(Comparator.comparingInt(ApiHook::order))</span>
+<span class="fc" id="L87">            .forEach(apiHook -&gt; executeHook(apiHook, hooksStorage));</span>
+<span class="fc" id="L88">      context.getStore(ExtensionContext.Namespace.GLOBAL).put(StoreKeys.HOOKS_PARAMS, hooksStorage);</span>
+<span class="fc" id="L89">   }</span>
+
+   /**
+    * Executes a single {@link ApiHook} by looking up its {@link ApiHookFlow},
+    * then invoking its {@code flow()} consumer with the shared storage map.
+    *
+    * &lt;p&gt;Any exceptions during lookup or execution are caught and rethrown as
+    * {@link RuntimeException} with a standardized message.
+    *
+    * @param apiHook      the hook annotation instance
+    * @param storageHooks the map into which the hook may write parameters
+    */
+   private void executeHook(ApiHook apiHook, Map&lt;Object, Object&gt; storageHooks) {
+      try {
+<span class="fc" id="L103">         ApiHookFlow&lt;?&gt; hookFlow = ReflectionUtil.findEnumImplementationsOfInterface(</span>
+<span class="fc" id="L104">               ApiHookFlow.class, apiHook.type(), getApiConfig().projectPackages());</span>
+<span class="fc" id="L105">         hookFlow.flow().accept(restService(), storageHooks, apiHook.arguments());</span>
+<span class="fc" id="L106">      } catch (Exception e) {</span>
+<span class="fc" id="L107">         throw new HookExecutionException(&quot;Error executing ApiHook: &quot; + apiHook.type(), e);</span>
+<span class="fc" id="L108">      }</span>
+<span class="fc" id="L109">   }</span>
+
+   /**
+    * Lazily instantiates (and then caches) the {@link RestService} used by hooks.
+    * On first call, creates a new {@link RestService} with Allure‐enabled
+    * implementations; on subsequent calls, returns the same instance.
+    *
+    * @return the singleton RestService for this extension
+    */
+   @SuppressWarnings(&quot;checkstyle:JavadocParagraph&quot;)
+   private RestService restService() {
+<span class="fc bfc" id="L120" title="All 2 branches covered.">      if (restService == null) {</span>
+<span class="fc" id="L121">         restService = new RestService(new RestClientAllureImpl(), new RestResponseValidatorAllureImpl());</span>
+      }
+<span class="fc" id="L123">      return restService;</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

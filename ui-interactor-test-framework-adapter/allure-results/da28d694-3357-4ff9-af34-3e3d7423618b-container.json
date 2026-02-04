@@ -1,0 +1,1 @@
+{"uuid":"da28d694-3357-4ff9-af34-3e3d7423618b","name":"getAll should call checkboxService.getAll and return uiServiceFluent","children":["1d3c80ab-b9ef-485c-9791-92513f5a9e24"],"befores":[],"afters":[],"start":1770236703275,"stop":1770236703290}

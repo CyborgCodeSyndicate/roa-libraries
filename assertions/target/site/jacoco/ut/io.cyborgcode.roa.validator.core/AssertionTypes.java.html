@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AssertionTypes.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Assertion Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.validator.core</a> &gt; <span class="el_source">AssertionTypes.java</span></div><h1>AssertionTypes.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.validator.core;
+
+import java.util.Collection;
+
+/**
+ * Defines common assertion types for validation across different test domains.
+ *
+ * &lt;p&gt;This enum provides a predefined set of assertion types used for validating
+ * API responses, database queries, and UI components. Each assertion type
+ * specifies a supported data type that it operates on.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+<span class="fc" id="L14">public enum AssertionTypes implements AssertionType&lt;AssertionTypes&gt; {</span>
+   /**
+    * Checks if two values are equal.
+    */
+<span class="fc" id="L18">   IS(Object.class),</span>
+
+   /**
+    * Checks if two values are not equal.
+    */
+<span class="fc" id="L23">   NOT(Object.class),</span>
+
+   /**
+    * Validates if a string contains a specific substring.
+    */
+<span class="fc" id="L28">   CONTAINS(String.class),</span>
+
+   /**
+    * Ensures a value is not null.
+    */
+<span class="fc" id="L33">   NOT_NULL(Object.class),</span>
+
+   /**
+    * Ensures all values in a collection are not null.
+    */
+<span class="fc" id="L38">   ALL_NOT_NULL(Collection.class),</span>
+
+   /**
+    * Ensures a value is null.
+    */
+<span class="fc" id="L43">   IS_NULL(Object.class),</span>
+
+   /**
+    * Ensures all values in a collection are null.
+    */
+<span class="fc" id="L48">   ALL_NULL(Collection.class),</span>
+
+   /**
+    * Checks if a numeric value is greater than the expected value.
+    */
+<span class="fc" id="L53">   GREATER_THAN(Number.class),</span>
+
+   /**
+    * Checks if a numeric value is less than the expected value.
+    */
+<span class="fc" id="L58">   LESS_THAN(Number.class),</span>
+
+   /**
+    * Ensures a collection contains all expected elements.
+    */
+<span class="fc" id="L63">   CONTAINS_ALL(Collection.class),</span>
+
+   /**
+    * Ensures a collection contains at least one of the expected elements.
+    */
+<span class="fc" id="L68">   CONTAINS_ANY(Collection.class),</span>
+
+   /**
+    * Checks if a string starts with a specific prefix.
+    */
+<span class="fc" id="L73">   STARTS_WITH(String.class),</span>
+
+   /**
+    * Checks if a string ends with a specific suffix.
+    */
+<span class="fc" id="L78">   ENDS_WITH(String.class),</span>
+
+   /**
+    * Validates the length of an object (string, list, etc.).
+    */
+<span class="fc" id="L83">   LENGTH(Object.class),</span>
+
+   /**
+    * Checks if a string matches a given regular expression.
+    */
+<span class="fc" id="L88">   MATCHES_REGEX(String.class),</span>
+
+   /**
+    * Ensures a collection is empty.
+    */
+<span class="fc" id="L93">   EMPTY(Collection.class),</span>
+
+   /**
+    * Ensures a collection is not empty.
+    */
+<span class="fc" id="L98">   NOT_EMPTY(Collection.class),</span>
+
+   /**
+    * Validates if a number falls within a specified range.
+    */
+<span class="fc" id="L103">   BETWEEN(Number.class),</span>
+
+   /**
+    * Compares two strings while ignoring case sensitivity.
+    */
+<span class="fc" id="L108">   EQUALS_IGNORE_CASE(String.class);</span>
+
+   private final Class&lt;?&gt; supportedType;
+
+   /**
+    * Constructs an assertion type with the corresponding supported data type.
+    *
+    * @param supportedType The data type that the assertion operates on.
+    * @param &lt;T&gt;           The generic type representing the supported data type.
+    */
+<span class="fc" id="L118">   &lt;T&gt; AssertionTypes(Class&lt;T&gt; supportedType) {</span>
+<span class="fc" id="L119">      this.supportedType = supportedType;</span>
+<span class="fc" id="L120">   }</span>
+
+   @Override
+   public AssertionTypes type() {
+<span class="fc" id="L124">      return this;</span>
+   }
+
+   @Override
+   public Class&lt;?&gt; getSupportedType() {
+<span class="fc" id="L129">      return supportedType;</span>
+   }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

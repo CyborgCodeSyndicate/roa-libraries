@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RestServiceFluent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Api Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.api.service.fluent</a> &gt; <span class="el_source">RestServiceFluent.java</span></div><h1>RestServiceFluent.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.api.service.fluent;
+
+import io.cyborgcode.roa.api.authentication.BaseAuthenticationClient;
+import io.cyborgcode.roa.api.core.Endpoint;
+import io.cyborgcode.roa.api.service.RestService;
+import io.cyborgcode.roa.framework.annotation.Ring;
+import io.cyborgcode.roa.framework.base.ClassLevelHook;
+import io.cyborgcode.roa.framework.chain.FluentService;
+import io.cyborgcode.roa.framework.retry.RetryCondition;
+import io.cyborgcode.roa.validator.core.Assertion;
+import io.cyborgcode.roa.validator.core.AssertionResult;
+import io.qameta.allure.Step;
+import io.restassured.response.Response;
+import java.time.Duration;
+import java.util.List;
+import java.util.function.Consumer;
+import org.assertj.core.api.SoftAssertions;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import static io.cyborgcode.roa.api.storage.StorageKeysApi.API;
+
+/**
+ * Provides fluent interactions for API requests and validations.
+ *
+ * &lt;p&gt;This class extends {@link FluentService} and enables streamlined API calls,
+ * authentication, validations, and retry mechanisms.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@Ring(&quot;API&quot;)
+@SuppressWarnings(&quot;java:S6832&quot;)
+public class RestServiceFluent extends FluentService implements ClassLevelHook {
+
+   private final RestService restService;
+
+   /**
+    * Constructs a fluent API service instance.
+    *
+    * @param restService The underlying {@link RestService} instance.
+    */
+   @Autowired
+<span class="fc" id="L42">   public RestServiceFluent(final RestService restService) {</span>
+<span class="fc" id="L43">      this.restService = restService;</span>
+<span class="fc" id="L44">   }</span>
+
+   /**
+    * Executes a request to the specified endpoint.
+    *
+    * @param endpoint The API endpoint.
+    * @return The current {@code RestServiceFluent} instance for method chaining.
+    */
+   public RestServiceFluent request(final Endpoint&lt;?&gt; endpoint) {
+<span class="fc" id="L53">      final Response response = restService.request(endpoint);</span>
+<span class="fc" id="L54">      quest.getStorage().sub(API).put(endpoint.enumImpl(), response);</span>
+<span class="fc" id="L55">      return this;</span>
+   }
+
+   /**
+    * Executes a request with a request body.
+    *
+    * @param endpoint The API endpoint.
+    * @param body     The request body.
+    * @return The current {@code RestServiceFluent} instance for method chaining.
+    */
+   public RestServiceFluent request(final Endpoint&lt;?&gt; endpoint, final Object body) {
+<span class="fc" id="L66">      final Response response = restService.request(endpoint, body);</span>
+<span class="fc" id="L67">      quest.getStorage().sub(API).put(endpoint.enumImpl(), response);</span>
+<span class="fc" id="L68">      return this;</span>
+   }
+
+   /**
+    * Validates an API response against provided assertions.
+    *
+    * @param response   The API response.
+    * @param assertions The assertions to validate.
+    * @return The current {@code RestServiceFluent} instance for method chaining.
+    */
+   public RestServiceFluent validateResponse(final Response response, final Assertion... assertions) {
+<span class="fc" id="L79">      final List&lt;AssertionResult&lt;Object&gt;&gt; assertionResults = restService.validate(response, assertions);</span>
+<span class="fc" id="L80">      validation(assertionResults);</span>
+<span class="fc" id="L81">      return this;</span>
+   }
+
+   /**
+    * Executes a request and validates the response.
+    *
+    * @param endpoint   The API endpoint.
+    * @param assertions The assertions to validate.
+    * @return The current {@code RestServiceFluent} instance for method chaining.
+    */
+   public RestServiceFluent requestAndValidate(final Endpoint&lt;?&gt; endpoint, final Assertion... assertions) {
+<span class="fc" id="L92">      final Response response = restService.request(endpoint);</span>
+<span class="fc" id="L93">      quest.getStorage().sub(API).put(endpoint.enumImpl(), response);</span>
+<span class="fc" id="L94">      return validateResponse(response, assertions);</span>
+   }
+
+   /**
+    * Executes a request with a request body and validates the response.
+    *
+    * @param endpoint   The API endpoint.
+    * @param body       The request body.
+    * @param assertions The assertions to validate.
+    * @return The current {@code RestServiceFluent} instance for method chaining.
+    */
+   @Step(&quot;Request and validations for endpoint: {endpoint}&quot;)
+   public RestServiceFluent requestAndValidate(final Endpoint&lt;?&gt; endpoint,
+                                               final Object body,
+                                               final Assertion... assertions) {
+<span class="fc" id="L109">      final Response response = restService.request(endpoint, body);</span>
+<span class="fc" id="L110">      quest.getStorage().sub(API).put(endpoint.enumImpl(), response);</span>
+<span class="fc" id="L111">      return validateResponse(response, assertions);</span>
+   }
+
+   /**
+    * Performs authentication using the specified credentials and authentication client.
+    *
+    * @param username             The username for authentication.
+    * @param password             The password for authentication.
+    * @param authenticationClient The authentication client class.
+    * @return The current {@code RestServiceFluent} instance for method chaining.
+    */
+   public RestServiceFluent authenticate(final String username,
+                                         final String password,
+                                         final Class&lt;? extends BaseAuthenticationClient&gt; authenticationClient) {
+<span class="fc" id="L125">      restService.authenticate(username, password, authenticationClient);</span>
+<span class="fc" id="L126">      return this;</span>
+   }
+
+   /**
+    * Performs validation using a provided assertion.
+    *
+    * @param assertion The assertion to validate.
+    * @return The current {@code RestServiceFluent} instance for method chaining.
+    */
+   @Override
+   public RestServiceFluent validate(final Runnable assertion) {
+<span class="fc" id="L137">      return (RestServiceFluent) super.validate(assertion);</span>
+   }
+
+   /**
+    * Performs validation using a provided assertion with {@link SoftAssertions}.
+    *
+    * @param assertion The assertion to validate.
+    * @return The current {@code RestServiceFluent} instance for method chaining.
+    */
+   @Override
+   public RestServiceFluent validate(final Consumer&lt;SoftAssertions&gt; assertion) {
+<span class="fc" id="L148">      return (RestServiceFluent) super.validate(assertion);</span>
+   }
+
+   /**
+    * Retrieves the underlying {@link RestService} instance.
+    *
+    * @return The {@code RestService} instance.
+    */
+   protected RestService getRestService() {
+<span class="fc" id="L157">      return restService;</span>
+   }
+
+   /**
+    * Executes a retry mechanism until a specified condition is met.
+    *
+    * @param retryCondition The retry condition to be checked.
+    * @param maxWait        The maximum duration to wait before giving up.
+    * @param retryInterval  The interval between retries.
+    * @param &lt;T&gt;            The type used in the retry condition function.
+    * @return The current {@code RestServiceFluent} instance for method chaining.
+    */
+   public &lt;T&gt; RestServiceFluent retryUntil(final RetryCondition&lt;T&gt; retryCondition, final Duration maxWait,
+                                           final Duration retryInterval) {
+<span class="fc" id="L171">      return (RestServiceFluent) super.retryUntil(retryCondition, maxWait, retryInterval, restService);</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

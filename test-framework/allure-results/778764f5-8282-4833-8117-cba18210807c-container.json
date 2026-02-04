@@ -1,0 +1,1 @@
+{"uuid":"778764f5-8282-4833-8117-cba18210807c","name":"resolveParameter should initialize new Quest object when there is hooks parameters","children":["290eeb43-5c48-4e09-83ba-8cc082c9d24c"],"befores":[],"afters":[],"start":1770236453283,"stop":1770236453312}

@@ -1,0 +1,1 @@
+{"uuid":"c08f599c-9124-438f-bc6a-583f0d1640dd","name":"getComponentTypeEnumClass() => calls UIElement.componentType().getClass()","children":["95bbef17-5907-4f2b-842c-703e590795cb"],"befores":[],"afters":[],"start":1769887540537,"stop":1769887540552}

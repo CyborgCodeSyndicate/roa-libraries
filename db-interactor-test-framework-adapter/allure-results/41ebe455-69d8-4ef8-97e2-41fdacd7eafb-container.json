@@ -1,0 +1,1 @@
+{"uuid":"41ebe455-69d8-4ef8-97e2-41fdacd7eafb","name":"queryAndValidate() should chain query and validate operations and return fluent instance","children":["0031fd70-5a7d-4c8b-9e71-41d8ec1ac5d3"],"befores":[],"afters":[],"start":1770236610611,"stop":1770236610715}

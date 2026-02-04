@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LocatorParser.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.selenium.helper</a> &gt; <span class="el_source">LocatorParser.java</span></div><h1>LocatorParser.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.selenium.helper;
+
+import io.cyborgcode.roa.ui.log.LogUi;
+import io.cyborgcode.roa.ui.selenium.exceptions.UiInteractionException;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.pagefactory.ByChained;
+
+/**
+ * Utility class for parsing and handling locators in Selenium.
+ *
+ * &lt;p&gt;This class provides methods for extracting locators from exception messages,
+ * updating WebElement references, and converting locator strings into By objects.
+ * &lt;/p&gt;
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class LocatorParser {
+
+   private LocatorParser() {
+   }
+
+   private static final String LOCATOR_NOT_FOUND_MESSAGE = &quot;Locator not found&quot;;
+   private static final String NO_MESSAGE_AVAILABLE = &quot;No message available&quot;;
+
+   /**
+    * Updates the WebElement reference by parsing locators from the element string representation.
+    *
+    * @param driver  The WebDriver instance.
+    * @param element The SmartWebElement to relocate.
+    * @return A newly located SmartWebElement.
+    */
+   public static SmartWebElement updateWebElement(WebDriver driver, SmartWebElement element) {
+<span class="fc" id="L42">      LogUi.extended(&quot;Element: '{}' is being relocated.&quot;, element.toString());</span>
+      List&lt;By&gt; locatorsList;
+<span class="fc" id="L44">      locatorsList = parseLocators(element.toString());</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">      if (locatorsList.isEmpty()) {</span>
+<span class="fc" id="L46">         throw new UiInteractionException(&quot;Element can't be auto updated&quot;);</span>
+      }
+<span class="fc" id="L48">      return new SmartWebDriver(driver).findSmartElement(</span>
+<span class="fc" id="L49">            new ByChained(locatorsList.toArray(new By[0])), 10);</span>
+   }
+
+   /**
+    * Extracts the blocking element locator from an exception message.
+    *
+    * @param exceptionMessage The exception message containing locator details.
+    * @return The XPath locator of the blocking element.
+    */
+   public static String extractBlockingElementLocator(String exceptionMessage) {
+<span class="fc" id="L59">      String pattern = &quot;Other element would receive the click: &lt;(\\w++)([^&gt;]*+)&gt;&quot;;</span>
+<span class="fc" id="L60">      Matcher matcher = Pattern.compile(pattern).matcher(exceptionMessage);</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">      if (matcher.find()) {</span>
+<span class="fc" id="L62">         String tag = matcher.group(1);</span>
+<span class="fc" id="L63">         String attributes = matcher.group(2).trim();</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">         if (attributes.isEmpty()) {</span>
+<span class="fc" id="L65">            return &quot;//&quot; + tag;</span>
+         }
+<span class="fc" id="L67">         String[] attrPairs = attributes.split(&quot;\\s+&quot;);</span>
+         @SuppressWarnings(&quot;java:S1075&quot;)
+<span class="fc" id="L69">         StringBuilder xpath = new StringBuilder(&quot;//&quot; + tag + &quot;[&quot;);</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">         for (int i = 0; i &lt; attrPairs.length; i++) {</span>
+<span class="fc" id="L71">            String[] keyValue = attrPairs[i].split(&quot;=&quot;);</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">            if (keyValue.length == 2) {</span>
+<span class="fc" id="L73">               String key = keyValue[0];</span>
+<span class="fc" id="L74">               String value = keyValue[1].replace(&quot;\&quot;&quot;, &quot;&quot;).replace(&quot;'&quot;, &quot;&quot;);</span>
+<span class="fc" id="L75">               xpath.append(&quot;@&quot;).append(key).append(&quot;='&quot;).append(value).append(&quot;'&quot;);</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">               if (i &lt; attrPairs.length - 1) {</span>
+<span class="fc" id="L77">                  xpath.append(&quot; and &quot;);</span>
+               }
+            }
+         }
+<span class="fc" id="L81">         xpath.append(&quot;]&quot;);</span>
+<span class="fc" id="L82">         return xpath.toString();</span>
+      } else {
+<span class="fc" id="L84">         throw new IllegalArgumentException(&quot;Can't extract locator from exception message: &quot; + exceptionMessage + &quot;.&quot;);</span>
+      }
+   }
+
+   /**
+    * Extracts a locator from a given array of arguments.
+    *
+    * @param args The array containing locator arguments.
+    * @return The extracted By locator, or null if not found.
+    */
+   public static By extractLocator(Object[] args) {
+<span class="fc bfc" id="L95" title="All 6 branches covered.">      if (args != null &amp;&amp; args.length &gt; 0 &amp;&amp; args[0] instanceof By by) {</span>
+<span class="fc" id="L96">         return by;</span>
+      }
+<span class="fc" id="L98">      return null;</span>
+   }
+
+   /**
+    * Extracts a locator from an exception message.
+    *
+    * @param message The exception message.
+    * @return The extracted locator string, or a default message if not found.
+    */
+   public static String extractLocatorFromMessage(String message) {
+<span class="fc bfc" id="L108" title="All 2 branches covered.">      if (message == null) {</span>
+<span class="fc" id="L109">         return NO_MESSAGE_AVAILABLE;</span>
+      }
+<span class="fc" id="L111">      String locatorPattern = &quot;By\\.(\\w+)\\((.*?)\\)&quot;;</span>
+<span class="fc" id="L112">      Pattern pattern = Pattern.compile(locatorPattern);</span>
+<span class="fc" id="L113">      Matcher matcher = pattern.matcher(message);</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">      return matcher.find() ? matcher.group() : LOCATOR_NOT_FOUND_MESSAGE;</span>
+   }
+
+   /**
+    * Retrieves detailed information about a WebElement.
+    *
+    * @param element   The target WebElement.
+    * @param outerHtml The outer HTML representation of the element.
+    * @param innerHtml The inner HTML representation of the element.
+    * @return A formatted string with element details.
+    */
+   public static String getElementDetails(WebElement element, String outerHtml, String innerHtml) {
+<span class="fc" id="L126">      String tag = element.getTagName();</span>
+<span class="fc" id="L127">      String text = element.getText();</span>
+<span class="fc" id="L128">      return String.format(&quot;Tag: [%s]%nText: [%s]%nOuter HTML: [%s]%nInner HTML: [%s]&quot;,</span>
+            tag, text, outerHtml, innerHtml);
+   }
+
+   /**
+    * Parses locators from a locator string representation.
+    *
+    * @param locatorString The string representation of locators.
+    * @return A list of By locators extracted from the string.
+    */
+   private static List&lt;By&gt; parseLocators(String locatorString) {
+<span class="fc" id="L139">      String[] parts = locatorString.split(&quot;-&gt;&quot;);</span>
+<span class="fc" id="L140">      List&lt;By&gt; byList = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">      for (int i = 1; i &lt; parts.length; i++) {</span>
+<span class="fc" id="L142">         String trimmed = parts[i].trim();</span>
+<span class="fc" id="L143">         addLocatorIfMatches(byList, trimmed, &quot;tag name&quot;, By::tagName);</span>
+<span class="fc" id="L144">         addLocatorIfMatches(byList, trimmed, &quot;css selector&quot;, By::cssSelector);</span>
+<span class="fc" id="L145">         addLocatorIfMatches(byList, trimmed, &quot;xpath&quot;, By::xpath);</span>
+<span class="fc" id="L146">         addLocatorIfMatches(byList, trimmed, &quot;id&quot;, By::id);</span>
+<span class="fc" id="L147">         addLocatorIfMatches(byList, trimmed, &quot;class name&quot;, By::className);</span>
+<span class="fc" id="L148">         addLocatorIfMatches(byList, trimmed, &quot;name&quot;, By::name);</span>
+<span class="fc" id="L149">         addLocatorIfMatches(byList, trimmed, &quot;link text&quot;, By::linkText);</span>
+<span class="fc" id="L150">         addLocatorIfMatches(byList, trimmed, &quot;partial link text&quot;, By::partialLinkText);</span>
+      }
+<span class="fc" id="L152">      return byList;</span>
+   }
+
+   /**
+    * Adds a locator to the list if the given key matches a known locator type.
+    *
+    * @param locatorList     The list to which the locator should be added.
+    * @param locatorText     The locator text representation.
+    * @param key             The key representing a locator type.
+    * @param locatorFunction The function to generate a By locator.
+    */
+   private static void addLocatorIfMatches(List&lt;By&gt; locatorList, String locatorText, String key,
+                                           Function&lt;String, By&gt; locatorFunction) {
+<span class="fc bfc" id="L165" title="All 2 branches covered.">      if (locatorText.split(&quot;:&quot;)[0].equals(key)) {</span>
+<span class="fc" id="L166">         String locator = extractLocatorValue(locatorText);</span>
+<span class="fc" id="L167">         locatorList.add(locatorFunction.apply(locator));</span>
+      }
+<span class="fc" id="L169">   }</span>
+
+   /**
+    * Extracts the value of a locator from its text representation.
+    *
+    * @param locatorText The text containing the locator value.
+    * @return The extracted locator value.
+    */
+   private static String extractLocatorValue(String locatorText) {
+<span class="fc" id="L178">      String[] parts = locatorText.split(&quot;:&quot;);</span>
+<span class="fc" id="L179">      String value = parts[1].trim();</span>
+<span class="fc" id="L180">      return value.substring(0, value.length() - 2);</span>
+   }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

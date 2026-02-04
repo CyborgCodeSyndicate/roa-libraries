@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SuperUiServiceFluent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.service.fluent</a> &gt; <span class="el_source">SuperUiServiceFluent.java</span></div><h1>SuperUiServiceFluent.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.service.fluent;
+
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.validator.core.AssertionResult;
+import java.util.List;
+import lombok.experimental.Delegate;
+
+/**
+ * A specialized UI service fluent class that extends {@link UiServiceFluent}
+ * and delegates its functionalities to an existing instance of {@code UIServiceFluent}.
+ *
+ * &lt;p&gt;The generic type {@code T} represents a concrete implementation of {@link UiServiceFluent},
+ * ensuring fluent interface compatibility and enabling seamless method chaining.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class SuperUiServiceFluent&lt;T extends UiServiceFluent&lt;?&gt;&gt; extends UiServiceFluent&lt;T&gt; {
+
+   /**
+    * A delegate reference to the original {@link UiServiceFluent} instance.
+    */
+   @Delegate
+   private final UiServiceFluent&lt;T&gt; original;
+
+   /**
+    * Constructs an instance of {@code SuperUiServiceFluent} by wrapping an existing {@link UiServiceFluent}.
+    *
+    * @param uiServiceFluent The original {@link UiServiceFluent} instance to delegate functionality to.
+    */
+   public SuperUiServiceFluent(UiServiceFluent&lt;T&gt; uiServiceFluent) {
+<span class="fc" id="L31">      super(uiServiceFluent.getDriver());</span>
+<span class="fc" id="L32">      this.original = uiServiceFluent;</span>
+<span class="fc" id="L33">   }</span>
+
+   /**
+    * Retrieves the {@link SmartWebDriver} instance used by the underlying {@link UiServiceFluent}.
+    *
+    * @return The {@link SmartWebDriver} instance.
+    */
+   @Override
+   public SmartWebDriver getDriver() {
+<span class="fc" id="L42">      return original.getDriver();</span>
+   }
+
+   /**
+    * Executes validation using a list of assertion results.
+    *
+    * @param assertionResults A list of {@link AssertionResult} objects representing validation outcomes.
+    */
+   @Override
+   public void validation(List&lt;AssertionResult&lt;Object&gt;&gt; assertionResults) {
+<span class="fc" id="L52">      original.validation(assertionResults);</span>
+<span class="fc" id="L53">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

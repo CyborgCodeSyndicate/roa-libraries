@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: io.cyborgcode.roa.ui.service.fluent.UiServiceFluentTest
+-------------------------------------------------------------------------------
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.855 s -- in io.cyborgcode.roa.ui.service.fluent.UiServiceFluentTest

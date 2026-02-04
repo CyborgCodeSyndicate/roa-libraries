@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UiService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.service.facade</a> &gt; <span class="el_source">UiService.java</span></div><h1>UiService.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.service.facade;
+
+import io.cyborgcode.roa.ui.components.accordion.AccordionService;
+import io.cyborgcode.roa.ui.components.accordion.AccordionServiceImpl;
+import io.cyborgcode.roa.ui.components.alert.AlertService;
+import io.cyborgcode.roa.ui.components.alert.AlertServiceImpl;
+import io.cyborgcode.roa.ui.components.button.ButtonComponentType;
+import io.cyborgcode.roa.ui.components.button.ButtonService;
+import io.cyborgcode.roa.ui.components.button.ButtonServiceImpl;
+import io.cyborgcode.roa.ui.components.checkbox.CheckboxComponentType;
+import io.cyborgcode.roa.ui.components.checkbox.CheckboxService;
+import io.cyborgcode.roa.ui.components.checkbox.CheckboxServiceImpl;
+import io.cyborgcode.roa.ui.components.input.InputComponentType;
+import io.cyborgcode.roa.ui.components.input.InputService;
+import io.cyborgcode.roa.ui.components.input.InputServiceImpl;
+import io.cyborgcode.roa.ui.components.link.LinkComponentType;
+import io.cyborgcode.roa.ui.components.link.LinkService;
+import io.cyborgcode.roa.ui.components.link.LinkServiceImpl;
+import io.cyborgcode.roa.ui.components.list.ItemListComponentType;
+import io.cyborgcode.roa.ui.components.list.ItemListService;
+import io.cyborgcode.roa.ui.components.list.ItemListServiceImpl;
+import io.cyborgcode.roa.ui.components.loader.LoaderService;
+import io.cyborgcode.roa.ui.components.loader.LoaderServiceImpl;
+import io.cyborgcode.roa.ui.components.modal.ModalService;
+import io.cyborgcode.roa.ui.components.modal.ModalServiceImpl;
+import io.cyborgcode.roa.ui.components.radio.RadioComponentType;
+import io.cyborgcode.roa.ui.components.radio.RadioService;
+import io.cyborgcode.roa.ui.components.radio.RadioServiceImpl;
+import io.cyborgcode.roa.ui.components.select.SelectComponentType;
+import io.cyborgcode.roa.ui.components.select.SelectService;
+import io.cyborgcode.roa.ui.components.select.SelectServiceImpl;
+import io.cyborgcode.roa.ui.components.tab.TabService;
+import io.cyborgcode.roa.ui.components.tab.TabServiceImpl;
+import io.cyborgcode.roa.ui.components.table.filters.TableFilter;
+import io.cyborgcode.roa.ui.components.table.insertion.TableInsertion;
+import io.cyborgcode.roa.ui.components.table.registry.TableServiceRegistry;
+import io.cyborgcode.roa.ui.components.table.service.TableService;
+import io.cyborgcode.roa.ui.components.table.service.TableServiceImpl;
+import io.cyborgcode.roa.ui.components.toggle.ToggleService;
+import io.cyborgcode.roa.ui.components.toggle.ToggleServiceImpl;
+import io.cyborgcode.roa.ui.insertion.InsertionService;
+import io.cyborgcode.roa.ui.insertion.InsertionServiceFieldImpl;
+import io.cyborgcode.roa.ui.insertion.InsertionServiceRegistry;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.validator.UiTableValidator;
+import io.cyborgcode.roa.ui.validator.UiTableValidatorImpl;
+import lombok.Getter;
+
+/**
+ * Centralized UI service facade that provides access to various UI component services.
+ *
+ * &lt;p&gt;This class serves as a single entry point for interacting with different UI components
+ * such as input fields, buttons, checkboxes, toggles, tables, and more.
+ * It initializes and manages instances of these services, allowing simplified access
+ * throughout the application.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@Getter
+public class UiService {
+
+   private final SmartWebDriver driver;
+   private final InputService inputField;
+   private final ButtonService buttonField;
+   private final RadioService radioField;
+   private final CheckboxService checkboxField;
+   private final ToggleService toggleField;
+   private final SelectService selectField;
+   private final ItemListService listField;
+   private final LoaderService loaderField;
+   private final LinkService linkField;
+   private final AlertService alertField;
+   private final TabService tabField;
+   private final AccordionService accordionField;
+   private final ModalService modalField;
+   private final InsertionServiceRegistry serviceRegistry;
+   private final InsertionService insertionService;
+   private final TableServiceRegistry tableServiceRegistry;
+   private final TableService tableService;
+   private final UiTableValidator uiTableValidator;
+
+   /**
+    * Constructs the UI service, initializing various UI component services.
+    *
+    * @param driver The {@link SmartWebDriver} instance used for UI interactions.
+    */
+<span class="nc" id="L87">   public UiService(SmartWebDriver driver) {</span>
+<span class="nc" id="L88">      this.driver = driver;</span>
+<span class="nc" id="L89">      inputField = new InputServiceImpl(driver);</span>
+<span class="nc" id="L90">      buttonField = new ButtonServiceImpl(driver);</span>
+<span class="nc" id="L91">      radioField = new RadioServiceImpl(driver);</span>
+<span class="nc" id="L92">      selectField = new SelectServiceImpl(driver);</span>
+<span class="nc" id="L93">      listField = new ItemListServiceImpl(driver);</span>
+<span class="nc" id="L94">      loaderField = new LoaderServiceImpl(driver);</span>
+<span class="nc" id="L95">      linkField = new LinkServiceImpl(driver);</span>
+<span class="nc" id="L96">      alertField = new AlertServiceImpl(driver);</span>
+<span class="nc" id="L97">      tabField = new TabServiceImpl(driver);</span>
+<span class="nc" id="L98">      accordionField = new AccordionServiceImpl(driver);</span>
+<span class="nc" id="L99">      modalField = new ModalServiceImpl(driver);</span>
+<span class="nc" id="L100">      checkboxField = new CheckboxServiceImpl(driver);</span>
+<span class="nc" id="L101">      toggleField = new ToggleServiceImpl(driver);</span>
+<span class="nc" id="L102">      serviceRegistry = new InsertionServiceRegistry();</span>
+<span class="nc" id="L103">      tableServiceRegistry = new TableServiceRegistry();</span>
+<span class="nc" id="L104">      registerInsertionServices();</span>
+<span class="nc" id="L105">      insertionService = new InsertionServiceFieldImpl(serviceRegistry);</span>
+<span class="nc" id="L106">      uiTableValidator = new UiTableValidatorImpl();</span>
+<span class="nc" id="L107">      tableService = new TableServiceImpl(driver, tableServiceRegistry, uiTableValidator);</span>
+<span class="nc" id="L108">   }</span>
+
+   /**
+    * Registers various UI component services to the respective registries.
+    *
+    * &lt;p&gt;This method ensures that UI components such as input fields, radio buttons,
+    * checkboxes, select fields, item lists, and table components are registered
+    * so they can be properly managed and accessed throughout the application.
+    */
+   private void registerInsertionServices() {
+<span class="nc" id="L118">      serviceRegistry.registerService(InputComponentType.class, inputField);</span>
+<span class="nc" id="L119">      serviceRegistry.registerService(RadioComponentType.class, radioField);</span>
+<span class="nc" id="L120">      serviceRegistry.registerService(CheckboxComponentType.class, checkboxField);</span>
+<span class="nc" id="L121">      serviceRegistry.registerService(SelectComponentType.class, selectField);</span>
+<span class="nc" id="L122">      serviceRegistry.registerService(ItemListComponentType.class, listField);</span>
+<span class="nc" id="L123">      tableServiceRegistry.registerService(ButtonComponentType.class, buttonField);</span>
+<span class="nc" id="L124">      tableServiceRegistry.registerService(LinkComponentType.class, linkField);</span>
+<span class="nc" id="L125">      tableServiceRegistry.registerService(InputComponentType.class, (TableFilter) inputField);</span>
+<span class="nc" id="L126">      tableServiceRegistry.registerService(InputComponentType.class, (TableInsertion) inputField);</span>
+<span class="nc" id="L127">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

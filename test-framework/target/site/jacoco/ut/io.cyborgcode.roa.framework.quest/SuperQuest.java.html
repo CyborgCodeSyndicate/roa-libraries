@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SuperQuest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Core Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.framework.quest</a> &gt; <span class="el_source">SuperQuest.java</span></div><h1>SuperQuest.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.framework.quest;
+
+import io.cyborgcode.roa.framework.assertion.CustomSoftAssertion;
+import io.cyborgcode.roa.framework.chain.FluentService;
+import io.cyborgcode.roa.framework.storage.Storage;
+import lombok.experimental.Delegate;
+
+/**
+ * Provides an enhanced test execution context by delegating core operations to an underlying {@code Quest} instance.
+ *
+ * &lt;p&gt;The {@code SuperQuest} class wraps a {@code Quest} instance, delegating methods such as registering or removing
+ * test services, retrieving artifacts, accessing storage, and managing soft assertions. This ensures that all
+ * functionality available in {@code Quest} is seamlessly accessible, while also enabling extended behaviors in the
+ * test execution flow.
+ *
+ * &lt;p&gt;Methods in this class mirror those in {@code Quest} and provide consistent documentation for interacting with
+ * the test execution context.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public final class SuperQuest extends Quest {
+
+   /**
+    * The underlying {@code Quest} instance that holds the original test execution context.
+    */
+   @Delegate
+   private final Quest original;
+
+
+   /**
+    * Constructs a new {@code SuperQuest} by wrapping the provided {@code Quest}.
+    *
+    * @param quest the original {@code Quest} instance to be wrapped.
+    */
+<span class="fc" id="L35">   public SuperQuest(Quest quest) {</span>
+<span class="fc" id="L36">      this.original = quest;</span>
+<span class="fc" id="L37">   }</span>
+
+
+   /**
+    * Retrieves an artifact from the underlying quest.
+    *
+    * &lt;p&gt;This method delegates the call to the underlying {@code Quest} instance,
+    * extracting an instance of the specified artifact type from the corresponding test service.
+    *
+    * @param ringType    the class type of the test service.
+    * @param artifactType the class type of the artifact to retrieve.
+    * @param &lt;T&gt;          the type of the test service.
+    * @param &lt;K&gt;          the type of the artifact.
+    * @return the artifact instance retrieved from the underlying quest.
+    */
+   @Override
+   public &lt;T extends FluentService, K&gt; K artifact(Class&lt;T&gt; ringType, Class&lt;K&gt; artifactType) {
+<span class="fc" id="L54">      return original.artifact(ringType, artifactType);</span>
+   }
+
+
+   /**
+    * Registers a test service (ring) into the underlying quest.
+    *
+    * &lt;p&gt;This method delegates the registration of the test service to the underlying {@code Quest} instance,
+    * ensuring that the test execution context is aware of the new service.
+    *
+    * @param ringType the class type of the test service.
+    * @param ring     the instance of the test service.
+    */
+   @Override
+   public void registerRing(Class&lt;? extends FluentService&gt; ringType, FluentService ring) {
+<span class="fc" id="L69">      original.registerRing(ringType, ring);</span>
+<span class="fc" id="L70">   }</span>
+
+
+   /**
+    * Retrieves a registered test service from the underlying quest without modifying the context.
+    *
+    * &lt;p&gt;This method delegates the retrieval to the underlying {@code Quest} instance,
+    * returning the requested test service instance.
+    *
+    * @param ringType the class type of the test service to retrieve.
+    * @param &lt;T&gt;       the type of the test service.
+    * @return the corresponding test service instance.
+    */
+   @Override
+   public &lt;T extends FluentService&gt; T cast(Class&lt;T&gt; ringType) {
+<span class="fc" id="L85">      return super.cast(ringType);</span>
+   }
+
+
+   /**
+    * Removes a test service from the underlying quest.
+    *
+    * &lt;p&gt;This method delegates the removal operation to the underlying {@code Quest} instance,
+    * ensuring that the specified test service is no longer part of the execution context.
+    *
+    * @param ringType the class type of the test service to remove.
+    */
+   @Override
+   public void removeRing(Class&lt;? extends FluentService&gt; ringType) {
+<span class="fc" id="L99">      original.removeRing(ringType);</span>
+<span class="fc" id="L100">   }</span>
+
+
+   /**
+    * Provides access to the storage instance from the underlying quest.
+    *
+    * &lt;p&gt;The storage instance is used for managing temporary test data during execution.
+    *
+    * @return the {@link Storage} instance for the underlying quest.
+    */
+   @Override
+   public Storage getStorage() {
+<span class="fc" id="L112">      return original.getStorage();</span>
+   }
+
+
+   /**
+    * Provides access to the soft assertion handler from the underlying quest.
+    *
+    * &lt;p&gt;The soft assertion handler collects and verifies soft assertions during test execution.
+    *
+    * @return the {@link CustomSoftAssertion} instance for the underlying quest.
+    */
+   @Override
+   public CustomSoftAssertion getSoftAssertions() {
+<span class="fc" id="L125">      return original.getSoftAssertions();</span>
+   }
+
+
+   public Quest getOriginal() {
+<span class="fc" id="L130">      return original;</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

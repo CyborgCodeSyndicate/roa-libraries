@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TableField.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.table.base</a> &gt; <span class="el_source">TableField.java</span></div><h1>TableField.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.table.base;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.function.BiConsumer;
+
+/**
+ * Represents a field in a table row that can be dynamically accessed and modified.
+ * This functional interface allows for invoking a setter method on a given instance
+ * to set a value for a specific table column.
+ *
+ * &lt;p&gt;Primarily used for reading, writing, and updating table data within
+ * the {@code Table} and {@code TableService} implementations.
+ *
+ * &lt;p&gt;The row model type is represented by {@code T}, which defines the structure of a table row.
+ * The type {@code P} represents the field type being set within the table row model.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@FunctionalInterface
+public interface TableField&lt;T&gt; {
+
+   /**
+    * Creates a {@code TableField} from a given {@link BiConsumer}, which represents
+    * a setter method for a specific field.
+    *
+    * @param consumer The setter method reference.
+    * @param &lt;T&gt;      The type of the row model.
+    * @param &lt;P&gt;      The type of the field being set.
+    * @return A {@code TableField} instance.
+    */
+   static &lt;T, P&gt; TableField&lt;T&gt; of(BiConsumer&lt;T, P&gt; consumer) {
+<span class="fc" id="L32">      return (t, obj) -&gt; consumer.accept(t, (P) obj);</span>
+   }
+
+   /**
+    * Invokes the setter method for the corresponding field in the provided instance.
+    *
+    * @param instance The object instance on which to set the field value.
+    * @param o        The value to be set.
+    * @throws IllegalAccessException    If the method is not accessible.
+    * @throws InvocationTargetException If the method invocation fails.
+    */
+   void invoke(T instance, Object o) throws IllegalAccessException, InvocationTargetException;
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

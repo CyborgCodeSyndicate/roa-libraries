@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TableServiceFluent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.service.tables</a> &gt; <span class="el_source">TableServiceFluent.java</span></div><h1>TableServiceFluent.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.service.tables;
+
+
+import io.cyborgcode.roa.framework.decorators.DecoratorsFactory;
+import io.cyborgcode.roa.framework.storage.Storage;
+import io.cyborgcode.roa.ui.components.table.base.TableField;
+import io.cyborgcode.roa.ui.components.table.filters.FilterStrategy;
+import io.cyborgcode.roa.ui.components.table.service.TableService;
+import io.cyborgcode.roa.ui.components.table.sort.SortingStrategy;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.cyborgcode.roa.ui.service.fluent.SuperUiServiceFluent;
+import io.cyborgcode.roa.ui.service.fluent.UiServiceFluent;
+import io.cyborgcode.roa.validator.core.Assertion;
+import io.qameta.allure.Allure;
+import java.util.Arrays;
+import java.util.List;
+
+import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
+
+/**
+ * Provides fluent methods for interacting with table components in the UI.
+ *
+ * &lt;p&gt;This class offers functionality for reading, inserting, filtering, and sorting table data,
+ * as well as validating table contents.
+ *
+ * @param &lt;T&gt; The type of {@link UiServiceFluent} for chaining fluent methods.
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class TableServiceFluent&lt;T extends UiServiceFluent&lt;?&gt;&gt; {
+
+   private static final String UI_TABLE_CLICKING_ELEMENT_IN_CELL_AT_ROW =
+         &quot;[UI - Table] Clicking element in cell at row: &quot;;
+   private static final String FIELD = &quot;, field: &quot;;
+   private static final String INDEX = &quot;, index: &quot;;
+   private static final String USING_DATA = &quot; using data: &quot;;
+   private static final String UI_TABLE_CLICKING_ELEMENT_IN_CELL_FOR_SEARCH_CRITERIA =
+         &quot;[UI - Table] Clicking element in cell for search criteria: &quot;;
+
+   private final TableService tableService;
+   private final T uiServiceFluent;
+   private final Storage storage;
+   private final SmartWebDriver driver;
+<span class="fc" id="L43">   private final DecoratorsFactory decoratorsFactory = new DecoratorsFactory();</span>
+
+   /**
+    * Constructs a new {@code TableServiceFluent} instance.
+    *
+    * @param uiServiceFluent The UI service instance for fluent chaining.
+    * @param storage         The storage instance for persisting table data.
+    * @param tableService    The table service handling table interactions.
+    * @param webDriver       The smart WebDriver instance.
+    */
+   public TableServiceFluent(T uiServiceFluent, Storage storage, TableService tableService,
+<span class="fc" id="L54">                             SmartWebDriver webDriver) {</span>
+<span class="fc" id="L55">      this.tableService = tableService;</span>
+<span class="fc" id="L56">      this.uiServiceFluent = uiServiceFluent;</span>
+<span class="fc" id="L57">      this.storage = storage;</span>
+<span class="fc" id="L58">      driver = webDriver;</span>
+<span class="fc" id="L59">   }</span>
+
+   /**
+    * Reads the entire table and stores the result in storage.
+    *
+    * @param &lt;K&gt;          The type representing table rows.
+    * @param tableElement The table element to be read.
+    * @return The fluent UI service instance.
+    */
+   public final &lt;K&gt; T readTable(TableElement&lt;?&gt; tableElement) {
+<span class="fc" id="L69">      Allure.step(&quot;[UI - Table] Reading the table: &quot; + tableElement);</span>
+<span class="fc" id="L70">      tableElement.before().accept(driver);</span>
+<span class="fc" id="L71">      List&lt;K&gt; rows = tableService.readTable(tableElement.tableType(), tableElement.rowsRepresentationClass());</span>
+<span class="fc" id="L72">      tableElement.after().accept(driver);</span>
+<span class="fc" id="L73">      storage.sub(UI).put(tableElement.enumImpl(), rows);</span>
+<span class="fc" id="L74">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Reads specific fields from the table and stores the result in storage.
+    *
+    * @param &lt;K&gt;          The type representing table rows.
+    * @param tableElement The table element to be read.
+    * @param fields       The specific fields to read from the table.
+    * @return The fluent UI service instance.
+    */
+   @SafeVarargs
+   public final &lt;K&gt; T readTable(TableElement&lt;?&gt; tableElement, TableField&lt;K&gt;... fields) {
+<span class="fc" id="L87">      Allure.step(&quot;[UI - Table] Reading the table with specific fields: &quot; + tableElement);</span>
+<span class="fc" id="L88">      validateArguments(fields[0], tableElement.rowsRepresentationClass());</span>
+<span class="fc" id="L89">      tableElement.before().accept(driver);</span>
+<span class="fc" id="L90">      tableElement.after().accept(driver);</span>
+<span class="fc" id="L91">      storage.sub(UI).put(tableElement.enumImpl(),</span>
+<span class="fc" id="L92">            tableService.readTable(tableElement.tableType(), tableElement.rowsRepresentationClass(), fields));</span>
+<span class="fc" id="L93">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Reads a range of rows from the table and stores the result in storage.
+    *
+    * @param tableElement The table element to be read.
+    * @param start        The starting row index (inclusive).
+    * @param end          The ending row index (exclusive).
+    * @return The fluent UI service instance.
+    */
+   public final T readTable(TableElement&lt;?&gt; tableElement, int start, int end) {
+<span class="fc" id="L105">      Allure.step(&quot;[UI - Table] Reading a range of rows from the table: &quot; + tableElement + &quot; from &quot;</span>
+            + start + &quot; to &quot; + end);
+<span class="fc" id="L107">      tableElement.before().accept(driver);</span>
+<span class="fc" id="L108">      tableElement.after().accept(driver);</span>
+<span class="fc" id="L109">      storage.sub(UI).put(tableElement.enumImpl(), tableService.readTable(tableElement.tableType(), start, end,</span>
+<span class="fc" id="L110">            tableElement.rowsRepresentationClass()));</span>
+<span class="fc" id="L111">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Reads a specific range of rows from the table with only the specified fields and stores the result in storage.
+    *
+    * @param &lt;K&gt;          The type representing table rows.
+    * @param tableElement The table element to be read.
+    * @param start        The starting row index (inclusive).
+    * @param end          The ending row index (exclusive).
+    * @param fields       The fields to be extracted from the table. If not provided, all fields are retrieved.
+    * @return The fluent UI service instance for method chaining.
+    */
+   @SafeVarargs
+   public final &lt;K&gt; T readTable(TableElement&lt;?&gt; tableElement, int start, int end,
+                                TableField&lt;K&gt;... fields) {
+<span class="fc" id="L127">      Allure.step(&quot;[UI - Table] Reading a range of rows with specific fields from the table: &quot; + tableElement</span>
+            + &quot; from &quot; + start + &quot; to &quot; + end);
+<span class="fc" id="L129">      validateArguments(fields[0], tableElement.rowsRepresentationClass());</span>
+<span class="fc" id="L130">      tableElement.before().accept(driver);</span>
+<span class="fc" id="L131">      tableElement.after().accept(driver);</span>
+<span class="fc" id="L132">      storage.sub(UI).put(tableElement.enumImpl(), tableService.readTable(tableElement.tableType(), start, end,</span>
+<span class="fc" id="L133">            tableElement.rowsRepresentationClass(), fields));</span>
+<span class="fc" id="L134">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Reads a specific row from the table and stores the result in storage.
+    *
+    * @param tableElement The table element to be read.
+    * @param row          The index of the row to read.
+    * @return The fluent UI service instance.
+    */
+   public final T readRow(TableElement&lt;?&gt; tableElement, int row) {
+<span class="fc" id="L145">      Allure.step(&quot;[UI - Table] Reading a specific row from the table: &quot; + tableElement + &quot; at row index: &quot; + row);</span>
+<span class="fc" id="L146">      tableElement.before().accept(driver);</span>
+<span class="fc" id="L147">      tableElement.after().accept(driver);</span>
+<span class="fc" id="L148">      storage.sub(UI).put(tableElement.enumImpl(), tableService.readRow(tableElement.tableType(), row,</span>
+<span class="fc" id="L149">            tableElement.rowsRepresentationClass()));</span>
+<span class="fc" id="L150">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Reads a single row from the table based on the provided search criteria and stores the result in storage.
+    *
+    * @param tableElement   The table element to be read.
+    * @param searchCriteria A list of values that must be matched within the row.
+    * @return The fluent UI service instance for method chaining.
+    */
+   public final T readRow(TableElement&lt;?&gt; tableElement, List&lt;String&gt; searchCriteria) {
+<span class="fc" id="L161">      Allure.step(&quot;[UI - Table] Reading a specific row from the table by search criteria: &quot; + tableElement</span>
+            + &quot; with criteria: &quot; + searchCriteria);
+<span class="fc" id="L163">      tableElement.before().accept(driver);</span>
+<span class="fc" id="L164">      tableElement.after().accept(driver);</span>
+<span class="fc" id="L165">      storage.sub(UI).put(tableElement.enumImpl(), tableService.readRow(tableElement.tableType(), searchCriteria,</span>
+<span class="fc" id="L166">            tableElement.rowsRepresentationClass()));</span>
+<span class="fc" id="L167">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Reads a single row from the table based on the row index and stores the result in storage.
+    *
+    * @param &lt;K&gt;          The type representing the table row.
+    * @param tableElement The table element to be read.
+    * @param row          The row index (1-based index).
+    * @param fields       The fields to be extracted from the row. If not provided, all fields are retrieved.
+    * @return The fluent UI service instance for method chaining.
+    */
+   @SafeVarargs
+   public final &lt;K&gt; T readRow(TableElement&lt;?&gt; tableElement, int row,
+                              TableField&lt;K&gt;... fields) {
+<span class="fc" id="L182">      Allure.step(&quot;[UI - Table] Reading a specific row from the table with specific fields: &quot; + tableElement</span>
+            + &quot; at row index: &quot; + row);
+<span class="fc" id="L184">      tableElement.before().accept(driver);</span>
+<span class="fc" id="L185">      tableElement.after().accept(driver);</span>
+<span class="fc" id="L186">      storage.sub(UI).put(tableElement.enumImpl(), tableService.readRow(tableElement.tableType(), row,</span>
+<span class="fc" id="L187">            tableElement.rowsRepresentationClass(), fields));</span>
+<span class="fc" id="L188">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Reads a row from the table that matches the provided search criteria, retrieving only the specified fields.
+    *
+    * @param &lt;K&gt;            The type representing the table row.
+    * @param tableElement   The table element to be read.
+    * @param searchCriteria A list of values that must be matched within the row.
+    * @param fields         The specific fields to be extracted from the matched row.
+    * @return The fluent UI service instance for method chaining.
+    */
+   @SafeVarargs
+   public final &lt;K&gt; T readRow(TableElement&lt;?&gt; tableElement, List&lt;String&gt; searchCriteria,
+                              TableField&lt;K&gt;... fields) {
+<span class="fc" id="L203">      Allure.step(&quot;[UI - Table] Reading a row with search criteria and specific fields: &quot; + tableElement</span>
+            + &quot; with criteria: &quot; + searchCriteria);
+<span class="fc" id="L205">      validateArguments(fields[0], tableElement.rowsRepresentationClass());</span>
+<span class="fc" id="L206">      tableElement.before().accept(driver);</span>
+<span class="fc" id="L207">      tableElement.after().accept(driver);</span>
+<span class="fc" id="L208">      storage.sub(UI).put(tableElement.enumImpl(), tableService.readRow(tableElement.tableType(), searchCriteria,</span>
+<span class="fc" id="L209">            tableElement.rowsRepresentationClass(), fields));</span>
+<span class="fc" id="L210">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Inserts a value into a table cell based on the row index.
+    *
+    * @param &lt;K&gt;          The type representing table rows.
+    * @param tableElement The table element to insert data into.
+    * @param row          The row index.
+    * @param field        The table field to insert data into.
+    * @param values       The values to insert.
+    * @return The fluent UI service instance.
+    */
+   public final &lt;K&gt; T insertCellValue(TableElement&lt;?&gt; tableElement, int row,
+                                      TableField&lt;K&gt; field, String... values) {
+<span class="fc" id="L225">      Allure.step(&quot;[UI - Table] Inserting value into cell in row: &quot; + row + &quot; for field: &quot; + field);</span>
+<span class="fc" id="L226">      validateArguments(field, tableElement.rowsRepresentationClass());</span>
+<span class="fc" id="L227">      tableElement.before().accept(driver);</span>
+<span class="fc" id="L228">      tableService.insertCellValue(tableElement.tableType(), row, tableElement.rowsRepresentationClass(), field, 1,</span>
+            values);
+<span class="fc" id="L230">      tableElement.after().accept(driver);</span>
+<span class="fc" id="L231">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Inserts values into a specific cell within a row of the table at the given index.
+    *
+    * @param &lt;K&gt;          The type representing the table row.
+    * @param tableElement The table element where the value will be inserted.
+    * @param row          The row index (1-based index).
+    * @param field        The field within the row where the value should be inserted.
+    * @param index        The index of the cell within the row (1-based index).
+    * @param value        The values to be inserted into the specified cell.
+    * @return The fluent UI service instance for method chaining.
+    */
+   public final &lt;K&gt; T insertCellValue(TableElement&lt;?&gt; tableElement, int row,
+                                      TableField&lt;K&gt; field,
+                                      int index, String... value) {
+<span class="fc" id="L248">      Allure.step(&quot;[UI - Table] Inserting cell value into row: &quot; + row + FIELD + field + INDEX + index);</span>
+<span class="fc" id="L249">      validateArguments(field, tableElement.rowsRepresentationClass());</span>
+<span class="fc" id="L250">      tableElement.before().accept(driver);</span>
+<span class="fc" id="L251">      tableService.insertCellValue(tableElement.tableType(), row, tableElement.rowsRepresentationClass(), field,</span>
+            index, value);
+<span class="fc" id="L253">      tableElement.after().accept(driver);</span>
+<span class="fc" id="L254">      Allure.step(&quot;[UI - Table] Successfully inserted value into cell&quot;);</span>
+<span class="fc" id="L255">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Inserts values into a specific cell in the row that matches the given search criteria.
+    *
+    * @param &lt;K&gt;            The type representing the table row.
+    * @param tableElement   The table element where the value will be inserted.
+    * @param searchCriteria A list of values used to locate the row.
+    * @param field          The field within the row where the values should be inserted.
+    * @param values         The values to be inserted into the specified field.
+    * @return The fluent UI service instance for method chaining.
+    */
+   public final &lt;K&gt; T insertCellValue(TableElement&lt;?&gt; tableElement, List&lt;String&gt; searchCriteria,
+                                      TableField&lt;K&gt; field,
+                                      String... values) {
+<span class="fc" id="L271">      Allure.step(&quot;[UI - Table] Inserting cell value for search criteria: &quot; + searchCriteria + FIELD + field);</span>
+<span class="fc" id="L272">      validateArguments(field, tableElement.rowsRepresentationClass());</span>
+<span class="fc" id="L273">      tableElement.before().accept(driver);</span>
+<span class="fc" id="L274">      tableService.insertCellValue(tableElement.tableType(), searchCriteria, tableElement.rowsRepresentationClass(),</span>
+            field, 1, values);
+<span class="fc" id="L276">      tableElement.after().accept(driver);</span>
+<span class="fc" id="L277">      Allure.step(&quot;[UI - Table] Successfully inserted value for search criteria&quot;);</span>
+<span class="fc" id="L278">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Inserts values into a specific cell in the row that matches the given search criteria, at the given index.
+    *
+    * @param &lt;K&gt;            The type representing the table row.
+    * @param tableElement   The table element where the value will be inserted.
+    * @param searchCriteria A list of values used to locate the row.
+    * @param field          The field within the row where the values should be inserted.
+    * @param index          The index of the cell within the row (1-based index).
+    * @param values         The values to be inserted into the specified field.
+    * @return The fluent UI service instance for method chaining.
+    */
+   public final &lt;K&gt; T insertCellValue(TableElement&lt;?&gt; tableElement, List&lt;String&gt; searchCriteria,
+                                      TableField&lt;K&gt; field,
+                                      int index, String... values) {
+<span class="fc" id="L295">      Allure.step(&quot;[UI - Table] Inserting cell value at index: &quot; + index + &quot; for search criteria: &quot;</span>
+            + searchCriteria + FIELD + field);
+<span class="fc" id="L297">      validateArguments(field, tableElement.rowsRepresentationClass());</span>
+<span class="fc" id="L298">      tableElement.before().accept(driver);</span>
+<span class="fc" id="L299">      tableService.insertCellValue(tableElement.tableType(), searchCriteria, tableElement.rowsRepresentationClass(),</span>
+            field, index, values);
+<span class="fc" id="L301">      tableElement.after().accept(driver);</span>
+<span class="fc" id="L302">      Allure.step(&quot;[UI - Table] Successfully inserted value at index&quot;);</span>
+<span class="fc" id="L303">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Inserts a full data object into a specific row in the table at the given index.
+    *
+    * @param &lt;K&gt;          The type representing the table row.
+    * @param tableElement The table element where the data will be inserted.
+    * @param row          The row index (1-based index).
+    * @param data         The object containing values to be inserted into the row.
+    * @return The fluent UI service instance for method chaining.
+    */
+   public final &lt;K&gt; T insertCellValueAsData(TableElement&lt;?&gt; tableElement, int row, K data) {
+<span class="fc" id="L316">      Allure.step(&quot;[UI - Table] Inserting data into row: &quot; + row + USING_DATA + data);</span>
+<span class="fc bfc" id="L317" title="All 2 branches covered.">      if (!tableElement.rowsRepresentationClass().equals(data.getClass())) {</span>
+<span class="fc" id="L318">         throw new IllegalArgumentException(</span>
+<span class="fc" id="L319">               &quot;The Data object must be from class: &quot; + tableElement.rowsRepresentationClass());</span>
+      }
+<span class="fc" id="L321">      tableElement.before().accept(driver);</span>
+<span class="fc" id="L322">      tableService.insertCellValue(tableElement.tableType(), row, tableElement.rowsRepresentationClass(), data);</span>
+<span class="fc" id="L323">      tableElement.after().accept(driver);</span>
+<span class="fc" id="L324">      Allure.step(&quot;[UI - Table] Successfully inserted data into row&quot;);</span>
+<span class="fc" id="L325">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Inserts a full data object into a row that matches the given search criteria.
+    *
+    * &lt;p&gt;This method finds a row in the table that matches the search criteria and inserts values
+    * into multiple fields based on the provided data object.
+    *
+    * @param &lt;K&gt;            The type representing the table row.
+    * @param tableElement   The table element where the data will be inserted.
+    * @param searchCriteria A list of values used to locate the row.
+    * @param data           The object containing values to be inserted into the row.
+    * @return The fluent UI service instance for method chaining.
+    */
+   public final &lt;K&gt; T insertCellValueAsData(TableElement&lt;?&gt; tableElement, List&lt;String&gt; searchCriteria, K data) {
+<span class="fc" id="L341">      Allure.step(&quot;[UI - Table] Inserting data for search criteria: &quot; + searchCriteria + USING_DATA + data);</span>
+<span class="fc bfc" id="L342" title="All 2 branches covered.">      if (!tableElement.rowsRepresentationClass().equals(data.getClass())) {</span>
+<span class="fc" id="L343">         throw new IllegalArgumentException(</span>
+<span class="fc" id="L344">               &quot;The Data object must be from class: &quot; + tableElement.rowsRepresentationClass());</span>
+      }
+<span class="fc" id="L346">      tableElement.before().accept(driver);</span>
+<span class="fc" id="L347">      tableService.insertCellValue(tableElement.tableType(), searchCriteria, tableElement.rowsRepresentationClass(),</span>
+            data);
+<span class="fc" id="L349">      tableElement.after().accept(driver);</span>
+<span class="fc" id="L350">      Allure.step(&quot;[UI - Table] Successfully inserted data for search criteria&quot;);</span>
+<span class="fc" id="L351">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Filters a table column based on the specified filtering strategy.
+    *
+    * @param &lt;K&gt;            The type representing table rows.
+    * @param tableElement   The table element to filter.
+    * @param column         The table column field to filter.
+    * @param filterStrategy The filtering strategy to apply.
+    * @param values         The values to filter by.
+    * @return The fluent UI service instance.
+    */
+   public final &lt;K&gt; T filterTable(TableElement&lt;?&gt; tableElement,
+                                  TableField&lt;K&gt; column,
+                                  FilterStrategy filterStrategy, String... values) {
+<span class="fc" id="L367">      Allure.step(&quot;[UI - Table] Filtering table using column: &quot; + column + &quot; with strategy: &quot; + filterStrategy</span>
+<span class="fc" id="L368">            + &quot; and values: &quot; + Arrays.toString(values));</span>
+<span class="fc" id="L369">      validateArguments(column, tableElement.rowsRepresentationClass());</span>
+<span class="fc" id="L370">      tableElement.before().accept(driver);</span>
+<span class="fc" id="L371">      tableService.filterTable(tableElement.tableType(), tableElement.rowsRepresentationClass(), column,</span>
+            filterStrategy, values);
+<span class="fc" id="L373">      tableElement.after().accept(driver);</span>
+<span class="fc" id="L374">      Allure.step(&quot;[UI - Table] Successfully filtered table&quot;);</span>
+<span class="fc" id="L375">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Sorts a table column based on the specified sorting strategy.
+    *
+    * @param &lt;K&gt;             The type representing table rows.
+    * @param tableElement    The table element to sort.
+    * @param column          The table column field to sort.
+    * @param sortingStrategy The sorting strategy to apply.
+    * @return The fluent UI service instance.
+    */
+   public final &lt;K&gt; T sortTable(TableElement&lt;?&gt; tableElement, TableField&lt;K&gt; column,
+                                SortingStrategy sortingStrategy) {
+<span class="fc" id="L389">      Allure.step(&quot;[UI - Table] Sorting table using column: &quot; + column + &quot; with strategy: &quot; + sortingStrategy);</span>
+<span class="fc" id="L390">      validateArguments(column, tableElement.rowsRepresentationClass());</span>
+<span class="fc" id="L391">      tableElement.before().accept(driver);</span>
+<span class="fc" id="L392">      tableService.sortTable(tableElement.tableType(), tableElement.rowsRepresentationClass(), column,</span>
+            sortingStrategy);
+<span class="fc" id="L394">      tableElement.after().accept(driver);</span>
+<span class="fc" id="L395">      Allure.step(&quot;[UI - Table] Successfully sorted table&quot;);</span>
+<span class="fc" id="L396">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Clicks an element inside a specific cell within a row of the table at the given index.
+    *
+    * @param &lt;K&gt;          The type representing the table row.
+    * @param tableElement The table element where the action will be performed.
+    * @param row          The row index (1-based index).
+    * @param field        The field within the row that should be clicked.
+    * @return The fluent UI service instance for method chaining.
+    */
+   public final &lt;K&gt; T clickElementInCell(TableElement&lt;?&gt; tableElement, int row,
+                                         TableField&lt;K&gt; field) {
+<span class="fc" id="L410">      Allure.step(UI_TABLE_CLICKING_ELEMENT_IN_CELL_AT_ROW + row + FIELD + field);</span>
+<span class="fc" id="L411">      return insertCellValue(tableElement, row, field);</span>
+   }
+
+   /**
+    * Clicks an element inside a specific cell within a row of the table at the given cell index.
+    *
+    * @param &lt;K&gt;          The type representing the table row.
+    * @param tableElement The table element where the action will be performed.
+    * @param row          The row index (1-based index).
+    * @param field        The field within the row that should be clicked.
+    * @param index        The index of the cell within the row (1-based index).
+    * @return The fluent UI service instance for method chaining.
+    */
+   public final &lt;K&gt; T clickElementInCell(TableElement&lt;?&gt; tableElement, int row, TableField&lt;K&gt; field, int index) {
+<span class="fc" id="L425">      Allure.step(UI_TABLE_CLICKING_ELEMENT_IN_CELL_AT_ROW + row + FIELD + field + INDEX + index);</span>
+<span class="fc" id="L426">      return insertCellValue(tableElement, row, field, index);</span>
+   }
+
+   /**
+    * Clicks an element inside a specific cell in the row that matches the given search criteria.
+    *
+    * @param &lt;K&gt;            The type representing the table row.
+    * @param tableElement   The table element where the action will be performed.
+    * @param searchCriteria A list of values used to locate the row.
+    * @param field          The field within the row that should be clicked.
+    * @return The fluent UI service instance for method chaining.
+    */
+   public final &lt;K&gt; T clickElementInCell(TableElement&lt;?&gt; tableElement, List&lt;String&gt; searchCriteria,
+                                         TableField&lt;K&gt; field) {
+<span class="fc" id="L440">      Allure.step(</span>
+            UI_TABLE_CLICKING_ELEMENT_IN_CELL_FOR_SEARCH_CRITERIA + searchCriteria + FIELD + field);
+<span class="fc" id="L442">      return insertCellValue(tableElement, searchCriteria, field);</span>
+   }
+
+   /**
+    * Clicks an element inside a specific cell in the row that matches the given search criteria at the given index.
+    *
+    * @param &lt;K&gt;            The type representing the table row.
+    * @param tableElement   The table element where the action will be performed.
+    * @param searchCriteria A list of values used to locate the row.
+    * @param field          The field within the row that should be clicked.
+    * @param index          The index of the cell within the row (1-based index).
+    * @return The fluent UI service instance for method chaining.
+    */
+   public final &lt;K&gt; T clickElementInCell(TableElement&lt;?&gt; tableElement, List&lt;String&gt; searchCriteria,
+                                         TableField&lt;K&gt; field, int index) {
+<span class="fc" id="L457">      Allure.step(UI_TABLE_CLICKING_ELEMENT_IN_CELL_FOR_SEARCH_CRITERIA + searchCriteria + FIELD + field</span>
+            + INDEX + index);
+<span class="fc" id="L459">      return insertCellValue(tableElement, searchCriteria, field, index);</span>
+   }
+
+   /**
+    * Clicks an element inside a specific row in the table based on the given data object.
+    *
+    * @param &lt;K&gt;          The type representing the table row.
+    * @param tableElement The table element where the action will be performed.
+    * @param row          The row index (1-based index).
+    * @param data         The object containing values to locate and interact with elements inside the row.
+    * @return The fluent UI service instance for method chaining.
+    */
+   public final &lt;K&gt; T clickElementInCell(TableElement&lt;?&gt; tableElement, int row, K data) {
+<span class="fc" id="L472">      Allure.step(UI_TABLE_CLICKING_ELEMENT_IN_CELL_AT_ROW + row + USING_DATA + data);</span>
+<span class="fc" id="L473">      return insertCellValueAsData(tableElement, row, data);</span>
+   }
+
+   /**
+    * Clicks an element inside a specific row in the table based on the given search criteria and data object.
+    *
+    * @param &lt;K&gt;            The type representing the table row.
+    * @param tableElement   The table element where the action will be performed.
+    * @param searchCriteria A list of values used to locate the row.
+    * @param data           The object containing values to locate and interact with elements inside the row.
+    * @return The fluent UI service instance for method chaining.
+    */
+   public final &lt;K&gt; T clickElementInCell(TableElement&lt;?&gt; tableElement, List&lt;String&gt; searchCriteria, K data) {
+<span class="fc" id="L486">      Allure.step(UI_TABLE_CLICKING_ELEMENT_IN_CELL_FOR_SEARCH_CRITERIA + searchCriteria + USING_DATA + data);</span>
+<span class="fc" id="L487">      return insertCellValueAsData(tableElement, searchCriteria, data);</span>
+   }
+
+   private &lt;K&gt; void validateArguments(TableField&lt;K&gt; field, Class&lt;K&gt; expectedClass) {
+      try {
+<span class="fc" id="L492">         K instance = expectedClass.getDeclaredConstructor().newInstance();</span>
+<span class="fc" id="L493">         field.invoke(instance, null);</span>
+<span class="fc" id="L494">      } catch (Exception e) {</span>
+<span class="fc" id="L495">         throw new IllegalArgumentException(&quot;The TableField objects should be from class: &quot; + expectedClass);</span>
+<span class="fc" id="L496">      }</span>
+<span class="fc" id="L497">   }</span>
+
+   /**
+    * Validates the table contents against the given assertions.
+    *
+    * @param tableElement The table element to validate.
+    * @param assertions   The assertions to verify.
+    * @return The fluent UI service instance.
+    */
+   @SuppressWarnings(&quot;java:S1854&quot;)
+   public T validate(TableElement&lt;?&gt; tableElement, Assertion... assertions) {
+<span class="fc" id="L508">      Allure.step(&quot;[UI - Table] Validating table element: &quot; + tableElement + &quot; with assertions: &quot;</span>
+<span class="fc" id="L509">            + Arrays.toString(assertions));</span>
+<span class="fc" id="L510">      Object tableData = storage.sub(UI).get(tableElement.enumImpl(), Object.class);</span>
+<span class="fc bfc" id="L511" title="All 2 branches covered.">      if (tableData == null) {</span>
+<span class="fc" id="L512">         throw new IllegalArgumentException(&quot;No table data found for key: &quot; + tableElement.enumImpl());</span>
+      }
+
+<span class="fc" id="L515">      var validationResults = tableService.validate(tableData, assertions);</span>
+<span class="fc" id="L516">      decoratorsFactory.decorate(uiServiceFluent, SuperUiServiceFluent.class)</span>
+<span class="fc" id="L517">            .validation(validationResults);</span>
+
+<span class="fc" id="L519">      Allure.step(&quot;[UI - Table] Validation completed for table element&quot;);</span>
+<span class="fc" id="L520">      return uiServiceFluent;</span>
+   }
+
+}
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,0 +1,10 @@
+io\cyborgcode\roa\validator\core\AssertionType.class
+io\cyborgcode\roa\validator\core\AssertionResult.class
+io\cyborgcode\roa\validator\util\AssertionUtil.class
+io\cyborgcode\roa\validator\registry\AssertionRegistry.class
+io\cyborgcode\roa\validator\core\Assertion$AssertionBuilder.class
+io\cyborgcode\roa\validator\core\AssertionTarget.class
+io\cyborgcode\roa\validator\core\Assertion.class
+io\cyborgcode\roa\validator\core\AssertionTypes.class
+io\cyborgcode\roa\validator\exceptions\InvalidAssertionException.class
+io\cyborgcode\roa\validator\functions\AssertionFunctions.class

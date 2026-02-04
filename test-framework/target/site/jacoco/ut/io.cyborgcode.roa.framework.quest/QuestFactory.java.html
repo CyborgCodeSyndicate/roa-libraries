@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>QuestFactory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Core Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.framework.quest</a> &gt; <span class="el_source">QuestFactory.java</span></div><h1>QuestFactory.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.framework.quest;
+
+import io.cyborgcode.roa.framework.chain.FluentService;
+import io.cyborgcode.roa.framework.chain.FluentServiceDecorator;
+import io.cyborgcode.roa.framework.decorators.DecoratorsFactory;
+import io.cyborgcode.roa.framework.log.LogQuest;
+import java.util.Collection;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+/**
+ * Factory responsible for creating and managing test execution instances.
+ *
+ * &lt;p&gt;This class provides a mechanism to create and configure new {@code Quest} instances,
+ * registering the necessary test services and setting up the execution environment.
+ * It ensures that each test scenario has a properly initialized execution context.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@Component
+@Lazy
+@Scope(&quot;prototype&quot;)
+public final class QuestFactory {
+
+   /**
+    * Factory responsible for creating and applying decorators to objects.
+    */
+   private DecoratorsFactory decoratorsFactory;
+
+   /**
+    * Collection of available {@code FluentService} instances to be registered in quests.
+    */
+   private final Collection&lt;FluentService&gt; fluentServices;
+
+   /**
+    * Constructs a new {@code QuestFactory} instance and initializes available fluent services.
+    *
+    * @param fluentServices The collection of fluent services to be used in quests.
+    */
+   @Autowired
+<span class="fc" id="L43">   public QuestFactory(Collection&lt;FluentService&gt; fluentServices) {</span>
+<span class="fc" id="L44">      this.fluentServices = fluentServices;</span>
+<span class="fc" id="L45">   }</span>
+
+   @Autowired
+   public void setDecoratorsFactory(DecoratorsFactory decoratorsFactory) {
+<span class="fc" id="L49">      this.decoratorsFactory = decoratorsFactory;</span>
+<span class="fc" id="L50">   }</span>
+
+   /**
+    * Creates a new {@code Quest} instance and sets up the test execution context.
+    *
+    * &lt;p&gt;A new {@code Quest} is instantiated, registered with the required services, and assigned
+    * to the {@code QuestHolder} for retrieval in the test lifecycle.
+    *
+    * @return The newly created {@code Quest} instance.
+    */
+   public Quest createQuest() {
+<span class="fc" id="L61">      Quest quest = new Quest();</span>
+<span class="fc" id="L62">      registerServices(quest);</span>
+<span class="fc" id="L63">      QuestHolder.set(new SuperQuest(quest));</span>
+<span class="fc" id="L64">      return quest;</span>
+   }
+
+   /**
+    * Registers the available test services into the provided {@code Quest} instance.
+    *
+    * &lt;p&gt;Each service is decorated, linked to the quest execution context, and initialized
+    * before being registered into the quest's service mapping.
+    *
+    * @param quest The quest instance where services will be registered.
+    */
+   private void registerServices(final Quest quest) {
+<span class="fc bfc" id="L76" title="All 2 branches covered.">      for (FluentService provider : fluentServices) {</span>
+<span class="fc" id="L77">         FluentServiceDecorator fluentServiceDecorator =</span>
+<span class="fc" id="L78">               decoratorsFactory.decorate(provider, FluentServiceDecorator.class);</span>
+<span class="fc" id="L79">         fluentServiceDecorator.setQuest(decoratorsFactory.decorate(quest, SuperQuest.class));</span>
+<span class="fc" id="L80">         fluentServiceDecorator.postQuestSetupInitialization();</span>
+<span class="fc" id="L81">         quest.registerRing(provider.getClass(), provider);</span>
+<span class="fc" id="L82">         LogQuest.extended(&quot;Service: '{}' has been registered for the quest&quot;,</span>
+<span class="fc" id="L83">               fluentServiceDecorator.getClass().getName());</span>
+<span class="fc" id="L84">      }</span>
+<span class="fc" id="L85">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

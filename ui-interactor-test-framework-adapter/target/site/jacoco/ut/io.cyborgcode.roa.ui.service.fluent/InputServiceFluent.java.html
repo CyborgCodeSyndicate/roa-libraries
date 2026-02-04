@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InputServiceFluent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.service.fluent</a> &gt; <span class="el_source">InputServiceFluent.java</span></div><h1>InputServiceFluent.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.service.fluent;
+
+import io.cyborgcode.roa.framework.storage.Storage;
+import io.cyborgcode.roa.ui.components.base.ComponentType;
+import io.cyborgcode.roa.ui.components.input.InputService;
+import io.cyborgcode.roa.ui.insertion.Insertion;
+import io.cyborgcode.roa.ui.selenium.InputUiElement;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.qameta.allure.Allure;
+import org.assertj.core.api.Assertions;
+import org.openqa.selenium.By;
+
+import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
+
+/**
+ * Provides fluent methods for interacting with input elements in a UI test automation framework.
+ *
+ * &lt;p&gt;This class enables structured interactions with input fields, supporting actions such as inserting,
+ * clearing, retrieving, and validating input values. It also allows checking input element states,
+ * including enabled/disabled states and error messages.
+ *
+ * &lt;p&gt;The generic type {@code T} represents the fluent UI service that extends {@link UiServiceFluent},
+ * ensuring method chaining returns the correct instance type.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@SuppressWarnings({&quot;java:S5960&quot;, &quot;unchecked&quot;})
+public class InputServiceFluent&lt;T extends UiServiceFluent&lt;?&gt;&gt; implements Insertion {
+
+   private final InputService inputService;
+   private final T uiServiceFluent;
+   private final Storage storage;
+   private final SmartWebDriver driver;
+
+   /**
+    * Constructs an instance of {@link InputServiceFluent}.
+    *
+    * @param uiServiceFluent The UI service fluent instance for chaining method calls.
+    * @param storage         The storage instance for persisting input-related data.
+    * @param inputService    The service handling input interactions.
+    * @param webDriver       The smart WebDriver instance for executing Selenium operations.
+    */
+   public InputServiceFluent(T uiServiceFluent, Storage storage, InputService inputService,
+<span class="fc" id="L44">                             SmartWebDriver webDriver) {</span>
+<span class="fc" id="L45">      this.inputService = inputService;</span>
+<span class="fc" id="L46">      this.uiServiceFluent = uiServiceFluent;</span>
+<span class="fc" id="L47">      this.storage = storage;</span>
+<span class="fc" id="L48">      driver = webDriver;</span>
+<span class="fc" id="L49">   }</span>
+
+   /**
+    * Inserts the specified value into the given input element.
+    *
+    * @param element The {@link InputUiElement} representing the input field.
+    * @param value   The value to insert.
+    * @return The UI service fluent instance for method chaining.
+    */
+   public T insert(final InputUiElement element, final String value) {
+<span class="fc" id="L59">      Allure.step(&quot;[UI - Input] Insert value '&quot; + value + &quot;' into input element: &quot; + element);</span>
+<span class="fc" id="L60">      element.before().accept(driver);</span>
+<span class="fc" id="L61">      inputService.insert(element.componentType(), element.locator(), value);</span>
+<span class="fc" id="L62">      element.after().accept(driver);</span>
+<span class="fc" id="L63">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Clears the content of the given input element.
+    *
+    * @param element The {@link InputUiElement} representing the input field.
+    * @return The UI service fluent instance for method chaining.
+    */
+   public T clear(final InputUiElement element) {
+<span class="fc" id="L73">      Allure.step(&quot;[UI - Input] Clear input element: &quot; + element);</span>
+<span class="fc" id="L74">      element.before().accept(driver);</span>
+<span class="fc" id="L75">      inputService.clear(element.componentType(), element.locator());</span>
+<span class="fc" id="L76">      element.after().accept(driver);</span>
+<span class="fc" id="L77">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Retrieves the current value from the given input element and stores it in {@link Storage}.
+    *
+    * @param element The {@link InputUiElement} representing the input field.
+    * @return The UI service fluent instance for method chaining.
+    */
+   public T getValue(final InputUiElement element) {
+<span class="fc" id="L87">      Allure.step(&quot;[UI - Input] Get value from input element: &quot; + element);</span>
+<span class="fc" id="L88">      element.before().accept(driver);</span>
+<span class="fc" id="L89">      String value = inputService.getValue(element.componentType(), element.locator());</span>
+<span class="fc" id="L90">      element.after().accept(driver);</span>
+<span class="fc" id="L91">      storage.sub(UI).put(element.enumImpl(), value);</span>
+<span class="fc" id="L92">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates that the given input element contains the expected value.
+    *
+    * @param element       The {@link InputUiElement} representing the input field.
+    * @param expectedValue The expected value to validate.
+    * @return The UI service fluent instance for method chaining.
+    */
+   public T validateValue(final InputUiElement element, String expectedValue) {
+<span class="fc" id="L103">      return validateValue(element, expectedValue, false);</span>
+   }
+
+   /**
+    * Validates that the given input element contains the expected value, with an option for soft assertions.
+    *
+    * @param element       The {@link InputUiElement} representing the input field.
+    * @param expectedValue The expected value to validate.
+    * @param soft          Whether to use soft assertions.
+    * @return The UI service fluent instance for method chaining.
+    */
+   public T validateValue(final InputUiElement element, String expectedValue, boolean soft) {
+<span class="fc" id="L115">      Allure.step(&quot;[UI - Input] Validate value of input element: &quot; + element + &quot; is equal to: &quot; + expectedValue);</span>
+<span class="fc" id="L116">      element.before().accept(driver);</span>
+<span class="fc" id="L117">      String value = inputService.getValue(element.componentType(), element.locator());</span>
+<span class="fc" id="L118">      element.after().accept(driver);</span>
+<span class="fc" id="L119">      storage.sub(UI).put(element.enumImpl(), value);</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L121">         return (T) uiServiceFluent.validate(</span>
+<span class="fc" id="L122">               softAssertions -&gt; softAssertions.assertThat(value).as(&quot;Validating Input value&quot;)</span>
+<span class="fc" id="L123">                     .isEqualTo(expectedValue));</span>
+      } else {
+<span class="fc" id="L125">         return (T) uiServiceFluent.validate(</span>
+<span class="fc" id="L126">               () -&gt; Assertions.assertThat(value).as(&quot;Validating Input value&quot;)</span>
+<span class="fc" id="L127">                     .isEqualTo(expectedValue));</span>
+      }
+   }
+
+   /**
+    * Checks if the given input element is enabled.
+    *
+    * @param element The {@link InputUiElement} representing the input field.
+    * @return The UI service fluent instance for method chaining.
+    */
+   public T isEnabled(final InputUiElement element) {
+<span class="fc" id="L138">      Allure.step(&quot;[UI - Input] Check if input element is enabled: &quot; + element);</span>
+<span class="fc" id="L139">      element.before().accept(driver);</span>
+<span class="fc" id="L140">      boolean enabled = inputService.isEnabled(element.componentType(), element.locator());</span>
+<span class="fc" id="L141">      element.after().accept(driver);</span>
+<span class="fc" id="L142">      storage.sub(UI).put(element.enumImpl(), enabled);</span>
+<span class="fc" id="L143">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates that the input element is enabled.
+    *
+    * @param element The {@link InputUiElement} representing the input field.
+    * @return The UI service fluent instance for method chaining.
+    */
+   public T validateIsEnabled(final InputUiElement element) {
+<span class="fc" id="L153">      return validateIsEnabled(element, true, false);</span>
+   }
+
+   /**
+    * Validates that the given input element is enabled or disabled, with an option for soft assertions.
+    *
+    * @param element The {@link InputUiElement} representing the input field.
+    * @param soft    Whether to use soft assertions.
+    * @return The UI service fluent instance for method chaining.
+    */
+   public T validateIsEnabled(final InputUiElement element, boolean soft) {
+<span class="fc" id="L164">      return validateIsEnabled(element, true, soft);</span>
+   }
+
+   private T validateIsEnabled(final InputUiElement element, boolean shouldBeEnabled, boolean soft) {
+<span class="fc" id="L168">      Allure.step(</span>
+<span class="fc bfc" id="L169" title="All 2 branches covered.">            &quot;[UI - Input] Validate if input element &quot; + element + &quot; is &quot; + (shouldBeEnabled ? &quot;enabled&quot; : &quot;disabled&quot;));</span>
+<span class="fc" id="L170">      element.before().accept(driver);</span>
+<span class="fc" id="L171">      boolean enabled = inputService.isEnabled(element.componentType(), element.locator());</span>
+<span class="fc" id="L172">      element.after().accept(driver);</span>
+<span class="fc" id="L173">      storage.sub(UI).put(element.enumImpl(), enabled);</span>
+
+<span class="fc bfc" id="L175" title="All 2 branches covered.">      String assertionMessage = shouldBeEnabled</span>
+<span class="fc" id="L176">            ? &quot;Validating input is enabled&quot;</span>
+<span class="fc" id="L177">            : &quot;Validating input is disabled&quot;;</span>
+
+<span class="fc bfc" id="L179" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L180">         return (T) uiServiceFluent.validate(</span>
+               softAssertions -&gt; {
+<span class="fc bfc" id="L182" title="All 2 branches covered.">                  if (shouldBeEnabled) {</span>
+<span class="fc" id="L183">                     softAssertions.assertThat(enabled).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L185">                     softAssertions.assertThat(enabled).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L187">               }</span>
+         );
+      } else {
+<span class="fc" id="L190">         return (T) uiServiceFluent.validate(</span>
+               () -&gt; {
+<span class="fc bfc" id="L192" title="All 2 branches covered.">                  if (shouldBeEnabled) {</span>
+<span class="fc" id="L193">                     Assertions.assertThat(enabled).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L195">                     Assertions.assertThat(enabled).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L197">               }</span>
+         );
+      }
+   }
+
+   /**
+    * Validates that the given input element is disabled.
+    *
+    * @param element The {@link InputUiElement} representing the input field.
+    * @return The UI service fluent instance for method chaining.
+    */
+   public T validateIsDisabled(final InputUiElement element) {
+<span class="fc" id="L209">      return validateIsEnabled(element, false, false);</span>
+   }
+
+   /**
+    * Validates that the given input element is disabled, with an option for soft assertions.
+    *
+    * @param element The {@link InputUiElement} representing the input field.
+    * @param soft    Whether to use soft assertions.
+    * @return The UI service fluent instance for method chaining.
+    */
+   public T validateIsDisabled(final InputUiElement element, boolean soft) {
+<span class="fc" id="L220">      return validateIsEnabled(element, false, soft);</span>
+   }
+
+   /**
+    * Retrieves and stores the error message associated with the given input element.
+    *
+    * @param element The {@link InputUiElement} representing the input field.
+    * @return The UI service fluent instance for method chaining.
+    */
+   public T getErrorMessage(final InputUiElement element) {
+<span class="fc" id="L230">      Allure.step(&quot;[UI - Input] Get error message for input element: &quot; + element);</span>
+<span class="fc" id="L231">      element.before().accept(driver);</span>
+<span class="fc" id="L232">      String errorMessage = inputService.getErrorMessage(element.componentType(), element.locator());</span>
+<span class="fc" id="L233">      element.after().accept(driver);</span>
+<span class="fc" id="L234">      storage.sub(UI).put(element.enumImpl(), errorMessage);</span>
+<span class="fc" id="L235">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates that the input element displays the expected error message.
+    *
+    * @param element         The {@link InputUiElement} representing the input field.
+    * @param expectedMessage The expected error message.
+    * @return The UI service fluent instance for method chaining.
+    */
+   public T validateErrorMessage(final InputUiElement element, String expectedMessage) {
+<span class="fc" id="L246">      return validateErrorMessage(element, expectedMessage, false);</span>
+   }
+
+   /**
+    * Validates that the error message displayed for the given input element matches the expected value.
+    *
+    * @param element         The {@link InputUiElement} representing the input field.
+    * @param expectedMessage The expected error message.
+    * @param soft            Whether to use soft assertions (non-blocking validation).
+    * @return The UI service fluent instance for method chaining.
+    */
+   public T validateErrorMessage(final InputUiElement element, String expectedMessage, boolean soft) {
+<span class="fc" id="L258">      Allure.step(</span>
+            &quot;[UI - Input] Validate error message for input element: &quot; + element + &quot; is equal to: &quot; + expectedMessage);
+<span class="fc" id="L260">      element.before().accept(driver);</span>
+<span class="fc" id="L261">      String errorMessage = inputService.getErrorMessage(element.componentType(), element.locator());</span>
+<span class="fc" id="L262">      element.after().accept(driver);</span>
+<span class="fc" id="L263">      storage.sub(UI).put(element.enumImpl(), errorMessage);</span>
+<span class="fc bfc" id="L264" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L265">         return (T) uiServiceFluent.validate(</span>
+<span class="fc" id="L266">               softAssertions -&gt; softAssertions.assertThat(errorMessage)</span>
+<span class="fc" id="L267">                     .as(&quot;Validating UI Message&quot;)</span>
+<span class="fc" id="L268">                     .isEqualTo(expectedMessage));</span>
+      } else {
+<span class="fc" id="L270">         return (T) uiServiceFluent.validate(</span>
+<span class="fc" id="L271">               () -&gt; Assertions.assertThat(errorMessage).as(&quot;Validating UI Message&quot;)</span>
+<span class="fc" id="L272">                     .isEqualTo(expectedMessage));</span>
+      }
+   }
+
+   /**
+    * Inserts a value into an input field using the component type and locator.
+    *
+    * @param componentType The component type of the input field.
+    * @param locator       The locator of the input field.
+    * @param values        The values to be inserted.
+    */
+   @Override
+   public void insertion(final ComponentType componentType, final By locator, final Object... values) {
+<span class="fc" id="L285">      Allure.step(&quot;[UI - Input] Insert values into input field with locator: &quot; + locator);</span>
+<span class="fc" id="L286">      inputService.insertion(componentType, locator, values);</span>
+<span class="fc" id="L287">   }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

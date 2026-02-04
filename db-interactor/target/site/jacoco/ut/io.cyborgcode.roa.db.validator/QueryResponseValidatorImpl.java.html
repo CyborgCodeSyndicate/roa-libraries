@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>QueryResponseValidatorImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Database Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.db.validator</a> &gt; <span class="el_source">QueryResponseValidatorImpl.java</span></div><h1>QueryResponseValidatorImpl.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.db.validator;
+
+import io.cyborgcode.roa.db.json.JsonPathExtractor;
+import io.cyborgcode.roa.db.log.LogDb;
+import io.cyborgcode.roa.db.query.QueryResponse;
+import io.cyborgcode.roa.validator.core.Assertion;
+import io.cyborgcode.roa.validator.core.AssertionResult;
+import io.cyborgcode.roa.validator.exceptions.InvalidAssertionException;
+import io.cyborgcode.roa.validator.util.AssertionUtil;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+/**
+ * Implements validation logic for database query responses.
+ *
+ * &lt;p&gt;This class applies assertions on query results, validating row counts,
+ * column values, and specific query outputs using JsonPath expressions.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@Component
+public class QueryResponseValidatorImpl implements QueryResponseValidator {
+
+   private final JsonPathExtractor jsonPathExtractor;
+
+   /**
+    * Constructs a new {@code QueryResponseValidatorImpl} with the necessary dependencies.
+    *
+    * @param jsonPathExtractor The JSON Path extractor for parsing query responses.
+    */
+   @Autowired
+<span class="fc" id="L35">   public QueryResponseValidatorImpl(final JsonPathExtractor jsonPathExtractor) {</span>
+<span class="fc" id="L36">      this.jsonPathExtractor = jsonPathExtractor;</span>
+<span class="fc" id="L37">   }</span>
+
+   /**
+    * Validates a query response against the given assertions.
+    *
+    * &lt;p&gt;This method supports validation of:
+    * &lt;ul&gt;
+    *     &lt;li&gt;Row count in the query result.&lt;/li&gt;
+    *     &lt;li&gt;Specific query result values using JsonPath.&lt;/li&gt;
+    *     &lt;li&gt;Presence of specific columns in the result set.&lt;/li&gt;
+    * &lt;/ul&gt;
+    *
+    * @param queryResponse The query response containing the result set.
+    * @param assertions    The assertions to validate against.
+    * @param &lt;T&gt;           The expected type for validation results.
+    * @return A list of assertion results indicating validation success or failure.
+    * @throws InvalidAssertionException If an assertion is missing a key or has invalid parameters.
+    * @throws IllegalArgumentException  If a required JsonPath expression or column does not exist.
+    */
+   @Override
+   @SuppressWarnings(&quot;unchecked&quot;)
+   public &lt;T&gt; List&lt;AssertionResult&lt;T&gt;&gt; validateQueryResponse(final QueryResponse queryResponse,
+                                                             final Assertion... assertions) {
+<span class="fc" id="L60">      LogDb.info(&quot;Starting query response validation with {} assertion(s).&quot;, assertions.length);</span>
+<span class="fc" id="L61">      Map&lt;String, T&gt; data = new HashMap&lt;&gt;();</span>
+
+<span class="fc bfc" id="L63" title="All 2 branches covered.">      for (Assertion assertion : assertions) {</span>
+<span class="fc" id="L64">         DbAssertionTarget target = (DbAssertionTarget) assertion.getTarget();</span>
+<span class="fc" id="L65">         String key = assertion.getKey();</span>
+
+<span class="pc bpc" id="L67" title="1 of 4 branches missed.">         switch (target) {</span>
+<span class="fc" id="L68">            case NUMBER_ROWS -&gt; handleNumberRows(queryResponse, data);</span>
+<span class="fc" id="L69">            case QUERY_RESULT -&gt; handleQueryResult(queryResponse, key, assertion, data);</span>
+<span class="fc" id="L70">            case COLUMNS -&gt; handleColumns(queryResponse, key, data);</span>
+<span class="nc" id="L71">            default -&gt; throw new InvalidAssertionException(&quot;Unhandled assertion target: &quot; + target);</span>
+         }
+      }
+
+<span class="fc" id="L75">      printAssertionTarget((Map&lt;String, Object&gt;) data);</span>
+<span class="fc" id="L76">      return AssertionUtil.validate(data, List.of(assertions));</span>
+   }
+
+
+   /**
+    * Logs the extracted data used for validation.
+    *
+    * @param data The extracted response data mapped to assertion keys.
+    */
+   protected void printAssertionTarget(Map&lt;String, Object&gt; data) {
+<span class="fc" id="L86">      LogDb.extended(&quot;Validation target: [{}]&quot;, data.toString());</span>
+<span class="fc" id="L87">   }</span>
+
+   private &lt;T&gt; void handleNumberRows(QueryResponse queryResponse, Map&lt;String, T&gt; data) {
+<span class="fc" id="L90">      data.put(&quot;numRows&quot;, (T) Integer.valueOf(queryResponse.getRows().size()));</span>
+<span class="fc" id="L91">   }</span>
+
+   private &lt;T&gt; void handleQueryResult(QueryResponse queryResponse, String key,
+                                      Assertion assertion, Map&lt;String, T&gt; data) {
+<span class="fc bfc" id="L95" title="All 2 branches covered.">      if (key == null) {</span>
+<span class="fc" id="L96">         throw new InvalidAssertionException(</span>
+               &quot;Assertion value must have a non-null key. Key must contain a valid JsonPath expression.&quot;);
+      }
+
+<span class="fc" id="L100">      Object value = jsonPathExtractor.extract(queryResponse.getRows(), key, Object.class);</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">      if (value == null) {</span>
+<span class="fc" id="L102">         throw new IllegalArgumentException(&quot;JsonPath expression: '&quot; + key + &quot;' not found in query result.&quot;);</span>
+      }
+
+<span class="fc" id="L105">      data.put(assertion.getKey(), (T) value);</span>
+<span class="fc" id="L106">   }</span>
+
+   private &lt;T&gt; void handleColumns(QueryResponse queryResponse, String key, Map&lt;String, T&gt; data) {
+<span class="fc bfc" id="L109" title="All 2 branches covered.">      if (key == null) {</span>
+<span class="fc" id="L110">         throw new InvalidAssertionException(</span>
+               &quot;Assertion value must have a non-null key. Key must contain a valid JsonPath expression.&quot;);
+      }
+
+<span class="fc bfc" id="L114" title="All 2 branches covered.">      if (queryResponse.getRows().isEmpty()) {</span>
+<span class="fc" id="L115">         throw new IllegalArgumentException(&quot;Query result is empty; cannot validate columns.&quot;);</span>
+      }
+
+<span class="fc" id="L118">      Object value = jsonPathExtractor.extract(queryResponse.getRows().get(0).keySet(), key, Object.class);</span>
+<span class="fc bfc" id="L119" title="All 2 branches covered.">      if (value == null) {</span>
+<span class="fc" id="L120">         throw new IllegalArgumentException(&quot;Column: '&quot; + key + &quot;' not found in query result.&quot;);</span>
+      }
+
+<span class="fc" id="L123">      data.put(key, (T) value);</span>
+<span class="fc" id="L124">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

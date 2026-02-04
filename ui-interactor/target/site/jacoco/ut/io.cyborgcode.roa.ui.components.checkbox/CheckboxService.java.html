@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CheckboxService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.checkbox</a> &gt; <span class="el_source">CheckboxService.java</span></div><h1>CheckboxService.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.checkbox;
+
+import io.cyborgcode.roa.ui.insertion.Insertion;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import io.cyborgcode.roa.ui.util.strategy.Strategy;
+import io.cyborgcode.utilities.reflections.ReflectionUtil;
+import java.util.List;
+import org.openqa.selenium.By;
+
+import static io.cyborgcode.roa.ui.config.UiConfigHolder.getUiConfig;
+
+/**
+ * Provides service-level methods for interacting with checkbox UI components.
+ *
+ * &lt;p&gt;This interface defines operations to select, deselect, and verify the state
+ * of checkboxes, delegating the actual interactions to specific implementations
+ * based on the configured {@link CheckboxComponentType}.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public interface CheckboxService extends Insertion {
+
+<span class="fc" id="L23">   CheckboxComponentType DEFAULT_TYPE = getDefaultType();</span>
+
+   /**
+    * Retrieves the default checkbox component type from the configuration.
+    *
+    * @return The default CheckboxComponentType.
+    */
+   private static CheckboxComponentType getDefaultType() {
+      try {
+<span class="fc" id="L32">         return ReflectionUtil.findEnumImplementationsOfInterface(CheckboxComponentType.class,</span>
+<span class="fc" id="L33">               getUiConfig().checkboxDefaultType(),</span>
+<span class="fc" id="L34">               getUiConfig().projectPackages());</span>
+<span class="fc" id="L35">      } catch (Exception ignored) {</span>
+<span class="fc" id="L36">         return null;</span>
+      }
+   }
+
+   /**
+    * Selects checkboxes with their specified text inside a container, using the default checkbox component type.
+    *
+    * @param container    The SmartWebElement container that contains the checkboxes.
+    * @param checkBoxText The text of the checkbox to click.
+    */
+   default void select(SmartWebElement container, String... checkBoxText) {
+<span class="fc" id="L47">      select(DEFAULT_TYPE, container, checkBoxText);</span>
+<span class="fc" id="L48">   }</span>
+
+   /**
+    * Selects checkboxes with the specified text inside a container, using the given checkbox component type.
+    *
+    * @param componentType The specific checkbox component type.
+    * @param container     The SmartWebElement container that contains the checkbox.
+    * @param checkBoxText  The text of the checkbox to click.
+    */
+   void select(CheckboxComponentType componentType, SmartWebElement container, String... checkBoxText);
+
+   /**
+    * Selects checkboxes inside a container based on a specified strategy, using the default checkbox component type.
+    *
+    * @param container The SmartWebElement container that contains the checkboxes.
+    * @param strategy  The strategy to determine which checkboxes to select.
+    * @return A string indicating the result of the selection process.
+    */
+   default String select(SmartWebElement container, Strategy strategy) {
+<span class="fc" id="L67">      return select(DEFAULT_TYPE, container, strategy);</span>
+   }
+
+   /**
+    * Selects checkboxes inside a container based on a specified strategy, using the given checkbox component type.
+    *
+    * @param componentType The specific checkbox component type.
+    * @param container     The SmartWebElement container that contains the checkboxes.
+    * @param strategy      The strategy to determine which checkboxes to select.
+    * @return A string indicating the result of the selection process.
+    */
+   String select(CheckboxComponentType componentType, SmartWebElement container, Strategy strategy);
+
+   /**
+    * Selects checkboxes with the specified text using the default checkbox component type.
+    *
+    * @param checkBoxText The text of the checkboxes to select.
+    */
+   default void select(String... checkBoxText) {
+<span class="fc" id="L86">      select(DEFAULT_TYPE, checkBoxText);</span>
+<span class="fc" id="L87">   }</span>
+
+   /**
+    * Selects checkboxes with the specified text using the given checkbox component type.
+    *
+    * @param componentType The specific checkbox component type.
+    * @param checkBoxText  The text of the checkboxes to select.
+    */
+   void select(CheckboxComponentType componentType, String... checkBoxText);
+
+   /**
+    * Selects checkboxes identified by specified locators, using the default checkbox component type.
+    *
+    * @param checkBoxLocator The locators for the checkboxes to select.
+    */
+   default void select(By... checkBoxLocator) {
+<span class="fc" id="L103">      select(DEFAULT_TYPE, checkBoxLocator);</span>
+<span class="fc" id="L104">   }</span>
+
+   /**
+    * Selects checkboxes identified by specified locators, using the given checkbox component type.
+    *
+    * @param componentType   The specific checkbox component type.
+    * @param checkBoxLocator The locators for the checkboxes to select.
+    */
+   void select(CheckboxComponentType componentType, By... checkBoxLocator);
+
+   /**
+    * Deselects checkboxes with their specified text inside a container, using the default checkbox component type.
+    *
+    * @param container    The SmartWebElement container that contains the checkboxes.
+    * @param checkBoxText The text of the checkbox to click.
+    */
+   default void deSelect(SmartWebElement container, String... checkBoxText) {
+<span class="fc" id="L121">      deSelect(DEFAULT_TYPE, container, checkBoxText);</span>
+<span class="fc" id="L122">   }</span>
+
+   /**
+    * Deselects checkboxes with the specified text inside a container, using the given checkbox component type.
+    *
+    * @param componentType The specific checkbox component type.
+    * @param container     The SmartWebElement container that contains the checkbox.
+    * @param checkBoxText  The text of the checkbox to click.
+    */
+   void deSelect(CheckboxComponentType componentType, SmartWebElement container, String... checkBoxText);
+
+   /**
+    * Deselects checkboxes inside a container based on a specified strategy, using the default checkbox component type.
+    *
+    * @param container The SmartWebElement container that contains the checkboxes.
+    * @param strategy  The strategy to determine which checkboxes to deselect.
+    * @return A string indicating the result of the deselection process.
+    */
+   default String deSelect(SmartWebElement container, Strategy strategy) {
+<span class="fc" id="L141">      return deSelect(DEFAULT_TYPE, container, strategy);</span>
+   }
+
+   /**
+    * Deselects checkboxes inside a container based on a specified strategy, using the given checkbox component type.
+    *
+    * @param componentType The specific checkbox component type.
+    * @param container     The SmartWebElement container that contains the checkboxes.
+    * @param strategy      The strategy to determine which checkboxes to deselect.
+    * @return A string indicating the result of the deselection process.
+    */
+   String deSelect(CheckboxComponentType componentType, SmartWebElement container, Strategy strategy);
+
+   /**
+    * Deselects checkboxes with the specified text using the default checkbox component type.
+    *
+    * @param checkBoxText The text of the checkboxes to deselect.
+    */
+   default void deSelect(String... checkBoxText) {
+<span class="fc" id="L160">      deSelect(DEFAULT_TYPE, checkBoxText);</span>
+<span class="fc" id="L161">   }</span>
+
+   /**
+    * Deselects checkboxes with the specified text using the given checkbox component type.
+    *
+    * @param componentType The specific checkbox component type.
+    * @param checkBoxText  The text of the checkboxes to deselect.
+    */
+   void deSelect(CheckboxComponentType componentType, String... checkBoxText);
+
+   /**
+    * Deselects checkboxes identified by specified locators, using the default checkbox component type.
+    *
+    * @param checkBoxLocator The locators for the checkboxes to deselect.
+    */
+   default void deSelect(By... checkBoxLocator) {
+<span class="fc" id="L177">      deSelect(DEFAULT_TYPE, checkBoxLocator);</span>
+<span class="fc" id="L178">   }</span>
+
+   /**
+    * Deselects checkboxes identified by specified locators, using the given checkbox component type.
+    *
+    * @param componentType   The specific checkbox component type.
+    * @param checkBoxLocator The locators for the checkboxes to deselect.
+    */
+   void deSelect(CheckboxComponentType componentType, By... checkBoxLocator);
+
+   /**
+    * Checks if the checkboxes with the specified text inside a container are selected, using the default checkbox
+    * component type.
+    *
+    * @param container    The SmartWebElement container that contains the checkboxes.
+    * @param checkBoxText The text of the checkboxes to verify.
+    * @return true if all specified checkboxes are selected, false otherwise.
+    */
+   default boolean areSelected(SmartWebElement container, String... checkBoxText) {
+<span class="fc" id="L197">      return areSelected(DEFAULT_TYPE, container, checkBoxText);</span>
+   }
+
+   /**
+    * Checks if the checkboxes with the specified text inside a container are selected, using the given checkbox
+    * component type.
+    *
+    * @param componentType The specific checkbox component type.
+    * @param container     The SmartWebElement container that contains the checkboxes.
+    * @param checkBoxText  The text of the checkboxes to verify.
+    * @return true if all specified checkboxes are selected, false otherwise.
+    */
+   boolean areSelected(CheckboxComponentType componentType, SmartWebElement container, String... checkBoxText);
+
+   /**
+    * Checks if the checkboxes with the specified text are selected, using the default checkbox component type.
+    *
+    * @param checkBoxText The text of the checkboxes to verify.
+    * @return true if all specified checkboxes are selected, false otherwise.
+    */
+   default boolean areSelected(String... checkBoxText) {
+<span class="fc" id="L218">      return areSelected(DEFAULT_TYPE, checkBoxText);</span>
+   }
+
+   /**
+    * Checks if the checkboxes with the specified text are selected, using the given checkbox component type.
+    *
+    * @param componentType The specific checkbox component type.
+    * @param checkBoxText  The text of the checkboxes to verify.
+    * @return true if all specified checkboxes are selected, false otherwise.
+    */
+   boolean areSelected(CheckboxComponentType componentType, String... checkBoxText);
+
+   /**
+    * Checks if the checkboxes identified by the specified locators are selected, using the default checkbox
+    * component type.
+    *
+    * @param checkBoxLocator The locators for the checkboxes to verify.
+    * @return true if all specified checkboxes are selected, false otherwise.
+    */
+   default boolean areSelected(By... checkBoxLocator) {
+<span class="fc" id="L238">      return areSelected(DEFAULT_TYPE, checkBoxLocator);</span>
+   }
+
+   /**
+    * Checks if the checkboxes identified by the specified locators are selected, using the given checkbox
+    * component type.
+    *
+    * @param componentType   The specific checkbox component type.
+    * @param checkBoxLocator The locators for the checkboxes to verify.
+    * @return true if all specified checkboxes are selected, false otherwise.
+    */
+   boolean areSelected(CheckboxComponentType componentType, By... checkBoxLocator);
+
+   /**
+    * Checks if the checkbox with the specified text inside a container is selected, using the default checkbox
+    * component type.
+    *
+    * @param container    The SmartWebElement container that contains the checkbox.
+    * @param checkBoxText The text of the checkbox to verify.
+    * @return true if the checkbox is selected, false otherwise.
+    */
+   default boolean isSelected(SmartWebElement container, String checkBoxText) {
+<span class="fc" id="L260">      return areSelected(DEFAULT_TYPE, container, checkBoxText);</span>
+   }
+
+   /**
+    * Checks if the checkbox with the specified text inside a container is selected, using the given checkbox
+    * component type.
+    *
+    * @param componentType The specific checkbox component type.
+    * @param container     The SmartWebElement container that contains the checkbox.
+    * @param checkBoxText  The text of the checkbox to verify.
+    * @return true if the checkbox is selected, false otherwise.
+    */
+   boolean isSelected(CheckboxComponentType componentType, SmartWebElement container, String checkBoxText);
+
+   /**
+    * Checks if the checkbox with the specified text is selected, using the default checkbox component type.
+    *
+    * @param checkBoxText The text of the checkbox to verify.
+    * @return true if the checkbox is selected, false otherwise.
+    */
+   default boolean isSelected(String checkBoxText) {
+<span class="fc" id="L281">      return areSelected(DEFAULT_TYPE, checkBoxText);</span>
+   }
+
+   /**
+    * Checks if the checkbox with the specified text is selected, using the given checkbox component type.
+    *
+    * @param componentType The specific checkbox component type.
+    * @param checkBoxText  The text of the checkbox to verify.
+    * @return true if the checkbox is selected, false otherwise.
+    */
+   boolean isSelected(CheckboxComponentType componentType, String checkBoxText);
+
+   /**
+    * Checks if the checkbox identified by the specified locator is selected, using the default checkbox component type.
+    *
+    * @param checkBoxLocator The locator for the checkbox to verify.
+    * @return true if the checkbox is selected, false otherwise.
+    */
+   default boolean isSelected(By checkBoxLocator) {
+<span class="fc" id="L300">      return areSelected(DEFAULT_TYPE, checkBoxLocator);</span>
+   }
+
+   /**
+    * Checks if the checkbox identified by the specified locator is selected, using the given checkbox component type.
+    *
+    * @param componentType   The specific checkbox component type.
+    * @param checkBoxLocator The locator for the checkbox to verify.
+    * @return true if the checkbox is selected, false otherwise.
+    */
+   boolean isSelected(CheckboxComponentType componentType, By checkBoxLocator);
+
+   /**
+    * Checks if the checkboxes with the specified text inside a container are enabled, using the default checkbox
+    * component type.
+    *
+    * @param container    The SmartWebElement container that contains the checkboxes.
+    * @param checkBoxText The text of the checkboxes to verify.
+    * @return true if all specified checkboxes are enabled, false otherwise.
+    */
+   default boolean areEnabled(SmartWebElement container, String... checkBoxText) {
+<span class="fc" id="L321">      return areEnabled(DEFAULT_TYPE, container, checkBoxText);</span>
+   }
+
+   /**
+    * Checks if the checkboxes with the specified text inside a container are enabled, using the given checkbox
+    * component type.
+    *
+    * @param componentType The specific checkbox component type.
+    * @param container     The SmartWebElement container that contains the checkboxes.
+    * @param checkBoxText  The text of the checkboxes to verify.
+    * @return true if all specified checkboxes are enabled, false otherwise.
+    */
+   boolean areEnabled(CheckboxComponentType componentType, SmartWebElement container, String... checkBoxText);
+
+   /**
+    * Checks if the checkboxes with the specified text are enabled, using the default checkbox component type.
+    *
+    * @param checkBoxText The text of the checkboxes to verify.
+    * @return true if all specified checkboxes are enabled, false otherwise.
+    */
+   default boolean areEnabled(String... checkBoxText) {
+<span class="fc" id="L342">      return areEnabled(DEFAULT_TYPE, checkBoxText);</span>
+   }
+
+   /**
+    * Checks if the checkboxes with the specified text are enabled, using the given checkbox component type.
+    *
+    * @param componentType The specific checkbox component type.
+    * @param checkBoxText  The text of the checkboxes to verify.
+    * @return true if all specified checkboxes are enabled, false otherwise.
+    */
+   boolean areEnabled(CheckboxComponentType componentType, String... checkBoxText);
+
+   /**
+    * Checks if the checkboxes identified by the specified locators are enabled, using the default checkbox
+    * component type.
+    *
+    * @param checkBoxLocator The locators for the checkboxes to verify.
+    * @return true if all specified checkboxes are enabled, false otherwise.
+    */
+   default boolean areEnabled(By... checkBoxLocator) {
+<span class="fc" id="L362">      return areEnabled(DEFAULT_TYPE, checkBoxLocator);</span>
+   }
+
+   /**
+    * Checks if the checkboxes identified by the specified locators are enabled, using the given checkbox
+    * component type.
+    *
+    * @param componentType   The specific checkbox component type.
+    * @param checkBoxLocator The locators for the checkboxes to verify.
+    * @return true if all specified checkboxes are enabled, false otherwise.
+    */
+   boolean areEnabled(CheckboxComponentType componentType, By... checkBoxLocator);
+
+   /**
+    * Checks if the checkbox with the specified text inside a container is enabled, using the default checkbox
+    * component type.
+    *
+    * @param container    The SmartWebElement container that contains the checkbox.
+    * @param checkBoxText The text of the checkbox to verify.
+    * @return true if the checkbox is enabled, false otherwise.
+    */
+   default boolean isEnabled(SmartWebElement container, String checkBoxText) {
+<span class="fc" id="L384">      return areEnabled(DEFAULT_TYPE, container, checkBoxText);</span>
+   }
+
+   /**
+    * Checks if the checkbox with the specified text inside a container is enabled, using the given checkbox
+    * component type.
+    *
+    * @param componentType The specific checkbox component type.
+    * @param container     The SmartWebElement container that contains the checkbox.
+    * @param checkBoxText  The text of the checkbox to verify.
+    * @return true if the checkbox is enabled, false otherwise.
+    */
+   boolean isEnabled(CheckboxComponentType componentType, SmartWebElement container, String checkBoxText);
+
+   /**
+    * Checks if the checkbox with the specified text is enabled, using the default checkbox component type.
+    *
+    * @param checkBoxText The text of the checkbox to verify.
+    * @return true if the checkbox is enabled, false otherwise.
+    */
+   default boolean isEnabled(String checkBoxText) {
+<span class="fc" id="L405">      return areEnabled(DEFAULT_TYPE, checkBoxText);</span>
+   }
+
+   /**
+    * Checks if the checkbox with the specified text is enabled, using the given checkbox component type.
+    *
+    * @param componentType The specific checkbox component type.
+    * @param checkBoxText  The text of the checkbox to verify.
+    * @return true if the checkbox is enabled, false otherwise.
+    */
+   boolean isEnabled(CheckboxComponentType componentType, String checkBoxText);
+
+   /**
+    * Checks if the checkbox identified by the specified locator is enabled, using the default checkbox component type.
+    *
+    * @param checkBoxLocator The locator for the checkbox to verify.
+    * @return true if the checkbox is enabled, false otherwise.
+    */
+   default boolean isEnabled(By checkBoxLocator) {
+<span class="fc" id="L424">      return areEnabled(DEFAULT_TYPE, checkBoxLocator);</span>
+   }
+
+   /**
+    * Checks if the checkbox identified by the specified locator is enabled, using the given checkbox component type.
+    *
+    * @param componentType   The specific checkbox component type.
+    * @param checkBoxLocator The locator for the checkbox to verify.
+    * @return true if the checkbox is enabled, false otherwise.
+    */
+   boolean isEnabled(CheckboxComponentType componentType, By checkBoxLocator);
+
+   /**
+    * Retrieves the text of all selected checkboxes inside a container, using the default checkbox component type.
+    *
+    * @param container The SmartWebElement container that contains the checkboxes.
+    * @return A list of strings representing the text of all selected checkboxes.
+    */
+   default List&lt;String&gt; getSelected(SmartWebElement container) {
+<span class="fc" id="L443">      return getSelected(DEFAULT_TYPE, container);</span>
+   }
+
+   /**
+    * Retrieves the text of all selected checkboxes inside a container, using the given checkbox component type.
+    *
+    * @param componentType The specific checkbox component type.
+    * @param container     The SmartWebElement container that contains the checkboxes.
+    * @return A list of strings representing the text of all selected checkboxes.
+    */
+   List&lt;String&gt; getSelected(CheckboxComponentType componentType, SmartWebElement container);
+
+   /**
+    * Retrieves the text of all selected checkboxes inside a container identified by the specified locator, using the
+    * default checkbox component type.
+    *
+    * @param containerLocator The locator for the container that contains the checkboxes.
+    * @return A list of strings representing the text of all selected checkboxes.
+    */
+   default List&lt;String&gt; getSelected(By containerLocator) {
+<span class="fc" id="L463">      return getSelected(DEFAULT_TYPE, containerLocator);</span>
+   }
+
+   /**
+    * Retrieves the text of all selected checkboxes inside a container identified by the specified locator, using the
+    * given checkbox component type.
+    *
+    * @param componentType    The specific checkbox component type.
+    * @param containerLocator The locator for the container that contains the checkboxes.
+    * @return A list of strings representing the text of all selected checkboxes.
+    */
+   List&lt;String&gt; getSelected(CheckboxComponentType componentType, By containerLocator);
+
+   /**
+    * Retrieves the text of all checkboxes inside a container, regardless of their state, using the default checkbox
+    * component type.
+    *
+    * @param container The SmartWebElement container that contains the checkboxes.
+    * @return A list of strings representing the text of all checkboxes.
+    */
+   default List&lt;String&gt; getAll(SmartWebElement container) {
+<span class="fc" id="L484">      return getAll(DEFAULT_TYPE, container);</span>
+   }
+
+   /**
+    * Retrieves the text of all checkboxes inside a container, regardless of their state, using the given checkbox
+    * component type.
+    *
+    * @param componentType The specific checkbox component type.
+    * @param container     The SmartWebElement container that contains the checkboxes.
+    * @return A list of strings representing the text of all checkboxes.
+    */
+   List&lt;String&gt; getAll(CheckboxComponentType componentType, SmartWebElement container);
+
+   /**
+    * Retrieves the text of all checkboxes inside a container identified by the specified locator, regardless of their
+    * state, using the default checkbox component type.
+    *
+    * @param containerLocator The locator for the container that contains the checkboxes.
+    * @return A list of strings representing the text of all checkboxes.
+    */
+   default List&lt;String&gt; getAll(By containerLocator) {
+<span class="fc" id="L505">      return getAll(DEFAULT_TYPE, containerLocator);</span>
+   }
+
+   /**
+    * Retrieves the text of all checkboxes inside a container identified by the specified locator, regardless of their
+    * state, using the given checkbox component type.
+    *
+    * @param componentType    The specific checkbox component type.
+    * @param containerLocator The locator for the container that contains the checkboxes.
+    * @return A list of strings representing the text of all checkboxes.
+    */
+   List&lt;String&gt; getAll(CheckboxComponentType componentType, By containerLocator);
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

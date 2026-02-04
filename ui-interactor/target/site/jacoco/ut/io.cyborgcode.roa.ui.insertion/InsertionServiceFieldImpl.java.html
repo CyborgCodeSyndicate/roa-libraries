@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InsertionServiceFieldImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.insertion</a> &gt; <span class="el_source">InsertionServiceFieldImpl.java</span></div><h1>InsertionServiceFieldImpl.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.insertion;
+
+import io.cyborgcode.roa.ui.annotations.InsertionField;
+import io.cyborgcode.roa.ui.components.base.ComponentType;
+import io.cyborgcode.utilities.reflections.ReflectionUtil;
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.FindBy;
+
+import static io.cyborgcode.roa.ui.config.UiConfigHolder.getUiConfig;
+
+/**
+ * Service implementation for processing fields annotated with {@link InsertionField}.
+ *
+ * &lt;p&gt;This class inspects the {@code InsertionField} annotation on object fields,
+ * builds the appropriate Selenium {@link By} locator, determines the target
+ * {@link ComponentType} enum, and delegates to the registered insertion service
+ * to insert values into the UI component.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class InsertionServiceFieldImpl extends BaseInsertionService&lt;InsertionField&gt; {
+
+   /**
+    * Constructs an instance of {@code InsertionServiceFieldImpl}.
+    *
+    * @param serviceRegistry The registry that maintains the mapping between component types and insertion services.
+    */
+   public InsertionServiceFieldImpl(final InsertionServiceRegistry serviceRegistry) {
+<span class="fc" id="L29">      super(serviceRegistry);</span>
+<span class="fc" id="L30">   }</span>
+
+   /**
+    * Returns the annotation class that this service handles ({@link InsertionField}).
+    *
+    * @return the {@link InsertionField} class
+    */
+   @Override
+   protected Class&lt;InsertionField&gt; getAnnotationClass() {
+<span class="fc" id="L39">      return InsertionField.class;</span>
+   }
+
+   /**
+    * Returns the processing order defined by the annotation.
+    *
+    * @param annotation the {@link InsertionField} annotation instance
+    * @return the order value indicating insertion priority
+    */
+   @Override
+   protected int getOrder(final InsertionField annotation) {
+<span class="fc" id="L50">      return annotation.order();</span>
+   }
+
+   /**
+    * Retrieves the enum class implementing {@link ComponentType} from the annotation.
+    *
+    * @param annotation the {@link InsertionField} annotation instance
+    * @return the {@code Class} object of the ComponentType enum specified in the annotation
+    */
+   @Override
+   protected Class&lt;? extends ComponentType&gt; getComponentTypeEnumClass(final InsertionField annotation) {
+<span class="fc" id="L61">      return annotation.type();</span>
+   }
+
+   /**
+    * Builds a Selenium {@link By} locator using the annotation's locator definition.
+    *
+    * @param annotation the {@link InsertionField} annotation containing locator info
+    * @return a {@link By} locator for finding the UI element
+    */
+   @Override
+   protected By buildLocator(final InsertionField annotation) {
+<span class="fc" id="L72">      return new FindBy.FindByBuilder().buildIt(annotation.locator(), null);</span>
+   }
+
+   /**
+    * Resolves the {@link ComponentType} enum constant based on annotation's componentType name.
+    *
+    * &lt;p&gt;Uses reflection to find the enum constant within the specified type class and project package.
+    *
+    * @param annotation the {@link InsertionField} annotation instance
+    * @return the {@link ComponentType} constant to use for insertion
+    */
+   @Override
+   protected ComponentType getType(final InsertionField annotation) {
+<span class="fc" id="L85">      final String componentTypeEnumName = annotation.componentType();</span>
+<span class="fc" id="L86">      final Class&lt;? extends ComponentType&gt; typeClass = annotation.type();</span>
+<span class="fc" id="L87">      return ReflectionUtil.findEnumImplementationsOfInterface(</span>
+<span class="fc" id="L88">            typeClass, componentTypeEnumName, getUiConfig().projectPackages()</span>
+      );
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

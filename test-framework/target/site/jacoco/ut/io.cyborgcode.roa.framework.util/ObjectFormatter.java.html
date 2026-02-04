@@ -1,0 +1,556 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ObjectFormatter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Core Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.framework.util</a> &gt; <span class="el_source">ObjectFormatter.java</span></div><h1>ObjectFormatter.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.framework.util;
+
+import io.cyborgcode.roa.framework.annotation.JourneyData;
+import io.qameta.allure.internal.shadowed.jackson.annotation.JsonInclude;
+import io.qameta.allure.internal.shadowed.jackson.databind.ObjectMapper;
+import io.qameta.allure.internal.shadowed.jackson.databind.SerializationFeature;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.lang.reflect.InaccessibleObjectException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.IdentityHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import org.junit.jupiter.api.extension.ExtensionContext;
+
+/**
+ * Utility class for formatting objects and their fields into various string representations.
+ *
+ * &lt;p&gt;Provides methods to format object fields, collections, arrays, generate HTML content from data,
+ * format annotations, process responses, and format journey data.
+ * &lt;/p&gt;
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public final class ObjectFormatter {
+
+   /**
+    * Cache for storing declared fields of classes.
+    */
+<span class="fc" id="L40">   private static final ConcurrentHashMap&lt;Class&lt;?&gt;, Field[]&gt; FIELDS_CACHE = new ConcurrentHashMap&lt;&gt;();</span>
+
+   /**
+    * ObjectMapper instance configured for JSON formatting.
+    */
+<span class="fc" id="L45">   private static final ObjectMapper OBJECT_MAPPER = createObjectMapper();</span>
+
+
+   private ObjectFormatter() {
+   }
+
+
+   /**
+    * Creates and configures an ObjectMapper with specific serialization settings.
+    *
+    * @return a configured ObjectMapper instance
+    */
+   private static ObjectMapper createObjectMapper() {
+<span class="fc" id="L58">      ObjectMapper mapper = new ObjectMapper();</span>
+<span class="fc" id="L59">      mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);</span>
+<span class="fc" id="L60">      mapper.enable(SerializationFeature.INDENT_OUTPUT);</span>
+<span class="fc" id="L61">      return mapper;</span>
+   }
+
+
+   /**
+    * Formats the fields of the provided object into a string representation.
+    * Uses a set to detect circular references.
+    *
+    * @param obj the object whose fields will be formatted
+    * @return a formatted string representing the object's fields
+    */
+   public static String formatObjectFields(Object obj) {
+<span class="fc" id="L73">      return formatObjectFields(obj, Collections.newSetFromMap(new IdentityHashMap&lt;&gt;()));</span>
+   }
+
+
+   /**
+    * Recursively formats the fields of the provided object, tracking visited objects to avoid circular references.
+    *
+    * @param obj     the object to format
+    * @param visited a set of already visited objects to prevent infinite recursion
+    * @return a formatted string representation of the object's fields
+    */
+   @SuppressWarnings(&quot;java:S3011&quot;)
+   private static String formatObjectFields(Object obj, Set&lt;Object&gt; visited) {
+<span class="fc bfc" id="L86" title="All 2 branches covered.">      if (obj == null) {</span>
+<span class="fc" id="L87">         return &quot;null&quot;;</span>
+      }
+<span class="fc bfc" id="L89" title="All 2 branches covered.">      if (visited.contains(obj)) {</span>
+<span class="fc" id="L90">         return &quot;[Circular Reference Detected]&quot;;</span>
+      }
+<span class="fc" id="L92">      visited.add(obj);</span>
+
+<span class="fc" id="L94">      Class&lt;?&gt; objClass = obj.getClass();</span>
+<span class="fc bfc" id="L95" title="All 4 branches covered.">      if (objClass.getPackageName().startsWith(&quot;java.&quot;) || objClass.isEnum()) {</span>
+<span class="fc" id="L96">         visited.remove(obj);</span>
+<span class="fc" id="L97">         return obj.toString();</span>
+      }
+
+<span class="fc" id="L100">      StringBuilder result = new StringBuilder(objClass.getSimpleName()).append(&quot; {\n&quot;);</span>
+      try {
+<span class="fc bfc" id="L102" title="All 2 branches covered.">         for (Field field : FIELDS_CACHE.computeIfAbsent(objClass, Class::getDeclaredFields)) {</span>
+<span class="fc" id="L103">            boolean isStatic = Modifier.isStatic(field.getModifiers());</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">            Object target = isStatic ? null : obj;</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">            if (!field.canAccess(target)) {</span>
+               try {
+<span class="fc" id="L107">                  field.setAccessible(true);</span>
+<span class="nc" id="L108">               } catch (InaccessibleObjectException e) {</span>
+<span class="nc" id="L109">                  result.append(field.getName()).append(&quot;: [Inaccessible Field]\n&quot;);</span>
+<span class="nc" id="L110">                  continue;</span>
+<span class="fc" id="L111">               }</span>
+            }
+<span class="fc" id="L113">            result.append(field.getName()).append(&quot;: &quot;)</span>
+<span class="fc" id="L114">                  .append(formatArgumentValue(field.get(obj), visited))</span>
+<span class="fc" id="L115">                  .append(&quot;\n&quot;);</span>
+         }
+<span class="nc" id="L117">      } catch (IllegalAccessException e) {</span>
+<span class="nc" id="L118">         result.append(&quot;[Error accessing fields]&quot;);</span>
+<span class="fc" id="L119">      }</span>
+<span class="fc" id="L120">      result.append(&quot;}&quot;);</span>
+<span class="fc" id="L121">      visited.remove(obj);</span>
+<span class="fc" id="L122">      return result.toString();</span>
+   }
+
+
+   /**
+    * Formats a single argument value, handling primitive types, collections, arrays, or objects.
+    *
+    * @param argument the argument value to format
+    * @param visited  a set of visited objects for circular reference detection
+    * @return a string representation of the argument value
+    */
+   private static String formatArgumentValue(Object argument, Set&lt;Object&gt; visited) {
+<span class="fc bfc" id="L134" title="All 2 branches covered.">      if (argument == null) {</span>
+<span class="fc" id="L135">         return &quot;null&quot;;</span>
+      }
+<span class="fc bfc" id="L137" title="All 6 branches covered.">      if (argument instanceof String || argument instanceof Number || argument instanceof Boolean) {</span>
+<span class="fc" id="L138">         return argument.toString();</span>
+      }
+<span class="fc bfc" id="L140" title="All 2 branches covered.">      if (argument instanceof Collection&lt;?&gt;) {</span>
+<span class="fc" id="L141">         return formatCollection((Collection&lt;?&gt;) argument, visited);</span>
+      }
+<span class="fc bfc" id="L143" title="All 2 branches covered.">      if (argument.getClass().isArray()) {</span>
+<span class="fc" id="L144">         return formatArray(argument, visited);</span>
+      }
+<span class="fc" id="L146">      return formatObjectFields(argument, visited);</span>
+   }
+
+
+   /**
+    * Formats a collection of objects into a comma-separated string representation.
+    *
+    * @param collection the collection to format
+    * @param visited    a set of visited objects for circular reference detection
+    * @return a string representation of the collection elements
+    */
+   private static String formatCollection(Collection&lt;?&gt; collection, Set&lt;Object&gt; visited) {
+<span class="fc" id="L158">      return collection.stream()</span>
+<span class="fc" id="L159">            .map(element -&gt; formatArgumentValue(element, visited))</span>
+<span class="fc" id="L160">            .collect(Collectors.joining(&quot;, &quot;));</span>
+   }
+
+
+   /**
+    * Formats an array of objects into a comma-separated string representation.
+    *
+    * @param array   the array to format
+    * @param visited a set of visited objects for circular reference detection
+    * @return a formatted string representation of the array elements
+    */
+   private static String formatArray(Object array, Set&lt;Object&gt; visited) {
+<span class="fc" id="L172">      int length = Array.getLength(array);</span>
+<span class="fc" id="L173">      return IntStream.range(0, length)</span>
+<span class="fc" id="L174">            .mapToObj(i -&gt; formatArgumentValue(Array.get(array, i), visited))</span>
+<span class="fc" id="L175">            .collect(Collectors.joining(&quot;, &quot;, &quot;[&quot;, &quot;]&quot;));</span>
+   }
+
+
+   /**
+    * Generates HTML content by loading an HTML template and replacing placeholders with formatted argument rows.
+    *
+    * @param arguments a map of Enum keys to LinkedList of objects representing arguments
+    * @return a string containing the generated HTML content
+    */
+   public static String generateHtmlContent(Map&lt;Enum&lt;?&gt;, List&lt;Object&gt;&gt; arguments) {
+<span class="fc" id="L186">      String htmlTemplate = ResourceLoader.loadResourceFile(&quot;allure/html/test-data.html&quot;);</span>
+<span class="fc" id="L187">      return htmlTemplate.replace(&quot;{{argumentRows}}&quot;, buildRowsFromMap(&quot;&quot;, arguments));</span>
+   }
+
+
+   /**
+    * Builds HTML table rows from a map of arguments.
+    *
+    * @param label a label used to filter certain keys (e.g. &quot;PreArguments&quot;)
+    * @param map   the map containing argument data
+    * @return a string containing HTML table rows
+    */
+   private static String buildRowsFromMap(String label, Map&lt;Enum&lt;?&gt;, List&lt;Object&gt;&gt; map) {
+<span class="pc bpc" id="L199" title="1 of 2 branches missed.">      if (&quot;PreArguments&quot;.equals(label)) {</span>
+<span class="nc" id="L200">         return &quot;&quot;;</span>
+      }
+<span class="fc" id="L202">      return map.entrySet().stream()</span>
+<span class="fc bfc" id="L203" title="All 4 branches covered.">            .filter(entry -&gt; entry.getValue() != null &amp;&amp; !entry.getValue().isEmpty())</span>
+<span class="fc" id="L204">            .map(entry -&gt; String.format(&quot;&lt;tr&gt;&lt;td&gt;%s&lt;/td&gt;&lt;td&gt;%s&lt;/td&gt;&lt;/tr&gt;&quot;,</span>
+<span class="fc" id="L205">                  entry.getKey(), formatObject(entry.getValue())))</span>
+<span class="fc" id="L206">            .collect(Collectors.joining());</span>
+   }
+
+
+   /**
+    * Formats a linked list of objects by concatenating their formatted field representations.
+    *
+    * @param objects the linked list of objects to format
+    * @return a string representation of the formatted objects
+    */
+   private static String formatObject(List&lt;Object&gt; objects) {
+<span class="pc bpc" id="L217" title="2 of 4 branches missed.">      return objects == null || objects.isEmpty() ? &quot;&quot; :</span>
+<span class="fc" id="L218">            objects.stream()</span>
+<span class="fc" id="L219">                  .filter(Objects::nonNull)</span>
+<span class="fc bfc" id="L220" title="All 2 branches covered.">                  .filter(obj -&gt; !obj.getClass().getName().contains(&quot;Lambda&quot;))</span>
+<span class="fc" id="L221">                  .map(ObjectFormatter::formatObjectFields)</span>
+<span class="fc" id="L222">                  .collect(Collectors.joining(&quot;, &quot;));</span>
+   }
+
+
+   /**
+    * Escapes HTML special characters in the provided input string.
+    *
+    * @param input the string to escape
+    * @return the escaped string suitable for HTML display
+    */
+   public static String escapeHtml(String input) {
+<span class="fc bfc" id="L233" title="All 2 branches covered.">      return input == null ? &quot;N/A&quot; : input.replace(&quot;&amp;&quot;, &quot;&amp;amp;&quot;)</span>
+<span class="fc" id="L234">            .replace(&quot;&lt;&quot;, &quot;&amp;lt;&quot;)</span>
+<span class="fc" id="L235">            .replace(&quot;&gt;&quot;, &quot;&amp;gt;&quot;)</span>
+<span class="fc" id="L236">            .replace(&quot;\&quot;&quot;, &quot;&amp;quot;&quot;)</span>
+<span class="fc" id="L237">            .replace(&quot;'&quot;, &quot;&amp;#39;&quot;)</span>
+<span class="fc" id="L238">            .replace(&quot;%&quot;, &quot;%%&quot;);</span>
+   }
+
+
+   /**
+    * Retrieves and formats annotations present on the test class associated with the provided extension context.
+    *
+    * @param context the JUnit extension context containing test class information
+    * @return a string containing formatted class annotations or a message if none are found
+    */
+   public static String getClassAnnotations(ExtensionContext context) {
+<span class="fc" id="L249">      String annotations = Arrays.stream(context.getRequiredTestClass().getAnnotations())</span>
+<span class="fc" id="L250">            .map(annotation -&gt; &quot;@&quot; + annotation.annotationType().getSimpleName()</span>
+<span class="fc bfc" id="L251" title="All 2 branches covered.">                  + (annotationHasArguments(annotation)</span>
+<span class="fc" id="L252">                  ? formatAnnotationArguments(annotation) : &quot;&quot;))</span>
+<span class="fc" id="L253">            .collect(Collectors.joining(&quot;\n&quot;));</span>
+
+<span class="fc bfc" id="L255" title="All 2 branches covered.">      return annotations.isEmpty() ? &quot;No class annotations&quot; : annotations;</span>
+   }
+
+
+   /**
+    * Retrieves and formats annotations present on the test method associated with the provided extension context.
+    *
+    * @param context the JUnit extension context containing test method information
+    * @return a string containing formatted method annotations
+    */
+   static String getMethodAnnotations(ExtensionContext context) {
+<span class="fc" id="L266">      return Arrays.stream(context.getRequiredTestMethod().getAnnotations())</span>
+<span class="fc" id="L267">            .map(ObjectFormatter::formatAnnotation)</span>
+<span class="fc" id="L268">            .collect(Collectors.joining(&quot;\n&quot;));</span>
+   }
+
+
+   /**
+    * Formats an annotation into a string including its simple name and any arguments.
+    *
+    * @param annotation the annotation to format
+    * @return a string representation of the annotation
+    */
+   private static String formatAnnotation(Annotation annotation) {
+<span class="fc" id="L279">      String annotationName = annotation.annotationType().getSimpleName();</span>
+<span class="fc" id="L280">      String arguments = formatAnnotationArguments(annotation);</span>
+
+<span class="fc bfc" id="L282" title="All 2 branches covered.">      return &quot;@&quot; + annotationName + (arguments.isEmpty() ? &quot;&quot; : arguments);</span>
+   }
+
+
+   /**
+    * Determines whether the provided annotation has any arguments.
+    *
+    * @param annotation the annotation to check
+    * @return true if the annotation has arguments, false otherwise
+    */
+   private static boolean annotationHasArguments(Annotation annotation) {
+<span class="fc" id="L293">      return Arrays.stream(annotation.annotationType().getDeclaredMethods())</span>
+<span class="fc" id="L294">            .anyMatch(method -&gt; {</span>
+               try {
+<span class="fc" id="L296">                  Object defaultValue = method.getDefaultValue();</span>
+<span class="fc" id="L297">                  Object actualValue = method.invoke(annotation);</span>
+<span class="fc bfc" id="L298" title="All 4 branches covered.">                  return defaultValue == null || !defaultValue.equals(actualValue);</span>
+<span class="nc" id="L299">               } catch (IllegalAccessException | InvocationTargetException | SecurityException e) {</span>
+<span class="nc" id="L300">                  return false;</span>
+<span class="nc" id="L301">               } catch (Exception e) {</span>
+<span class="nc" id="L302">                  throw new IllegalStateException(&quot;Unexpected exception occurred while processing annotation&quot;, e);</span>
+               }
+            });
+   }
+
+
+   /**
+    * Formats the arguments of an annotation into a comma-separated string enclosed in parentheses.
+    *
+    * @param annotation the annotation whose arguments will be formatted
+    * @return a string representation of the annotation's arguments
+    */
+   private static String formatAnnotationArguments(Annotation annotation) {
+<span class="fc" id="L315">      List&lt;String&gt; args = Arrays.stream(annotation.annotationType().getDeclaredMethods())</span>
+<span class="fc" id="L316">            .map(method -&gt; {</span>
+               try {
+<span class="fc" id="L318">                  Object value = method.invoke(annotation);</span>
+<span class="fc bfc" id="L319" title="All 2 branches covered.">                  if (value.getClass().isArray()) {</span>
+<span class="fc" id="L320">                     value = Arrays.toString((Object[]) value)</span>
+<span class="fc" id="L321">                           .replace(&quot;[&quot;, &quot;&quot;)</span>
+<span class="fc" id="L322">                           .replace(&quot;]&quot;, &quot;&quot;)</span>
+<span class="fc" id="L323">                           .replace(&quot;,&quot;, &quot;&quot;);</span>
+                  }
+<span class="fc bfc" id="L325" title="All 2 branches covered.">                  if (value.equals(method.getDefaultValue())) {</span>
+<span class="fc" id="L326">                     return &quot;&quot;;</span>
+                  }
+<span class="fc" id="L328">                  return method.getName() + &quot;=&quot; + value;</span>
+<span class="nc" id="L329">               } catch (IllegalAccessException | InvocationTargetException | SecurityException e) {</span>
+<span class="nc" id="L330">                  return method.getName() + &quot;=error&quot;;</span>
+<span class="nc" id="L331">               } catch (Exception e) {</span>
+<span class="nc" id="L332">                  throw new IllegalStateException(&quot;Unexpected exception occurred while formatting annotation arguments&quot;,</span>
+                        e);
+               }
+            })
+<span class="fc bfc" id="L336" title="All 2 branches covered.">            .filter(arg -&gt; !arg.isEmpty())</span>
+<span class="fc" id="L337">            .toList();</span>
+
+<span class="fc bfc" id="L339" title="All 2 branches covered.">      return args.isEmpty() ? &quot;&quot; : args.stream().collect(Collectors.joining(&quot;, &quot;, &quot;(&quot;, &quot;)&quot;));</span>
+   }
+
+
+   /**
+    * Formats a string of annotations into HTML rows with proper indentation.
+    *
+    * @param annotations the raw annotations string to format
+    * @return a string containing HTML formatted annotations
+    */
+   static String formatAnnotationsToNewRows(String annotations) {
+<span class="fc bfc" id="L350" title="All 4 branches covered.">      if (annotations == null || annotations.trim().isEmpty()) {</span>
+<span class="fc" id="L351">         return &quot;None&quot;;</span>
+      }
+<span class="fc" id="L353">      String[] annotationList = annotations.split(&quot;(?=@{1,2})&quot;);</span>
+
+<span class="fc" id="L355">      StringBuilder formattedAnnotations = new StringBuilder(&quot;&lt;pre class='annotation'&gt;&quot;);</span>
+<span class="fc" id="L356">      int indentLevel = 0;</span>
+
+<span class="fc bfc" id="L358" title="All 2 branches covered.">      for (String annotation : annotationList) {</span>
+<span class="fc bfc" id="L359" title="All 2 branches covered.">         if (annotation.trim().isEmpty()) {</span>
+<span class="fc" id="L360">            continue;</span>
+         }
+
+<span class="fc" id="L363">         String cleanedAnnotation = cleanAnnotation(annotation);</span>
+<span class="fc" id="L364">         String indentedAnnotation = applyIndentation(cleanedAnnotation, indentLevel);</span>
+
+<span class="fc" id="L366">         formattedAnnotations.append(getIndent(indentLevel)).append(indentedAnnotation).append(&quot;\n&quot;);</span>
+
+<span class="fc" id="L368">         indentLevel += countOccurrences(indentedAnnotation, &quot;{&quot;) + countOccurrences(indentedAnnotation, &quot;[&quot;);</span>
+<span class="fc" id="L369">         indentLevel -= countOccurrences(indentedAnnotation, &quot;}&quot;) + countOccurrences(indentedAnnotation, &quot;]&quot;);</span>
+      }
+
+<span class="fc" id="L372">      formattedAnnotations.append(&quot;&lt;/pre&gt;&quot;);</span>
+<span class="fc" id="L373">      return formattedAnnotations.toString();</span>
+   }
+
+
+   /**
+    * Cleans the annotation string by removing package names and unnecessary formatting.
+    *
+    * @param annotation the raw annotation string
+    * @return a cleaned annotation string
+    */
+   private static String cleanAnnotation(String annotation) {
+<span class="fc" id="L384">      return annotation.trim()</span>
+<span class="fc" id="L385">            .replace(&quot;io\\.cyborgcode\\.roa\\.framework\\.annotation\\.&quot;, &quot;&quot;)</span>
+<span class="fc" id="L386">            .replace(&quot;&lt;&quot;, &quot;&amp;lt;&quot;)</span>
+<span class="fc" id="L387">            .replace(&quot;&gt;&quot;, &quot;&amp;gt;&quot;)</span>
+<span class="fc" id="L388">            .replace(&quot;\n\n&quot;, &quot;\n&quot;)</span>
+<span class="fc" id="L389">            .replaceAll(&quot;value\\s*=\\s*&quot;, &quot;&quot;)</span>
+<span class="fc" id="L390">            .replaceAll(&quot;late\\s*=\\s*false,?&quot;, &quot;&quot;)</span>
+<span class="fc" id="L391">            .replaceAll(&quot;order\\s*=\\s*\\d+,?&quot;, &quot;&quot;)</span>
+<span class="fc" id="L392">            .replaceAll(&quot;useJavaDoc\\s*=\\s*false,?&quot;, &quot;&quot;)</span>
+<span class="fc" id="L393">            .replaceAll(&quot;@Description\\(([^)]+)\\)&quot;, &quot;@Description(\&quot;$1\&quot;)&quot;)</span>
+<span class="fc" id="L394">            .replace(&quot;\n&quot;, &quot;&quot;)</span>
+<span class="fc" id="L395">            .replaceAll(&quot;requestUrlSubStrings\\s*=\\s*\\[([^]]+)]&quot;, &quot;requestUrlSubStrings = [$1]&quot;);</span>
+   }
+
+
+   /**
+    * Applies indentation to the provided text based on the base indent level,
+    * formatting braces and commas appropriately.
+    *
+    * @param text            the text to format
+    * @param baseIndentLevel the base level of indentation
+    * @return the text with applied indentation
+    */
+   private static String applyIndentation(String text, int baseIndentLevel) {
+<span class="fc" id="L408">      return text</span>
+<span class="fc" id="L409">            .replace(&quot;\\{&quot;, &quot;{\n&quot; + getIndent(baseIndentLevel + 1))</span>
+<span class="fc" id="L410">            .replace(&quot;}&quot;, &quot;\n&quot; + getIndent(baseIndentLevel) + &quot;}&quot;)</span>
+<span class="fc" id="L411">            .replace(&quot;\\[&quot;, &quot;[\n&quot; + getIndent(baseIndentLevel + 1))</span>
+<span class="fc" id="L412">            .replace(&quot;]&quot;, &quot;\n&quot; + getIndent(baseIndentLevel) + &quot;]&quot;)</span>
+<span class="fc" id="L413">            .replace(&quot;,&quot;, &quot;,\n&quot; + getIndent(baseIndentLevel + 1))</span>
+<span class="fc" id="L414">            .replaceAll(&quot;\n\\s*\n&quot;, &quot;\n&quot;);</span>
+   }
+
+
+   /**
+    * Generates a string containing spaces for indentation.
+    *
+    * @param level the number of indent levels to generate
+    * @return a string representing the indentation (each level consists of 4 spaces)
+    */
+   private static String getIndent(int level) {
+<span class="fc" id="L425">      return &quot;    &quot;.repeat(level);</span>
+   }
+
+
+   /**
+    * Counts the number of occurrences of a target substring within a given string.
+    *
+    * @param str    the string to search in
+    * @param target the substring to count
+    * @return the count of occurrences of the target in the string
+    */
+   private static int countOccurrences(String str, String target) {
+<span class="fc" id="L437">      return str.length() - str.replace(target, &quot;&quot;).length();</span>
+   }
+
+
+   /**
+    * Formats a long text into multiple lines with a maximum of 80 characters per line, escaping HTML characters.
+    *
+    * @param text the text to format
+    * @return a string with formatted long text
+    */
+   static String formatLongText(String text) {
+<span class="fc bfc" id="L448" title="All 4 branches covered.">      if (text == null || text.trim().isEmpty()) {</span>
+<span class="fc" id="L449">         return &quot;None&quot;;</span>
+      }
+
+<span class="fc" id="L452">      text = text.replace(&quot;&lt;&quot;, &quot;&amp;lt;&quot;)</span>
+<span class="fc" id="L453">            .replace(&quot;&gt;&quot;, &quot;&amp;gt;&quot;);</span>
+
+<span class="fc" id="L455">      String[] words = text.split(&quot;\\s+&quot;);</span>
+<span class="fc" id="L456">      StringBuilder formattedText = new StringBuilder();</span>
+<span class="fc" id="L457">      StringBuilder currentLine = new StringBuilder();</span>
+
+<span class="fc bfc" id="L459" title="All 2 branches covered.">      for (String word : words) {</span>
+<span class="fc bfc" id="L460" title="All 2 branches covered.">         if (currentLine.length() + word.length() &gt; 80) {</span>
+<span class="fc" id="L461">            formattedText.append(currentLine.toString().trim()).append(&quot;&lt;br&gt;&quot;);</span>
+<span class="fc" id="L462">            currentLine = new StringBuilder();</span>
+         }
+<span class="fc" id="L464">         currentLine.append(word).append(&quot; &quot;);</span>
+      }
+
+<span class="fc" id="L467">      formattedText.append(currentLine.toString().trim());</span>
+<span class="fc" id="L468">      return formattedText.toString();</span>
+   }
+
+
+   /**
+    * Retrieves the test method's argument types from the provided extension context.
+    *
+    * @param context the JUnit extension context containing test instance and method information
+    * @return a string listing the test method's argument types or a message if none are available
+    */
+   static String getTestArguments(ExtensionContext context) {
+<span class="fc" id="L479">      return context.getTestInstance()</span>
+<span class="fc" id="L480">            .flatMap(instance -&gt; context.getTestMethod()</span>
+<span class="fc" id="L481">                  .map(method -&gt; Arrays.stream(method.getParameters())</span>
+<span class="fc" id="L482">                        .map(param -&gt; param.getType().getSimpleName())</span>
+<span class="fc" id="L483">                        .collect(Collectors.joining(&quot;, &quot;))))</span>
+<span class="fc" id="L484">            .orElse(&quot;No arguments available.&quot;);</span>
+   }
+
+
+   /**
+    * Formats processed journey data along with the corresponding original data into a readable string.
+    *
+    * @param originalData  an array of JourneyData annotations associated with the data
+    * @param processedData an array of processed data objects corresponding to the original data
+    * @return a formatted string representing the processed journey data
+    */
+   public static String formatProcessedData(JourneyData[] originalData, Object[] processedData) {
+<span class="fc bfc" id="L496" title="All 4 branches covered.">      if (processedData == null || processedData.length == 0) {</span>
+<span class="fc" id="L497">         return &quot;No data available&quot;;</span>
+      }
+
+<span class="fc" id="L500">      StringBuilder sb = new StringBuilder();</span>
+<span class="fc" id="L501">      sb.append(&quot;Processed Journey Data:\n&quot;);</span>
+<span class="fc" id="L502">      sb.append(&quot;-------------------\n&quot;);</span>
+
+<span class="fc bfc" id="L504" title="All 2 branches covered.">      for (int i = 0; i &lt; processedData.length; i++) {</span>
+<span class="fc" id="L505">         Object data = processedData[i];</span>
+<span class="fc" id="L506">         String journeyDataValue = extractJourneyDataValue(originalData[i]);</span>
+
+<span class="fc" id="L508">         sb.append(String.format(&quot;Journey: %s%n&quot;, journeyDataValue));</span>
+
+<span class="fc bfc" id="L510" title="All 2 branches covered.">         if (data == null) {</span>
+<span class="fc" id="L511">            sb.append(&quot;  Data: null\n&quot;);</span>
+         } else {
+<span class="fc" id="L513">            formatJsonData(sb, data);</span>
+         }
+
+<span class="fc bfc" id="L516" title="All 2 branches covered.">         if (i &lt; processedData.length - 1) {</span>
+<span class="fc" id="L517">            sb.append(&quot;\n&quot;);</span>
+         }
+      }
+
+<span class="fc" id="L521">      return sb.toString();</span>
+   }
+
+
+   /**
+    * Extracts the value from a JourneyData annotation.
+    *
+    * @param journeyData the JourneyData annotation
+    * @return the value contained in the annotation
+    */
+   private static String extractJourneyDataValue(JourneyData journeyData) {
+<span class="fc" id="L532">      return journeyData.value();</span>
+   }
+
+
+   /**
+    * Formats an object as JSON using the configured ObjectMapper and appends it to the provided StringBuilder.
+    * If JSON formatting fails, falls back to calling the object's toString method.
+    *
+    * @param sb   the StringBuilder to append the formatted JSON to
+    * @param data the data object to format as JSON
+    */
+   private static void formatJsonData(StringBuilder sb, Object data) {
+      try {
+<span class="fc" id="L545">         String formattedJson = OBJECT_MAPPER.writeValueAsString(data);</span>
+<span class="fc" id="L546">         String[] jsonLines = formattedJson.split(&quot;\n&quot;);</span>
+<span class="fc bfc" id="L547" title="All 2 branches covered.">         for (String line : jsonLines) {</span>
+<span class="fc" id="L548">            sb.append(&quot;  &quot;).append(line).append(&quot;\n&quot;);</span>
+         }
+<span class="fc" id="L550">      } catch (Exception e) {</span>
+<span class="fc" id="L551">         sb.append(&quot;  Data: &quot;).append(data.toString()).append(&quot;\n&quot;);</span>
+<span class="fc" id="L552">      }</span>
+<span class="fc" id="L553">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

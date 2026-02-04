@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RetryConditionDb.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation Database Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.db.retry</a> &gt; <span class="el_source">RetryConditionDb.java</span></div><h1>RetryConditionDb.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.db.retry;
+
+import io.cyborgcode.roa.db.query.DbQuery;
+import io.cyborgcode.roa.db.query.QueryResponse;
+import io.cyborgcode.roa.db.service.DatabaseService;
+import io.cyborgcode.roa.framework.retry.RetryCondition;
+import io.cyborgcode.roa.framework.retry.RetryConditionImpl;
+import java.util.function.Predicate;
+
+/**
+ * Provides retry conditions for database queries.
+ *
+ * &lt;p&gt;This class defines conditions for retrying operations based on database query results,
+ * allowing tests to wait until expected data is available.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public class RetryConditionDb {
+
+   private RetryConditionDb() {
+   }
+
+   /**
+    * Creates a retry condition that waits until a query returns at least one row.
+    *
+    * &lt;p&gt;This condition is useful for ensuring that data has been inserted before proceeding
+    * with further test steps.
+    *
+    * @param query The database query to execute.
+    * @return A {@code RetryCondition} that evaluates to {@code true} when the query returns rows.
+    */
+   public static RetryCondition&lt;Boolean&gt; queryReturnsRows(DbQuery&lt;?&gt; query) {
+<span class="fc" id="L33">      return new RetryConditionImpl&lt;&gt;(</span>
+            service -&gt; {
+<span class="fc" id="L35">               DatabaseService databaseService = (DatabaseService) service;</span>
+<span class="fc" id="L36">               QueryResponse queryResponse = databaseService.query(query);</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">               return !queryResponse.getRows().isEmpty();</span>
+<span class="fc" id="L38">            }, Predicate.isEqual(true)</span>
+      );
+   }
+
+   /**
+    * Creates a retry condition that waits until a specific field in the query result matches a value.
+    *
+    * &lt;p&gt;This condition is useful for waiting until a database update or insertion has propagated.
+    *
+    * @param query    The database query to execute.
+    * @param jsonPath The JSONPath expression to extract the value from the query result.
+    * @param value    The expected value to match.
+    * @return A {@code RetryCondition} that evaluates to {@code true} when the field matches the expected value.
+    */
+   public static RetryCondition&lt;Object&gt; queryReturnsValueForField(DbQuery&lt;?&gt; query, String jsonPath, Object value) {
+<span class="fc" id="L53">      return new RetryConditionImpl&lt;&gt;(</span>
+            service -&gt; {
+<span class="fc" id="L55">               DatabaseService databaseService = (DatabaseService) service;</span>
+<span class="fc" id="L56">               return databaseService.query(query, jsonPath, value.getClass());</span>
+<span class="fc" id="L57">            }, object -&gt; object.equals(value)</span>
+      );
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

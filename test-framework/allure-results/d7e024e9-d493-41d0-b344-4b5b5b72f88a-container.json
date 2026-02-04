@@ -1,0 +1,1 @@
+{"uuid":"d7e024e9-d493-41d0-b344-4b5b5b72f88a","name":"validate(Runnable) should handle exceptions and log the failure","children":["b81fa876-17f5-4f84-9d34-77785dffec7d"],"befores":[],"afters":[],"start":1770236445094,"stop":1770236445114}

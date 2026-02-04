@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LinkService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Library</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.components.link</a> &gt; <span class="el_source">LinkService.java</span></div><h1>LinkService.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.components.link;
+
+import io.cyborgcode.roa.ui.components.button.ButtonService;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
+import io.cyborgcode.utilities.reflections.ReflectionUtil;
+import org.openqa.selenium.By;
+
+import static io.cyborgcode.roa.ui.config.UiConfigHolder.getUiConfig;
+
+/**
+ * Provides service-level methods for interacting with link UI components.
+ *
+ * &lt;p&gt;This interface defines operations for performing actions on links, such as
+ * clicking and double-clicking, while delegating the actual interactions to
+ * specific implementations based on the configured {@link LinkComponentType}.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+public interface LinkService extends ButtonService {
+
+<span class="fc" id="L21">   LinkComponentType DEFAULT_TYPE = getDefaultType();</span>
+
+   /**
+    * Retrieves the default link component type from the configuration.
+    *
+    * @return The default LinkComponentType.
+    */
+   private static LinkComponentType getDefaultType() {
+      try {
+<span class="fc" id="L30">         return ReflectionUtil.findEnumImplementationsOfInterface(LinkComponentType.class,</span>
+<span class="fc" id="L31">               getUiConfig().linkDefaultType(),</span>
+<span class="fc" id="L32">               getUiConfig().projectPackages());</span>
+<span class="fc" id="L33">      } catch (Exception ignored) {</span>
+<span class="fc" id="L34">         return null;</span>
+      }
+   }
+
+   /**
+    * Double-clicks a link with the specified text inside a container, using the default link component type.
+    *
+    * @param container The SmartWebElement container that contains the link.
+    * @param linkText  The text of the link to click.
+    */
+   default void doubleClick(SmartWebElement container, String linkText) {
+<span class="fc" id="L45">      doubleClick(DEFAULT_TYPE, container, linkText);</span>
+<span class="fc" id="L46">   }</span>
+
+   /**
+    * Double-clicks a link with the specified text inside a container, using the given link component type.
+    *
+    * @param componentType The specific link component type.
+    * @param container     The SmartWebElement container that contains the link.
+    * @param linkText      The text of the link to click.
+    */
+   void doubleClick(LinkComponentType componentType, SmartWebElement container, String linkText);
+
+   /**
+    * Double-clicks a link inside a container, using the default link component type.
+    *
+    * @param container The SmartWebElement container that contains the link.
+    */
+   default void doubleClick(SmartWebElement container) {
+<span class="fc" id="L63">      doubleClick(DEFAULT_TYPE, container);</span>
+<span class="fc" id="L64">   }</span>
+
+   /**
+    * Double-clicks a link inside a container, using the given link component type.
+    *
+    * @param componentType The specific link component type.
+    * @param container     The SmartWebElement container that contains the link.
+    */
+   void doubleClick(LinkComponentType componentType, SmartWebElement container);
+
+   /**
+    * Double-clicks a link with the specified text, using the default link component type.
+    *
+    * @param linkText The text of the link to click.
+    */
+   default void doubleClick(String linkText) {
+<span class="fc" id="L80">      doubleClick(DEFAULT_TYPE, linkText);</span>
+<span class="fc" id="L81">   }</span>
+
+   /**
+    * Double-clicks a link with the specified text, using the given link component type.
+    *
+    * @param componentType The specific link component type.
+    * @param linkText      The text of the link to click.
+    */
+   void doubleClick(LinkComponentType componentType, String linkText);
+
+   /**
+    * Double-clicks a link located by the specified locator, using the default link component type.
+    *
+    * @param linkLocator The By locator for the link to click.
+    */
+   default void doubleClick(By linkLocator) {
+<span class="fc" id="L97">      doubleClick(DEFAULT_TYPE, linkLocator);</span>
+<span class="fc" id="L98">   }</span>
+
+   /**
+    * Double-clicks a link located by the specified locator, using the given link component type.
+    *
+    * @param componentType The specific link component type.
+    * @param linkLocator   The By locator for the link to click.
+    */
+   void doubleClick(LinkComponentType componentType, By linkLocator);
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

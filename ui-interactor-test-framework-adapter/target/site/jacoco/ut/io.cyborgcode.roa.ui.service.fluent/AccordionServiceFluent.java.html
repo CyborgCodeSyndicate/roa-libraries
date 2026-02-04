@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AccordionServiceFluent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ring of Automation UI Test Framework</a> &gt; <a href="index.source.html" class="el_package">io.cyborgcode.roa.ui.service.fluent</a> &gt; <span class="el_source">AccordionServiceFluent.java</span></div><h1>AccordionServiceFluent.java</h1><pre class="source lang-java linenums">package io.cyborgcode.roa.ui.service.fluent;
+
+import io.cyborgcode.roa.framework.storage.Storage;
+import io.cyborgcode.roa.ui.components.accordion.AccordionComponentType;
+import io.cyborgcode.roa.ui.components.accordion.AccordionService;
+import io.cyborgcode.roa.ui.selenium.AccordionUiElement;
+import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
+import io.qameta.allure.Allure;
+import java.util.Arrays;
+import java.util.List;
+import org.assertj.core.api.Assertions;
+
+import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
+
+/**
+ * Provides fluent API methods for interacting with Accordion UI components.
+ *
+ * &lt;p&gt;This class encapsulates interactions with Accordion elements, allowing actions such as expansion,
+ * collapsing, retrieving states, and verifying their properties. It integrates with
+ * {@link AccordionService} to perform operations in a structured manner.
+ *
+ * &lt;p&gt;The generic type {@code T} represents the main UI service fluent class that this service extends,
+ * allowing method chaining within the fluent API structure.
+ *
+ * @author Cyborg Code Syndicate 💍👨💻
+ */
+@SuppressWarnings({&quot;java:S5960&quot;, &quot;unchecked&quot;})
+public class AccordionServiceFluent&lt;T extends UiServiceFluent&lt;?&gt;&gt; {
+
+   private static final String VALIDATING_ACCORDIONS = &quot;Validating Accordions&quot;;
+   private final AccordionService accordionService;
+   private final T uiServiceFluent;
+   private final Storage storage;
+   private final SmartWebDriver driver;
+
+   /**
+    * Constructs an instance of {@link AccordionServiceFluent}.
+    *
+    * @param uiServiceFluent  The main UI service fluent instance.
+    * @param storage          The storage object for maintaining test state.
+    * @param accordionService The service handling accordion interactions.
+    * @param webDriver        The instance of {@link SmartWebDriver}.
+    */
+   public AccordionServiceFluent(T uiServiceFluent, Storage storage, AccordionService accordionService,
+<span class="fc" id="L45">                                 SmartWebDriver webDriver) {</span>
+<span class="fc" id="L46">      this.accordionService = accordionService;</span>
+<span class="fc" id="L47">      this.uiServiceFluent = uiServiceFluent;</span>
+<span class="fc" id="L48">      this.storage = storage;</span>
+<span class="fc" id="L49">      this.driver = webDriver;</span>
+<span class="fc" id="L50">   }</span>
+
+   /**
+    * Expands the specified accordion panel.
+    *
+    * @param element The accordion UI element to expand.
+    * @return The current fluent service instance for method chaining.
+    */
+   public T expand(final AccordionUiElement element) {
+<span class="fc" id="L59">      Allure.step(String.format(&quot;[UI - Accordion] Expanding accordion with componentType: %s, locator: %s&quot;,</span>
+<span class="fc" id="L60">            element.componentType(), element.locator()));</span>
+<span class="fc" id="L61">      element.before().accept(driver);</span>
+<span class="fc" id="L62">      accordionService.expand((AccordionComponentType) element.componentType(), element.locator());</span>
+<span class="fc" id="L63">      element.after().accept(driver);</span>
+<span class="fc" id="L64">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Collapses the specified accordion panel.
+    *
+    * @param element The accordion UI element to collapse.
+    * @return The current fluent service instance for method chaining.
+    */
+   public T collapse(final AccordionUiElement element) {
+<span class="fc" id="L74">      Allure.step(String.format(&quot;[UI - Accordion] Collapsing accordion with componentType: %s, locator: %s&quot;,</span>
+<span class="fc" id="L75">            element.componentType(), element.locator()));</span>
+<span class="fc" id="L76">      element.before().accept(driver);</span>
+<span class="fc" id="L77">      accordionService.collapse((AccordionComponentType) element.componentType(), element.locator());</span>
+<span class="fc" id="L78">      element.after().accept(driver);</span>
+<span class="fc" id="L79">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Checks if the specified accordion element is enabled.
+    *
+    * @param element The accordion UI element to check.
+    * @return The current fluent service instance for method chaining.
+    */
+   public T areEnabled(final AccordionUiElement element, String... values) {
+<span class="fc" id="L89">      Allure.step(String.format(&quot;[UI - Accordion] Checking if accordion is enabled with componentType: %s, locator: %s&quot;,</span>
+<span class="fc" id="L90">            element.componentType(), element.locator()));</span>
+<span class="fc" id="L91">      element.before().accept(driver);</span>
+<span class="fc" id="L92">      boolean enabled = accordionService.areEnabled((AccordionComponentType) element.componentType(), values);</span>
+<span class="fc" id="L93">      element.after().accept(driver);</span>
+<span class="fc" id="L94">      storage.sub(UI).put(element.enumImpl(), enabled);</span>
+<span class="fc" id="L95">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates that the accordion elements are enabled.
+    *
+    * @param element The accordion UI element.
+    * @param values  The values to validate.
+    * @return The current fluent service instance for method chaining.
+    */
+   public T validateAreEnabled(final AccordionUiElement element, final String... values) {
+<span class="fc" id="L106">      Allure.step(&quot;[UI - Accordion] Validate if accordions are enabled: &quot; + Arrays.toString(values));</span>
+<span class="fc" id="L107">      return validateAreEnabled(element, true, false, values);</span>
+   }
+
+   /**
+    * Validates that the accordion elements are enabled.
+    *
+    * @param element The accordion UI element.
+    * @param soft    A boolean indicating whether the validation should be performed softly.
+    *                If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @param values  The values to validate.
+    * @return The current fluent service instance for method chaining.
+    */
+   public T validateAreEnabled(final AccordionUiElement element, boolean soft, final String... values) {
+<span class="fc" id="L120">      Allure.step(&quot;[UI - Accordion] Validate if accordions are enabled (soft: &quot; + soft + &quot;): &quot;</span>
+<span class="fc" id="L121">            + Arrays.toString(values));</span>
+<span class="fc" id="L122">      return validateAreEnabled(element, true, soft, values);</span>
+   }
+
+   private T validateAreEnabled(final AccordionUiElement element, boolean shouldBeEnabled, boolean soft,
+                                final String... values) {
+<span class="fc" id="L127">      element.before().accept(driver);</span>
+<span class="fc" id="L128">      boolean enabled = accordionService.areEnabled((AccordionComponentType) element.componentType(), values);</span>
+<span class="fc" id="L129">      element.after().accept(driver);</span>
+<span class="fc" id="L130">      storage.sub(UI).put(element.enumImpl(), enabled);</span>
+
+<span class="fc bfc" id="L132" title="All 2 branches covered.">      String assertionMessage = shouldBeEnabled</span>
+<span class="fc" id="L133">            ? &quot;Validating accordions are enabled&quot;</span>
+<span class="fc" id="L134">            : &quot;Validating accordions are disabled&quot;;</span>
+
+<span class="fc bfc" id="L136" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L137">         return (T) uiServiceFluent.validate(</span>
+               softAssertions -&gt; {
+<span class="fc bfc" id="L139" title="All 2 branches covered.">                  if (shouldBeEnabled) {</span>
+<span class="fc" id="L140">                     softAssertions.assertThat(enabled).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L142">                     softAssertions.assertThat(enabled).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L144">               }</span>
+         );
+      } else {
+<span class="fc" id="L147">         return (T) uiServiceFluent.validate(</span>
+               () -&gt; {
+<span class="fc bfc" id="L149" title="All 2 branches covered.">                  if (shouldBeEnabled) {</span>
+<span class="fc" id="L150">                     Assertions.assertThat(enabled).as(assertionMessage).isTrue();</span>
+                  } else {
+<span class="fc" id="L152">                     Assertions.assertThat(enabled).as(assertionMessage).isFalse();</span>
+                  }
+<span class="fc" id="L154">               }</span>
+         );
+      }
+   }
+
+   /**
+    * Validates that the accordion elements are disabled.
+    *
+    * @param element The accordion UI element.
+    * @param values  The values to validate.
+    * @return The current fluent service instance for method chaining.
+    */
+   public T validateAreDisabled(final AccordionUiElement element, final String... values) {
+<span class="fc" id="L167">      Allure.step(&quot;[UI - Accordion] Validate if accordions are disabled: &quot; + Arrays.toString(values));</span>
+<span class="fc" id="L168">      return validateAreEnabled(element, false, false, values);</span>
+   }
+
+   /**
+    * Validates that the accordion elements are disabled.
+    *
+    * @param element The accordion UI element.
+    * @param soft    A boolean indicating whether the validation should be performed softly.
+    *                If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @param values  The values to validate.
+    * @return The current fluent service instance for method chaining.
+    */
+   public T validateAreDisabled(final AccordionUiElement element, boolean soft, final String... values) {
+<span class="fc" id="L181">      Allure.step(&quot;[UI - Accordion] Validate if accordions are disabled (soft: &quot; + soft + &quot;): &quot;</span>
+<span class="fc" id="L182">            + Arrays.toString(values));</span>
+<span class="fc" id="L183">      return validateAreEnabled(element, false, soft, values);</span>
+   }
+
+   /**
+    * Checks if specified accordion is enabled, using the given accordion component type.
+    *
+    * @param element The accordion UI element.
+    * @return The current fluent service instance for method chaining.
+    */
+   public T isEnabled(final AccordionUiElement element) {
+<span class="fc" id="L193">      Allure.step(String.format(&quot;[UI - Accordion] Checking if accordion is enabled with componentType: %s, locator: %s&quot;,</span>
+<span class="fc" id="L194">            element.componentType(), element.locator()));</span>
+<span class="fc" id="L195">      element.before().accept(driver);</span>
+<span class="fc" id="L196">      boolean enabled = accordionService.isEnabled(element.componentType(), element.locator());</span>
+<span class="fc" id="L197">      element.after().accept(driver);</span>
+<span class="fc" id="L198">      storage.sub(UI).put(element.enumImpl(), enabled);</span>
+<span class="fc" id="L199">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates that the accordion element is enabled.
+    *
+    * @param element The accordion UI element.
+    * @param value   The value to validate
+    *                * @return The current fluent service instance for method chaining.
+    */
+   public T validateIsEnabled(final AccordionUiElement element, final String value) {
+<span class="fc" id="L210">      Allure.step(&quot;[UI - Accordion] Validate that the accordion is enabled&quot;);</span>
+<span class="fc" id="L211">      return validateAreEnabled(element, true, false, value);</span>
+   }
+
+   /**
+    * Validates that the accordion element is enabled.
+    *
+    * @param element The accordion UI element.
+    * @param soft    A boolean indicating whether the validation should be performed softly.
+    *                If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @param value   The value to validate.
+    * @return The current fluent service instance for method chaining.
+    */
+   public T validateIsEnabled(final AccordionUiElement element, boolean soft, final String value) {
+<span class="fc" id="L224">      Allure.step(&quot;[UI - Accordion] Validate that the accordion is enabled (soft: &quot; + soft + &quot;): &quot; + value);</span>
+<span class="fc" id="L225">      return validateAreEnabled(element, true, soft, value);</span>
+   }
+
+   /**
+    * Validates that the accordion element is disabled.
+    *
+    * @param element The accordion UI element.
+    * @param value   The value to validate.
+    * @return The current fluent service instance for method chaining.
+    */
+   public T validateIsDisabled(final AccordionUiElement element, final String value) {
+<span class="fc" id="L236">      Allure.step(&quot;[UI - Accordion] Validate that the accordion is disabled&quot;);</span>
+<span class="fc" id="L237">      return validateAreEnabled(element, false, false, value);</span>
+   }
+
+   /**
+    * Validates that the accordion element is disabled.
+    *
+    * @param element The accordion UI element.
+    * @param soft    A boolean indicating whether the validation should be performed softly.
+    *                If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @param value   The value to validate.
+    * @return The current fluent service instance for method chaining.
+    */
+   public T validateIsDisabled(final AccordionUiElement element, boolean soft, final String value) {
+<span class="fc" id="L250">      Allure.step(&quot;[UI - Accordion] Validate that the accordion is disabled (soft: &quot; + soft + &quot;): &quot; + value);</span>
+<span class="fc" id="L251">      return validateAreEnabled(element, false, soft, value);</span>
+   }
+
+   /**
+    * Retrieves a list of currently expanded accordions for the given Accordion UI element.
+    *
+    * @param element The accordion UI element.
+    * @return The current fluent service instance for method chaining.
+    */
+   public T getExpanded(final AccordionUiElement element) {
+<span class="fc" id="L261">      Allure.step(String.format(&quot;[UI - Accordion] Retrieve a list of currently expanded accordions for &quot;</span>
+<span class="fc" id="L262">            + &quot;componentType: %s&quot;, element.componentType()));</span>
+<span class="fc" id="L263">      element.before().accept(driver);</span>
+<span class="fc" id="L264">      List&lt;String&gt; expanded = accordionService.getExpanded(element.componentType(), element.locator());</span>
+<span class="fc" id="L265">      element.after().accept(driver);</span>
+<span class="fc" id="L266">      storage.sub(UI).put(element.enumImpl(), expanded);</span>
+<span class="fc" id="L267">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates that the specified accordion elements are expanded for the given Accordion UI element.
+    *
+    * @param element        The {@link AccordionUiElement} representing the Accordion UI component.
+    * @param expectedValues The expected values that should be expanded.
+    * @return The fluent UI service instance, allowing for method chaining.
+    */
+   public T validateExpandedItems(final AccordionUiElement element, final String... expectedValues) {
+<span class="fc" id="L278">      Allure.step(&quot;[UI - Accordion] Validate that the accordions are expanded&quot;);</span>
+<span class="fc" id="L279">      return validateExpandedItems(element, false, expectedValues);</span>
+   }
+
+   /**
+    * Validates that the specified accordion elements are expanded for the given Accordion UI element.
+    *
+    * @param element        The {@link AccordionUiElement} representing the Accordion UI component.
+    * @param soft           A boolean indicating whether the validation should be performed softly.
+    *                       If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @param expectedValues The expected values that should be expanded.
+    * @return The fluent UI service instance, allowing for method chaining.
+    */
+   public T validateExpandedItems(final AccordionUiElement element, boolean soft, final String... expectedValues) {
+<span class="fc" id="L292">      Allure.step(&quot;[UI - Accordion] Validate that the accordions are expanded (soft: &quot; + soft + &quot;): &quot;</span>
+<span class="fc" id="L293">            + Arrays.toString(expectedValues));</span>
+<span class="fc" id="L294">      element.before().accept(driver);</span>
+<span class="fc" id="L295">      List&lt;String&gt; expandedItems = accordionService.getExpanded(element.componentType(), element.locator());</span>
+<span class="fc" id="L296">      element.after().accept(driver);</span>
+<span class="fc" id="L297">      storage.sub(UI).put(element.enumImpl(), expandedItems);</span>
+
+<span class="fc bfc" id="L299" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L300">         return (T) uiServiceFluent.validate(</span>
+<span class="fc" id="L301">               softAssertions -&gt; softAssertions.assertThat(expandedItems)</span>
+<span class="fc" id="L302">                     .as(VALIDATING_ACCORDIONS)</span>
+<span class="fc" id="L303">                     .containsAll(Arrays.asList(expectedValues))</span>
+         );
+      } else {
+<span class="fc" id="L306">         return (T) uiServiceFluent.validate(</span>
+<span class="fc" id="L307">               () -&gt; Assertions.assertThat(expandedItems)</span>
+<span class="fc" id="L308">                     .as(VALIDATING_ACCORDIONS)</span>
+<span class="fc" id="L309">                     .containsAll(Arrays.asList(expectedValues))</span>
+         );
+      }
+   }
+
+   /**
+    * Retrieves a list of currently collapsed accordions for the given Accordion UI element.
+    *
+    * @param element The accordion UI element.
+    * @return The current fluent service instance for method chaining.
+    */
+   public T getCollapsed(final AccordionUiElement element) {
+<span class="fc" id="L321">      Allure.step(String.format(&quot;[UI - Accordion] Retrieve a list of currently collapsed accordions for &quot;</span>
+<span class="fc" id="L322">            + &quot;componentType: %s&quot;, element.componentType()));</span>
+<span class="fc" id="L323">      element.before().accept(driver);</span>
+<span class="fc" id="L324">      List&lt;String&gt; collapsed = accordionService.getCollapsed(element.componentType(), element.locator());</span>
+<span class="fc" id="L325">      element.after().accept(driver);</span>
+<span class="fc" id="L326">      storage.sub(UI).put(element.enumImpl(), collapsed);</span>
+<span class="fc" id="L327">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates that the specified accordion elements are collapsed for the given Accordion UI element.
+    *
+    * @param element        The {@link AccordionUiElement} representing the Accordion UI component.
+    * @param expectedValues The expected values that should be collapsed.
+    * @return The fluent UI service instance, allowing for method chaining.
+    */
+   public T validateCollapsedItems(final AccordionUiElement element, final String... expectedValues) {
+<span class="fc" id="L338">      Allure.step(&quot;[UI - Accordion] Validate that the accordions are collapsed&quot;);</span>
+<span class="fc" id="L339">      return validateCollapsedItems(element, false, expectedValues);</span>
+   }
+
+   /**
+    * Validates that the specified accordion elements are collapsed for the given Accordion UI element.
+    *
+    * @param element        The {@link AccordionUiElement} representing the Accordion UI component.
+    * @param soft           A boolean indicating whether the validation should be performed softly.
+    *                       If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @param expectedValues The expected values that should be collapsed.
+    * @return The fluent UI service instance, allowing for method chaining.
+    */
+   public T validateCollapsedItems(final AccordionUiElement element, boolean soft, final String... expectedValues) {
+<span class="fc" id="L352">      Allure.step(&quot;[UI - Accordion] Validate that the accordions are collapsed (soft: &quot; + soft + &quot;): &quot;</span>
+<span class="fc" id="L353">            + Arrays.toString(expectedValues));</span>
+<span class="fc" id="L354">      element.before().accept(driver);</span>
+<span class="fc" id="L355">      List&lt;String&gt; collapsedItems = accordionService.getCollapsed(element.componentType(), element.locator());</span>
+<span class="fc" id="L356">      element.after().accept(driver);</span>
+<span class="fc" id="L357">      storage.sub(UI).put(element.enumImpl(), collapsedItems);</span>
+
+<span class="fc bfc" id="L359" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L360">         return (T) uiServiceFluent.validate(</span>
+<span class="fc" id="L361">               softAssertions -&gt; softAssertions.assertThat(collapsedItems)</span>
+<span class="fc" id="L362">                     .as(VALIDATING_ACCORDIONS)</span>
+<span class="fc" id="L363">                     .containsAll(Arrays.asList(expectedValues))</span>
+         );
+      } else {
+<span class="fc" id="L366">         return (T) uiServiceFluent.validate(</span>
+<span class="fc" id="L367">               () -&gt; Assertions.assertThat(collapsedItems)</span>
+<span class="fc" id="L368">                     .as(VALIDATING_ACCORDIONS)</span>
+<span class="fc" id="L369">                     .containsAll(Arrays.asList(expectedValues))</span>
+         );
+      }
+   }
+
+   /**
+    * Retrieves all available accordions.
+    *
+    * @param element The Accordion UI element.
+    * @return The fluent UI service instance, allowing for method chaining.
+    */
+   public T getAll(final AccordionUiElement element) {
+<span class="fc" id="L381">      Allure.step(String.format(&quot;[UI - Accordion] Retrieve all the accordions for componentType: %s&quot;,</span>
+<span class="fc" id="L382">            element.componentType()));</span>
+<span class="fc" id="L383">      element.before().accept(driver);</span>
+<span class="fc" id="L384">      List&lt;String&gt; allAccordions = accordionService.getAll(element.componentType(), element.locator());</span>
+<span class="fc" id="L385">      element.after().accept(driver);</span>
+<span class="fc" id="L386">      storage.sub(UI).put(element.enumImpl(), allAccordions);</span>
+<span class="fc" id="L387">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates that all expected accordions are present for the given accordion UI element.
+    *
+    * @param element        The {@link AccordionUiElement} representing the Accordion UI component.
+    * @param expectedValues The expected values that should be present.
+    * @return The fluent UI service instance, allowing for method chaining.
+    */
+   public T validateAllAccordions(final AccordionUiElement element, final String... expectedValues) {
+<span class="fc" id="L398">      Allure.step(&quot;[UI - Accordion] Validate that all expected accordions are present&quot;);</span>
+<span class="fc" id="L399">      return validateAllAccordions(element, false, expectedValues);</span>
+   }
+
+   /**
+    * Validates that all expected accordions are present for the given accordion UI element.
+    *
+    * @param element        The {@link AccordionUiElement} representing the Accordion UI component.
+    * @param soft           A boolean indicating whether the validation should be performed softly.
+    *                       If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @param expectedValues The expected values that should be present.
+    * @return The fluent UI service instance, allowing for method chaining.
+    */
+   public T validateAllAccordions(final AccordionUiElement element, boolean soft, final String... expectedValues) {
+<span class="fc" id="L412">      Allure.step(&quot;[UI - Accordion] Validate that all expected accordions are present (soft: &quot; + soft + &quot;): &quot;</span>
+<span class="fc" id="L413">            + Arrays.toString(expectedValues));</span>
+<span class="fc" id="L414">      element.before().accept(driver);</span>
+<span class="fc" id="L415">      List&lt;String&gt; allItems = accordionService.getAll(element.componentType(), element.locator());</span>
+<span class="fc" id="L416">      element.after().accept(driver);</span>
+<span class="fc" id="L417">      storage.sub(UI).put(element.enumImpl(), allItems);</span>
+
+<span class="fc bfc" id="L419" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L420">         return (T) uiServiceFluent.validate(</span>
+<span class="fc" id="L421">               softAssertions -&gt; softAssertions.assertThat(expectedValues)</span>
+<span class="fc" id="L422">                     .as(VALIDATING_ACCORDIONS).containsAll(Arrays.asList(expectedValues))</span>
+         );
+      } else {
+<span class="fc" id="L425">         return (T) uiServiceFluent.validate(</span>
+<span class="fc" id="L426">               () -&gt; Assertions.assertThat(expectedValues)</span>
+<span class="fc" id="L427">                     .as(VALIDATING_ACCORDIONS).containsAll(Arrays.asList(expectedValues))</span>
+         );
+      }
+   }
+
+   /**
+    * Retrieves the title of the specified accordion element.
+    *
+    * @param element The accordion UI element.
+    * @return The current fluent service instance for method chaining.
+    */
+   public T getTitle(final AccordionUiElement element) {
+<span class="fc" id="L439">      Allure.step(String.format(&quot;[UI - Accordion] Getting title for componentType: %s, locator: %s&quot;,</span>
+<span class="fc" id="L440">            element.componentType(), element.locator()));</span>
+<span class="fc" id="L441">      element.before().accept(driver);</span>
+<span class="fc" id="L442">      String title = accordionService.getTitle(element.componentType(), element.locator());</span>
+<span class="fc" id="L443">      element.after().accept(driver);</span>
+<span class="fc" id="L444">      storage.sub(UI).put(element.enumImpl(), title);</span>
+<span class="fc" id="L445">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates the title of the specified accordion.
+    *
+    * @param element       The {@link AccordionUiElement} representing the accordion UI component.
+    * @param expectedValue The expected value of the accordion title.
+    * @return The fluent UI service instance, allowing for method chaining.
+    */
+   public T validateTitle(final AccordionUiElement element, final String expectedValue) {
+<span class="fc" id="L456">      Allure.step(&quot;[UI - Accordion] Validate accordion title has value: &quot; + expectedValue);</span>
+<span class="fc" id="L457">      return validateTitle(element, false, expectedValue);</span>
+   }
+
+   /**
+    * Validates the title of the specified accordion.
+    *
+    * @param element       The {@link AccordionUiElement} representing the accordion UI component.
+    * @param soft          A boolean indicating whether the validation should be performed softly.
+    *                      If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @param expectedValue The expected value of the accordion title.
+    * @return The fluent UI service instance, allowing for method chaining.
+    */
+   public T validateTitle(final AccordionUiElement element, boolean soft, final String expectedValue) {
+<span class="fc" id="L470">      Allure.step(&quot;[UI - Accordion] Validate accordion title has value: &quot; + expectedValue</span>
+            + &quot; (soft: &quot; + soft + &quot;)&quot;);
+<span class="fc" id="L472">      element.before().accept(driver);</span>
+<span class="fc" id="L473">      String title = accordionService.getTitle(element.componentType(), element.locator());</span>
+<span class="fc" id="L474">      element.after().accept(driver);</span>
+<span class="fc" id="L475">      storage.sub(UI).put(element.enumImpl(), title);</span>
+
+<span class="fc bfc" id="L477" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L478">         return (T) uiServiceFluent.validate(</span>
+<span class="fc" id="L479">               softAssertions -&gt; softAssertions.assertThat(title)</span>
+<span class="fc" id="L480">                     .as(VALIDATING_ACCORDIONS).isEqualTo(expectedValue)</span>
+         );
+      } else {
+<span class="fc" id="L483">         return (T) uiServiceFluent.validate(</span>
+<span class="fc" id="L484">               () -&gt; Assertions.assertThat(title)</span>
+<span class="fc" id="L485">                     .as(VALIDATING_ACCORDIONS).isEqualTo(expectedValue)</span>
+         );
+      }
+   }
+
+   /**
+    * Retrieves the text content of the specified accordion element.
+    *
+    * @param element The accordion UI element.
+    * @return The current fluent service instance for method chaining.+
+    */
+   public T getText(final AccordionUiElement element) {
+<span class="fc" id="L497">      Allure.step(String.format(&quot;[UI - Accordion] Getting text for componentType: %s, locator: %s&quot;,</span>
+<span class="fc" id="L498">            element.componentType(), element.locator()));</span>
+<span class="fc" id="L499">      element.before().accept(driver);</span>
+<span class="fc" id="L500">      String text = accordionService.getText(element.componentType(), element.locator());</span>
+<span class="fc" id="L501">      element.after().accept(driver);</span>
+<span class="fc" id="L502">      storage.sub(UI).put(element.enumImpl(), text);</span>
+<span class="fc" id="L503">      return uiServiceFluent;</span>
+   }
+
+   /**
+    * Validates the content for the specified accordion.
+    *
+    * @param element       The {@link AccordionUiElement} representing the accordion UI component.
+    * @param expectedValue The expected content for the specified accordion.
+    * @return The fluent UI service instance, allowing for method chaining.
+    */
+   public T validateText(final AccordionUiElement element, final String expectedValue) {
+<span class="fc" id="L514">      Allure.step(&quot;[UI - Accordion] Validate text content of the accordion with type: &quot; + element.componentType());</span>
+<span class="fc" id="L515">      return validateText(element, false, expectedValue);</span>
+   }
+
+   /**
+    * Validates the text content for the specified accordion.
+    *
+    * @param element         The {@link AccordionUiElement} representing the accordion UI component.
+    * @param soft            A boolean indicating whether the validation should be performed softly.
+    *                        If {@code true}, failures will be collected rather than throwing an exception immediately.
+    * @param expectedContent The expected text content for the specified accordion.
+    * @return The fluent UI service instance, allowing for method chaining.
+    */
+   public T validateText(final AccordionUiElement element, boolean soft, final String expectedContent) {
+<span class="fc" id="L528">      Allure.step(&quot;[UI - Accordion] Validate text content of the accordion with type: &quot; + element.componentType()</span>
+            + &quot; (soft: &quot; + soft + &quot;)&quot;);
+<span class="fc" id="L530">      element.before().accept(driver);</span>
+<span class="fc" id="L531">      String textContent = accordionService.getText(element.componentType(), element.locator());</span>
+<span class="fc" id="L532">      element.after().accept(driver);</span>
+<span class="fc" id="L533">      storage.sub(UI).put(element.enumImpl(), textContent);</span>
+
+<span class="fc bfc" id="L535" title="All 2 branches covered.">      if (soft) {</span>
+<span class="fc" id="L536">         return (T) uiServiceFluent.validate(</span>
+<span class="fc" id="L537">               softAssertions -&gt; softAssertions.assertThat(textContent)</span>
+<span class="fc" id="L538">                     .as(VALIDATING_ACCORDIONS).isEqualTo(expectedContent)</span>
+         );
+      } else {
+<span class="fc" id="L541">         return (T) uiServiceFluent.validate(</span>
+<span class="fc" id="L542">               () -&gt; Assertions.assertThat(textContent)</span>
+<span class="fc" id="L543">                     .as(VALIDATING_ACCORDIONS).isEqualTo(expectedContent)</span>
+         );
+      }
+   }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
