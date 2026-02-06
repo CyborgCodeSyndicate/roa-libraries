@@ -5,7 +5,7 @@
 
     <groupId>io.cyborgcode.roa</groupId>
     <artifactId>roa-archetype</artifactId>
-    <version>0.0.0</version>
+    <version>1.0.0-rc-2</version>
     <packaging>maven-archetype</packaging>
     <name>Ring of Automation Archetype</name>
     <description>Archetype for quick setup and start of roa project.</description>
