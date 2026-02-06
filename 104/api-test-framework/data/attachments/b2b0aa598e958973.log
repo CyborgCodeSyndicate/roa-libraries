@@ -1,0 +1,18 @@
+🤖 CYBORG 🤖 2026-02-06T15:18:12,617 [scenario=ApiHooksExamplesTest.showsCraftModelAsRequestWithSoftAssertion] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2026-02-06T15:18:12,636 [scenario=ApiHooksExamplesTest.showsCraftModelAsRequestWithSoftAssertion] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2026-02-06T15:18:12,641 [scenario=ApiHooksExamplesTest.showsCraftModelAsRequestWithSoftAssertion] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2026-02-06T15:18:12,647 [scenario=ApiHooksExamplesTest.showsCraftModelAsRequestWithSoftAssertion] INFO  [QUEST] - The quest: 'showsCraftModelAsRequestWithSoftAssertion(Quest, CreateUserDto)' has begun and is crafted.
+🤖 CYBORG 🤖 2026-02-06T15:18:12,686 [scenario=ApiHooksExamplesTest.showsCraftModelAsRequestWithSoftAssertion] INFO  [QUEST] - The quest has used the ring: 'API'
+🤖 CYBORG 🤖 2026-02-06T15:18:12,872 [scenario=ApiHooksExamplesTest.showsCraftModelAsRequestWithSoftAssertion] STEP  [API] - Sending request to endpoint POST-https://reqres.in/api/users.
+🤖 CYBORG 🤖 2026-02-06T15:18:12,877 [scenario=ApiHooksExamplesTest.showsCraftModelAsRequestWithSoftAssertion] EXTENDED [API] - Request body: {
+🤖 CYBORG 🤖 2026-02-06T15:18:12,881 [scenario=ApiHooksExamplesTest.showsCraftModelAsRequestWithSoftAssertion] EXTENDED [API] - Request headers: Accept=application/json, application/javascript, text/javascript, text/json
+🤖 CYBORG 🤖 2026-02-06T15:18:13,131 [scenario=ApiHooksExamplesTest.showsCraftModelAsRequestWithSoftAssertion] STEP  [API] - Response with status: 201 received from endpoint: POST-https://reqres.in/api/users in 243ms.
+🤖 CYBORG 🤖 2026-02-06T15:18:13,136 [scenario=ApiHooksExamplesTest.showsCraftModelAsRequestWithSoftAssertion] EXTENDED [API] - Response body: {
+🤖 CYBORG 🤖 2026-02-06T15:18:13,139 [scenario=ApiHooksExamplesTest.showsCraftModelAsRequestWithSoftAssertion] EXTENDED [API] - Response headers: Date=Fri, 06 Feb 2026 15:18:13 GMT
+🤖 CYBORG 🤖 2026-02-06T15:18:13,146 [scenario=ApiHooksExamplesTest.showsCraftModelAsRequestWithSoftAssertion] INFO  [API] - Starting response validation with 2 assertion(s).
+🤖 CYBORG 🤖 2026-02-06T15:18:13,477 [scenario=ApiHooksExamplesTest.showsCraftModelAsRequestWithSoftAssertion] EXTENDED [API] - Validation target: [{name=Morpheus, AssertionKeyForStatus=201}]
+🤖 CYBORG 🤖 2026-02-06T15:18:13,481 [scenario=ApiHooksExamplesTest.showsCraftModelAsRequestWithSoftAssertion] VALIDATION [QUEST] - ✔ Validation passed: IS (Expected: 201, Actual: 201)
+🤖 CYBORG 🤖 2026-02-06T15:18:13,514 [scenario=ApiHooksExamplesTest.showsCraftModelAsRequestWithSoftAssertion] VALIDATION [QUEST] - ✔ Validation passed: IS (Expected: Morpheus, Actual: Morpheus)
+🤖 CYBORG 🤖 2026-02-06T15:18:13,780 [scenario=ApiHooksExamplesTest.showsCraftModelAsRequestWithSoftAssertion] INFO  [QUEST] - The quest has dropped the ring.
+🤖 CYBORG 🤖 2026-02-06T15:18:13,793 [scenario=ApiHooksExamplesTest.showsCraftModelAsRequestWithSoftAssertion] INFO  [QUEST] - The quest has reached his end
+🤖 CYBORG 🤖 2026-02-06T15:18:13,808 [scenario=ApiHooksExamplesTest.showsCraftModelAsRequestWithSoftAssertion] INFO  [QUEST] - The quest of 'showsCraftModelAsRequestWithSoftAssertion(Quest, CreateUserDto)' has concluded with glory. Status: SUCCESS. Duration: 1 seconds.
