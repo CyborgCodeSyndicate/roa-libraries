@@ -16,6 +16,7 @@
         <module>api-interactor</module>
         <module>db-interactor</module>
         <module>ui-interactor</module>
+        <module>ui-interactor-playwright</module>
         <module>test-framework</module>
         <module>api-interactor-test-framework-adapter</module>
         <module>db-interactor-test-framework-adapter</module>
