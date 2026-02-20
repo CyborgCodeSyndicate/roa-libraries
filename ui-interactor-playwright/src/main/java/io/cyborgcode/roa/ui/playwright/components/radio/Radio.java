@@ -1,38 +1,28 @@
 package io.cyborgcode.roa.ui.playwright.components.radio;
 
 import com.microsoft.playwright.Locator;
+import io.cyborgcode.roa.ui.components.radio.RadioCore;
+import io.cyborgcode.roa.ui.playwright.base.PwBy;
+import io.cyborgcode.roa.ui.util.strategy.Strategy;
+import java.util.List;
 
 /**
- * Defines operations for interacting with radio button UI elements.
+ * Playwright-specific radio component interface.
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface Radio {
+public interface Radio extends RadioCore<Locator> {
 
-   void select(Locator container, String radioLabel);
+   void select(PwBy radioButtonLocator);
 
-   void select(Locator container);
+   boolean isEnabled(PwBy radioButtonLocator);
 
-   void select(String radioLabel);
+   boolean isSelected(PwBy radioButtonLocator);
 
-   void selectBySelector(String radioSelector);
+   boolean isVisible(PwBy radioButtonLocator);
 
-   boolean isSelected(Locator container, String radioLabel);
+   String getSelected(PwBy containerLocator);
 
-   boolean isSelected(Locator container);
+   List<String> getAll(PwBy containerLocator);
 
-   boolean isSelected(String radioLabel);
-
-   boolean isSelectedBySelector(String radioSelector);
-
-   boolean isEnabled(Locator container, String radioLabel);
-
-   boolean isEnabled(Locator container);
-
-   boolean isEnabled(String radioLabel);
-
-   boolean isEnabledBySelector(String radioSelector);
-
-   default void tableInsertion(Locator cell, String... values) {
-   }
 }

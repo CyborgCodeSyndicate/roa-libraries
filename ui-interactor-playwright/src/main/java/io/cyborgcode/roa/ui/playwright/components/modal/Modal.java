@@ -1,41 +1,16 @@
 package io.cyborgcode.roa.ui.playwright.components.modal;
 
 import com.microsoft.playwright.Locator;
+import io.cyborgcode.roa.ui.components.modal.ModalCore;
+import io.cyborgcode.roa.ui.playwright.base.PwBy;
 
 /**
- * Defines operations for interacting with modal UI elements.
+ * Playwright-specific modal component interface.
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface Modal {
+public interface Modal extends ModalCore<Locator> {
 
-   boolean isOpen(Locator container);
+   void clickButton(PwBy buttonLocator);
 
-   boolean isOpen(String modalLabel);
-
-   boolean isOpenBySelector(String modalSelector);
-
-   void close(Locator container);
-
-   void close(String modalLabel);
-
-   void closeBySelector(String modalSelector);
-
-   String getTitle(Locator container);
-
-   String getTitle(String modalLabel);
-
-   String getTitleBySelector(String modalSelector);
-
-   String getContent(Locator container);
-
-   String getContent(String modalLabel);
-
-   String getContentBySelector(String modalSelector);
-
-   void confirm(Locator container);
-
-   void confirm(String modalLabel);
-
-   void confirmBySelector(String modalSelector);
 }

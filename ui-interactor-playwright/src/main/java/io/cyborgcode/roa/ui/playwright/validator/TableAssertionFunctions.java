@@ -1,17 +1,33 @@
 package io.cyborgcode.roa.ui.playwright.validator;
 
+//import com.microsoft.playwright.Locator;
+
 import com.microsoft.playwright.Locator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import io.cyborgcode.roa.ui.validator.TableAssertionFunctionsServiceCore;
 
 /**
  * Provides a set of validation functions for asserting table data integrity.
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
+//todo we can remove this class and only work with TableAssertionFunctionsServiceCore
 public class TableAssertionFunctions {
+
+   private static final TableAssertionFunctionsServiceCore<Locator> instance = initialInstance();
+
+   private static TableAssertionFunctionsServiceCore<Locator> initialInstance() {
+      return new TableAssertionFunctionsServiceCore<>(Locator.class) {
+         @Override
+         protected boolean cellIsVisible(Locator cell) {
+            return cell.isVisible();
+         }
+
+         @Override
+         protected boolean cellIsEnabled(Locator cell) {
+            return cell.isEnabled();
+         }
+      };
+   }
 
    private TableAssertionFunctions() {
    }
@@ -24,17 +40,7 @@ public class TableAssertionFunctions {
     * @return {@code true} if the table is not empty and matches the expected state; otherwise, {@code false}.
     */
    public static boolean validateTableNotEmpty(Object actual, Object expected) {
-      if (!(actual instanceof List)) {
-         return false;
-      }
-      List<?> table = (List<?>) actual;
-      boolean notEmpty = !table.isEmpty();
-
-      if (!(expected instanceof Boolean)) {
-         return false;
-      }
-
-      return notEmpty == (Boolean) expected;
+      return instance.validateTableNotEmpty(actual, expected);
    }
 
    /**
@@ -45,14 +51,7 @@ public class TableAssertionFunctions {
     * @return {@code true} if the table has the expected number of rows; otherwise, {@code false}.
     */
    public static boolean validateTableRowCount(Object actual, Object expected) {
-      if (!(actual instanceof List) || !(expected instanceof Integer)) {
-         return false;
-      }
-
-      List<?> table = (List<?>) actual;
-      int expectedRowCount = (Integer) expected;
-
-      return table.size() == expectedRowCount;
+      return instance.validateTableRowCount(actual, expected);
    }
 
    /**
@@ -63,19 +62,7 @@ public class TableAssertionFunctions {
     * @return {@code true} if every row contains all the expected values; otherwise, {@code false}.
     */
    public static boolean validateEveryRowContainsValues(Object actual, Object expected) {
-      if (!(actual instanceof List) || !(expected instanceof List)) {
-         return false;
-      }
-
-      List<?> table = (List<?>) actual;
-      List<?> expectedValues = (List<?>) expected;
-
-      if (table.isEmpty() || expectedValues.isEmpty()) {
-         return false;
-      }
-
-      return table.stream()
-            .allMatch(row -> row instanceof List<?> && new HashSet<>((List<?>) row).containsAll(expectedValues));
+      return instance.validateEveryRowContainsValues(actual, expected);
    }
 
    /**
@@ -86,27 +73,7 @@ public class TableAssertionFunctions {
     * @return {@code true} if the row is absent; otherwise, {@code false}.
     */
    public static boolean validateTableDoesNotContainRow(Object actual, Object expected) {
-      if (!(actual instanceof List<?> && expected instanceof List<?>)) {
-         return false;
-      }
-
-      List<?> table = (List<?>) actual;
-      List<?> forbiddenRow = (List<?>) expected;
-
-      if (table.isEmpty() || forbiddenRow.isEmpty()) {
-         return false;
-      }
-
-      for (Object row : table) {
-         if (!(row instanceof List<?>)) {
-            return false;
-         }
-         if (row.equals(forbiddenRow)) {
-            return false;
-         }
-      }
-
-      return true;
+      return instance.validateTableDoesNotContainRow(actual, expected);
    }
 
    /**
@@ -117,25 +84,7 @@ public class TableAssertionFunctions {
     * @return {@code true} if all rows are unique and match the expected uniqueness state; otherwise, {@code false}.
     */
    public static boolean validateAllRowsAreUnique(Object actual, Object expected) {
-      if (!(actual instanceof List<?>)) {
-         return false;
-      }
-      List<?> table = (List<?>) actual;
-      if (table.isEmpty()) {
-         return false;
-      }
-      Set<List<?>> uniqueRows = new HashSet<>();
-      for (Object row : table) {
-         if (!(row instanceof List<?>)) {
-            return false;
-         }
-         uniqueRows.add((List<?>) row);
-      }
-      boolean unique = uniqueRows.size() == table.size();
-      if (!(expected instanceof Boolean)) {
-         return false;
-      }
-      return unique == (Boolean) expected;
+      return instance.validateAllRowsAreUnique(actual, expected);
    }
 
    /**
@@ -146,32 +95,7 @@ public class TableAssertionFunctions {
     * @return {@code true} if there are no empty cells and matches the expected state; otherwise, {@code false}.
     */
    public static boolean validateNoEmptyCells(Object actual, Object expected) {
-      if (!(actual instanceof List<?> table)) {
-         return false;
-      }
-
-      if (table.isEmpty()) {
-         return false;
-      }
-
-      for (Object row : table) {
-         if (!(row instanceof List<?> rowList)) {
-            return Boolean.FALSE.equals(expected);
-         }
-
-         boolean hasEmpty = rowList.isEmpty()
-               || rowList.stream().anyMatch(cell -> !(cell instanceof String s) || s.trim().isEmpty());
-
-         if (hasEmpty) {
-            return Boolean.FALSE.equals(expected);
-         }
-      }
-
-      if (!(expected instanceof Boolean)) {
-         return false;
-      }
-
-      return Boolean.TRUE.equals(expected);
+      return instance.validateNoEmptyCells(actual, expected);
    }
 
    /**
@@ -182,36 +106,7 @@ public class TableAssertionFunctions {
     * @return {@code true} if all values in the specified column are unique; otherwise, {@code false}.
     */
    public static boolean validateColumnValuesAreUnique(Object actual, Object expected) {
-      if (!(actual instanceof List<?>) || !(expected instanceof Integer)) {
-         return false;
-      }
-
-      List<?> table = (List<?>) actual;
-      int userColumnIndex = (Integer) expected;
-      int columnIndex = userColumnIndex - 1;
-
-      if (table.isEmpty() || columnIndex < 0) {
-         return false;
-      }
-
-      Set<String> uniqueValues = new HashSet<>();
-
-      for (Object row : table) {
-         if (!(row instanceof List<?>)) {
-            return false;
-         }
-
-         List<?> rowList = (List<?>) row;
-         if (rowList.size() <= columnIndex || !(rowList.get(columnIndex) instanceof String)) {
-            return false;
-         }
-
-         if (!uniqueValues.add((String) rowList.get(columnIndex))) {
-            return false;
-         }
-      }
-
-      return true;
+      return instance.validateColumnValuesAreUnique(actual, expected);
    }
 
    /**
@@ -222,30 +117,7 @@ public class TableAssertionFunctions {
     * @return {@code true} if both tables match exactly; otherwise, {@code false}.
     */
    public static boolean validateTableDataMatchesExpected(Object actual, Object expected) {
-      if (!(actual instanceof List<?>) || !(expected instanceof List<?>)) {
-         return false;
-      }
-
-      List<?> table = (List<?>) actual;
-      List<?> expectedTable = (List<?>) expected;
-
-      if (table.isEmpty() || expectedTable.isEmpty()) {
-         return false;
-      }
-
-      for (Object row : table) {
-         if (!(row instanceof List<?>)) {
-            return false;
-         }
-      }
-
-      for (Object row : expectedTable) {
-         if (!(row instanceof List<?>)) {
-            return false;
-         }
-      }
-
-      return table.equals(expectedTable);
+      return instance.validateTableDataMatchesExpected(actual, expected);
    }
 
    /**
@@ -256,19 +128,7 @@ public class TableAssertionFunctions {
     * @return {@code true} if the row is non-empty and matches the expected state; otherwise, {@code false}.
     */
    public static boolean validateRowNotEmpty(Object actual, Object expected) {
-      if (!(actual instanceof List<?>)) {
-         return false;
-      }
-      List<?> row = (List<?>) actual;
-
-      boolean rowNotEmpty = !row.isEmpty() && row.stream()
-            .anyMatch(cell -> cell instanceof String cs && !(cs).trim().isEmpty());
-
-      if (!(expected instanceof Boolean)) {
-         return false;
-      }
-
-      return rowNotEmpty == (Boolean) expected;
+      return instance.validateRowNotEmpty(actual, expected);
    }
 
    /**
@@ -279,28 +139,7 @@ public class TableAssertionFunctions {
     * @return {@code true} if the row contains all the expected values; otherwise, {@code false}.
     */
    public static boolean validateRowContainsValues(Object actual, Object expected) {
-      if (!(actual instanceof List<?>) || !(expected instanceof List<?>)) {
-         return false;
-      }
-
-      List<?> rawRow = (List<?>) actual;
-      List<?> rawExpected = (List<?>) expected;
-
-      if (rawRow.isEmpty() || rawExpected.isEmpty()) {
-         return false;
-      }
-
-      List<String> rowValues = rawRow.stream()
-            .filter(Objects::nonNull)
-            .map(cell -> String.valueOf(cell).trim().toLowerCase())
-            .toList();
-
-      List<String> expectedValues = rawExpected.stream()
-            .filter(Objects::nonNull)
-            .map(val -> String.valueOf(val).trim().toLowerCase())
-            .toList();
-
-      return new HashSet<>(rowValues).containsAll(expectedValues);
+      return instance.validateRowContainsValues(actual, expected);
    }
 
    /**
@@ -311,22 +150,7 @@ public class TableAssertionFunctions {
     * @return {@code true} if all cells are enabled and match the expected state; otherwise, {@code false}.
     */
    public static boolean validateAllCellsEnabled(Object actual, Object expected) {
-      if (!(actual instanceof List<?>)) {
-         return false;
-      }
-      List<?> table = (List<?>) actual;
-
-      boolean allCellsEnabled = table.stream().allMatch(row ->
-            row instanceof List<?> && ((List<?>) row).stream().allMatch(cell ->
-                  cell instanceof Locator cs && cs.isEnabled()
-            )
-      );
-
-      if (!(expected instanceof Boolean)) {
-         return false;
-      }
-
-      return allCellsEnabled == (Boolean) expected;
+      return instance.validateAllCellsEnabled(actual, expected);
    }
 
    /**
@@ -335,24 +159,10 @@ public class TableAssertionFunctions {
     * @param actual   The table data (expected to be a {@code List} of lists).
     * @param expected The expected state (a {@code Boolean}).
     * @return {@code true} if all cells in the table are clickable and match the expected state; otherwise,
-    *       {@code false}.
+    * {@code false}.
     */
    public static boolean validateAllCellsClickable(Object actual, Object expected) {
-      if (!(actual instanceof List<?>)) {
-         return false;
-      }
-      List<?> table = (List<?>) actual;
-      boolean allClickable = table.stream().allMatch(row ->
-            row instanceof List<?> && ((List<?>) row).stream().allMatch(cell ->
-                  cell instanceof Locator cs
-                        && cs.isVisible()
-                        && cs.isEnabled()
-            )
-      );
-      if (!(expected instanceof Boolean)) {
-         return false;
-      }
-      return allClickable == (Boolean) expected;
+      return instance.validateAllCellsClickable(actual, expected);
    }
 
 }

@@ -1,35 +1,22 @@
 package io.cyborgcode.roa.ui.playwright.components.tab;
 
 import com.microsoft.playwright.Locator;
+import io.cyborgcode.roa.ui.components.tab.TabCore;
+import io.cyborgcode.roa.ui.playwright.base.PwBy;
 
 /**
- * Defines operations for interacting with tab UI elements.
+ * Playwright-specific tab component interface.
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface Tab {
+public interface Tab extends TabCore<Locator> {
 
-   void select(Locator container, String tabLabel);
+   void click(PwBy tabSelector);
 
-   void select(Locator container);
+   boolean isEnabled(PwBy tabSelector);
 
-   void select(String tabLabel);
+   boolean isVisible(PwBy tabSelector);
+   
+   boolean isSelected(PwBy tabSelector);
 
-   void selectBySelector(String tabSelector);
-
-   boolean isSelected(Locator container, String tabLabel);
-
-   boolean isSelected(Locator container);
-
-   boolean isSelected(String tabLabel);
-
-   boolean isSelectedBySelector(String tabSelector);
-
-   boolean isEnabled(Locator container, String tabLabel);
-
-   boolean isEnabled(Locator container);
-
-   boolean isEnabled(String tabLabel);
-
-   boolean isEnabledBySelector(String tabSelector);
 }

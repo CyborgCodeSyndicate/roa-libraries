@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.playwright.session.factory;
 
-import io.cyborgcode.roa.ui.playwright.exceptions.UiInteractionException;
-import io.cyborgcode.roa.ui.playwright.log.LogUi;
+import io.cyborgcode.roa.ui.exceptions.UiInteractionException;
+import io.cyborgcode.roa.ui.log.LogUi;
 import io.cyborgcode.roa.ui.playwright.session.UISession;
 import io.cyborgcode.roa.ui.playwright.session.base.BrowserProvider;
 import io.cyborgcode.roa.ui.playwright.session.config.SessionConfig;

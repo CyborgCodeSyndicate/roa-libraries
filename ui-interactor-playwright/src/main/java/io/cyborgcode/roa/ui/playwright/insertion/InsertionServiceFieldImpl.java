@@ -1,11 +1,14 @@
 package io.cyborgcode.roa.ui.playwright.insertion;
 
+import io.cyborgcode.roa.ui.components.base.ComponentType;
+import io.cyborgcode.roa.ui.insertion.BaseInsertionService;
+import io.cyborgcode.roa.ui.insertion.InsertionServiceRegistry;
 import io.cyborgcode.roa.ui.playwright.annotations.InsertionField;
 import io.cyborgcode.roa.ui.playwright.annotations.PlaywrightLocator;
-import io.cyborgcode.roa.ui.playwright.components.base.ComponentType;
+import io.cyborgcode.roa.ui.playwright.base.PwBy;
 import io.cyborgcode.utilities.reflections.ReflectionUtil;
 
-import static io.cyborgcode.roa.ui.playwright.config.UiConfigHolder.getPlaywrightConfig;
+import static io.cyborgcode.roa.ui.config.UiConfigHolderCore.getUiConfig;
 
 /**
  * Service implementation for processing fields annotated with {@link InsertionField}.
@@ -17,9 +20,9 @@ import static io.cyborgcode.roa.ui.playwright.config.UiConfigHolder.getPlaywrigh
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public class InsertionServiceFieldImpl extends BaseInsertionService<InsertionField> {
+public class InsertionServiceFieldImpl extends BaseInsertionService<InsertionField, PwBy> {
 
-   public InsertionServiceFieldImpl(final InsertionServiceRegistry serviceRegistry) {
+   public InsertionServiceFieldImpl(final InsertionServiceRegistry<PwBy> serviceRegistry) {
       super(serviceRegistry);
    }
 
@@ -39,7 +42,7 @@ public class InsertionServiceFieldImpl extends BaseInsertionService<InsertionFie
    }
 
    @Override
-   protected String buildSelector(final InsertionField annotation) {
+   protected PwBy buildSelector(final InsertionField annotation) {
       return resolveSelector(annotation.locator());
    }
 
@@ -48,7 +51,7 @@ public class InsertionServiceFieldImpl extends BaseInsertionService<InsertionFie
       final String componentTypeEnumName = annotation.componentType();
       final Class<? extends ComponentType> typeClass = annotation.type();
       return ReflectionUtil.findEnumImplementationsOfInterface(
-            typeClass, componentTypeEnumName, getPlaywrightConfig().projectPackages()
+            typeClass, componentTypeEnumName, getUiConfig().projectPackages()
       );
    }
 
@@ -60,23 +63,23 @@ public class InsertionServiceFieldImpl extends BaseInsertionService<InsertionFie
     * @param locator The PlaywrightLocator annotation.
     * @return The resolved selector string.
     */
-   private String resolveSelector(final PlaywrightLocator locator) {
+   private PwBy resolveSelector(final PlaywrightLocator locator) {
       if (!locator.selector().isEmpty()) {
-         return locator.selector();
+         return PwBy.playwright(locator.selector());
       }
       if (!locator.css().isEmpty()) {
-         return locator.css();
+         return PwBy.playwright(locator.css());
       }
       if (!locator.xpath().isEmpty()) {
-         return "xpath=" + locator.xpath();
+         return PwBy.playwright("xpath=" + locator.xpath());
       }
       if (!locator.testId().isEmpty()) {
-         return "[data-testid='" + locator.testId() + "']";
+         return PwBy.playwright("[data-testid='" + locator.testId() + "']");
       }
       if (!locator.text().isEmpty()) {
-         return "text=" + locator.text();
+         return PwBy.playwright("text=" + locator.text());
       }
-      return "";
+      return null;
    }
 
 }

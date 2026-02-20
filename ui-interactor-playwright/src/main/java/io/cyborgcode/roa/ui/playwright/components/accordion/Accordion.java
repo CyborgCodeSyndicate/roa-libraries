@@ -1,43 +1,32 @@
 package io.cyborgcode.roa.ui.playwright.components.accordion;
 
 import com.microsoft.playwright.Locator;
+import io.cyborgcode.roa.ui.components.accordion.AccordionCore;
+import io.cyborgcode.roa.ui.playwright.base.PwBy;
+import io.cyborgcode.roa.ui.util.strategy.Strategy;
+import java.util.List;
 
 /**
- * Defines operations for interacting with accordion UI elements.
+ * Playwright-specific accordion component interface.
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface Accordion {
+public interface Accordion extends AccordionCore<Locator> {
 
-   void expand(Locator container, String sectionLabel);
+   void expand(PwBy... accordionLocator);
 
-   void expand(Locator container);
+   void collapse(PwBy... accordionLocator);
 
-   void expand(String sectionLabel);
+   boolean areEnabled(PwBy... accordionLocator);
 
-   void expandBySelector(String accordionSelector);
+   List<String> getExpanded(PwBy containerLocator);
 
-   void collapse(Locator container, String sectionLabel);
+   List<String> getCollapsed(PwBy containerLocator);
 
-   void collapse(Locator container);
+   List<String> getAll(PwBy containerLocator);
 
-   void collapse(String sectionLabel);
+   String getTitle(PwBy accordionLocator);
 
-   void collapseBySelector(String accordionSelector);
+   String getText(PwBy accordionLocator);
 
-   boolean isExpanded(Locator container, String sectionLabel);
-
-   boolean isExpanded(Locator container);
-
-   boolean isExpanded(String sectionLabel);
-
-   boolean isExpandedBySelector(String accordionSelector);
-
-   boolean isEnabled(Locator container, String sectionLabel);
-
-   boolean isEnabled(Locator container);
-
-   boolean isEnabled(String sectionLabel);
-
-   boolean isEnabledBySelector(String accordionSelector);
 }

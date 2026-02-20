@@ -1,46 +1,27 @@
 package io.cyborgcode.roa.ui.playwright.components.checkbox;
 
 import com.microsoft.playwright.Locator;
+import io.cyborgcode.roa.ui.components.checkbox.CheckboxCore;
+import io.cyborgcode.roa.ui.playwright.base.PwBy;
+import java.util.List;
 
 /**
- * Defines operations for interacting with checkbox UI elements.
+ * Playwright-specific checkbox component interface.
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface Checkbox {
+public interface Checkbox extends CheckboxCore<Locator> {
 
-   void check(Locator container, String checkboxLabel);
+   void select(PwBy... checkBoxLocator);
 
-   void check(Locator container);
+   void deSelect(PwBy... checkBoxLocator);
 
-   void check(String checkboxLabel);
+   boolean areSelected(PwBy... checkBoxLocator);
 
-   void checkBySelector(String checkboxSelector);
+   boolean areEnabled(PwBy... checkBoxLocator);
 
-   void uncheck(Locator container, String checkboxLabel);
+   List<String> getSelected(PwBy containerLocator);
 
-   void uncheck(Locator container);
+   List<String> getAll(PwBy containerLocator);
 
-   void uncheck(String checkboxLabel);
-
-   void uncheckBySelector(String checkboxSelector);
-
-   boolean isChecked(Locator container, String checkboxLabel);
-
-   boolean isChecked(Locator container);
-
-   boolean isChecked(String checkboxLabel);
-
-   boolean isCheckedBySelector(String checkboxSelector);
-
-   boolean isEnabled(Locator container, String checkboxLabel);
-
-   boolean isEnabled(Locator container);
-
-   boolean isEnabled(String checkboxLabel);
-
-   boolean isEnabledBySelector(String checkboxSelector);
-
-   default void tableInsertion(Locator cell, String... values) {
-   }
 }

@@ -1,38 +1,28 @@
 package io.cyborgcode.roa.ui.playwright.components.select;
 
 import com.microsoft.playwright.Locator;
+import io.cyborgcode.roa.ui.components.select.SelectCore;
+import io.cyborgcode.roa.ui.playwright.base.PwBy;
+import io.cyborgcode.roa.ui.util.strategy.Strategy;
+import java.util.List;
 
 /**
- * Defines operations for interacting with select (dropdown) UI elements.
+ * Playwright-specific select component interface.
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface Select {
+public interface Select extends SelectCore<Locator> {
 
-   void select(Locator container, String optionText);
+   void selectOptions(PwBy containerLocator, String... values);
 
-   void select(Locator container, String selectLabel, String optionText);
+   List<String> selectOptions(PwBy containerLocator, Strategy strategy);
 
-   void select(String selectLabel, String optionText);
+   List<String> getAvailableOptions(PwBy containerLocator);
 
-   void selectBySelector(String selectSelector, String optionText);
+   List<String> getSelectedOptions(PwBy containerLocator);
 
-   String getSelectedValue(Locator container);
+   boolean isOptionVisible(PwBy containerLocator, String value);
 
-   String getSelectedValue(Locator container, String selectLabel);
+   boolean isOptionEnabled(PwBy containerLocator, String value);
 
-   String getSelectedValue(String selectLabel);
-
-   String getSelectedValueBySelector(String selectSelector);
-
-   boolean isEnabled(Locator container, String selectLabel);
-
-   boolean isEnabled(Locator container);
-
-   boolean isEnabled(String selectLabel);
-
-   boolean isEnabledBySelector(String selectSelector);
-
-   default void tableInsertion(Locator cell, String... values) {
-   }
 }

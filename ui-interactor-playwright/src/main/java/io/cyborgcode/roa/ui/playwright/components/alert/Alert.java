@@ -1,35 +1,18 @@
 package io.cyborgcode.roa.ui.playwright.components.alert;
 
 import com.microsoft.playwright.Locator;
+import io.cyborgcode.roa.ui.components.alert.AlertCore;
+import io.cyborgcode.roa.ui.playwright.base.PwBy;
 
 /**
- * Defines operations for interacting with alert UI elements.
+ * Playwright-specific alert component interface.
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface Alert {
+public interface Alert extends AlertCore<Locator> {
 
-   String getMessage(Locator container);
+   String getValue(PwBy containerLocator);
 
-   String getMessage(String alertLabel);
+   boolean isVisible(PwBy containerLocator);
 
-   String getMessageBySelector(String alertSelector);
-
-   boolean isVisible(Locator container);
-
-   boolean isVisible(String alertLabel);
-
-   boolean isVisibleBySelector(String alertSelector);
-
-   void dismiss(Locator container);
-
-   void dismiss(String alertLabel);
-
-   void dismissBySelector(String alertSelector);
-
-   String getType(Locator container);
-
-   String getType(String alertLabel);
-
-   String getTypeBySelector(String alertSelector);
 }

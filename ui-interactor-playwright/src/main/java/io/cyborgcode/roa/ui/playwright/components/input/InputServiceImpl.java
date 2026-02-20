@@ -1,12 +1,13 @@
 package io.cyborgcode.roa.ui.playwright.components.input;
 
-import io.cyborgcode.roa.ui.playwright.components.base.AbstractComponentService;
-import io.cyborgcode.roa.ui.playwright.components.base.ComponentType;
-import io.cyborgcode.roa.ui.playwright.components.factory.ComponentFactory;
-import io.cyborgcode.roa.ui.playwright.components.table.filters.FilterStrategy;
-import io.cyborgcode.roa.ui.playwright.log.LogUi;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import io.cyborgcode.roa.ui.components.base.ComponentType;
+import io.cyborgcode.roa.ui.components.input.InputComponentType;
+import io.cyborgcode.roa.ui.components.input.InputServiceImplCore;
+import io.cyborgcode.roa.ui.log.LogUi;
+import io.cyborgcode.roa.ui.playwright.base.PwBy;
+import io.cyborgcode.roa.ui.playwright.components.factory.ComponentFactory;
 
 /**
  * Provides service-level operations for interacting with input components.
@@ -18,12 +19,13 @@ import com.microsoft.playwright.Page;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public class InputServiceImpl extends AbstractComponentService<InputComponentType, Input> implements InputService {
+public class InputServiceImpl extends InputServiceImplCore<Locator, Input, Page, PwBy>
+      implements InputService {
 
    /**
     * Constructs a new InputServiceImpl using the specified Page.
     *
-    * @param Page the Page used for UI interactions.
+    * @param page the Page used for UI interactions.
     */
    public InputServiceImpl(Page page) {
       super(page);
@@ -31,164 +33,49 @@ public class InputServiceImpl extends AbstractComponentService<InputComponentTyp
 
    @Override
    protected Input createComponent(final InputComponentType componentType) {
-      return ComponentFactory.getInputComponent(componentType, page);
+      return ComponentFactory.getInputComponent(componentType, driver);
    }
 
    @Override
-   public void insert(final InputComponentType componentType, final Locator container, final String value) {
+   public void insert(final InputComponentType componentType, final PwBy inputFieldContainerSelector,
+                      final String value) {
       LogUi.step("Inserting value: '{}' into input component of type: '{}'.", value, componentType.getType().name());
-      inputComponent(componentType).insert(container, value);
+      inputComponent(componentType).insert(inputFieldContainerSelector, value);
    }
 
    @Override
-   public void insert(final InputComponentType componentType, final Locator container,
-                      final String inputFieldLabel, final String value) {
-      LogUi.step("Inserting value: '{}' into input field labeled: '{}' of type: '{}'.", value, inputFieldLabel,
-            componentType.getType().name());
-      inputComponent(componentType).insert(container, inputFieldLabel, value);
-   }
-
-   @Override
-   public void insert(final InputComponentType componentType, final String inputFieldLabel, final String value) {
-      LogUi.step("Inserting value: '{}' into input field labeled: '{}' of type: '{}'.", value, inputFieldLabel,
-            componentType.getType().name());
-      inputComponent(componentType).insert(inputFieldLabel, value);
-   }
-
-   @Override
-   public void insertBySelector(final InputComponentType componentType, final String inputFieldContainerSelector,
-                                final String value) {
-      LogUi.step("Inserting value: '{}' into input component of type: '{}'.", value, componentType.getType().name());
-      inputComponent(componentType).insertBySelector(inputFieldContainerSelector, value);
-   }
-
-   @Override
-   public void clear(final InputComponentType componentType, final Locator container) {
+   public void clear(final InputComponentType componentType, final PwBy inputFieldContainerSelector) {
       LogUi.step("Clearing value in input component of type: '{}'.", componentType.getType().name());
-      inputComponent(componentType).clear(container);
+      inputComponent(componentType).clear(inputFieldContainerSelector);
    }
 
    @Override
-   public void clear(final InputComponentType componentType, final Locator container,
-                     final String inputFieldLabel) {
-      LogUi.step("Clearing value in input field labeled: '{}' of type: '{}'.", inputFieldLabel,
-            componentType.getType().name());
-      inputComponent(componentType).clear(container, inputFieldLabel);
-   }
-
-   @Override
-   public void clear(final InputComponentType componentType, final String inputFieldLabel) {
-      LogUi.step("Clearing value in input field labeled: '{}' of type: '{}'.", inputFieldLabel,
-            componentType.getType().name());
-      inputComponent(componentType).clear(inputFieldLabel);
-   }
-
-   @Override
-   public void clearBySelector(final InputComponentType componentType, final String inputFieldContainerSelector) {
-      LogUi.step("Clearing value in input component of type: '{}'.", componentType.getType().name());
-      inputComponent(componentType).clearBySelector(inputFieldContainerSelector);
-   }
-
-   @Override
-   public String getValue(final InputComponentType componentType, final Locator container) {
+   public String getValue(final InputComponentType componentType,
+                          final PwBy inputFieldContainerSelector) {
       LogUi.step("Fetching value from input component of type: '{}'.", componentType.getType().name());
-      return inputComponent(componentType).getValue(container);
+      return inputComponent(componentType).getValue(inputFieldContainerSelector);
    }
 
    @Override
-   public String getValue(final InputComponentType componentType, final Locator container,
-                          final String inputFieldLabel) {
-      LogUi.step("Fetching value from input field labeled: '{}' of type: '{}'.", inputFieldLabel,
-            componentType.getType().name());
-      return inputComponent(componentType).getValue(container, inputFieldLabel);
-   }
-
-   @Override
-   public String getValue(final InputComponentType componentType, final String inputFieldLabel) {
-      LogUi.step("Fetching value from input field labeled: '{}' of type: '{}'.", inputFieldLabel,
-            componentType.getType().name());
-      return inputComponent(componentType).getValue(inputFieldLabel);
-   }
-
-   @Override
-   public String getValueBySelector(final InputComponentType componentType,
-                                    final String inputFieldContainerSelector) {
-      LogUi.step("Fetching value from input component of type: '{}'.", componentType.getType().name());
-      return inputComponent(componentType).getValueBySelector(inputFieldContainerSelector);
-   }
-
-   @Override
-   public boolean isEnabled(final InputComponentType componentType, final Locator container) {
+   public boolean isEnabled(final InputComponentType componentType,
+                            final PwBy inputFieldContainerSelector) {
       LogUi.step("Checking if input component of type: '{}' is enabled.", componentType.getType().name());
-      return inputComponent(componentType).isEnabled(container);
+      return inputComponent(componentType).isEnabled(inputFieldContainerSelector);
    }
 
    @Override
-   public boolean isEnabled(final InputComponentType componentType, final Locator container,
-                            final String inputFieldLabel) {
-      LogUi.step("Checking if input field labeled: '{}' of type: '{}' is enabled.", inputFieldLabel,
-            componentType.getType().name());
-      return inputComponent(componentType).isEnabled(container, inputFieldLabel);
-   }
-
-   @Override
-   public boolean isEnabled(final InputComponentType componentType, final String inputFieldLabel) {
-      LogUi.step("Checking if input field labeled: '{}' of type: '{}' is enabled.", inputFieldLabel,
-            componentType.getType().name());
-      return inputComponent(componentType).isEnabled(inputFieldLabel);
-   }
-
-   @Override
-   public boolean isEnabledBySelector(final InputComponentType componentType,
-                                      final String inputFieldContainerSelector) {
-      LogUi.step("Checking if input component of type: '{}' is enabled.", componentType.getType().name());
-      return inputComponent(componentType).isEnabledBySelector(inputFieldContainerSelector);
-   }
-
-   @Override
-   public String getErrorMessage(final InputComponentType componentType, final Locator container) {
+   public String getErrorMessage(final InputComponentType componentType,
+                                 final PwBy inputFieldContainerSelector) {
       LogUi.step("Fetching error message from input component of type: '{}'.", componentType.getType().name());
-      return inputComponent(componentType).getErrorMessage(container);
+      return inputComponent(componentType).getErrorMessage(inputFieldContainerSelector);
    }
 
    @Override
-   public String getErrorMessage(final InputComponentType componentType, final Locator container,
-                                 final String inputFieldLabel) {
-      LogUi.step("Fetching error message from input field labeled: '{}' of type: '{}'.", inputFieldLabel,
-            componentType.getType().name());
-      return inputComponent(componentType).getErrorMessage(container, inputFieldLabel);
-   }
-
-   @Override
-   public String getErrorMessage(final InputComponentType componentType, final String inputFieldLabel) {
-      LogUi.step("Fetching error message from input field labeled: '{}' of type: '{}'.", inputFieldLabel,
-            componentType.getType().name());
-      return inputComponent(componentType).getErrorMessage(inputFieldLabel);
-   }
-
-   @Override
-   public String getErrorMessageBySelector(final InputComponentType componentType,
-                                           final String inputFieldContainerSelector) {
-      LogUi.step("Fetching error message from input component of type: '{}'.", componentType.getType().name());
-      return inputComponent(componentType).getErrorMessageBySelector(inputFieldContainerSelector);
-   }
-
-   private Input inputComponent(final InputComponentType componentType) {
-      return getOrCreateComponent(componentType);
-   }
-
-   @Override
-   public void tableFilter(Locator cellElement, ComponentType componentType, FilterStrategy filterStrategy, String... values) {
-
-   }
-
-   @Override
-   public void tableInsertion(Locator cellElement, ComponentType componentType, String... values) {
-
-   }
-
-   @Override
-   public void insertion(ComponentType componentType, String selector, Object... values) {
-
+   public void insertion(ComponentType componentType, PwBy selector, Object... values) {
+      if (!(componentType instanceof InputComponentType)) {
+         throw new IllegalArgumentException("Component type needs to be from: InputComponentType.");
+      }
+      LogUi.step("Inserting value into component of type: '{}' using locator.", componentType.getType().name());
+      insert((InputComponentType) componentType, selector, (String) values[0]);
    }
 }

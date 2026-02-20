@@ -1,8 +1,10 @@
 package io.cyborgcode.roa.ui.playwright.components.toggle;
 
-import io.cyborgcode.roa.ui.playwright.components.base.AbstractComponentService;
+import io.cyborgcode.roa.ui.components.toggle.ToggleComponentType;
+import io.cyborgcode.roa.ui.components.toggle.ToggleServiceImplCore;
+import io.cyborgcode.roa.ui.log.LogUi;
+import io.cyborgcode.roa.ui.playwright.base.PwBy;
 import io.cyborgcode.roa.ui.playwright.components.factory.ComponentFactory;
-import io.cyborgcode.roa.ui.playwright.log.LogUi;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 
@@ -11,7 +13,7 @@ import com.microsoft.playwright.Page;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public class ToggleServiceImpl extends AbstractComponentService<ToggleComponentType, Toggle>
+public class ToggleServiceImpl extends ToggleServiceImplCore<Locator, Toggle, Page>
       implements ToggleService {
 
    public ToggleServiceImpl(Page page) {
@@ -20,74 +22,28 @@ public class ToggleServiceImpl extends AbstractComponentService<ToggleComponentT
 
    @Override
    protected Toggle createComponent(final ToggleComponentType componentType) {
-      return ComponentFactory.getToggleComponent(componentType, page);
+      return ComponentFactory.getToggleComponent(componentType, driver);
    }
 
    @Override
-   public void toggle(final ToggleComponentType ct, final Locator c, final String l) {
-      LogUi.step("Toggling: '{}'", l);
-      comp(ct).toggle(c, l);
+   public void activate(final ToggleComponentType componentType, final PwBy toggleLocator) {
+      LogUi.step("Activating toggle by locator");
+      toggleComponent(componentType).activate(toggleLocator);
    }
 
    @Override
-   public void toggle(final ToggleComponentType ct, final Locator c) {
-      LogUi.step("Toggling in container");
-      comp(ct).toggle(c);
+   public void deactivate(final ToggleComponentType componentType, final PwBy toggleLocator) {
+      LogUi.step("Deactivating toggle by locator");
+      toggleComponent(componentType).deactivate(toggleLocator);
    }
 
    @Override
-   public void toggle(final ToggleComponentType ct, final String l) {
-      LogUi.step("Toggling: '{}'", l);
-      comp(ct).toggle(l);
+   public boolean isEnabled(final ToggleComponentType componentType, final PwBy toggleLocator) {
+      return toggleComponent(componentType).isEnabled(toggleLocator);
    }
 
    @Override
-   public void toggleBySelector(final ToggleComponentType ct, final String s) {
-      LogUi.step("Toggling by selector");
-      comp(ct).toggleBySelector(s);
-   }
-
-   @Override
-   public boolean isOn(final ToggleComponentType ct, final Locator c, final String l) {
-      return comp(ct).isOn(c, l);
-   }
-
-   @Override
-   public boolean isOn(final ToggleComponentType ct, final Locator c) {
-      return comp(ct).isOn(c);
-   }
-
-   @Override
-   public boolean isOn(final ToggleComponentType ct, final String l) {
-      return comp(ct).isOn(l);
-   }
-
-   @Override
-   public boolean isOnBySelector(final ToggleComponentType ct, final String s) {
-      return comp(ct).isOnBySelector(s);
-   }
-
-   @Override
-   public boolean isEnabled(final ToggleComponentType ct, final Locator c, final String l) {
-      return comp(ct).isEnabled(c, l);
-   }
-
-   @Override
-   public boolean isEnabled(final ToggleComponentType ct, final Locator c) {
-      return comp(ct).isEnabled(c);
-   }
-
-   @Override
-   public boolean isEnabled(final ToggleComponentType ct, final String l) {
-      return comp(ct).isEnabled(l);
-   }
-
-   @Override
-   public boolean isEnabledBySelector(final ToggleComponentType ct, final String s) {
-      return comp(ct).isEnabledBySelector(s);
-   }
-
-   private Toggle comp(final ToggleComponentType componentType) {
-      return getOrCreateComponent(componentType);
+   public boolean isActivated(final ToggleComponentType componentType, final PwBy toggleLocator) {
+      return toggleComponent(componentType).isActivated(toggleLocator);
    }
 }

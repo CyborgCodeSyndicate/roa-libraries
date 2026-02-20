@@ -1,8 +1,10 @@
 package io.cyborgcode.roa.ui.playwright.components.loader;
 
-import io.cyborgcode.roa.ui.playwright.components.base.AbstractComponentService;
+import io.cyborgcode.roa.ui.components.loader.LoaderComponentType;
+import io.cyborgcode.roa.ui.components.loader.LoaderServiceImplCore;
+import io.cyborgcode.roa.ui.log.LogUi;
+import io.cyborgcode.roa.ui.playwright.base.PwBy;
 import io.cyborgcode.roa.ui.playwright.components.factory.ComponentFactory;
-import io.cyborgcode.roa.ui.playwright.log.LogUi;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 
@@ -11,7 +13,7 @@ import com.microsoft.playwright.Page;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public class LoaderServiceImpl extends AbstractComponentService<LoaderComponentType, Loader>
+public class LoaderServiceImpl extends LoaderServiceImplCore<Locator, Loader, Page>
       implements LoaderService {
 
    public LoaderServiceImpl(Page page) {
@@ -20,61 +22,23 @@ public class LoaderServiceImpl extends AbstractComponentService<LoaderComponentT
 
    @Override
    protected Loader createComponent(final LoaderComponentType componentType) {
-      return ComponentFactory.getLoaderComponent(componentType, page);
+      return ComponentFactory.getLoaderComponent(componentType, driver);
    }
 
    @Override
-   public void waitUntilLoaded(final LoaderComponentType ct, final Locator c) {
-      LogUi.step("Waiting for loader to finish");
-      comp(ct).waitUntilLoaded(c);
+   public boolean isVisible(final LoaderComponentType componentType, final PwBy loaderLocator) {
+      return loaderComponent(componentType).isVisible(loaderLocator);
    }
 
    @Override
-   public void waitUntilLoaded(final LoaderComponentType ct, final Locator c, final int s) {
-      LogUi.step("Waiting for loader to finish ({} seconds)", s);
-      comp(ct).waitUntilLoaded(c, s);
+   public void waitToBeShown(final LoaderComponentType componentType, final PwBy loaderLocator, final int secondsShown) {
+      LogUi.step("Waiting for loader to be shown ({} seconds)", secondsShown);
+      loaderComponent(componentType).waitToBeShown(loaderLocator, secondsShown);
    }
 
    @Override
-   public void waitUntilLoaded(final LoaderComponentType ct, final String l) {
-      LogUi.step("Waiting for loader: '{}' to finish", l);
-      comp(ct).waitUntilLoaded(l);
-   }
-
-   @Override
-   public void waitUntilLoaded(final LoaderComponentType ct, final String l, final int s) {
-      LogUi.step("Waiting for loader: '{}' to finish ({} seconds)", l, s);
-      comp(ct).waitUntilLoaded(l, s);
-   }
-
-   @Override
-   public void waitUntilLoadedBySelector(final LoaderComponentType ct, final String sel) {
-      LogUi.step("Waiting for loader by selector to finish");
-      comp(ct).waitUntilLoadedBySelector(sel);
-   }
-
-   @Override
-   public void waitUntilLoadedBySelector(final LoaderComponentType ct, final String sel, final int s) {
-      LogUi.step("Waiting for loader by selector to finish ({} seconds)", s);
-      comp(ct).waitUntilLoadedBySelector(sel, s);
-   }
-
-   @Override
-   public boolean isLoading(final LoaderComponentType ct, final Locator c) {
-      return comp(ct).isLoading(c);
-   }
-
-   @Override
-   public boolean isLoading(final LoaderComponentType ct, final String l) {
-      return comp(ct).isLoading(l);
-   }
-
-   @Override
-   public boolean isLoadingBySelector(final LoaderComponentType ct, final String s) {
-      return comp(ct).isLoadingBySelector(s);
-   }
-
-   private Loader comp(final LoaderComponentType componentType) {
-      return getOrCreateComponent(componentType);
+   public void waitToBeRemoved(final LoaderComponentType componentType, final PwBy loaderLocator, final int secondsRemoved) {
+      LogUi.step("Waiting for loader to be removed ({} seconds)", secondsRemoved);
+      loaderComponent(componentType).waitToBeRemoved(loaderLocator, secondsRemoved);
    }
 }

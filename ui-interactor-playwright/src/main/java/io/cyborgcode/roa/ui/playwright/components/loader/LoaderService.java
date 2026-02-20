@@ -1,80 +1,35 @@
 package io.cyborgcode.roa.ui.playwright.components.loader;
 
 import com.microsoft.playwright.Locator;
-import io.cyborgcode.utilities.reflections.ReflectionUtil;
-
-import static io.cyborgcode.roa.ui.playwright.config.UiConfigHolder.getPlaywrightConfig;
+import io.cyborgcode.roa.ui.components.loader.LoaderComponentType;
+import io.cyborgcode.roa.ui.components.loader.LoaderServiceCore;
+import io.cyborgcode.roa.ui.playwright.base.PwBy;
 
 /**
- * Provides service-level methods for interacting with loader/spinner UI components.
+ * Playwright-specific loader service interface.
+ *
+ * <p>Binds the core generic {@link LoaderServiceCore}
+ * to Playwright's {@link Locator} type. All method contracts are inherited from core.
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface LoaderService {
+public interface LoaderService extends LoaderServiceCore<Locator> {
 
-   LoaderComponentType DEFAULT_TYPE = getDefaultType();
-
-   private static LoaderComponentType getDefaultType() {
-      try {
-         return ReflectionUtil.findEnumImplementationsOfInterface(LoaderComponentType.class,
-               getPlaywrightConfig().loaderDefaultType(),
-               getPlaywrightConfig().projectPackages());
-      } catch (Exception ignored) {
-         return null;
-      }
+   default boolean isVisible(PwBy loaderLocator) {
+      return isVisible(DEFAULT_TYPE, loaderLocator);
    }
 
-   default void waitUntilLoaded(Locator container) {
-      waitUntilLoaded(DEFAULT_TYPE, container);
+   boolean isVisible(LoaderComponentType componentType, PwBy loaderLocator);
+
+   default void waitToBeShown(PwBy loaderLocator, int secondsShown) {
+      waitToBeShown(DEFAULT_TYPE, loaderLocator, secondsShown);
    }
 
-   void waitUntilLoaded(LoaderComponentType componentType, Locator container);
+   void waitToBeShown(LoaderComponentType componentType, PwBy loaderLocator, int secondsShown);
 
-   default void waitUntilLoaded(Locator container, int seconds) {
-      waitUntilLoaded(DEFAULT_TYPE, container, seconds);
+   default void waitToBeRemoved(PwBy loaderLocator, int secondsRemoved) {
+      waitToBeRemoved(DEFAULT_TYPE, loaderLocator, secondsRemoved);
    }
 
-   void waitUntilLoaded(LoaderComponentType componentType, Locator container, int seconds);
-
-   default void waitUntilLoaded(String loaderLabel) {
-      waitUntilLoaded(DEFAULT_TYPE, loaderLabel);
-   }
-
-   void waitUntilLoaded(LoaderComponentType componentType, String loaderLabel);
-
-   default void waitUntilLoaded(String loaderLabel, int seconds) {
-      waitUntilLoaded(DEFAULT_TYPE, loaderLabel, seconds);
-   }
-
-   void waitUntilLoaded(LoaderComponentType componentType, String loaderLabel, int seconds);
-
-   default void waitUntilLoadedBySelector(String loaderSelector) {
-      waitUntilLoadedBySelector(DEFAULT_TYPE, loaderSelector);
-   }
-
-   void waitUntilLoadedBySelector(LoaderComponentType componentType, String loaderSelector);
-
-   default void waitUntilLoadedBySelector(String loaderSelector, int seconds) {
-      waitUntilLoadedBySelector(DEFAULT_TYPE, loaderSelector, seconds);
-   }
-
-   void waitUntilLoadedBySelector(LoaderComponentType componentType, String loaderSelector, int seconds);
-
-   default boolean isLoading(Locator container) {
-      return isLoading(DEFAULT_TYPE, container);
-   }
-
-   boolean isLoading(LoaderComponentType componentType, Locator container);
-
-   default boolean isLoading(String loaderLabel) {
-      return isLoading(DEFAULT_TYPE, loaderLabel);
-   }
-
-   boolean isLoading(LoaderComponentType componentType, String loaderLabel);
-
-   default boolean isLoadingBySelector(String loaderSelector) {
-      return isLoadingBySelector(DEFAULT_TYPE, loaderSelector);
-   }
-
-   boolean isLoadingBySelector(LoaderComponentType componentType, String loaderSelector);
+   void waitToBeRemoved(LoaderComponentType componentType, PwBy loaderLocator, int secondsRemoved);
 }

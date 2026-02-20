@@ -23,6 +23,7 @@
         <module>ui-interactor-test-framework-adapter</module>
         <module>roa-parent</module>
         <module>roa-archetype</module>
+        <module>ui-interactor-core</module>
     </modules>
 
     <build>

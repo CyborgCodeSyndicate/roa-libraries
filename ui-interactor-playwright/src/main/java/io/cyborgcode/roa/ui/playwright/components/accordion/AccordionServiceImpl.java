@@ -1,17 +1,19 @@
 package io.cyborgcode.roa.ui.playwright.components.accordion;
 
-import io.cyborgcode.roa.ui.playwright.components.base.AbstractComponentService;
-import io.cyborgcode.roa.ui.playwright.components.factory.ComponentFactory;
-import io.cyborgcode.roa.ui.playwright.log.LogUi;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import io.cyborgcode.roa.ui.components.accordion.AccordionComponentType;
+import io.cyborgcode.roa.ui.components.accordion.AccordionServiceImplCore;
+import io.cyborgcode.roa.ui.playwright.base.PwBy;
+import io.cyborgcode.roa.ui.playwright.components.factory.ComponentFactory;
+import java.util.List;
 
 /**
  * Provides service-level operations for interacting with accordion components.
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public class AccordionServiceImpl extends AbstractComponentService<AccordionComponentType, Accordion>
+public class AccordionServiceImpl extends AccordionServiceImplCore<Locator, Accordion, Page>
       implements AccordionService {
 
    public AccordionServiceImpl(Page page) {
@@ -19,99 +21,47 @@ public class AccordionServiceImpl extends AbstractComponentService<AccordionComp
    }
 
    @Override
-   protected Accordion createComponent(final AccordionComponentType componentType) {
-      return ComponentFactory.getAccordionComponent(componentType, page);
+   protected Accordion createComponent(final AccordionComponentType accordionComponentType) {
+      return ComponentFactory.getAccordionComponent(accordionComponentType, driver);
    }
 
    @Override
-   public void expand(final AccordionComponentType ct, final Locator c, final String l) {
-      LogUi.step("Expanding accordion: '{}'", l);
-      comp(ct).expand(c, l);
+   public void expand(AccordionComponentType accordionComponentType, PwBy... accordionLocator) {
+      accordionComponent(accordionComponentType).expand(accordionLocator);
    }
 
    @Override
-   public void expand(final AccordionComponentType ct, final Locator c) {
-      LogUi.step("Expanding accordion in container");
-      comp(ct).expand(c);
+   public void collapse(AccordionComponentType accordionComponentType, PwBy... accordionLocator) {
+      accordionComponent(accordionComponentType).collapse(accordionLocator);
    }
 
    @Override
-   public void expand(final AccordionComponentType ct, final String l) {
-      LogUi.step("Expanding accordion: '{}'", l);
-      comp(ct).expand(l);
+   public boolean areEnabled(AccordionComponentType accordionComponentType, PwBy... accordionLocator) {
+      return accordionComponent(accordionComponentType).areEnabled(accordionLocator);
    }
 
    @Override
-   public void expandBySelector(final AccordionComponentType ct, final String s) {
-      LogUi.step("Expanding accordion by selector");
-      comp(ct).expandBySelector(s);
+   public List<String> getExpanded(AccordionComponentType accordionComponentType, PwBy containerLocator) {
+      return accordionComponent(accordionComponentType).getExpanded(containerLocator);
    }
 
    @Override
-   public void collapse(final AccordionComponentType ct, final Locator c, final String l) {
-      LogUi.step("Collapsing accordion: '{}'", l);
-      comp(ct).collapse(c, l);
+   public List<String> getCollapsed(AccordionComponentType accordionComponentType, PwBy containerLocator) {
+      return accordionComponent(accordionComponentType).getCollapsed(containerLocator);
    }
 
    @Override
-   public void collapse(final AccordionComponentType ct, final Locator c) {
-      LogUi.step("Collapsing accordion in container");
-      comp(ct).collapse(c);
+   public List<String> getAll(AccordionComponentType accordionComponentType, PwBy containerLocator) {
+      return accordionComponent(accordionComponentType).getAll(containerLocator);
    }
 
    @Override
-   public void collapse(final AccordionComponentType ct, final String l) {
-      LogUi.step("Collapsing accordion: '{}'", l);
-      comp(ct).collapse(l);
+   public String getTitle(AccordionComponentType accordionComponentType, PwBy accordionLocator) {
+      return accordionComponent(accordionComponentType).getTitle(accordionLocator);
    }
 
    @Override
-   public void collapseBySelector(final AccordionComponentType ct, final String s) {
-      LogUi.step("Collapsing accordion by selector");
-      comp(ct).collapseBySelector(s);
-   }
-
-   @Override
-   public boolean isExpanded(final AccordionComponentType ct, final Locator c, final String l) {
-      return comp(ct).isExpanded(c, l);
-   }
-
-   @Override
-   public boolean isExpanded(final AccordionComponentType ct, final Locator c) {
-      return comp(ct).isExpanded(c);
-   }
-
-   @Override
-   public boolean isExpanded(final AccordionComponentType ct, final String l) {
-      return comp(ct).isExpanded(l);
-   }
-
-   @Override
-   public boolean isExpandedBySelector(final AccordionComponentType ct, final String s) {
-      return comp(ct).isExpandedBySelector(s);
-   }
-
-   @Override
-   public boolean isEnabled(final AccordionComponentType ct, final Locator c, final String l) {
-      return comp(ct).isEnabled(c, l);
-   }
-
-   @Override
-   public boolean isEnabled(final AccordionComponentType ct, final Locator c) {
-      return comp(ct).isEnabled(c);
-   }
-
-   @Override
-   public boolean isEnabled(final AccordionComponentType ct, final String l) {
-      return comp(ct).isEnabled(l);
-   }
-
-   @Override
-   public boolean isEnabledBySelector(final AccordionComponentType ct, final String s) {
-      return comp(ct).isEnabledBySelector(s);
-   }
-
-   private Accordion comp(final AccordionComponentType componentType) {
-      return getOrCreateComponent(componentType);
+   public String getText(AccordionComponentType accordionComponentType, PwBy accordionLocator) {
+      return accordionComponent(accordionComponentType).getText(accordionLocator);
    }
 }

@@ -1,98 +1,41 @@
 package io.cyborgcode.roa.ui.playwright.components.toggle;
 
 import com.microsoft.playwright.Locator;
-import io.cyborgcode.utilities.reflections.ReflectionUtil;
-
-import static io.cyborgcode.roa.ui.playwright.config.UiConfigHolder.getPlaywrightConfig;
+import io.cyborgcode.roa.ui.components.toggle.ToggleComponentType;
+import io.cyborgcode.roa.ui.components.toggle.ToggleServiceCore;
+import io.cyborgcode.roa.ui.playwright.base.PwBy;
 
 /**
- * Provides service-level methods for interacting with toggle UI components.
+ * Playwright-specific toggle service interface.
+ *
+ * <p>Binds the core generic {@link ToggleServiceCore}
+ * to Playwright's {@link Locator} type. All method contracts are inherited from core.
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface ToggleService {
+public interface ToggleService extends ToggleServiceCore<Locator> {
 
-   ToggleComponentType DEFAULT_TYPE = getDefaultType();
-
-   private static ToggleComponentType getDefaultType() {
-      try {
-         return ReflectionUtil.findEnumImplementationsOfInterface(ToggleComponentType.class,
-               getPlaywrightConfig().toggleDefaultType(),
-               getPlaywrightConfig().projectPackages());
-      } catch (Exception ignored) {
-         return null;
-      }
+   default void activate(PwBy toggleLocator) {
+      activate(DEFAULT_TYPE, toggleLocator);
    }
 
-   default void toggle(Locator container, String toggleLabel) {
-      toggle(DEFAULT_TYPE, container, toggleLabel);
+   void activate(ToggleComponentType componentType, PwBy toggleLocator);
+
+   default void deactivate(PwBy toggleLocator) {
+      deactivate(DEFAULT_TYPE, toggleLocator);
    }
 
-   void toggle(ToggleComponentType componentType, Locator container, String toggleLabel);
+   void deactivate(ToggleComponentType componentType, PwBy toggleLocator);
 
-   default void toggle(Locator container) {
-      toggle(DEFAULT_TYPE, container);
+   default boolean isEnabled(PwBy toggleLocator) {
+      return isEnabled(DEFAULT_TYPE, toggleLocator);
    }
 
-   void toggle(ToggleComponentType componentType, Locator container);
+   boolean isEnabled(ToggleComponentType componentType, PwBy toggleLocator);
 
-   default void toggle(String toggleLabel) {
-      toggle(DEFAULT_TYPE, toggleLabel);
+   default boolean isActivated(PwBy toggleLocator) {
+      return isActivated(DEFAULT_TYPE, toggleLocator);
    }
 
-   void toggle(ToggleComponentType componentType, String toggleLabel);
-
-   default void toggleBySelector(String toggleSelector) {
-      toggleBySelector(DEFAULT_TYPE, toggleSelector);
-   }
-
-   void toggleBySelector(ToggleComponentType componentType, String toggleSelector);
-
-   default boolean isOn(Locator container, String toggleLabel) {
-      return isOn(DEFAULT_TYPE, container, toggleLabel);
-   }
-
-   boolean isOn(ToggleComponentType componentType, Locator container, String toggleLabel);
-
-   default boolean isOn(Locator container) {
-      return isOn(DEFAULT_TYPE, container);
-   }
-
-   boolean isOn(ToggleComponentType componentType, Locator container);
-
-   default boolean isOn(String toggleLabel) {
-      return isOn(DEFAULT_TYPE, toggleLabel);
-   }
-
-   boolean isOn(ToggleComponentType componentType, String toggleLabel);
-
-   default boolean isOnBySelector(String toggleSelector) {
-      return isOnBySelector(DEFAULT_TYPE, toggleSelector);
-   }
-
-   boolean isOnBySelector(ToggleComponentType componentType, String toggleSelector);
-
-   default boolean isEnabled(Locator container, String toggleLabel) {
-      return isEnabled(DEFAULT_TYPE, container, toggleLabel);
-   }
-
-   boolean isEnabled(ToggleComponentType componentType, Locator container, String toggleLabel);
-
-   default boolean isEnabled(Locator container) {
-      return isEnabled(DEFAULT_TYPE, container);
-   }
-
-   boolean isEnabled(ToggleComponentType componentType, Locator container);
-
-   default boolean isEnabled(String toggleLabel) {
-      return isEnabled(DEFAULT_TYPE, toggleLabel);
-   }
-
-   boolean isEnabled(ToggleComponentType componentType, String toggleLabel);
-
-   default boolean isEnabledBySelector(String toggleSelector) {
-      return isEnabledBySelector(DEFAULT_TYPE, toggleSelector);
-   }
-
-   boolean isEnabledBySelector(ToggleComponentType componentType, String toggleSelector);
+   boolean isActivated(ToggleComponentType componentType, PwBy toggleLocator);
 }

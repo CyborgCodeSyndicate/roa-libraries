@@ -1,18 +1,21 @@
 package io.cyborgcode.roa.ui.playwright.components.checkbox;
 
-import io.cyborgcode.roa.ui.playwright.components.base.AbstractComponentService;
-import io.cyborgcode.roa.ui.playwright.components.base.ComponentType;
+import io.cyborgcode.roa.ui.components.base.ComponentType;
+import io.cyborgcode.roa.ui.components.checkbox.CheckboxComponentType;
+import io.cyborgcode.roa.ui.components.checkbox.CheckboxServiceImplCore;
+import io.cyborgcode.roa.ui.log.LogUi;
+import io.cyborgcode.roa.ui.playwright.base.PwBy;
 import io.cyborgcode.roa.ui.playwright.components.factory.ComponentFactory;
-import io.cyborgcode.roa.ui.playwright.log.LogUi;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import java.util.List;
 
 /**
  * Provides service-level operations for interacting with checkbox components.
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public class CheckboxServiceImpl extends AbstractComponentService<CheckboxComponentType, Checkbox>
+public class CheckboxServiceImpl extends CheckboxServiceImplCore<Locator, Checkbox, Page, PwBy>
       implements CheckboxService {
 
    public CheckboxServiceImpl(Page page) {
@@ -21,102 +24,33 @@ public class CheckboxServiceImpl extends AbstractComponentService<CheckboxCompon
 
    @Override
    protected Checkbox createComponent(final CheckboxComponentType componentType) {
-      return ComponentFactory.getCheckBoxComponent(componentType, page);
+      return ComponentFactory.getCheckBoxComponent(componentType, driver);
    }
 
-   @Override
-   public void check(final CheckboxComponentType ct, final Locator c, final String l) {
-      LogUi.step("Checking checkbox: '{}'", l);
-      comp(ct).check(c, l);
+   public void select(final CheckboxComponentType componentType, final PwBy... checkBoxLocator) {
+      LogUi.step("Selecting checkbox by locator");
+      checkboxComponent(componentType).select(checkBoxLocator);
    }
 
-   @Override
-   public void check(final CheckboxComponentType ct, final Locator c) {
-      LogUi.step("Checking checkbox in container");
-      comp(ct).check(c);
+   public void deSelect(final CheckboxComponentType componentType, final PwBy... checkBoxLocator) {
+      LogUi.step("Deselecting checkbox by locator");
+      checkboxComponent(componentType).deSelect(checkBoxLocator);
    }
 
-   @Override
-   public void check(final CheckboxComponentType ct, final String l) {
-      LogUi.step("Checking checkbox: '{}'", l);
-      comp(ct).check(l);
+   public boolean areSelected(final CheckboxComponentType componentType, final PwBy... checkBoxLocator) {
+      return checkboxComponent(componentType).areSelected(checkBoxLocator);
    }
 
-   @Override
-   public void checkBySelector(final CheckboxComponentType ct, final String s) {
-      LogUi.step("Checking checkbox by selector");
-      comp(ct).checkBySelector(s);
+   public boolean areEnabled(final CheckboxComponentType componentType, final PwBy... checkBoxLocator) {
+      return checkboxComponent(componentType).areEnabled(checkBoxLocator);
    }
 
-   @Override
-   public void uncheck(final CheckboxComponentType ct, final Locator c, final String l) {
-      LogUi.step("Unchecking checkbox: '{}'", l);
-      comp(ct).uncheck(c, l);
+   public List<String> getSelected(final CheckboxComponentType componentType, final PwBy containerLocator) {
+      return checkboxComponent(componentType).getSelected(containerLocator);
    }
 
-   @Override
-   public void uncheck(final CheckboxComponentType ct, final Locator c) {
-      LogUi.step("Unchecking checkbox in container");
-      comp(ct).uncheck(c);
+   public List<String> getAll(final CheckboxComponentType componentType, final PwBy containerLocator) {
+      return checkboxComponent(componentType).getAll(containerLocator);
    }
-
-   @Override
-   public void uncheck(final CheckboxComponentType ct, final String l) {
-      LogUi.step("Unchecking checkbox: '{}'", l);
-      comp(ct).uncheck(l);
-   }
-
-   @Override
-   public void uncheckBySelector(final CheckboxComponentType ct, final String s) {
-      LogUi.step("Unchecking checkbox by selector");
-      comp(ct).uncheckBySelector(s);
-   }
-
-   @Override
-   public boolean isChecked(final CheckboxComponentType ct, final Locator c, final String l) {
-      return comp(ct).isChecked(c, l);
-   }
-
-   @Override
-   public boolean isChecked(final CheckboxComponentType ct, final Locator c) {
-      return comp(ct).isChecked(c);
-   }
-
-   @Override
-   public boolean isChecked(final CheckboxComponentType ct, final String l) {
-      return comp(ct).isChecked(l);
-   }
-
-   @Override
-   public boolean isCheckedBySelector(final CheckboxComponentType ct, final String s) {
-      return comp(ct).isCheckedBySelector(s);
-   }
-
-   @Override
-   public boolean isEnabled(final CheckboxComponentType ct, final Locator c, final String l) {
-      return comp(ct).isEnabled(c, l);
-   }
-
-   @Override
-   public boolean isEnabled(final CheckboxComponentType ct, final Locator c) {
-      return comp(ct).isEnabled(c);
-   }
-
-   @Override
-   public boolean isEnabled(final CheckboxComponentType ct, final String l) {
-      return comp(ct).isEnabled(l);
-   }
-
-   @Override
-   public boolean isEnabledBySelector(final CheckboxComponentType ct, final String s) {
-      return comp(ct).isEnabledBySelector(s);
-   }
-
-   @Override
-   public void insertion(ComponentType componentType, String selector, Object... values) {
-   }
-
-   private Checkbox comp(final CheckboxComponentType componentType) {
-      return getOrCreateComponent(componentType);
-   }
+   
 }

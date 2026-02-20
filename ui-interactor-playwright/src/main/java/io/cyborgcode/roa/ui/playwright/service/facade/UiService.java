@@ -1,11 +1,27 @@
 package io.cyborgcode.roa.ui.playwright.service.facade;
 
+import com.microsoft.playwright.Locator;
+import com.microsoft.playwright.Page;
+import io.cyborgcode.roa.ui.components.button.ButtonComponentType;
+import io.cyborgcode.roa.ui.components.checkbox.CheckboxComponentType;
+import io.cyborgcode.roa.ui.components.input.InputComponentType;
+import io.cyborgcode.roa.ui.components.link.LinkComponentType;
+import io.cyborgcode.roa.ui.components.list.ItemListComponentType;
+import io.cyborgcode.roa.ui.components.radio.RadioComponentType;
+import io.cyborgcode.roa.ui.components.select.SelectComponentType;
+import io.cyborgcode.roa.ui.components.table.filters.TableFilter;
+import io.cyborgcode.roa.ui.components.table.insertion.TableInsertion;
+import io.cyborgcode.roa.ui.components.table.registry.TableServiceRegistry;
+import io.cyborgcode.roa.ui.components.table.service.TableService;
+import io.cyborgcode.roa.ui.insertion.InsertionService;
+import io.cyborgcode.roa.ui.insertion.InsertionServiceRegistry;
+import io.cyborgcode.roa.ui.playwright.base.PwBy;
 import io.cyborgcode.roa.ui.playwright.components.accordion.AccordionService;
 import io.cyborgcode.roa.ui.playwright.components.accordion.AccordionServiceImpl;
 import io.cyborgcode.roa.ui.playwright.components.alert.AlertService;
 import io.cyborgcode.roa.ui.playwright.components.alert.AlertServiceImpl;
-import io.cyborgcode.roa.ui.playwright.components.button.ButtonServiceImpl;
 import io.cyborgcode.roa.ui.playwright.components.button.ButtonService;
+import io.cyborgcode.roa.ui.playwright.components.button.ButtonServiceImpl;
 import io.cyborgcode.roa.ui.playwright.components.checkbox.CheckboxService;
 import io.cyborgcode.roa.ui.playwright.components.checkbox.CheckboxServiceImpl;
 import io.cyborgcode.roa.ui.playwright.components.input.InputService;
@@ -24,18 +40,11 @@ import io.cyborgcode.roa.ui.playwright.components.select.SelectService;
 import io.cyborgcode.roa.ui.playwright.components.select.SelectServiceImpl;
 import io.cyborgcode.roa.ui.playwright.components.tab.TabService;
 import io.cyborgcode.roa.ui.playwright.components.tab.TabServiceImpl;
+import io.cyborgcode.roa.ui.playwright.components.table.service.TableServiceImpl;
 import io.cyborgcode.roa.ui.playwright.components.toggle.ToggleService;
 import io.cyborgcode.roa.ui.playwright.components.toggle.ToggleServiceImpl;
-import io.cyborgcode.roa.ui.playwright.components.table.filters.TableFilter;
-import io.cyborgcode.roa.ui.playwright.components.table.insertion.TableInsertion;
-import io.cyborgcode.roa.ui.playwright.components.table.registry.TableServiceRegistry;
-import io.cyborgcode.roa.ui.playwright.components.table.service.TableService;
-import io.cyborgcode.roa.ui.playwright.components.table.service.TableServiceImpl;
-import io.cyborgcode.roa.ui.playwright.insertion.InsertionService;
 import io.cyborgcode.roa.ui.playwright.insertion.InsertionServiceFieldImpl;
-import io.cyborgcode.roa.ui.playwright.insertion.InsertionServiceRegistry;
 import io.cyborgcode.roa.ui.playwright.session.UISession;
-import com.microsoft.playwright.Page;
 import lombok.Getter;
 
 /**
@@ -66,9 +75,9 @@ public class UiService {
    private final TabService tabField;
    private final AccordionService accordionField;
    private final ModalService modalField;
-   private final InsertionServiceRegistry serviceRegistry;
+   private final InsertionServiceRegistry<PwBy> serviceRegistry;
    private final InsertionService insertionService;
-   private final TableServiceRegistry tableServiceRegistry;
+   private final TableServiceRegistry<Locator> tableServiceRegistry;
    private final TableService tableService;
 
    /**
@@ -92,63 +101,36 @@ public class UiService {
       modalField = new ModalServiceImpl(page);
       checkboxField = new CheckboxServiceImpl(page);
       toggleField = new ToggleServiceImpl(page);
-      serviceRegistry = new InsertionServiceRegistry();
-      tableServiceRegistry = new TableServiceRegistry();
+      serviceRegistry = new InsertionServiceRegistry<>();
+      tableServiceRegistry = new TableServiceRegistry<>();
       registerInsertionServices();
       insertionService = new InsertionServiceFieldImpl(serviceRegistry);
       tableService = new TableServiceImpl(page, tableServiceRegistry);
    }
 
-   /**
-    * Constructs the UI service with a Page directly.
-    *
-    * @param Page The {@link Page} instance for UI interactions.
-    */
-   public UiService(final Page page) {
-      this.session = null;
-      this.page = page;
-      inputField = new InputServiceImpl(page);
-      buttonField = new ButtonServiceImpl(page);
-      radioField = new RadioServiceImpl(page);
-      selectField = new SelectServiceImpl(page);
-      listField = new ItemListServiceImpl(page);
-      loaderField = new LoaderServiceImpl(page);
-      linkField = new LinkServiceImpl(page);
-      alertField = new AlertServiceImpl(page);
-      tabField = new TabServiceImpl(page);
-      accordionField = new AccordionServiceImpl(page);
-      modalField = new ModalServiceImpl(page);
-      checkboxField = new CheckboxServiceImpl(page);
-      toggleField = new ToggleServiceImpl(page);
-      serviceRegistry = new InsertionServiceRegistry();
-      tableServiceRegistry = new TableServiceRegistry();
-      registerInsertionServices();
-      insertionService = new InsertionServiceFieldImpl(serviceRegistry);
-      tableService = new TableServiceImpl(page, tableServiceRegistry);
-   }
 
    /**
     * Registers various UI component services to the respective registries.
     */
    private void registerInsertionServices() {
       serviceRegistry.registerService(
-            io.cyborgcode.roa.ui.playwright.components.input.InputComponentType.class, inputField);
+            InputComponentType.class, inputField);
       serviceRegistry.registerService(
-            io.cyborgcode.roa.ui.playwright.components.radio.RadioComponentType.class, radioField);
+            RadioComponentType.class, radioField);
       serviceRegistry.registerService(
-            io.cyborgcode.roa.ui.playwright.components.checkbox.CheckboxComponentType.class, checkboxField);
+            CheckboxComponentType.class, checkboxField);
       serviceRegistry.registerService(
-            io.cyborgcode.roa.ui.playwright.components.select.SelectComponentType.class, selectField);
+            SelectComponentType.class, selectField);
       serviceRegistry.registerService(
-            io.cyborgcode.roa.ui.playwright.components.list.ItemListComponentType.class, listField);
+            ItemListComponentType.class, listField);
       tableServiceRegistry.registerService(
-            io.cyborgcode.roa.ui.playwright.components.button.ButtonComponentType.class, buttonField);
+            ButtonComponentType.class, buttonField);
       tableServiceRegistry.registerService(
-            io.cyborgcode.roa.ui.playwright.components.link.LinkComponentType.class, linkField);
+            LinkComponentType.class, linkField);
       tableServiceRegistry.registerService(
-            io.cyborgcode.roa.ui.playwright.components.input.InputComponentType.class, (TableFilter) inputField);
+            InputComponentType.class, (TableFilter<Locator>) inputField);
       tableServiceRegistry.registerService(
-            io.cyborgcode.roa.ui.playwright.components.input.InputComponentType.class, (TableInsertion) inputField);
+            InputComponentType.class, (TableInsertion<Locator>) inputField);
    }
 
 }

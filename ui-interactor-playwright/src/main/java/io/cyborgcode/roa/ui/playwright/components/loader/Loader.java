@@ -1,29 +1,20 @@
 package io.cyborgcode.roa.ui.playwright.components.loader;
 
 import com.microsoft.playwright.Locator;
+import io.cyborgcode.roa.ui.components.loader.LoaderCore;
+import io.cyborgcode.roa.ui.playwright.base.PwBy;
 
 /**
- * Defines operations for interacting with loader/spinner UI elements.
+ * Playwright-specific loader component interface.
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface Loader {
+public interface Loader extends LoaderCore<Locator> {
 
-   void waitUntilLoaded(Locator container);
+   boolean isVisible(PwBy loaderLocator);
 
-   void waitUntilLoaded(Locator container, int seconds);
+   void waitToBeShown(PwBy loaderLocator, int secondsShown);
 
-   void waitUntilLoaded(String loaderLabel);
+   void waitToBeRemoved(PwBy loaderLocator, int secondsRemoved);
 
-   void waitUntilLoaded(String loaderLabel, int seconds);
-
-   void waitUntilLoadedBySelector(String loaderSelector);
-
-   void waitUntilLoadedBySelector(String loaderSelector, int seconds);
-
-   boolean isLoading(Locator container);
-
-   boolean isLoading(String loaderLabel);
-
-   boolean isLoadingBySelector(String loaderSelector);
 }

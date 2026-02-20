@@ -1,38 +1,22 @@
 package io.cyborgcode.roa.ui.playwright.components.toggle;
 
 import com.microsoft.playwright.Locator;
+import io.cyborgcode.roa.ui.components.toggle.ToggleCore;
+import io.cyborgcode.roa.ui.playwright.base.PwBy;
 
 /**
- * Defines operations for interacting with toggle UI elements.
+ * Playwright-specific toggle component interface.
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface Toggle {
+public interface Toggle extends ToggleCore<Locator> {
 
-   void toggle(Locator container, String toggleLabel);
+   void activate(PwBy toggleLocator);
 
-   void toggle(Locator container);
+   void deactivate(PwBy toggleLocator);
 
-   void toggle(String toggleLabel);
+   boolean isEnabled(PwBy toggleLocator);
 
-   void toggleBySelector(String toggleSelector);
+   boolean isActivated(PwBy toggleLocator);
 
-   boolean isOn(Locator container, String toggleLabel);
-
-   boolean isOn(Locator container);
-
-   boolean isOn(String toggleLabel);
-
-   boolean isOnBySelector(String toggleSelector);
-
-   boolean isEnabled(Locator container, String toggleLabel);
-
-   boolean isEnabled(Locator container);
-
-   boolean isEnabled(String toggleLabel);
-
-   boolean isEnabledBySelector(String toggleSelector);
-
-   default void tableInsertion(Locator cell, String... values) {
-   }
 }

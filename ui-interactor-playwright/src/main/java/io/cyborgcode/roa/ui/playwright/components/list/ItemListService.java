@@ -1,81 +1,103 @@
 package io.cyborgcode.roa.ui.playwright.components.list;
 
 import com.microsoft.playwright.Locator;
-import io.cyborgcode.utilities.reflections.ReflectionUtil;
+import io.cyborgcode.roa.ui.components.list.ItemListComponentType;
+import io.cyborgcode.roa.ui.components.list.ItemListServiceCore;
+import io.cyborgcode.roa.ui.util.strategy.Strategy;
+import io.cyborgcode.roa.ui.playwright.base.PwBy;
 import java.util.List;
 
-import static io.cyborgcode.roa.ui.playwright.config.UiConfigHolder.getPlaywrightConfig;
-
 /**
- * Provides service-level methods for interacting with list UI components.
+ * Playwright-specific list service interface.
+ *
+ * <p>Binds the core generic {@link ItemListServiceCore}
+ * to Playwright's {@link Locator} type. All method contracts are inherited from core.
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface ItemListService extends io.cyborgcode.roa.ui.playwright.insertion.Insertion {
+public interface ItemListService extends ItemListServiceCore<Locator, PwBy> {
 
-   ItemListComponentType DEFAULT_TYPE = getDefaultType();
-
-   private static ItemListComponentType getDefaultType() {
-      try {
-         return ReflectionUtil.findEnumImplementationsOfInterface(ItemListComponentType.class,
-               getPlaywrightConfig().listDefaultType(),
-               getPlaywrightConfig().projectPackages());
-      } catch (Exception ignored) {
-         return null;
-      }
+   default void select(PwBy containerLocator, String... itemText) {
+      select(DEFAULT_TYPE, containerLocator, itemText);
    }
 
-   default List<String> getItems(Locator container) {
-      return getItems(DEFAULT_TYPE, container);
+   void select(ItemListComponentType componentType, PwBy containerLocator, String... itemText);
+
+   default void select(PwBy containerLocator, Strategy strategy) {
+      select(DEFAULT_TYPE, containerLocator, strategy);
    }
 
-   List<String> getItems(ItemListComponentType componentType, Locator container);
+   void select(ItemListComponentType componentType, PwBy containerLocator, Strategy strategy);
 
-   default List<String> getItems(String listLabel) {
-      return getItems(DEFAULT_TYPE, listLabel);
+   default void select(PwBy... itemListLocator) {
+      select(DEFAULT_TYPE, itemListLocator);
    }
 
-   List<String> getItems(ItemListComponentType componentType, String listLabel);
+   void select(ItemListComponentType componentType, PwBy... itemListLocator);
 
-   default List<String> getItemsBySelector(String listSelector) {
-      return getItemsBySelector(DEFAULT_TYPE, listSelector);
+   default void deSelect(PwBy containerLocator, String... itemText) {
+      deSelect(DEFAULT_TYPE, containerLocator, itemText);
    }
 
-   List<String> getItemsBySelector(ItemListComponentType componentType, String listSelector);
+   void deSelect(ItemListComponentType componentType, PwBy containerLocator, String... itemText);
 
-   default void selectItem(Locator container, String itemText) {
-      selectItem(DEFAULT_TYPE, container, itemText);
+   default void deSelect(PwBy containerLocator, Strategy strategy) {
+      deSelect(DEFAULT_TYPE, containerLocator, strategy);
    }
 
-   void selectItem(ItemListComponentType componentType, Locator container, String itemText);
+   void deSelect(ItemListComponentType componentType, PwBy containerLocator, Strategy strategy);
 
-   default void selectItem(String listLabel, String itemText) {
-      selectItem(DEFAULT_TYPE, listLabel, itemText);
+   default void deSelect(PwBy... itemListLocator) {
+      deSelect(DEFAULT_TYPE, itemListLocator);
    }
 
-   void selectItem(ItemListComponentType componentType, String listLabel, String itemText);
+   void deSelect(ItemListComponentType componentType, PwBy... itemListLocator);
 
-   default void selectItemBySelector(String listSelector, String itemText) {
-      selectItemBySelector(DEFAULT_TYPE, listSelector, itemText);
+   default boolean areSelected(PwBy containerLocator, String... itemText) {
+      return areSelected(DEFAULT_TYPE, containerLocator, itemText);
    }
 
-   void selectItemBySelector(ItemListComponentType componentType, String listSelector, String itemText);
+   boolean areSelected(ItemListComponentType componentType, PwBy containerLocator, String... itemText);
 
-   default boolean isItemPresent(Locator container, String itemText) {
-      return isItemPresent(DEFAULT_TYPE, container, itemText);
+   default boolean areSelected(PwBy... itemListLocator) {
+      return areSelected(DEFAULT_TYPE, itemListLocator);
    }
 
-   boolean isItemPresent(ItemListComponentType componentType, Locator container, String itemText);
+   boolean areSelected(ItemListComponentType componentType, PwBy... itemListLocator);
 
-   default boolean isItemPresent(String listLabel, String itemText) {
-      return isItemPresent(DEFAULT_TYPE, listLabel, itemText);
+   default boolean areEnabled(PwBy containerLocator, String... itemText) {
+      return areEnabled(DEFAULT_TYPE, containerLocator, itemText);
    }
 
-   boolean isItemPresent(ItemListComponentType componentType, String listLabel, String itemText);
+   boolean areEnabled(ItemListComponentType componentType, PwBy containerLocator, String... itemText);
 
-   default boolean isItemPresentBySelector(String listSelector, String itemText) {
-      return isItemPresentBySelector(DEFAULT_TYPE, listSelector, itemText);
+   default boolean areEnabled(PwBy... itemLocator) {
+      return areEnabled(DEFAULT_TYPE, itemLocator);
    }
 
-   boolean isItemPresentBySelector(ItemListComponentType componentType, String listSelector, String itemText);
+   boolean areEnabled(ItemListComponentType componentType, PwBy... itemLocator);
+
+   default boolean areVisible(PwBy containerLocator, String... itemText) {
+      return areVisible(DEFAULT_TYPE, containerLocator, itemText);
+   }
+
+   boolean areVisible(ItemListComponentType componentType, PwBy containerLocator, String... itemText);
+
+   default boolean areVisible(PwBy... itemLocator) {
+      return areVisible(DEFAULT_TYPE, itemLocator);
+   }
+
+   boolean areVisible(ItemListComponentType componentType, PwBy... itemLocator);
+
+   default List<String> getSelected(PwBy containerLocator) {
+      return getSelected(DEFAULT_TYPE, containerLocator);
+   }
+
+   List<String> getSelected(ItemListComponentType componentType, PwBy containerLocator);
+
+   default List<String> getAll(PwBy containerLocator) {
+      return getAll(DEFAULT_TYPE, containerLocator);
+   }
+
+   List<String> getAll(ItemListComponentType componentType, PwBy containerLocator);
 }

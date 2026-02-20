@@ -6,7 +6,7 @@ import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.Tracing;
-import io.cyborgcode.roa.ui.playwright.log.LogUi;
+import io.cyborgcode.roa.ui.log.LogUi;
 import io.cyborgcode.roa.ui.playwright.session.UISession;
 import io.cyborgcode.roa.ui.playwright.session.base.BrowserProvider;
 import io.cyborgcode.roa.ui.playwright.session.config.SessionConfig;

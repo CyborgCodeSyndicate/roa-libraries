@@ -1,43 +1,22 @@
 package io.cyborgcode.roa.ui.playwright.components.link;
 
 import com.microsoft.playwright.Locator;
+import io.cyborgcode.roa.ui.components.link.LinkCore;
+import io.cyborgcode.roa.ui.playwright.base.PwBy;
 
 /**
- * Defines operations for interacting with link UI elements.
+ * Playwright-specific link component interface.
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface Link {
+public interface Link extends LinkCore<Locator> {
 
-   void click(Locator container, String linkText);
+   void click(PwBy linkSelector);
 
-   void click(Locator container);
+   boolean isEnabled(PwBy linkSelector);
 
-   void click(String linkText);
+   boolean isVisible(PwBy linkSelector);
+   
+   void doubleClick(PwBy buttonLocator);
 
-   void clickBySelector(String linkSelector);
-
-   String getHref(Locator container, String linkText);
-
-   String getHref(Locator container);
-
-   String getHref(String linkText);
-
-   String getHrefBySelector(String linkSelector);
-
-   boolean isVisible(Locator container, String linkText);
-
-   boolean isVisible(Locator container);
-
-   boolean isVisible(String linkText);
-
-   boolean isVisibleBySelector(String linkSelector);
-
-   boolean isEnabled(Locator container, String linkText);
-
-   boolean isEnabled(Locator container);
-
-   boolean isEnabled(String linkText);
-
-   boolean isEnabledBySelector(String linkSelector);
 }

@@ -1,18 +1,23 @@
 package io.cyborgcode.roa.ui.playwright.components.select;
 
-import io.cyborgcode.roa.ui.playwright.components.base.AbstractComponentService;
-import io.cyborgcode.roa.ui.playwright.components.base.ComponentType;
+import io.cyborgcode.roa.ui.components.base.ComponentType;
+import io.cyborgcode.roa.ui.components.select.SelectComponentType;
+import io.cyborgcode.roa.ui.components.select.SelectServiceImplCore;
+import io.cyborgcode.roa.ui.log.LogUi;
+import io.cyborgcode.roa.ui.util.strategy.Strategy;
+import io.cyborgcode.roa.ui.playwright.base.PwBy;
 import io.cyborgcode.roa.ui.playwright.components.factory.ComponentFactory;
-import io.cyborgcode.roa.ui.playwright.log.LogUi;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Provides service-level operations for interacting with select (dropdown) components.
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public class SelectServiceImpl extends AbstractComponentService<SelectComponentType, Select>
+public class SelectServiceImpl extends SelectServiceImplCore<Locator, Select, Page, PwBy>
       implements SelectService {
 
    public SelectServiceImpl(Page page) {
@@ -21,78 +26,51 @@ public class SelectServiceImpl extends AbstractComponentService<SelectComponentT
 
    @Override
    protected Select createComponent(final SelectComponentType componentType) {
-      return ComponentFactory.getSelectComponent(componentType, page);
+      return ComponentFactory.getSelectComponent(componentType, driver);
    }
 
    @Override
-   public void select(final SelectComponentType ct, final Locator c, final String o) {
-      LogUi.step("Selecting option: '{}'", o);
-      comp(ct).select(c, o);
+   public void selectOptions(final SelectComponentType componentType, final PwBy containerLocator, final String... values) {
+      LogUi.step("Selecting options");
+      selectComponent(componentType).selectOptions(containerLocator, values);
    }
 
    @Override
-   public void select(final SelectComponentType ct, final Locator c, final String l, final String o) {
-      LogUi.step("Selecting option: '{}' in select: '{}'", o, l);
-      comp(ct).select(c, l, o);
+   public void selectOptions(final SelectComponentType componentType, final PwBy containerLocator, final Strategy strategy) {
+      LogUi.step("Selecting options");
+      selectComponent(componentType).selectOptions(containerLocator, strategy);
    }
 
    @Override
-   public void select(final SelectComponentType ct, final String l, final String o) {
-      LogUi.step("Selecting option: '{}' in select: '{}'", o, l);
-      comp(ct).select(l, o);
+   public List<String> getAvailableOptions(final SelectComponentType componentType, final PwBy containerLocator) {
+      return selectComponent(componentType).getAvailableOptions(containerLocator);
    }
 
    @Override
-   public void selectBySelector(final SelectComponentType ct, final String s, final String o) {
-      LogUi.step("Selecting option: '{}' by selector", o);
-      comp(ct).selectBySelector(s, o);
+   public List<String> getSelectedOptions(final SelectComponentType componentType, final PwBy containerLocator) {
+      return selectComponent(componentType).getSelectedOptions(containerLocator);
    }
 
    @Override
-   public String getSelectedValue(final SelectComponentType ct, final Locator c) {
-      return comp(ct).getSelectedValue(c);
+   public boolean isOptionVisible(final SelectComponentType componentType, final PwBy containerLocator, final String value) {
+      return selectComponent(componentType).isOptionVisible(containerLocator, value);
    }
 
    @Override
-   public String getSelectedValue(final SelectComponentType ct, final Locator c, final String l) {
-      return comp(ct).getSelectedValue(c, l);
+   public boolean isOptionEnabled(final SelectComponentType componentType, final PwBy containerLocator, final String value) {
+      return selectComponent(componentType).isOptionEnabled(containerLocator, value);
    }
 
    @Override
-   public String getSelectedValue(final SelectComponentType ct, final String l) {
-      return comp(ct).getSelectedValue(l);
-   }
-
-   @Override
-   public String getSelectedValueBySelector(final SelectComponentType ct, final String s) {
-      return comp(ct).getSelectedValueBySelector(s);
-   }
-
-   @Override
-   public boolean isEnabled(final SelectComponentType ct, final Locator c, final String l) {
-      return comp(ct).isEnabled(c, l);
-   }
-
-   @Override
-   public boolean isEnabled(final SelectComponentType ct, final Locator c) {
-      return comp(ct).isEnabled(c);
-   }
-
-   @Override
-   public boolean isEnabled(final SelectComponentType ct, final String l) {
-      return comp(ct).isEnabled(l);
-   }
-
-   @Override
-   public boolean isEnabledBySelector(final SelectComponentType ct, final String s) {
-      return comp(ct).isEnabledBySelector(s);
-   }
-
-   @Override
-   public void insertion(ComponentType componentType, String selector, Object... values) {
-   }
-
-   private Select comp(final SelectComponentType componentType) {
-      return getOrCreateComponent(componentType);
+   public void insertion(ComponentType componentType, PwBy selector, Object... values) {
+      if (!(componentType instanceof SelectComponentType selectType)) {
+         throw new IllegalArgumentException("Component type needs to be from: SelectComponentType.");
+      }
+      LogUi.step(String.format("Inserting values %s for select component %s using locator %s",
+            Arrays.toString(values), componentType, selector));
+      String[] stringValues = Arrays.stream(values)
+            .map(String::valueOf)
+            .toArray(String[]::new);
+      selectOptions(selectType, selector, stringValues);
    }
 }

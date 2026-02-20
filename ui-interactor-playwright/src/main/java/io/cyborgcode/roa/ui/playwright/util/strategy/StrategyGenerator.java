@@ -1,6 +1,7 @@
 package io.cyborgcode.roa.ui.playwright.util.strategy;
 
 import com.microsoft.playwright.Locator;
+import io.cyborgcode.roa.ui.util.strategy.StrategyGeneratorService;
 import java.security.SecureRandom;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
  */
 public class StrategyGenerator {
 
-   private static final SecureRandom RANDOM = new SecureRandom();
+   private static final StrategyGeneratorService<Locator> STRATEGY_GENERATOR_SERVICE = new StrategyGeneratorService<>();
 
    private StrategyGenerator() {
    }
@@ -30,8 +31,7 @@ public class StrategyGenerator {
     * @throws IllegalArgumentException if the list is null or empty.
     */
    public static Locator getRandomElementFromElements(List<Locator> elements) {
-      validateInput(elements);
-      return elements.get(RANDOM.nextInt(elements.size()));
+      return STRATEGY_GENERATOR_SERVICE.getRandomElementFromElements(elements);
    }
 
    /**
@@ -42,8 +42,7 @@ public class StrategyGenerator {
     * @throws IllegalArgumentException if the list is null or empty.
     */
    public static Locator getFirstElementFromElements(List<Locator> elements) {
-      validateInput(elements);
-      return elements.get(0);
+      return STRATEGY_GENERATOR_SERVICE.getFirstElementFromElements(elements);
    }
 
    /**
@@ -54,19 +53,6 @@ public class StrategyGenerator {
     * @throws IllegalArgumentException if the list is null or empty.
     */
    public static Locator getLastElementFromElements(List<Locator> elements) {
-      validateInput(elements);
-      return elements.get(elements.size() - 1);
-   }
-
-   /**
-    * Validates that the input list is not null or empty.
-    *
-    * @param elements The list to validate.
-    * @throws IllegalArgumentException if the list is null or empty.
-    */
-   private static void validateInput(List<Locator> elements) {
-      if (elements == null || elements.isEmpty()) {
-         throw new IllegalArgumentException("Element list must not be null or empty.");
-      }
+      return STRATEGY_GENERATOR_SERVICE.getFirstElementFromElements(elements);
    }
 }

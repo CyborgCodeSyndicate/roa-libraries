@@ -1,6 +1,6 @@
 package io.cyborgcode.roa.ui.playwright.annotations;
 
-import io.cyborgcode.roa.ui.playwright.components.base.ComponentType;
+import io.cyborgcode.roa.ui.components.base.ComponentType;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

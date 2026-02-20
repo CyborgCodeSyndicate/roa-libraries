@@ -1,33 +1,44 @@
 package io.cyborgcode.roa.ui.playwright.components.list;
 
 import com.microsoft.playwright.Locator;
+import io.cyborgcode.roa.ui.components.list.ItemListCore;
+import io.cyborgcode.roa.ui.playwright.base.PwBy;
+import io.cyborgcode.roa.ui.util.strategy.Strategy;
 import java.util.List;
 
 /**
- * Defines operations for interacting with list UI elements.
+ * Playwright-specific list component interface.
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface ItemList {
+public interface ItemList extends ItemListCore<Locator> {
 
-   List<String> getItems(Locator container);
+   void select(PwBy containerLocator, String... itemText);
 
-   List<String> getItems(String listLabel);
+   String select(PwBy containerLocator, Strategy strategy);
 
-   List<String> getItemsBySelector(String listSelector);
+   void select(PwBy... itemListLocator);
 
-   void selectItem(Locator container, String itemText);
+   void deSelect(PwBy containerLocator, String... itemText);
 
-   void selectItem(String listLabel, String itemText);
+   String deSelect(PwBy containerLocator, Strategy strategy);
 
-   void selectItemBySelector(String listSelector, String itemText);
+   void deSelect(PwBy... itemListLocator);
 
-   boolean isItemPresent(Locator container, String itemText);
+   boolean areSelected(PwBy containerLocator, String... itemText);
 
-   boolean isItemPresent(String listLabel, String itemText);
+   boolean areSelected(PwBy... itemListLocator);
 
-   boolean isItemPresentBySelector(String listSelector, String itemText);
+   boolean areEnabled(PwBy containerLocator, String... itemText);
 
-   default void tableInsertion(Locator cell, String... values) {
-   }
+   boolean areEnabled(PwBy... itemLocator);
+
+   boolean areVisible(PwBy containerLocator, String... itemText);
+
+   boolean areVisible(PwBy... itemLocator);
+
+   List<String> getSelected(PwBy containerLocator);
+
+   List<String> getAll(PwBy containerLocator);
+
 }
