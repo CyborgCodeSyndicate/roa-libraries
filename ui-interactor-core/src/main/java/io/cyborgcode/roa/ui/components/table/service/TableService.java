@@ -4,6 +4,8 @@ import io.cyborgcode.roa.ui.components.table.base.TableComponentType;
 import io.cyborgcode.roa.ui.components.table.base.TableField;
 import io.cyborgcode.roa.ui.components.table.filters.FilterStrategy;
 import io.cyborgcode.roa.ui.components.table.sort.SortingStrategy;
+import io.cyborgcode.roa.validator.core.Assertion;
+import io.cyborgcode.roa.validator.core.AssertionResult;
 import io.cyborgcode.utilities.reflections.ReflectionUtil;
 import io.cyborgcode.utilities.reflections.exceptions.ReflectionException;
 import java.util.List;
@@ -130,4 +132,6 @@ public interface TableService {
    }
 
    <T> void sortTable(TableComponentType tableComponentType, Class<T> tclass, TableField<T> column, SortingStrategy sortingStrategy);
+
+   <T> List<AssertionResult<T>> validate(Object table, Assertion... assertions);
 }

@@ -1,5 +1,6 @@
 package io.cyborgcode.roa.ui.components.input;
 
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.components.input.InputComponentType;
 import io.cyborgcode.roa.ui.components.table.filters.TableFilter;
 import io.cyborgcode.roa.ui.components.table.insertion.TableInsertion;
@@ -17,7 +18,7 @@ import static io.cyborgcode.roa.ui.config.UiConfigHolderCore.getUiConfig;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface InputServiceCore<E, L> extends TableFilter<E>, TableInsertion<E>, Insertion<L> {
+public interface InputServiceCore<E extends BaseUiElement, L> extends TableFilter<E>, TableInsertion<E>, Insertion<L> {
 
    InputComponentType DEFAULT_TYPE = getDefaultType();
 
@@ -125,5 +126,35 @@ public interface InputServiceCore<E, L> extends TableFilter<E>, TableInsertion<E
    }
 
    String getErrorMessage(InputComponentType componentType, String inputFieldLabel);
+
+   default void insert(L inputFieldContainerSelector, String value) {
+      insert(DEFAULT_TYPE, inputFieldContainerSelector, value);
+   }
+
+   void insert(InputComponentType componentType, L inputFieldContainerSelector, String value);
+
+   default void clear(L inputFieldContainerSelector) {
+      clear(DEFAULT_TYPE, inputFieldContainerSelector);
+   }
+
+   void clear(InputComponentType componentType, L inputFieldContainerSelector);
+
+   default String getValue(L inputFieldContainerSelector) {
+      return getValue(DEFAULT_TYPE, inputFieldContainerSelector);
+   }
+
+   String getValue(InputComponentType componentType, L inputFieldContainerSelector);
+
+   default boolean isEnabled(L inputFieldContainerSelector) {
+      return isEnabled(DEFAULT_TYPE, inputFieldContainerSelector);
+   }
+
+   boolean isEnabled(InputComponentType componentType, L inputFieldContainerSelector);
+
+   default String getErrorMessage(L inputFieldContainerSelector) {
+      return getErrorMessage(DEFAULT_TYPE, inputFieldContainerSelector);
+   }
+
+   String getErrorMessage(InputComponentType componentType, L inputFieldContainerSelector);
 
 }

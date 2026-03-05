@@ -1,5 +1,6 @@
 package io.cyborgcode.roa.ui.components.table.insertion;
 
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import java.util.function.BiConsumer;
 
 /**
@@ -8,18 +9,18 @@ import java.util.function.BiConsumer;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @FunctionalInterface
-public interface CellInsertionFunction<C> extends BiConsumer<C, String[]> {
+public interface CellInsertionFunction<E extends BaseUiElement> extends BiConsumer<E, String[]> {
 
    /**
     * Performs the insertion of values into the specified table cell.
     *
-    * @param cellElement The {@link C} representing the target cell.
+    * @param cellElement The {@link E} representing the target cell.
     * @param values      The values to be inserted into the cell.
     */
-   void cellInsertionFunction(C cellElement, String... values);
+   void cellInsertionFunction(E cellElement, String... values);
 
    @Override
-   default void accept(C locator, String[] objects) {
-      cellInsertionFunction(locator, objects);
+   default void accept(E element, String[] objects) {
+      cellInsertionFunction(element, objects);
    }
 }

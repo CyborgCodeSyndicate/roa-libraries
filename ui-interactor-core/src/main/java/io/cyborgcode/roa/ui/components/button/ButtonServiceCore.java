@@ -1,5 +1,6 @@
 package io.cyborgcode.roa.ui.components.button;
 
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.components.button.ButtonComponentType;
 import io.cyborgcode.roa.ui.components.table.insertion.TableInsertion;
 import io.cyborgcode.utilities.reflections.ReflectionUtil;
@@ -15,7 +16,7 @@ import static io.cyborgcode.roa.ui.config.UiConfigHolderCore.getUiConfig;
  * @param <E> The container/element type (e.g., Playwright's {@code Locator} or Selenium's {@code WebElement}).
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface ButtonServiceCore<E> extends TableInsertion<E> {
+public interface ButtonServiceCore<E extends BaseUiElement, L> extends TableInsertion<E> {
 
    ButtonComponentType DEFAULT_TYPE = getDefaultType();
 
@@ -46,6 +47,12 @@ public interface ButtonServiceCore<E> extends TableInsertion<E> {
 
    void click(ButtonComponentType componentType, E container);
 
+   default void click(L buttonSelector) {
+      click(DEFAULT_TYPE, buttonSelector);
+   }
+
+   void click(ButtonComponentType componentType, L buttonSelector);
+
    default void click(String buttonText) {
       click(DEFAULT_TYPE, buttonText);
    }
@@ -66,12 +73,17 @@ public interface ButtonServiceCore<E> extends TableInsertion<E> {
 
    boolean isEnabled(ButtonComponentType componentType, E container);
 
+   default boolean isEnabled(L buttonSelector) {
+      return isEnabled(DEFAULT_TYPE, buttonSelector);
+   }
+
+   boolean isEnabled(ButtonComponentType componentType, L buttonSelector);
+
    default boolean isEnabled(String buttonText) {
       return isEnabled(DEFAULT_TYPE, buttonText);
    }
 
    boolean isEnabled(ButtonComponentType componentType, String buttonText);
-
 
 
    default boolean isVisible(E container, String buttonText) {
@@ -85,6 +97,12 @@ public interface ButtonServiceCore<E> extends TableInsertion<E> {
    }
 
    boolean isVisible(ButtonComponentType componentType, E container);
+
+   default boolean isVisible(L buttonSelector) {
+      return isVisible(DEFAULT_TYPE, buttonSelector);
+   }
+
+   boolean isVisible(ButtonComponentType componentType, L buttonSelector);
 
    default boolean isVisible(String buttonText) {
       return isVisible(DEFAULT_TYPE, buttonText);

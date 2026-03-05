@@ -42,7 +42,7 @@ public class InsertionServiceFieldImpl extends BaseInsertionService<InsertionFie
    }
 
    @Override
-   protected PwBy buildSelector(final InsertionField annotation) {
+   protected PwBy buildLocator(final InsertionField annotation) {
       return resolveSelector(annotation.locator());
    }
 

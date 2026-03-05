@@ -1,5 +1,6 @@
 package io.cyborgcode.roa.ui.components.table.filters;
 
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.util.TriConsumer;
 
 /**
@@ -10,19 +11,19 @@ import io.cyborgcode.roa.ui.util.TriConsumer;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @FunctionalInterface
-public interface CellFilterFunction<C> extends TriConsumer<C, FilterStrategy, String[]> {
+public interface CellFilterFunction<E extends BaseUiElement> extends TriConsumer<E, FilterStrategy, String[]> {
 
    /**
     * Applies a filtering function to a table cell.
     *
-    * @param cellElement    The {@link C} representing the table cell.
+    * @param cellElement    The {@link E} representing the table cell.
     * @param filterStrategy The filtering strategy to be applied.
     * @param values         The values used for filtering.
     */
-   void cellFilterFunction(C cellElement, FilterStrategy filterStrategy, String... values);
+   void cellFilterFunction(E cellElement, FilterStrategy filterStrategy, String... values);
 
    @Override
-   default void accept(C locator, FilterStrategy filterStrategy, String[] objects) {
-      cellFilterFunction(locator, filterStrategy, objects);
+   default void accept(E element, FilterStrategy filterStrategy, String[] objects) {
+      cellFilterFunction(element, filterStrategy, objects);
    }
 }

@@ -1,7 +1,6 @@
 package io.cyborgcode.roa.ui.insertion;
 
 import io.cyborgcode.roa.ui.components.base.ComponentType;
-import io.cyborgcode.roa.ui.insertion.Insertion;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -13,9 +12,9 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public class InsertionServiceRegistry<T> {
+public class InsertionServiceRegistry<L> {
 
-   private final Map<Class<? extends ComponentType>, Insertion<T>> registry = new ConcurrentHashMap<>();
+   private final Map<Class<? extends ComponentType>, Insertion<L>> registry = new ConcurrentHashMap<>();
 
    /**
     * Registers an {@link Insertion} service for a specific component type.
@@ -23,7 +22,7 @@ public class InsertionServiceRegistry<T> {
     * @param type    The class representing the {@link ComponentType}.
     * @param service The {@link Insertion} service to associate with the component type.
     */
-   public void registerService(final Class<? extends ComponentType> type, final Insertion<T> service) {
+   public void registerService(final Class<? extends ComponentType> type, final Insertion<L> service) {
       registry.put(type, service);
    }
 
@@ -33,7 +32,7 @@ public class InsertionServiceRegistry<T> {
     * @param type The class representing the {@link ComponentType}.
     * @return The corresponding {@link Insertion} service, or {@code null} if none is registered.
     */
-   public Insertion<T> getService(final Class<? extends ComponentType> type) {
+   public Insertion<L> getService(final Class<? extends ComponentType> type) {
       return registry.get(type);
    }
 

@@ -1,6 +1,7 @@
 package io.cyborgcode.roa.ui.components.table.service;
 
 import io.cyborgcode.roa.ui.components.base.BaseComponentCore;
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.components.table.annotations.CellFilter;
 import io.cyborgcode.roa.ui.components.table.annotations.CellInsertion;
@@ -54,7 +55,7 @@ import static io.cyborgcode.roa.ui.config.UiConfigHolderCore.getUiConfig;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @SuppressWarnings("java:S3011")
-public abstract class TableImplCore<C, V, D> extends BaseComponentCore<D> implements Table {
+public abstract class TableImplCore<E extends BaseUiElement, L, D> extends BaseComponentCore<D> implements Table {
 
    public static final String NO_LOCATOR_FOR_FIELD_EXCEPTION = "No locator found for the provided field.";
    private static final String READING_CLASS = "Reading entire table as class '%s'";
@@ -84,21 +85,21 @@ public abstract class TableImplCore<C, V, D> extends BaseComponentCore<D> implem
    private static final String INVALID_FIELD_TYPE = "Some fields are not TableCell or List<TableCell>.";
    private final List<Object> acceptedValues;
    @Setter
-   protected TableServiceRegistry<C> serviceRegistry;
+   protected TableServiceRegistry<E> serviceRegistry;
 
    protected TableImplCore(final D driver) {
       super(driver);
       this.acceptedValues = List.of(
-            new TableCell<V>(""),
+            new TableCell<E>(""),
             List.of()
       );
    }
 
-   protected TableImplCore(final D driver, final TableServiceRegistry<C> serviceRegistry) {
+   protected TableImplCore(final D driver, final TableServiceRegistry<E> serviceRegistry) {
       super(driver);
       this.serviceRegistry = serviceRegistry;
       this.acceptedValues = List.of(
-            new TableCell<V>(""),
+            new TableCell<E>(""),
             List.of()
       );
    }
@@ -217,19 +218,19 @@ public abstract class TableImplCore<C, V, D> extends BaseComponentCore<D> implem
    public final <T> void filterTable(final Class<T> tclass, final TableField<T> column,
                                      final FilterStrategy filterStrategy, final String... values) {
       LogUi.step(String.format(FILTERING, tclass.getSimpleName(), column, filterStrategy, Arrays.toString(values)));
-      final Map<String, List<CellLocator<V, C>>> tableSectionLocatorsMap =
+      final Map<String, List<CellLocator<L, E>>> tableSectionLocatorsMap =
             getTableSectionLocatorsMap(tclass, List.of(column));
 
-      final Map.Entry<String, List<CellLocator<V, C>>> firstEntry = tableSectionLocatorsMap.entrySet().stream()
+      final Map.Entry<String, List<CellLocator<L, E>>> firstEntry = tableSectionLocatorsMap.entrySet().stream()
             .findFirst()
             .orElseThrow(() -> new IllegalStateException(NO_LOCATOR_FOR_FIELD_EXCEPTION));
 
       final String tableSection = firstEntry.getKey();
-      final CellLocator<V, C> cellLocator = firstEntry.getValue().get(0);
+      final CellLocator<L, E> cellLocator = firstEntry.getValue().get(0);
 
-      TableLocators<V> tableLocators = getTableLocators(tclass);
-      C tableContainer = getTableContainer(tableLocators.getTableContainerLocator());
-      C headerRow = getHeaderRow(tableContainer, tableLocators.getHeaderRowLocator(), tableSection);
+      TableLocators<L> tableLocators = getTableLocators(tclass);
+      E tableContainer = getTableContainer(tableLocators.getTableContainerLocator());
+      E headerRow = getHeaderRow(tableContainer, tableLocators.getHeaderRowLocator(), tableSection);
       filterCells(cellLocator, headerRow, filterStrategy, values);
    }
 
@@ -238,70 +239,70 @@ public abstract class TableImplCore<C, V, D> extends BaseComponentCore<D> implem
                                    final SortingStrategy sortingStrategy) {
       LogUi.step(String.format(SORTING, tclass.getSimpleName(), column, sortingStrategy));
 
-      final Map<String, List<CellLocator<V, C>>> tableSectionLocatorsMap =
+      final Map<String, List<CellLocator<L, E>>> tableSectionLocatorsMap =
             getTableSectionLocatorsMap(tclass, List.of(column));
 
-      final Map.Entry<String, List<CellLocator<V, C>>> firstEntry = tableSectionLocatorsMap.entrySet().stream()
+      final Map.Entry<String, List<CellLocator<L, E>>> firstEntry = tableSectionLocatorsMap.entrySet().stream()
             .findFirst()
             .orElseThrow(() -> new IllegalStateException(NO_LOCATOR_FOR_FIELD_EXCEPTION));
 
-      final CellLocator<V, C> cellLocator = firstEntry.getValue().get(0);
+      final CellLocator<L, E> cellLocator = firstEntry.getValue().get(0);
 
-      TableLocators<V> tableLocators = getTableLocators(tclass);
-      C tableContainer = getTableContainer(tableLocators.getTableContainerLocator());
-      C headerRow = getHeaderRow(tableContainer, tableLocators.getHeaderRowLocator(),
+      TableLocators<L> tableLocators = getTableLocators(tclass);
+      E tableContainer = getTableContainer(tableLocators.getTableContainerLocator());
+      E headerRow = getHeaderRow(tableContainer, tableLocators.getHeaderRowLocator(),
             firstEntry.getKey());
-      C cellFromHeaderRow = locateElements(headerRow, cellLocator.getHeaderCellLocator()).get(0);
+      E cellFromHeaderRow = locateElements(headerRow, cellLocator.getHeaderCellLocator()).get(0);
       sortTable(cellFromHeaderRow, sortingStrategy);
    }
 
    /**
     * Extension point for subclasses to define sorting logic.
     */
-   protected void sortTable(C headerCell, SortingStrategy sortingStrategy) {
+   protected void sortTable(E headerCell, SortingStrategy sortingStrategy) {
    }
 
    /**
     * Retrieves the table container element using the specified selector.
     */
-   protected abstract C getTableContainer(V tableContainerSelector);
+   protected abstract E getTableContainer(L tableContainerSelector);
 
-   protected abstract String getTextFromElement(C element);
+   protected abstract String getTextFromElement(E element);
 
-   protected abstract List<C> locateElements(C element, V locator);
+   protected abstract List<E> locateElements(E element, L locator);
 
    /**
     * Retrieves all rows from the specified table container.
     */
-   protected abstract List<C> getRows(C tableContainer, V tableRowsSelector, String section);
+   protected abstract List<E> getRows(E tableContainer, L tableRowsSelector, String section);
 
    /**
     * Retrieves the header row of a table.
     */
-   protected abstract C getHeaderRow(C tableContainer, V headerRowSelector, String tableSection);
+   protected abstract E getHeaderRow(E tableContainer, L headerRowSelector, String tableSection);
 
-   protected abstract TableCell<C> buildTableCell(final C container,
-                                                  final V cellSelector,
-                                                  final V textSelector);
+   protected abstract TableCell<E> buildTableCell(final E container,
+                                                  final L cellSelector,
+                                                  final L textSelector);
 
-   protected abstract TableLocators<V> getTableLocators(Class<?> clazz);
+   protected abstract TableLocators<L> getTableLocators(Class<?> clazz);
 
    protected abstract Class<? extends Annotation> tableCellLocatorAnnotation();
 
-   protected abstract TableCellLocatorInfo<V> populateInfoFromAnnotation(Annotation annotation);
+   protected abstract TableCellLocatorInfo<L> populateInfoFromAnnotation(Annotation annotation);
 
 
    private <T> List<T> readTableInternal(final Class<T> rowClass,
                                          final List<TableField<T>> fields,
                                          final Integer start,
                                          final Integer end) {
-      TableLocators<V> tableLocators = getTableLocators(rowClass);
-      C tableContainer = getTableContainer(tableLocators.getTableContainerLocator());
+      TableLocators<L> tableLocators = getTableLocators(rowClass);
+      E tableContainer = getTableContainer(tableLocators.getTableContainerLocator());
 
-      final Map<String, List<CellLocator<V, C>>> tableSectionLocatorsMap =
+      final Map<String, List<CellLocator<L, E>>> tableSectionLocatorsMap =
             getTableSectionLocatorsMap(rowClass, fields);
 
-      final Map<String, List<C>> rowsMap =
+      final Map<String, List<E>> rowsMap =
             tableSectionLocatorsMap.keySet().stream()
                   .collect(Collectors.toMap(
                         Function.identity(),
@@ -313,11 +314,11 @@ public abstract class TableImplCore<C, V, D> extends BaseComponentCore<D> implem
    }
 
 
-   private List<C> readRowsInRange(C tableContainer, V tableRowsSelector,
+   private List<E> readRowsInRange(E tableContainer, L tableRowsSelector,
                                    final String tableSection,
                                    final Integer start,
                                    final Integer end) {
-      final List<C> allRows = getRows(tableContainer, tableRowsSelector, tableSection);
+      final List<E> allRows = getRows(tableContainer, tableRowsSelector, tableSection);
 
       if (start != null && end != null) {
          final int fromIndex = Math.max(0, start - 1);
@@ -332,17 +333,17 @@ public abstract class TableImplCore<C, V, D> extends BaseComponentCore<D> implem
    }
 
 
-   private <T> List<T> mergeRowsAcrossSections(final Map<String, List<C>> rowsPerSection,
-                                               final Map<String, List<CellLocator<V, C>>> locatorsMap,
+   private <T> List<T> mergeRowsAcrossSections(final Map<String, List<E>> rowsPerSection,
+                                               final Map<String, List<CellLocator<L, E>>> locatorsMap,
                                                final Class<T> rowClass) {
       final List<T> results = new ArrayList<>();
 
       rowsPerSection.values().stream().findFirst().ifPresent(rows -> {
          for (int i = 0; i < rows.size(); i++) {
             T mergedRow = null;
-            for (Map.Entry<String, List<C>> entry : rowsPerSection.entrySet()) {
+            for (Map.Entry<String, List<E>> entry : rowsPerSection.entrySet()) {
                final String section = entry.getKey();
-               final C rowElement = entry.getValue().get(i);
+               final E rowElement = entry.getValue().get(i);
 
                final T partialRow = readSingleRow(rowClass, locatorsMap.get(section), rowElement);
                mergedRow = mergeObjects(mergedRow, partialRow);
@@ -357,12 +358,12 @@ public abstract class TableImplCore<C, V, D> extends BaseComponentCore<D> implem
    private <T> T readRowInternal(final Object rowIdentifier,
                                  final Class<T> rowClass,
                                  final TableField<T>[] fields) {
-      TableLocators<V> tableLocators = getTableLocators(rowClass);
-      C tableContainer = getTableContainer(tableLocators.getTableContainerLocator());
-      final Map<String, List<CellLocator<V, C>>> locatorsMap =
+      TableLocators<L> tableLocators = getTableLocators(rowClass);
+      E tableContainer = getTableContainer(tableLocators.getTableContainerLocator());
+      final Map<String, List<CellLocator<L, E>>> locatorsMap =
             getTableSectionLocatorsMap(rowClass, (fields == null) ? null : Arrays.asList(fields));
 
-      final Map<String, C> rowElementMap = locatorsMap.keySet()
+      final Map<String, E> rowElementMap = locatorsMap.keySet()
             .stream()
             .collect(Collectors.toMap(
                   Function.identity(),
@@ -372,7 +373,7 @@ public abstract class TableImplCore<C, V, D> extends BaseComponentCore<D> implem
             ));
 
       T mergedRow = null;
-      for (Map.Entry<String, C> entry : rowElementMap.entrySet()) {
+      for (Map.Entry<String, E> entry : rowElementMap.entrySet()) {
          final T partialRow = readSingleRow(rowClass, locatorsMap.get(entry.getKey()), entry.getValue());
          mergedRow = mergeObjects(mergedRow, partialRow);
       }
@@ -381,10 +382,10 @@ public abstract class TableImplCore<C, V, D> extends BaseComponentCore<D> implem
    }
 
 
-   private C findRowElement(C tableContainer, V tableRowsSelector,
+   private E findRowElement(E tableContainer, L tableRowsSelector,
                             final Object rowIdentifier,
                             final String section) {
-      final List<C> rows = getRows(tableContainer, tableRowsSelector, section);
+      final List<E> rows = getRows(tableContainer, tableRowsSelector, section);
 
       if (rowIdentifier instanceof Integer rowIndex) {
          if (rowIndex < 0 || rowIndex >= rows.size()) {
@@ -401,7 +402,7 @@ public abstract class TableImplCore<C, V, D> extends BaseComponentCore<D> implem
    }
 
 
-   private C findRowByCriteria(final List<?> searchCriteria, final List<C> rows) {
+   private E findRowByCriteria(final List<?> searchCriteria, final List<E> rows) {
       return rows.stream()
             .filter(row -> searchCriteria.stream().allMatch(
                   criterion -> Optional.ofNullable(getTextFromElement(row))
@@ -416,10 +417,10 @@ public abstract class TableImplCore<C, V, D> extends BaseComponentCore<D> implem
 
 
    private <T> T readSingleRow(final Class<T> rowClass,
-                               final List<CellLocator<V, C>> cellLocators,
-                               final C rowElement) {
+                               final List<CellLocator<L, E>> cellLocators,
+                               final E rowElement) {
       final T rowInstance = createInstance(rowClass);
-      for (CellLocator<V, C> cellLocator : cellLocators) {
+      for (CellLocator<L, E> cellLocator : cellLocators) {
          populateFieldValue(rowInstance, rowElement, cellLocator);
       }
       return rowInstance;
@@ -427,19 +428,19 @@ public abstract class TableImplCore<C, V, D> extends BaseComponentCore<D> implem
 
 
    private <T> void populateFieldValue(final T rowInstance,
-                                       final C rowElement,
-                                       final CellLocator<V, C> cellLocator) {
-      final V locator = cellLocator.getLocator();
-      final V textLocator = cellLocator.getCellTextLocator();
+                                       final E rowElement,
+                                       final CellLocator<L, E> cellLocator) {
+      final L locator = cellLocator.getLocator();
+      final L textLocator = cellLocator.getCellTextLocator();
       final String fieldName = cellLocator.getFieldName();
       final boolean isCollection = cellLocator.isCollection();
 
       if (!isCollection) {
-         final TableCell<C> singleCell = buildTableCell(rowElement, locator, textLocator);
+         final TableCell<E> singleCell = buildTableCell(rowElement, locator, textLocator);
          invokeSetter(rowInstance, fieldName, singleCell);
       } else {
-         final List<C> cellElements = locateElements(rowElement, locator);
-         final List<TableCell<C>> tableCells = cellElements.stream()
+         final List<E> cellElements = locateElements(rowElement, locator);
+         final List<TableCell<E>> tableCells = cellElements.stream()
                .map(elem -> buildTableCell(elem, null, textLocator))
                .toList();
          invokeSetter(rowInstance, fieldName, tableCells);
@@ -520,9 +521,9 @@ public abstract class TableImplCore<C, V, D> extends BaseComponentCore<D> implem
    }
 
 
-   private <T> Map<String, List<CellLocator<V, C>>> getTableSectionLocatorsMap(final Class<T> rowClass,
+   private <T> Map<String, List<CellLocator<L, E>>> getTableSectionLocatorsMap(final Class<T> rowClass,
                                                                                final List<TableField<T>> fields) {
-      final List<CellLocator<V, C>> cellLocators;
+      final List<CellLocator<L, E>> cellLocators;
       if (fields == null || fields.isEmpty()) {
          cellLocators = extractAnnotatedFields(rowClass, Collections.emptyList());
       } else {
@@ -534,7 +535,7 @@ public abstract class TableImplCore<C, V, D> extends BaseComponentCore<D> implem
    }
 
 
-   private <T> List<CellLocator<V, C>> extractAnnotatedFields(final Class<T> clazz,
+   private <T> List<CellLocator<L, E>> extractAnnotatedFields(final Class<T> clazz,
                                                               final List<TableField<T>> fields) {
       final T rowInstance = createInstance(clazz);
       Class<? extends Annotation> annotationClass = tableCellLocatorAnnotation();
@@ -597,10 +598,10 @@ public abstract class TableImplCore<C, V, D> extends BaseComponentCore<D> implem
    }
 
 
-   private CellLocator<V, C> mapToCellLocator(final Field field) {
+   private CellLocator<L, E> mapToCellLocator(final Field field) {
       final Annotation annotation = field.getAnnotation(tableCellLocatorAnnotation());
 
-      TableCellLocatorInfo<V> tableCellLocatorInfo = populateInfoFromAnnotation(annotation);
+      TableCellLocatorInfo<L> tableCellLocatorInfo = populateInfoFromAnnotation(annotation);
 
       final CellInsertionComponent cellInsertionComponent = Optional.ofNullable(
                   field.getAnnotation(CellInsertion.class)
@@ -664,23 +665,23 @@ public abstract class TableImplCore<C, V, D> extends BaseComponentCore<D> implem
                                             final TableField<T> field,
                                             final int cellIndex,
                                             final String... values) {
-      TableLocators<V> tableLocators = getTableLocators(rowClass);
-      C tableContainer = getTableContainer(tableLocators.getTableContainerLocator());
-      final Map<String, List<CellLocator<V, C>>> tableSectionLocatorsMap =
+      TableLocators<L> tableLocators = getTableLocators(rowClass);
+      E tableContainer = getTableContainer(tableLocators.getTableContainerLocator());
+      final Map<String, List<CellLocator<L, E>>> tableSectionLocatorsMap =
             getTableSectionLocatorsMap(rowClass, List.of(field));
-      final Map.Entry<String, List<CellLocator<V, C>>> firstEntry = tableSectionLocatorsMap.entrySet().stream()
+      final Map.Entry<String, List<CellLocator<L, E>>> firstEntry = tableSectionLocatorsMap.entrySet().stream()
             .findFirst()
             .orElseThrow(() -> new IllegalStateException(NO_LOCATOR_FOR_FIELD_EXCEPTION));
 
       final String tableSection = firstEntry.getKey();
-      final CellLocator<V, C> cellLocator = firstEntry.getValue().get(0);
+      final CellLocator<L, E> cellLocator = firstEntry.getValue().get(0);
 
-      final C rowElement;
+      final E rowElement;
       if (rowIdentifier instanceof List<?> criteria) {
          rowElement = findRowByCriteria(criteria,
                getRows(tableContainer, tableLocators.getTableRowsLocator(), tableSection));
       } else if (rowIdentifier instanceof Integer rowIndex) {
-         final List<C> rows = getRows(tableContainer, tableLocators.getTableRowsLocator(),
+         final List<E> rows = getRows(tableContainer, tableLocators.getTableRowsLocator(),
                tableSection);
          if (rowIndex < 0 || rowIndex >= rows.size()) {
             throw new IndexOutOfBoundsException(String.format(
@@ -696,12 +697,12 @@ public abstract class TableImplCore<C, V, D> extends BaseComponentCore<D> implem
    }
 
 
-   private void insertInCell(final CellLocator<V, C> cellLocator,
-                             final C rowElement,
+   private void insertInCell(final CellLocator<L, E> cellLocator,
+                             final E rowElement,
                              final String[] values,
                              final int cellIndex) {
       final CellInsertionComponent component = cellLocator.getCellInsertionComponent();
-      final Class<? extends CellInsertionFunction<C>> customFunction = cellLocator.getCustomCellInsertion();
+      final Class<? extends CellInsertionFunction<E>> customFunction = cellLocator.getCustomCellInsertion();
 
       if (component == null && customFunction == null) {
          throw new TableException(
@@ -709,14 +710,14 @@ public abstract class TableImplCore<C, V, D> extends BaseComponentCore<D> implem
          );
       }
 
-      final List<C> cells = locateElements(rowElement, cellLocator.getLocator());
+      final List<E> cells = locateElements(rowElement, cellLocator.getLocator());
       if (cells.isEmpty() || cellIndex <= 0 || cellIndex > cells.size()) {
          throw new TableException(String.format(
                "Invalid cell index: %d for locator: %s", cellIndex, cellLocator.getLocator()
          ));
       }
 
-      final C targetCell = cells.get(cellIndex - 1);
+      final E targetCell = cells.get(cellIndex - 1);
 
       if (component != null) {
          insertUsingComponent(component, targetCell, values);
@@ -727,7 +728,7 @@ public abstract class TableImplCore<C, V, D> extends BaseComponentCore<D> implem
 
 
    private void insertUsingComponent(final CellInsertionComponent component,
-                                     final C targetCell,
+                                     final E targetCell,
                                      final String[] values) {
       if (serviceRegistry == null) {
          throw new IllegalStateException(
@@ -739,7 +740,7 @@ public abstract class TableImplCore<C, V, D> extends BaseComponentCore<D> implem
          Enum<?> componentInstance =
                (Enum<?>) ReflectionUtil.findEnumImplementationsOfInterface(type, component.getComponentType(),
                      getUiConfig().projectPackages());
-         final TableInsertion<C> service = serviceRegistry.getTableService(type);
+         final TableInsertion<E> service = serviceRegistry.getTableService(type);
          service.tableInsertion(targetCell, (ComponentType) componentInstance, values);
       } catch (Exception e) {
          throw new TableException(
@@ -749,13 +750,13 @@ public abstract class TableImplCore<C, V, D> extends BaseComponentCore<D> implem
    }
 
 
-   private void insertUsingCustomFunction(final Class<? extends CellInsertionFunction<C>> customFunction,
-                                          final C targetCell,
+   private void insertUsingCustomFunction(final Class<? extends CellInsertionFunction<E>> customFunction,
+                                          final E targetCell,
                                           final String[] values) {
       try {
-         Constructor<? extends CellInsertionFunction<C>> constructor = customFunction.getDeclaredConstructor();
+         Constructor<? extends CellInsertionFunction<E>> constructor = customFunction.getDeclaredConstructor();
          constructor.setAccessible(true);
-         final CellInsertionFunction<C> functionInstance = constructor.newInstance();
+         final CellInsertionFunction<E> functionInstance = constructor.newInstance();
          functionInstance.accept(targetCell, values);
       } catch (ReflectiveOperationException e) {
          throw new TableException(
@@ -765,19 +766,19 @@ public abstract class TableImplCore<C, V, D> extends BaseComponentCore<D> implem
    }
 
 
-   private void filterCells(final CellLocator<V, C> cellLocator,
-                            final C headerRowElement,
+   private void filterCells(final CellLocator<L, E> cellLocator,
+                            final E headerRowElement,
                             final FilterStrategy filterStrategy,
                             final String[] values) {
       final CellFilterComponent component = cellLocator.getCellFilterComponent();
-      final Class<? extends CellFilterFunction<C>> customFunction = cellLocator.getCustomCellFilter();
+      final Class<? extends CellFilterFunction<E>> customFunction = cellLocator.getCustomCellFilter();
 
       if (component == null && customFunction == null) {
          throw new TableException(
                "No table cell filter method provided for field: " + cellLocator.getFieldName()
          );
       }
-      final C targetCell = locateElements(headerRowElement, cellLocator.getHeaderCellLocator()).get(0);
+      final E targetCell = locateElements(headerRowElement, cellLocator.getHeaderCellLocator()).get(0);
 
       if (component != null) {
          filterCellsUsingComponent(component, targetCell, filterStrategy, values);
@@ -787,7 +788,7 @@ public abstract class TableImplCore<C, V, D> extends BaseComponentCore<D> implem
    }
 
    private void filterCellsUsingComponent(final CellFilterComponent component,
-                                          final C targetCell, FilterStrategy filterStrategy,
+                                          final E targetCell, FilterStrategy filterStrategy,
                                           final String[] values) {
       if (serviceRegistry == null) {
          throw new IllegalStateException(
@@ -798,7 +799,7 @@ public abstract class TableImplCore<C, V, D> extends BaseComponentCore<D> implem
          final Enum<?> componentInstance =
                (Enum<?>) ReflectionUtil.findEnumImplementationsOfInterface(type, component.getComponentType(),
                      getUiConfig().projectPackages());
-         final TableFilter<C> service = serviceRegistry.getFilterService(type);
+         final TableFilter<E> service = serviceRegistry.getFilterService(type);
          service.tableFilter(targetCell, (ComponentType) componentInstance, filterStrategy, values);
       } catch (Exception e) {
          throw new TableException(
@@ -808,11 +809,11 @@ public abstract class TableImplCore<C, V, D> extends BaseComponentCore<D> implem
    }
 
 
-   private void filterCellsUsingCustomFunction(final Class<? extends CellFilterFunction<C>> customFunction,
-                                               final C targetCell, FilterStrategy filterStrategy,
+   private void filterCellsUsingCustomFunction(final Class<? extends CellFilterFunction<E>> customFunction,
+                                               final E targetCell, FilterStrategy filterStrategy,
                                                final String[] values) {
       try {
-         final CellFilterFunction<C> functionInstance = customFunction.getDeclaredConstructor().newInstance();
+         final CellFilterFunction<E> functionInstance = customFunction.getDeclaredConstructor().newInstance();
          functionInstance.accept(targetCell, filterStrategy, values);
       } catch (ReflectiveOperationException e) {
          throw new TableException(

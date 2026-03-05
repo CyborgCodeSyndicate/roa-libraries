@@ -3,25 +3,16 @@ package io.cyborgcode.roa.ui.playwright.components.checkbox;
 import com.microsoft.playwright.Locator;
 import io.cyborgcode.roa.ui.components.checkbox.CheckboxCore;
 import io.cyborgcode.roa.ui.playwright.base.PwBy;
-import java.util.List;
+import io.cyborgcode.roa.ui.playwright.base.PwElement;
 
 /**
  * Playwright-specific checkbox component interface.
  *
+ * <p>Binds the core generic {@link CheckboxCore}
+ * to Playwright's {@link PwElement} type. All method contracts are inherited from core.
+ *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface Checkbox extends CheckboxCore<Locator> {
-
-   void select(PwBy... checkBoxLocator);
-
-   void deSelect(PwBy... checkBoxLocator);
-
-   boolean areSelected(PwBy... checkBoxLocator);
-
-   boolean areEnabled(PwBy... checkBoxLocator);
-
-   List<String> getSelected(PwBy containerLocator);
-
-   List<String> getAll(PwBy containerLocator);
+public interface Checkbox extends CheckboxCore<PwElement, PwBy> {
 
 }

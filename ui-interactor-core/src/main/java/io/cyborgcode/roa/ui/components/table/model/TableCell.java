@@ -1,5 +1,6 @@
 package io.cyborgcode.roa.ui.components.table.model;
 
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,12 +14,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class TableCell<C> {
+public class TableCell<E extends BaseUiElement> {
 
    /**
-    * The {@link C} representing the table cell.
+    * The {@link E} representing the table cell.
     */
-   private C element;
+   private E element;
 
    /**
     * The textual content of the table cell.

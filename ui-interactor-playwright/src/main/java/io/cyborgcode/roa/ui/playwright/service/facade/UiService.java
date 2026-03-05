@@ -1,6 +1,5 @@
 package io.cyborgcode.roa.ui.playwright.service.facade;
 
-import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import io.cyborgcode.roa.ui.components.button.ButtonComponentType;
 import io.cyborgcode.roa.ui.components.checkbox.CheckboxComponentType;
@@ -16,6 +15,7 @@ import io.cyborgcode.roa.ui.components.table.service.TableService;
 import io.cyborgcode.roa.ui.insertion.InsertionService;
 import io.cyborgcode.roa.ui.insertion.InsertionServiceRegistry;
 import io.cyborgcode.roa.ui.playwright.base.PwBy;
+import io.cyborgcode.roa.ui.playwright.base.PwElement;
 import io.cyborgcode.roa.ui.playwright.components.accordion.AccordionService;
 import io.cyborgcode.roa.ui.playwright.components.accordion.AccordionServiceImpl;
 import io.cyborgcode.roa.ui.playwright.components.alert.AlertService;
@@ -44,7 +44,9 @@ import io.cyborgcode.roa.ui.playwright.components.table.service.TableServiceImpl
 import io.cyborgcode.roa.ui.playwright.components.toggle.ToggleService;
 import io.cyborgcode.roa.ui.playwright.components.toggle.ToggleServiceImpl;
 import io.cyborgcode.roa.ui.playwright.insertion.InsertionServiceFieldImpl;
-import io.cyborgcode.roa.ui.playwright.session.UISession;
+import io.cyborgcode.roa.ui.playwright.session.UiSession;
+import io.cyborgcode.roa.ui.playwright.validator.UiTableValidatorImpl;
+import io.cyborgcode.roa.ui.validator.UiTableValidator;
 import lombok.Getter;
 
 /**
@@ -60,7 +62,7 @@ import lombok.Getter;
 @Getter
 public class UiService {
 
-   private final UISession session;
+   private final UiSession session;
    private final Page page;
    private final InputService inputField;
    private final ButtonService buttonField;
@@ -77,15 +79,16 @@ public class UiService {
    private final ModalService modalField;
    private final InsertionServiceRegistry<PwBy> serviceRegistry;
    private final InsertionService insertionService;
-   private final TableServiceRegistry<Locator> tableServiceRegistry;
+   private final TableServiceRegistry<PwElement> tableServiceRegistry;
    private final TableService tableService;
+   private final UiTableValidator uiTableValidator;
 
    /**
     * Constructs the UI service, initializing various UI component services.
     *
-    * @param session The {@link UISession} instance containing the Playwright session.
+    * @param session The {@link UiSession} instance containing the Playwright session.
     */
-   public UiService(final UISession session) {
+   public UiService(final UiSession session) {
       this.session = session;
       this.page = session.getPage();
       inputField = new InputServiceImpl(page);
@@ -105,7 +108,8 @@ public class UiService {
       tableServiceRegistry = new TableServiceRegistry<>();
       registerInsertionServices();
       insertionService = new InsertionServiceFieldImpl(serviceRegistry);
-      tableService = new TableServiceImpl(page, tableServiceRegistry);
+      uiTableValidator = new UiTableValidatorImpl();
+      tableService = new TableServiceImpl(page, tableServiceRegistry, uiTableValidator);
    }
 
 
@@ -128,9 +132,9 @@ public class UiService {
       tableServiceRegistry.registerService(
             LinkComponentType.class, linkField);
       tableServiceRegistry.registerService(
-            InputComponentType.class, (TableFilter<Locator>) inputField);
+            InputComponentType.class, (TableFilter<PwElement>) inputField);
       tableServiceRegistry.registerService(
-            InputComponentType.class, (TableInsertion<Locator>) inputField);
+            InputComponentType.class, (TableInsertion<PwElement>) inputField);
    }
 
 }

@@ -1,5 +1,6 @@
 package io.cyborgcode.roa.ui.components.modal;
 
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.components.modal.ModalComponentType;
 import io.cyborgcode.utilities.reflections.ReflectionUtil;
 
@@ -15,7 +16,7 @@ import static io.cyborgcode.roa.ui.config.UiConfigHolderCore.getUiConfig;
  * @param <E> The container/element type (e.g., Playwright's {@code Locator} or Selenium's {@code WebElement}).
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface ModalServiceCore<E> {
+public interface ModalServiceCore<E extends BaseUiElement, L> {
 
    ModalComponentType DEFAULT_TYPE = getDefaultType();
 
@@ -75,4 +76,10 @@ public interface ModalServiceCore<E> {
    }
 
    void close(ModalComponentType componentType);
+
+   default void clickButton(L buttonLocator) {
+      clickButton(DEFAULT_TYPE, buttonLocator);
+   }
+
+   void clickButton(ModalComponentType componentType, L buttonLocator);
 }

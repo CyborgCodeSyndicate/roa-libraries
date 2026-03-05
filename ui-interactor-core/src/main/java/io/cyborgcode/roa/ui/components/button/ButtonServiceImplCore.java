@@ -1,6 +1,7 @@
 package io.cyborgcode.roa.ui.components.button;
 
 import io.cyborgcode.roa.ui.components.base.AbstractComponentServiceCore;
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.components.button.ButtonComponentType;
 import io.cyborgcode.roa.ui.components.button.ButtonCore;
@@ -14,9 +15,9 @@ import io.cyborgcode.roa.ui.log.LogUi;
  * @param <D> The driver or page type.
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public abstract class ButtonServiceImplCore<E, C extends ButtonCore<E>, D>
+public abstract class ButtonServiceImplCore<E extends BaseUiElement, C extends ButtonCore<E, L>, D, L>
       extends AbstractComponentServiceCore<ButtonComponentType, C, D>
-      implements ButtonServiceCore<E> {
+      implements ButtonServiceCore<E, L> {
 
    protected ButtonServiceImplCore(final D driver) {
       super(driver);
@@ -36,6 +37,11 @@ public abstract class ButtonServiceImplCore<E, C extends ButtonCore<E>, D>
       buttonComponent(componentType).click(container);
    }
 
+   public void click(final ButtonComponentType componentType, final L buttonSelector) {
+      LogUi.step("Clicking button by selector");
+      buttonComponent(componentType).click(buttonSelector);
+   }
+
    public void click(final ButtonComponentType componentType, final String buttonText) {
       LogUi.step("Clicking button: '{}'", buttonText);
       buttonComponent(componentType).click(buttonText);
@@ -49,6 +55,11 @@ public abstract class ButtonServiceImplCore<E, C extends ButtonCore<E>, D>
    public boolean isEnabled(final ButtonComponentType componentType, final E container) {
       LogUi.step("Checking if button is enabled in container");
       return buttonComponent(componentType).isEnabled(container);
+   }
+
+   public boolean isEnabled(final ButtonComponentType componentType, final L buttonSelector) {
+      LogUi.step("Checking if button is enabled by selector");
+      return buttonComponent(componentType).isEnabled(buttonSelector);
    }
 
    public boolean isEnabled(final ButtonComponentType componentType, final String buttonText) {
@@ -67,6 +78,11 @@ public abstract class ButtonServiceImplCore<E, C extends ButtonCore<E>, D>
       return buttonComponent(componentType).isVisible(container);
    }
 
+   public boolean isVisible(final ButtonComponentType componentType, final L buttonSelector) {
+      LogUi.step("Checking if button is visible in container");
+      return buttonComponent(componentType).isVisible(buttonSelector);
+   }
+
    public boolean isVisible(final ButtonComponentType componentType, final String buttonText) {
       LogUi.step("Checking if button is visible: '{}'", buttonText);
       return buttonComponent(componentType).isVisible(buttonText);
@@ -80,6 +96,5 @@ public abstract class ButtonServiceImplCore<E, C extends ButtonCore<E>, D>
       LogUi.step("Performing table insertion in cell element");
       buttonComponent(buttonType).clickElementInCell(cellElement);
    }
-
 
 }

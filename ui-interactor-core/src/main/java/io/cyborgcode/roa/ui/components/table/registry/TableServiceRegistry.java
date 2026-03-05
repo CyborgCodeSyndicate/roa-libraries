@@ -1,5 +1,6 @@
 package io.cyborgcode.roa.ui.components.table.registry;
 
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.components.table.filters.TableFilter;
 import io.cyborgcode.roa.ui.components.table.insertion.TableInsertion;
@@ -15,24 +16,24 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public class TableServiceRegistry<C> {
+public class TableServiceRegistry<E extends BaseUiElement> {
 
-   private final Map<Class<? extends ComponentType>, TableInsertion<C>> tableInsertionRegistry = new ConcurrentHashMap<>();
-   private final Map<Class<? extends ComponentType>, TableFilter<C>> tableFilterRegistry = new ConcurrentHashMap<>();
+   private final Map<Class<? extends ComponentType>, TableInsertion<E>> tableInsertionRegistry = new ConcurrentHashMap<>();
+   private final Map<Class<? extends ComponentType>, TableFilter<E>> tableFilterRegistry = new ConcurrentHashMap<>();
 
-   public void registerService(Class<? extends ComponentType> type, TableInsertion<C> service) {
+   public void registerService(Class<? extends ComponentType> type, TableInsertion<E> service) {
       tableInsertionRegistry.put(type, service);
    }
 
-   public void registerService(Class<? extends ComponentType> type, TableFilter<C> service) {
+   public void registerService(Class<? extends ComponentType> type, TableFilter<E> service) {
       tableFilterRegistry.put(type, service);
    }
 
-   public TableInsertion<C> getTableService(Class<? extends ComponentType> type) {
+   public TableInsertion<E> getTableService(Class<? extends ComponentType> type) {
       return tableInsertionRegistry.get(type);
    }
 
-   public TableFilter<C> getFilterService(Class<? extends ComponentType> type) {
+   public TableFilter<E> getFilterService(Class<? extends ComponentType> type) {
       return tableFilterRegistry.get(type);
    }
 }

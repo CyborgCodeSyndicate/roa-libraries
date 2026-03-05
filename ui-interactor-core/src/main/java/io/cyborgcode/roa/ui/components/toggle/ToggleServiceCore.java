@@ -1,5 +1,6 @@
 package io.cyborgcode.roa.ui.components.toggle;
 
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.utilities.reflections.ReflectionUtil;
 
 import static io.cyborgcode.roa.ui.config.UiConfigHolderCore.getUiConfig;
@@ -14,7 +15,7 @@ import static io.cyborgcode.roa.ui.config.UiConfigHolderCore.getUiConfig;
  * @param <E> The container/element type (e.g., Playwright's {@code Locator} or Selenium's {@code WebElement}).
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface ToggleServiceCore<E> {
+public interface ToggleServiceCore<E extends BaseUiElement, L> {
 
    ToggleComponentType DEFAULT_TYPE = getDefaultType();
 
@@ -80,4 +81,28 @@ public interface ToggleServiceCore<E> {
    }
 
    boolean isActivated(ToggleComponentType componentType, String toggleText);
+
+   default void activate(L toggleLocator) {
+      activate(DEFAULT_TYPE, toggleLocator);
+   }
+
+   void activate(ToggleComponentType componentType, L toggleLocator);
+
+   default void deactivate(L toggleLocator) {
+      deactivate(DEFAULT_TYPE, toggleLocator);
+   }
+
+   void deactivate(ToggleComponentType componentType, L toggleLocator);
+
+   default boolean isEnabled(L toggleLocator) {
+      return isEnabled(DEFAULT_TYPE, toggleLocator);
+   }
+
+   boolean isEnabled(ToggleComponentType componentType, L toggleLocator);
+
+   default boolean isActivated(L toggleLocator) {
+      return isActivated(DEFAULT_TYPE, toggleLocator);
+   }
+
+   boolean isActivated(ToggleComponentType componentType, L toggleLocator);
 }

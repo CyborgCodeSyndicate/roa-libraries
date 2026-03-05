@@ -2,7 +2,7 @@ package io.cyborgcode.roa.ui.playwright.session.factory;
 
 import io.cyborgcode.roa.ui.exceptions.UiInteractionException;
 import io.cyborgcode.roa.ui.log.LogUi;
-import io.cyborgcode.roa.ui.playwright.session.UISession;
+import io.cyborgcode.roa.ui.playwright.session.UiSession;
 import io.cyborgcode.roa.ui.playwright.session.base.BrowserProvider;
 import io.cyborgcode.roa.ui.playwright.session.config.SessionConfig;
 import io.cyborgcode.roa.ui.playwright.session.providers.ChromiumBrowserProvider;
@@ -13,10 +13,10 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Factory class for creating {@link UISession} instances.
+ * Factory class for creating {@link UiSession} instances.
  *
  * <p>This factory manages registered {@link BrowserProvider} instances and creates
- * {@link UISession} objects based on the specified browser type and configuration.
+ * {@link UiSession} objects based on the specified browser type and configuration.
  *
  * <p>By default, the factory registers providers for Chromium, Firefox, and WebKit.
  * Additional providers can be registered dynamically using {@link #registerProvider(BrowserProvider)}.
@@ -47,15 +47,15 @@ public class UiSessionFactory {
    }
 
    /**
-    * Creates a new {@link UISession} for the specified browser type using the given configuration.
+    * Creates a new {@link UiSession} for the specified browser type using the given configuration.
     *
     * @param type   The browser type (e.g., "CHROMIUM", "FIREFOX", "WEBKIT").
     * @param config The session configuration.
-    * @return A fully initialized {@link UISession}.
+    * @return A fully initialized {@link UiSession}.
     * @throws IllegalArgumentException If no provider is registered for the given browser type.
     * @throws UiInteractionException   If session creation fails.
     */
-   public static UISession createSession(final String type, final SessionConfig config) {
+   public static UiSession createSession(final String type, final SessionConfig config) {
       final BrowserProvider provider = Optional.ofNullable(BROWSER_PROVIDERS.get(type.trim().toUpperCase()))
             .orElseThrow(() -> new IllegalArgumentException("No browser provider registered for type: " + type));
 
@@ -67,12 +67,12 @@ public class UiSessionFactory {
    }
 
    /**
-    * Creates a new {@link UISession} for the specified browser type using default configuration.
+    * Creates a new {@link UiSession} for the specified browser type using default configuration.
     *
     * @param type The browser type (e.g., "CHROMIUM", "FIREFOX", "WEBKIT").
-    * @return A fully initialized {@link UISession}.
+    * @return A fully initialized {@link UiSession}.
     */
-   public static UISession createSession(final String type) {
+   public static UiSession createSession(final String type) {
       return createSession(type, SessionConfig.builder().build());
    }
 

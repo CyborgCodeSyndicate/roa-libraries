@@ -1,9 +1,6 @@
 package io.cyborgcode.roa.ui.insertion;
 
 import io.cyborgcode.roa.ui.components.base.ComponentType;
-import io.cyborgcode.roa.ui.insertion.Insertion;
-import io.cyborgcode.roa.ui.insertion.InsertionService;
-import io.cyborgcode.roa.ui.insertion.InsertionServiceRegistry;
 import io.cyborgcode.roa.ui.log.LogUi;
 import io.cyborgcode.utilities.reflections.exceptions.ReflectionException;
 import java.lang.annotation.Annotation;
@@ -20,11 +17,11 @@ import java.util.List;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public abstract class BaseInsertionService<A extends Annotation, T> implements InsertionService {
+public abstract class BaseInsertionService<A extends Annotation, L> implements InsertionService {
 
-   protected final InsertionServiceRegistry<T> serviceRegistry;
+   protected final InsertionServiceRegistry<L> serviceRegistry;
 
-   protected BaseInsertionService(final InsertionServiceRegistry<T> serviceRegistry) {
+   protected BaseInsertionService(final InsertionServiceRegistry<L> serviceRegistry) {
       this.serviceRegistry = serviceRegistry;
    }
 
@@ -41,14 +38,14 @@ public abstract class BaseInsertionService<A extends Annotation, T> implements I
          try {
             final Class<? extends ComponentType> enumClass = getComponentTypeEnumClass(annotation);
             final Class<? extends ComponentType> componentTypeClass = extractComponentTypeClass(enumClass);
-            final Insertion<T> service = serviceRegistry.getService(componentTypeClass);
+            final Insertion<L> service = serviceRegistry.getService(componentTypeClass);
             if (service == null) {
                throw new IllegalStateException(
                      "No InsertionService registered for: " + componentTypeClass.getSimpleName()
                );
             }
 
-            final T selector = buildSelector(annotation);
+            final L selector = buildLocator(annotation);
             final Object valueForField = field.get(data);
 
             if (valueForField != null) {
@@ -69,7 +66,7 @@ public abstract class BaseInsertionService<A extends Annotation, T> implements I
 
    protected abstract Class<? extends ComponentType> getComponentTypeEnumClass(A annotation);
 
-   protected abstract T buildSelector(A annotation);
+   protected abstract L buildLocator(A annotation);
 
    protected abstract ComponentType getType(A annotation);
 

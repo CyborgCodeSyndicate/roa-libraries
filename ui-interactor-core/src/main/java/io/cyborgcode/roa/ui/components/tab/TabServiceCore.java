@@ -1,5 +1,6 @@
 package io.cyborgcode.roa.ui.components.tab;
 
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.components.button.ButtonServiceCore;
 import io.cyborgcode.roa.ui.components.tab.TabComponentType;
 import io.cyborgcode.utilities.reflections.ReflectionUtil;
@@ -16,7 +17,7 @@ import static io.cyborgcode.roa.ui.config.UiConfigHolderCore.getUiConfig;
  * @param <E> The container/element type (e.g., Playwright's {@code Locator} or Selenium's {@code WebElement}).
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface TabServiceCore<E> extends ButtonServiceCore<E> {
+public interface TabServiceCore<E extends BaseUiElement, L> extends ButtonServiceCore<E, L> {
 
    TabComponentType DEFAULT_TYPE = getDefaultType();
 
@@ -53,5 +54,11 @@ public interface TabServiceCore<E> extends ButtonServiceCore<E> {
    }
 
    boolean isSelected(TabComponentType componentType, String buttonText);
+
+   default boolean isSelected(L tabSelector) {
+      return isSelected(DEFAULT_TYPE, tabSelector);
+   }
+
+   boolean isSelected(TabComponentType componentType, L tabSelector);
 
 }

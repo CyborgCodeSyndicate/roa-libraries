@@ -2,10 +2,9 @@ package io.cyborgcode.roa.ui.playwright.components.toggle;
 
 import io.cyborgcode.roa.ui.components.toggle.ToggleComponentType;
 import io.cyborgcode.roa.ui.components.toggle.ToggleServiceImplCore;
-import io.cyborgcode.roa.ui.log.LogUi;
 import io.cyborgcode.roa.ui.playwright.base.PwBy;
+import io.cyborgcode.roa.ui.playwright.base.PwElement;
 import io.cyborgcode.roa.ui.playwright.components.factory.ComponentFactory;
-import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 
 /**
@@ -13,7 +12,7 @@ import com.microsoft.playwright.Page;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public class ToggleServiceImpl extends ToggleServiceImplCore<Locator, Toggle, Page>
+public class ToggleServiceImpl extends ToggleServiceImplCore<PwElement, Toggle, Page, PwBy>
       implements ToggleService {
 
    public ToggleServiceImpl(Page page) {
@@ -25,25 +24,4 @@ public class ToggleServiceImpl extends ToggleServiceImplCore<Locator, Toggle, Pa
       return ComponentFactory.getToggleComponent(componentType, driver);
    }
 
-   @Override
-   public void activate(final ToggleComponentType componentType, final PwBy toggleLocator) {
-      LogUi.step("Activating toggle by locator");
-      toggleComponent(componentType).activate(toggleLocator);
-   }
-
-   @Override
-   public void deactivate(final ToggleComponentType componentType, final PwBy toggleLocator) {
-      LogUi.step("Deactivating toggle by locator");
-      toggleComponent(componentType).deactivate(toggleLocator);
-   }
-
-   @Override
-   public boolean isEnabled(final ToggleComponentType componentType, final PwBy toggleLocator) {
-      return toggleComponent(componentType).isEnabled(toggleLocator);
-   }
-
-   @Override
-   public boolean isActivated(final ToggleComponentType componentType, final PwBy toggleLocator) {
-      return toggleComponent(componentType).isActivated(toggleLocator);
-   }
 }

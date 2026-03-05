@@ -1,5 +1,6 @@
 package io.cyborgcode.roa.ui.components.link;
 
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.components.button.ButtonServiceCore;
 import io.cyborgcode.utilities.reflections.ReflectionUtil;
 
@@ -15,7 +16,7 @@ import static io.cyborgcode.roa.ui.config.UiConfigHolderCore.getUiConfig;
  * @param <E> The container/element type (e.g., Playwright's {@code Locator} or Selenium's {@code WebElement}).
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface LinkServiceCore<E> extends ButtonServiceCore<E> {
+public interface LinkServiceCore<E extends BaseUiElement, L> extends ButtonServiceCore<E, L> {
 
    LinkComponentType DEFAULT_TYPE = getDefaultType();
 
@@ -52,5 +53,10 @@ public interface LinkServiceCore<E> extends ButtonServiceCore<E> {
 
    void doubleClick(LinkComponentType componentType, String linkText);
 
+   default void doubleClick(L linkSelector) {
+      doubleClick(DEFAULT_TYPE, linkSelector);
+   }
+
+   void doubleClick(LinkComponentType componentType, L linkSelector);
 
 }

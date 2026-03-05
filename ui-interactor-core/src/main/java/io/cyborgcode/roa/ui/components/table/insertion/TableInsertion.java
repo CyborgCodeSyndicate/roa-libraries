@@ -1,5 +1,6 @@
 package io.cyborgcode.roa.ui.components.table.insertion;
 
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 
 /**
@@ -8,7 +9,7 @@ import io.cyborgcode.roa.ui.components.base.ComponentType;
  * @param <E> The container/element type (e.g., Playwright's {@code Locator} or Selenium's {@code WebElement}).
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface TableInsertion<E> {
+public interface TableInsertion<E extends BaseUiElement> {
 
    /**
     * Inserts values into the specified table cell.

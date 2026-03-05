@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.validator;
 
-//import com.microsoft.playwright.Locator;
 
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -12,12 +12,12 @@ import java.util.Set;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public abstract class TableAssertionFunctionsServiceCore<V> {
+public abstract class TableAssertionFunctionsServiceCore<E extends BaseUiElement> {
 
 
-   private final Class<V> cellType;
+   private final Class<E> cellType;
 
-   protected TableAssertionFunctionsServiceCore(Class<V> cellType) {
+   protected TableAssertionFunctionsServiceCore(Class<E> cellType) {
       this.cellType = cellType;
    }
 
@@ -311,7 +311,7 @@ public abstract class TableAssertionFunctionsServiceCore<V> {
    /**
     * Validates that all table cells are enabled.
     *
-    * @param actual   The table data (expected to be a {@code List} of rows containing {@link Locator}).
+    * @param actual   The table data (expected to be a {@code List} of rows containing {@link E}).
     * @param expected The expected enabled state (a {@code Boolean}).
     * @return {@code true} if all cells are enabled and match the expected state; otherwise, {@code false}.
     */
@@ -323,7 +323,7 @@ public abstract class TableAssertionFunctionsServiceCore<V> {
 
       boolean allCellsEnabled = table.stream().allMatch(row ->
             row instanceof List<?> && ((List<?>) row).stream().allMatch(cell ->
-                  cellType.isInstance(cell) && cellIsEnabled((V) cell)
+                  cellType.isInstance(cell) && cellIsEnabled((E) cell)
             )
       );
 
@@ -350,8 +350,8 @@ public abstract class TableAssertionFunctionsServiceCore<V> {
       boolean allClickable = table.stream().allMatch(row ->
             row instanceof List<?> && ((List<?>) row).stream().allMatch(cell ->
                   cellType.isInstance(cell)
-                        && cellIsVisible((V) cell)
-                        && cellIsEnabled((V) cell)
+                        && cellIsVisible((E) cell)
+                        && cellIsEnabled((E) cell)
             )
       );
       if (!(expected instanceof Boolean)) {
@@ -360,8 +360,8 @@ public abstract class TableAssertionFunctionsServiceCore<V> {
       return allClickable == (Boolean) expected;
    }
 
-   protected abstract boolean cellIsVisible(V cell);
+   protected abstract boolean cellIsVisible(E cell);
 
-   protected abstract boolean cellIsEnabled(V cell);
+   protected abstract boolean cellIsEnabled(E cell);
 
 }

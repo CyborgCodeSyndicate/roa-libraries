@@ -1,6 +1,5 @@
 package io.cyborgcode.roa.ui.playwright.base;
 
-import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import java.util.Objects;
 
@@ -25,11 +24,11 @@ public final class PwBy {
       return selector;
    }
 
-   public Locator on(Page page) {
-      return page.locator(selector);
+   public PwElement on(Page page) {
+      return (PwElement) page.locator(selector);
    }
 
-   public Locator within(Locator root) {
+   public PwElement within(PwElement root) {
       return root.locator(selector);
    }
 

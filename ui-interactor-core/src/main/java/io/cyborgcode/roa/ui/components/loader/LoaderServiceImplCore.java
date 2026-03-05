@@ -1,6 +1,7 @@
 package io.cyborgcode.roa.ui.components.loader;
 
 import io.cyborgcode.roa.ui.components.base.AbstractComponentServiceCore;
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.log.LogUi;
 
 /**
@@ -11,9 +12,9 @@ import io.cyborgcode.roa.ui.log.LogUi;
  * @param <D> The driver or page type.
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public abstract class LoaderServiceImplCore<E, C extends LoaderCore<E>, D>
+public abstract class LoaderServiceImplCore<E extends BaseUiElement, C extends LoaderCore<E, L>, D, L>
       extends AbstractComponentServiceCore<LoaderComponentType, C, D>
-      implements LoaderServiceCore<E> {
+      implements LoaderServiceCore<E, L> {
 
    protected LoaderServiceImplCore(final D driver) {
       super(driver);
@@ -46,4 +47,19 @@ public abstract class LoaderServiceImplCore<E, C extends LoaderCore<E>, D>
       LogUi.step("Waiting for loader to be removed ({} seconds)", secondsRemoved);
       loaderComponent(componentType).waitToBeRemoved(secondsRemoved);
    }
+
+   public boolean isVisible(final LoaderComponentType componentType, final L loaderLocator) {
+      return loaderComponent(componentType).isVisible(loaderLocator);
+   }
+
+   public void waitToBeShown(final LoaderComponentType componentType, final L loaderLocator, final int secondsShown) {
+      LogUi.step("Waiting for loader to be shown ({} seconds)", secondsShown);
+      loaderComponent(componentType).waitToBeShown(loaderLocator, secondsShown);
+   }
+
+   public void waitToBeRemoved(final LoaderComponentType componentType, final L loaderLocator, final int secondsRemoved) {
+      LogUi.step("Waiting for loader to be removed ({} seconds)", secondsRemoved);
+      loaderComponent(componentType).waitToBeRemoved(loaderLocator, secondsRemoved);
+   }
+
 }

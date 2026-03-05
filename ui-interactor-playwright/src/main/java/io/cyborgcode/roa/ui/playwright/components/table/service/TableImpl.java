@@ -1,6 +1,5 @@
 package io.cyborgcode.roa.ui.playwright.components.table.service;
 
-import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import io.cyborgcode.roa.ui.components.table.model.TableCell;
 import io.cyborgcode.roa.ui.components.table.model.TableCellLocatorInfo;
@@ -9,6 +8,7 @@ import io.cyborgcode.roa.ui.components.table.registry.TableServiceRegistry;
 import io.cyborgcode.roa.ui.components.table.service.Table;
 import io.cyborgcode.roa.ui.components.table.service.TableImplCore;
 import io.cyborgcode.roa.ui.playwright.base.PwBy;
+import io.cyborgcode.roa.ui.playwright.base.PwElement;
 import io.cyborgcode.roa.ui.playwright.components.table.annotations.TableCellLocator;
 import io.cyborgcode.roa.ui.playwright.components.table.annotations.TableInfo;
 import java.lang.annotation.Annotation;
@@ -21,47 +21,47 @@ import java.util.List;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @SuppressWarnings("java:S3011")
-public abstract class TableImpl extends TableImplCore<Locator, PwBy, Page> {
+public abstract class TableImpl extends TableImplCore<PwElement, PwBy, Page> {
 
 
    protected TableImpl(Page driver) {
       super(driver);
    }
 
-   protected TableImpl(Page driver, TableServiceRegistry<Locator> serviceRegistry) {
+   protected TableImpl(Page driver, TableServiceRegistry<PwElement> serviceRegistry) {
       super(driver, serviceRegistry);
    }
 
    @Override
-   protected Locator getTableContainer(PwBy tableContainerSelector) {
-      return tableContainerSelector.on(driver);
+   protected PwElement getTableContainer(PwBy tableContainerSelector) {
+      return (PwElement) tableContainerSelector.on(driver);
    }
 
    @Override
-   protected String getTextFromElement(Locator element) {
+   protected String getTextFromElement(PwElement element) {
       return element.textContent();
    }
 
    @Override
-   protected List<Locator> locateElements(Locator element, PwBy locator) {
-      return locator.within(element).all();
+   protected List<PwElement> locateElements(PwElement element, PwBy locator) {
+      return locator.within(element).allElements();
    }
 
    @Override
-   protected List<Locator> getRows(Locator tableContainer, PwBy tableRowsSelector, String section) {
+   protected List<PwElement> getRows(PwElement tableContainer, PwBy tableRowsSelector, String section) {
       tableRowsSelector.within(tableContainer).first().waitFor();
-      return tableRowsSelector.within(tableContainer).all();
+      return tableRowsSelector.within(tableContainer).allElements();
    }
 
    @Override
-   protected Locator getHeaderRow(Locator tableContainer, PwBy headerRowSelector, String tableSection) {
+   protected PwElement getHeaderRow(PwElement tableContainer, PwBy headerRowSelector, String tableSection) {
       return headerRowSelector.within(tableContainer);
    }
 
 
    @Override
-   protected TableCell<Locator> buildTableCell(Locator container, PwBy cellSelector, PwBy textSelector) {
-      final Locator cellElement = (cellSelector == null)
+   protected TableCell<PwElement> buildTableCell(PwElement container, PwBy cellSelector, PwBy textSelector) {
+      final PwElement cellElement = (cellSelector == null)
             ? container
             : cellSelector.within(container);
 
@@ -71,7 +71,7 @@ public abstract class TableImpl extends TableImplCore<Locator, PwBy, Page> {
       } else {
          text = textSelector.within(cellElement).textContent();
       }
-      return new TableCell<Locator>(cellElement, text);
+      return new TableCell<>(cellElement, text);
    }
 
    @Override

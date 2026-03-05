@@ -1,9 +1,8 @@
 package io.cyborgcode.roa.ui.components.checkbox;
 
 import io.cyborgcode.roa.ui.components.base.AbstractComponentServiceCore;
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
-import io.cyborgcode.roa.ui.components.checkbox.CheckboxComponentType;
-import io.cyborgcode.roa.ui.components.checkbox.CheckboxServiceCore;
 import io.cyborgcode.roa.ui.log.LogUi;
 import io.cyborgcode.roa.ui.util.strategy.Strategy;
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.List;
  * @param <D> The driver or page type.
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public abstract class CheckboxServiceImplCore<E, C extends CheckboxCore<E>, D, L>
+public abstract class CheckboxServiceImplCore<E extends BaseUiElement, C extends CheckboxCore<E, L>, D, L>
       extends AbstractComponentServiceCore<CheckboxComponentType, C, D>
       implements CheckboxServiceCore<E, L> {
 
@@ -80,6 +79,32 @@ public abstract class CheckboxServiceImplCore<E, C extends CheckboxCore<E>, D, L
 
    public List<String> getAll(final CheckboxComponentType componentType, final E container) {
       return checkboxComponent(componentType).getAll(container);
+   }
+
+   public void select(final CheckboxComponentType componentType, final L... checkBoxLocator) {
+      LogUi.step("Selecting checkbox by locator");
+      checkboxComponent(componentType).select(checkBoxLocator);
+   }
+
+   public void deSelect(final CheckboxComponentType componentType, final L... checkBoxLocator) {
+      LogUi.step("Deselecting checkbox by locator");
+      checkboxComponent(componentType).deSelect(checkBoxLocator);
+   }
+
+   public boolean areSelected(final CheckboxComponentType componentType, final L... checkBoxLocator) {
+      return checkboxComponent(componentType).areSelected(checkBoxLocator);
+   }
+
+   public boolean areEnabled(final CheckboxComponentType componentType, final L... checkBoxLocator) {
+      return checkboxComponent(componentType).areEnabled(checkBoxLocator);
+   }
+
+   public List<String> getSelected(final CheckboxComponentType componentType, final L containerLocator) {
+      return checkboxComponent(componentType).getSelected(containerLocator);
+   }
+
+   public List<String> getAll(final CheckboxComponentType componentType, final L containerLocator) {
+      return checkboxComponent(componentType).getAll(containerLocator);
    }
 
    @Override

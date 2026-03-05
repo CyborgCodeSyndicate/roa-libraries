@@ -1,6 +1,7 @@
 package io.cyborgcode.roa.ui.components.link;
 
 import io.cyborgcode.roa.ui.components.base.AbstractComponentServiceCore;
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.components.button.ButtonComponentType;
 import io.cyborgcode.roa.ui.log.LogUi;
@@ -13,9 +14,9 @@ import io.cyborgcode.roa.ui.log.LogUi;
  * @param <D> The driver or page type.
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public abstract class LinkServiceImplCore<E, C extends LinkCore<E>, D>
+public abstract class LinkServiceImplCore<E extends BaseUiElement, C extends LinkCore<E, L>, D, L>
       extends AbstractComponentServiceCore<LinkComponentType, C, D>
-      implements LinkServiceCore<E> {
+      implements LinkServiceCore<E, L> {
 
    protected LinkServiceImplCore(final D driver) {
       super(driver);
@@ -75,6 +76,24 @@ public abstract class LinkServiceImplCore<E, C extends LinkCore<E>, D>
 
    public void doubleClick(final LinkComponentType componentType, final String linkText) {
       linkComponent(componentType).doubleClick(linkText);
+   }
+
+   public void click(final ButtonComponentType componentType, final L linkSelector) {
+      LogUi.step("Clicking link by selector");
+      linkComponent(componentType).click(linkSelector);
+   }
+
+   public boolean isEnabled(final ButtonComponentType componentType, final L linkSelector) {
+      return linkComponent(componentType).isEnabled(linkSelector);
+   }
+
+   public boolean isVisible(final ButtonComponentType componentType, final L linkSelector) {
+      return linkComponent(componentType).isVisible(linkSelector);
+   }
+
+   public void doubleClick(final LinkComponentType componentType, final L linkSelector) {
+      LogUi.step("Double-clicking link by selector");
+      linkComponent(componentType).doubleClick(linkSelector);
    }
 
    @Override

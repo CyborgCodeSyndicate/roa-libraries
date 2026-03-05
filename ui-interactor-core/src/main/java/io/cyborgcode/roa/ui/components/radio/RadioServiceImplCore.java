@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.components.radio;
 
 import io.cyborgcode.roa.ui.components.base.AbstractComponentServiceCore;
-import io.cyborgcode.roa.ui.components.radio.RadioComponentType;
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.log.LogUi;
 import io.cyborgcode.roa.ui.util.strategy.Strategy;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  * @param <D> The driver or page type.
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public abstract class RadioServiceImplCore<E, C extends RadioCore<E>, D, L>
+public abstract class RadioServiceImplCore<E extends BaseUiElement, C extends RadioCore<E, L>, D, L>
       extends AbstractComponentServiceCore<RadioComponentType, C, D>
       implements RadioServiceCore<E, L> {
 
@@ -70,5 +70,30 @@ public abstract class RadioServiceImplCore<E, C extends RadioCore<E>, D, L>
 
    public List<String> getAll(final RadioComponentType componentType, final E container) {
       return radioComponent(componentType).getAll(container);
+   }
+
+   public void select(final RadioComponentType componentType, final L radioButtonLocator) {
+      LogUi.step("Selecting radio by locator");
+      radioComponent(componentType).select(radioButtonLocator);
+   }
+
+   public boolean isEnabled(final RadioComponentType componentType, final L radioButtonLocator) {
+      return radioComponent(componentType).isEnabled(radioButtonLocator);
+   }
+
+   public boolean isSelected(final RadioComponentType componentType, final L radioButtonLocator) {
+      return radioComponent(componentType).isSelected(radioButtonLocator);
+   }
+
+   public boolean isVisible(final RadioComponentType componentType, final L radioButtonLocator) {
+      return radioComponent(componentType).isVisible(radioButtonLocator);
+   }
+
+   public String getSelected(final RadioComponentType componentType, final L containerLocator) {
+      return radioComponent(componentType).getSelected(containerLocator);
+   }
+
+   public List<String> getAll(final RadioComponentType componentType, final L containerLocator) {
+      return radioComponent(componentType).getAll(containerLocator);
    }
 }

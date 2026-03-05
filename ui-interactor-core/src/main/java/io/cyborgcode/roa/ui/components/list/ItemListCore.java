@@ -1,5 +1,6 @@
 package io.cyborgcode.roa.ui.components.list;
 
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.util.strategy.Strategy;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * @param <E> The container/element type (e.g., Playwright's {@code Locator} or Selenium's {@code WebElement}).
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface ItemListCore<E> {
+public interface ItemListCore<E extends BaseUiElement, L> {
 
    void select(E container, String... itemText);
 
@@ -38,5 +39,33 @@ public interface ItemListCore<E> {
    List<String> getSelected(E container);
 
    List<String> getAll(E container);
+
+   void select(L containerLocator, String... itemText);
+
+   String select(L containerLocator, Strategy strategy);
+
+   void select(L... itemListLocator);
+
+   void deSelect(L containerLocator, String... itemText);
+
+   String deSelect(L containerLocator, Strategy strategy);
+
+   void deSelect(L... itemListLocator);
+
+   boolean areSelected(L containerLocator, String... itemText);
+
+   boolean areSelected(L... itemListLocator);
+
+   boolean areEnabled(L containerLocator, String... itemText);
+
+   boolean areEnabled(L... itemLocator);
+
+   boolean areVisible(L containerLocator, String... itemText);
+
+   boolean areVisible(L... itemLocator);
+
+   List<String> getSelected(L containerLocator);
+
+   List<String> getAll(L containerLocator);
 
 }

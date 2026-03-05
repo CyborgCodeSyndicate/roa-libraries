@@ -21,7 +21,7 @@ import lombok.Getter;
  */
 @Getter
 @Builder
-public class UISession {
+public class UiSession {
 
    /**
     * The Playwright instance managing the browser engine.

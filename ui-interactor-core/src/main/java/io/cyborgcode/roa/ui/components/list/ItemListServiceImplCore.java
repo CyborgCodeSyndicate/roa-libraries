@@ -1,6 +1,7 @@
 package io.cyborgcode.roa.ui.components.list;
 
 import io.cyborgcode.roa.ui.components.base.AbstractComponentServiceCore;
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.log.LogUi;
 import io.cyborgcode.roa.ui.util.strategy.Strategy;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
  * @param <D> The driver or page type.
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public abstract class ItemListServiceImplCore<E, C extends ItemListCore<E>, D, L>
+public abstract class ItemListServiceImplCore<E extends BaseUiElement, C extends ItemListCore<E, L>, D, L>
       extends AbstractComponentServiceCore<ItemListComponentType, C, D>
       implements ItemListServiceCore<E, L> {
 
@@ -86,5 +87,67 @@ public abstract class ItemListServiceImplCore<E, C extends ItemListCore<E>, D, L
 
    public List<String> getAll(final ItemListComponentType componentType, final E container) {
       return itemListComponent(componentType).getAll(container);
+   }
+
+   public void select(final ItemListComponentType componentType, final L containerLocator, final String... itemText) {
+      LogUi.step("Selecting item");
+      itemListComponent(componentType).select(containerLocator, itemText);
+   }
+
+   public void select(final ItemListComponentType componentType, final L containerLocator, final Strategy strategy) {
+      LogUi.step("Selecting item");
+      itemListComponent(componentType).select(containerLocator, strategy);
+   }
+
+   public void select(final ItemListComponentType componentType, final L... itemListLocator) {
+      LogUi.step("Selecting item");
+      itemListComponent(componentType).select(itemListLocator);
+   }
+
+   public void deSelect(final ItemListComponentType componentType, final L containerLocator, final String... itemText) {
+      LogUi.step("Deselecting item");
+      itemListComponent(componentType).deSelect(containerLocator, itemText);
+   }
+
+   public void deSelect(final ItemListComponentType componentType, final L containerLocator, final Strategy strategy) {
+      LogUi.step("Deselecting item");
+      itemListComponent(componentType).deSelect(containerLocator, strategy);
+   }
+
+   public void deSelect(final ItemListComponentType componentType, final L... itemListLocator) {
+      LogUi.step("Deselecting item");
+      itemListComponent(componentType).deSelect(itemListLocator);
+   }
+
+   public boolean areSelected(final ItemListComponentType componentType, final L containerLocator, final String... itemText) {
+      return itemListComponent(componentType).areSelected(containerLocator, itemText);
+   }
+
+   public boolean areSelected(final ItemListComponentType componentType, final L... itemListLocator) {
+      return itemListComponent(componentType).areSelected(itemListLocator);
+   }
+
+   public boolean areEnabled(final ItemListComponentType componentType, final L containerLocator, final String... itemText) {
+      return itemListComponent(componentType).areEnabled(containerLocator, itemText);
+   }
+
+   public boolean areEnabled(final ItemListComponentType componentType, final L... itemLocator) {
+      return itemListComponent(componentType).areEnabled(itemLocator);
+   }
+
+   public boolean areVisible(final ItemListComponentType componentType, final L containerLocator, final String... itemText) {
+      return itemListComponent(componentType).areVisible(containerLocator, itemText);
+   }
+
+   public boolean areVisible(final ItemListComponentType componentType, final L... itemLocator) {
+      return itemListComponent(componentType).areVisible(itemLocator);
+   }
+
+   public List<String> getSelected(final ItemListComponentType componentType, final L containerLocator) {
+      return itemListComponent(componentType).getSelected(containerLocator);
+   }
+
+   public List<String> getAll(final ItemListComponentType componentType, final L containerLocator) {
+      return itemListComponent(componentType).getAll(containerLocator);
    }
 }

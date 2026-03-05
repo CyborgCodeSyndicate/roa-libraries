@@ -1,6 +1,7 @@
 package io.cyborgcode.roa.ui.playwright.util.strategy;
 
-import com.microsoft.playwright.Locator;
+
+import io.cyborgcode.roa.ui.playwright.base.PwElement;
 import io.cyborgcode.roa.ui.util.strategy.StrategyGeneratorService;
 import java.security.SecureRandom;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
  */
 public class StrategyGenerator {
 
-   private static final StrategyGeneratorService<Locator> STRATEGY_GENERATOR_SERVICE = new StrategyGeneratorService<>();
+   private static final StrategyGeneratorService<PwElement> STRATEGY_GENERATOR_SERVICE = new StrategyGeneratorService<>();
 
    private StrategyGenerator() {
    }
@@ -26,33 +27,33 @@ public class StrategyGenerator {
    /**
     * Selects and returns a random element from the given list.
     *
-    * @param elements The list of {@link Locator} from which an element is to be selected.
-    * @return A randomly selected {@link Locator} from the list.
+    * @param elements The list of {@link PwElement} from which an element is to be selected.
+    * @return A randomly selected {@link PwElement} from the list.
     * @throws IllegalArgumentException if the list is null or empty.
     */
-   public static Locator getRandomElementFromElements(List<Locator> elements) {
+   public static PwElement getRandomElementFromElements(List<PwElement> elements) {
       return STRATEGY_GENERATOR_SERVICE.getRandomElementFromElements(elements);
    }
 
    /**
     * Selects and returns the first element from the given list.
     *
-    * @param elements The list of {@link Locator} from which the first element is to be selected.
-    * @return The first {@link Locator} in the list.
+    * @param elements The list of {@link PwElement} from which the first element is to be selected.
+    * @return The first {@link PwElement} in the list.
     * @throws IllegalArgumentException if the list is null or empty.
     */
-   public static Locator getFirstElementFromElements(List<Locator> elements) {
+   public static PwElement getFirstElementFromElements(List<PwElement> elements) {
       return STRATEGY_GENERATOR_SERVICE.getFirstElementFromElements(elements);
    }
 
    /**
     * Selects and returns the last element from the given list.
     *
-    * @param elements The list of {@link Locator} from which the last element is to be selected.
-    * @return The last {@link Locator} in the list.
+    * @param elements The list of {@link PwElement} from which the last element is to be selected.
+    * @return The last {@link PwElement} in the list.
     * @throws IllegalArgumentException if the list is null or empty.
     */
-   public static Locator getLastElementFromElements(List<Locator> elements) {
+   public static PwElement getLastElementFromElements(List<PwElement> elements) {
       return STRATEGY_GENERATOR_SERVICE.getFirstElementFromElements(elements);
    }
 }

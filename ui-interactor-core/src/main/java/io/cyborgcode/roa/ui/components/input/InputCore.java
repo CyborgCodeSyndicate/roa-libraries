@@ -1,5 +1,6 @@
 package io.cyborgcode.roa.ui.components.input;
 
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.components.table.filters.FilterStrategy;
 
 /**
@@ -11,7 +12,7 @@ import io.cyborgcode.roa.ui.components.table.filters.FilterStrategy;
  * @param <E> The container/element type (e.g., Playwright's {@code Locator} or Selenium's {@code WebElement}).
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface InputCore<E> {
+public interface InputCore<E extends BaseUiElement, L> {
 
    void insert(E container, String value);
 
@@ -42,6 +43,16 @@ public interface InputCore<E> {
    String getErrorMessage(E container, String inputFieldLabel);
 
    String getErrorMessage(String inputFieldLabel);
+
+   void insert(L inputFieldContainerLocator, String value);
+
+   void clear(L inputFieldContainerLocator);
+
+   String getValue(L inputFieldContainerLocator);
+
+   boolean isEnabled(L inputFieldContainerLocator);
+
+   String getErrorMessage(L inputFieldContainerLocator);
 
    default void tableInsertion(E cell, String... values) {
    }

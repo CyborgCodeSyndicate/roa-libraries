@@ -24,6 +24,8 @@
         <module>roa-parent</module>
         <module>roa-archetype</module>
         <module>ui-interactor-core</module>
+        <module>ui-interactor-test-framework-adapter-core</module>
+        <module>ui-interactor-test-framework-adapter-playwright</module>
     </modules>
 
     <build>

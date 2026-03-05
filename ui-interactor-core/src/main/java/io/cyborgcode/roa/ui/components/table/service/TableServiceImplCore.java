@@ -1,13 +1,15 @@
 package io.cyborgcode.roa.ui.components.table.service;
 
 import io.cyborgcode.roa.ui.components.base.AbstractComponentServiceCore;
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.components.table.base.TableComponentType;
 import io.cyborgcode.roa.ui.components.table.base.TableField;
 import io.cyborgcode.roa.ui.components.table.filters.FilterStrategy;
 import io.cyborgcode.roa.ui.components.table.registry.TableServiceRegistry;
-import io.cyborgcode.roa.ui.components.table.service.Table;
-import io.cyborgcode.roa.ui.components.table.service.TableService;
 import io.cyborgcode.roa.ui.components.table.sort.SortingStrategy;
+import io.cyborgcode.roa.ui.validator.UiTableValidator;
+import io.cyborgcode.roa.validator.core.Assertion;
+import io.cyborgcode.roa.validator.core.AssertionResult;
 import java.util.List;
 import lombok.Getter;
 
@@ -17,19 +19,21 @@ import lombok.Getter;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public abstract class TableServiceImplCore<D, C> extends AbstractComponentServiceCore<TableComponentType, Table, D> implements TableService {
+public abstract class TableServiceImplCore<D, E extends BaseUiElement> extends AbstractComponentServiceCore<TableComponentType, Table, D> implements TableService {
 
    @Getter
-   private final TableServiceRegistry<C> tableServiceRegistry;
+   private final TableServiceRegistry<E> tableServiceRegistry;
+   private final UiTableValidator uiTableValidator;
 
    /**
     * Constructs a new AbstractComponentService with the given driver.
     *
     * @param driver The driver/page instance for UI interactions.
     */
-   protected TableServiceImplCore(D driver, TableServiceRegistry<C> tableServiceRegistry) {
+   protected TableServiceImplCore(D driver, TableServiceRegistry<E> tableServiceRegistry, UiTableValidator uiTableValidator) {
       super(driver);
       this.tableServiceRegistry = tableServiceRegistry;
+      this.uiTableValidator = uiTableValidator;
    }
 
    protected Table tableComponent(final TableComponentType componentType) {
@@ -124,6 +128,25 @@ public abstract class TableServiceImplCore<D, C> extends AbstractComponentServic
    public final <T> void sortTable(final TableComponentType tableComponentType, final Class<T> tclass,
                                    final TableField<T> column, final SortingStrategy sortingStrategy) {
       tableComponent(tableComponentType).sortTable(tclass, column, sortingStrategy);
+   }
+
+   /**
+    * Validates a table against the specified assertions.
+    *
+    * @param table      The table object to validate.
+    * @param assertions The assertions to apply for validation.
+    * @param <T>        The row type.
+    * @return A list of assertion results indicating the validation outcome.
+    */
+   @Override
+   public <T> List<AssertionResult<T>> validate(final Object table, final Assertion... assertions) {
+      if (table == null) {
+         throw new IllegalArgumentException("Table cannot be null for validation.");
+      }
+      if (assertions == null || assertions.length == 0) {
+         throw new IllegalArgumentException("At least one assertion must be provided.");
+      }
+      return uiTableValidator.validateTable(table, assertions);
    }
 
 }

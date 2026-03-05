@@ -1,6 +1,7 @@
 package io.cyborgcode.roa.ui.components.tab;
 
 import io.cyborgcode.roa.ui.components.base.AbstractComponentServiceCore;
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.components.button.ButtonComponentType;
 import io.cyborgcode.roa.ui.components.tab.TabComponentType;
@@ -15,9 +16,9 @@ import io.cyborgcode.roa.ui.log.LogUi;
  * @param <D> The driver or page type.
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public abstract class TabServiceImplCore<E, C extends TabCore<E>, D>
+public abstract class TabServiceImplCore<E extends BaseUiElement, C extends TabCore<E, L>, D, L>
       extends AbstractComponentServiceCore<TabComponentType, C, D>
-      implements TabServiceCore<E> {
+      implements TabServiceCore<E, L> {
 
    protected TabServiceImplCore(final D driver) {
       super(driver);
@@ -78,6 +79,23 @@ public abstract class TabServiceImplCore<E, C extends TabCore<E>, D>
 
    public boolean isSelected(final TabComponentType componentType, final String buttonText) {
       return tabComponent(componentType).isSelected(buttonText);
+   }
+
+   public void click(final ButtonComponentType componentType, final L tabSelector) {
+      LogUi.step("Clicking tab by selector");
+      tabComponent(componentType).click(tabSelector);
+   }
+
+   public boolean isEnabled(final ButtonComponentType componentType, final L tabSelector) {
+      return tabComponent(componentType).isEnabled(tabSelector);
+   }
+
+   public boolean isVisible(final ButtonComponentType componentType, final L tabSelector) {
+      return tabComponent(componentType).isVisible(tabSelector);
+   }
+
+   public boolean isSelected(final TabComponentType componentType, final L tabSelector) {
+      return tabComponent(componentType).isSelected(tabSelector);
    }
 
    @Override

@@ -1,5 +1,6 @@
 package io.cyborgcode.roa.ui.components.alert;
 
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.utilities.reflections.ReflectionUtil;
 
 import static io.cyborgcode.roa.ui.config.UiConfigHolderCore.getUiConfig;
@@ -14,7 +15,7 @@ import static io.cyborgcode.roa.ui.config.UiConfigHolderCore.getUiConfig;
  * @param <E> The container/element type (e.g., Playwright's {@code Locator} or Selenium's {@code WebElement}).
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface AlertServiceCore<E> {
+public interface AlertServiceCore<E extends BaseUiElement, L> {
 
    AlertComponentType DEFAULT_TYPE = getDefaultType();
 
@@ -44,5 +45,17 @@ public interface AlertServiceCore<E> {
    }
 
    boolean isVisible(AlertComponentType componentType, E container);
+
+   default String getValue(L containerLocator) {
+      return getValue(DEFAULT_TYPE, containerLocator);
+   }
+
+   String getValue(AlertComponentType componentType, L containerLocator);
+
+   default boolean isVisible(L containerLocator) {
+      return isVisible(DEFAULT_TYPE, containerLocator);
+   }
+
+   boolean isVisible(AlertComponentType componentType, L containerLocator);
 
 }

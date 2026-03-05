@@ -1,5 +1,6 @@
 package io.cyborgcode.roa.ui.components.checkbox;
 
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.insertion.Insertion;
 import io.cyborgcode.roa.ui.util.strategy.Strategy;
 import io.cyborgcode.utilities.reflections.ReflectionUtil;
@@ -18,7 +19,7 @@ import static io.cyborgcode.roa.ui.config.UiConfigHolderCore.getUiConfig;
  * @param <E> The selector type (e.g., {@code String} for CSS selectors).
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface CheckboxServiceCore<E, L> extends Insertion<L> {
+public interface CheckboxServiceCore<E extends BaseUiElement, L> extends Insertion<L> {
 
    CheckboxComponentType DEFAULT_TYPE = getDefaultType();
 
@@ -108,5 +109,41 @@ public interface CheckboxServiceCore<E, L> extends Insertion<L> {
    }
 
    List<String> getAll(CheckboxComponentType componentType, E container);
+
+   default void select(L... checkBoxLocator) {
+      select(DEFAULT_TYPE, checkBoxLocator);
+   }
+
+   void select(CheckboxComponentType componentType, L... checkBoxLocator);
+
+   default void deSelect(L... checkBoxLocator) {
+      deSelect(DEFAULT_TYPE, checkBoxLocator);
+   }
+
+   void deSelect(CheckboxComponentType componentType, L... checkBoxLocator);
+
+   default boolean areSelected(L... checkBoxLocator) {
+      return areSelected(DEFAULT_TYPE, checkBoxLocator);
+   }
+
+   boolean areSelected(CheckboxComponentType componentType, L... checkBoxLocator);
+
+   default boolean areEnabled(L... checkBoxLocator) {
+      return areEnabled(DEFAULT_TYPE, checkBoxLocator);
+   }
+
+   boolean areEnabled(CheckboxComponentType componentType, L... checkBoxLocator);
+
+   default List<String> getSelected(L containerLocator) {
+      return getSelected(DEFAULT_TYPE, containerLocator);
+   }
+
+   List<String> getSelected(CheckboxComponentType componentType, L containerLocator);
+
+   default List<String> getAll(L containerLocator) {
+      return getAll(DEFAULT_TYPE, containerLocator);
+   }
+
+   List<String> getAll(CheckboxComponentType componentType, L containerLocator);
 
 }

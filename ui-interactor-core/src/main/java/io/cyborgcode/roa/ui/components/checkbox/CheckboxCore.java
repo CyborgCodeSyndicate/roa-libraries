@@ -1,5 +1,6 @@
 package io.cyborgcode.roa.ui.components.checkbox;
 
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.util.strategy.Strategy;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * @param <E> The container/element type (e.g., Playwright's {@code Locator} or Selenium's {@code WebElement}).
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface CheckboxCore<E> {
+public interface CheckboxCore<E extends BaseUiElement, L> {
 
    void select(E container, String... checkBoxText);
 
@@ -34,5 +35,17 @@ public interface CheckboxCore<E> {
    List<String> getSelected(E container);
 
    List<String> getAll(E container);
+
+   void select(L... checkBoxLocator);
+
+   void deSelect(L... checkBoxLocator);
+
+   boolean areSelected(L... checkBoxLocator);
+
+   boolean areEnabled(L... checkBoxLocator);
+
+   List<String> getSelected(L containerLocator);
+
+   List<String> getAll(L containerLocator);
 
 }

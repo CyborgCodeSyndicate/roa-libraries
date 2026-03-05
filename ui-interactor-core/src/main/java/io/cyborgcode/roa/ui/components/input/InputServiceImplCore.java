@@ -1,6 +1,7 @@
 package io.cyborgcode.roa.ui.components.input;
 
 import io.cyborgcode.roa.ui.components.base.AbstractComponentServiceCore;
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.components.input.InputComponentType;
 import io.cyborgcode.roa.ui.components.table.filters.FilterStrategy;
@@ -18,7 +19,7 @@ import io.cyborgcode.roa.ui.log.LogUi;
  * @param <D> The driver or page type (e.g., Playwright's {@code Page} or Selenium's {@code WebDriver}).
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public abstract class InputServiceImplCore<E, C extends InputCore<E>, D, L>
+public abstract class InputServiceImplCore<E extends BaseUiElement, C extends InputCore<E, L>, D, L>
       extends AbstractComponentServiceCore<InputComponentType, C, D>
       implements InputServiceCore<E, L> {
 
@@ -163,5 +164,39 @@ public abstract class InputServiceImplCore<E, C extends InputCore<E>, D, L>
       LogUi.step("Applying table filter for component type: '{}' with strategy: '{}'.",
             componentType.getType().name(), filterStrategy);
       inputComponent((InputComponentType) componentType).tableFilter(cellElement, filterStrategy, values);
+   }
+
+   @Override
+   public void insert(final InputComponentType componentType, final L inputFieldContainerSelector,
+                      final String value) {
+      LogUi.step("Inserting value: '{}' into input component of type: '{}'.", value, componentType.getType().name());
+      inputComponent(componentType).insert(inputFieldContainerSelector, value);
+   }
+
+   @Override
+   public void clear(final InputComponentType componentType, final L inputFieldContainerSelector) {
+      LogUi.step("Clearing value in input component of type: '{}'.", componentType.getType().name());
+      inputComponent(componentType).clear(inputFieldContainerSelector);
+   }
+
+   @Override
+   public String getValue(final InputComponentType componentType,
+                          final L inputFieldContainerSelector) {
+      LogUi.step("Fetching value from input component of type: '{}'.", componentType.getType().name());
+      return inputComponent(componentType).getValue(inputFieldContainerSelector);
+   }
+
+   @Override
+   public boolean isEnabled(final InputComponentType componentType,
+                            final L inputFieldContainerSelector) {
+      LogUi.step("Checking if input component of type: '{}' is enabled.", componentType.getType().name());
+      return inputComponent(componentType).isEnabled(inputFieldContainerSelector);
+   }
+
+   @Override
+   public String getErrorMessage(final InputComponentType componentType,
+                                 final L inputFieldContainerSelector) {
+      LogUi.step("Fetching error message from input component of type: '{}'.", componentType.getType().name());
+      return inputComponent(componentType).getErrorMessage(inputFieldContainerSelector);
    }
 }

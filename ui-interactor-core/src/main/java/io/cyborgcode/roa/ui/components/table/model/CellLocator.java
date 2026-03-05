@@ -1,5 +1,6 @@
 package io.cyborgcode.roa.ui.components.table.model;
 
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.components.table.filters.CellFilterComponent;
 import io.cyborgcode.roa.ui.components.table.filters.CellFilterFunction;
 import io.cyborgcode.roa.ui.components.table.insertion.CellInsertionComponent;
@@ -23,7 +24,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class CellLocator<T, V> {
+public class CellLocator<L, E extends BaseUiElement> {
 
    /**
     * The field name associated with this cell.
@@ -33,17 +34,17 @@ public class CellLocator<T, V> {
    /**
     * The selector used to find the table cell.
     */
-   private T locator;
+   private L locator;
 
    /**
     * The selector used to extract the text content of the table cell.
     */
-   private T cellTextLocator;
+   private L cellTextLocator;
 
    /**
     * The selector used to identify the corresponding header cell.
     */
-   private T headerCellLocator;
+   private L headerCellLocator;
 
    /**
     * Indicates whether this cell represents a collection of elements.
@@ -63,7 +64,7 @@ public class CellLocator<T, V> {
    /**
     * The custom function used for inserting values into the cell.
     */
-   private Class<? extends CellInsertionFunction<V>> customCellInsertion;
+   private Class<? extends CellInsertionFunction<E>> customCellInsertion;
 
    /**
     * The component responsible for filtering values in this cell.
@@ -73,5 +74,5 @@ public class CellLocator<T, V> {
    /**
     * The custom function used for filtering values in this cell.
     */
-   private Class<? extends CellFilterFunction<V>> customCellFilter;
+   private Class<? extends CellFilterFunction<E>> customCellFilter;
 }

@@ -1,12 +1,14 @@
 package io.cyborgcode.roa.ui.components.modal;
 
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
+
 /**
  * Defines operations for interacting with modal UI elements.
  *
  * @param <E> The container/element type (e.g., Playwright's {@code Locator} or Selenium's {@code WebElement}).
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface ModalCore<E> {
+public interface ModalCore<E extends BaseUiElement, L> {
 
    boolean isOpened();
 
@@ -21,5 +23,7 @@ public interface ModalCore<E> {
    String getContentTitle();
 
    void close();
+
+   void clickButton(L buttonLocator);
 
 }

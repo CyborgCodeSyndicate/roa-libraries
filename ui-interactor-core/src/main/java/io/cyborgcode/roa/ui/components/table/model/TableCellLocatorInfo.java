@@ -7,15 +7,15 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class TableCellLocatorInfo<V> {
+public class TableCellLocatorInfo<L> {
 
-   private V cellSelector;
+   private L cellSelector;
 
    private String tableSection;
 
-   private V cellTextSelector;
+   private L cellTextSelector;
 
-   private V headerCellSelector;
+   private L headerCellSelector;
 
 
 }

@@ -7,13 +7,13 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.Tracing;
 import io.cyborgcode.roa.ui.log.LogUi;
-import io.cyborgcode.roa.ui.playwright.session.UISession;
+import io.cyborgcode.roa.ui.playwright.session.UiSession;
 import io.cyborgcode.roa.ui.playwright.session.base.BrowserProvider;
 import io.cyborgcode.roa.ui.playwright.session.config.SessionConfig;
 import java.nio.file.Paths;
 
 /**
- * Responsible for creating and configuring {@link UISession} instances.
+ * Responsible for creating and configuring {@link UiSession} instances.
  *
  * <p>This class orchestrates the creation of the full Playwright session lifecycle:
  * {@link Playwright} → {@link Browser} → {@link BrowserContext} → {@link Page}.
@@ -26,13 +26,13 @@ import java.nio.file.Paths;
 public class UiSessionCreator {
 
    /**
-    * Creates a new {@link UISession} using the specified configuration and browser provider.
+    * Creates a new {@link UiSession} using the specified configuration and browser provider.
     *
     * @param config   The session configuration.
     * @param provider The browser provider for the desired browser type.
-    * @return A fully initialized {@link UISession}.
+    * @return A fully initialized {@link UiSession}.
     */
-   public UISession createSession(final SessionConfig config, final BrowserProvider provider) {
+   public UiSession createSession(final SessionConfig config, final BrowserProvider provider) {
       LogUi.info("Creating Playwright session for browser type: '{}'", provider.getBrowserType());
 
       final Playwright playwright = Playwright.create();
@@ -46,7 +46,7 @@ public class UiSessionCreator {
 
       LogUi.info("Playwright session created successfully for browser type: '{}'", provider.getBrowserType());
 
-      return UISession.builder()
+      return UiSession.builder()
             .playwright(playwright)
             .browser(browser)
             .browserContext(browserContext)

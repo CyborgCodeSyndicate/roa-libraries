@@ -1,6 +1,7 @@
 package io.cyborgcode.roa.ui.components.toggle;
 
 import io.cyborgcode.roa.ui.components.base.AbstractComponentServiceCore;
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.components.toggle.ToggleCore;
 import io.cyborgcode.roa.ui.components.toggle.ToggleServiceCore;
 import io.cyborgcode.roa.ui.log.LogUi;
@@ -13,9 +14,9 @@ import io.cyborgcode.roa.ui.log.LogUi;
  * @param <D> The driver or page type.
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public abstract class ToggleServiceImplCore<E, C extends ToggleCore<E>, D>
+public abstract class ToggleServiceImplCore<E extends BaseUiElement, C extends ToggleCore<E, L>, D, L>
       extends AbstractComponentServiceCore<ToggleComponentType, C, D>
-      implements ToggleServiceCore<E> {
+      implements ToggleServiceCore<E, L> {
 
    protected ToggleServiceImplCore(final D driver) {
       super(driver);
@@ -59,5 +60,23 @@ public abstract class ToggleServiceImplCore<E, C extends ToggleCore<E>, D>
 
    public boolean isActivated(final ToggleComponentType componentType, final String toggleText) {
       return toggleComponent(componentType).isActivated(toggleText);
+   }
+
+   public void activate(final ToggleComponentType componentType, final L toggleLocator) {
+      LogUi.step("Activating toggle by locator");
+      toggleComponent(componentType).activate(toggleLocator);
+   }
+
+   public void deactivate(final ToggleComponentType componentType, final L toggleLocator) {
+      LogUi.step("Deactivating toggle by locator");
+      toggleComponent(componentType).deactivate(toggleLocator);
+   }
+
+   public boolean isEnabled(final ToggleComponentType componentType, final L toggleLocator) {
+      return toggleComponent(componentType).isEnabled(toggleLocator);
+   }
+
+   public boolean isActivated(final ToggleComponentType componentType, final L toggleLocator) {
+      return toggleComponent(componentType).isActivated(toggleLocator);
    }
 }

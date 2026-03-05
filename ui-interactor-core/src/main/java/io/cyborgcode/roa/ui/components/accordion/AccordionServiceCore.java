@@ -1,6 +1,7 @@
 package io.cyborgcode.roa.ui.components.accordion;
 
 import io.cyborgcode.roa.ui.components.accordion.AccordionComponentType;
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.util.strategy.Strategy;
 import io.cyborgcode.utilities.reflections.ReflectionUtil;
 import java.util.List;
@@ -17,7 +18,7 @@ import static io.cyborgcode.roa.ui.config.UiConfigHolderCore.getUiConfig;
  * @param <E> The container/element type (e.g., Playwright's {@code Locator} or Selenium's {@code WebElement}).
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface AccordionServiceCore<E> {
+public interface AccordionServiceCore<E extends BaseUiElement, L> {
 
    AccordionComponentType DEFAULT_TYPE = getDefaultType();
 
@@ -48,6 +49,12 @@ public interface AccordionServiceCore<E> {
 
    void expand(AccordionComponentType componentType, E container, Strategy strategy);
 
+   default void expand(L... accordionLocator) {
+      expand(DEFAULT_TYPE, accordionLocator);
+   }
+
+   void expand(AccordionComponentType componentType, L... accordionLocator);
+
    default void expand(String... accordionText) {
       expand(DEFAULT_TYPE, accordionText);
    }
@@ -65,6 +72,12 @@ public interface AccordionServiceCore<E> {
    }
 
    void collapse(AccordionComponentType componentType, E container, Strategy strategy);
+
+   default void collapse(L... accordionLocator) {
+      collapse(DEFAULT_TYPE, accordionLocator);
+   }
+
+   void collapse(AccordionComponentType componentType, L... accordionLocator);
 
    default void collapse(String... accordionText) {
       collapse(DEFAULT_TYPE, accordionText);
@@ -101,5 +114,41 @@ public interface AccordionServiceCore<E> {
    }
 
    List<String> getAll(AccordionComponentType componentType, E container);
+
+   default boolean areEnabled(L... accordionLocator) {
+      return areEnabled(DEFAULT_TYPE, accordionLocator);
+   }
+
+   boolean areEnabled(AccordionComponentType componentType, L... accordionLocator);
+
+   default List<String> getExpanded(L containerLocator) {
+      return getExpanded(DEFAULT_TYPE, containerLocator);
+   }
+
+   List<String> getExpanded(AccordionComponentType componentType, L containerLocator);
+
+   default List<String> getCollapsed(L containerLocator) {
+      return getCollapsed(DEFAULT_TYPE, containerLocator);
+   }
+
+   List<String> getCollapsed(AccordionComponentType componentType, L containerLocator);
+
+   default List<String> getAll(L containerLocator) {
+      return getAll(DEFAULT_TYPE, containerLocator);
+   }
+
+   List<String> getAll(AccordionComponentType componentType, L containerLocator);
+
+   default String getTitle(L accordionLocator) {
+      return getTitle(DEFAULT_TYPE, accordionLocator);
+   }
+
+   String getTitle(AccordionComponentType componentType, L accordionLocator);
+
+   default String getText(L accordionLocator) {
+      return getText(DEFAULT_TYPE, accordionLocator);
+   }
+
+   String getText(AccordionComponentType componentType, L accordionLocator);
 
 }

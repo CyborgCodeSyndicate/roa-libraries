@@ -1,5 +1,6 @@
 package io.cyborgcode.roa.ui.components.list;
 
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.components.list.ItemListComponentType;
 import io.cyborgcode.roa.ui.insertion.Insertion;
 import io.cyborgcode.roa.ui.util.strategy.Strategy;
@@ -19,7 +20,7 @@ import static io.cyborgcode.roa.ui.config.UiConfigHolderCore.getUiConfig;
  * @param <L> The selector type (e.g., {@code String} for CSS selectors).
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface ItemListServiceCore<E, L> extends Insertion<L> {
+public interface ItemListServiceCore<E extends BaseUiElement, L> extends Insertion<L> {
 
    ItemListComponentType DEFAULT_TYPE = getDefaultType();
 
@@ -121,4 +122,88 @@ public interface ItemListServiceCore<E, L> extends Insertion<L> {
    }
 
    List<String> getAll(ItemListComponentType componentType, E container);
+
+   default void select(L containerLocator, String... itemText) {
+      select(DEFAULT_TYPE, containerLocator, itemText);
+   }
+
+   void select(ItemListComponentType componentType, L containerLocator, String... itemText);
+
+   default void select(L containerLocator, Strategy strategy) {
+      select(DEFAULT_TYPE, containerLocator, strategy);
+   }
+
+   void select(ItemListComponentType componentType, L containerLocator, Strategy strategy);
+
+   default void select(L... itemListLocator) {
+      select(DEFAULT_TYPE, itemListLocator);
+   }
+
+   void select(ItemListComponentType componentType, L... itemListLocator);
+
+   default void deSelect(L containerLocator, String... itemText) {
+      deSelect(DEFAULT_TYPE, containerLocator, itemText);
+   }
+
+   void deSelect(ItemListComponentType componentType, L containerLocator, String... itemText);
+
+   default void deSelect(L containerLocator, Strategy strategy) {
+      deSelect(DEFAULT_TYPE, containerLocator, strategy);
+   }
+
+   void deSelect(ItemListComponentType componentType, L containerLocator, Strategy strategy);
+
+   default void deSelect(L... itemListLocator) {
+      deSelect(DEFAULT_TYPE, itemListLocator);
+   }
+
+   void deSelect(ItemListComponentType componentType, L... itemListLocator);
+
+   default boolean areSelected(L containerLocator, String... itemText) {
+      return areSelected(DEFAULT_TYPE, containerLocator, itemText);
+   }
+
+   boolean areSelected(ItemListComponentType componentType, L containerLocator, String... itemText);
+
+   default boolean areSelected(L... itemListLocator) {
+      return areSelected(DEFAULT_TYPE, itemListLocator);
+   }
+
+   boolean areSelected(ItemListComponentType componentType, L... itemListLocator);
+
+   default boolean areEnabled(L containerLocator, String... itemText) {
+      return areEnabled(DEFAULT_TYPE, containerLocator, itemText);
+   }
+
+   boolean areEnabled(ItemListComponentType componentType, L containerLocator, String... itemText);
+
+   default boolean areEnabled(L... itemLocator) {
+      return areEnabled(DEFAULT_TYPE, itemLocator);
+   }
+
+   boolean areEnabled(ItemListComponentType componentType, L... itemLocator);
+
+   default boolean areVisible(L containerLocator, String... itemText) {
+      return areVisible(DEFAULT_TYPE, containerLocator, itemText);
+   }
+
+   boolean areVisible(ItemListComponentType componentType, L containerLocator, String... itemText);
+
+   default boolean areVisible(L... itemLocator) {
+      return areVisible(DEFAULT_TYPE, itemLocator);
+   }
+
+   boolean areVisible(ItemListComponentType componentType, L... itemLocator);
+
+   default List<String> getSelected(L containerLocator) {
+      return getSelected(DEFAULT_TYPE, containerLocator);
+   }
+
+   List<String> getSelected(ItemListComponentType componentType, L containerLocator);
+
+   default List<String> getAll(L containerLocator) {
+      return getAll(DEFAULT_TYPE, containerLocator);
+   }
+
+   List<String> getAll(ItemListComponentType componentType, L containerLocator);
 }

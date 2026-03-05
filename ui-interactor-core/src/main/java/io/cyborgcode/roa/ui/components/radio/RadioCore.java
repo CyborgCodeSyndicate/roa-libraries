@@ -1,5 +1,6 @@
 package io.cyborgcode.roa.ui.components.radio;
 
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.util.strategy.Strategy;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * @param <E> The container/element type (e.g., Playwright's {@code Locator} or Selenium's {@code WebElement}).
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface RadioCore<E> {
+public interface RadioCore<E extends BaseUiElement, L> {
 
    void select(E container, String radioButtonText);
 
@@ -32,5 +33,17 @@ public interface RadioCore<E> {
    String getSelected(E container);
 
    List<String> getAll(E container);
+
+   void select(L radioButtonLocator);
+
+   boolean isEnabled(L radioButtonLocator);
+
+   boolean isSelected(L radioButtonLocator);
+
+   boolean isVisible(L radioButtonLocator);
+
+   String getSelected(L containerLocator);
+
+   List<String> getAll(L containerLocator);
 
 }

@@ -13,20 +13,20 @@ import lombok.Getter;
  */
 @AllArgsConstructor
 @Getter
-public class TableLocators<V> {
+public class TableLocators<L> {
 
    /**
     * Selector for the table container element.
     */
-   private V tableContainerLocator;
+   private L tableContainerLocator;
 
    /**
     * Selector for identifying all rows within the table.
     */
-   private V tableRowsLocator;
+   private L tableRowsLocator;
 
    /**
     * Selector for the table's header row.
     */
-   private V headerRowLocator;
+   private L headerRowLocator;
 }

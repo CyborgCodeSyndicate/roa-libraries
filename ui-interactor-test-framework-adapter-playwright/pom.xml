@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!--    <parent>-->
+    <!--        <groupId>io.cyborgcode.utilities</groupId>-->
+    <!--        <artifactId>parent-pom</artifactId>-->
+    <!--        <version>1.0.0-rc-2</version>-->
+    <!--    </parent>-->
+
+
+    <groupId>io.cyborgcode.roa</groupId>
+    <artifactId>ui-interactor-test-framework-adapter-playwright</artifactId>
+    <version>0.0.0</version>
+    <name>Ring of Automation UI Library (Playwright)</name>
+    <description>Library part of Ring of Automation that enables interaction via UI using Playwright.</description>
+
+    <properties>
+        <github.repo.name>roa-libraries</github.repo.name>
+        <utilities.version>1.0.0-rc-2</utilities.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <shared-static-data.version>${utilities.version}</shared-static-data.version>
+        <playwright.version>1.49.0</playwright.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.cyborgcode.utilities</groupId>
+                <artifactId>parent-pom</artifactId>
+                <version>1.0.0-rc-2</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.cyborgcode.roa</groupId>
+            <artifactId>test-framework</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cyborgcode.roa</groupId>
+            <artifactId>ui-interactor-test-framework-adapter-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cyborgcode.roa</groupId>
+            <artifactId>ui-interactor-playwright</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
+
+
+</project>

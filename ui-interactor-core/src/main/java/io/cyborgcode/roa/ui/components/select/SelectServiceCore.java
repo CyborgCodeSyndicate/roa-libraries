@@ -1,5 +1,6 @@
 package io.cyborgcode.roa.ui.components.select;
 
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.components.select.SelectComponentType;
 import io.cyborgcode.roa.ui.insertion.Insertion;
 import io.cyborgcode.roa.ui.util.strategy.Strategy;
@@ -19,7 +20,7 @@ import static io.cyborgcode.roa.ui.config.UiConfigHolderCore.getUiConfig;
  * @param <L> The selector type (e.g., {@code String} for CSS selectors).
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface SelectServiceCore<E, L> extends Insertion<L> {
+public interface SelectServiceCore<E extends BaseUiElement, L> extends Insertion<L> {
 
    SelectComponentType DEFAULT_TYPE = getDefaultType();
 
@@ -74,4 +75,40 @@ public interface SelectServiceCore<E, L> extends Insertion<L> {
    }
 
    boolean isOptionEnabled(SelectComponentType componentType, E container, String value);
+
+   default void selectOptions(L containerLocator, String... values) {
+      selectOptions(DEFAULT_TYPE, containerLocator, values);
+   }
+
+   void selectOptions(SelectComponentType componentType, L containerLocator, String... values);
+
+   default void selectOptions(L containerLocator, Strategy strategy) {
+      selectOptions(DEFAULT_TYPE, containerLocator, strategy);
+   }
+
+   void selectOptions(SelectComponentType componentType, L containerLocator, Strategy strategy);
+
+   default List<String> getAvailableOptions(L containerLocator) {
+      return getAvailableOptions(DEFAULT_TYPE, containerLocator);
+   }
+
+   List<String> getAvailableOptions(SelectComponentType componentType, L containerLocator);
+
+   default List<String> getSelectedOptions(L containerLocator) {
+      return getSelectedOptions(DEFAULT_TYPE, containerLocator);
+   }
+
+   List<String> getSelectedOptions(SelectComponentType componentType, L containerLocator);
+
+   default boolean isOptionVisible(L containerLocator, String value) {
+      return isOptionVisible(DEFAULT_TYPE, containerLocator, value);
+   }
+
+   boolean isOptionVisible(SelectComponentType componentType, L containerLocator, String value);
+
+   default boolean isOptionEnabled(L containerLocator, String value) {
+      return isOptionEnabled(DEFAULT_TYPE, containerLocator, value);
+   }
+
+   boolean isOptionEnabled(SelectComponentType componentType, L containerLocator, String value);
 }

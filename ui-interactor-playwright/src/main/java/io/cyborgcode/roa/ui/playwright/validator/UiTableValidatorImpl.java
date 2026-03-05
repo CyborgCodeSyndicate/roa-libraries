@@ -1,6 +1,6 @@
 package io.cyborgcode.roa.ui.playwright.validator;
 
-import com.microsoft.playwright.Locator;
+import io.cyborgcode.roa.ui.playwright.base.PwElement;
 import io.cyborgcode.roa.ui.validator.UiTableValidator;
 import io.cyborgcode.roa.ui.validator.UiTableValidatorImplCore;
 
@@ -9,5 +9,5 @@ import io.cyborgcode.roa.ui.validator.UiTableValidatorImplCore;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public class UiTableValidatorImpl extends UiTableValidatorImplCore<Locator> {
+public class UiTableValidatorImpl extends UiTableValidatorImplCore<PwElement> {
 }

@@ -1,5 +1,6 @@
 package io.cyborgcode.roa.ui.components.radio;
 
+import io.cyborgcode.roa.ui.components.base.BaseUiElement;
 import io.cyborgcode.roa.ui.components.radio.RadioComponentType;
 import io.cyborgcode.roa.ui.insertion.Insertion;
 import io.cyborgcode.roa.ui.util.strategy.Strategy;
@@ -19,7 +20,7 @@ import static io.cyborgcode.roa.ui.config.UiConfigHolderCore.getUiConfig;
  * @param <L> The selector type (e.g., {@code String} for CSS selectors).
  * @author Cyborg Code Syndicate 💍👨💻
  */
-public interface RadioServiceCore<E, L> extends Insertion<L> {
+public interface RadioServiceCore<E extends BaseUiElement, L> extends Insertion<L> {
 
    RadioComponentType DEFAULT_TYPE = getDefaultType();
 
@@ -103,4 +104,40 @@ public interface RadioServiceCore<E, L> extends Insertion<L> {
    }
 
    List<String> getAll(RadioComponentType componentType, E container);
+
+   default void select(L radioButtonLocator) {
+      select(DEFAULT_TYPE, radioButtonLocator);
+   }
+
+   void select(RadioComponentType componentType, L radioButtonLocator);
+
+   default boolean isEnabled(L radioButtonLocator) {
+      return isEnabled(DEFAULT_TYPE, radioButtonLocator);
+   }
+
+   boolean isEnabled(RadioComponentType componentType, L radioButtonLocator);
+
+   default boolean isSelected(L radioButtonLocator) {
+      return isSelected(DEFAULT_TYPE, radioButtonLocator);
+   }
+
+   boolean isSelected(RadioComponentType componentType, L radioButtonLocator);
+
+   default boolean isVisible(L radioButtonLocator) {
+      return isVisible(DEFAULT_TYPE, radioButtonLocator);
+   }
+
+   boolean isVisible(RadioComponentType componentType, L radioButtonLocator);
+
+   default String getSelected(L containerLocator) {
+      return getSelected(DEFAULT_TYPE, containerLocator);
+   }
+
+   String getSelected(RadioComponentType componentType, L containerLocator);
+
+   default List<String> getAll(L containerLocator) {
+      return getAll(DEFAULT_TYPE, containerLocator);
+   }
+
+   List<String> getAll(RadioComponentType componentType, L containerLocator);
 }

@@ -2,7 +2,7 @@ package io.cyborgcode.roa.ui.playwright.validator;
 
 //import com.microsoft.playwright.Locator;
 
-import com.microsoft.playwright.Locator;
+import io.cyborgcode.roa.ui.playwright.base.PwElement;
 import io.cyborgcode.roa.ui.validator.TableAssertionFunctionsServiceCore;
 
 /**
@@ -13,17 +13,17 @@ import io.cyborgcode.roa.ui.validator.TableAssertionFunctionsServiceCore;
 //todo we can remove this class and only work with TableAssertionFunctionsServiceCore
 public class TableAssertionFunctions {
 
-   private static final TableAssertionFunctionsServiceCore<Locator> instance = initialInstance();
+   private static final TableAssertionFunctionsServiceCore<PwElement> instance = initialInstance();
 
-   private static TableAssertionFunctionsServiceCore<Locator> initialInstance() {
-      return new TableAssertionFunctionsServiceCore<>(Locator.class) {
+   private static TableAssertionFunctionsServiceCore<PwElement> initialInstance() {
+      return new TableAssertionFunctionsServiceCore<>(PwElement.class) {
          @Override
-         protected boolean cellIsVisible(Locator cell) {
+         protected boolean cellIsVisible(PwElement cell) {
             return cell.isVisible();
          }
 
          @Override
-         protected boolean cellIsEnabled(Locator cell) {
+         protected boolean cellIsEnabled(PwElement cell) {
             return cell.isEnabled();
          }
       };
