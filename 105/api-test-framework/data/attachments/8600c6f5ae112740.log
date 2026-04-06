@@ -1,0 +1,30 @@
+🤖 CYBORG 🤖 2026-04-06T16:27:28,662 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2026-04-06T16:27:28,757 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2026-04-06T16:27:28,773 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] EXTENDED [QUEST] - Service: 'io.cyborgcode.roa.framework.chain.FluentServiceDecorator' has been registered for the quest
+🤖 CYBORG 🤖 2026-04-06T16:27:28,787 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] INFO  [QUEST] - The quest: 'showsMixOfCraftAndLateCraftInChainedFlow(Quest, CreateUserDto, Late)' has begun and is crafted.
+🤖 CYBORG 🤖 2026-04-06T16:27:29,110 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] INFO  [QUEST] - The quest has used the ring: 'API'
+🤖 CYBORG 🤖 2026-04-06T16:27:29,698 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] STEP  [API] - Sending request to endpoint POST-https://reqres.in/api/users.
+🤖 CYBORG 🤖 2026-04-06T16:27:29,720 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] EXTENDED [API] - Request body: {
+🤖 CYBORG 🤖 2026-04-06T16:27:29,730 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] EXTENDED [API] - Request headers: Accept=application/json, application/javascript, text/javascript, text/json
+🤖 CYBORG 🤖 2026-04-06T16:27:30,788 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] STEP  [API] - Response with status: 201 received from endpoint: POST-https://reqres.in/api/users in 1045ms.
+🤖 CYBORG 🤖 2026-04-06T16:27:30,802 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] EXTENDED [API] - Response body: {
+🤖 CYBORG 🤖 2026-04-06T16:27:30,808 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] EXTENDED [API] - Response headers: Date=Mon, 06 Apr 2026 16:27:30 GMT
+🤖 CYBORG 🤖 2026-04-06T16:27:30,821 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] INFO  [API] - Starting response validation with 3 assertion(s).
+🤖 CYBORG 🤖 2026-04-06T16:27:31,227 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] EXTENDED [API] - Validation target: [{name=Morpheus, job=Leader, AssertionKeyForStatus=201}]
+🤖 CYBORG 🤖 2026-04-06T16:27:31,232 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] VALIDATION [QUEST] - ✔ Validation passed: IS (Expected: 201, Actual: 201)
+🤖 CYBORG 🤖 2026-04-06T16:27:31,272 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] VALIDATION [QUEST] - ✔ Validation passed: IS (Expected: Morpheus, Actual: Morpheus)
+🤖 CYBORG 🤖 2026-04-06T16:27:31,635 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] VALIDATION [QUEST] - ✔ Validation passed: IS (Expected: Leader, Actual: Leader)
+🤖 CYBORG 🤖 2026-04-06T16:27:31,656 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] STEP  [API] - Sending request to endpoint POST-https://reqres.in/api/users.
+🤖 CYBORG 🤖 2026-04-06T16:27:31,663 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] EXTENDED [API] - Request body: {
+🤖 CYBORG 🤖 2026-04-06T16:27:31,667 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] EXTENDED [API] - Request headers: Accept=application/json, application/javascript, text/javascript, text/json
+🤖 CYBORG 🤖 2026-04-06T16:27:31,939 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] STEP  [API] - Response with status: 201 received from endpoint: POST-https://reqres.in/api/users in 254ms.
+🤖 CYBORG 🤖 2026-04-06T16:27:31,945 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] EXTENDED [API] - Response body: {
+🤖 CYBORG 🤖 2026-04-06T16:27:31,951 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] EXTENDED [API] - Response headers: Date=Mon, 06 Apr 2026 16:27:31 GMT
+🤖 CYBORG 🤖 2026-04-06T16:27:31,959 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] INFO  [API] - Starting response validation with 3 assertion(s).
+🤖 CYBORG 🤖 2026-04-06T16:27:32,009 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] EXTENDED [API] - Validation target: [{name=Mr. Morpheus, job=Senior Leader, AssertionKeyForStatus=201}]
+🤖 CYBORG 🤖 2026-04-06T16:27:32,014 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] VALIDATION [QUEST] - ✔ Validation passed: IS (Expected: 201, Actual: 201)
+🤖 CYBORG 🤖 2026-04-06T16:27:32,021 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] VALIDATION [QUEST] - ✔ Validation passed: IS (Expected: Mr. Morpheus, Actual: Mr. Morpheus)
+🤖 CYBORG 🤖 2026-04-06T16:27:32,040 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] VALIDATION [QUEST] - ✔ Validation passed: IS (Expected: Senior Leader, Actual: Senior Leader)
+🤖 CYBORG 🤖 2026-04-06T16:27:32,046 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] INFO  [QUEST] - The quest has dropped the ring.
+🤖 CYBORG 🤖 2026-04-06T16:27:32,057 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] INFO  [QUEST] - The quest has reached his end
+🤖 CYBORG 🤖 2026-04-06T16:27:32,073 [scenario=AdvancedExamplesTest.showsMixOfCraftAndLateCraftInChainedFlow] INFO  [QUEST] - The quest of 'showsMixOfCraftAndLateCraftInChainedFlow(Quest, CreateUserDto, Late)' has concluded with glory. Status: SUCCESS. Duration: 3 seconds.
