@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.components.alert;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
 import org.openqa.selenium.By;
@@ -15,16 +15,16 @@ import org.openqa.selenium.By;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Interface defining the contract for an alert UI component, typically used to display "
             + "messages such as success, error, or informational notifications.",
       tags = {"ui", "component-contract", "alert"},
       creation = CreationKind.AUTO
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-component")
+         @AiCompassOptions.Meta(key = "type", value = "ui-component")
       }
 )
 public interface Alert {
@@ -35,7 +35,7 @@ public interface Alert {
     * @param container The container element enclosing the alert.
     * @return The visible text of the alert.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieves the alert's text value within a container element.",
          tags = {"component-contract", "alert"}
    )
@@ -47,7 +47,7 @@ public interface Alert {
     * @param containerLocator The {@link By} locator for the alert element.
     * @return The visible text of the alert.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieves the alert's text value identified by a locator.",
          tags = {"component-contract", "alert"}
    )
@@ -59,7 +59,7 @@ public interface Alert {
     * @param container The container element enclosing the alert.
     * @return {@code true} if the alert is visible; {@code false} otherwise.
     */
-   @Pandora(
+   @AiCompass(
          description = "Checks whether the alert is visible within a container element.",
          tags = {"component-contract", "alert"}
    )
@@ -71,7 +71,7 @@ public interface Alert {
     * @param containerLocator The {@link By} locator for the alert element.
     * @return {@code true} if the alert is visible; {@code false} otherwise.
     */
-   @Pandora(
+   @AiCompass(
          description = "Checks whether the alert is visible based on a locator.",
          tags = {"component-contract", "alert"}
    )

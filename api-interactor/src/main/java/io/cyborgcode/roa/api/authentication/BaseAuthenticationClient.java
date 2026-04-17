@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.api.authentication;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.api.log.LogApi;
 import io.cyborgcode.roa.api.service.RestService;
@@ -18,16 +18,16 @@ import lombok.NonNull;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Base implementation of AuthenticationClient that "
             + "adds caching for authentication headers and a template method for the actual login call.",
       tags = {"api", "auth"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/api-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "authentication-client-base")
+         @AiCompassOptions.Meta(key = "type", value = "authentication-client-base")
       }
 )
 public abstract class BaseAuthenticationClient implements AuthenticationClient {
@@ -47,22 +47,22 @@ public abstract class BaseAuthenticationClient implements AuthenticationClient {
     * @return The generated {@code AuthenticationKey}.
     */
    @Override
-   @Pandora(
+   @AiCompass(
          description = "Authenticate a user and optionally cache "
                + "the resulting auth header under the returned AuthenticationKey."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public AuthenticationKey authenticate(final @NonNull RestService restService,
-                                         @Pandora(
+                                         @AiCompass(
                                                description = "Username used for authenticating the user."
                                          )
                                          @NonNull final String username,
-                                         @Pandora(
+                                         @AiCompass(
                                                description = "Password used for authenticating the user."
                                          ) final String password,
-                                         @Pandora(
+                                         @AiCompass(
                                                description = "If true, reuse a cached authentication header "
                                                      + "when available; otherwise always perform a fresh login."
                                          )
@@ -89,11 +89,11 @@ public abstract class BaseAuthenticationClient implements AuthenticationClient {
     * @param authenticationKey The authentication key identifying the session.
     * @return The corresponding authentication header, or {@code null} if not found.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieve the cached authentication header "
                + "for a previously authenticated session identified by AuthenticationKey."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public Header getAuthentication(final AuthenticationKey authenticationKey) {
@@ -112,19 +112,19 @@ public abstract class BaseAuthenticationClient implements AuthenticationClient {
     * @param password    The password for authentication.
     * @return The authentication header containing credentials.
     */
-   @Pandora(
+   @AiCompass(
          description = "Template method to be implemented by concrete "
                + "authentication clients; performs the real login call and returns the auth header."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    protected abstract Header authenticateImpl(RestService restService,
-                                              @Pandora(
+                                              @AiCompass(
                                                     description = "Username passed into the login request."
                                               )
                                               String username,
-                                              @Pandora(
+                                              @AiCompass(
                                                     description = "Password passed into the login request."
                                               )
                                               String password);

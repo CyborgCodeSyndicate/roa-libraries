@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.api.storage;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.storage.DataExtractor;
 import io.cyborgcode.roa.framework.storage.DataExtractorImpl;
@@ -15,16 +15,16 @@ import io.restassured.response.Response;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Utility helpers for creating DataExtractor instances targeting API responses "
             + "(JSON fields and HTTP status codes).",
       tags = {"api", "test-data"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/api-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "api-data-extractors")
+         @AiCompassOptions.Meta(key = "type", value = "api-data-extractors")
       }
 )
 public class DataExtractorsApi {
@@ -40,17 +40,17 @@ public class DataExtractorsApi {
     * @param <T>      The type of the extracted data.
     * @return A {@code DataExtractor} configured for response body extraction.
     */
-   @Pandora(
+   @AiCompass(
          description = "Create a DataExtractor that reads a JSON field from the API response body "
                + "using the given JSON path and stores it under the provided storage key."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public static <T> DataExtractor<T> responseBodyExtraction(
-         @Pandora(description = "Enum key used as the storage identifier for the extracted value.")
+         @AiCompass(description = "Enum key used as the storage identifier for the extracted value.")
          Enum<?> key,
-         @Pandora(description = "JSON path expression used to locate the field in the response body.")
+         @AiCompass(description = "JSON path expression used to locate the field in the response body.")
          String jsonPath) {
       return new DataExtractorImpl<>(
             StorageKeysApi.API,
@@ -68,15 +68,15 @@ public class DataExtractorsApi {
     * @param key The storage key associated with the extraction.
     * @return A {@code DataExtractor} configured for status code extraction.
     */
-   @Pandora(
+   @AiCompass(
          description = "Create a DataExtractor that reads the HTTP status code from the API response "
                + "and stores it under the provided storage key."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public static DataExtractor<Integer> statusExtraction(
-         @Pandora(description = "Enum key used as the storage identifier for the extracted status code.")
+         @AiCompass(description = "Enum key used as the storage identifier for the extracted status code.")
          Enum<?> key) {
       return new DataExtractorImpl<>(
             StorageKeysApi.API,

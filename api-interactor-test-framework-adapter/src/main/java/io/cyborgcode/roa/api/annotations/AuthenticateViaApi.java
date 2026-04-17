@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.api.annotations;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.api.authentication.BaseAuthenticationClient;
 import io.cyborgcode.roa.api.authentication.Credentials;
@@ -18,17 +18,17 @@ import java.lang.annotation.Target;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Method-level annotation that configures how API "
             + "authentication is performed for a test (credentials + client + caching).",
       tags = {"api", "auth", "annotation"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/api-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "api-auth-annotation"),
-         @PandoraOptions.Meta(key = "scope", value = "method")
+         @AiCompassOptions.Meta(key = "type", value = "api-auth-annotation"),
+         @AiCompassOptions.Meta(key = "scope", value = "method")
       }
 )
 @Retention(RetentionPolicy.RUNTIME)
@@ -40,11 +40,11 @@ public @interface AuthenticateViaApi {
     *
     * @return The class implementing {@link Credentials}.
     */
-   @Pandora(
+   @AiCompass(
          description = "Credentials provider used to supply username/password or tokens for authentication.",
          tags = {"api", "auth", "annotation"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    Class<? extends Credentials> credentials();
@@ -54,11 +54,11 @@ public @interface AuthenticateViaApi {
     *
     * @return The class extending {@link BaseAuthenticationClient}.
     */
-   @Pandora(
+   @AiCompass(
          description = "Authentication client implementation that knows "
                + "how to perform the login call and store resulting tokens/headers."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    Class<? extends BaseAuthenticationClient> type();
@@ -68,11 +68,11 @@ public @interface AuthenticateViaApi {
     *
     * @return {@code true} if credentials should be cached, otherwise {@code false}.
     */
-   @Pandora(
+   @AiCompass(
          description = "Whether to cache resolved credentials "
                + "(and/or tokens) across tests instead of logging in every time."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    boolean cacheCredentials() default false;

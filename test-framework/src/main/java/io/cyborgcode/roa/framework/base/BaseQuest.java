@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.framework.base;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.annotation.Odyssey;
 import io.cyborgcode.roa.framework.config.TestConfig;
@@ -32,18 +32,18 @@ import static io.cyborgcode.roa.framework.util.PropertiesUtil.addSystemPropertie
       webEnvironment = SpringBootTest.WebEnvironment.NONE
 )
 @Tag("exclude-from-verify")
-@Pandora(
+@AiCompass(
       description = "Base test class for RoA-style quests. "
             + "Provides Spring Boot test wiring, logging setup "
             + "and convenience methods for retrieving data from quest storage.",
       tags = {"framework", "test-data"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "base-quest"),
-         @PandoraOptions.Meta(key = "level", value = "framework")
+         @AiCompassOptions.Meta(key = "type", value = "base-quest"),
+         @AiCompassOptions.Meta(key = "level", value = "framework")
       }
 )
 public class BaseQuest {
@@ -66,14 +66,14 @@ public class BaseQuest {
     * @param <T>   The type parameter corresponding to the retrieved object.
     * @return The stored test data of the specified type.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieve an object from quest storage by a single enum key in the default storage namespace."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    protected <T> T retrieve(
-         @Pandora(
+         @AiCompass(
                description = "Enum key under which the test data was stored in the default storage."
          ) Enum<?> key,
          Class<T> clazz) {
@@ -91,18 +91,18 @@ public class BaseQuest {
     * @param <T>    The type parameter corresponding to the retrieved object.
     * @return The stored test data from the specified sub-key.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieve an object from a sub-storage "
                + "(e.g. API, DB) using a subKey (namespace) and entry enum key."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    protected <T> T retrieve(
-         @Pandora(
+         @AiCompass(
                description = "Top-level sub-storage key (e.g. API, DB) selecting a logical storage namespace."
          ) Enum<?> subKey,
-         @Pandora(
+         @AiCompass(
                description = "Entry key inside the chosen sub-storage under which the object was stored."
          ) Enum<?> key,
          Class<T> clazz) {
@@ -119,14 +119,14 @@ public class BaseQuest {
     * @param <T>       The type parameter corresponding to the retrieved object.
     * @return The extracted test data of the specified type.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieve an object using a DataExtractor abstraction (e.g. JSON path, DB selector)."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    protected <T> T retrieve(
-         @Pandora(
+         @AiCompass(
                description = "Extractor describing how to locate the data (JSON path, DB row selector, etc.)."
          ) DataExtractor<T> extractor,
          Class<T> clazz) {
@@ -144,14 +144,14 @@ public class BaseQuest {
     * @param <T>       The type parameter corresponding to the retrieved object.
     * @return The extracted test data of the specified type at the given index.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieve an indexed element produced by a DataExtractor (e.g. element N in a list)."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    protected <T> T retrieve(
-         @Pandora(
+         @AiCompass(
                description = "Extractor describing how to locate the collection from which an element will be taken."
          ) DataExtractor<T> extractor,
          int index,
@@ -172,14 +172,14 @@ public class BaseQuest {
     * @param <T>   the type parameter of the returned data
     * @return the hook-stored data, cast to {@code T}
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieve data written by framework hooks (e.g. ApiHook or DbHook) by their key object."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    protected <T> T hookData(
-         @Pandora(
+         @AiCompass(
                description = "Key object used by hooks when storing data (often an enum or dedicated key type)."
          ) Object value,
          Class<T> clazz) {

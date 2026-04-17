@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.components.link;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.components.button.Button;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
@@ -15,16 +15,16 @@ import org.openqa.selenium.By;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Defines operations for interacting with link components, extending button "
             + "functionality with link-specific actions like double-click.",
       tags = {"ui", "component-contract", "link"},
       creation = CreationKind.AUTO
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-component")
+         @AiCompassOptions.Meta(key = "type", value = "ui-component")
       }
 )
 public interface Link extends Button {
@@ -35,7 +35,7 @@ public interface Link extends Button {
     * @param container  The container holding the link.
     * @param buttonText The text of the link to be double-clicked.
     */
-   @Pandora(
+   @AiCompass(
          description = "Performs a double-click action on a link with the specified text within the given container.",
          tags = {"component-contract", "link"}
    )
@@ -46,7 +46,7 @@ public interface Link extends Button {
     *
     * @param container The container holding the link.
     */
-   @Pandora(
+   @AiCompass(
          description = "Performs a double-click action on a link within the specified container.",
          tags = {"component-contract", "link"}
    )
@@ -57,7 +57,7 @@ public interface Link extends Button {
     *
     * @param buttonText The text of the link to be double-clicked.
     */
-   @Pandora(
+   @AiCompass(
          description = "Performs a double-click action on a link identified by its text.",
          tags = {"component-contract", "link"}
    )
@@ -68,7 +68,7 @@ public interface Link extends Button {
     *
     * @param buttonLocator The locator identifying the link.
     */
-   @Pandora(
+   @AiCompass(
          description = "Performs a double-click action on a link located using the specified locator.",
          tags = {"component-contract", "link"}
    )

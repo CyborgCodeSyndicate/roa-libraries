@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.db.validator;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.validator.core.AssertionTarget;
 
@@ -11,15 +11,15 @@ import io.cyborgcode.roa.validator.core.AssertionTarget;
  * <p>This enum categorizes different aspects of a database query result that can be validated,
  * ensuring structured assertions for database testing.
  */
-@Pandora(
+@AiCompass(
       description = "Enumeration defining the possible assertion targets for database query validation, "
             + "such as validating query results, row counts, or column structures.",
       tags = {"db", "assertion"},
       creation = CreationKind.ENUM_CONSTANT
 )
-@PandoraOptions(
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "db-assertion-target")
+         @AiCompassOptions.Meta(key = "type", value = "db-assertion-target")
       }
 )
 public enum DbAssertionTarget implements AssertionTarget<DbAssertionTarget> {
@@ -27,7 +27,7 @@ public enum DbAssertionTarget implements AssertionTarget<DbAssertionTarget> {
    /**
     * Validates the query result content.
     */
-   @Pandora(
+   @AiCompass(
          description = "Assertion target representing the full query result content."
    )
    QUERY_RESULT,
@@ -35,7 +35,7 @@ public enum DbAssertionTarget implements AssertionTarget<DbAssertionTarget> {
    /**
     * Validates the number of rows returned by the query.
     */
-   @Pandora(
+   @AiCompass(
          description = "Assertion target representing the number of rows returned by the query."
    )
    NUMBER_ROWS,
@@ -43,7 +43,7 @@ public enum DbAssertionTarget implements AssertionTarget<DbAssertionTarget> {
    /**
     * Validates the column structure of the result set.
     */
-   @Pandora(
+   @AiCompass(
          description = "Assertion target representing the column structure of the query result."
    )
    COLUMNS;

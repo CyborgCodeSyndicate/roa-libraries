@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.service.fluent;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.storage.Storage;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
@@ -28,16 +28,16 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @SuppressWarnings({"java:S5960", "unchecked"})
-@Pandora(
+@AiCompass(
       description = "Fluent UI service for interacting with lists: select/deselect, "
             + "visibility/enablement checks, retrievals and validations.",
       tags = {"ui", "fluent", "list"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "ai/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "fluent-service")
+         @AiCompassOptions.Meta(key = "type", value = "fluent-service")
       }
 )
 public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertion {
@@ -71,15 +71,15 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param values  The values to select.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Select the given values in the list UI element and continue the fluent UI flow.",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T select(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Values to select in the list."
          ) final String... values) {
       Allure.step("[UI - List] [UI - List] Select values from list: " + Arrays.toString(values));
@@ -96,15 +96,15 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param values  The values to deselect.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Deselect the given values in the list UI element and continue the fluent UI flow.",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T deSelect(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Values to deselect from the list."
          ) final String... values) {
       Allure.step("[UI - List] Deselect values from list: " + Arrays.toString(values));
@@ -121,15 +121,15 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param values  The values to check.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Evaluate whether the specified values are selected and store the result in quest storage.",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T areSelected(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Values to check for selection."
          ) final String... values) {
       Allure.step(
@@ -148,15 +148,15 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param values  The expected selected values.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the specified values are selected (hard assertion).",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateAreSelected(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Values expected to be selected."
          ) final String... values) {
       Allure.step(
@@ -173,18 +173,18 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param values  The expected values that should be selected in the list.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the specified values are selected, optionally using a soft assertion.",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateAreSelected(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Values expected to be selected."
          ) final String... values) {
       Allure.step("[UI - List] Validate if values are selected (soft: " + soft + "): "
@@ -233,15 +233,15 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param values  The expected unselected values.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the specified values are not selected (hard assertion).",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateAreNotSelected(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Values expected to NOT be selected."
          ) final String... values) {
       Allure.step("[UI - List] Validate if values are not selected in the list: "
@@ -258,18 +258,18 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param values  The values that should not be selected in the list.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the specified values are not selected, optionally using a soft assertion.",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateAreNotSelected(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Values expected to NOT be selected."
          ) final String... values) {
       Allure.step("[UI - List] Validate if values are not selected (soft: " + soft + "): "
@@ -284,15 +284,15 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param value   The value to check for selection.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Evaluate whether the value is selected and store the result in quest storage.",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T isSelected(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Value to check for selection."
          ) final String value) {
       Allure.step("[UI - List] Check if value is selected in the list: " + value);
@@ -310,15 +310,15 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param value   The value that should be selected.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the value is selected (hard assertion).",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateIsSelected(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Value expected to be selected."
          ) final String value) {
       Allure.step("[UI - List] Validate if value is selected in the list: " + value);
@@ -334,18 +334,18 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param value   The value that should be selected.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the value is selected, optionally using a soft assertion.",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateIsSelected(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Value expected to be selected."
          ) final String value) {
       Allure.step("[UI - List] Validate if value is selected (soft: " + soft + "): " + value);
@@ -359,15 +359,15 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param value   The value that should not be selected.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the value is not selected (hard assertion).",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateIsNotSelected(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Value expected to NOT be selected."
          ) final String value) {
       Allure.step("[UI - List] Validate if value is not selected in the list: " + value);
@@ -383,18 +383,18 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param value   The value that should not be selected.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the value is not selected, optionally using a soft assertion.",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateIsNotSelected(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Value expected to NOT be selected."
          ) final String value) {
       Allure.step("[UI - List] Validate if value is not selected (soft: " + soft + "): " + value);
@@ -408,15 +408,15 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param values  The values to check.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Evaluate whether the specified values are enabled and store the result in quest storage.",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T areEnabled(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Values to check for being enabled."
          ) final String... values) {
       Allure.step(
@@ -435,15 +435,15 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param values  The values to validate.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the specified values are enabled (hard assertion).",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateAreEnabled(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Values expected to be enabled."
          ) final String... values) {
       Allure.step(
@@ -460,18 +460,18 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param values  The values that should be enabled.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the specified values are enabled, optionally using a soft assertion.",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateAreEnabled(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Values expected to be enabled."
          ) final String... values) {
       Allure.step("[UI - List] Validate if values are enabled (soft: " + soft + "): "
@@ -520,15 +520,15 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param values  The values that should be disabled.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the specified values are disabled (hard assertion).",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateAreDisabled(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Values expected to be disabled."
          ) final String... values) {
       Allure.step("[UI - List] Validate that the specified values in the list are disabled");
@@ -544,18 +544,18 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param values  The values that should be disabled.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the specified values are disabled, optionally using a soft assertion.",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateAreDisabled(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Values expected to be disabled."
          ) final String... values) {
       Allure.step("[UI - List] Validate that the specified values in the list are disabled");
@@ -569,15 +569,15 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param value   The specific value to check for being enabled.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Evaluate whether the value is enabled and store the result in quest storage.",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T isEnabled(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Value to check for being enabled."
          ) final String value) {
       Allure.step("[UI - List] Check if the specified value is enabled");
@@ -596,15 +596,15 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param value   The specific value that should be enabled.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the value is enabled (hard assertion).",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateIsEnabled(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Value expected to be enabled."
          ) final String value) {
       Allure.step("[UI - List] Validate that the specified value is enabled");
@@ -620,18 +620,18 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param value   The specific value that should be enabled.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the value is enabled, optionally using a soft assertion.",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateIsEnabled(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Value expected to be enabled."
          ) final String value) {
       Allure.step("[UI - List] Validate that the specified value is enabled");
@@ -645,15 +645,15 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param value   The specific value that should be disabled.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the value is disabled (hard assertion).",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateIsDisabled(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Value expected to be disabled."
          ) final String value) {
       Allure.step("[UI - List] Validate that the specified value is disabled");
@@ -669,18 +669,18 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param value   The specific value that should be disabled.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the value is disabled, optionally using a soft assertion.",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateIsDisabled(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Value expected to be disabled."
          ) final String value) {
       Allure.step("[UI - List] Validate that the specified value is disabled");
@@ -694,15 +694,15 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param values  The values to check.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Evaluate whether the specified values are visible and store the result in quest storage.",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T areVisible(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Values to check for being visible."
          ) final String... values) {
       Allure.step("[UI - List] Check if the specified values are visible");
@@ -721,15 +721,15 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param values  The expected visible values.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the specified values are visible (hard assertion).",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateAreVisible(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Values expected to be visible."
          ) final String... values) {
       Allure.step("[UI - List] Validate that the specified values are visible in the list");
@@ -745,18 +745,18 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param values  The specific values that should be visible.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the specified values are visible, optionally using a soft assertion.",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateAreVisible(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Values expected to be visible."
          ) final String... values) {
       Allure.step("[UI - List] Validate that the specified values are visible in the list");
@@ -804,15 +804,15 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param values  The specific values that should be hidden.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the specified values are hidden (hard assertion).",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateAreHidden(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Values expected to be hidden."
          ) final String... values) {
       Allure.step("[UI - List] Validate that the specified values are hidden in the list");
@@ -828,18 +828,18 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param values  The specific values that should be hidden.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the specified values are hidden, optionally using a soft assertion.",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateAreHidden(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Values expected to be hidden."
          ) final String... values) {
       Allure.step("[UI - List] Validate that the specified values are hidden in the list");
@@ -853,15 +853,15 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param value   The specific value to check for visibility.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Evaluate whether the value is visible and store the result in quest storage.",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T isVisible(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Value to check for visibility."
          ) final String value) {
       Allure.step("[UI - List] Check if the specified value is visible");
@@ -880,15 +880,15 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param value   The specific value that should be visible.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the value is visible (hard assertion).",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateIsVisible(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Value expected to be visible."
          ) final String value) {
       Allure.step("[UI - List] Validate that the specified value is visible");
@@ -904,18 +904,18 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param value   The specific value that should be visible.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the value is visible, optionally using a soft assertion.",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateIsVisible(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Value expected to be visible."
          ) final String value) {
       Allure.step("[UI - List] Validate that the specified value is visible");
@@ -929,15 +929,15 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param value   The specific value that should be hidden.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the value is hidden (hard assertion).",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateIsHidden(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Value expected to be hidden."
          ) final String value) {
       Allure.step("[UI - List] Validate that the specified value is hidden");
@@ -953,18 +953,18 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param value   The specific value that should be hidden.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the value is hidden, optionally using a soft assertion.",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateIsHidden(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Value expected to be hidden."
          ) final String value) {
       Allure.step("[UI - List] Validate that the specified value is hidden");
@@ -977,11 +977,11 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param element The list UI element.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieve selected list items and store them in quest storage.",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T getSelected(final ListUiElement element) {
@@ -1000,15 +1000,15 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param expectedValues The expected values that should be selected.
     * @return The fluent UI service instance, allowing for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the specified items are selected (hard assertion).",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateSelectedItems(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Expected values that should be selected."
          ) final String... expectedValues) {
       Allure.step("[UI - List] Validate that the specified items are selected");
@@ -1024,18 +1024,18 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param expectedValues The expected values that should be selected.
     * @return The fluent UI service instance, allowing for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the specified items are selected, optionally using a soft assertion.",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateSelectedItems(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Expected values that should be selected."
          ) final String... expectedValues) {
       Allure.step("[UI - List] Validate that the specified items are selected");
@@ -1083,15 +1083,15 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param expectedValues The expected values that should not be selected.
     * @return The fluent UI service instance, allowing for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the specified items are not selected (hard assertion).",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateNotSelectedItems(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Expected values that should NOT be selected."
          ) final String... expectedValues) {
       Allure.step("[UI - List] Validate that the specified items are not selected");
@@ -1107,18 +1107,18 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param expectedValues The expected values that should not be selected.
     * @return The fluent UI service instance, allowing for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the specified items are not selected, optionally using a soft assertion.",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateNotSelectedItems(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Expected values that should NOT be selected."
          ) final String... expectedValues) {
       Allure.step("[UI - List] Validate that the specified items are not selected");
@@ -1131,11 +1131,11 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param element The list UI element.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieve all list items and store them in quest storage.",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T getAll(final ListUiElement element) {
@@ -1155,15 +1155,15 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param expectedValues The expected values that should be present in the list.
     * @return The fluent UI service instance, allowing for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that all expected items are present (hard assertion).",
          tags = {"ui", "list"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateAllItems(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Expected items that should be present in the list."
          ) final String... expectedValues) {
       Allure.step("[UI - List] Validate that all expected items are present in the list");
@@ -1180,10 +1180,10 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @return The fluent UI service instance, allowing for method chaining.
     */
    public T validateAllItems(final ListUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Expected items that should be present in the list."
          ) final String... expectedValues) {
       Allure.step("[UI - List] Validate that all expected items are present in the list");
@@ -1213,18 +1213,18 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
     * @param values        The values to insert.
     */
    @Override
-   @Pandora(
+   @AiCompass(
          description = "Insertion hook for list values using component type and locator.",
          tags = {"ui", "list", "insertion"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public void insertion(final ComponentType componentType,
-         @Pandora(
+         @AiCompass(
                description = "Locator identifying the list element."
          ) final By locator,
-         @Pandora(
+         @AiCompass(
                description = "Values to insert into the list."
          ) final Object... values) {
       Allure.step("[UI - List] Insert values into the list");

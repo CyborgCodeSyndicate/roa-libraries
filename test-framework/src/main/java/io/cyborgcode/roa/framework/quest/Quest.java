@@ -1,8 +1,8 @@
 package io.cyborgcode.roa.framework.quest;
 
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.annotation.Ring;
 import io.cyborgcode.roa.framework.assertion.CustomSoftAssertion;
@@ -26,16 +26,16 @@ import static io.cyborgcode.utilities.reflections.ReflectionUtil.getFieldValues;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Core RoA quest object used in tests. Holds rings (fluent services), "
             + "shared storage and soft assertions for a single test run.",
       tags = {"framework"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "quest")
+         @AiCompassOptions.Meta(key = "type", value = "quest")
       }
 )
 public class Quest {
@@ -74,16 +74,16 @@ public class Quest {
     * @throws IllegalArgumentException If the specified ring is not registered.
     */
    @SuppressWarnings("unchecked")
-   @Pandora(
+   @AiCompass(
          description = "Switch the active ring (fluent service) for the current quest."
                + " Typical usage: quest.use(RING_OF_API) or quest.use(RING_OF_CUSTOM).",
          tags = {"framework"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    public <T extends FluentService> T use(
-         @Pandora(
+         @AiCompass(
                description = "Fluent service ring class to activate, "
                      + "e.g. RestServiceFluent.class or a custom @Ring service."
          )
@@ -127,12 +127,12 @@ public class Quest {
     * <p>This method logs the completion, clears the test execution state, and verifies all
     * soft assertions collected during the test execution.
     */
-   @Pandora(
+   @AiCompass(
          description = "Finish the quest: log completion, clear the quest from "
                + "QuestHolder and assert all collected soft assertions. Call this at the end of the test flow.",
          tags = {"framework"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    public void complete() {

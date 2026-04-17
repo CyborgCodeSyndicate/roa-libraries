@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.framework.base;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.log.LogQuest;
 import java.util.HashMap;
@@ -26,18 +26,18 @@ import static io.cyborgcode.utilities.reflections.ReflectionUtil.getFieldValues;
  */
 @Component
 @Lazy
-@Pandora(
+@AiCompass(
       description = "Spring-managed service container used by the framework to access underlying service beans "
             + "from a specific Ring (fluent service). It resolves the fluent service from the Spring context, "
             + "extracts a matching field by type, and caches the result for reuse.",
       tags = {"framework"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "services-container"),
-         @PandoraOptions.Meta(key = "scope", value = "spring-context")
+         @AiCompassOptions.Meta(key = "type", value = "services-container"),
+         @AiCompassOptions.Meta(key = "scope", value = "spring-context")
       }
 )
 public class Services {
@@ -75,18 +75,18 @@ public class Services {
     * @return The requested service instance.
     * @throws IllegalStateException if no matching service bean is found.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieve an underlying service from a specific Ring (fluent service) by type. "
                + "The service is resolved from the Ring instance via reflection and then cached."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
-   public <T extends ClassLevelHook, K> K service(@Pandora(description = "Ring (fluent service) class that "
+   public <T extends ClassLevelHook, K> K service(@AiCompass(description = "Ring (fluent service) class that "
                                                         + "contains the desired service as a field, "
                                                         + "e.g. RestServiceFluent.class.")
                                                   Class<T> fluentServiceClass,
-                                                  @Pandora(description = "Type of the service to "
+                                                  @AiCompass(description = "Type of the service to "
                                                         + "extract from the Ring, e.g. RestService.class.")
                                                   Class<K> serviceClass) {
       return serviceClass.cast(serviceCache.computeIfAbsent(serviceClass, key -> {

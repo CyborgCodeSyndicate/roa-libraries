@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.framework.storage;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 
 /**
@@ -19,17 +19,17 @@ import io.cyborgcode.pandora.model.CreationKind;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @SuppressWarnings("java:S1452")
-@Pandora(
+@AiCompass(
       description = "Storage extraction contract: defines how to locate a "
             + "stored item by keys and transform a raw stored object into a typed value.",
       tags = {"framework", "storage"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "data-extractor"),
-         @PandoraOptions.Meta(key = "scope", value = "storage")
+         @AiCompassOptions.Meta(key = "type", value = "data-extractor"),
+         @AiCompassOptions.Meta(key = "scope", value = "storage")
       }
 )
 public interface DataExtractor<T> {
@@ -41,11 +41,11 @@ public interface DataExtractor<T> {
     *
     * @return An {@link Enum} representing the sub-key, or {@code null} if not applicable.
     */
-   @Pandora(
+   @AiCompass(
          description = "Optional top-level sub-storage key (namespace) used to select a nested storage context "
                + "(e.g. API, DB). Null means default storage."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    Enum<?> getSubKey();
@@ -57,11 +57,11 @@ public interface DataExtractor<T> {
     *
     * @return An {@link Enum} representing the primary key.
     */
-   @Pandora(
+   @AiCompass(
          description = "Primary storage key that identifies the stored "
                + "entry to extract (within the chosen sub-storage if present)."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    Enum<?> getKey();
@@ -74,11 +74,11 @@ public interface DataExtractor<T> {
     * @param rawObject The raw object retrieved from storage.
     * @return The extracted data of type {@code T}.
     */
-   @Pandora(
+   @AiCompass(
          description = "Transforms a raw stored object (e.g., Response, DB row, file content) "
                + "into a typed value used by tests or services."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    T extract(Object rawObject);

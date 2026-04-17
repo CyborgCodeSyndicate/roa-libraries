@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.components.table.annotations;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.components.table.insertion.CellInsertionFunction;
 import java.lang.annotation.ElementType;
@@ -22,15 +22,15 @@ import java.lang.annotation.Target;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Annotation specifying a custom function for inserting data into a table cell.",
       tags = {"ui", "annotation", "custom-cell-insertion"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "annotation")
+         @AiCompassOptions.Meta(key = "type", value = "annotation")
       }
 )
 @Retention(RetentionPolicy.RUNTIME)
@@ -42,7 +42,7 @@ public @interface CustomCellInsertion {
     *
     * @return the class implementing {@link CellInsertionFunction}.
     */
-   @Pandora(
+   @AiCompass(
          description = "The custom function class used to insert values into the table cell.",
          tags = {"annotation", "custom-cell-insertion"}
    )
@@ -53,7 +53,7 @@ public @interface CustomCellInsertion {
     *
     * @return the order in which the insertion should be executed, default is 0.
     */
-   @Pandora(
+   @AiCompass(
          description = "Execution order for the custom insertion when multiple exist in the same row. Default is 0",
          tags = {"annotation", "custom-cell-insertion"}
    )

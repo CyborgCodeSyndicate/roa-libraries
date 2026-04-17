@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.service.fluent;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.roa.framework.annotation.Ring;
 import io.cyborgcode.roa.framework.chain.FluentService;
 import io.cyborgcode.roa.ui.components.accordion.AccordionServiceImpl;
@@ -97,11 +97,11 @@ public class UiServiceFluent<T extends UiServiceFluent<?>> extends FluentService
     * @return The current instance of {@code UiServiceFluent} for method chaining.
     */
    @Override
-   @Pandora(
+   @AiCompass(
          description = "Execute a custom validation block in the context of the current UI quest.",
          tags = {"ui", "validation"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validate(Runnable assertion) {
@@ -115,11 +115,11 @@ public class UiServiceFluent<T extends UiServiceFluent<?>> extends FluentService
     * @return The current instance of {@code UiServiceFluent} for method chaining.
     */
    @Override
-   @Pandora(
+   @AiCompass(
          description = "Execute custom UI validations using SoftAssertions for grouped checks.",
          tags = {"ui", "validation"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validate(Consumer<SoftAssertions> assertion) {

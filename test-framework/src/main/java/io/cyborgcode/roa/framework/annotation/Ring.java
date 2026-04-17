@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.framework.annotation;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -28,18 +28,18 @@ import org.springframework.stereotype.Service;
 @Service
 @Scope("prototype")
 @Lazy
-@Pandora(
+@AiCompass(
       description = "Marks a class as a ROA Ring: a Spring-managed (@Service) test service "
             + "with prototype scope and lazy initialization. Rings are activated via quest.use(<RingClass>).",
       tags = {"framework", "ring", "annotation"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ring-annotation"),
-         @PandoraOptions.Meta(key = "scope", value = "class"),
-         @PandoraOptions.Meta(key = "spring", value = "service-prototype-lazy")
+         @AiCompassOptions.Meta(key = "type", value = "ring-annotation"),
+         @AiCompassOptions.Meta(key = "scope", value = "class"),
+         @AiCompassOptions.Meta(key = "spring", value = "service-prototype-lazy")
       }
 )
 public @interface Ring {
@@ -51,7 +51,7 @@ public @interface Ring {
     *
     * @return The name of the test service category.
     */
-   @Pandora(
+   @AiCompass(
          description = "Logical ring name used for identification/categorization. Common values like \"UI\", "
                + "\"API\", and \"DB\" are used by the default fluent services, while custom project rings can "
                + "define any meaningful name (e.g., \"PurchaseService\")."

@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.framework.quest;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 
 /**
@@ -16,17 +16,17 @@ import io.cyborgcode.pandora.model.CreationKind;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Thread-local holder for the current SuperQuest (active test execution context). "
             + "Used by the framework and rings to access the current quest within the executing thread.",
       tags = {"framework", "quest", "thread-local"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "quest-holder"),
-         @PandoraOptions.Meta(key = "scope", value = "thread")
+         @AiCompassOptions.Meta(key = "type", value = "quest-holder"),
+         @AiCompassOptions.Meta(key = "scope", value = "thread")
       }
 )
 public class QuestHolder {
@@ -42,14 +42,14 @@ public class QuestHolder {
     *
     * @param quest the {@code SuperQuest} instance representing the current test context.
     */
-   @Pandora(
+   @AiCompass(
          description = "Bind the given SuperQuest to the current thread so framework components can access it."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    public static void set(
-         @Pandora(description = "The SuperQuest instance to bind to the current thread.")
+         @AiCompass(description = "The SuperQuest instance to bind to the current thread.")
          SuperQuest quest
    ) {
       THREAD_LOCAL_QUEST.set(quest);
@@ -60,10 +60,10 @@ public class QuestHolder {
     *
     * @return the {@code SuperQuest} instance associated with the current thread, or {@code null} if not set.
     */
-   @Pandora(
+   @AiCompass(
          description = "Get the SuperQuest bound to the current thread (or null if not set)."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    public static SuperQuest get() {
@@ -73,10 +73,10 @@ public class QuestHolder {
    /**
     * Clears the current test execution context from thread-local storage.
     */
-   @Pandora(
+   @AiCompass(
          description = "Remove the SuperQuest from the current thread to avoid leaking context between tests."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    public static void clear() {

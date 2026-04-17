@@ -1,7 +1,9 @@
 package io.cyborgcode.roa.ui.components.checkbox;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.aiteacher.annotation.AiLesson;
+import io.cyborgcode.pandora.aiteacher.model.LessonLevel;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
 import io.cyborgcode.roa.ui.util.strategy.Strategy;
@@ -16,16 +18,33 @@ import org.openqa.selenium.By;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Interface defining operations for interacting with checkbox UI components. Provides "
             + "methods to check, uncheck, and verify the state of checkboxes in a web interface.",
       tags = {"ui", "component-contract", "checkbox"},
       creation = CreationKind.AUTO
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-component")
+         @AiCompassOptions.Meta(key = "type", value = "ui-component")
+      }
+)
+@AiLesson(
+      category = "model",
+      level = LessonLevel.EXCELLENT,
+      description = "Checkbox contract showing how ROA models selection, deselection, state checks, "
+            + "and label retrieval across container, text, strategy, and locator entry points.",
+      whenToUse = "Use as a reference when creating reusable checkbox components or service APIs "
+            + "that must support page-level and container-scoped interactions with aligned "
+            + "overloads for actions and verifications.",
+      tags = {"ui", "checkbox", "component-contract", "selection", "state", "strategy"},
+      related = {
+         "io.cyborgcode.roa.ui.components.checkbox.CheckboxService",
+         "io.cyborgcode.roa.ui.components.checkbox.CheckboxServiceImpl",
+         "io.cyborgcode.roa.ui.components.checkbox.CheckboxComponentType",
+         "io.cyborgcode.roa.ui.selenium.CheckboxUiElement",
+         "io.cyborgcode.roa.ui.service.fluent.CheckboxServiceFluent"
       }
 )
 public interface Checkbox {
@@ -36,7 +55,7 @@ public interface Checkbox {
     * @param container    The container holding the checkboxes.
     * @param checkBoxText The text identifiers for the checkboxes to select.
     */
-   @Pandora(
+   @AiCompass(
          description = "Selects one or more checkboxes within a container by their display text.",
          tags = {"component-contract", "checkbox"}
    )
@@ -49,7 +68,7 @@ public interface Checkbox {
     * @param strategy  The strategy used for selecting checkboxes.
     * @return A string representing the selected checkbox label if applicable.
     */
-   @Pandora(
+   @AiCompass(
          description = "Selects checkboxes within a container using a custom selection strategy.",
          tags = {"component-contract", "checkbox"}
    )
@@ -60,7 +79,7 @@ public interface Checkbox {
     *
     * @param checkBoxText The text identifiers for the checkboxes to select.
     */
-   @Pandora(
+   @AiCompass(
          description = "Selects one or more checkboxes at the top level of the page by their display text.",
          tags = {"component-contract", "checkbox"}
    )
@@ -71,7 +90,7 @@ public interface Checkbox {
     *
     * @param checkBoxLocator The locator identifying the checkboxes.
     */
-   @Pandora(
+   @AiCompass(
          description = "Selects one or more checkboxes using Selenium By locators.",
          tags = {"component-contract", "checkbox"}
    )
@@ -83,7 +102,7 @@ public interface Checkbox {
     * @param container    The container holding the checkboxes.
     * @param checkBoxText The text identifiers for the checkboxes to deselect.
     */
-   @Pandora(
+   @AiCompass(
          description = "Deselects one or more checkboxes within a container by their display text.",
          tags = {"component-contract", "checkbox"}
    )
@@ -96,7 +115,7 @@ public interface Checkbox {
     * @param strategy  The strategy used for deselecting checkboxes.
     * @return A string representing the deselected checkbox label if applicable.
     */
-   @Pandora(
+   @AiCompass(
          description = "Deselects checkboxes within a container using a custom selection strategy.",
          tags = {"component-contract", "checkbox"}
    )
@@ -107,7 +126,7 @@ public interface Checkbox {
     *
     * @param checkBoxText The text identifiers for the checkboxes to deselect.
     */
-   @Pandora(
+   @AiCompass(
          description = "Deselects one or more checkboxes at the top level of the page by their display text.",
          tags = {"component-contract", "checkbox"}
    )
@@ -118,7 +137,7 @@ public interface Checkbox {
     *
     * @param checkBoxLocator The locator identifying the checkboxes.
     */
-   @Pandora(
+   @AiCompass(
          description = "Deselects one or more checkboxes using Selenium By locators.",
          tags = {"component-contract", "checkbox"}
    )
@@ -131,7 +150,7 @@ public interface Checkbox {
     * @param checkBoxText The text identifiers for the checkboxes.
     * @return true if all specified checkboxes are selected; false otherwise.
     */
-   @Pandora(
+   @AiCompass(
          description = "Verifies if the specified checkboxes within a container are selected.",
          tags = {"component-contract", "checkbox"}
    )
@@ -143,7 +162,7 @@ public interface Checkbox {
     * @param checkBoxText The text identifiers for the checkboxes.
     * @return true if all specified checkboxes are selected; false otherwise.
     */
-   @Pandora(
+   @AiCompass(
          description = "Verifies if the specified checkboxes at the top level are selected.",
          tags = {"component-contract", "checkbox"}
    )
@@ -155,7 +174,7 @@ public interface Checkbox {
     * @param checkBoxLocator The locator identifying the checkboxes.
     * @return true if all specified checkboxes are selected; false otherwise.
     */
-   @Pandora(
+   @AiCompass(
          description = "Verifies if the checkboxes identified by the given locators are selected.",
          tags = {"component-contract", "checkbox"}
    )
@@ -168,7 +187,7 @@ public interface Checkbox {
     * @param checkBoxText The text identifiers for the checkboxes.
     * @return true if all specified checkboxes are enabled; false otherwise.
     */
-   @Pandora(
+   @AiCompass(
          description = "Verifies if the specified checkboxes within a container are enabled.",
          tags = {"component-contract", "checkbox"}
    )
@@ -180,7 +199,7 @@ public interface Checkbox {
     * @param checkBoxText The text identifiers for the checkboxes.
     * @return true if all specified checkboxes are enabled; false otherwise.
     */
-   @Pandora(
+   @AiCompass(
          description = "Verifies if the specified checkboxes at the top level are enabled.",
          tags = {"component-contract", "checkbox"}
    )
@@ -192,7 +211,7 @@ public interface Checkbox {
     * @param checkBoxLocator The locator identifying the checkboxes.
     * @return true if all specified checkboxes are enabled; false otherwise.
     */
-   @Pandora(
+   @AiCompass(
          description = "Verifies if the checkboxes identified by the given locators are enabled.",
          tags = {"component-contract", "checkbox"}
    )
@@ -204,7 +223,7 @@ public interface Checkbox {
     * @param container The container holding the checkboxes.
     * @return A list of selected checkbox labels.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieves the labels of all selected checkboxes within the specified container.",
          tags = {"component-contract", "checkbox"}
    )
@@ -216,7 +235,7 @@ public interface Checkbox {
     * @param containerLocator The locator identifying the checkboxes.
     * @return A list of selected checkbox labels.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieves the labels of all selected checkboxes identified by the given locator.",
          tags = {"component-contract", "checkbox"}
    )
@@ -228,7 +247,7 @@ public interface Checkbox {
     * @param container The container holding the checkboxes.
     * @return A list of all checkbox labels.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieves the labels of all checkboxes within the specified container.",
          tags = {"component-contract", "checkbox"}
    )
@@ -240,7 +259,7 @@ public interface Checkbox {
     * @param containerLocator The locator identifying the checkboxes.
     * @return A list of all checkbox labels.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieves the labels of all checkboxes identified by the given locator.",
          tags = {"component-contract", "checkbox"}
    )

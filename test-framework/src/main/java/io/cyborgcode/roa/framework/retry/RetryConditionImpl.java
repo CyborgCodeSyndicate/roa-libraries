@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.framework.retry;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -21,7 +21,7 @@ import java.util.function.Predicate;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Concrete RetryCondition implementation that pairs a "
             + "value-producing function with a success predicate. "
             + "Used by retry utilities to repeatedly execute an operation "
@@ -29,11 +29,11 @@ import java.util.function.Predicate;
       tags = {"framework", "retry"},
       creation = CreationKind.CONSTRUCTOR
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "retry-condition-impl"),
-         @PandoraOptions.Meta(key = "implements", value = "RetryCondition")
+         @AiCompassOptions.Meta(key = "type", value = "retry-condition-impl"),
+         @AiCompassOptions.Meta(key = "implements", value = "RetryCondition")
       }
 )
 public class RetryConditionImpl<T> implements RetryCondition<T> {
@@ -56,11 +56,11 @@ public class RetryConditionImpl<T> implements RetryCondition<T> {
     * {@inheritDoc}
     */
    @Override
-   @Pandora(
+   @AiCompass(
          description = "Returns the function executed on each retry attempt "
                + "to produce the value that will be evaluated."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    public Function<Object, T> function() {
@@ -71,11 +71,11 @@ public class RetryConditionImpl<T> implements RetryCondition<T> {
     * {@inheritDoc}
     */
    @Override
-   @Pandora(
+   @AiCompass(
          description = "Returns the predicate that decides whether the latest "
                + "produced value is acceptable (stop retry) or not (keep retrying)."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    public Predicate<T> condition() {

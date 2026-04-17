@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.selenium;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.components.radio.RadioService;
@@ -20,17 +20,17 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsUiRules;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Radio UI element enum contract (locator + component type + hooks) consumed by RadioService "
             + "for standardized radio interactions.",
       tags = {"ui", "ui-element", "radio"},
       creation = CreationKind.ENUM_CONSTANT
 )
-@PandoraOptions(
+@AiCompassOptions(
       availableOptionsRule = AvailableOptionsUiRules.AvailableRadioUiElements.class,
       exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-element")
+         @AiCompassOptions.Meta(key = "type", value = "ui-element")
       }
 )
 public interface RadioUiElement extends UiElement {

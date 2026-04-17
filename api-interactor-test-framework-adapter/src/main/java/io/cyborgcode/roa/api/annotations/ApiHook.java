@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.api.annotations;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.api.pandora.AvailableOptionsApiAdapterRules;
 import io.cyborgcode.roa.framework.hooks.HookExecution;
@@ -21,16 +21,16 @@ import java.lang.annotation.Target;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Declares a class-level API hook flow to run before or after all tests in a JUnit class.",
       tags = {"api", "hook", "annotation"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/api-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "api-hook-annotation"),
-         @PandoraOptions.Meta(key = "scope", value = "class")
+         @AiCompassOptions.Meta(key = "type", value = "api-hook-annotation"),
+         @AiCompassOptions.Meta(key = "scope", value = "class")
       }
 )
 @Repeatable(ApiHooks.class)
@@ -46,10 +46,10 @@ public @interface ApiHook {
     *
     * @return the hook flow type name
     */
-   @Pandora(
+   @AiCompass(
          description = "Identifier of the hook flow implementation to execute (typically an enum name)."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json",
          availableOptionsRule = AvailableOptionsApiAdapterRules.AvailableApiHookFlows.class
    )
@@ -60,10 +60,10 @@ public @interface ApiHook {
     *
     * @return {@link HookExecution#BEFORE} to run before all tests, {@link HookExecution#AFTER} to run after all tests
     */
-   @Pandora(
+   @AiCompass(
          description = "When the hook should run relative to the test lifecycle (BEFORE or AFTER all tests)."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    HookExecution when();
@@ -73,10 +73,10 @@ public @interface ApiHook {
     *
     * @return an array of {@code String} arguments
     */
-   @Pandora(
+   @AiCompass(
          description = "Optional string arguments that will be passed to the hook flow."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    String[] arguments() default {};
@@ -88,10 +88,10 @@ public @interface ApiHook {
     *
     * @return an integer defining the sort order
     */
-   @Pandora(
+   @AiCompass(
          description = "Execution order among hooks with the same timing; lower values are executed first."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    int order() default 0;

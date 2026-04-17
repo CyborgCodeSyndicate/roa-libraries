@@ -1,7 +1,9 @@
 package io.cyborgcode.roa.ui.selenium;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.aiteacher.annotation.AiLesson;
+import io.cyborgcode.pandora.aiteacher.model.LessonLevel;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.components.checkbox.CheckboxService;
@@ -16,17 +18,33 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsUiRules;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Checkbox UI element enum contract (locator + component type + hooks) consumed by CheckboxService "
             + "for standardized checkbox interactions.",
       tags = {"ui", "element", "checkbox"},
       creation = CreationKind.ENUM_CONSTANT
 )
-@PandoraOptions(
+@AiCompassOptions(
       availableOptionsRule = AvailableOptionsUiRules.AvailableCheckboxUiElements.class,
       exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-element")
+         @AiCompassOptions.Meta(key = "type", value = "ui-element")
+      }
+)
+@AiLesson(
+      category = "model",
+      level = LessonLevel.EXCELLENT,
+      description = "Checkbox UI element enum contract that binds locator metadata and hooks "
+            + "to the checkbox service while defaulting the component type.",
+      whenToUse = "Use as a reference when creating enum-based checkbox fields for the fluent "
+            + "UI layer, especially when each field should inherit the default component type "
+            + "and be consumable by services without extra wiring.",
+      tags = {"ui", "checkbox", "ui-element", "enum", "locator", "default-type"},
+      related = {
+         "io.cyborgcode.roa.ui.selenium.UiElement",
+         "io.cyborgcode.roa.ui.components.checkbox.CheckboxService",
+         "io.cyborgcode.roa.ui.components.checkbox.CheckboxComponentType",
+         "io.cyborgcode.roa.ui.service.fluent.CheckboxServiceFluent"
       }
 )
 public interface CheckboxUiElement extends UiElement {

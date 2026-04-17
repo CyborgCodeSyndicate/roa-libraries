@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.db.annotations;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.hooks.HookExecution;
 import io.cyborgcode.roa.db.hooks.DbHookFlow;
@@ -21,16 +21,16 @@ import java.lang.annotation.Target;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Annotation added on a test class to define database hook logic "
             + "that runs before or after all tests in the class lifecycle.",
       tags = {"db", "hook", "annotation"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "db-hook-annotation"),
-         @PandoraOptions.Meta(key = "scope", value = "class")
+         @AiCompassOptions.Meta(key = "type", value = "db-hook-annotation"),
+         @AiCompassOptions.Meta(key = "scope", value = "class")
       }
 )
 @Repeatable(DbHooks.class)
@@ -45,7 +45,7 @@ public @interface DbHook {
     *       @link HookExecution#BEFORE} to run before all tests;
     *       {@link HookExecution#AFTER} to run after all tests
     */
-   @Pandora(
+   @AiCompass(
          description = "Defines whether the database hook runs before or after "
                + "all tests in the annotated test class."
    )
@@ -60,7 +60,7 @@ public @interface DbHook {
     *
     * @return the hook type name
     */
-   @Pandora(
+   @AiCompass(
          description = "Identifier used to locate the DbHookFlow implementation "
                + "that contains the database hook logic to execute."
    )
@@ -71,7 +71,7 @@ public @interface DbHook {
     *
     * @return an array of argument strings
     */
-   @Pandora(
+   @AiCompass(
          description = "Optional string arguments that will be passed to the "
                + "database hook logic during execution."
    )
@@ -83,7 +83,7 @@ public @interface DbHook {
     *
     * @return the execution order
     */
-   @Pandora(
+   @AiCompass(
          description = "Execution order among hooks with the same lifecycle timing; "
                + "lower values execute earlier."
    )

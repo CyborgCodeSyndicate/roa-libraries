@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.api.storage;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.api.pandora.AvailableOptionsApiAdapterRules;
 
@@ -13,16 +13,16 @@ import io.cyborgcode.roa.api.pandora.AvailableOptionsApiAdapterRules;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Storage keys for API-related data in quest storage (API namespace, username, password).",
       tags = {"api", "storage"},
       creation = CreationKind.ENUM_CONSTANT
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/api-usage.json",
       availableOptionsRule = AvailableOptionsApiAdapterRules.AvailableStorageKeysApiOptions.class,
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "api-storage-key")
+         @AiCompassOptions.Meta(key = "type", value = "api-storage-key")
       }
 )
 public enum StorageKeysApi {

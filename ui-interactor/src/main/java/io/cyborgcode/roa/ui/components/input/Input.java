@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.components.input;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.components.table.filters.FilterStrategy;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
@@ -15,16 +15,16 @@ import org.openqa.selenium.By;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Defines operations for interacting with input fields, including text insertion, "
             + "clearing, value retrieval, and validation.",
       tags = {"ui", "component-contract", "input"},
       creation = CreationKind.AUTO
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-component")
+         @AiCompassOptions.Meta(key = "type", value = "ui-component")
       }
 )
 public interface Input {
@@ -35,7 +35,7 @@ public interface Input {
     * @param container The container holding the input field.
     * @param value     The value to insert.
     */
-   @Pandora(
+   @AiCompass(
          description = "Inserts a value into the input field within the specified container.",
          tags = {"component-contract", "input"}
    )
@@ -48,7 +48,7 @@ public interface Input {
     * @param inputFieldLabel The label of the input field.
     * @param value           The value to insert.
     */
-   @Pandora(
+   @AiCompass(
          description = "Inserts a value into the input field identified by its label inside a container.",
          tags = {"component-contract", "input"}
    )
@@ -60,7 +60,7 @@ public interface Input {
     * @param inputFieldLabel The label of the input field.
     * @param value           The value to insert.
     */
-   @Pandora(
+   @AiCompass(
          description = "Inserts a value into the input field identified by its label.",
          tags = {"component-contract", "input"}
    )
@@ -72,7 +72,7 @@ public interface Input {
     * @param inputFieldContainerLocator The locator identifying the input field.
     * @param value                      The value to insert.
     */
-   @Pandora(
+   @AiCompass(
          description = "Inserts a value into the input field located by the specified locator.",
          tags = {"component-contract", "input"}
    )
@@ -83,7 +83,7 @@ public interface Input {
     *
     * @param container The container holding the input field.
     */
-   @Pandora(
+   @AiCompass(
          description = "Clears the input field within the specified container.",
          tags = {"component-contract", "input"}
    )
@@ -95,7 +95,7 @@ public interface Input {
     * @param container       The container holding the input field.
     * @param inputFieldLabel The label of the input field.
     */
-   @Pandora(
+   @AiCompass(
          description = "Clears the input field identified by its label inside a container.",
          tags = {"component-contract", "input"}
    )
@@ -106,7 +106,7 @@ public interface Input {
     *
     * @param inputFieldLabel The label of the input field.
     */
-   @Pandora(
+   @AiCompass(
          description = "Clears the input field identified by its label.",
          tags = {"component-contract", "input"}
    )
@@ -117,7 +117,7 @@ public interface Input {
     *
     * @param inputFieldContainerLocator The locator identifying the input field.
     */
-   @Pandora(
+   @AiCompass(
          description = "Clears the input field located by the specified locator.",
          tags = {"component-contract", "input"}
    )
@@ -129,7 +129,7 @@ public interface Input {
     * @param container The container holding the input field.
     * @return The value of the input field as a string.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieves the current value of the input field within the specified container.",
          tags = {"component-contract", "input"}
    )
@@ -142,7 +142,7 @@ public interface Input {
     * @param inputFieldLabel The label of the input field.
     * @return The value of the input field as a string.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieves the current value of the input field identified by its label inside a container.",
          tags = {"component-contract", "input"}
    )
@@ -154,7 +154,7 @@ public interface Input {
     * @param inputFieldLabel The label of the input field.
     * @return The value of the input field as a string.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieves the current value of the input field identified by its label.",
          tags = {"component-contract", "input"}
    )
@@ -166,7 +166,7 @@ public interface Input {
     * @param inputFieldContainerLocator The locator identifying the input field.
     * @return The value of the input field as a string.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieves the current value of the input field located by the specified locator.",
          tags = {"component-contract", "input"}
    )
@@ -178,7 +178,7 @@ public interface Input {
     * @param container The container holding the input field.
     * @return true if the input field is enabled, false otherwise.
     */
-   @Pandora(
+   @AiCompass(
          description = "Checks if the input field within the specified container is enabled.",
          tags = {"component-contract", "input"}
    )
@@ -191,7 +191,7 @@ public interface Input {
     * @param inputFieldLabel The label of the input field.
     * @return true if the input field is enabled, false otherwise.
     */
-   @Pandora(
+   @AiCompass(
          description = "Checks if the input field identified by its label inside a container is enabled.",
          tags = {"component-contract", "input"}
    )
@@ -203,7 +203,7 @@ public interface Input {
     * @param inputFieldLabel The label of the input field.
     * @return true if the input field is enabled, false otherwise.
     */
-   @Pandora(
+   @AiCompass(
          description = "Checks if the input field identified by its label is enabled.",
          tags = {"component-contract", "input"}
    )
@@ -215,7 +215,7 @@ public interface Input {
     * @param inputFieldContainerLocator The locator identifying the input field.
     * @return true if the input field is enabled, false otherwise.
     */
-   @Pandora(
+   @AiCompass(
          description = "Checks if the input field located by the specified locator is enabled.",
          tags = {"component-contract", "input"}
    )
@@ -227,7 +227,7 @@ public interface Input {
     * @param container The container holding the input field.
     * @return The error message as a string, or null if no error message is displayed.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieves the error message displayed for the input field within the specified container.",
          tags = {"component-contract", "input"}
    )
@@ -240,7 +240,7 @@ public interface Input {
     * @param inputFieldLabel The label of the input field.
     * @return The error message as a string, or null if no error message is displayed.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieves the error message displayed for the input field identified by its label "
                + "inside a container.",
          tags = {"component-contract", "input"}
@@ -253,7 +253,7 @@ public interface Input {
     * @param inputFieldLabel The label of the input field.
     * @return The error message as a string, or null if no error message is displayed.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieves the error message displayed for the input field identified by its label.",
          tags = {"component-contract", "input"}
    )
@@ -265,7 +265,7 @@ public interface Input {
     * @param inputFieldContainerLocator The locator identifying the input field.
     * @return The error message as a string, or null if no error message is displayed.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieves the error message displayed for the input field located by the specified locator.",
          tags = {"component-contract", "input"}
    )
@@ -277,7 +277,7 @@ public interface Input {
     * @param cell   The table cell containing the input field.
     * @param values The values to be inserted.
     */
-   @Pandora(
+   @AiCompass(
          description = "Handles table insertion for an input field.",
          tags = {"component-contract", "input"}
    )
@@ -291,7 +291,7 @@ public interface Input {
     * @param filterStrategy The filter strategy to apply.
     * @param values         The values to be filtered.
     */
-   @Pandora(
+   @AiCompass(
          description = "Applies a filter to an input field in a table header.",
          tags = {"component-contract", "input"}
    )

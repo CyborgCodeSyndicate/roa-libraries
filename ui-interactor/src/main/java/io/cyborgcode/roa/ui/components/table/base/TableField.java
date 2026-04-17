@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.components.table.base;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import java.lang.reflect.InvocationTargetException;
 import java.util.function.BiConsumer;
@@ -20,15 +20,15 @@ import java.util.function.BiConsumer;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @FunctionalInterface
-@Pandora(
+@AiCompass(
       description = "UI table field descriptor and invoker used to set/read column values on row models.",
       tags = {"ui", "table", "table-field"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "table-field")
+         @AiCompassOptions.Meta(key = "type", value = "table-field")
       }
 )
 public interface TableField<T> {
@@ -42,15 +42,15 @@ public interface TableField<T> {
     * @param <P>      The type of the field being set.
     * @return A {@code TableField} instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Create a TableField from a setter method reference.",
          tags = {"ui", "table", "table-field"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    static <T, P> TableField<T> of(
-         @Pandora(
+         @AiCompass(
                description = "Setter method reference for the field."
          ) BiConsumer<T, P> consumer) {
       return (t, obj) -> consumer.accept(t, (P) obj);

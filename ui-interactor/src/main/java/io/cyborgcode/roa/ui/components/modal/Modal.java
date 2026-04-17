@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.components.modal;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
 import org.openqa.selenium.By;
@@ -13,16 +13,16 @@ import org.openqa.selenium.By;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Interface for interacting with modal dialog components. Provides methods to check "
             + "modal state, interact with buttons, and retrieve content.",
       tags = {"ui", "component-contract", "modal"},
       creation = CreationKind.AUTO
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-component")
+         @AiCompassOptions.Meta(key = "type", value = "ui-component")
       }
 )
 public interface Modal {
@@ -32,7 +32,7 @@ public interface Modal {
     *
     * @return {@code true} if the modal is visible/active, otherwise {@code false}.
     */
-   @Pandora(
+   @AiCompass(
          description = "Checks if the modal dialog is currently open and visible.",
          tags = {"component-contract", "modal"}
    )
@@ -44,7 +44,7 @@ public interface Modal {
     * @param container  the container element within which the button is located.
     * @param buttonText the visible text of the button to be clicked.
     */
-   @Pandora(
+   @AiCompass(
          description = "Clicks a button with the specified text within the given container element.",
          tags = {"component-contract", "modal"}
    )
@@ -55,7 +55,7 @@ public interface Modal {
     *
     * @param buttonText the visible text of the button to be clicked.
     */
-   @Pandora(
+   @AiCompass(
          description = "Clicks a button within the modal dialog that matches the specified text.",
          tags = {"component-contract", "modal"}
    )
@@ -66,7 +66,7 @@ public interface Modal {
     *
     * @param buttonLocator the locator referencing the button.
     */
-   @Pandora(
+   @AiCompass(
          description = "Clicks a button within the modal dialog using the specified locator.",
          tags = {"component-contract", "modal"}
    )
@@ -77,7 +77,7 @@ public interface Modal {
     *
     * @return the modal's title text, or an empty string if not present.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieves the main title text of the modal dialog.",
          tags = {"component-contract", "modal"}
    )
@@ -88,7 +88,7 @@ public interface Modal {
     *
     * @return the main textual content of the modal, or an empty string if not present.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieves the main body text content of the modal dialog.",
          tags = {"component-contract", "modal"}
    )
@@ -99,7 +99,7 @@ public interface Modal {
     *
     * @return the content's title, or an empty string if not present.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieves the content title of the modal, which may be separate from the main title.",
          tags = {"component-contract", "modal"}
    )
@@ -111,7 +111,7 @@ public interface Modal {
     * <p>Typically performs an action such as clicking a close button or ESC key simulation,
     * depending on the specific modal implementation.
     */
-   @Pandora(
+   @AiCompass(
          description = "Closes the modal dialog by clicking its close button or using a close action.",
          tags = {"component-contract", "modal"}
    )

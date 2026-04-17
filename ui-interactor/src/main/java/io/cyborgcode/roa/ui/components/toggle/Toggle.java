@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.components.toggle;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
 import org.openqa.selenium.By;
@@ -21,16 +21,16 @@ import org.openqa.selenium.By;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Interface contract for toggle components, providing methods to activate/deactivate "
             + "and verify enabled/activated states.",
       tags = {"ui", "component-contract", "toggle"},
       creation = CreationKind.AUTO
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-component")
+         @AiCompassOptions.Meta(key = "type", value = "ui-component")
       }
 )
 public interface Toggle {
@@ -41,7 +41,7 @@ public interface Toggle {
     * @param container  the container holding the toggle.
     * @param toggleText the text identifying the toggle to activate.
     */
-   @Pandora(
+   @AiCompass(
          description = "Activates the toggle identified by text within the specified container.",
          tags = {"component-contract", "toggle"}
    )
@@ -52,7 +52,7 @@ public interface Toggle {
     *
     * @param toggleText the text identifying the toggle to activate.
     */
-   @Pandora(
+   @AiCompass(
          description = "Activates the toggle identified by text (no container).",
          tags = {"component-contract", "toggle"}
    )
@@ -63,7 +63,7 @@ public interface Toggle {
     *
     * @param toggleLocator the locator referencing the toggle to activate.
     */
-   @Pandora(
+   @AiCompass(
          description = "Activates the toggle identified by a locator.",
          tags = {"component-contract", "toggle"}
    )
@@ -75,7 +75,7 @@ public interface Toggle {
     * @param container  the container holding the toggle.
     * @param toggleText the text identifying the toggle to deactivate.
     */
-   @Pandora(
+   @AiCompass(
          description = "Deactivates the toggle identified by text within the specified container.",
          tags = {"component-contract", "toggle"}
    )
@@ -86,7 +86,7 @@ public interface Toggle {
     *
     * @param toggleText the text identifying the toggle to deactivate.
     */
-   @Pandora(
+   @AiCompass(
          description = "Deactivates the toggle identified by text (no container).",
          tags = {"component-contract", "toggle"}
    )
@@ -97,7 +97,7 @@ public interface Toggle {
     *
     * @param toggleLocator the locator referencing the toggle to deactivate.
     */
-   @Pandora(
+   @AiCompass(
          description = "Deactivates the toggle identified by a locator.",
          tags = {"component-contract", "toggle"}
    )
@@ -110,7 +110,7 @@ public interface Toggle {
     * @param toggleText the text identifying the toggle to check.
     * @return true if the toggle is enabled, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Checks if the toggle identified by text is enabled within the specified container.",
          tags = {"component-contract", "toggle"}
    )
@@ -122,7 +122,7 @@ public interface Toggle {
     * @param toggleText the text identifying the toggle to check.
     * @return true if the toggle is enabled, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Checks if the toggle identified by text is enabled (no container).",
          tags = {"component-contract", "toggle"}
    )
@@ -134,7 +134,7 @@ public interface Toggle {
     * @param toggleLocator the locator referencing the toggle to check.
     * @return true if the toggle is enabled, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Checks if the toggle identified by a locator is enabled.",
          tags = {"component-contract", "toggle"}
    )
@@ -147,7 +147,7 @@ public interface Toggle {
     * @param toggleText the text identifying the toggle to check.
     * @return true if the toggle is activated, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Checks if the toggle identified by text is activated within the specified container.",
          tags = {"component-contract", "toggle"}
    )
@@ -159,7 +159,7 @@ public interface Toggle {
     * @param toggleText the text identifying the toggle to check.
     * @return true if the toggle is activated, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Checks if the toggle identified by text is activated (no container).",
          tags = {"component-contract", "toggle"}
    )
@@ -171,7 +171,7 @@ public interface Toggle {
     * @param toggleLocator the locator referencing the toggle to check.
     * @return true if the toggle is activated, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Checks if the toggle identified by a locator is activated.",
          tags = {"component-contract", "toggle"}
    )

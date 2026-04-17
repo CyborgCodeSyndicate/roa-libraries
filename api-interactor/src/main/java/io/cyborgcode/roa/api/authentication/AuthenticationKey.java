@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.api.authentication;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,16 +16,16 @@ import lombok.Data;
  */
 @AllArgsConstructor
 @Data
-@Pandora(
+@AiCompass(
       description = "Opaque key representing an authenticated session, "
             + "used to cache and look up authentication headers for API calls.",
       tags = {"api", "auth"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/api-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "authentication-key")
+         @AiCompassOptions.Meta(key = "type", value = "authentication-key")
       }
 )
 public class AuthenticationKey {
@@ -33,7 +33,7 @@ public class AuthenticationKey {
    /**
     * The username associated with the authentication session.
     */
-   @Pandora(
+   @AiCompass(
          description = "Username associated with this authenticated session; part of the cache key for auth headers."
    )
    private String username;
@@ -41,7 +41,7 @@ public class AuthenticationKey {
    /**
     * The password associated with the authentication session.
     */
-   @Pandora(
+   @AiCompass(
          description = "Password (or secret) used for this authenticated session; "
                + "also part of the cache key. Tools should avoid logging this value."
    )
@@ -50,7 +50,7 @@ public class AuthenticationKey {
    /**
     * The type of authentication client handling this session.
     */
-   @Pandora(
+   @AiCompass(
          description = "Concrete BaseAuthenticationClient implementation "
                + "that produced this session; differentiates auth strategies in the cache."
    )

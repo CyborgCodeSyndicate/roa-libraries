@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.api.annotations;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.api.extensions.ApiHookExtension;
 import io.cyborgcode.roa.api.extensions.ApiTestExtension;
@@ -25,16 +25,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Marks a JUnit test class as an API test and wires ROA's API extensions and configuration.",
       tags = {"api", "annotation"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/api-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "api-annotation"),
-         @PandoraOptions.Meta(key = "scope", value = "class")
+         @AiCompassOptions.Meta(key = "type", value = "api-annotation"),
+         @AiCompassOptions.Meta(key = "scope", value = "class")
       }
 )
 @Retention(RetentionPolicy.RUNTIME)

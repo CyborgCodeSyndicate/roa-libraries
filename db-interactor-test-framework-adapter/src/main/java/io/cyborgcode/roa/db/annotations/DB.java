@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.db.annotations;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.db.extensions.DbHookExtension;
 import io.cyborgcode.roa.db.extensions.DbTestExtension;
@@ -21,16 +21,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Annotation added on a test class to enable database testing support, "
             + "including database connection management, hooks, and lifecycle handling.",
       tags = {"db", "test", "annotation"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "db-annotation"),
-         @PandoraOptions.Meta(key = "scope", value = "class")
+         @AiCompassOptions.Meta(key = "type", value = "db-annotation"),
+         @AiCompassOptions.Meta(key = "scope", value = "class")
       }
 )
 @ExtendWith({DbTestExtension.class, DbHookExtension.class})

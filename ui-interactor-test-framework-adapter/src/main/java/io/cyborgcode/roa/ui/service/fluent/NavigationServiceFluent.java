@@ -1,8 +1,8 @@
 package io.cyborgcode.roa.ui.service.fluent;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
 import io.qameta.allure.Allure;
@@ -22,16 +22,16 @@ import org.openqa.selenium.NoSuchWindowException;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @SuppressWarnings({"java:S5960", "unchecked"})
-@Pandora(
+@AiCompass(
       description = "Fluent UI service for browser navigation: URL navigation, history, tabs/windows, "
             + "frames, and alerts.",
       tags = {"ui", "fluent", "browser"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "fluent-service")
+         @AiCompassOptions.Meta(key = "type", value = "fluent-service")
       }
 )
 public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
@@ -56,15 +56,15 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
     * @param url The URL to navigate to.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Navigate to a URL and maximize the browser window.",
          tags = {"ui", "browser"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T navigate(
-         @Pandora(
+         @AiCompass(
                description = "Destination URL to navigate to."
          ) String url) {
       Allure.step("[UI - Navigation] Navigate to the URL and maximize the browser window");
@@ -79,11 +79,11 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
     *
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Navigate back in the browser history.",
          tags = {"ui", "browser"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T back() {
@@ -98,11 +98,11 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
     *
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Navigate forward in the browser history.",
          tags = {"ui", "browser"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T forward() {
@@ -117,11 +117,11 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
     *
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Refresh the current page.",
          tags = {"ui", "browser"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T refresh() {
@@ -136,11 +136,11 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
     *
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Switch to a newly opened browser tab.",
          tags = {"ui", "browser"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T switchToNewTab() {
@@ -163,14 +163,14 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
     * @return The fluent UI service instance.
     * @throws NoSuchWindowException if no window with the given title is found.
     */
-   @Pandora(
+   @AiCompass(
          description = "Switch to a browser window with the specified title.",
          tags = {"ui", "browser"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
-   public T switchToWindow(@Pandora(description = "Target window title to switch to.") String windowTitle) {
+   public T switchToWindow(@AiCompass(description = "Target window title to switch to.") String windowTitle) {
       Allure.step("[UI - Navigation] Switch to the browser window with the title: " + windowTitle);
 
       for (String handle : driver.getWindowHandles()) {
@@ -187,11 +187,11 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
     *
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Close the current tab and switch to the next available tab, if any.",
          tags = {"ui", "browser"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T closeCurrentTab() {
@@ -210,14 +210,14 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
     * @param index The index of the iframe.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Switch to an iframe using its index.",
          tags = {"ui", "browser"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
-   public T switchToFrameByIndex(@Pandora(description = "Index of the iframe to switch to.") int index) {
+   public T switchToFrameByIndex(@AiCompass(description = "Index of the iframe to switch to.") int index) {
       Allure.step("[UI - Navigation] Switch to the iframe using index: " + index);
 
       driver.switchTo().frame(index);
@@ -230,14 +230,14 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
     * @param nameOrId The name or ID of the iframe.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Switch to an iframe using its name or ID.",
          tags = {"ui", "browser"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
-   public T switchToFrameByNameOrId(@Pandora(description = "Name or ID of the iframe.") String nameOrId) {
+   public T switchToFrameByNameOrId(@AiCompass(description = "Name or ID of the iframe.") String nameOrId) {
       Allure.step("[UI - Navigation] Switch to the iframe using name or ID: " + nameOrId);
 
       driver.switchTo().frame(nameOrId);
@@ -249,11 +249,11 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
     *
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Switch to the parent frame.",
          tags = {"ui", "browser"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T switchToParentFrame() {
@@ -268,11 +268,11 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
     *
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Switch back to the default content from an iframe.",
          tags = {"ui", "browser"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T switchToDefaultContent() {
@@ -287,11 +287,11 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
     *
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Accept the currently displayed alert pop-up.",
          tags = {"ui", "browser", "alert"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T acceptAlert() {
@@ -306,11 +306,11 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
     *
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Dismiss the currently displayed alert pop-up.",
          tags = {"ui", "browser", "alert"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T dismissAlert() {
@@ -335,14 +335,14 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
     * @param expected The expected alert text.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the alert text equals the expected value (hard assertion).",
          tags = {"ui", "browser", "alert"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
-   public T validateAlertText(@Pandora(description = "Expected alert text.") String expected) {
+   public T validateAlertText(@AiCompass(description = "Expected alert text.") String expected) {
       Allure.step("[UI - Navigation] Validate that the alert text matches the expected value");
 
       return validateAlertText(expected, false);
@@ -355,19 +355,19 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft     If {@code true}, the validation will be performed softly.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the alert text equals the expected value, optionally using "
                + "a soft assertion.",
          tags = {"ui", "browser", "alert"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAlertText(
-         @Pandora(
+         @AiCompass(
                description = "Expected alert text."
          ) String expected,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft) {
       Allure.step("[UI - Navigation] Validate alert text with expected value: " + expected);
@@ -390,11 +390,11 @@ public class NavigationServiceFluent<T extends UiServiceFluent<?>> {
     * @return The fluent UI service instance.
     */
    @SuppressFBWarnings(value = "BC_UNCONFIRMED_CAST")
-   @Pandora(
+   @AiCompass(
          description = "Open a new browser tab using JavaScript and switch to it.",
          tags = {"ui", "browser"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T openNewTab() {

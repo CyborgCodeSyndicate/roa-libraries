@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.components.list;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
 import io.cyborgcode.roa.ui.util.strategy.Strategy;
@@ -17,16 +17,16 @@ import org.openqa.selenium.By;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Represents a list-based component allowing items to be selected, deselected, verified, "
             + "or retrieved with various interaction methods.",
       tags = {"ui", "component-contract", "list"},
       creation = CreationKind.AUTO
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-component")
+         @AiCompassOptions.Meta(key = "type", value = "ui-component")
       }
 )
 public interface ItemList {
@@ -37,7 +37,7 @@ public interface ItemList {
     * @param container the container element holding the item list.
     * @param itemText  one or more text labels identifying the items to select.
     */
-   @Pandora(
+   @AiCompass(
          description = "Selects one or more items, identified by the provided text, within the specified container.",
          tags = {"component-contract", "item-list"}
    )
@@ -49,7 +49,7 @@ public interface ItemList {
     * @param containerLocator the locator used to find the container element.
     * @param itemText         one or more text labels identifying the items to select.
     */
-   @Pandora(
+   @AiCompass(
          description = "Selects one or more items, identified by the provided text, within the container "
                + "located by the specified locator.",
          tags = {"component-contract", "item-list"}
@@ -63,7 +63,7 @@ public interface ItemList {
     * @param strategy  the strategy defining how the items should be selected.
     * @return a string representation of the selection result, if applicable.
     */
-   @Pandora(
+   @AiCompass(
          description = "Selects items in the specified container using a custom strategy.",
          tags = {"component-contract", "item-list"}
    )
@@ -76,7 +76,7 @@ public interface ItemList {
     * @param strategy         the strategy defining how the items should be selected.
     * @return a string representation of the selection result, if applicable.
     */
-   @Pandora(
+   @AiCompass(
          description = "Selects items within the container located by the specified locator, using a custom strategy.",
          tags = {"component-contract", "item-list"}
    )
@@ -87,7 +87,7 @@ public interface ItemList {
     *
     * @param itemText one or more text labels identifying the items to select.
     */
-   @Pandora(
+   @AiCompass(
          description = "Selects one or more items by text without specifying a container, if the "
                + "default container is implicitly known.",
          tags = {"component-contract", "item-list"}
@@ -99,7 +99,7 @@ public interface ItemList {
     *
     * @param itemListLocator one or more locators identifying the items to select.
     */
-   @Pandora(
+   @AiCompass(
          description = "Selects items via one or more locators.",
          tags = {"component-contract", "item-list"}
    )
@@ -111,7 +111,7 @@ public interface ItemList {
     * @param container the container element holding the item list.
     * @param itemText  one or more text labels identifying the items to deselect.
     */
-   @Pandora(
+   @AiCompass(
          description = "Deselects one or more items, identified by the provided text, within the specified container.",
          tags = {"component-contract", "item-list"}
    )
@@ -124,7 +124,7 @@ public interface ItemList {
     * @param containerLocator the locator used to find the container element.
     * @param itemText         one or more text labels identifying the items to deselect.
     */
-   @Pandora(
+   @AiCompass(
          description = "Deselects one or more items, identified by the provided text, within "
                + "the container located by the specified locator.",
          tags = {"component-contract", "item-list"}
@@ -138,7 +138,7 @@ public interface ItemList {
     * @param strategy  the strategy defining how the items should be deselected.
     * @return a string representation of the deselection result, if applicable.
     */
-   @Pandora(
+   @AiCompass(
          description = "Deselects items in the specified container using a custom strategy.",
          tags = {"component-contract", "item-list"}
    )
@@ -151,7 +151,7 @@ public interface ItemList {
     * @param strategy         the strategy defining how the items should be deselected.
     * @return a string representation of the deselection result, if applicable.
     */
-   @Pandora(
+   @AiCompass(
          description = "Deselects items within the container located by the specified locator, "
                + "using a custom strategy.",
          tags = {"component-contract", "item-list"}
@@ -163,7 +163,7 @@ public interface ItemList {
     *
     * @param itemText one or more text labels identifying the items to deselect.
     */
-   @Pandora(
+   @AiCompass(
          description = "Deselects one or more items by text without specifying a container, if the "
                + "default container is implicitly known.",
          tags = {"component-contract", "item-list"}
@@ -175,7 +175,7 @@ public interface ItemList {
     *
     * @param itemListLocator one or more locators identifying the items to deselect.
     */
-   @Pandora(
+   @AiCompass(
          description = "Deselects items identified by one or more locators.",
          tags = {"component-contract", "item-list"}
    )
@@ -188,7 +188,7 @@ public interface ItemList {
     * @param itemText  one or more text labels identifying the items to check.
     * @return true if all specified items are selected, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Determines if the specified items, identified by text, are selected within "
                + "the specified container.",
          tags = {"component-contract", "item-list"}
@@ -203,7 +203,7 @@ public interface ItemList {
     * @param itemText         one or more text labels identifying the items to check.
     * @return true if all specified items are selected, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Determines if the specified items, identified by text, are selected within "
                + "the container located by the specified locator.",
          tags = {"component-contract", "item-list"}
@@ -216,7 +216,7 @@ public interface ItemList {
     * @param itemText one or more text labels identifying the items to check.
     * @return true if all specified items are selected, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Determines if the specified items, identified by text, are selected without "
                + "specifying a container.",
          tags = {"component-contract", "item-list"}
@@ -229,7 +229,7 @@ public interface ItemList {
     * @param itemListLocator one or more locators identifying the items to check.
     * @return true if all located items are selected, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Determines if the specified items are selected using one or more locators.",
          tags = {"component-contract", "item-list"}
    )
@@ -242,7 +242,7 @@ public interface ItemList {
     * @param itemText  one or more text labels identifying the items to check.
     * @return true if all specified items are enabled, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Determines if the specified items, identified by text, are enabled within "
                + "the specified container.",
          tags = {"component-contract", "item-list"}
@@ -257,7 +257,7 @@ public interface ItemList {
     * @param itemText         one or more text labels identifying the items to check.
     * @return true if all specified items are enabled, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Determines if the specified items, identified by text, are enabled within "
                + "the container located by the specified locator.",
          tags = {"component-contract", "item-list"}
@@ -270,7 +270,7 @@ public interface ItemList {
     * @param itemText one or more text labels identifying the items to check.
     * @return true if all specified items are enabled, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Determines if the specified items, identified by text, are enabled without "
                + "specifying a container.",
          tags = {"component-contract", "item-list"}
@@ -283,7 +283,7 @@ public interface ItemList {
     * @param itemLocator one or more locators identifying the items to check.
     * @return true if all located items are enabled, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Determines if items identified by one or more locators are enabled.",
          tags = {"component-contract", "item-list"}
    )
@@ -296,7 +296,7 @@ public interface ItemList {
     * @param itemText  one or more text labels identifying the items to check.
     * @return true if all specified items are visible, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Determines if the specified items, identified by text, are visible within "
                + "the specified container.",
          tags = {"component-contract", "item-list"}
@@ -311,7 +311,7 @@ public interface ItemList {
     * @param itemText         one or more text labels identifying the items to check.
     * @return true if all specified items are visible, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Determines if the specified items, identified by text, are visible within "
                + "the container located by the specified locator.",
          tags = {"component-contract", "item-list"}
@@ -324,7 +324,7 @@ public interface ItemList {
     * @param itemText one or more text labels identifying the items to check.
     * @return true if all specified items are visible, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Determines if the specified items, identified by text, are visible without "
                + "specifying a container.",
          tags = {"component-contract", "item-list"}
@@ -337,7 +337,7 @@ public interface ItemList {
     * @param itemLocator one or more locators identifying the items to check.
     * @return true if all located items are visible, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Determines if items identified by one or more locators are visible.",
          tags = {"component-contract", "item-list"}
    )
@@ -349,7 +349,7 @@ public interface ItemList {
     * @param container the container element holding the item list.
     * @return a list of text values for the selected items.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieves the currently selected items as text from the specified container.",
          tags = {"component-contract", "item-list"}
    )
@@ -361,7 +361,7 @@ public interface ItemList {
     * @param containerLocator the locator used to find the container element.
     * @return a list of text values for the selected items.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieves the currently selected items as text from the container located "
                + "by the specified locator.",
          tags = {"component-contract", "item-list"}
@@ -374,7 +374,7 @@ public interface ItemList {
     * @param container the container element holding the item list.
     * @return a list of all item text values.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieves all items as text from the specified container.",
          tags = {"component-contract", "item-list"}
    )
@@ -386,7 +386,7 @@ public interface ItemList {
     * @param containerLocator the locator used to find the container element.
     * @return a list of all item text values.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieves all items as text from the container located by the specified locator.",
          tags = {"component-contract", "item-list"}
    )

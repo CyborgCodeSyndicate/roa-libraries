@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.framework.quest;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.assertion.CustomSoftAssertion;
 import io.cyborgcode.roa.framework.chain.FluentService;
@@ -21,18 +21,18 @@ import lombok.experimental.Delegate;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Wrapper quest that decorates an underlying Quest (original) "
             + "and delegates core operations to it. Used as the active execution context during a run,"
             + " while still allowing access to the original Quest instance.",
       tags = {"framework", "quest"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "super-quest"),
-         @PandoraOptions.Meta(key = "role", value = "wrapper-delegate")
+         @AiCompassOptions.Meta(key = "type", value = "super-quest"),
+         @AiCompassOptions.Meta(key = "role", value = "wrapper-delegate")
       }
 )
 public final class SuperQuest extends Quest {
@@ -67,17 +67,17 @@ public final class SuperQuest extends Quest {
     * @return the artifact instance retrieved from the underlying quest.
     */
    @Override
-   @Pandora(
+   @AiCompass(
          description = "Retrieve an artifact instance exposed by a registered ring/service."
                + " Delegates to the wrapped Quest."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
-   public <T extends FluentService, K> K artifact(@Pandora(description = "Ring/service class from which "
+   public <T extends FluentService, K> K artifact(@AiCompass(description = "Ring/service class from which "
                                                         + "the artifact should be extracted.")
                                                   Class<T> ringType,
-                                                  @Pandora(description = "Expected artifact class to "
+                                                  @AiCompass(description = "Expected artifact class to "
                                                         + "retrieve from the ring/service.")
                                                   Class<K> artifactType) {
       return original.artifact(ringType, artifactType);
@@ -94,16 +94,16 @@ public final class SuperQuest extends Quest {
     * @param ring     the instance of the test service.
     */
    @Override
-   @Pandora(
+   @AiCompass(
          description = "Register a ring/service into the active "
                + "quest context so it can be used in the fluent test flow."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
-   public void registerRing(@Pandora(description = "Ring/service class used as the registration key.")
+   public void registerRing(@AiCompass(description = "Ring/service class used as the registration key.")
                             Class<? extends FluentService> ringType,
-                            @Pandora(description = "Concrete ring/service instance to register in the quest context.")
+                            @AiCompass(description = "Concrete ring/service instance to register in the quest context.")
                             FluentService ring) {
       original.registerRing(ringType, ring);
    }
@@ -120,13 +120,14 @@ public final class SuperQuest extends Quest {
     * @return the corresponding test service instance.
     */
    @Override
-   @Pandora(
+   @AiCompass(
          description = "Retrieve a registered ring/service instance by its class without changing the quest state."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
-   public <T extends FluentService> T cast(@Pandora(description = "Ring/service class to fetch from the quest context.")
+   public <T extends FluentService> T cast(@AiCompass(description = "Ring/service class to "
+         + "fetch from the quest context.")
                                            Class<T> ringType) {
       return super.cast(ringType);
    }
@@ -141,13 +142,13 @@ public final class SuperQuest extends Quest {
     * @param ringType the class type of the test service to remove.
     */
    @Override
-   @Pandora(
+   @AiCompass(
          description = "Remove a previously registered ring/service from the quest context."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
-   public void removeRing(@Pandora(description = "Ring/service class identifying which service should be removed.")
+   public void removeRing(@AiCompass(description = "Ring/service class identifying which service should be removed.")
                              Class<? extends FluentService> ringType) {
       original.removeRing(ringType);
    }
@@ -161,10 +162,10 @@ public final class SuperQuest extends Quest {
     * @return the {@link Storage} instance for the underlying quest.
     */
    @Override
-   @Pandora(
+   @AiCompass(
          description = "Access the quest storage used for storing and retrieving data/artifacts during execution."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    public Storage getStorage() {
@@ -180,20 +181,20 @@ public final class SuperQuest extends Quest {
     * @return the {@link CustomSoftAssertion} instance for the underlying quest.
     */
    @Override
-   @Pandora(
+   @AiCompass(
          description = "Access the quest soft assertion aggregator used for soft validations across the flow."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    public CustomSoftAssertion getSoftAssertions() {
       return original.getSoftAssertions();
    }
 
-   @Pandora(
+   @AiCompass(
          description = "Return the wrapped original Quest instance (the underlying execution context)."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    public Quest getOriginal() {

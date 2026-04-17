@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.annotations;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.authentication.BaseLoginClient;
 import io.cyborgcode.roa.ui.authentication.LoginCredentials;
@@ -19,17 +19,17 @@ import java.lang.annotation.Target;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Method-level annotation that configures how UI authentication is performed for a test "
             + "(credentials + client + caching).",
       tags = {"ui", "auth", "annotation"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "ai/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-auth-annotation"),
-         @PandoraOptions.Meta(key = "scope", value = "method")
+         @AiCompassOptions.Meta(key = "type", value = "ui-auth-annotation"),
+         @AiCompassOptions.Meta(key = "scope", value = "method")
       }
 )
 @Retention(RetentionPolicy.RUNTIME)
@@ -41,7 +41,7 @@ public @interface AuthenticateViaUi {
     *
     * @return The class that provides login credentials.
     */
-   @Pandora(
+   @AiCompass(
          description = "Credentials provider used to supply username/password or tokens for UI login."
    )
    Class<? extends LoginCredentials> credentials();
@@ -51,7 +51,7 @@ public @interface AuthenticateViaUi {
     *
     * @return The class implementing the authentication logic.
     */
-   @Pandora(
+   @AiCompass(
          description = "UI login client implementation that performs the login flow and stores "
                + "resulting session/tokens."
    )
@@ -65,7 +65,7 @@ public @interface AuthenticateViaUi {
     *
     * @return {@code true} if credentials should be cached, {@code false} otherwise.
     */
-   @Pandora(
+   @AiCompass(
          description = "Whether to cache resolved credentials (and/or tokens) across tests instead of "
                + "logging in every time."
    )

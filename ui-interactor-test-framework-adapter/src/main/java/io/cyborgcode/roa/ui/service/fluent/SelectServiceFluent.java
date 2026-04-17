@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.service.fluent;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.storage.Storage;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
@@ -29,16 +29,16 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @SuppressWarnings({"java:S5960", "squid:S1192", "unchecked"})
-@Pandora(
+@AiCompass(
       description = "Fluent UI service for interacting with select dropdowns: select options, "
             + "visibility/enablement checks, retrievals and validations.",
       tags = {"ui", "fluent", "select"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "fluent-service")
+         @AiCompassOptions.Meta(key = "type", value = "fluent-service")
       }
 )
 public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insertion {
@@ -73,15 +73,15 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
     * @param values  The values to be selected.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Select multiple option values in the select UI element and continue the fluent UI flow.",
          tags = {"ui", "select"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T selectOptions(final SelectUiElement element,
-                          @Pandora(
+                          @AiCompass(
                                 description = "Option values to select.") final String... values) {
       Allure.step("[UI - Select] Selecting multiple options in dropdown: " + element.enumImpl() + " (Values: "
             + Arrays.toString(values) + ")");
@@ -98,15 +98,15 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
     * @param strategy The strategy for selecting the option.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Select an option in the select UI element using the provided selection strategy.",
          tags = {"ui", "select"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T selectOptions(final SelectUiElement element,
-                          @Pandora(
+                          @AiCompass(
                                 description = "Strategy for selecting an option (e.g., by text/index/value)."
                           ) final Strategy strategy) {
       Allure.step(
@@ -124,15 +124,15 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
     * @param value   The value to be selected.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Select a single option value in the select UI element.",
          tags = {"ui", "select"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T selectOption(final SelectUiElement element,
-                         @Pandora(
+                         @AiCompass(
                                description = "Option value to select."
                          ) final String value) {
       Allure.step("[UI - Select] Selecting option in dropdown: " + element.enumImpl() + " (Value: " + value + ")");
@@ -148,11 +148,11 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
     * @param element The {@link SelectUiElement} representing the dropdown.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieve the available options of the select UI element and store them in quest storage.",
          tags = {"ui", "select"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getAvailableOptions(final SelectUiElement element) {
@@ -171,15 +171,15 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
     * @param expectedValues The expected option values.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the available options equal the expected values (hard assertion).",
          tags = {"ui", "select"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAvailableOptions(final SelectUiElement element,
-                                     @Pandora(
+                                     @AiCompass(
                                            description = "Expected option values."
                                      ) final String... expectedValues) {
       Allure.step(
@@ -197,19 +197,19 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
     * @param expectedValues The expected option values.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the available options equal the expected values, "
                + "optionally using a soft assertion.",
          tags = {"ui", "select"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAvailableOptions(final SelectUiElement element,
-                                     @Pandora(
+                                     @AiCompass(
                                            description = "When true, use soft assertions (don't fail immediately)."
                                      ) boolean soft,
-                                     @Pandora(
+                                     @AiCompass(
                                            description = "Expected option values."
                                      ) final String... expectedValues) {
       Allure.step("[UI - Select] Validating available options in dropdown: " + element.enumImpl() + " (Soft: "
@@ -239,15 +239,15 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
     * @param expectedValuesCount The expected number of available options.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the number of available options equals the expected count (hard assertion).",
          tags = {"ui", "select"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAvailableOptions(final SelectUiElement element,
-                                     @Pandora(
+                                     @AiCompass(
                                            description = "Expected number of available options."
                                      ) final int expectedValuesCount) {
       Allure.step("[UI - Select] Validating number of available options in dropdown: " + element.enumImpl()
@@ -265,19 +265,19 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
     * @param expectedValuesCount The expected number of available options.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the number of available options equals the expected count, "
                + "optionally using a soft assertion.",
          tags = {"ui", "select"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAvailableOptions(final SelectUiElement element,
-                                     @Pandora(
+                                     @AiCompass(
                                            description = "When true, use soft assertions (don't fail immediately)."
                                      ) boolean soft,
-                                     @Pandora(
+                                     @AiCompass(
                                            description = "Expected number of available options."
                                      ) final int expectedValuesCount) {
       Allure.step("[UI - Select] Validating number of available options in dropdown: " + element.enumImpl()
@@ -306,11 +306,11 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
     * @param element The {@link SelectUiElement} representing the dropdown.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieve selected options of the select UI element and store them in quest storage.",
          tags = {"ui", "select"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getSelectedOptions(final SelectUiElement element) {
@@ -329,15 +329,15 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
     * @param expectedValues The expected selected option values.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the selected options equal the expected values (hard assertion).",
          tags = {"ui", "select"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateSelectedOptions(final SelectUiElement element,
-                                    @Pandora(
+                                    @AiCompass(
                                           description = "Expected selected option values."
                                     ) final String... expectedValues) {
       Allure.step("[UI - Select] Validating selected options in dropdown: " + element.enumImpl()
@@ -354,19 +354,19 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
     * @param expectedValues The expected selected option values.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the selected options equal the expected values, "
                + "optionally using a soft assertion.",
          tags = {"ui", "select"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateSelectedOptions(final SelectUiElement element,
-                                    @Pandora(
+                                    @AiCompass(
                                           description = "When true, use soft assertions (don't fail immediately)."
                                     ) boolean soft,
-                                    @Pandora(
+                                    @AiCompass(
                                           description = "Expected selected option values."
                                     ) final String... expectedValues) {
       Allure.step("[UI - Select] Validating selected options in dropdown: " + element.enumImpl()
@@ -396,15 +396,15 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
     * @param value   The option value to check for visibility.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Evaluate whether a specific option is visible and store the result in quest storage.",
          tags = {"ui", "select"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isOptionVisible(final SelectUiElement element,
-                            @Pandora(
+                            @AiCompass(
                                   description = "Option value to check for visibility."
                             ) final String value) {
       Allure.step("[UI - Select] Checking if option " + value + " is visible in select element " + element);
@@ -422,15 +422,15 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
     * @param value   The option value that should be visible.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that a specific option is visible (hard assertion).",
          tags = {"ui", "select"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsOptionVisible(final SelectUiElement element,
-                                    @Pandora(
+                                    @AiCompass(
                                           description = "Option value expected to be visible."
                                     ) final String value) {
       return validateIsVisible(element, true, value, false);
@@ -445,18 +445,18 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
     *                If {@code true}, failures will be collected rather than throwing an exception immediately.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that a specific option is visible, optionally using a soft assertion.",
          tags = {"ui", "select"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsOptionVisible(final SelectUiElement element,
-                                    @Pandora(
+                                    @AiCompass(
                                           description = "Option value expected to be visible."
                                     ) final String value,
-                                    @Pandora(
+                                    @AiCompass(
                                           description = "When true, use soft assertions (don't fail immediately)."
                                     ) boolean soft) {
       return validateIsVisible(element, true, value, soft);
@@ -469,15 +469,15 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
     * @param value   The option value that should be hidden.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that a specific option is hidden (hard assertion).",
          tags = {"ui", "select"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateIsOptionHidden(final SelectUiElement element,
-                                   @Pandora(
+                                   @AiCompass(
                                          description = "Option value expected to be hidden."
                                    ) final String value) {
       return validateIsVisible(element, false, value, false);
@@ -492,18 +492,18 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
     *                If {@code true}, failures will be collected rather than throwing an exception immediately.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that a specific option is hidden, optionally using a soft assertion.",
          tags = {"ui", "select"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateIsOptionHidden(final SelectUiElement element,
-                                   @Pandora(
+                                   @AiCompass(
                                          description = "Option value expected to be hidden."
                                    ) final String value,
-                                   @Pandora(
+                                   @AiCompass(
                                          description = "When true, use soft assertions (don't fail immediately)."
                                    ) boolean soft) {
       return validateIsVisible(element, false, value, soft);
@@ -551,15 +551,15 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
     * @param value   The option value to check for enabled state.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Evaluate whether a specific option is enabled and store the result in quest storage.",
          tags = {"ui", "select"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T isOptionEnabled(final SelectUiElement element,
-                            @Pandora(
+                            @AiCompass(
                                   description = "Option value to check for enabled state."
                             ) final String value) {
       Allure.step("[UI - Select] Checking if option " + value + " is enabled in select element " + element);
@@ -577,15 +577,15 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
     * @param value   The option value that should be enabled.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that a specific option is enabled (hard assertion).",
          tags = {"ui", "select"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateIsOptionEnabled(final SelectUiElement element,
-                                    @Pandora(
+                                    @AiCompass(
                                           description = "Option value expected to be enabled."
                                     ) final String value) {
       return validateIsEnabled(element, true, value, false);
@@ -600,18 +600,18 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
     *                If {@code true}, failures will be collected rather than throwing an exception immediately.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that a specific option is enabled, optionally using a soft assertion.",
          tags = {"ui", "select"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateIsOptionEnabled(final SelectUiElement element,
-                                    @Pandora(
+                                    @AiCompass(
                                           description = "Option value expected to be enabled."
                                     ) final String value,
-                                    @Pandora(
+                                    @AiCompass(
                                           description = "When true, use soft assertions (don't fail immediately)."
                                     ) boolean soft) {
       return validateIsEnabled(element, true, value, soft);
@@ -624,15 +624,15 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
     * @param value   The option value that should be disabled.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that a specific option is disabled (hard assertion).",
          tags = {"ui", "select"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateIsOptionDisabled(final SelectUiElement element,
-                                     @Pandora(
+                                     @AiCompass(
                                            description = "Option value expected to be disabled."
                                      ) final String value) {
       return validateIsEnabled(element, false, value, false);
@@ -647,18 +647,18 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
     *                If {@code true}, failures will be collected rather than throwing an exception immediately.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that a specific option is disabled, optionally using a soft assertion.",
          tags = {"ui", "select"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateIsOptionDisabled(final SelectUiElement element,
-                                     @Pandora(
+                                     @AiCompass(
                                            description = "Option value expected to be disabled."
                                      ) final String value,
-                                     @Pandora(
+                                     @AiCompass(
                                            description = "When true, use soft assertions (don't fail immediately)."
                                      ) boolean soft) {
       return validateIsEnabled(element, false, value, soft);
@@ -707,18 +707,18 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
     * @param values        The values to insert.
     */
    @Override
-   @Pandora(
+   @AiCompass(
          description = "Insertion hook for select values using component type and locator.",
          tags = {"ui", "select", "insertion"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public void insertion(final ComponentType componentType,
-                         @Pandora(
+                         @AiCompass(
                                description = "Locator identifying the select element."
                          ) final By locator,
-                         @Pandora(
+                         @AiCompass(
                                description = "Values to insert/select in the dropdown."
                          ) final Object... values) {
       Allure.step("[UI - Select] Inserting values into select element with component type " + componentType

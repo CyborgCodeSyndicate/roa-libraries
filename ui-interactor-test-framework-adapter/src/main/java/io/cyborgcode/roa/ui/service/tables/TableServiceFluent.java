@@ -1,8 +1,8 @@
 package io.cyborgcode.roa.ui.service.tables;
 
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.decorators.DecoratorsFactory;
 import io.cyborgcode.roa.framework.storage.Storage;
@@ -29,16 +29,16 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
  * @param <T> The type of {@link UiServiceFluent} for chaining fluent methods.
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Fluent UI service for interacting with tables: read, insert, filter, sort, "
             + "and validate table data.",
       tags = {"ui", "fluent", "table"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "fluent-service")
+         @AiCompassOptions.Meta(key = "type", value = "fluent-service")
       }
 )
 public class TableServiceFluent<T extends UiServiceFluent<?>> {
@@ -80,11 +80,11 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param tableElement The table element to be read.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Read the entire table and store the result in quest storage.",
          tags = {"ui", "table"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T readTable(TableElement<?> tableElement) {
@@ -105,11 +105,11 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @return The fluent UI service instance.
     */
    @SafeVarargs
-   @Pandora(
+   @AiCompass(
          description = "Read specific fields from the table and store the result in quest storage.",
          tags = {"ui", "table"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T readTable(TableElement<?> tableElement, TableField<K>... fields) {
@@ -130,18 +130,18 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param end          The ending row index (exclusive).
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Read a range of rows from the table and store the result in quest storage.",
          tags = {"ui", "table"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final T readTable(TableElement<?> tableElement,
-         @Pandora(
+         @AiCompass(
                description = "Starting row index (inclusive)."
          ) int start,
-         @Pandora(
+         @AiCompass(
                description = "Ending row index (exclusive)."
          ) int end) {
       Allure.step("[UI - Table] Reading a range of rows from the table: " + tableElement + " from "
@@ -164,18 +164,18 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @return The fluent UI service instance for method chaining.
     */
    @SafeVarargs
-   @Pandora(
+   @AiCompass(
          description = "Read a range of rows with specific fields and store the result in quest storage.",
          tags = {"ui", "table"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T readTable(TableElement<?> tableElement,
-         @Pandora(
+         @AiCompass(
                description = "Starting row index (inclusive)."
          ) int start,
-         @Pandora(
+         @AiCompass(
                description = "Ending row index (exclusive)."
          ) int end,
          TableField<K>... fields) {
@@ -196,15 +196,15 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param row          The index of the row to read.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Read a specific row from the table and store the result in quest storage.",
          tags = {"ui", "table"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final T readRow(TableElement<?> tableElement,
-         @Pandora(
+         @AiCompass(
                description = "Row index (1-based)."
          ) int row) {
       Allure.step("[UI - Table] Reading a specific row from the table: " + tableElement + " at row index: " + row);
@@ -222,15 +222,15 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param searchCriteria A list of values that must be matched within the row.
     * @return The fluent UI service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Read a single row by search criteria and store the result in quest storage.",
          tags = {"ui", "table"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final T readRow(TableElement<?> tableElement,
-         @Pandora(
+         @AiCompass(
                description = "Values used to identify the target row."
          ) List<String> searchCriteria) {
       Allure.step("[UI - Table] Reading a specific row from the table by search criteria: " + tableElement
@@ -252,15 +252,15 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @return The fluent UI service instance for method chaining.
     */
    @SafeVarargs
-   @Pandora(
+   @AiCompass(
          description = "Read a row with specific fields and store the result in quest storage.",
          tags = {"ui", "table"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T readRow(TableElement<?> tableElement,
-         @Pandora(
+         @AiCompass(
                description = "Row index (1-based)."
          ) int row,
          TableField<K>... fields) {
@@ -283,15 +283,15 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @return The fluent UI service instance for method chaining.
     */
    @SafeVarargs
-   @Pandora(
+   @AiCompass(
          description = "Read a row by search criteria with specific fields and store the result in quest storage.",
          tags = {"ui", "table"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T readRow(TableElement<?> tableElement,
-         @Pandora(
+         @AiCompass(
                description = "Values used to identify the target row."
          ) List<String> searchCriteria,
          TableField<K>... fields) {
@@ -315,19 +315,19 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param values       The values to insert.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Insert values into a cell by row index.",
          tags = {"ui", "table"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T insertCellValue(TableElement<?> tableElement,
-         @Pandora(
+         @AiCompass(
                description = "Row index (1-based)."
          ) int row,
          TableField<K> field,
-         @Pandora(
+         @AiCompass(
                description = "Values to insert into the cell."
          ) String... values) {
       Allure.step("[UI - Table] Inserting value into cell in row: " + row + " for field: " + field);
@@ -350,22 +350,22 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param value        The values to be inserted into the specified cell.
     * @return The fluent UI service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Insert values into a specific cell (by index) within a row.",
          tags = {"ui", "table"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T insertCellValue(TableElement<?> tableElement,
-         @Pandora(
+         @AiCompass(
                description = "Row index (1-based)."
          ) int row,
          TableField<K> field,
-         @Pandora(
+         @AiCompass(
                description = "Cell index within the row (1-based)."
          ) int index,
-         @Pandora(
+         @AiCompass(
                description = "Values to insert into the cell."
          ) String... value) {
       Allure.step("[UI - Table] Inserting cell value into row: " + row + FIELD + field + INDEX + index);
@@ -388,19 +388,19 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param values         The values to be inserted into the specified field.
     * @return The fluent UI service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Insert values into a cell by locating the row via search criteria.",
          tags = {"ui", "table"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T insertCellValue(TableElement<?> tableElement,
-         @Pandora(
+         @AiCompass(
                description = "Values used to identify the target row."
          ) List<String> searchCriteria,
          TableField<K> field,
-         @Pandora(
+         @AiCompass(
                description = "Values to insert into the cell."
          ) String... values) {
       Allure.step("[UI - Table] Inserting cell value for search criteria: " + searchCriteria + FIELD + field);
@@ -424,22 +424,22 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param values         The values to be inserted into the specified field.
     * @return The fluent UI service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Insert values into a specific cell (by index) by locating the row via search criteria.",
          tags = {"ui", "table"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T insertCellValue(TableElement<?> tableElement,
-         @Pandora(
+         @AiCompass(
                description = "Values used to identify the target row."
          ) List<String> searchCriteria,
          TableField<K> field,
-         @Pandora(
+         @AiCompass(
                description = "Cell index within the row (1-based)."
          ) int index,
-         @Pandora(
+         @AiCompass(
                description = "Values to insert into the cell."
          ) String... values) {
       Allure.step("[UI - Table] Inserting cell value at index: " + index + " for search criteria: "
@@ -462,18 +462,18 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param data         The object containing values to be inserted into the row.
     * @return The fluent UI service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Insert a full data object into a specific row.",
          tags = {"ui", "table"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T insertCellValueAsData(TableElement<?> tableElement,
-         @Pandora(
+         @AiCompass(
                description = "Row index (1-based)."
          ) int row,
-         @Pandora(
+         @AiCompass(
                description = "Data object representing the row values."
          ) K data) {
       Allure.step("[UI - Table] Inserting data into row: " + row + USING_DATA + data);
@@ -500,18 +500,18 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param data           The object containing values to be inserted into the row.
     * @return The fluent UI service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Insert a full data object into a row located by search criteria.",
          tags = {"ui", "table"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T insertCellValueAsData(TableElement<?> tableElement,
-         @Pandora(
+         @AiCompass(
                description = "Values used to identify the target row."
          ) List<String> searchCriteria,
-         @Pandora(
+         @AiCompass(
                description = "Data object representing the row values."
          ) K data) {
       Allure.step("[UI - Table] Inserting data for search criteria: " + searchCriteria + USING_DATA + data);
@@ -537,19 +537,19 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param values         The values to filter by.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Filter a table column using the provided filter strategy and values.",
          tags = {"ui", "table"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T filterTable(TableElement<?> tableElement,
          TableField<K> column,
-         @Pandora(
+         @AiCompass(
                description = "Filtering strategy to apply."
          ) FilterStrategy filterStrategy,
-         @Pandora(
+         @AiCompass(
                description = "Values to filter by."
          ) String... values) {
       Allure.step("[UI - Table] Filtering table using column: " + column + " with strategy: " + filterStrategy
@@ -572,15 +572,15 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param sortingStrategy The sorting strategy to apply.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Sort a table column using the provided sorting strategy.",
          tags = {"ui", "table"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T sortTable(TableElement<?> tableElement, TableField<K> column,
-         @Pandora(
+         @AiCompass(
                description = "Sorting strategy to apply."
          ) SortingStrategy sortingStrategy) {
       Allure.step("[UI - Table] Sorting table using column: " + column + " with strategy: " + sortingStrategy);
@@ -602,15 +602,15 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param field        The field within the row that should be clicked.
     * @return The fluent UI service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Click an element inside a cell identified by row index.",
          tags = {"ui", "table"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T clickElementInCell(TableElement<?> tableElement,
-         @Pandora(
+         @AiCompass(
                description = "Row index (1-based)."
          ) int row,
          TableField<K> field) {
@@ -628,19 +628,19 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param index        The index of the cell within the row (1-based index).
     * @return The fluent UI service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Click an element inside a specific cell (by index) in the given row.",
          tags = {"ui", "table"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T clickElementInCell(TableElement<?> tableElement,
-         @Pandora(
+         @AiCompass(
                description = "Row index (1-based)."
          ) int row,
          TableField<K> field,
-         @Pandora(
+         @AiCompass(
                description = "Cell index within the row (1-based)."
          ) int index) {
       Allure.step(UI_TABLE_CLICKING_ELEMENT_IN_CELL_AT_ROW + row + FIELD + field + INDEX + index);
@@ -656,15 +656,15 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param field          The field within the row that should be clicked.
     * @return The fluent UI service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Click an element inside a cell by locating the row via search criteria.",
          tags = {"ui", "table"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T clickElementInCell(TableElement<?> tableElement,
-         @Pandora(
+         @AiCompass(
                description = "Values used to identify the target row."
          ) List<String> searchCriteria,
          TableField<K> field) {
@@ -683,19 +683,19 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param index          The index of the cell within the row (1-based index).
     * @return The fluent UI service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Click an element inside a specific cell (by index) in a row located by search criteria.",
          tags = {"ui", "table"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T clickElementInCell(TableElement<?> tableElement,
-         @Pandora(
+         @AiCompass(
                description = "Values used to identify the target row."
          ) List<String> searchCriteria,
          TableField<K> field,
-         @Pandora(
+         @AiCompass(
                description = "Cell index within the row (1-based)."
          ) int index) {
       Allure.step(UI_TABLE_CLICKING_ELEMENT_IN_CELL_FOR_SEARCH_CRITERIA + searchCriteria + FIELD + field
@@ -712,18 +712,18 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param data         The object containing values to locate and interact with elements inside the row.
     * @return The fluent UI service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Click an element inside a row using a data object to locate/interact.",
          tags = {"ui", "table"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T clickElementInCell(TableElement<?> tableElement,
-         @Pandora(
+         @AiCompass(
                description = "Row index (1-based)."
          ) int row,
-         @Pandora(
+         @AiCompass(
                description = "Data object used to locate and interact within the row."
          ) K data) {
       Allure.step(UI_TABLE_CLICKING_ELEMENT_IN_CELL_AT_ROW + row + USING_DATA + data);
@@ -739,18 +739,18 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @param data           The object containing values to locate and interact with elements inside the row.
     * @return The fluent UI service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Click an element inside a row located by search criteria using a data object.",
          tags = {"ui", "table"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public final <K> T clickElementInCell(TableElement<?> tableElement,
-         @Pandora(
+         @AiCompass(
                description = "Values used to identify the target row."
          ) List<String> searchCriteria,
-         @Pandora(
+         @AiCompass(
                description = "Data object used to locate and interact within the row."
          ) K data) {
       Allure.step(UI_TABLE_CLICKING_ELEMENT_IN_CELL_FOR_SEARCH_CRITERIA + searchCriteria + USING_DATA + data);
@@ -774,15 +774,15 @@ public class TableServiceFluent<T extends UiServiceFluent<?>> {
     * @return The fluent UI service instance.
     */
    @SuppressWarnings("java:S1854")
-   @Pandora(
+   @AiCompass(
          description = "Validate table contents saved in storage against provided assertions.",
          tags = {"ui", "table", "validation"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validate(TableElement<?> tableElement,
-         @Pandora(
+         @AiCompass(
                description = "Assertions to verify against stored table data."
          ) Assertion... assertions) {
       Allure.step("[UI - Table] Validating table element: " + tableElement + " with assertions: "

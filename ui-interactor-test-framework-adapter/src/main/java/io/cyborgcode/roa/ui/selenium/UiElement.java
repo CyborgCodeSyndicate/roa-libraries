@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.selenium;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
@@ -18,17 +18,17 @@ import org.openqa.selenium.By;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Base interface modeling a UI element: locator, component type, enum impl, and "
             + "pre/post interaction hooks.",
       tags = {"ui", "ui-element", "interface"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "ai/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-element-interface"),
-         @PandoraOptions.Meta(key = "scope", value = "type")
+         @AiCompassOptions.Meta(key = "type", value = "ui-element-interface"),
+         @AiCompassOptions.Meta(key = "scope", value = "type")
       }
 )
 @SuppressWarnings("java:S1452")
@@ -39,7 +39,7 @@ public interface UiElement {
     *
     * @return The {@link By} locator associated with this UI element.
     */
-   @Pandora(
+   @AiCompass(
          description = "Selenium By locator for finding the UI element on the page."
    )
    By locator();
@@ -61,7 +61,7 @@ public interface UiElement {
     *
     * @return The enum instance representing this UI element.
     */
-   @Pandora(
+   @AiCompass(
          description = "Enum instance representing this element (useful when elements are modeled as enums)."
    )
    Enum<?> enumImpl();
@@ -74,7 +74,7 @@ public interface UiElement {
     *
     * @return A {@link Consumer} that takes a {@link SmartWebDriver} and executes actions before interaction.
     */
-   @Pandora(
+   @AiCompass(
          description = "Optional pre-interaction hook to run with SmartWebDriver before acting on the element."
    )
    default Consumer<SmartWebDriver> before() {
@@ -90,7 +90,7 @@ public interface UiElement {
     *
     * @return A {@link Consumer} that takes a {@link SmartWebDriver} and executes actions after interaction.
     */
-   @Pandora(
+   @AiCompass(
          description = "Optional post-interaction hook to run with SmartWebDriver after acting on the element."
    )
    default Consumer<SmartWebDriver> after() {

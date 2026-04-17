@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.components.radio;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
 import io.cyborgcode.roa.ui.util.strategy.Strategy;
@@ -24,16 +24,16 @@ import org.openqa.selenium.By;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Interface for interacting with radio button components. Provides methods to select "
             + "radio buttons, check their state, and retrieve options.",
       tags = {"ui", "component-contract", "radio"},
       creation = CreationKind.AUTO
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-component")
+         @AiCompassOptions.Meta(key = "type", value = "ui-component")
       }
 )
 public interface Radio {
@@ -44,7 +44,7 @@ public interface Radio {
     * @param container       the container holding the radio buttons.
     * @param radioButtonText the text of the radio button to select.
     */
-   @Pandora(
+   @AiCompass(
          description = "Selects a radio button with the specified text within the given container.",
          tags = {"component-contract", "radio"}
    )
@@ -57,7 +57,7 @@ public interface Radio {
     * @param strategy  the selection strategy to determine which radio button to choose.
     * @return a string representing the selected radio button text, if available.
     */
-   @Pandora(
+   @AiCompass(
          description = "Selects a radio button using a custom selection strategy within the specified container.",
          tags = {"component-contract", "radio"}
    )
@@ -68,7 +68,7 @@ public interface Radio {
     *
     * @param radioButtonText the text of the radio button to select.
     */
-   @Pandora(
+   @AiCompass(
          description = "Selects a radio button with the specified text.",
          tags = {"component-contract", "radio"}
    )
@@ -79,7 +79,7 @@ public interface Radio {
     *
     * @param radioButtonLocator the locator identifying the radio button to select.
     */
-   @Pandora(
+   @AiCompass(
          description = "Selects a radio button using the specified locator.",
          tags = {"component-contract", "radio"}
    )
@@ -92,7 +92,7 @@ public interface Radio {
     * @param radioButtonText the text of the radio button to check.
     * @return true if the radio button is enabled, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Checks if the specified radio button is enabled within the given container.",
          tags = {"component-contract", "radio"}
    )
@@ -104,7 +104,7 @@ public interface Radio {
     * @param radioButtonText the text of the radio button to check.
     * @return true if the radio button is enabled, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Checks if the specified radio button is enabled.",
          tags = {"component-contract", "radio"}
    )
@@ -116,7 +116,7 @@ public interface Radio {
     * @param radioButtonLocator the locator identifying the radio button to check.
     * @return true if the radio button is enabled, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Checks if the radio button identified by the locator is enabled.",
          tags = {"component-contract", "radio"}
    )
@@ -129,7 +129,7 @@ public interface Radio {
     * @param radioButtonText the text of the radio button to check.
     * @return true if the radio button is selected, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Checks if the specified radio button is selected within the given container.",
          tags = {"component-contract", "radio"}
    )
@@ -141,7 +141,7 @@ public interface Radio {
     * @param radioButtonText the text of the radio button to check.
     * @return true if the radio button is selected, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Checks if the specified radio button is selected.",
          tags = {"component-contract", "radio"}
    )
@@ -153,7 +153,7 @@ public interface Radio {
     * @param radioButtonLocator the locator identifying the radio button to check.
     * @return true if the radio button is selected, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Checks if the radio button identified by the locator is selected.",
          tags = {"component-contract", "radio"}
    )
@@ -166,7 +166,7 @@ public interface Radio {
     * @param radioButtonText the text of the radio button to check.
     * @return true if the radio button is visible, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Checks if the specified radio button is visible within the given container.",
          tags = {"component-contract", "radio"}
    )
@@ -178,7 +178,7 @@ public interface Radio {
     * @param radioButtonText the text of the radio button to check.
     * @return true if the radio button is visible, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Checks if the specified radio button is visible.",
          tags = {"component-contract", "radio"}
    )
@@ -190,7 +190,7 @@ public interface Radio {
     * @param radioButtonLocator the locator identifying the radio button to check.
     * @return true if the radio button is visible, otherwise false.
     */
-   @Pandora(
+   @AiCompass(
          description = "Checks if the radio button identified by the locator is visible.",
          tags = {"component-contract", "radio"}
    )
@@ -202,7 +202,7 @@ public interface Radio {
     * @param container the container holding the radio buttons.
     * @return the text of the selected radio button, or an empty string if none is selected.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieves the text of the currently selected radio button within the given container.",
          tags = {"component-contract", "radio"}
    )
@@ -214,7 +214,7 @@ public interface Radio {
     * @param containerLocator the locator identifying the container.
     * @return the text of the selected radio button, or an empty string if none is selected.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieves the text of the currently selected radio button within the container "
                + "located by the given locator.",
          tags = {"component-contract", "radio"}
@@ -227,7 +227,7 @@ public interface Radio {
     * @param container the container holding the radio buttons.
     * @return a list of all available radio button texts.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieves a list of all radio button texts within the given container.",
          tags = {"component-contract", "radio"}
    )
@@ -239,7 +239,7 @@ public interface Radio {
     * @param containerLocator the locator identifying the container.
     * @return a list of all available radio button texts.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieves a list of all radio button texts within the container located by the given locator.",
          tags = {"component-contract", "radio"}
    )

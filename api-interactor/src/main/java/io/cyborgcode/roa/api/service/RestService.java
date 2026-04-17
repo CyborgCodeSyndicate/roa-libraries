@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.api.service;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.api.authentication.AuthenticationKey;
 import io.cyborgcode.roa.api.authentication.BaseAuthenticationClient;
@@ -32,18 +32,18 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Scope("prototype")
-@Pandora(
+@AiCompass(
       description = "Internal Spring-managed service that executes API requests (via RestClient), "
             + "applies authentication headers and validates responses (via RestResponseValidator). "
             + "Not obtained from Quest directly.",
       tags = {"api"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/api-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "rest-service"),
-         @PandoraOptions.Meta(key = "scope", value = "spring-prototype")
+         @AiCompassOptions.Meta(key = "type", value = "rest-service"),
+         @AiCompassOptions.Meta(key = "scope", value = "spring-prototype")
       }
 )
 public class RestService {
@@ -88,10 +88,10 @@ public class RestService {
     * @param endpoint The API endpoint to call.
     * @return The response from the API.
     */
-   @Pandora(
+   @AiCompass(
          description = "Execute an API request without a request body using the provided Endpoint definition."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public Response request(Endpoint<?> endpoint) {
@@ -105,15 +105,15 @@ public class RestService {
     * @param body     The request body.
     * @return The response from the API.
     */
-   @Pandora(
+   @AiCompass(
          description = "Execute an API request with a request payload. "
                + "The body is serialized by the endpoint's RequestSpecification."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public Response request(Endpoint<?> endpoint,
-                           @Pandora(
+                           @AiCompass(
                                  description = "Request payload to send as "
                                        + "body (will be serialized by RestAssured/spec)."
                            )
@@ -130,14 +130,14 @@ public class RestService {
     * @return A list of assertion results.
     * @throws IllegalArgumentException if the response or assertions are null.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate an existing Response using one or more "
                + "Assertion rules and return the collected AssertionResult entries."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
-   public <T> List<AssertionResult<T>> validate(@Pandora(
+   public <T> List<AssertionResult<T>> validate(@AiCompass(
                                                       description = "Response instance to validate."
                                                 )
                                                 Response response,
@@ -159,11 +159,11 @@ public class RestService {
     * @param <T>        The type of the assertion results.
     * @return A list of assertion results.
     */
-   @Pandora(
+   @AiCompass(
          description = "Execute a request (no body) and immediately "
                + "validate the response using the provided Assertion rules."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public <T> List<AssertionResult<T>> requestAndValidate(Endpoint<?> endpoint, Assertion... assertions) {
@@ -179,15 +179,15 @@ public class RestService {
     * @param <T>        The type of the assertion results.
     * @return A list of assertion results.
     */
-   @Pandora(
+   @AiCompass(
          description = "Execute a request with a body and immediately "
                + "validate the response using the provided Assertion rules."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public <T> List<AssertionResult<T>> requestAndValidate(Endpoint<?> endpoint,
-                                                          @Pandora(description = "Request payload to send as body "
+                                                          @AiCompass(description = "Request payload to send as body "
                                                                 + "(will be serialized by RestAssured/spec).")
                                                           Object body,
                                                           Assertion... assertions) {
@@ -202,22 +202,22 @@ public class RestService {
     * @param authenticationClientClass The authentication client class to use.
     * @throws RestServiceException if authentication fails.
     */
-   @Pandora(
+   @AiCompass(
          description = "Authenticate using a BaseAuthenticationClient implementation. "
                + "Stores an AuthenticationKey internally so subsequent requests can attach the cached auth header."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
-   public void authenticate(@Pandora(
+   public void authenticate(@AiCompass(
                                   description = "Username for authentication."
                             )
                             String username,
-                            @Pandora(
+                            @AiCompass(
                                   description = "Password for authentication."
                             )
                             String password,
-                            @Pandora(
+                            @AiCompass(
                                   description = "Concrete BaseAuthenticationClient class "
                                         + "that performs the login and provides the auth header."
                             )

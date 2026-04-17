@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.components.table.annotations;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -26,15 +26,15 @@ import org.openqa.selenium.support.FindBy;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Annotation defining locators for identifying a specific table cell and related elements.",
       tags = {"ui", "annotation", "table-cell-locator"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "annotation")
+         @AiCompassOptions.Meta(key = "type", value = "annotation")
       }
 )
 @Retention(RetentionPolicy.RUNTIME)
@@ -46,7 +46,7 @@ public @interface TableCellLocator {
     *
     * @return the {@link FindBy} annotation specifying the cell locator.
     */
-   @Pandora(
+   @AiCompass(
          description = "Locator for identifying the cell within a table row.",
          tags = {"annotation", "table-cell-locator"}
    )
@@ -57,7 +57,7 @@ public @interface TableCellLocator {
     *
     * @return the name of the table section, default is an empty string.
     */
-   @Pandora(
+   @AiCompass(
          description = "Optional table section name when a table consists of multiple sections.",
          tags = {"annotation", "table-cell-locator"}
    )
@@ -69,7 +69,7 @@ public @interface TableCellLocator {
     *
     * @return the {@link FindBy} annotation specifying the text locator.
     */
-   @Pandora(
+   @AiCompass(
          description = "Optional locator for extracting text content inside the cell (defaults to current element).",
          tags = {"annotation", "table-cell-locator"}
    )
@@ -80,7 +80,7 @@ public @interface TableCellLocator {
     *
     * @return the {@link FindBy} annotation specifying the header locator.
     */
-   @Pandora(
+   @AiCompass(
          description = "Locator for identifying the corresponding column header.",
          tags = {"annotation", "table-cell-locator"}
    )

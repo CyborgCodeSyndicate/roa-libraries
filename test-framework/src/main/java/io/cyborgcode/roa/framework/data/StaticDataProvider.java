@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.framework.data;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import java.util.Map;
 
@@ -17,7 +17,7 @@ import java.util.Map;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Contract for providing static key-value test "
             + "data that the framework loads before test execution. "
             + "Used together with @StaticTestData to dynamically "
@@ -25,11 +25,11 @@ import java.util.Map;
       tags = {"framework", "test-data"},
       creation = CreationKind.ENUM_CONSTANT
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "static-data-provider"),
-         @PandoraOptions.Meta(key = "usedBy", value = "StaticTestData")
+         @AiCompassOptions.Meta(key = "type", value = "static-data-provider"),
+         @AiCompassOptions.Meta(key = "usedBy", value = "StaticTestData")
       }
 )
 public interface StaticDataProvider {
@@ -42,11 +42,11 @@ public interface StaticDataProvider {
     *
     * @return A map containing static test data.
     */
-   @Pandora(
+   @AiCompass(
          description = "Returns a map of static test data entries "
                + "(key-value pairs) that will be loaded into the test context."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    Map<String, Object> staticTestData();

@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.api.log;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.utilities.logging.LogCore;
 
@@ -13,16 +13,16 @@ import io.cyborgcode.utilities.logging.LogCore;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Central API logger facade for ROA. "
             + "Use it to log API flow steps, validation messages and debug information.",
       tags = {"api", "logging"},
       creation = CreationKind.SINGLETON
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/api-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "api-logger")
+         @AiCompassOptions.Meta(key = "type", value = "api-logger")
       }
 )
 public final class LogApi extends LogCore {
@@ -39,17 +39,17 @@ public final class LogApi extends LogCore {
     * @param message The message to log.
     * @param args    Optional arguments to format the message.
     */
-   @Pandora(
+   @AiCompass(
          description = "Log an informational API message."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
-   public static void info(@Pandora(
+   public static void info(@AiCompass(
                                  description = "Log message template (may contain placeholders like {})."
                            )
                            String message,
-                           @Pandora(
+                           @AiCompass(
                                  description = "Optional arguments used to format the message template."
                            )
                            Object... args) {
@@ -62,17 +62,17 @@ public final class LogApi extends LogCore {
     * @param message The warning message.
     * @param args    Optional arguments to format the message.
     */
-   @Pandora(
+   @AiCompass(
          description = "Log a warning API message."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
-   public static void warn(@Pandora(
+   public static void warn(@AiCompass(
                                  description = "Log message template (may contain placeholders like {})."
                            )
                            String message,
-                           @Pandora(
+                           @AiCompass(
                                  description = "Optional arguments used to format the message template."
                            )
                            Object... args) {
@@ -85,17 +85,17 @@ public final class LogApi extends LogCore {
     * @param message The error message.
     * @param args    Optional arguments to format the message.
     */
-   @Pandora(
+   @AiCompass(
          description = "Log an error API message."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
-   public static void error(@Pandora(
+   public static void error(@AiCompass(
                                   description = "Log message template (may contain placeholders like {})."
                             )
                             String message,
-                            @Pandora(
+                            @AiCompass(
                                   description = "Optional arguments used to format the message template."
                             )
                             Object... args) {
@@ -108,17 +108,17 @@ public final class LogApi extends LogCore {
     * @param message The debug message.
     * @param args    Optional arguments to format the message.
     */
-   @Pandora(
+   @AiCompass(
          description = "Log a debug API message."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
-   public static void debug(@Pandora(
+   public static void debug(@AiCompass(
                                   description = "Log message template (may contain placeholders like {})."
                             )
                             String message,
-                            @Pandora(
+                            @AiCompass(
                                   description = "Optional arguments used to format the message template."
                             )
                             Object... args) {
@@ -131,17 +131,17 @@ public final class LogApi extends LogCore {
     * @param message The trace message.
     * @param args    Optional arguments to format the message.
     */
-   @Pandora(
+   @AiCompass(
          description = "Log a trace-level API message."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
-   public static void trace(@Pandora(
+   public static void trace(@AiCompass(
                                   description = "Log message template (may contain placeholders like {})."
                             )
                             String message,
-                            @Pandora(
+                            @AiCompass(
                                   description = "Optional arguments used to format the message template."
                             )
                             Object... args) {
@@ -154,17 +154,17 @@ public final class LogApi extends LogCore {
     * @param message The step description.
     * @param args    Optional arguments to format the message.
     */
-   @Pandora(
+   @AiCompass(
          description = "Log an API flow step message."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
-   public static void step(@Pandora(
+   public static void step(@AiCompass(
                                  description = "Step message template describing the current API flow action."
                            )
                            String message,
-                           @Pandora(
+                           @AiCompass(
                                  description = "Optional arguments used to format the step message."
                            )
                            Object... args) {
@@ -177,18 +177,18 @@ public final class LogApi extends LogCore {
     * @param message The validation message.
     * @param args    Optional arguments to format the message.
     */
-   @Pandora(
+   @AiCompass(
          description = "Log an API validation/assertion message."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
-   public static void validation(@Pandora(
+   public static void validation(@AiCompass(
                                        description = "Validation message template "
                                              + "describing what is being asserted/validated."
                                  )
                                  String message,
-                                 @Pandora(
+                                 @AiCompass(
                                        description = "Optional arguments used to format the validation message."
                                  )
                                  Object... args) {
@@ -201,17 +201,17 @@ public final class LogApi extends LogCore {
     * @param message The extended log message.
     * @param args    Optional arguments to format the message.
     */
-   @Pandora(
+   @AiCompass(
          description = "Log an extended (verbose) debug message."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
-   public static void extended(@Pandora(
+   public static void extended(@AiCompass(
                                      description = "Extended debug message template (usually verbose details)."
                                )
                                String message,
-                               @Pandora(
+                               @AiCompass(
                                      description = "Optional arguments used to format the extended message."
                                )
                                Object... args) {

@@ -1,7 +1,9 @@
 package io.cyborgcode.roa.ui.selenium;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.aiteacher.annotation.AiLesson;
+import io.cyborgcode.pandora.aiteacher.model.LessonLevel;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.components.select.SelectService;
@@ -20,17 +22,33 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsUiRules;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Select UI element enum contract (locator + component type + hooks) consumed by SelectService "
             + "for standardized select interactions.",
       tags = {"ui", "ui-element", "select"},
       creation = CreationKind.ENUM_CONSTANT
 )
-@PandoraOptions(
+@AiCompassOptions(
       availableOptionsRule = AvailableOptionsUiRules.AvailableSelectUiElements.class,
       exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-element")
+         @AiCompassOptions.Meta(key = "type", value = "ui-element")
+      }
+)
+@AiLesson(
+      category = "model",
+      level = LessonLevel.EXCELLENT,
+      description = "Select UI element enum contract that shows how dropdown fields are "
+            + "declared for the fluent UI layer with shared locator metadata.",
+      whenToUse = "Use as a reference when defining enum-based select fields that must work "
+            + "with option selection, validation, and retrieval flows while delegating "
+            + "dropdown behavior to the select service.",
+      tags = {"ui", "select", "ui-element", "enum", "locator", "dropdown"},
+      related = {
+         "io.cyborgcode.roa.ui.selenium.UiElement",
+         "io.cyborgcode.roa.ui.components.select.SelectService",
+         "io.cyborgcode.roa.ui.components.select.SelectComponentType",
+         "io.cyborgcode.roa.ui.service.fluent.SelectServiceFluent"
       }
 )
 public interface SelectUiElement extends UiElement {

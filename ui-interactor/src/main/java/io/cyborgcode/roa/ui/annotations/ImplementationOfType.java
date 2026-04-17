@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.annotations;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
 import java.lang.annotation.ElementType;
@@ -22,15 +22,15 @@ import java.lang.annotation.Target;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Annotation linking an implementation class to a logical UI ComponentType identifier.",
       tags = {"ui", "annotation", "implementation-of-type"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "annotation")
+         @AiCompassOptions.Meta(key = "type", value = "annotation")
       }
 )
 @Retention(RetentionPolicy.RUNTIME)
@@ -45,12 +45,12 @@ public @interface ImplementationOfType {
     *
     * @return the component-type identifier for this implementation
     */
-   @Pandora(
+   @AiCompass(
          description = "ComponentType identifier key used by ROA to resolve this implementation at runtime.",
          tags = {"ui", "annotation", "component-type", "resolution"},
          creation = CreationKind.PROVIDED
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          availableOptionsRule = AvailableOptionsRules.AvailableComponentTypes.class,
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )

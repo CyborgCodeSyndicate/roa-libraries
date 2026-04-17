@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.framework.storage;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.pandora.AvailableOptionsTestFrameworkRules;
 
@@ -13,19 +13,19 @@ import io.cyborgcode.roa.framework.pandora.AvailableOptionsTestFrameworkRules;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Storage namespaces/keys used by the framework test runtime. "
             + "These enum constants identify logical groups inside Storage "
             + "(arguments, pre-arguments, static data, hooks).",
       tags = {"framework", "storage"},
       creation = CreationKind.ENUM_CONSTANT
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/general-usage.json",
       availableOptionsRule = AvailableOptionsTestFrameworkRules.AvailableStorageKeysTestOptions.class,
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "storage-keys"),
-         @PandoraOptions.Meta(key = "scope", value = "test-runtime")
+         @AiCompassOptions.Meta(key = "type", value = "storage-keys"),
+         @AiCompassOptions.Meta(key = "scope", value = "test-runtime")
       }
 )
 public enum StorageKeysTest {

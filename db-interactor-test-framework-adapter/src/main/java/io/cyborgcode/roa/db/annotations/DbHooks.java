@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.db.annotations;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -17,17 +17,17 @@ import java.lang.annotation.Target;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Container annotation that holds multiple @DbHook definitions "
             + "declared on the same test class. Typically used implicitly by Java "
             + "to support repeatable DbHook annotations.",
       tags = {"db", "hook", "annotation"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "db-hook-container-annotation"),
-         @PandoraOptions.Meta(key = "scope", value = "class")
+         @AiCompassOptions.Meta(key = "type", value = "db-hook-container-annotation"),
+         @AiCompassOptions.Meta(key = "scope", value = "class")
       }
 )
 @Retention(RetentionPolicy.RUNTIME)
@@ -41,7 +41,7 @@ public @interface DbHooks {
     *
     * @return one or more DbHook annotations
     */
-   @Pandora(
+   @AiCompass(
          description = "Wrapped list of DbHook annotations declared on the same test class."
    )
    DbHook[] value() default {};

@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.db.service.fluent;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.db.query.DbQuery;
 import io.cyborgcode.roa.db.query.QueryResponse;
@@ -24,16 +24,16 @@ import static io.cyborgcode.roa.db.storage.StorageKeysDb.DB;
  * Provides a fluent API for database interactions.
  */
 @Ring("DB")
-@Pandora(
+@AiCompass(
       description = "High-level DB DSL used by tests to execute SQL queries, "
             + "extract values, validate results, and handle retries.",
       tags = {"db"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "ai/roa/db-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "fluent-service"),
+         @AiCompassOptions.Meta(key = "type", value = "fluent-service"),
       }
 )
 public class DatabaseServiceFluent extends FluentService implements ClassLevelHook {
@@ -56,12 +56,12 @@ public class DatabaseServiceFluent extends FluentService implements ClassLevelHo
     * @param query The database query to execute.
     * @return The current {@code DatabaseServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Execute a database query and store the full query response "
                + "in quest storage for later validations.",
          tags = {"db"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/db-usage.json"
    )
    public DatabaseServiceFluent query(final DbQuery<?> query) {
@@ -78,20 +78,20 @@ public class DatabaseServiceFluent extends FluentService implements ClassLevelHo
     * @param resultType The expected type of the extracted value.
     * @return The current {@code DatabaseServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Execute a database query and extract a specific value "
                + "from the result using JSONPath.",
          tags = {"db"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/db-usage.json"
    )
    public <T> DatabaseServiceFluent query(
          final DbQuery<?> query,
-         @Pandora(
+         @AiCompass(
                description = "JSONPath expression used to extract a value from the query result."
          ) final String jsonPath,
-         @Pandora(
+         @AiCompass(
                description = "Expected Java type of the extracted value."
          ) final Class<T> resultType) {
 
@@ -107,12 +107,12 @@ public class DatabaseServiceFluent extends FluentService implements ClassLevelHo
     * @param assertions The assertions to apply.
     * @return The current {@code DatabaseServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Execute a database query, store the response, "
                + "and validate it using the provided assertions.",
          tags = {"db"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/db-usage.json"
    )
    public DatabaseServiceFluent queryAndValidate(final DbQuery<?> query, final Assertion... assertions) {
@@ -128,7 +128,7 @@ public class DatabaseServiceFluent extends FluentService implements ClassLevelHo
     * @param assertions    The assertions to apply.
     * @return The current {@code DatabaseServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate a previously executed database query response "
                + "using assertion rules.",
          tags = {"db"}
@@ -145,14 +145,14 @@ public class DatabaseServiceFluent extends FluentService implements ClassLevelHo
     * @param assertion The assertion to execute.
     * @return The current {@code DatabaseServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Execute custom validation logic after database steps "
                + "using plain assertions.",
          tags = {"db"}
    )
    @Override
    public DatabaseServiceFluent validate(
-         @Pandora(
+         @AiCompass(
                description = "Custom validation block executed in the current quest context."
          ) final Runnable assertion) {
       return (DatabaseServiceFluent) super.validate(assertion);
@@ -164,14 +164,14 @@ public class DatabaseServiceFluent extends FluentService implements ClassLevelHo
     * @param assertion The assertion to execute.
     * @return The current {@code DatabaseServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Execute grouped (soft) validation checks using AssertJ SoftAssertions "
                + "after database operations.",
          tags = {"db"}
    )
    @Override
    public DatabaseServiceFluent validate(
-         @Pandora(
+         @AiCompass(
                description = "Consumer that receives a SoftAssertions instance "
                      + "to build grouped validation checks."
          ) final Consumer<SoftAssertions> assertion) {
@@ -188,22 +188,22 @@ public class DatabaseServiceFluent extends FluentService implements ClassLevelHo
     * @param <T>            The type used in the retry condition.
     * @return The current {@code DatabaseServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retry a database-related condition until it is satisfied "
                + "or the maximum wait time is reached.",
          tags = {"db"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/db-usage.json"
    )
    public <T> DatabaseServiceFluent retryUntil(
-         @Pandora(
+         @AiCompass(
                description = "Condition that will be evaluated repeatedly until it returns true."
          ) final RetryCondition<T> retryCondition,
-         @Pandora(
+         @AiCompass(
                description = "Maximum total duration to keep retrying."
          ) final Duration maxWait,
-         @Pandora(
+         @AiCompass(
                description = "Delay between retry attempts."
          ) final Duration retryInterval) {
 

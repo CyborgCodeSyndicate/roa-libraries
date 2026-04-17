@@ -1,8 +1,8 @@
 package io.cyborgcode.roa.framework.storage;
 
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import java.util.Map;
 
@@ -17,17 +17,17 @@ import java.util.Map;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Factory utility for creating DataExtractor instances that "
             + " values from the static test data map stored in quest storage.",
       tags = {"framework", "storage", "test-data"},
       creation = CreationKind.STATIC_FACTORY
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "data-extractors-test"),
-         @PandoraOptions.Meta(key = "scope", value = "storage")
+         @AiCompassOptions.Meta(key = "type", value = "data-extractors-test"),
+         @AiCompassOptions.Meta(key = "scope", value = "storage")
       }
 )
 public class DataExtractorsTest {
@@ -45,15 +45,15 @@ public class DataExtractorsTest {
     * @param <T> the type of the data to be extracted
     * @return a {@code DataExtractor} that retrieves the specified value from static test data
     */
-   @Pandora(
+   @AiCompass(
          description = "Creates a DataExtractor that reads the STATIC_DATA map "
                + "from storage and returns the value for the given string key."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    public static <T> DataExtractor<T> staticTestData(
-         @Pandora(
+         @AiCompass(
                description = "Static test-data key to read from StorageKeysTest.STATIC_DATA. "
                      + "Must be a string constant defined by a project class implementing StaticDataProvider "
                      + "(e.g., StaticData.ORDER)."

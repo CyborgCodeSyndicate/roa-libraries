@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.components.table.annotations;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import java.lang.annotation.ElementType;
@@ -20,15 +20,15 @@ import java.lang.annotation.Target;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Annotation indicating a table cell supports value insertion using a specified component type.",
       tags = {"ui", "annotation", "cell-insertion"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "annotation")
+         @AiCompassOptions.Meta(key = "type", value = "annotation")
       }
 )
 @Retention(RetentionPolicy.RUNTIME)
@@ -40,7 +40,7 @@ public @interface CellInsertion {
     *
     * @return the class representing the component type.
     */
-   @Pandora(
+   @AiCompass(
          description = "The UI component type class that performs the insertion.",
          tags = {"annotation", "cell-insertion"}
    )
@@ -51,7 +51,7 @@ public @interface CellInsertion {
     *
     * @return a string representing the component type.
     */
-   @Pandora(
+   @AiCompass(
          description = "The specific component type identifier used for insertion.",
          tags = {"annotation", "cell-insertion"}
    )
@@ -63,7 +63,7 @@ public @interface CellInsertion {
     *
     * @return the insertion order.
     */
-   @Pandora(
+   @AiCompass(
          description = "Execution order for the insertion when multiple exist in a row (lower runs earlier).",
          tags = {"annotation", "cell-insertion"}
    )

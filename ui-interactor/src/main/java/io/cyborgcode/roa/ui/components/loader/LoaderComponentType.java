@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.components.loader;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
@@ -16,17 +16,17 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Component type marker for Loader components; enums implement this to declare "
             + "available loader types.",
       tags = {"ui", "ui-component-type", "loader"},
       creation = CreationKind.ENUM_CONSTANT
 )
-@PandoraOptions(
+@AiCompassOptions(
       availableOptionsRule = AvailableOptionsRules.AvailableLoaderComponentTypes.class,
       exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-component-type")
+         @AiCompassOptions.Meta(key = "type", value = "ui-component-type")
       }
 )
 public interface LoaderComponentType extends ComponentType {

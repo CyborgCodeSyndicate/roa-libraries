@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.components.table.filters;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
 
@@ -17,12 +17,12 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Filtering strategy for table interactions (select-only/select/select-all/unselect/unselect-all).",
       tags = {"ui", "table", "filter-strategy"},
       creation = CreationKind.ENUM_CONSTANT
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/ui-usage.json",
       availableOptionsRule = AvailableOptionsRules.AvailableFilterStrategyOptions.class
 )

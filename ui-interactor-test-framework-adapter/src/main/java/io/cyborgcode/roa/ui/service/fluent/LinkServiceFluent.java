@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.service.fluent;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.storage.Storage;
 import io.cyborgcode.roa.ui.components.link.LinkService;
@@ -24,16 +24,16 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @SuppressWarnings({"java:S5960", "unchecked"})
-@Pandora(
+@AiCompass(
       description = "Fluent UI service for interacting with links: click/doubleClick, and "
             + "enablement/visibility checks.",
       tags = {"ui", "fluent", "link"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "fluent-service")
+         @AiCompassOptions.Meta(key = "type", value = "fluent-service")
       }
 )
 public class LinkServiceFluent<T extends UiServiceFluent<?>> {
@@ -65,11 +65,11 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link LinkUiElement} to be clicked.
     * @return The current {@link UiServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Click the given link UI element and continue the fluent UI flow.",
          tags = {"ui", "link"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T click(final LinkUiElement element) {
@@ -86,11 +86,11 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link LinkUiElement} to be double-clicked.
     * @return The current {@link UiServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Double-click the given link UI element and continue the fluent UI flow.",
          tags = {"ui", "link"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T doubleClick(final LinkUiElement element) {
@@ -107,11 +107,11 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link LinkUiElement} to check.
     * @return The current {@link UiServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Evaluate whether the link is enabled and store the result in quest storage.",
          tags = {"ui", "link"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isEnabled(final LinkUiElement element) {
@@ -129,11 +129,11 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link LinkUiElement} to validate.
     * @return The current {@link UiServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the link is enabled (hard assertion).",
          tags = {"ui", "link"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsEnabled(final LinkUiElement element) {
@@ -147,15 +147,15 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft    {@code true} to perform a soft assertion.
     * @return The current {@link UiServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the link is enabled, optionally using a soft assertion.",
          tags = {"ui", "link"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsEnabled(final LinkUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft) {
       return validateIsEnabled(element, true, soft);
@@ -203,11 +203,11 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link LinkUiElement} to validate.
     * @return The current {@link UiServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the link is disabled (hard assertion).",
          tags = {"ui", "link"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsDisabled(final LinkUiElement element) {
@@ -221,15 +221,15 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft    {@code true} to perform a soft assertion.
     * @return The current {@link UiServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the link is disabled, optionally using a soft assertion.",
          tags = {"ui", "link"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateIsDisabled(final LinkUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft) {
       return validateIsEnabled(element, false, soft);
@@ -241,11 +241,11 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link LinkUiElement} to check.
     * @return The current {@link UiServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Evaluate whether the link is visible and store the result in quest storage.",
          tags = {"ui", "link"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T isVisible(final LinkUiElement element) {
@@ -263,11 +263,11 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link LinkUiElement} to validate.
     * @return The current {@link UiServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the link is visible (hard assertion).",
          tags = {"ui", "link"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateIsVisible(final LinkUiElement element) {
@@ -281,15 +281,15 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft    {@code true} to perform a soft assertion.
     * @return The current {@link UiServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the link is visible, optionally using a soft assertion.",
          tags = {"ui", "link"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateIsVisible(final LinkUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft) {
       return validateIsVisible(element, true, soft);
@@ -337,11 +337,11 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link LinkUiElement} to validate.
     * @return The current {@link UiServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the link is hidden (hard assertion).",
          tags = {"ui", "link"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateIsHidden(final LinkUiElement element) {
@@ -355,15 +355,15 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft    {@code true} to perform a soft assertion.
     * @return The current {@link UiServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the link is hidden, optionally using a soft assertion.",
          tags = {"ui", "link"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "ai/roa/ui-usage.json"
    )
    public T validateIsHidden(final LinkUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft) {
       return validateIsVisible(element, false, soft);

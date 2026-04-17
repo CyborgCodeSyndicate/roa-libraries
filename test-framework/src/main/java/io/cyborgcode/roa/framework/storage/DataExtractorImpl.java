@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.framework.storage;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import java.util.function.Function;
 
@@ -20,17 +20,17 @@ import java.util.function.Function;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Concrete DataExtractor that stores (optional) sub-storage key, "
             + "primary key, and a transformation function used to extract typed data from a raw stored object.",
       tags = {"framework", "storage"},
       creation = CreationKind.CONSTRUCTOR
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "data-extractor-impl"),
-         @PandoraOptions.Meta(key = "scope", value = "storage")
+         @AiCompassOptions.Meta(key = "type", value = "data-extractor-impl"),
+         @AiCompassOptions.Meta(key = "scope", value = "storage")
       }
 )
 public class DataExtractorImpl<T> implements DataExtractor<T> {
@@ -73,11 +73,11 @@ public class DataExtractorImpl<T> implements DataExtractor<T> {
     * @return an {@link Enum} representing the sub-key, or {@code null} if not used
     */
    @Override
-   @Pandora(
+   @AiCompass(
          description = "Returns the sub-storage key (namespace) for this extractor, "
                + "or null when default storage is used."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    public Enum<?> getSubKey() {
@@ -90,10 +90,10 @@ public class DataExtractorImpl<T> implements DataExtractor<T> {
     * @return an {@link Enum} representing the primary key
     */
    @Override
-   @Pandora(
+   @AiCompass(
          description = "Returns the primary storage key that identifies the stored entry to extract."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    public Enum<?> getKey() {
@@ -107,11 +107,11 @@ public class DataExtractorImpl<T> implements DataExtractor<T> {
     * @return the extracted data of type {@code T}
     */
    @Override
-   @Pandora(
+   @AiCompass(
          description = "Applies the configured extractionLogic to the provided"
                + " raw stored object and returns the typed result."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    public T extract(Object rawObject) {

@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.validator.core;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.validator.pandora.AvailableOptionsAssertionsRules;
 
@@ -20,16 +20,16 @@ import io.cyborgcode.roa.validator.pandora.AvailableOptionsAssertionsRules;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Describes *how* a value is validated (e.g. equals, contains, between, matches regex).",
       tags = {"assertion"},
       creation = CreationKind.ENUM_CONSTANT
 )
-@PandoraOptions(
+@AiCompassOptions(
       availableOptionsRule = AvailableOptionsAssertionsRules.AvailableAssertionTypes.class,
       exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "assertion-type")
+         @AiCompassOptions.Meta(key = "type", value = "assertion-type")
       }
 )
 public interface AssertionType<T extends Enum<T>> {

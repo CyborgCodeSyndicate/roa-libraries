@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.selenium;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.components.accordion.AccordionService;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
@@ -16,17 +16,17 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsUiRules;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Accordion UI element enum contract (locator + component type + hooks) consumed by "
             + "AccordionService for standardized accordion interactions.",
       tags = {"ui", "ui-element", "accordion"},
       creation = CreationKind.ENUM_CONSTANT
 )
-@PandoraOptions(
+@AiCompassOptions(
       availableOptionsRule = AvailableOptionsUiRules.AvailableAccordionUiElements.class,
       exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-element")
+         @AiCompassOptions.Meta(key = "type", value = "ui-element")
       }
 )
 public interface AccordionUiElement extends UiElement {

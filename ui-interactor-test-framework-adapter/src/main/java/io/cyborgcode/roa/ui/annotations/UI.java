@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.annotations;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.annotation.FrameworkAdapter;
 import io.cyborgcode.roa.ui.extensions.UiTestExtension;
@@ -23,16 +23,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Marks a JUnit test class as a UI test and wires ROA's UI extensions and configuration.",
       tags = {"ui", "annotation"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "ai/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-annotation"),
-         @PandoraOptions.Meta(key = "scope", value = "class")
+         @AiCompassOptions.Meta(key = "type", value = "ui-annotation"),
+         @AiCompassOptions.Meta(key = "scope", value = "class")
       }
 )
 @ExtendWith(UiTestExtension.class)

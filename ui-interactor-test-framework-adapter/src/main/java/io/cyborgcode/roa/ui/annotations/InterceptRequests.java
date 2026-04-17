@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.annotations;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.ui.pandora.AvailableOptionsUiRules;
 import java.lang.annotation.ElementType;
@@ -19,16 +19,16 @@ import java.lang.annotation.Target;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Method-level annotation to configure request URL substring interception during UI tests.",
       tags = {"ui", "network", "intercept", "annotation"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "ai/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-intercept-annotation"),
-         @PandoraOptions.Meta(key = "scope", value = "method")
+         @AiCompassOptions.Meta(key = "type", value = "ui-intercept-annotation"),
+         @AiCompassOptions.Meta(key = "scope", value = "method")
       }
 )
 @Retention(RetentionPolicy.RUNTIME)
@@ -43,10 +43,10 @@ public @interface InterceptRequests {
     *
     * @return An array of substrings representing parts of request URLs to intercept.
     */
-   @Pandora(
+   @AiCompass(
          description = "List of URL substrings; any matching network request will be intercepted during the test."
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          availableOptionsRule = AvailableOptionsUiRules.AvailableDataInterceptOptions.class,
          exampleFilesPath = "ai/roa/ui-usage.json"
    )

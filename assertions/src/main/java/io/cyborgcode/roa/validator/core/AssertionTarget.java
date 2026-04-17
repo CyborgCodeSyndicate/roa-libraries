@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.validator.core;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.validator.pandora.AvailableOptionsAssertionsRules;
 
@@ -14,17 +14,17 @@ import io.cyborgcode.roa.validator.pandora.AvailableOptionsAssertionsRules;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Marker interface for assertion targets (e.g. STATUS, BODY, HEADER). "
             + "Implemented by enums that define where an assertion is applied.",
       tags = {"assertion"},
       creation = CreationKind.ENUM_CONSTANT
 )
-@PandoraOptions(
+@AiCompassOptions(
       availableOptionsRule = AvailableOptionsAssertionsRules.AvailableAssertionTargets.class,
       exampleFilesPath = "docs/usage/roa/general-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "assertion-target")
+         @AiCompassOptions.Meta(key = "type", value = "assertion-target")
       }
 )
 public interface AssertionTarget<T extends Enum<T>> {

@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.service.fluent;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import io.cyborgcode.roa.framework.storage.Storage;
 import io.cyborgcode.roa.ui.components.modal.ModalService;
@@ -23,16 +23,16 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @SuppressWarnings({"java:S5960", "unchecked"})
-@Pandora(
+@AiCompass(
       description = "Fluent UI service for interacting with modals: open/close checks, retrievals "
             + "and validations.",
       tags = {"ui", "fluent", "modal"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "fluent-service")
+         @AiCompassOptions.Meta(key = "type", value = "fluent-service")
       }
 )
 public class ModalServiceFluent<T extends UiServiceFluent<?>> {
@@ -65,11 +65,11 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link ModalUiElement} representing the modal to be checked.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Evaluate whether the modal is opened and store the result in quest storage.",
          tags = {"ui", "modal"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isOpened(final ModalUiElement element) {
@@ -88,11 +88,11 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link ModalUiElement} representing the modal to validate.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the modal is opened (hard assertion).",
          tags = {"ui", "modal"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsOpened(final ModalUiElement element) {
@@ -106,15 +106,15 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft    If true, performs a soft assertion; otherwise, performs a hard assertion.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the modal is opened, optionally using a soft assertion.",
          tags = {"ui", "modal"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsOpened(final ModalUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft) {
       return validateIsOpened(element, true, soft);
@@ -162,11 +162,11 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link ModalUiElement} representing the modal to validate.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the modal is closed (hard assertion).",
          tags = {"ui", "modal"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsClosed(final ModalUiElement element) {
@@ -180,15 +180,15 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft    If true, performs a soft assertion; otherwise, performs a hard assertion.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the modal is closed, optionally using a soft assertion.",
          tags = {"ui", "modal"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsClosed(final ModalUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft) {
       return validateIsOpened(element, false, soft);
@@ -200,11 +200,11 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link ModalUiElement} representing the modal UI component.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Click a button inside the modal UI element and continue the fluent UI flow.",
          tags = {"ui", "modal"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T click(final ModalUiElement element) {
@@ -222,11 +222,11 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link ModalUiElement} representing the modal.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieve the modal title and store it in quest storage.",
          tags = {"ui", "modal"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getTitle(final ModalUiElement element) {
@@ -246,15 +246,15 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
     * @param expectedValue The expected title value.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the modal title equals the expected value (hard assertion).",
          tags = {"ui", "modal"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateTitle(final ModalUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Expected modal title."
          ) final String expectedValue) {
       Allure.step("[UI - Modal] Validate title of the modal");
@@ -270,18 +270,18 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
     * @param expectedValue The expected title value.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the modal title equals the expected value, optionally using a soft assertion.",
          tags = {"ui", "modal"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateTitle(final ModalUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Expected modal title."
          ) final String expectedValue) {
       Allure.step("[UI - Modal] Validate title of the modal");
@@ -311,11 +311,11 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link ModalUiElement} representing the modal.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieve the modal content title and store it in quest storage.",
          tags = {"ui", "modal"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getContentTitle(final ModalUiElement element) {
@@ -335,15 +335,15 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
     * @param expectedValue The expected content title.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the modal content title equals the expected value (hard assertion).",
          tags = {"ui", "modal"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateContentTitle(final ModalUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Expected modal content title."
          ) final String expectedValue) {
       Allure.step("[UI - Modal] Validate content title of the modal");
@@ -359,19 +359,19 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
     * @param expectedValue The expected content title.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the modal content title equals the expected value, optionally "
                + "using a soft assertion.",
          tags = {"ui", "modal"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateContentTitle(final ModalUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Expected modal content title."
          ) final String expectedValue) {
       Allure.step("[UI - Modal] Validate content title of the modal");
@@ -401,11 +401,11 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link ModalUiElement} representing the modal.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieve the modal body text and store it in quest storage.",
          tags = {"ui", "modal"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getBodyText(final ModalUiElement element) {
@@ -425,15 +425,15 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
     * @param expectedText The expected content.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the modal body text equals the expected value (hard assertion).",
          tags = {"ui", "modal"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateBodyText(final ModalUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Expected modal body text."
          ) final String expectedText) {
       Allure.step("[UI - Modal] Validate content of the modal");
@@ -449,19 +449,19 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
     * @param expectedValue The expected content value.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the modal body text equals the expected value, optionally "
                + "using a soft assertion.",
          tags = {"ui", "modal"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateBodyText(final ModalUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Expected modal body text."
          ) final String expectedValue) {
       Allure.step("[UI - Modal] Validate content of the modal");
@@ -491,11 +491,11 @@ public class ModalServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link ModalUiElement} representing the modal.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Close the modal UI element and continue the fluent UI flow.",
          tags = {"ui", "modal"}
    )
-   @PandoraOptions(
+   @AiCompassOptions(
          exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T close(final ModalUiElement element) {

@@ -1,7 +1,7 @@
 package io.cyborgcode.roa.ui.components.table.annotations;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
+import io.cyborgcode.pandora.annotation.AiCompass;
+import io.cyborgcode.pandora.annotation.AiCompassOptions;
 import io.cyborgcode.pandora.model.CreationKind;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -28,15 +28,15 @@ import org.openqa.selenium.support.FindBy;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Pandora(
+@AiCompass(
       description = "Annotation defining the locators and structure for a UI table.",
       tags = {"ui", "annotation", "table-info"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
+@AiCompassOptions(
       exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "annotation")
+         @AiCompassOptions.Meta(key = "type", value = "annotation")
       }
 )
 public @interface TableInfo {
@@ -46,7 +46,7 @@ public @interface TableInfo {
     *
     * @return the {@link FindBy} annotation specifying the table container locator.
     */
-   @Pandora(
+   @AiCompass(
          description = "Locator for identifying the table container element.",
          tags = {"annotation", "table-info"}
    )
@@ -57,7 +57,7 @@ public @interface TableInfo {
     *
     * @return the {@link FindBy} annotation specifying the row's locator.
     */
-   @Pandora(
+   @AiCompass(
          description = "Locator for identifying the rows inside the table.",
          tags = {"annotation", "table-info"}
    )
@@ -68,7 +68,7 @@ public @interface TableInfo {
     *
     * @return the {@link FindBy} annotation specifying the header row locator.
     */
-   @Pandora(
+   @AiCompass(
          description = "Locator for identifying the table's header row.",
          tags = {"annotation", "table-info"}
    )
