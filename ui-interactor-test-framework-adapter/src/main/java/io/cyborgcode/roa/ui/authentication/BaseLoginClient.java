@@ -134,7 +134,14 @@ public abstract class BaseLoginClient implements LoginClient {
          throw new AuthenticationUiException("Logging in was not successful", e);
       }
 
-      urlAfterLoggingMap.put(loginKey, smartWebDriver.getCurrentUrl());
+      String currentUrl = smartWebDriver.getCurrentUrl();
+      if (currentUrl == null) {
+         throw new AuthenticationUiException(
+               "Current URL was not available after successful login.",
+               new IllegalStateException("smartWebDriver.getCurrentUrl() returned null")
+         );
+      }
+      urlAfterLoggingMap.put(loginKey, currentUrl);
 
       WebDriver driver = smartWebDriver.getOriginal();
       Set<Cookie> cookies = driver.manage().getCookies();

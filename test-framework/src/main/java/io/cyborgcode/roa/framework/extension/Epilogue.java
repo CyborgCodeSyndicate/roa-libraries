@@ -45,6 +45,7 @@ public class Epilogue implements AfterTestExecutionCallback {
     */
    @Override
    public void afterTestExecution(final ExtensionContext context) {
+      ExtensionContext.Store globalStore = context.getStore(ExtensionContext.Namespace.GLOBAL);
       if (!Objects.equals(CustomAllureListener.getActiveStepName(), TEAR_DOWN.getDisplayName())) {
          CustomAllureListener.stopStep();
       }
@@ -52,16 +53,22 @@ public class Epilogue implements AfterTestExecutionCallback {
       SuperQuest superQuest = getSuperQuest(context);
       Map<Enum<?>, List<Object>> arguments = superQuest.getStorage().sub(StorageKeysTest.ARGUMENTS).getData();
       String htmlContent = ObjectFormatter.generateHtmlContent(arguments);
-      List<String> htmlList = context.getStore(ExtensionContext.Namespace.GLOBAL).get(HTML, List.class);
+      List<String> htmlList = globalStore.get(HTML, List.class);
+
       if (htmlList == null) {
          htmlList = new ArrayList<>();
       }
       htmlList.add(htmlContent);
-      context.getStore(ExtensionContext.Namespace.GLOBAL).put(HTML, htmlList);
+      globalStore.put(HTML, htmlList);
+
       Throwable throwable = context.getExecutionException().orElse(null);
-      String status = (throwable == null) ? "SUCCESS" : "FAILED";
-      long startTime = context.getStore(ExtensionContext.Namespace.GLOBAL).get(START_TIME, long.class);
-      long durationInSeconds = (System.currentTimeMillis() - startTime) / 1000;
+      String status = throwable == null ? "SUCCESS" : "FAILED";
+
+      Long startTime = globalStore.get(START_TIME, Long.class);
+      long durationInSeconds = startTime == null
+            ? 0L
+            : (System.currentTimeMillis() - startTime) / 1000;
+
       logTestOutcome(context.getDisplayName(), status, durationInSeconds, throwable);
       if (!CustomAllureListener.isStepActive(TEAR_DOWN.getDisplayName())) {
          CustomAllureListener.stopStep();

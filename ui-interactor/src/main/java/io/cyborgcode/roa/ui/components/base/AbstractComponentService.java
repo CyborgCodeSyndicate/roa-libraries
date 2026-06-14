@@ -1,5 +1,6 @@
 package io.cyborgcode.roa.ui.components.base;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebDriver;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +36,11 @@ public abstract class AbstractComponentService<T extends ComponentType, C> {
     * @param driver The {@code SmartWebDriver} instance used for component interactions.
     * @throws NullPointerException if the provided driver is {@code null}.
     */
+   @SuppressFBWarnings(
+         value = "CT_CONSTRUCTOR_THROW",
+         justification = "Constructor validates the required SmartWebDriver dependency. "
+               + "This internal framework class is not exposed to untrusted subclasses."
+   )
    protected AbstractComponentService(SmartWebDriver driver) {
       this.driver = Objects.requireNonNull(driver, "Driver must not be null");
       this.components = new HashMap<>();

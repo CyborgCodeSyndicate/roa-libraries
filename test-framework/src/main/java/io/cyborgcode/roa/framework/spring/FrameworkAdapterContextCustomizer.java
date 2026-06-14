@@ -1,5 +1,6 @@
 package io.cyborgcode.roa.framework.spring;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Arrays;
 import java.util.Objects;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -34,6 +35,11 @@ public class FrameworkAdapterContextCustomizer implements ContextCustomizer {
     * @param basePackages The packages to scan for Spring components.
     *                     Must not be {@code null}.
     */
+   @SuppressFBWarnings(
+         value = "CT_CONSTRUCTOR_THROW",
+         justification = "Constructor validates required base packages. This Spring test context customizer is "
+               + "internal framework infrastructure."
+   )
    public FrameworkAdapterContextCustomizer(String[] basePackages) {
       this.basePackages = Objects.requireNonNull(basePackages, "Base packages must not be null");
    }
