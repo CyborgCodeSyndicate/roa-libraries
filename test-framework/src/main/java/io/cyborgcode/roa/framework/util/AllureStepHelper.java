@@ -84,10 +84,16 @@ public class AllureStepHelper {
     * @param context The test execution context.
     */
    public static void setDescription(ExtensionContext context) {
-      List<String> htmlContent = (List<String>) context.getStore(ExtensionContext.Namespace.GLOBAL).get(HTML);
+      List<?> htmlContent = context.getStore(ExtensionContext.Namespace.GLOBAL).get(HTML, List.class);
+
+      if (htmlContent == null || htmlContent.isEmpty()) {
+         Allure.descriptionHtml("");
+         return;
+      }
 
       String combinedHtml = htmlContent.stream()
-            .filter(Objects::nonNull)
+            .filter(String.class::isInstance)
+            .map(String.class::cast)
             .filter(table -> table.contains("<td>"))
             .collect(Collectors.joining("", "<div style='margin: 20px;'>", "</div>"));
 

@@ -49,7 +49,7 @@ jobs:
 
       - name: Setup Maven Environment
         if: ${{ env.deployed_version != '' && !contains(env.deployed_version, 'SNAPSHOT') }}
-        uses: CyborgCodeSyndicate/utilities/pipelines/shared/setup-maven@v1.0.0-rc-2
+        uses: CyborgCodeSyndicate/utilities/pipelines/shared/setup-maven@v1.0.0-rc-3
         with:
           github_packages_user: ${{ secrets.GH_PACKAGES_USER }}
           github_packages_token: ${{ secrets.GH_PACKAGES_PAT }}

@@ -8,6 +8,11 @@ import io.cyborgcode.roa.framework.storage.StorageKeysTest;
 import io.cyborgcode.roa.framework.util.AllureStepHelper;
 import io.cyborgcode.roa.framework.util.ResourceLoader;
 import io.cyborgcode.roa.framework.util.TestContextManager;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 import org.apache.logging.log4j.ThreadContext;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,18 +25,23 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import static io.cyborgcode.roa.framework.storage.StoreKeys.HTML;
 import static io.cyborgcode.roa.framework.storage.StoreKeys.START_TIME;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.nullable;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class EpilogueTest {
@@ -63,30 +73,29 @@ class EpilogueTest {
         resourceLoaderMock = mockStatic(ResourceLoader.class);
         testContextManagerMock = mockStatic(TestContextManager.class);
 
-        // Mock TestContextManager
-        testContextManagerMock.when(() -> TestContextManager.getSuperQuest(mockContext)).thenReturn(mockSuperQuest);
+        testContextManagerMock.when(() -> TestContextManager.getSuperQuest(mockContext))
+              .thenReturn(mockSuperQuest);
+
         Storage dummyStorage = mock(Storage.class);
         when(mockSuperQuest.getStorage()).thenReturn(dummyStorage);
         when(dummyStorage.sub(eq(StorageKeysTest.ARGUMENTS))).thenReturn(subStorage);
+        when(subStorage.getData()).thenReturn(new HashMap<>());
 
-        // Mock ResourceLoader
         resourceLoaderMock.when(() -> ResourceLoader.loadResourceFile(anyString()))
                 .thenReturn("<html><body>{{testName}} {{className}}</body></html>");
 
-        // Setup common mocks for each test
         when(mockContext.getStore(ExtensionContext.Namespace.GLOBAL)).thenReturn(mockStore);
-        when(mockStore.get(eq(START_TIME), eq(long.class))).thenReturn(123L);
+        when(mockStore.get(eq(START_TIME), eq(Long.class))).thenReturn(123L);
         when(mockContext.getExecutionException()).thenReturn(Optional.empty());
 
-        // Setup method mock
         Method mockMethod = EpilogueTest.class.getDeclaredMethod("shouldStopStep_WhenActiveStepIsNotTearDown");
         lenient().when(mockContext.getRequiredTestMethod()).thenReturn(mockMethod);
         lenient().when(mockContext.getRequiredTestClass()).thenReturn((Class) EpilogueTest.class);
+        lenient().when(mockContext.getDisplayName()).thenReturn("Epilogue test");
     }
 
     @AfterEach
     void tearDown() {
-        // Close static mocks *within* each test teardown
         if (customAllureMock != null) {
             customAllureMock.close();
         }
@@ -97,77 +106,76 @@ class EpilogueTest {
             testContextManagerMock.close();
         }
 
-        // Clear thread context for each test
         ThreadContext.clearAll();
     }
 
     @Test
     @DisplayName("Should stop step when active step is NOT TEAR_DOWN")
     void shouldStopStep_WhenActiveStepIsNotTearDown() {
-        // Given
-        customAllureMock.when(CustomAllureListener::getActiveStepName).thenReturn("Some Other Step");
-        customAllureMock.when(() -> CustomAllureListener.isStepActive("Some Other Step")).thenReturn(true);
-        List<String> htmlContent = new ArrayList<>(List.of("<td>Some content</td>", "<td>Other content</td>"));
-        when(mockStore.get(HTML, List.class)).thenReturn(htmlContent);
-        when(mockStore.get(HTML)).thenReturn(htmlContent);
+        customAllureMock.when(CustomAllureListener::getActiveStepName)
+              .thenReturn("Some Other Step");
 
-        // When
+        customAllureMock.when(() -> CustomAllureListener.isStepActive("Some Other Step"))
+              .thenReturn(false, true);
+
+        List<String> htmlContent = new ArrayList<>(List.of("<td>Some content</td>", "<td>Other content</td>"));
+        when(mockStore.get(eq(HTML), eq(List.class))).thenReturn(htmlContent);
+
         epilogue.afterTestExecution(mockContext);
 
-        // Then
         customAllureMock.verify(CustomAllureListener::stopStep, times(2));
+        customAllureMock.verify(() -> CustomAllureListener.startStep(StepType.TEAR_DOWN), times(1));
     }
 
     @Test
     @DisplayName("Should NOT stop step when active step IS TEAR_DOWN")
     void shouldNotStopStep_WhenActiveStepIsTearDown() {
-        // Given
-        customAllureMock.when(CustomAllureListener::getActiveStepName).thenReturn(StepType.TEAR_DOWN.getDisplayName());
-        customAllureMock.when(() -> CustomAllureListener.isStepActive(StepType.TEAR_DOWN.getDisplayName()))
-                .thenReturn(true);
-        List<String> htmlContent = new ArrayList<>(List.of("<td>Some content</td>", "<td>Other content</td>"));
-        when(mockStore.get(HTML, List.class)).thenReturn(htmlContent);
-        when(mockStore.get(HTML)).thenReturn(htmlContent);
+        customAllureMock.when(CustomAllureListener::getActiveStepName)
+              .thenReturn(StepType.TEAR_DOWN.getDisplayName());
 
-        // When
+        customAllureMock.when(() -> CustomAllureListener.isStepActive(StepType.TEAR_DOWN.getDisplayName()))
+              .thenReturn(true);
+
+        List<String> htmlContent = new ArrayList<>(List.of("<td>Some content</td>", "<td>Other content</td>"));
+        when(mockStore.get(eq(HTML), eq(List.class))).thenReturn(htmlContent);
+
         epilogue.afterTestExecution(mockContext);
 
-        // Then
         customAllureMock.verify(CustomAllureListener::stopStep, times(1));
     }
 
     @Test
     @DisplayName("Should create new list when html list don't exist")
     void shouldCreateNewList_WhenHtmlListDontExist() {
-        // Given
         try (MockedStatic<AllureStepHelper> allureStepHelperMockedStatic = mockStatic(AllureStepHelper.class)) {
-            customAllureMock.when(CustomAllureListener::getActiveStepName).thenReturn(StepType.TEAR_DOWN.getDisplayName());
+            customAllureMock.when(CustomAllureListener::getActiveStepName)
+                  .thenReturn(StepType.TEAR_DOWN.getDisplayName());
+
             customAllureMock.when(() -> CustomAllureListener.isStepActive(StepType.TEAR_DOWN.getDisplayName()))
-                    .thenReturn(true);
-            when(mockStore.get(HTML)).thenReturn(null);
+                  .thenReturn(true);
+
             when(mockStore.get(eq(HTML), eq(List.class))).thenReturn(null);
             when(mockContext.getExecutionException()).thenReturn(Optional.of(new RuntimeException("Test failure")));
+
             Epilogue spyEpilogue = spy(new Epilogue());
 
-            List<String> htmlContent = new ArrayList<>(List.of("<td>Some content</td>", "<td>Other content</td>"));
-            lenient().when(mockStore.get(HTML)).thenReturn(htmlContent);
-
-            // When
             spyEpilogue.afterTestExecution(mockContext);
 
-            // Then
             ArgumentCaptor<List> captor = ArgumentCaptor.forClass(List.class);
             verify(mockStore, atLeastOnce()).put(eq(HTML), captor.capture());
 
-            List<List> allPuts = captor.getAllValues();
-            List capturedHtmlList = allPuts.get(allPuts.size() - 1);
+            List capturedHtmlList = captor.getValue();
 
             assertNotNull(capturedHtmlList);
             assertFalse(capturedHtmlList.isEmpty());
+
             allureStepHelperMockedStatic.verify(() ->
-                    AllureStepHelper.logTestOutcome(
-                            nullable(String.class), eq("FAILED"), anyLong(), any(Throwable.class)
-                    )
+                  AllureStepHelper.logTestOutcome(
+                        nullable(String.class),
+                        eq("FAILED"),
+                        anyLong(),
+                        any(Throwable.class)
+                  )
             );
         }
     }
