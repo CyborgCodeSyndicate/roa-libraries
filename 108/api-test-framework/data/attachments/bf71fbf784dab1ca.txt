@@ -1,0 +1,43 @@
+Date=Fri, 18 Sep 2026 13:39:17 GMT
+Content-Type=application/json; charset=utf-8
+Transfer-Encoding=chunked
+Connection=keep-alive
+Access-Control-Allow-Origin=*
+Cache-Control=public, max-age=14400, s-maxage=60
+Cdn-Cache-Control=max-age=60
+Cross-Origin-Opener-Policy=same-origin
+Cross-Origin-Resource-Policy=cross-origin
+Etag=W/"5f7-gJiYqcwcxD7jRj00kOp90HWgPMY"
+Nel={"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}
+Origin-Agent-Cluster=?1
+Ratelimit-Limit=20
+Ratelimit-Policy=20;w=60
+Ratelimit-Remaining=19
+Ratelimit-Reset=60
+Referrer-Policy=strict-origin-when-cross-origin
+Report-To={"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=%2BKD30M3i7R3bA%2BXH6L1X5Kdq1ANMTuxFi5l34RCPt9I%3D\u0026sid=c4c9725f-1ab0-44d8-820f-430df2718e11\u0026ts=1789738757"}],"max_age":3600}
+Reporting-Endpoints=heroku-nel="https://nel.heroku.com/reports?s=%2BKD30M3i7R3bA%2BXH6L1X5Kdq1ANMTuxFi5l34RCPt9I%3D&sid=c4c9725f-1ab0-44d8-820f-430df2718e11&ts=1789738757"
+Server=cloudflare
+Strict-Transport-Security=max-age=31536000; includeSubDomains
+Via=1.1 heroku-router
+X-Content-Type-Options=nosniff
+X-Dns-Prefetch-Control=off
+X-Download-Options=noopen
+X-Frame-Options=DENY
+X-Permitted-Cross-Domain-Policies=none
+X-Powered-By=ReqRes.in - Deploy backends in 30 seconds
+X-Ratelimit-Limit=250
+X-Ratelimit-Remaining=246
+X-Ratelimit-Reset=1789776000
+X-Reqres-Docs=https://reqres.in
+X-Reqres-Message=This API is powered by ReqRes. Deploy your own backend in 30 seconds!
+X-Reqres-Notice=Using ReqRes at work? Commercial licences from £495/yr, 20% off year one with code FOUNDING20 -> https://reqres.in/commercial?src=api-notice
+X-Reqres-Templates=https://app.reqres.in/templates
+X-Reqres-Tip=Create your own backend with persistent data - app.reqres.in/dashboard
+X-Reqres-Upgrade=https://app.reqres.in/upgrade
+X-Request-Id=a306340f-f562-5d75-cc1d-11ee566f5709
+X-Robots-Tag=noindex, nofollow
+X-Xss-Protection=0
+cf-cache-status=MISS
+Content-Encoding=gzip
+CF-RAY=a3d0c1814c7d2251-DFW
