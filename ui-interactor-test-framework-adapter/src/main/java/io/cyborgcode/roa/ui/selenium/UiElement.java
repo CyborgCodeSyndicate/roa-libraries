@@ -25,7 +25,7 @@ import org.openqa.selenium.By;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "ui-element-interface"),
          @PandoraOptions.Meta(key = "scope", value = "type")

@@ -474,7 +474,7 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
          tags = {"ui", "select"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsOptionHidden(final SelectUiElement element,
                                    @Pandora(
@@ -497,7 +497,7 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
          tags = {"ui", "select"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsOptionHidden(final SelectUiElement element,
                                    @Pandora(
@@ -556,7 +556,7 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
          tags = {"ui", "select"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isOptionEnabled(final SelectUiElement element,
                             @Pandora(
@@ -582,7 +582,7 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
          tags = {"ui", "select"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsOptionEnabled(final SelectUiElement element,
                                     @Pandora(
@@ -605,7 +605,7 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
          tags = {"ui", "select"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsOptionEnabled(final SelectUiElement element,
                                     @Pandora(
@@ -629,7 +629,7 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
          tags = {"ui", "select"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsOptionDisabled(final SelectUiElement element,
                                      @Pandora(
@@ -652,7 +652,7 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
          tags = {"ui", "select"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsOptionDisabled(final SelectUiElement element,
                                      @Pandora(
@@ -712,7 +712,7 @@ public class SelectServiceFluent<T extends UiServiceFluent<?>> implements Insert
          tags = {"ui", "select", "insertion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public void insertion(final ComponentType componentType,
                          @Pandora(

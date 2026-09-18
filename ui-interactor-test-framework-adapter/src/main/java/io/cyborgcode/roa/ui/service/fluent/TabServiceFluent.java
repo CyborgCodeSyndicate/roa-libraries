@@ -210,7 +210,7 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "tab"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsDisabled(final TabUiElement element,
                                @Pandora(
@@ -230,7 +230,7 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "tab"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isVisible(final TabUiElement element) {
       Allure.step(UI_TAB_CHECKING_IF_THE_TAB + element + " is visible.");
@@ -252,7 +252,7 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "tab"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsVisible(final TabUiElement element) {
       return validateIsVisible(element, true, false);
@@ -270,7 +270,7 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "tab"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsVisible(final TabUiElement element,
                               @Pandora(
@@ -326,7 +326,7 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "tab"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsHidden(final TabUiElement element) {
       return validateIsVisible(element, false, false);
@@ -344,7 +344,7 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "tab"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsHidden(final TabUiElement element,
                              @Pandora(
@@ -364,7 +364,7 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "tab"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isSelected(final TabUiElement element) {
       Allure.step(UI_TAB_CHECKING_IF_THE_TAB + element + " is selected.");
@@ -386,7 +386,7 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "tab"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsSelected(final TabUiElement element) {
       return validateIsSelected(element, true, false);
@@ -405,7 +405,7 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "tab"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsSelected(final TabUiElement element,
                                @Pandora(
@@ -461,7 +461,7 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "tab"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsNotSelected(final TabUiElement element) {
       return validateIsSelected(element, false, false);
@@ -480,7 +480,7 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "tab"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsNotSelected(final TabUiElement element,
                                   @Pandora(

@@ -26,7 +26,7 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "fluent-service")
       }
@@ -64,7 +64,7 @@ public class ToggleServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "toggle"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T activate(final ToggleUiElement element) {
       Allure.step("[UI - Toggle] Activating the toggle element: " + element);
@@ -85,7 +85,7 @@ public class ToggleServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "toggle"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T deactivate(final ToggleUiElement element) {
       Allure.step("[UI - Toggle] Deactivating the toggle element: " + element);
@@ -106,7 +106,7 @@ public class ToggleServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "toggle"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isEnabled(final ToggleUiElement element) {
       Allure.step("[UI - Toggle] Checking if the toggle element is enabled: " + element);
@@ -128,7 +128,7 @@ public class ToggleServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "toggle"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsEnabled(final ToggleUiElement element) {
       return validateIsEnabled(element, true, false);
@@ -146,7 +146,7 @@ public class ToggleServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "toggle"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsEnabled(final ToggleUiElement element,
          @Pandora(
@@ -200,7 +200,7 @@ public class ToggleServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "toggle"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsDisabled(final ToggleUiElement element) {
       return validateIsEnabled(element, false, false);
@@ -218,7 +218,7 @@ public class ToggleServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "toggle"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsDisabled(final ToggleUiElement element,
          @Pandora(
@@ -238,7 +238,7 @@ public class ToggleServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "toggle"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isActivated(final ToggleUiElement element) {
       Allure.step("[UI - Toggle] Checking if the toggle element is activated: " + element);
@@ -258,7 +258,7 @@ public class ToggleServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "toggle"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsActivated(final ToggleUiElement element) {
       return validateIsActivated(element, true, false);
@@ -276,7 +276,7 @@ public class ToggleServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "toggle"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsActivated(final ToggleUiElement element,
          @Pandora(
@@ -330,7 +330,7 @@ public class ToggleServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "toggle"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsDeactivated(final ToggleUiElement element) {
       return validateIsActivated(element, false, false);
@@ -348,7 +348,7 @@ public class ToggleServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "toggle"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsDeactivated(final ToggleUiElement element,
          @Pandora(

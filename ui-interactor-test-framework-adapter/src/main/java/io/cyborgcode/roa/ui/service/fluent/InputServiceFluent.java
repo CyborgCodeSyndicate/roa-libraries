@@ -35,7 +35,7 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "fluent-service")
       }
@@ -75,7 +75,7 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
         tags = {"ui", "input"}
    )
    @PandoraOptions(
-        exampleFilesPath = "ai/roa/ui-usage.json"
+        exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T insert(final InputUiElement element,
          @Pandora(
@@ -99,7 +99,7 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
         tags = {"ui", "input"}
    )
    @PandoraOptions(
-        exampleFilesPath = "ai/roa/ui-usage.json"
+        exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T clear(final InputUiElement element) {
       Allure.step("[UI - Input] Clear input element: " + element);
@@ -120,7 +120,7 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
         tags = {"ui", "input"}
    )
    @PandoraOptions(
-        exampleFilesPath = "ai/roa/ui-usage.json"
+        exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getValue(final InputUiElement element) {
       Allure.step("[UI - Input] Get value from input element: " + element);
@@ -143,7 +143,7 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
         tags = {"ui", "input"}
    )
    @PandoraOptions(
-        exampleFilesPath = "ai/roa/ui-usage.json"
+        exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateValue(final InputUiElement element,
          @Pandora(
@@ -165,7 +165,7 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
         tags = {"ui", "input"}
    )
    @PandoraOptions(
-        exampleFilesPath = "ai/roa/ui-usage.json"
+        exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateValue(final InputUiElement element,
          @Pandora(
@@ -201,7 +201,7 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
         tags = {"ui", "input"}
    )
    @PandoraOptions(
-        exampleFilesPath = "ai/roa/ui-usage.json"
+        exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isEnabled(final InputUiElement element) {
       Allure.step("[UI - Input] Check if input element is enabled: " + element);
@@ -223,7 +223,7 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
         tags = {"ui", "input"}
    )
    @PandoraOptions(
-        exampleFilesPath = "ai/roa/ui-usage.json"
+        exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsEnabled(final InputUiElement element) {
       return validateIsEnabled(element, true, false);
@@ -241,7 +241,7 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
         tags = {"ui", "input"}
    )
    @PandoraOptions(
-        exampleFilesPath = "ai/roa/ui-usage.json"
+        exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsEnabled(final InputUiElement element,
          @Pandora(
@@ -296,7 +296,7 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
         tags = {"ui", "input"}
    )
    @PandoraOptions(
-        exampleFilesPath = "ai/roa/ui-usage.json"
+        exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsDisabled(final InputUiElement element) {
       return validateIsEnabled(element, false, false);
@@ -314,7 +314,7 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
         tags = {"ui", "input"}
    )
    @PandoraOptions(
-        exampleFilesPath = "ai/roa/ui-usage.json"
+        exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsDisabled(final InputUiElement element,
          @Pandora(
@@ -334,7 +334,7 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
         tags = {"ui", "input"}
    )
    @PandoraOptions(
-        exampleFilesPath = "ai/roa/ui-usage.json"
+        exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getErrorMessage(final InputUiElement element) {
       Allure.step("[UI - Input] Get error message for input element: " + element);
@@ -357,7 +357,7 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
         tags = {"ui", "input"}
    )
    @PandoraOptions(
-        exampleFilesPath = "ai/roa/ui-usage.json"
+        exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateErrorMessage(final InputUiElement element,
          @Pandora(
@@ -380,7 +380,7 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
         tags = {"ui", "input"}
    )
    @PandoraOptions(
-        exampleFilesPath = "ai/roa/ui-usage.json"
+        exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateErrorMessage(final InputUiElement element,
          @Pandora(
@@ -420,7 +420,7 @@ public class InputServiceFluent<T extends UiServiceFluent<?>> implements Inserti
         tags = {"ui", "input", "insertion"}
    )
    @PandoraOptions(
-        exampleFilesPath = "ai/roa/ui-usage.json"
+        exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public void insertion(final ComponentType componentType,
          @Pandora(

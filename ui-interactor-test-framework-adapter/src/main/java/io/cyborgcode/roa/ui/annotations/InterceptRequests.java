@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "ui-intercept-annotation"),
          @PandoraOptions.Meta(key = "scope", value = "method")
@@ -48,7 +48,7 @@ public @interface InterceptRequests {
    )
    @PandoraOptions(
          availableOptionsRule = AvailableOptionsUiRules.AvailableDataInterceptOptions.class,
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    String[] requestUrlSubStrings() default {};
 }

@@ -275,7 +275,7 @@ public class AlertServiceFluent<T extends UiServiceFluent<?>> {
         tags = {"ui", "alert"}
    )
    @PandoraOptions(
-        exampleFilesPath = "ai/roa/ui-usage.json"
+        exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsHidden(final AlertUiElement element,
          @Pandora(

@@ -35,7 +35,7 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "fluent-service")
       }
@@ -76,7 +76,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T select(final ListUiElement element,
          @Pandora(
@@ -101,7 +101,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T deSelect(final ListUiElement element,
          @Pandora(
@@ -126,7 +126,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T areSelected(final ListUiElement element,
          @Pandora(
@@ -153,7 +153,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAreSelected(final ListUiElement element,
          @Pandora(
@@ -178,7 +178,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAreSelected(final ListUiElement element,
          @Pandora(
@@ -238,7 +238,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAreNotSelected(final ListUiElement element,
          @Pandora(
@@ -263,7 +263,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAreNotSelected(final ListUiElement element,
          @Pandora(
@@ -289,7 +289,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isSelected(final ListUiElement element,
          @Pandora(
@@ -315,7 +315,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsSelected(final ListUiElement element,
          @Pandora(
@@ -339,7 +339,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsSelected(final ListUiElement element,
          @Pandora(
@@ -364,7 +364,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsNotSelected(final ListUiElement element,
          @Pandora(
@@ -388,7 +388,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsNotSelected(final ListUiElement element,
          @Pandora(
@@ -413,7 +413,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T areEnabled(final ListUiElement element,
          @Pandora(
@@ -440,7 +440,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAreEnabled(final ListUiElement element,
          @Pandora(
@@ -465,7 +465,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAreEnabled(final ListUiElement element,
          @Pandora(
@@ -525,7 +525,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAreDisabled(final ListUiElement element,
          @Pandora(
@@ -549,7 +549,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAreDisabled(final ListUiElement element,
          @Pandora(
@@ -574,7 +574,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isEnabled(final ListUiElement element,
          @Pandora(
@@ -601,7 +601,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsEnabled(final ListUiElement element,
          @Pandora(
@@ -625,7 +625,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsEnabled(final ListUiElement element,
          @Pandora(
@@ -650,7 +650,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsDisabled(final ListUiElement element,
          @Pandora(
@@ -674,7 +674,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsDisabled(final ListUiElement element,
          @Pandora(
@@ -699,7 +699,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T areVisible(final ListUiElement element,
          @Pandora(
@@ -726,7 +726,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAreVisible(final ListUiElement element,
          @Pandora(
@@ -750,7 +750,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAreVisible(final ListUiElement element,
          @Pandora(
@@ -809,7 +809,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAreHidden(final ListUiElement element,
          @Pandora(
@@ -833,7 +833,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAreHidden(final ListUiElement element,
          @Pandora(
@@ -858,7 +858,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isVisible(final ListUiElement element,
          @Pandora(
@@ -885,7 +885,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsVisible(final ListUiElement element,
          @Pandora(
@@ -909,7 +909,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsVisible(final ListUiElement element,
          @Pandora(
@@ -934,7 +934,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsHidden(final ListUiElement element,
          @Pandora(
@@ -958,7 +958,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsHidden(final ListUiElement element,
          @Pandora(
@@ -982,7 +982,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getSelected(final ListUiElement element) {
       Allure.step("[UI - List] Retrieve selected items from the list");
@@ -1005,7 +1005,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateSelectedItems(final ListUiElement element,
          @Pandora(
@@ -1029,7 +1029,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateSelectedItems(final ListUiElement element,
          @Pandora(
@@ -1088,7 +1088,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateNotSelectedItems(final ListUiElement element,
          @Pandora(
@@ -1112,7 +1112,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateNotSelectedItems(final ListUiElement element,
          @Pandora(
@@ -1136,7 +1136,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getAll(final ListUiElement element) {
       Allure.step("[UI - List] Retrieve all items from the list");
@@ -1160,7 +1160,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAllItems(final ListUiElement element,
          @Pandora(
@@ -1218,7 +1218,7 @@ public class ListServiceFluent<T extends UiServiceFluent<?>> implements Insertio
          tags = {"ui", "list", "insertion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public void insertion(final ComponentType componentType,
          @Pandora(

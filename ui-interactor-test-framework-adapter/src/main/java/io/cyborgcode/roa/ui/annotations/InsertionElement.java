@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/ui-usage.json",
+      exampleFilesPath = "docs/usage/roa/ui-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "ui-insertion-annotation"),
          @PandoraOptions.Meta(key = "scope", value = "field")

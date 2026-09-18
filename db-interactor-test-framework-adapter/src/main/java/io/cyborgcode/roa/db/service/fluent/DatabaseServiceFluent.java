@@ -31,7 +31,7 @@ import static io.cyborgcode.roa.db.storage.StorageKeysDb.DB;
       creation = CreationKind.PROVIDED
 )
 @PandoraOptions(
-      exampleFilesPath = "ai/roa/db-usage.json",
+      exampleFilesPath = "docs/usage/roa/db-usage.json",
       meta = {
          @PandoraOptions.Meta(key = "type", value = "fluent-service"),
       }
@@ -62,7 +62,7 @@ public class DatabaseServiceFluent extends FluentService implements ClassLevelHo
          tags = {"db"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/db-usage.json"
+         exampleFilesPath = "docs/usage/roa/db-usage.json"
    )
    public DatabaseServiceFluent query(final DbQuery<?> query) {
       final QueryResponse queryResponse = databaseService.query(query);
@@ -84,7 +84,7 @@ public class DatabaseServiceFluent extends FluentService implements ClassLevelHo
          tags = {"db"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/db-usage.json"
+         exampleFilesPath = "docs/usage/roa/db-usage.json"
    )
    public <T> DatabaseServiceFluent query(
          final DbQuery<?> query,
@@ -113,7 +113,7 @@ public class DatabaseServiceFluent extends FluentService implements ClassLevelHo
          tags = {"db"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/db-usage.json"
+         exampleFilesPath = "docs/usage/roa/db-usage.json"
    )
    public DatabaseServiceFluent queryAndValidate(final DbQuery<?> query, final Assertion... assertions) {
       final QueryResponse queryResponse = databaseService.query(query);
@@ -194,7 +194,7 @@ public class DatabaseServiceFluent extends FluentService implements ClassLevelHo
          tags = {"db"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/db-usage.json"
+         exampleFilesPath = "docs/usage/roa/db-usage.json"
    )
    public <T> DatabaseServiceFluent retryUntil(
          @Pandora(

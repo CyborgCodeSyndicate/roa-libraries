@@ -226,7 +226,7 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "link"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsDisabled(final LinkUiElement element,
          @Pandora(
@@ -246,7 +246,7 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "link"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isVisible(final LinkUiElement element) {
       Allure.step("[UI - Link] Checking if the link element is visible: " + element);
@@ -268,7 +268,7 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "link"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsVisible(final LinkUiElement element) {
       return validateIsVisible(element, true, false);
@@ -286,7 +286,7 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "link"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsVisible(final LinkUiElement element,
          @Pandora(
@@ -342,7 +342,7 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "link"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsHidden(final LinkUiElement element) {
       return validateIsVisible(element, false, false);
@@ -360,7 +360,7 @@ public class LinkServiceFluent<T extends UiServiceFluent<?>> {
          tags = {"ui", "link"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsHidden(final LinkUiElement element,
          @Pandora(

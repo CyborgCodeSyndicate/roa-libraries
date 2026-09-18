@@ -252,7 +252,7 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
          tags = {"ui", "radio"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsSelected(final RadioUiElement element) {
       return validateIsSelected(element, true, false);
@@ -271,7 +271,7 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
          tags = {"ui", "radio"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsSelected(final RadioUiElement element,
                                @Pandora(
@@ -326,7 +326,7 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
          tags = {"ui", "radio"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsNotSelected(final RadioUiElement element) {
       return validateIsSelected(element, false, false);
@@ -345,7 +345,7 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
          tags = {"ui", "radio"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsNotSelected(final RadioUiElement element,
                                   @Pandora(
@@ -365,7 +365,7 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
          tags = {"ui", "radio"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isVisible(final RadioUiElement element) {
       Allure.step("[UI - Radio] Checking if radio button is visible: " + element.enumImpl());
@@ -387,7 +387,7 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
          tags = {"ui", "radio"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsVisible(final RadioUiElement element) {
       return validateIsVisible(element, true, false);
@@ -406,7 +406,7 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
          tags = {"ui", "radio"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsVisible(final RadioUiElement element,
                               @Pandora(
@@ -461,7 +461,7 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
          tags = {"ui", "radio"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsHidden(final RadioUiElement element) {
       return validateIsVisible(element, false, false);
@@ -480,7 +480,7 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
          tags = {"ui", "radio"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsHidden(final RadioUiElement element,
                              @Pandora(
@@ -500,7 +500,7 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
          tags = {"ui", "radio"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getSelected(final RadioUiElement element) {
       Allure.step("[UI - Radio] Retrieving selected value for radio button: " + element.enumImpl());
@@ -523,7 +523,7 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
          tags = {"ui", "radio"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateSelected(final RadioUiElement element,
                              @Pandora(
@@ -548,7 +548,7 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
          tags = {"ui", "radio"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateSelected(final RadioUiElement element,
                              @Pandora(
@@ -588,7 +588,7 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
          tags = {"ui", "radio"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getAll(final RadioUiElement element) {
       Allure.step("[UI - Radio] Retrieving all radio button options for: " + element.enumImpl());
@@ -611,7 +611,7 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
          tags = {"ui", "radio"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAllRadioInputs(final RadioUiElement element,
                                    @Pandora(
@@ -636,7 +636,7 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
          tags = {"ui", "radio"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateAllRadioInputs(final RadioUiElement element,
                                    @Pandora(
@@ -678,7 +678,7 @@ public class RadioServiceFluent<T extends UiServiceFluent<?>> implements Inserti
          tags = {"ui", "radio", "insertion"}
    )
    @PandoraOptions(
-         exampleFilesPath = "ai/roa/ui-usage.json"
+         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public void insertion(final ComponentType componentType,
                          @Pandora(
