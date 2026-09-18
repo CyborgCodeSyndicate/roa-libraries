@@ -1,0 +1,47 @@
+🤖 CYBORG 🤖 2026-09-18T13:42:14,495 [scenario=AdvancedFeaturesTest.ripperFeature] INFO  [UI] - Creating driver using provider [ChromeDriverProvider]. Headless: [true], Remote: [true], Remote URL: [http://localhost:4444]
+🤖 CYBORG 🤖 2026-09-18T13:42:14,893 [scenario=AdvancedFeaturesTest.ripperFeature] INFO  [QUEST] - The quest: 'ripperFeature(Quest)' has begun and is crafted.
+🤖 CYBORG 🤖 2026-09-18T13:42:14,895 [scenario=AdvancedFeaturesTest.ripperFeature] INFO  [QUEST] - The quest has used the ring: 'UI'
+🤖 CYBORG 🤖 2026-09-18T13:42:15,174 [scenario=AdvancedFeaturesTest.ripperFeature] STEP  [UI] - Inserting value: 'admin@vaadin.com' into input component of type: 'VA_INPUT_TYPE'.
+🤖 CYBORG 🤖 2026-09-18T13:42:15,505 [scenario=AdvancedFeaturesTest.ripperFeature] STEP  [UI] - Inserting value: 'admin' into input component of type: 'VA_INPUT_TYPE'.
+🤖 CYBORG 🤖 2026-09-18T13:42:15,714 [scenario=AdvancedFeaturesTest.ripperFeature] STEP  [UI] - Clicking button using locator: By.tagName: vaadin-button
+🤖 CYBORG 🤖 2026-09-18T13:42:16,421 [scenario=AdvancedFeaturesTest.ripperFeature] INFO  [QUEST] - The quest has used the ring: 'Custom'
+🤖 CYBORG 🤖 2026-09-18T13:42:16,422 [scenario=AdvancedFeaturesTest.ripperFeature] INFO  [QUEST] - The quest has used the ring: 'io.cyborgcode.ui.complex.test.framework.ui.AppUiService'
+🤖 CYBORG 🤖 2026-09-18T13:42:16,485 [scenario=AdvancedFeaturesTest.ripperFeature] STEP  [UI] - Clicking button using locator: By.cssSelector: vaadin-button#action
+🤖 CYBORG 🤖 2026-09-18T13:42:16,932 [scenario=AdvancedFeaturesTest.ripperFeature] STEP  [UI] - Inserting value into component of type: 'VA_INPUT_TYPE' using locator.
+🤖 CYBORG 🤖 2026-09-18T13:42:16,934 [scenario=AdvancedFeaturesTest.ripperFeature] STEP  [UI] - Inserting value: 'John Terry' into input component of type: 'VA_INPUT_TYPE'.
+🤖 CYBORG 🤖 2026-09-18T13:42:17,353 [scenario=AdvancedFeaturesTest.ripperFeature] STEP  [UI] - Inserting value into component of type: 'VA_INPUT_TYPE' using locator.
+🤖 CYBORG 🤖 2026-09-18T13:42:17,358 [scenario=AdvancedFeaturesTest.ripperFeature] STEP  [UI] - Inserting value: 'Address' into input component of type: 'VA_INPUT_TYPE'.
+🤖 CYBORG 🤖 2026-09-18T13:42:17,689 [scenario=AdvancedFeaturesTest.ripperFeature] STEP  [UI] - Inserting value into component of type: 'VA_INPUT_TYPE' using locator.
+🤖 CYBORG 🤖 2026-09-18T13:42:17,692 [scenario=AdvancedFeaturesTest.ripperFeature] STEP  [UI] - Inserting value: '+1-555-7777' into input component of type: 'VA_INPUT_TYPE'.
+🤖 CYBORG 🤖 2026-09-18T13:42:18,111 [scenario=AdvancedFeaturesTest.ripperFeature] STEP  [UI] - Inserting values [Bakery] for select component VA_SELECT_TYPE using locator By.cssSelector: vaadin-combo-box#pickupLocation
+🤖 CYBORG 🤖 2026-09-18T13:42:18,113 [scenario=AdvancedFeaturesTest.ripperFeature] STEP  [UI] - Selecting options [Bakery] in container with locator By.cssSelector: vaadin-combo-box#pickupLocation for select component VA_SELECT_TYPE
+🤖 CYBORG 🤖 2026-09-18T13:42:18,704 [scenario=AdvancedFeaturesTest.ripperFeature] STEP  [UI] - Inserting values [Strawberry Bun] for select component VA_SELECT_TYPE using locator By.cssSelector: vaadin-combo-box#products
+🤖 CYBORG 🤖 2026-09-18T13:42:18,706 [scenario=AdvancedFeaturesTest.ripperFeature] STEP  [UI] - Selecting options [Strawberry Bun] in container with locator By.cssSelector: vaadin-combo-box#products for select component VA_SELECT_TYPE
+🤖 CYBORG 🤖 2026-09-18T13:42:19,158 [scenario=AdvancedFeaturesTest.ripperFeature] INFO  [UI] - Finished data insertion for [Order].
+🤖 CYBORG 🤖 2026-09-18T13:42:19,288 [scenario=AdvancedFeaturesTest.ripperFeature] STEP  [UI] - Clicking button using locator: By.cssSelector: vaadin-button#review
+🤖 CYBORG 🤖 2026-09-18T13:42:19,603 [scenario=AdvancedFeaturesTest.ripperFeature] STEP  [UI] - Clicking button using locator: By.cssSelector: vaadin-button#save
+🤖 CYBORG 🤖 2026-09-18T13:42:20,369 [scenario=AdvancedFeaturesTest.ripperFeature] INFO  [QUEST] - The quest has used the ring: 'Custom'
+🤖 CYBORG 🤖 2026-09-18T13:42:20,370 [scenario=AdvancedFeaturesTest.ripperFeature] INFO  [QUEST] - The quest has used the ring: 'io.cyborgcode.ui.complex.test.framework.ui.AppUiService'
+🤖 CYBORG 🤖 2026-09-18T13:42:20,418 [scenario=AdvancedFeaturesTest.ripperFeature] STEP  [UI] - Inserting value: 'John Terry' into input component of type: 'VA_INPUT_TYPE'.
+🤖 CYBORG 🤖 2026-09-18T13:42:20,695 [scenario=AdvancedFeaturesTest.ripperFeature] VALIDATION [QUEST] - Starting hard validation...
+🤖 CYBORG 🤖 2026-09-18T13:42:20,817 [scenario=AdvancedFeaturesTest.ripperFeature] VALIDATION [QUEST] - Hard validation completed successfully.
+🤖 CYBORG 🤖 2026-09-18T13:42:20,886 [scenario=AdvancedFeaturesTest.ripperFeature] STEP  [UI] - Clicking button using locator: By.cssSelector: vaadin-button#clear
+🤖 CYBORG 🤖 2026-09-18T13:42:21,187 [scenario=AdvancedFeaturesTest.ripperFeature] INFO  [QUEST] - The quest has dropped the ring.
+🤖 CYBORG 🤖 2026-09-18T13:42:21,189 [scenario=AdvancedFeaturesTest.ripperFeature] INFO  [QUEST] - The quest has reached his end
+🤖 CYBORG 🤖 2026-09-18T13:42:21,454 [scenario=AdvancedFeaturesTest.ripperFeature] INFO  [QUEST] - Screenshot taken and stored for: ripperFeature(Quest)
+🤖 CYBORG 🤖 2026-09-18T13:42:21,456 [scenario=AdvancedFeaturesTest.ripperFeature] INFO  [QUEST] - The ripper has arrived
+🤖 CYBORG 🤖 2026-09-18T13:42:21,473 [scenario=AdvancedFeaturesTest.ripperFeature] INFO  [QUEST] - The quest has used the ring: 'DB'
+🤖 CYBORG 🤖 2026-09-18T13:42:21,490 [scenario=AdvancedFeaturesTest.ripperFeature] INFO  [DB] - Obtained database connection for: AppDb
+🤖 CYBORG 🤖 2026-09-18T13:42:21,492 [scenario=AdvancedFeaturesTest.ripperFeature] STEP  [DB] - Executing database query: SELECT * FROM orders
+🤖 CYBORG 🤖 2026-09-18T13:42:21,512 [scenario=AdvancedFeaturesTest.ripperFeature] STEP  [DB] - Query 'SELECT * FROM orders' executed in 19ms, result count: 2
+🤖 CYBORG 🤖 2026-09-18T13:42:21,528 [scenario=AdvancedFeaturesTest.ripperFeature] INFO  [DB] - Obtained database connection for: AppDb
+🤖 CYBORG 🤖 2026-09-18T13:42:21,529 [scenario=AdvancedFeaturesTest.ripperFeature] STEP  [DB] - Executing database query: DELETE FROM orders WHERE id = 1
+🤖 CYBORG 🤖 2026-09-18T13:42:21,533 [scenario=AdvancedFeaturesTest.ripperFeature] INFO  [DB] - Starting query response validation with 1 assertion(s).
+🤖 CYBORG 🤖 2026-09-18T13:42:21,595 [scenario=AdvancedFeaturesTest.ripperFeature] VALIDATION [QUEST] - ✔ Validation passed: IS (Expected: 1, Actual: 1)
+🤖 CYBORG 🤖 2026-09-18T13:42:21,857 [scenario=AdvancedFeaturesTest.ripperFeature] INFO  [DB] - Obtained database connection for: AppDb
+🤖 CYBORG 🤖 2026-09-18T13:42:21,859 [scenario=AdvancedFeaturesTest.ripperFeature] STEP  [DB] - Executing database query: SELECT product FROM orders WHERE id = 1
+🤖 CYBORG 🤖 2026-09-18T13:42:21,861 [scenario=AdvancedFeaturesTest.ripperFeature] STEP  [DB] - Query 'SELECT product FROM orders WHERE id = 1' executed in 1ms, result count: 0
+🤖 CYBORG 🤖 2026-09-18T13:42:21,862 [scenario=AdvancedFeaturesTest.ripperFeature] INFO  [DB] - Starting query response validation with 1 assertion(s).
+🤖 CYBORG 🤖 2026-09-18T13:42:21,863 [scenario=AdvancedFeaturesTest.ripperFeature] VALIDATION [QUEST] - ✔ Validation passed: IS (Expected: 0, Actual: 0)
+🤖 CYBORG 🤖 2026-09-18T13:42:21,865 [scenario=AdvancedFeaturesTest.ripperFeature] INFO  [QUEST] - DataRipper processed target: 'DELETE_CREATED_ORDERS'.
+🤖 CYBORG 🤖 2026-09-18T13:42:21,868 [scenario=AdvancedFeaturesTest.ripperFeature] INFO  [QUEST] - The quest of 'ripperFeature(Quest)' has concluded with glory. Status: SUCCESS. Duration: 7 seconds.
