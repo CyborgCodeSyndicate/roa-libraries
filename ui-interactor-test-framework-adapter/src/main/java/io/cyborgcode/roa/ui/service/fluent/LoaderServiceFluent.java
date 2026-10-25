@@ -1,8 +1,8 @@
 package io.cyborgcode.roa.ui.service.fluent;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 import io.cyborgcode.roa.framework.storage.Storage;
 import io.cyborgcode.roa.ui.components.loader.LoaderService;
 import io.cyborgcode.roa.ui.selenium.LoaderUiElement;
@@ -24,15 +24,14 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @SuppressWarnings({"java:S5960", "unchecked"})
-@Pandora(
+@AiCompass(
       description = "Fluent UI service for handling loaders: visibility checks, waits, and validations.",
       tags = {"ui", "fluent", "loader"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
-      exampleFilesPath = "docs/usage/roa/ui-usage.json",
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "fluent-service")
+         @AiCompassOptions.Meta(key = "type", value = "fluent-service")
       }
 )
 public class LoaderServiceFluent<T extends UiServiceFluent<?>> {
@@ -64,12 +63,9 @@ public class LoaderServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link LoaderUiElement} representing the loader component.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Evaluate whether the loader is visible and store the result in quest storage.",
          tags = {"ui", "loader"}
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isVisible(final LoaderUiElement element) {
       Allure.step("[UI - Loader] Check if the loader UI element is visible");
@@ -87,12 +83,9 @@ public class LoaderServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link LoaderUiElement} to validate.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the loader is visible (hard assertion).",
          tags = {"ui", "loader"}
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsVisible(final LoaderUiElement element) {
       Allure.step("[UI - Loader] Validate that the loader UI element is visible");
@@ -106,15 +99,12 @@ public class LoaderServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft    A boolean indicating whether to perform soft validation.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the loader is visible, optionally using a soft assertion.",
          tags = {"ui", "loader"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T validateIsVisible(final LoaderUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft) {
       Allure.step("[UI - Loader] Validate that the loader UI element is visible with soft validation option");
@@ -168,12 +158,9 @@ public class LoaderServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link LoaderUiElement} to validate.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the loader is hidden (hard assertion).",
          tags = {"ui", "loader"}
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsHidden(final LoaderUiElement element) {
       Allure.step("[UI - Loader] Validate that the loader UI element is hidden");
@@ -187,15 +174,12 @@ public class LoaderServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft    A boolean indicating whether to perform soft validation.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the loader is hidden, optionally using a soft assertion.",
          tags = {"ui", "loader"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T validateIsHidden(final LoaderUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft) {
       Allure.step("[UI - Loader] Validate that the loader UI element is hidden with soft validation option");
@@ -209,15 +193,12 @@ public class LoaderServiceFluent<T extends UiServiceFluent<?>> {
     * @param secondsShown The maximum time (in seconds) to wait for visibility.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Wait for the loader to be shown up to the given number of seconds.",
          tags = {"ui", "loader"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T waitToBeShown(final LoaderUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Maximum time in seconds to wait for the loader to become visible."
          ) int secondsShown) {
       Allure.step(
@@ -236,15 +217,12 @@ public class LoaderServiceFluent<T extends UiServiceFluent<?>> {
     * @param secondsRemoved The maximum time (in seconds) to wait for removal.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Wait for the loader to be removed up to the given number of seconds.",
          tags = {"ui", "loader"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T waitToBeRemoved(final LoaderUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Maximum time in seconds to wait for the loader to be removed."
          ) int secondsRemoved) {
       Allure.step("[UI - Loader] Wait for the loader UI element to be removed for " + secondsRemoved + " seconds");
@@ -263,18 +241,15 @@ public class LoaderServiceFluent<T extends UiServiceFluent<?>> {
     * @param secondsRemoved The maximum time (in seconds) to wait for removal.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Wait for the loader to be shown and then removed within the given time limits.",
          tags = {"ui", "loader"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T waitToBeShownAndRemoved(final LoaderUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Maximum time in seconds to wait for the loader to become visible."
          ) int secondsShown,
-         @Pandora(
+         @AiCompass(
                description = "Maximum time in seconds to wait for the loader to be removed."
          ) int secondsRemoved) {
       Allure.step("[UI - Loader] Wait for the loader UI element to be shown and then removed within "

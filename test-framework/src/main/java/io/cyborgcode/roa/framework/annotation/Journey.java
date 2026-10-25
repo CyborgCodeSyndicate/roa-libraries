@@ -1,9 +1,9 @@
 package io.cyborgcode.roa.framework.annotation;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
-import io.cyborgcode.roa.framework.pandora.AvailableOptionsTestFrameworkRules;
+import io.cyborgcode.roa.framework.parameters.PreQuestJourney;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
@@ -25,19 +25,18 @@ import java.lang.annotation.Target;
 @Repeatable(PreQuest.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@Pandora(
+@AiCompass(
       description = "Declares a pre-test journey (precondition) executed before the test body by resolving a "
             + "project-defined PreQuestJourney key; can be repeated and ordered, and can receive crafted "
             + "inputs via journeyData.",
       tags = {"framework", "precondition"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
-      exampleFilesPath = "docs/usage/roa/general-usage.json",
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "journey-annotation"),
-         @PandoraOptions.Meta(key = "scope", value = "method"),
-         @PandoraOptions.Meta(key = "phase", value = "before-test")
+         @AiCompassOptions.Meta(key = "type", value = "journey-annotation"),
+         @AiCompassOptions.Meta(key = "scope", value = "method"),
+         @AiCompassOptions.Meta(key = "phase", value = "before-test")
       }
 )
 public @interface Journey {
@@ -50,13 +49,14 @@ public @interface Journey {
     *
     * @return The name of the journey.
     */
-   @Pandora(
+   @AiCompass(
          description = "PreQuestJourney key to execute before this test. Must match an enum constant name "
                + "from a project enum implementing PreQuestJourney (e.g., \"USER_LOGIN_PRECONDITION\")."
    )
-   @PandoraOptions(
-         availableOptionsRule = AvailableOptionsTestFrameworkRules.AvailablePreQuestJourneyOptions.class
+   @AiCompassOptions(
+         implementationsOf = PreQuestJourney.class
    )
+
    String value();
 
    /**
@@ -76,7 +76,7 @@ public @interface Journey {
     *
     * @return The execution order of the journey.
     */
-   @Pandora(
+   @AiCompass(
          description = "Optional execution order when multiple @Journey annotations are present; lower "
                + "values run first (default: 0)."
    )

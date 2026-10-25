@@ -1,11 +1,10 @@
 package io.cyborgcode.roa.ui.selenium;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.components.modal.ModalService;
-import io.cyborgcode.roa.ui.pandora.AvailableOptionsUiRules;
 
 /**
  * Represents a UI element for modal dialogs within the framework.
@@ -20,18 +19,17 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsUiRules;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Modal UI element enum contract (locator + component type + hooks) consumed by ModalService "
             + "for standardized modal interactions.",
       tags = {"ui", "ui-element", "modal"},
       creation = CreationKind.ENUM_CONSTANT
 )
-@PandoraOptions(
-      availableOptionsRule = AvailableOptionsUiRules.AvailableModalUiElements.class,
-      exampleFilesPath = "docs/usage/roa/ui-usage.json",
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-element")
-      }
+         @AiCompassOptions.Meta(key = "type", value = "ui-element")
+      },
+      implementationsOf = ModalUiElement.class
 )
 public interface ModalUiElement extends UiElement {
 

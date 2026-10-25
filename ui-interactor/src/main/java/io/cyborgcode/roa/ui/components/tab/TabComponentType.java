@@ -1,10 +1,9 @@
 package io.cyborgcode.roa.ui.components.tab;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 import io.cyborgcode.roa.ui.components.button.ButtonComponentType;
-import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
 
 /**
  * Defines a specific type of tab component, extending {@link ButtonComponentType} to unify
@@ -15,17 +14,16 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Component type marker for Tab components; enums implement this to declare available tab types.",
       tags = {"ui", "ui-component-type", "tab"},
       creation = CreationKind.ENUM_CONSTANT
 )
-@PandoraOptions(
-      availableOptionsRule = AvailableOptionsRules.AvailableTabComponentTypes.class,
-      exampleFilesPath = "docs/usage/roa/ui-usage.json",
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-component-type")
-      }
+         @AiCompassOptions.Meta(key = "type", value = "ui-component-type")
+      },
+      implementationsOf = TabComponentType.class
 )
 public interface TabComponentType extends ButtonComponentType {
 }

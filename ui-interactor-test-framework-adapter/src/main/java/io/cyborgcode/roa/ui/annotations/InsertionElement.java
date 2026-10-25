@@ -1,8 +1,8 @@
 package io.cyborgcode.roa.ui.annotations;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 import io.cyborgcode.roa.ui.selenium.UiElement;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -18,17 +18,16 @@ import java.lang.annotation.Target;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Field-level annotation describing a UI element used for data insertion "
             + "(locator + element + order).",
       tags = {"ui", "insertion", "annotation"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
-      exampleFilesPath = "docs/usage/roa/ui-usage.json",
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-insertion-annotation"),
-         @PandoraOptions.Meta(key = "scope", value = "field")
+         @AiCompassOptions.Meta(key = "type", value = "ui-insertion-annotation"),
+         @AiCompassOptions.Meta(key = "scope", value = "field")
       }
 )
 @Retention(RetentionPolicy.RUNTIME)
@@ -40,7 +39,7 @@ public @interface InsertionElement {
     *
     * @return The enum class representing UI element locators.
     */
-   @Pandora(
+   @AiCompass(
          description = "Class that defines the locator strategy for the UI element (e.g., enum of selectors)."
    )
    Class<? extends UiElement> locatorClass();
@@ -50,7 +49,7 @@ public @interface InsertionElement {
     *
     * @return The string representing the enum constant of the UI element.
     */
-   @Pandora(
+   @AiCompass(
          description = "Name/enum constant within the locator class that identifies the specific UI element."
    )
    String elementEnum();
@@ -62,7 +61,7 @@ public @interface InsertionElement {
     *
     * @return The order of the element in the insertion process.
     */
-   @Pandora(
+   @AiCompass(
          description = "Processing order for data insertion; lower numbers are handled first."
    )
    int order();

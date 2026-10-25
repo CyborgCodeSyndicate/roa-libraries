@@ -1,8 +1,8 @@
 package io.cyborgcode.roa.framework.parameters;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 
 /**
  * Represents a deferred or lazy evaluation of an object.
@@ -19,16 +19,15 @@ import io.cyborgcode.pandora.model.CreationKind;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @FunctionalInterface
-@Pandora(
+@AiCompass(
       description = "Lazy/deferred value wrapper. The contained object is only materialized when create() is called "
             + "(commonly used for on-demand @Craft test data).",
       tags = {"framework", "test-data"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
-      exampleFilesPath = "docs/usage/roa/general-usage.json",
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "late")
+         @AiCompassOptions.Meta(key = "type", value = "late")
       }
 )
 public interface Late<T> {
@@ -41,12 +40,9 @@ public interface Late<T> {
     *
     * @return The instantiated object of type {@code T}.
     */
-   @Pandora(
+   @AiCompass(
          description = "Materialize and return the underlying value on demand. "
                + "May create a new instance or return a cached one, depending on implementation."
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    T create();
 

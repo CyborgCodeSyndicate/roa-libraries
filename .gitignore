@@ -24,3 +24,6 @@ build/
 *.log
 
 #Again
+# Pandora Optimizer
+pandora/generated/
+pandora/cache/

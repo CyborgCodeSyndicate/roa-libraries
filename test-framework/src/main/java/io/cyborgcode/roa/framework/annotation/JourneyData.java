@@ -1,9 +1,9 @@
 package io.cyborgcode.roa.framework.annotation;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
-import io.cyborgcode.roa.framework.pandora.AvailableOptionsTestFrameworkRules;
+import io.cyborgcode.roa.framework.parameters.DataForge;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -22,16 +22,15 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({})
-@Pandora(
+@AiCompass(
       description = "Used inside @Journey(journeyData=...) to declare which DataForge model(s) should be "
             + "crafted and passed into the journey before the test body runs.",
       tags = {"framework", "test-data"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
-      exampleFilesPath = "docs/usage/roa/general-usage.json",
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "journey-data-annotation")
+         @AiCompassOptions.Meta(key = "type", value = "journey-data-annotation")
       }
 )
 public @interface JourneyData {
@@ -44,13 +43,14 @@ public @interface JourneyData {
     *
     * @return The name of the test data model.
     */
-   @Pandora(
+   @AiCompass(
          description = "DataForge model key to craft for this journey argument. Must match an enum constant name "
                + "from a project enum implementing DataForge (e.g., \"CREATE_ORDER\")."
    )
-   @PandoraOptions(
-         availableOptionsRule = AvailableOptionsTestFrameworkRules.AvailableDataForgeOptions.class
+   @AiCompassOptions(
+         implementationsOf = DataForge.class
    )
+
    String value();
 
    /**
@@ -66,7 +66,7 @@ public @interface JourneyData {
     * @return {@code true} if the test data should be created lazily and requires
     *     explicit resolution before use, otherwise {@code false}.
     */
-   @Pandora(
+   @AiCompass(
          description = "If true, the journey receives a deferred model (Late<T>) instead of an eager instance, "
                + "so creation can be triggered later inside the journey flow (default: false)."
    )

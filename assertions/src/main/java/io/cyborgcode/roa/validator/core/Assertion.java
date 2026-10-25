@@ -1,8 +1,8 @@
 package io.cyborgcode.roa.validator.core;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,15 +19,14 @@ import lombok.Setter;
  */
 @Getter
 @SuppressWarnings("java:S3740")
-@Pandora(
+@AiCompass(
       description = "Single validation rule describing what to assert, how to compare it and what value is expected.",
       tags = {"assertion"},
       creation = CreationKind.BUILDER
 )
-@PandoraOptions(
-      exampleFilesPath = "docs/usage/roa/general-usage.json",
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "assertion")
+         @AiCompassOptions.Meta(key = "type", value = "assertion")
       }
 )
 public final class Assertion {
@@ -35,13 +34,13 @@ public final class Assertion {
    /**
     * The subject of the assertion, specifying what is being validated.
     */
-   @Pandora
+   @AiCompass
    private final AssertionTarget target;
 
    /**
     * Provides a supplementary identifier for targeted validation.
     */
-   @Pandora(
+   @AiCompass(
       description = "Optional key that refines the target, such as JSON path, header name or locator."
    )
    @Setter
@@ -50,13 +49,13 @@ public final class Assertion {
    /**
     * Indicates the logical operation for this validation.
     */
-   @Pandora
+   @AiCompass
    private final AssertionType<?> type;
 
    /**
     * The reference value expected by this assertion.
     */
-   @Pandora(
+   @AiCompass(
       description = "Expected reference value used by the assertion operator."
    )
    private final Object expected;
@@ -64,7 +63,7 @@ public final class Assertion {
    /**
     * Determines if the assertion is a soft assertion.
     */
-   @Pandora(
+   @AiCompass(
       description = "Whether this assertion is soft (do not fail immediately, collect in soft-assertions)."
    )
    private final boolean soft;

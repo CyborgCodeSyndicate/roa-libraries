@@ -1,8 +1,8 @@
 package io.cyborgcode.roa.framework.parameters;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 import io.cyborgcode.roa.framework.quest.SuperQuest;
 import java.util.function.BiConsumer;
 
@@ -18,17 +18,16 @@ import java.util.function.BiConsumer;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Pre-test journey (precondition) contract. "
             + "Implementations define setup logic that runs before the test body, "
             + "usually triggered by @Journey/@PreQuest and identified via an enum constant.",
       tags = {"framework", "precondition"},
       creation = CreationKind.ENUM_CONSTANT
 )
-@PandoraOptions(
-      exampleFilesPath = "docs/usage/roa/general-usage.json",
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "pre-quest-journey")
+         @AiCompassOptions.Meta(key = "type", value = "pre-quest-journey")
       }
 )
 public interface PreQuestJourney<T extends Enum<T>> {
@@ -42,14 +41,11 @@ public interface PreQuestJourney<T extends Enum<T>> {
     *
     * @return A {@link BiConsumer} that takes a {@link SuperQuest} instance and an array of parameters.
     */
-   @Pandora(
+   @AiCompass(
          description = "Executable precondition logic. The framework invokes this "
                + "consumer with the current SuperQuest and the resolved journey arguments "
                + "(e.g., @JourneyData models, dynamic values), "
                + "allowing the journey to set up state and store artifacts."
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    BiConsumer<SuperQuest, Object[]> journey();
 
@@ -61,12 +57,9 @@ public interface PreQuestJourney<T extends Enum<T>> {
     *
     * @return An {@code Enum} representing the current precondition implementation.
     */
-   @Pandora(
+   @AiCompass(
          description = "Enum constant that identifies this journey implementation. "
                + "Used for reflective discovery and lookup when executing @Journey/@PreQuest."
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    T enumImpl();
 

@@ -1,8 +1,8 @@
 package io.cyborgcode.roa.ui.service.fluent;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 import io.cyborgcode.roa.framework.storage.Storage;
 import io.cyborgcode.roa.ui.components.accordion.AccordionComponentType;
 import io.cyborgcode.roa.ui.components.accordion.AccordionService;
@@ -28,16 +28,15 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @SuppressWarnings({"java:S5960", "unchecked"})
-@Pandora(
+@AiCompass(
       description = "Fluent UI service for interacting with accordions: expand/collapse, title/text, state "
             + "checks and validations.",
       tags = {"ui", "fluent", "accordion"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
-      exampleFilesPath = "docs/usage/roa/ui-usage.json",
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "fluent-service")
+         @AiCompassOptions.Meta(key = "type", value = "fluent-service")
       }
 )
 public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
@@ -70,12 +69,9 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The accordion UI element to expand.
     * @return The current fluent service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Expand the given accordion UI element and continue the fluent UI flow.",
          tags = {"ui", "accordion"}
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T expand(final AccordionUiElement element) {
       Allure.step(String.format("[UI - Accordion] Expanding accordion with componentType: %s, locator: %s",
@@ -92,12 +88,9 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The accordion UI element to collapse.
     * @return The current fluent service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Collapse the given accordion UI element and continue the fluent UI flow.",
          tags = {"ui", "accordion"}
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T collapse(final AccordionUiElement element) {
       Allure.step(String.format("[UI - Accordion] Collapsing accordion with componentType: %s, locator: %s",
@@ -114,16 +107,13 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The accordion UI element to check.
     * @return The current fluent service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Evaluate whether the specified accordion values are enabled and store the result "
                + "in quest storage.",
          tags = {"ui", "accordion"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T areEnabled(final AccordionUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Accordion values to check for being enabled."
          ) String... values) {
       Allure.step(String.format("[UI - Accordion] Checking if accordion is enabled with componentType: %s, locator: %s",
@@ -142,15 +132,12 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param values  The values to validate.
     * @return The current fluent service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the specified accordion values are enabled (hard assertion).",
          tags = {"ui", "accordion"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T validateAreEnabled(final AccordionUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Accordion values expected to be enabled."
          ) final String... values) {
       Allure.step("[UI - Accordion] Validate if accordions are enabled: " + Arrays.toString(values));
@@ -166,18 +153,15 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param values  The values to validate.
     * @return The current fluent service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the specified accordion values are enabled, optionally using a soft assertion.",
          tags = {"ui", "accordion"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T validateAreEnabled(final AccordionUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Accordion values expected to be enabled."
          ) final String... values) {
       Allure.step("[UI - Accordion] Validate if accordions are enabled (soft: " + soft + "): "
@@ -226,15 +210,12 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param values  The values to validate.
     * @return The current fluent service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the specified accordion values are disabled (hard assertion).",
          tags = {"ui", "accordion"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T validateAreDisabled(final AccordionUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Accordion values expected to be disabled."
          ) final String... values) {
       Allure.step("[UI - Accordion] Validate if accordions are disabled: " + Arrays.toString(values));
@@ -250,18 +231,15 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param values  The values to validate.
     * @return The current fluent service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the specified accordion values are disabled, optionally using a soft assertion.",
          tags = {"ui", "accordion"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T validateAreDisabled(final AccordionUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Accordion values expected to be disabled."
          ) final String... values) {
       Allure.step("[UI - Accordion] Validate if accordions are disabled (soft: " + soft + "): "
@@ -275,12 +253,9 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The accordion UI element.
     * @return The current fluent service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Evaluate whether the accordion is enabled and store the result in quest storage.",
          tags = {"ui", "accordion"}
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isEnabled(final AccordionUiElement element) {
       Allure.step(String.format("[UI - Accordion] Checking if accordion is enabled with componentType: %s, locator: %s",
@@ -299,15 +274,12 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param value   The value to validate
     *                * @return The current fluent service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the accordion is enabled (hard assertion).",
          tags = {"ui", "accordion"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T validateIsEnabled(final AccordionUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Accordion value expected to be enabled."
          ) final String value) {
       Allure.step("[UI - Accordion] Validate that the accordion is enabled");
@@ -323,18 +295,15 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param value   The value to validate.
     * @return The current fluent service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the accordion is enabled, optionally using a soft assertion.",
          tags = {"ui", "accordion"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T validateIsEnabled(final AccordionUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Accordion value expected to be enabled."
          ) final String value) {
       Allure.step("[UI - Accordion] Validate that the accordion is enabled (soft: " + soft + "): " + value);
@@ -348,15 +317,12 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param value   The value to validate.
     * @return The current fluent service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the accordion is disabled (hard assertion).",
          tags = {"ui", "accordion"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T validateIsDisabled(final AccordionUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Accordion value expected to be disabled."
          ) final String value) {
       Allure.step("[UI - Accordion] Validate that the accordion is disabled");
@@ -372,18 +338,15 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param value   The value to validate.
     * @return The current fluent service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the accordion is disabled, optionally using a soft assertion.",
          tags = {"ui", "accordion"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T validateIsDisabled(final AccordionUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Accordion value expected to be disabled."
          ) final String value) {
       Allure.step("[UI - Accordion] Validate that the accordion is disabled (soft: " + soft + "): " + value);
@@ -396,12 +359,9 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The accordion UI element.
     * @return The current fluent service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieve expanded accordions for the element and store them in quest storage.",
          tags = {"ui", "accordion"}
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getExpanded(final AccordionUiElement element) {
       Allure.step(String.format("[UI - Accordion] Retrieve a list of currently expanded accordions for "
@@ -420,15 +380,12 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param expectedValues The expected values that should be expanded.
     * @return The fluent UI service instance, allowing for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the specified accordions are expanded (hard assertion).",
          tags = {"ui", "accordion"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T validateExpandedItems(final AccordionUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Expected accordion values that should be expanded."
          ) final String... expectedValues) {
       Allure.step("[UI - Accordion] Validate that the accordions are expanded");
@@ -444,18 +401,15 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param expectedValues The expected values that should be expanded.
     * @return The fluent UI service instance, allowing for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the specified accordions are expanded, optionally using a soft assertion.",
          tags = {"ui", "accordion"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T validateExpandedItems(final AccordionUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Expected accordion values that should be expanded."
          ) final String... expectedValues) {
       Allure.step("[UI - Accordion] Validate that the accordions are expanded (soft: " + soft + "): "
@@ -486,12 +440,9 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The accordion UI element.
     * @return The current fluent service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieve collapsed accordions for the element and store them in quest storage.",
          tags = {"ui", "accordion"}
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getCollapsed(final AccordionUiElement element) {
       Allure.step(String.format("[UI - Accordion] Retrieve a list of currently collapsed accordions for "
@@ -510,15 +461,12 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param expectedValues The expected values that should be collapsed.
     * @return The fluent UI service instance, allowing for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the specified accordions are collapsed (hard assertion).",
          tags = {"ui", "accordion"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T validateCollapsedItems(final AccordionUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Expected accordion values that should be collapsed."
          ) final String... expectedValues) {
       Allure.step("[UI - Accordion] Validate that the accordions are collapsed");
@@ -534,18 +482,15 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param expectedValues The expected values that should be collapsed.
     * @return The fluent UI service instance, allowing for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the specified accordions are collapsed, optionally using a soft assertion.",
          tags = {"ui", "accordion"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T validateCollapsedItems(final AccordionUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Expected accordion values that should be collapsed."
          ) final String... expectedValues) {
       Allure.step("[UI - Accordion] Validate that the accordions are collapsed (soft: " + soft + "): "
@@ -576,12 +521,9 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The Accordion UI element.
     * @return The fluent UI service instance, allowing for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieve all accordion items for the element and store them in quest storage.",
          tags = {"ui", "accordion"}
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getAll(final AccordionUiElement element) {
       Allure.step(String.format("[UI - Accordion] Retrieve all the accordions for componentType: %s",
@@ -600,15 +542,12 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param expectedValues The expected values that should be present.
     * @return The fluent UI service instance, allowing for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that all expected accordion items are present (hard assertion).",
          tags = {"ui", "accordion"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T validateAllAccordions(final AccordionUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Expected accordion items that should be present."
          ) final String... expectedValues) {
       Allure.step("[UI - Accordion] Validate that all expected accordions are present");
@@ -624,18 +563,15 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param expectedValues The expected values that should be present.
     * @return The fluent UI service instance, allowing for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that all expected accordion items are present, optionally using a soft assertion.",
          tags = {"ui", "accordion"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T validateAllAccordions(final AccordionUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Expected accordion items that should be present."
          ) final String... expectedValues) {
       Allure.step("[UI - Accordion] Validate that all expected accordions are present (soft: " + soft + "): "
@@ -664,12 +600,9 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The accordion UI element.
     * @return The current fluent service instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieve the accordion title and store it in quest storage.",
          tags = {"ui", "accordion"}
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getTitle(final AccordionUiElement element) {
       Allure.step(String.format("[UI - Accordion] Getting title for componentType: %s, locator: %s",
@@ -688,15 +621,12 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param expectedValue The expected value of the accordion title.
     * @return The fluent UI service instance, allowing for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate the accordion title equals the expected value (hard assertion).",
          tags = {"ui", "accordion"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T validateTitle(final AccordionUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Expected accordion title."
          ) final String expectedValue) {
       Allure.step("[UI - Accordion] Validate accordion title has value: " + expectedValue);
@@ -712,18 +642,15 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param expectedValue The expected value of the accordion title.
     * @return The fluent UI service instance, allowing for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate the accordion title equals the expected value, optionally using a soft assertion.",
          tags = {"ui", "accordion"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T validateTitle(final AccordionUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Expected accordion title."
          ) final String expectedValue) {
       Allure.step("[UI - Accordion] Validate accordion title has value: " + expectedValue
@@ -752,12 +679,9 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The accordion UI element.
     * @return The current fluent service instance for method chaining.+
     */
-   @Pandora(
+   @AiCompass(
          description = "Retrieve the accordion text content and store it in quest storage.",
          tags = {"ui", "accordion"}
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T getText(final AccordionUiElement element) {
       Allure.step(String.format("[UI - Accordion] Getting text for componentType: %s, locator: %s",
@@ -776,15 +700,12 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param expectedValue The expected content for the specified accordion.
     * @return The fluent UI service instance, allowing for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate the accordion text equals the expected value (hard assertion).",
          tags = {"ui", "accordion"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T validateText(final AccordionUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "Expected accordion text content."
          ) final String expectedValue) {
       Allure.step("[UI - Accordion] Validate text content of the accordion with type: " + element.componentType());
@@ -800,18 +721,15 @@ public class AccordionServiceFluent<T extends UiServiceFluent<?>> {
     * @param expectedContent The expected text content for the specified accordion.
     * @return The fluent UI service instance, allowing for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate the accordion text equals the expected value, optionally using a soft assertion.",
          tags = {"ui", "accordion"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T validateText(final AccordionUiElement element,
-         @Pandora(
+         @AiCompass(
                description = "When true, use soft assertions (don't fail immediately)."
          ) boolean soft,
-         @Pandora(
+         @AiCompass(
                description = "Expected accordion text content."
          ) final String expectedContent) {
       Allure.step("[UI - Accordion] Validate text content of the accordion with type: " + element.componentType()

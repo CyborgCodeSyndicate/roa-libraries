@@ -1,8 +1,8 @@
 package io.cyborgcode.roa.framework.parameters;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 
 /**
  * Defines a contract for dynamically generating test data within the framework.
@@ -17,16 +17,15 @@ import io.cyborgcode.pandora.model.CreationKind;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Contract for lazily generating test data models. Implementations return a Late creator "
             + "and expose an enum constant that uniquely identifies the model.",
       tags = {"framework", "test-data"},
       creation = CreationKind.ENUM_CONSTANT
 )
-@PandoraOptions(
-      exampleFilesPath = "docs/usage/roa/general-usage.json",
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "data-forge")
+         @AiCompassOptions.Meta(key = "type", value = "data-forge")
       }
 )
 public interface DataForge<T extends Enum<T>> {
@@ -40,11 +39,8 @@ public interface DataForge<T extends Enum<T>> {
     *
     * @return A {@link Late} instance responsible for creating test data objects.
     */
-   @Pandora(
+   @AiCompass(
          description = "Returns the deferred creator (Late) that materializes the test data object on demand."
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    Late<Object> dataCreator();
 
@@ -56,11 +52,8 @@ public interface DataForge<T extends Enum<T>> {
     *
     * @return An {@link Enum} instance representing the test data definition.
     */
-   @Pandora(
+   @AiCompass(
          description = "Returns the deferred creator (Late) that materializes the test data object on demand."
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    T enumImpl();
 

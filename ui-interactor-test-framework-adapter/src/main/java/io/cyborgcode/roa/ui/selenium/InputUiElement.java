@@ -1,11 +1,10 @@
 package io.cyborgcode.roa.ui.selenium;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.components.input.InputService;
-import io.cyborgcode.roa.ui.pandora.AvailableOptionsUiRules;
 
 /**
  * Represents an Input UI element that integrates with the {@link InputService}.
@@ -19,18 +18,17 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsUiRules;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Input UI element enum contract (locator + component type + hooks) consumed by InputService "
             + "for standardized input interactions.",
       tags = {"ui", "ui-element", "input"},
       creation = CreationKind.ENUM_CONSTANT
 )
-@PandoraOptions(
-      availableOptionsRule = AvailableOptionsUiRules.AvailableInputUiElements.class,
-      exampleFilesPath = "docs/usage/roa/ui-usage.json",
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-element")
-      }
+         @AiCompassOptions.Meta(key = "type", value = "ui-element")
+      },
+      implementationsOf = InputUiElement.class
 )
 public interface InputUiElement extends UiElement {
 

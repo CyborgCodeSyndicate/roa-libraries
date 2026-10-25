@@ -1,8 +1,8 @@
 package io.cyborgcode.roa.ui.service.fluent;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 import io.cyborgcode.roa.framework.storage.Storage;
 import io.cyborgcode.roa.ui.components.tab.TabService;
 import io.cyborgcode.roa.ui.selenium.TabUiElement;
@@ -22,16 +22,15 @@ import static io.cyborgcode.roa.ui.storage.StorageKeysUi.UI;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @SuppressWarnings({"java:S5960", "unchecked"})
-@Pandora(
+@AiCompass(
       description = "Fluent UI service for interacting with tabs: click, "
             + "selection/visibility/enablement checks and validations.",
       tags = {"ui", "fluent", "tab"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
-      exampleFilesPath = "docs/usage/roa/ui-usage.json",
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "fluent-service")
+         @AiCompassOptions.Meta(key = "type", value = "fluent-service")
       }
 )
 public class TabServiceFluent<T extends UiServiceFluent<?>> {
@@ -70,12 +69,9 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link TabUiElement} representing the tab.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Click the given tab UI element and continue the fluent UI flow.",
          tags = {"ui", "tab"}
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T click(final TabUiElement element) {
       Allure.step("[UI - Tab] Clicking on the tab " + element);
@@ -91,12 +87,9 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link TabUiElement} representing the tab.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Evaluate whether the tab is enabled and store the result in quest storage.",
          tags = {"ui", "tab"}
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isEnabled(final TabUiElement element) {
       Allure.step(UI_TAB_CHECKING_IF_THE_TAB + element + " is enabled.");
@@ -113,12 +106,9 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link TabUiElement} representing the tab.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the tab is enabled (hard assertion).",
          tags = {"ui", "tab"}
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsEnabled(final TabUiElement element) {
       return validateIsEnabled(element, true, false);
@@ -131,15 +121,12 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft    Whether to perform a soft assertion.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the tab is enabled, optionally using a soft assertion.",
          tags = {"ui", "tab"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T validateIsEnabled(final TabUiElement element,
-                              @Pandora(
+                              @AiCompass(
                                     description = "When true, use soft assertions (don't fail immediately)."
                               ) boolean soft) {
       return validateIsEnabled(element, true, soft);
@@ -187,12 +174,9 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link TabUiElement} representing the tab.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the tab is disabled (hard assertion).",
          tags = {"ui", "tab"}
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsDisabled(final TabUiElement element) {
       return validateIsEnabled(element, false, false);
@@ -205,15 +189,12 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft    Whether to perform a soft assertion.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the tab is disabled, optionally using a soft assertion.",
          tags = {"ui", "tab"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T validateIsDisabled(final TabUiElement element,
-                               @Pandora(
+                               @AiCompass(
                                      description = "When true, use soft assertions (don't fail immediately)."
                                ) boolean soft) {
       return validateIsEnabled(element, false, soft);
@@ -225,12 +206,9 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link TabUiElement} representing the tab.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Evaluate whether the tab is visible and store the result in quest storage.",
          tags = {"ui", "tab"}
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isVisible(final TabUiElement element) {
       Allure.step(UI_TAB_CHECKING_IF_THE_TAB + element + " is visible.");
@@ -247,12 +225,9 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link TabUiElement} representing the tab.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the tab is visible (hard assertion).",
          tags = {"ui", "tab"}
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsVisible(final TabUiElement element) {
       return validateIsVisible(element, true, false);
@@ -265,15 +240,12 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft    Whether to perform a soft assertion.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the tab is visible, optionally using a soft assertion.",
          tags = {"ui", "tab"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T validateIsVisible(final TabUiElement element,
-                              @Pandora(
+                              @AiCompass(
                                     description = "When true, use soft assertions (don't fail immediately)."
                               ) boolean soft) {
       return validateIsVisible(element, true, soft);
@@ -321,12 +293,9 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link TabUiElement} representing the tab.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the tab is hidden (hard assertion).",
          tags = {"ui", "tab"}
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsHidden(final TabUiElement element) {
       return validateIsVisible(element, false, false);
@@ -339,15 +308,12 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
     * @param soft    Whether to perform a soft assertion.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the tab is hidden, optionally using a soft assertion.",
          tags = {"ui", "tab"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T validateIsHidden(final TabUiElement element,
-                             @Pandora(
+                             @AiCompass(
                                    description = "When true, use soft assertions (don't fail immediately)."
                              ) boolean soft) {
       return validateIsVisible(element, false, soft);
@@ -359,12 +325,9 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link TabUiElement} representing the tab.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Evaluate whether the tab is selected and store the result in quest storage.",
          tags = {"ui", "tab"}
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T isSelected(final TabUiElement element) {
       Allure.step(UI_TAB_CHECKING_IF_THE_TAB + element + " is selected.");
@@ -381,12 +344,9 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link TabUiElement} representing the tab.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the tab is selected (hard assertion).",
          tags = {"ui", "tab"}
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsSelected(final TabUiElement element) {
       return validateIsSelected(element, true, false);
@@ -400,15 +360,12 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
     *                If {@code true}, failures will be collected rather than throwing an exception immediately.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the tab is selected, optionally using a soft assertion.",
          tags = {"ui", "tab"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T validateIsSelected(final TabUiElement element,
-                               @Pandora(
+                               @AiCompass(
                                      description = "When true, use soft assertions (don't fail immediately)."
                                ) boolean soft) {
       return validateIsSelected(element, true, soft);
@@ -456,12 +413,9 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
     * @param element The {@link TabUiElement} representing the tab.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the tab is not selected (hard assertion).",
          tags = {"ui", "tab"}
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
    )
    public T validateIsNotSelected(final TabUiElement element) {
       return validateIsSelected(element, false, false);
@@ -475,15 +429,12 @@ public class TabServiceFluent<T extends UiServiceFluent<?>> {
     *                If {@code true}, failures will be collected rather than throwing an exception immediately.
     * @return The fluent UI service instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate that the tab is not selected, optionally using a soft assertion.",
          tags = {"ui", "tab"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public T validateIsNotSelected(final TabUiElement element,
-                                  @Pandora(
+                                  @AiCompass(
                                         description = "When true, use soft assertions (don't fail immediately)."
                                   ) boolean soft) {
       return validateIsSelected(element, false, soft);

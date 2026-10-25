@@ -1,8 +1,8 @@
 package io.cyborgcode.roa.api.service.fluent;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 import io.cyborgcode.roa.api.authentication.BaseAuthenticationClient;
 import io.cyborgcode.roa.api.core.Endpoint;
 import io.cyborgcode.roa.api.service.RestService;
@@ -32,16 +32,15 @@ import static io.cyborgcode.roa.api.storage.StorageKeysApi.API;
  */
 @Ring("API")
 @SuppressWarnings("java:S6832")
-@Pandora(
+@AiCompass(
       description = "High-level API DSL used by tests to send HTTP "
             + "requests, validate responses, perform authentication and retries.",
       tags = {"api"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
-      exampleFilesPath = "docs/usage/roa/api-usage.json",
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "fluent-service")
+         @AiCompassOptions.Meta(key = "type", value = "fluent-service")
       }
 )
 public class RestServiceFluent extends FluentService implements ClassLevelHook {
@@ -64,13 +63,10 @@ public class RestServiceFluent extends FluentService implements ClassLevelHook {
     * @param endpoint The API endpoint.
     * @return The current {@code RestServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Send a request to the given endpoint and "
                + "store the HTTP response in quest storage for later use.",
          tags = {"api"}
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public RestServiceFluent request(final Endpoint<?> endpoint) {
       final Response response = restService.request(endpoint);
@@ -85,17 +81,14 @@ public class RestServiceFluent extends FluentService implements ClassLevelHook {
     * @param body     The request body.
     * @return The current {@code RestServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Send a request to the given endpoint with a "
                + "request payload and store the HTTP response in quest storage.",
          tags = {"api"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/api-usage.json"
-   )
    public RestServiceFluent request(
          final Endpoint<?> endpoint,
-         @Pandora(
+         @AiCompass(
                description = "Request payload that will be serialized and sent as the HTTP body."
          ) final Object body) {
 
@@ -111,15 +104,12 @@ public class RestServiceFluent extends FluentService implements ClassLevelHook {
     * @param assertions The assertions to validate.
     * @return The current {@code RestServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Validate a previously obtained HTTP response against the given assertions.",
          tags = {"api"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/api-usage.json"
-   )
    public RestServiceFluent validateResponse(
-         @Pandora(
+         @AiCompass(
                description = "HTTP response returned from a prior API request."
          ) final Response response,
          final Assertion... assertions) {
@@ -137,13 +127,10 @@ public class RestServiceFluent extends FluentService implements ClassLevelHook {
     * @param assertions The assertions to validate.
     * @return The current {@code RestServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Send a request to the given endpoint, store the HTTP "
                + "response in quest storage, and validate it using the provided assertions.",
          tags = {"api"}
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    public RestServiceFluent requestAndValidate(final Endpoint<?> endpoint,
                                                final Assertion... assertions) {
@@ -160,17 +147,14 @@ public class RestServiceFluent extends FluentService implements ClassLevelHook {
     * @param assertions The assertions to validate.
     * @return The current {@code RestServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Send a request with a request payload to the given endpoint, "
                + "store the HTTP response in quest storage, and validate it using the provided assertions.",
          tags = {"api"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/api-usage.json"
-   )
    @Step("Request and validations for endpoint: {endpoint}")
    public RestServiceFluent requestAndValidate(final Endpoint<?> endpoint,
-                                               @Pandora(
+                                               @AiCompass(
                                                      description = "Request payload that will be "
                                                            + "serialized and sent as the HTTP body."
                                                ) final Object body,
@@ -188,22 +172,19 @@ public class RestServiceFluent extends FluentService implements ClassLevelHook {
     * @param authenticationClient The authentication client class.
     * @return The current {@code RestServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Perform API authentication using the given "
                + "username, password and authentication client implementation.",
          tags = {"api"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/api-usage.json"
-   )
    public RestServiceFluent authenticate(
-         @Pandora(
+         @AiCompass(
                description = "Username used for API authentication."
          ) final String username,
-         @Pandora(
+         @AiCompass(
                description = "Password used for API authentication."
          ) final String password,
-         @Pandora(
+         @AiCompass(
                description = "Authentication client implementation that "
                      + "defines how to perform the login and apply credentials."
          ) final Class<? extends BaseAuthenticationClient> authenticationClient) {
@@ -219,17 +200,14 @@ public class RestServiceFluent extends FluentService implements ClassLevelHook {
     * @param assertion The assertion to validate.
     * @return The current {@code RestServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Execute custom validation logic implemented as a Runnable, "
                + "typically using plain JUnit assertions after previous API steps.",
          tags = {"api"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/api-usage.json"
-   )
    @Override
    public RestServiceFluent validate(
-         @Pandora(
+         @AiCompass(
                description = "Custom validation block that will be executed in the context of the current quest."
          ) final Runnable assertion) {
       return (RestServiceFluent) super.validate(assertion);
@@ -241,17 +219,14 @@ public class RestServiceFluent extends FluentService implements ClassLevelHook {
     * @param assertion The assertion to validate.
     * @return The current {@code RestServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Execute custom validation logic using AssertJ "
                + "SoftAssertions for grouped (soft) checks after previous API steps.",
          tags = {"api"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/api-usage.json"
-   )
    @Override
    public RestServiceFluent validate(
-         @Pandora(
+         @AiCompass(
                description = "Consumer that receives a SoftAssertions "
                      + "instance for building grouped validation checks."
          ) final Consumer<SoftAssertions> assertion) {
@@ -277,20 +252,17 @@ public class RestServiceFluent extends FluentService implements ClassLevelHook {
     * @param <T>            The type used in the retry condition function.
     * @return The current {@code RestServiceFluent} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Poll a retry condition until it is satisfied or "
                + "the maximum wait time is reached, then continue the API flow.",
          tags = {"api"}
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/api-usage.json"
-   )
    public <T> RestServiceFluent retryUntil(
          final RetryCondition<T> retryCondition,
-         @Pandora(
+         @AiCompass(
                description = "Maximum total duration to keep retrying before giving up."
          ) final Duration maxWait,
-         @Pandora(
+         @AiCompass(
                description = "Delay between individual retry attempts."
          ) final Duration retryInterval) {
 

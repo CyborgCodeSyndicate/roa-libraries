@@ -1,10 +1,9 @@
 package io.cyborgcode.roa.ui.util.strategy;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
-import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
 
 /**
  * Enum representing different selection strategies for UI components.
@@ -17,15 +16,16 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Selection strategy for UI components when a target is chosen dynamically (first/last/random/all).",
       tags = {"ui", "strategy", "selection"},
       creation = CreationKind.ENUM_CONSTANT
 )
-@PandoraOptions(
-      exampleFilesPath = "docs/usage/roa/ui-usage.json",
-      availableOptionsRule = AvailableOptionsRules.AvailableStrategyOptions.class
+@AiCompassOptions(
+      enumType = Strategy.class
 )
+
+
 public enum Strategy implements ComponentType {
 
    /**

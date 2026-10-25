@@ -1,11 +1,10 @@
 package io.cyborgcode.roa.ui.selenium;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.components.select.SelectService;
-import io.cyborgcode.roa.ui.pandora.AvailableOptionsUiRules;
 
 /**
  * Represents a UI element for dropdown/select components within the framework.
@@ -20,18 +19,17 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsUiRules;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Select UI element enum contract (locator + component type + hooks) consumed by SelectService "
             + "for standardized select interactions.",
       tags = {"ui", "ui-element", "select"},
       creation = CreationKind.ENUM_CONSTANT
 )
-@PandoraOptions(
-      availableOptionsRule = AvailableOptionsUiRules.AvailableSelectUiElements.class,
-      exampleFilesPath = "docs/usage/roa/ui-usage.json",
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-element")
-      }
+         @AiCompassOptions.Meta(key = "type", value = "ui-element")
+      },
+      implementationsOf = SelectUiElement.class
 )
 public interface SelectUiElement extends UiElement {
 

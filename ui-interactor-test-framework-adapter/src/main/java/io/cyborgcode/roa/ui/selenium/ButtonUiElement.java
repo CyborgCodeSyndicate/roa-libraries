@@ -1,11 +1,10 @@
 package io.cyborgcode.roa.ui.selenium;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import io.cyborgcode.roa.ui.components.button.ButtonService;
-import io.cyborgcode.roa.ui.pandora.AvailableOptionsUiRules;
 
 /**
  * Represents a Button UI element that integrates with the {@link ButtonService}.
@@ -16,18 +15,17 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsUiRules;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Button UI element enum contract (locator + component type + hooks) consumed by ButtonService "
             + "for standardized button interactions.",
       tags = {"ui", "ui-element", "button"},
       creation = CreationKind.ENUM_CONSTANT
 )
-@PandoraOptions(
-      availableOptionsRule = AvailableOptionsUiRules.AvailableButtonUiElements.class,
-      exampleFilesPath = "docs/usage/roa/ui-usage.json",
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-element")
-      }
+         @AiCompassOptions.Meta(key = "type", value = "ui-element")
+      },
+      implementationsOf = ButtonUiElement.class
 )
 public interface ButtonUiElement extends UiElement {
 

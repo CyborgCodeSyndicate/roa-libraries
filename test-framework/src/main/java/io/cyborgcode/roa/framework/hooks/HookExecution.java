@@ -1,9 +1,8 @@
 package io.cyborgcode.roa.framework.hooks;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
-import io.cyborgcode.roa.framework.pandora.AvailableOptionsTestFrameworkRules;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 
 /**
  * Specifies the timing for hook execution relative to the test lifecycle.
@@ -13,32 +12,31 @@ import io.cyborgcode.roa.framework.pandora.AvailableOptionsTestFrameworkRules;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Defines when a hook executes relative to "
             + "the test lifecycle (before all tests or after all tests). "
             + "Used by hook annotations such as @ApiHook.when().",
       tags = {"framework", "hook"},
       creation = CreationKind.ENUM_CONSTANT
 )
-@PandoraOptions(
-      exampleFilesPath = "docs/usage/roa/general-usage.json",
-      availableOptionsRule = AvailableOptionsTestFrameworkRules.AvailableHookExecutionOptions.class,
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "hook-execution"),
-         @PandoraOptions.Meta(key = "usedBy", value = "ApiHook.when")
-      }
+         @AiCompassOptions.Meta(key = "type", value = "hook-execution"),
+         @AiCompassOptions.Meta(key = "usedBy", value = "ApiHook.when")
+      },
+      enumType = HookExecution.class
 )
 public enum HookExecution {
 
    /**
     * Indicates that the hook should run before tests (setup phase).
     */
-   @Pandora(description = "Execute the hook before all tests in the class (setup phase).")
+   @AiCompass(description = "Execute the hook before all tests in the class (setup phase).")
    BEFORE,
 
    /**
     * Indicates that the hook should run after tests (teardown phase).
     */
-   @Pandora(description = "Execute the hook after all tests in the class (teardown phase).")
+   @AiCompass(description = "Execute the hook after all tests in the class (teardown phase).")
    AFTER
 }

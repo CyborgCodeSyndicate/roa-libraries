@@ -1,9 +1,9 @@
 package io.cyborgcode.roa.framework.annotation;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
-import io.cyborgcode.roa.framework.pandora.AvailableOptionsTestFrameworkRules;
+import io.cyborgcode.roa.framework.parameters.DataForge;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -21,16 +21,15 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
-@Pandora(
+@AiCompass(
       description = "Parameter annotation that injects crafted test data into a @Test method by resolving a "
             + "project-defined DataForge model key and creating the requested object type.",
       tags = {"framework", "test-data"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
-      exampleFilesPath = "docs/usage/roa/general-usage.json",
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "parameter-annotation")
+         @AiCompassOptions.Meta(key = "type", value = "parameter-annotation")
       }
 )
 public @interface Craft {
@@ -43,13 +42,14 @@ public @interface Craft {
     *
     * @return The name of the test data model.
     */
-   @Pandora(
+   @AiCompass(
          description = "DataForge model key to craft for this parameter. Must match an enum constant name from a "
                + "project enum implementing DataForge (e.g., \"CREATE_ORDER\")."
    )
-   @PandoraOptions(
-         availableOptionsRule = AvailableOptionsTestFrameworkRules.AvailableDataForgeOptions.class
+   @AiCompassOptions(
+         implementationsOf = DataForge.class
    )
+
    String model();
 
 }

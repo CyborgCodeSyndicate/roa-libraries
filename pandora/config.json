@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "workspaceId": "roa-libraries-ai-compass",
+  "modules": [
+    {
+      "id": "roa",
+      "language": "java",
+      "sourceRoots": [
+        "api-interactor/src/main/java",
+        "api-interactor-test-framework-adapter/src/main/java",
+        "assertions/src/main/java",
+        "db-interactor/src/main/java",
+        "db-interactor-test-framework-adapter/src/main/java",
+        "test-framework/src/main/java",
+        "ui-interactor/src/main/java",
+        "ui-interactor-test-framework-adapter/src/main/java"
+      ],
+      "references": [],
+      "command": []
+    }
+  ],
+  "resources": {},
+  "catalogs": [],
+  "maxOptions": 200
+}

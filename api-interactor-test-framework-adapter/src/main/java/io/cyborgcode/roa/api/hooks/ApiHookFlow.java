@@ -1,9 +1,8 @@
 package io.cyborgcode.roa.api.hooks;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
-import io.cyborgcode.roa.api.pandora.AvailableOptionsApiAdapterRules;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 import io.cyborgcode.roa.api.service.RestService;
 import java.util.Map;
 import org.apache.logging.log4j.util.TriConsumer;
@@ -23,18 +22,17 @@ import org.apache.logging.log4j.util.TriConsumer;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @SuppressWarnings("java:S1452")
-@Pandora(
+@AiCompass(
       description = "Contract for a single API hook flow used by @ApiHook. "
             + "Each implementation provides executable hook logic and an enum identifier.",
       tags = {"api", "hook"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
-      exampleFilesPath = "docs/usage/roa/api-usage.json",
-      availableOptionsRule = AvailableOptionsApiAdapterRules.AvailableApiHookFlows.class,
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "api-hook-flow")
-      }
+         @AiCompassOptions.Meta(key = "type", value = "api-hook-flow")
+      },
+      implementationsOf = ApiHookFlow.class
 )
 public interface ApiHookFlow<T extends Enum<T>> {
 
@@ -51,12 +49,9 @@ public interface ApiHookFlow<T extends Enum<T>> {
     *
     * @return a three-argument consumer executing the hook flow
     */
-   @Pandora(
+   @AiCompass(
          description = "Executable hook logic. Receives RestService, a shared Map<Object,Object> "
                + "for passing data, and String[] arguments coming from @ApiHook."
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    TriConsumer<RestService, Map<Object, Object>, String[]> flow();
 
@@ -68,12 +63,9 @@ public interface ApiHookFlow<T extends Enum<T>> {
     *
     * @return the enum identifying this hook
     */
-   @Pandora(
+   @AiCompass(
          description = "Enum constant that identifies this hook implementation. "
                + "Typically matched against @ApiHook(type = \"...\")."
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    T enumImpl();
 

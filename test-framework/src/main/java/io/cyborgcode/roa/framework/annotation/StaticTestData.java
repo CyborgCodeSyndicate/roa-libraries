@@ -1,8 +1,8 @@
 package io.cyborgcode.roa.framework.annotation;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 import io.cyborgcode.roa.framework.data.StaticDataProvider;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -23,17 +23,16 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
-@Pandora(
+@AiCompass(
       description = "Declares a static test-data provider to run before a test. "
             + "The provider is instantiated and its staticTestData() output is made available in the test context.",
       tags = {"framework", "test-data", "annotation"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
-      exampleFilesPath = "docs/usage/roa/general-usage.json",
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "static-test-data-annotation"),
-         @PandoraOptions.Meta(key = "scope", value = "type-or-method")
+         @AiCompassOptions.Meta(key = "type", value = "static-test-data-annotation"),
+         @AiCompassOptions.Meta(key = "scope", value = "type-or-method")
       }
 )
 public @interface StaticTestData {
@@ -46,7 +45,7 @@ public @interface StaticTestData {
     *
     * @return The class responsible for providing static test data.
     */
-   @Pandora(
+   @AiCompass(
          description = "Concrete StaticDataProvider implementation class "
                + "that will be instantiated to supply predefined (static) test data."
    )

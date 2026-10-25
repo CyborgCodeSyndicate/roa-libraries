@@ -1,9 +1,8 @@
 package io.cyborgcode.roa.framework.storage;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
-import io.cyborgcode.roa.framework.pandora.AvailableOptionsTestFrameworkRules;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 import lombok.Getter;
 
 /**
@@ -15,19 +14,18 @@ import lombok.Getter;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @Getter
-@Pandora(
+@AiCompass(
       description = "Global store keys used by the framework to keep execution-wide objects "
             + "(quest instance, quest consumers, start time, HTML fragments, hook parameters).",
       tags = {"framework", "storage"},
       creation = CreationKind.ENUM_CONSTANT
 )
-@PandoraOptions(
-      exampleFilesPath = "docs/usage/roa/general-usage.json",
-      availableOptionsRule = AvailableOptionsTestFrameworkRules.AvailableStoreKeysTestOptions.class,
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "store-keys"),
-         @PandoraOptions.Meta(key = "scope", value = "global-execution")
-      }
+         @AiCompassOptions.Meta(key = "type", value = "store-keys"),
+         @AiCompassOptions.Meta(key = "scope", value = "global-execution")
+      },
+      enumType = StoreKeys.class
 )
 public enum StoreKeys {
 

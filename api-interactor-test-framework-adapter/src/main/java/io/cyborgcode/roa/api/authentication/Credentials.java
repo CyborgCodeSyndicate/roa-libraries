@@ -1,8 +1,8 @@
 package io.cyborgcode.roa.api.authentication;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 
 /**
  * Represents authentication credentials for API authentication.
@@ -12,16 +12,15 @@ import io.cyborgcode.pandora.model.CreationKind;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Contract for API authentication credentials. "
             + "Implementations provide username/password used by API auth flows.",
       tags = {"api", "auth"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
-      exampleFilesPath = "docs/usage/roa/api-usage.json",
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "credentials-provider")
+         @AiCompassOptions.Meta(key = "type", value = "credentials-provider")
       }
 )
 public interface Credentials {
@@ -31,12 +30,9 @@ public interface Credentials {
     *
     * @return The username.
     */
-   @Pandora(
+   @AiCompass(
          description = "Username associated with these API "
                + "credentials (usually loaded from externalized test data or secrets)."
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    String username();
 
@@ -45,12 +41,9 @@ public interface Credentials {
     *
     * @return The password.
     */
-   @Pandora(
+   @AiCompass(
          description = "Password associated with these API "
                + "credentials (usually loaded from externalized test data or secrets)."
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/api-usage.json"
    )
    String password();
 }

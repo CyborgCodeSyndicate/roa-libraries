@@ -1,9 +1,8 @@
 package io.cyborgcode.roa.ui.components.table.sort;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
-import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 
 /**
  * Defines sorting strategies that can be applied to table columns.
@@ -15,15 +14,16 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Sorting strategy for table columns (ascending/descending/none).",
       tags = {"ui", "table", "sort", "strategy"},
       creation = CreationKind.ENUM_CONSTANT
 )
-@PandoraOptions(
-      exampleFilesPath = "docs/usage/roa/ui-usage.json",
-      availableOptionsRule = AvailableOptionsRules.AvailableSortingStrategyOptions.class
+@AiCompassOptions(
+      enumType = SortingStrategy.class
 )
+
+
 public enum SortingStrategy {
 
    /**

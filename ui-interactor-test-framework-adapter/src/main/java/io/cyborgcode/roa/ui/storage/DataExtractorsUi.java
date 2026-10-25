@@ -1,10 +1,10 @@
 package io.cyborgcode.roa.ui.storage;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.roa.ui.service.tables.TableElement;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 import com.jayway.jsonpath.JsonPath;
-import io.cyborgcode.roa.ui.pandora.AvailableOptionsUiRules;
 import io.cyborgcode.roa.framework.storage.DataExtractor;
 import io.cyborgcode.roa.framework.storage.DataExtractorImpl;
 import io.cyborgcode.roa.ui.components.interceptor.ApiResponse;
@@ -26,17 +26,16 @@ import java.util.List;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Utilities to build DataExtractor instances for UI flows (API response JSON paths and "
             + "table row retrieval).",
       tags = {"ui", "data", "extractor", "utility"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
-      exampleFilesPath = "docs/usage/roa/ui-usage.json",
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-data-extractors"),
-         @PandoraOptions.Meta(key = "scope", value = "type")
+         @AiCompassOptions.Meta(key = "type", value = "ui-data-extractors"),
+         @AiCompassOptions.Meta(key = "scope", value = "type")
       }
 )
 public class DataExtractorsUi {
@@ -52,19 +51,16 @@ public class DataExtractorsUi {
     * @param <T>            The expected return type of the extracted data.
     * @return A {@link DataExtractor} that retrieves the specified value from the API response.
     */
-   @Pandora(
+   @AiCompass(
          description = "Builds a DataExtractor that reads a value from the most recent matching API response "
                + "using a JSONPath."
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public static <T> DataExtractor<T> responseBodyExtraction(
-         @Pandora(
+         @AiCompass(
                description = "Request/response identifier used to filter stored responses (typically mapped "
                      + "from a DataIntercept target)."
          ) String responsePrefix,
-         @Pandora(
+         @AiCompass(
                description = "JSONPath expression used to extract a value from the selected response body."
          ) String jsonPath) {
       return responseBodyExtraction(responsePrefix, jsonPath, 1);
@@ -80,22 +76,19 @@ public class DataExtractorsUi {
     * @return A {@link DataExtractor} that retrieves the specified value from the API response.
     * @throws IllegalArgumentException If the provided index is out of range.
     */
-   @Pandora(
+   @AiCompass(
          description = "Builds a DataExtractor that reads a value from the Nth most recent matching API "
                + "response using a JSONPath."
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public static <T> DataExtractor<T> responseBodyExtraction(
-         @Pandora(
+         @AiCompass(
                description = "Request/response identifier used to filter stored responses (typically mapped "
                      + "from a DataIntercept target)."
          ) String responsePrefix,
-         @Pandora(
+         @AiCompass(
                description = "JSONPath expression used to extract a value from the selected response body."
          ) String jsonPath,
-         @Pandora(
+         @AiCompass(
                description = "Nth most recent match to use (1 = latest, 2 = previous, ...)."
          ) int index) {
       return new DataExtractorImpl<>(
@@ -133,22 +126,20 @@ public class DataExtractorsUi {
     * @param <T>        The expected return type of the extracted table row.
     * @return A {@link DataExtractor} that retrieves the matching row from the table.
     */
-   @Pandora(
+   @AiCompass(
          description = "Builds a DataExtractor that finds the first table row whose values include all given "
                + "indicators (case-insensitive)."
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public static <T> DataExtractor<T> tableRowExtractor(
-         @Pandora(
+         @AiCompass(
                description = "TableElement key used to locate the stored table rows. Must be an enum constant name "
                      + "from a project enum implementing TableElement (e.g., \"ALL_TRANSACTIONS\"."
          )
-         @PandoraOptions(
-               availableOptionsRule = AvailableOptionsUiRules.AvailableTableElementOptions.class
-         ) Enum<?> key,
-         @Pandora(
+         @AiCompassOptions(
+               implementationsOf = TableElement.class
+         )
+          Enum<?> key,
+         @AiCompass(
                description = "One or more row indicators used for case-insensitive contains matching."
          ) String... indicators) {
       return new DataExtractorImpl<>(
@@ -181,21 +172,19 @@ public class DataExtractorsUi {
     * @return A {@link DataExtractor} that retrieves the row at the specified index.
     * @throws IndexOutOfBoundsException If the index is out of range.
     */
-   @Pandora(
+   @AiCompass(
          description = "Builds a DataExtractor that returns the table row at the given index from storage."
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/ui-usage.json"
-   )
    public static <T> DataExtractor<T> tableRowExtractor(
-         @Pandora(
+         @AiCompass(
                description = "TableElement key used to locate the stored table rows. Must be an enum constant name "
                      + "from a project enum implementing TableElement (e.g., \"ALL_TRANSACTIONS\"."
          )
-         @PandoraOptions(
-               availableOptionsRule = AvailableOptionsUiRules.AvailableTableElementOptions.class
-         ) Enum<?> key,
-         @Pandora(
+         @AiCompassOptions(
+               implementationsOf = TableElement.class
+         )
+          Enum<?> key,
+         @AiCompass(
                description = "Zero-based row index to return from the stored table rows."
          ) int index) {
       return new DataExtractorImpl<>(

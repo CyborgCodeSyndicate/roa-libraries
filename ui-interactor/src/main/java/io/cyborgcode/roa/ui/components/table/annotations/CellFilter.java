@@ -1,8 +1,8 @@
 package io.cyborgcode.roa.ui.components.table.annotations;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -32,15 +32,14 @@ import java.lang.annotation.Target;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Annotation marking a field as a filterable table column, with component type details.",
       tags = {"ui", "annotation", "cell-filter"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
-      exampleFilesPath = "docs/usage/roa/ui-usage.json",
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "annotation")
+         @AiCompassOptions.Meta(key = "type", value = "annotation")
       }
 )
 @Retention(RetentionPolicy.RUNTIME)
@@ -53,7 +52,7 @@ public @interface CellFilter {
     *
     * @return the class representing the component type.
     */
-   @Pandora(
+   @AiCompass(
          description = "Specifies the UI component type class responsible for filtering.",
          tags = {"annotation", "cell-filter"}
    )
@@ -65,7 +64,7 @@ public @interface CellFilter {
     *
     * @return a string matching a known component type identifier.
     */
-   @Pandora(
+   @AiCompass(
          description = "Defines the specific component type identifier used for filtering.",
          tags = {"annotation", "cell-filter"}
    )

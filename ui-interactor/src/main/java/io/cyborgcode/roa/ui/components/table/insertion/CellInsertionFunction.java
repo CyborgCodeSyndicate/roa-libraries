@@ -1,8 +1,8 @@
 package io.cyborgcode.roa.ui.components.table.insertion;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 import io.cyborgcode.roa.ui.selenium.smart.SmartWebElement;
 import java.util.function.BiConsumer;
 
@@ -17,15 +17,14 @@ import java.util.function.BiConsumer;
  * @author Cyborg Code Syndicate 💍👨💻
  */
 @FunctionalInterface
-@Pandora(
+@AiCompass(
       description = "Functional interface contract for inserting values into a table cell.",
       tags = {"ui", "table", "cell-insertion"},
       creation = CreationKind.AUTO
 )
-@PandoraOptions(
-      exampleFilesPath = "docs/usage/roa/ui-usage.json",
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "cell-insertion-function")
+         @AiCompassOptions.Meta(key = "type", value = "cell-insertion-function")
       }
 )
 public interface CellInsertionFunction extends BiConsumer<SmartWebElement, String[]> {
@@ -36,7 +35,7 @@ public interface CellInsertionFunction extends BiConsumer<SmartWebElement, Strin
     * @param cellElement The {@link SmartWebElement} representing the target cell.
     * @param values      The values to be inserted into the cell.
     */
-   @Pandora(
+   @AiCompass(
          description = "Performs the insertion of values into the specified table cell.",
          tags = {"table", "cell-insertion"}
    )
@@ -50,7 +49,7 @@ public interface CellInsertionFunction extends BiConsumer<SmartWebElement, Strin
     * @param objects         The values to insert.
     */
    @Override
-   @Pandora(
+   @AiCompass(
          description = "Default BiConsumer accept; delegates to cellInsertionFunction.",
          tags = {"table", "cell-insertion"}
    )

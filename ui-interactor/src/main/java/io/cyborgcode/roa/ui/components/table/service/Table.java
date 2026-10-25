@@ -1,8 +1,8 @@
 package io.cyborgcode.roa.ui.components.table.service;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 import io.cyborgcode.roa.ui.components.table.base.TableField;
 import io.cyborgcode.roa.ui.components.table.filters.FilterStrategy;
 import io.cyborgcode.roa.ui.components.table.sort.SortingStrategy;
@@ -19,16 +19,15 @@ import java.util.List;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Interface contract for table components, covering reading, filtering, "
             + "inserting cell values, and sorting operations.",
       tags = {"ui", "component-contract", "table"},
       creation = CreationKind.AUTO
 )
-@PandoraOptions(
-      exampleFilesPath = "docs/usage/roa/ui-usage.json",
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-component")
+         @AiCompassOptions.Meta(key = "type", value = "ui-component")
       }
 )
 public interface Table {
@@ -40,7 +39,7 @@ public interface Table {
     * @param <T>   The type of the row representation.
     * @return A list of objects representing the table rows.
     */
-   @Pandora(
+   @AiCompass(
          description = "Reads the entire table and maps it to a list of the specified row type.",
          tags = {"component-contract", "table"}
    )
@@ -54,7 +53,7 @@ public interface Table {
     * @param <T>    The type of the row representation.
     * @return A list of objects containing only the specified fields.
     */
-   @Pandora(
+   @AiCompass(
          description = "Reads the table selecting only the specified fields for mapping.",
          tags = {"component-contract", "table"}
    )
@@ -69,7 +68,7 @@ public interface Table {
     * @param <T>   The type of the row representation.
     * @return A list of objects representing the specified range of table rows.
     */
-   @Pandora(
+   @AiCompass(
          description = "Reads a range of rows from the table and maps them to the specified type.",
          tags = {"component-contract", "table"}
    )
@@ -85,7 +84,7 @@ public interface Table {
     * @param <T>    The type of the row representation.
     * @return A list of objects representing the specified table rows with the chosen fields.
     */
-   @Pandora(
+   @AiCompass(
          description = "Reads a range of rows from the table selecting only the specified fields.",
          tags = {"component-contract", "table"}
    )
@@ -99,7 +98,7 @@ public interface Table {
     * @param <T>   The type of the row representation.
     * @return An object representing the table row.
     */
-   @Pandora(
+   @AiCompass(
          description = "Reads a single row from the table by index and maps it to the specified type.",
          tags = {"component-contract", "table"}
    )
@@ -113,7 +112,7 @@ public interface Table {
     * @param <T>            The type of the row representation.
     * @return The first matching row as an object of type {@code T}.
     */
-   @Pandora(
+   @AiCompass(
          description = "Reads the first row matching the given search criteria and maps it to the specified type.",
          tags = {"component-contract", "table"}
    )
@@ -128,7 +127,7 @@ public interface Table {
     * @param <T>    The type of the row representation.
     * @return An object representing the specified row with only the chosen fields.
     */
-   @Pandora(
+   @AiCompass(
          description = "Reads a single row by index selecting only the specified fields.",
          tags = {"component-contract", "table"}
    )
@@ -143,7 +142,7 @@ public interface Table {
     * @param <T>            The type of the row representation.
     * @return The first matching row as an object of type {@code T}, with only the chosen fields.
     */
-   @Pandora(
+   @AiCompass(
          description = "Reads the first matching row selecting only the specified fields.",
          tags = {"component-contract", "table"}
    )
@@ -157,7 +156,7 @@ public interface Table {
     * @param data      The object containing the data to be inserted.
     * @param <T>       The type of the row representation.
     */
-   @Pandora(
+   @AiCompass(
          description = "Inserts an entire object as a row into the table at the specified index.",
          tags = {"component-contract", "table"}
    )
@@ -173,7 +172,7 @@ public interface Table {
     * @param values    The values to be inserted.
     * @param <T>       The type of the row representation.
     */
-   @Pandora(
+   @AiCompass(
          description = "Inserts values into a specific cell of a row (defaults to index 1).",
          tags = {"component-contract", "table"}
    )
@@ -191,7 +190,7 @@ public interface Table {
     * @param values    The values to be inserted.
     * @param <T>       The type of the row representation.
     */
-   @Pandora(
+   @AiCompass(
          description = "Inserts values into a specific cell of a row at the given cell index.",
          tags = {"component-contract", "table"}
    )
@@ -206,7 +205,7 @@ public interface Table {
     * @param values         The values to be inserted.
     * @param <T>            The type of the row representation.
     */
-   @Pandora(
+   @AiCompass(
          description = "Inserts values into a specific cell for the row matching the search criteria "
                + "(defaults to index 1).",
          tags = {"component-contract", "table"}
@@ -226,7 +225,7 @@ public interface Table {
     * @param values         The values to be inserted.
     * @param <T>            The type of the row representation.
     */
-   @Pandora(
+   @AiCompass(
          description = "Inserts values into a specific cell for the row matching the search criteria "
                + "at the given cell index.",
          tags = {"component-contract", "table"}
@@ -242,7 +241,7 @@ public interface Table {
     * @param data           The object containing the data to be inserted.
     * @param <T>            The type of the row representation.
     */
-   @Pandora(
+   @AiCompass(
          description = "Inserts an entire object as a row into the table matching the given search criteria.",
          tags = {"component-contract", "table"}
    )
@@ -257,7 +256,7 @@ public interface Table {
     * @param values         The values to be used for filtering.
     * @param <T>            The type of the row representation.
     */
-   @Pandora(
+   @AiCompass(
          description = "Applies a filter strategy to a table column with the provided values.",
          tags = {"component-contract", "table"}
    )
@@ -271,7 +270,7 @@ public interface Table {
     * @param sortingStrategy The sorting strategy to be applied.
     * @param <T>             The type of the row representation.
     */
-   @Pandora(
+   @AiCompass(
          description = "Sorts the table by the specified column using the given sorting strategy.",
          tags = {"component-contract", "table"}
    )

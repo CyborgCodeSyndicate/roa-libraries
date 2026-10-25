@@ -1,8 +1,8 @@
 package io.cyborgcode.roa.framework.chain;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 import io.cyborgcode.roa.framework.log.LogQuest;
 import io.cyborgcode.roa.framework.quest.Quest;
 import io.cyborgcode.roa.framework.quest.SuperQuest;
@@ -23,18 +23,17 @@ import org.assertj.core.api.Assertions;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Base implementation for all fluent Ring services. "
             + "Holds the current SuperQuest context, provides 'drop()' to return back to the Quest chain, "
             + "and offers shared helpers for retries and assertion-result validation (soft vs hard).",
       tags = {"framework"},
       creation = CreationKind.PROVIDED
 )
-@PandoraOptions(
-      exampleFilesPath = "docs/usage/roa/general-usage.json",
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "fluent-service-base"),
-         @PandoraOptions.Meta(key = "role", value = "ring-foundation")
+         @AiCompassOptions.Meta(key = "type", value = "fluent-service-base"),
+         @AiCompassOptions.Meta(key = "role", value = "ring-foundation")
       }
 )
 public class FluentService implements FluentChain {
@@ -49,12 +48,9 @@ public class FluentService implements FluentChain {
     *
     * @return The original {@code Quest} instance.
     */
-   @Pandora(
+   @AiCompass(
          description = "Drop the currently active Ring (fluent service) and return to the original Quest chain "
                + "so you can switch rings or finish the flow."
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    @Override
    public Quest drop() {
@@ -72,22 +68,19 @@ public class FluentService implements FluentChain {
     * @param <T>            The type used in the retry condition function.
     * @return The current {@code FluentService} instance for method chaining.
     */
-   @Pandora(
+   @AiCompass(
          description = "Execute a retry loop until the provided RetryCondition is satisfied or maxWait is reached. "
                + "Evaluates the condition by invoking retryCondition.function() against the given service instance."
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/general-usage.json"
-   )
-   protected <T> FluentService retryUntil(@Pandora(description = "RetryCondition that defines how to compute "
+   protected <T> FluentService retryUntil(@AiCompass(description = "RetryCondition that defines how to compute "
                                                 + "a value from the service and how to evaluate success.")
                                           RetryCondition<T> retryCondition,
-                                          @Pandora(description = "Maximum total duration to "
+                                          @AiCompass(description = "Maximum total duration to "
                                                 + "keep retrying before failing.")
                                           Duration maxWait,
-                                          @Pandora(description = "Delay between retry attempts.")
+                                          @AiCompass(description = "Delay between retry attempts.")
                                           Duration retryInterval,
-                                          @Pandora(description = "Service instance passed into "
+                                          @AiCompass(description = "Service instance passed into "
                                                 + "retryCondition.function().apply(service). "
                                                 + "Typically the current Ring/RestService.")
                                           Object service) {
@@ -101,14 +94,11 @@ public class FluentService implements FluentChain {
     *
     * @param quest The {@code SuperQuest} instance to be assigned.
     */
-   @Pandora(
+   @AiCompass(
          description = "Attach the current SuperQuest execution context to this fluent service. "
                + "Called by the framework during Quest->Ring initialization."
    )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/general-usage.json"
-   )
-   protected void setQuest(@Pandora(description = "Active SuperQuest for the current test run, "
+   protected void setQuest(@AiCompass(description = "Active SuperQuest for the current test run, "
          + "providing storage and soft-assertions.") final SuperQuest quest) {
       this.quest = quest;
    }
@@ -121,14 +111,11 @@ public class FluentService implements FluentChain {
     *
     * @param assertionResults The list of assertion results to be validated.
     */
-   @Pandora(
+   @AiCompass(
          description = "Evaluate AssertionResult items produced by validators. "
                + "Each result is logged and reported to Allure; soft "
                + "assertions are collected in quest soft-assertions, "
                + "hard assertions fail immediately."
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    @SuppressWarnings("java:S5960")
    protected void validation(List<AssertionResult<Object>> assertionResults) {
@@ -156,12 +143,9 @@ public class FluentService implements FluentChain {
     *
     * <p>This method can be overridden by subclasses to provide custom setup logic.
     */
-   @Pandora(
+   @AiCompass(
          description = "Optional lifecycle hook invoked after the quest is attached to the service. "
                + "Override in specific Rings to run custom initialization once the SuperQuest context is available."
-   )
-   @PandoraOptions(
-         exampleFilesPath = "docs/usage/roa/general-usage.json"
    )
    protected void postQuestSetupInitialization() {
       //can override for specific services

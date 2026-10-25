@@ -1,10 +1,9 @@
 package io.cyborgcode.roa.ui.components.link;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 import io.cyborgcode.roa.ui.components.button.ButtonComponentType;
-import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
 
 /**
  * Identifies a specific type of link component.
@@ -14,17 +13,16 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Component type marker for Link components; enums implement this to declare available link types.",
       tags = {"ui", "ui-component-type", "link"},
       creation = CreationKind.ENUM_CONSTANT
 )
-@PandoraOptions(
-      availableOptionsRule = AvailableOptionsRules.AvailableLinkComponentTypes.class,
-      exampleFilesPath = "docs/usage/roa/ui-usage.json",
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-component-type")
-      }
+         @AiCompassOptions.Meta(key = "type", value = "ui-component-type")
+      },
+      implementationsOf = LinkComponentType.class
 )
 public interface LinkComponentType extends ButtonComponentType {
 

@@ -1,10 +1,9 @@
 package io.cyborgcode.roa.ui.components.modal;
 
-import io.cyborgcode.pandora.annotation.Pandora;
-import io.cyborgcode.pandora.annotation.PandoraOptions;
-import io.cyborgcode.pandora.model.CreationKind;
+import io.cyborgcode.pandora.annotations.AiCompass;
+import io.cyborgcode.pandora.annotations.AiCompassOptions;
+import io.cyborgcode.pandora.annotations.CreationKind;
 import io.cyborgcode.roa.ui.components.base.ComponentType;
-import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
 
 /**
  * Defines a specific type of modal component, extending {@link ComponentType} to ensure
@@ -19,18 +18,17 @@ import io.cyborgcode.roa.ui.pandora.AvailableOptionsRules;
  *
  * @author Cyborg Code Syndicate 💍👨💻
  */
-@Pandora(
+@AiCompass(
       description = "Component type marker for Modal components; enums implement this to declare "
             + "available modal types.",
       tags = {"ui", "ui-component-type", "modal"},
       creation = CreationKind.ENUM_CONSTANT
 )
-@PandoraOptions(
-      availableOptionsRule = AvailableOptionsRules.AvailableModalComponentTypes.class,
-      exampleFilesPath = "docs/usage/roa/ui-usage.json",
+@AiCompassOptions(
       meta = {
-         @PandoraOptions.Meta(key = "type", value = "ui-component-type")
-      }
+         @AiCompassOptions.Meta(key = "type", value = "ui-component-type")
+      },
+      implementationsOf = ModalComponentType.class
 )
 public interface ModalComponentType extends ComponentType {
 }
