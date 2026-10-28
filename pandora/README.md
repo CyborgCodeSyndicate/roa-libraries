@@ -42,6 +42,40 @@ Import these types from io.cyborgcode.pandora.annotations.
 
 Usage-file references have been removed. No usage examples are required to generate or consume API/options metadata. Optional examples can be added later through the resource-provider system.
 
+## Add library-owned usage JSONs
+
+Usage files may live in this repository, for example under
+`pandora/usages/`. Register a file path or raw-JSON HTTPS URL in this
+repository's existing config:
+
+```json
+"resources": {
+  "rest-service-usages": {
+    "uri": "pandora/usages/rest-service.json"
+  }
+}
+```
+
+Then add `examples = {"rest-service-usages"}` to the relevant existing
+`@AiCompass` annotation. The annotation uses the resource ID; the config holds
+its path or URL. Keep the annotation's current descriptions, options and other
+fields. Use a raw/download JSON URL rather than a GitHub HTML file page.
+
+The usage JSON has an `items` array. Each entry's `id` selects an exact symbol
+ID, qualified member name or signature, and its `usages` array contains example
+objects such as `language`, `code`, `description` and `level`. Use exact IDs
+from `navigator search` to distinguish overloads.
+
+Scan this library and export it with `navigator bundle --output <fresh-file>`.
+Matching JSON entries are copied into the catalog's `usageExamples`. After a
+target repository imports that catalog, AI Navigator can read those examples
+without access to this checkout or the original JSON URLs. Producer Java
+source availability and embedded usage availability are separate.
+
+When usage files change, regenerate/publish the bundle and refresh the target's
+catalog. The current annotations still work without usage files; this guide
+does not add references to files that have not yet been authored.
+
 ## Generate context
 
 From this repository, after building Optimizer:
