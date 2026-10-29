@@ -1,0 +1,21 @@
+{
+    "token": "QpwL5tke4Pnpja7X4",
+    "support": {
+        "url": "https://reqres.in/go/posthog",
+        "text": "PostHog ingests and stores your analytics, errors, replays, and business data so you and your agents can query and act on it. Get started.",
+        "sponsored_by": "PostHog"
+    },
+    "_meta": {
+        "powered_by": "ReqRes",
+        "docs_url": "https://app.reqres.in/documentation",
+        "upgrade_url": "https://app.reqres.in/upgrade",
+        "example_url": "https://app.reqres.in/examples/notes-app",
+        "variant": "v1_a",
+        "message": "Your data persists here. Add auth, logs, and custom schemas to build a real backend.",
+        "cta": {
+            "label": "See example app",
+            "url": "https://app.reqres.in/examples/notes-app"
+        },
+        "context": "legacy_success"
+    }
+}
