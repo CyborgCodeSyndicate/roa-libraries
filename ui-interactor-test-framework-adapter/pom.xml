@@ -68,7 +68,7 @@
         <dependency>
             <groupId>io.cyborgcode.pandora</groupId>
             <artifactId>pandora-annotations</artifactId>
-            <version>0.1.0</version>
+            <version>0.1.0-SNAPSHOT-80eab27-40841568068</version>
         </dependency>
     </dependencies>
 
