@@ -1,8 +1,12 @@
 package io.cyborgcode.roa.api.core;
 
+import io.cyborgcode.roa.api.config.ApiConfig;
+import io.cyborgcode.roa.api.config.ApiConfigHolder;
 import io.cyborgcode.roa.api.core.mock.TestEnum;
 import io.cyborgcode.roa.api.log.LogApi;
+import io.restassured.http.Header;
 import io.restassured.http.Method;
+import io.restassured.specification.FilterableRequestSpecification;
 import io.restassured.specification.RequestSpecification;
 import java.util.Collections;
 import java.util.List;
@@ -422,5 +426,83 @@ class ParametrizedEndpointTest {
          }
       }
 
+   }
+
+   @Nested
+   @DisplayName("Headers On The Prepared Request Tests")
+   class PreparedRequestHeaderTests {
+
+      private static final String DECLARED = "x-api-key";
+      private static final String DECLARED_VALUE = "secret";
+
+      @Mock
+      private ApiConfig apiConfigMock;
+
+      private Endpoint<TestEnum> endpointWithHeader() {
+         return new Endpoint<>() {
+            @Override
+            public Method method() {
+               return Method.GET;
+            }
+
+            @Override
+            public String url() {
+               return "/users/{id}";
+            }
+
+            @Override
+            public TestEnum enumImpl() {
+               return TestEnum.SAMPLE;
+            }
+
+            @Override
+            public String baseUrl() {
+               return "https://example.com";
+            }
+
+            @Override
+            public Map<String, List<String>> headers() {
+               return Map.of(DECLARED, List.of(DECLARED_VALUE));
+            }
+         };
+      }
+
+      private List<String> valuesSent(Endpoint<TestEnum> endpoint, String name) {
+         try (MockedStatic<ApiConfigHolder> holder = mockStatic(ApiConfigHolder.class)) {
+            holder.when(ApiConfigHolder::getApiConfig).thenReturn(apiConfigMock);
+            var spec = (FilterableRequestSpecification) endpoint.prepareRequestSpec(null);
+            return spec.getHeaders().getList(name).stream().map(Header::getValue).toList();
+         }
+      }
+
+      @Test
+      @DisplayName("a declared header should be sent once with withPathParam")
+      void declaredHeaderOnceWithPathParam() {
+         assertEquals(List.of(DECLARED_VALUE),
+               valuesSent(endpointWithHeader().withPathParam("id", 2), DECLARED));
+      }
+
+      @Test
+      @DisplayName("a declared header should be sent once with withQueryParam")
+      void declaredHeaderOnceWithQueryParam() {
+         assertEquals(List.of(DECLARED_VALUE),
+               valuesSent(endpointWithHeader().withQueryParam("page", 2), DECLARED));
+      }
+
+      @Test
+      @DisplayName("withHeader should add its header once and keep the declared one once")
+      void addedAndDeclaredHeadersOnce() {
+         Endpoint<TestEnum> endpoint = endpointWithHeader().withHeader(X_HEADER, VALUE);
+
+         assertEquals(List.of(VALUE), valuesSent(endpoint, X_HEADER));
+         assertEquals(List.of(DECLARED_VALUE), valuesSent(endpoint, DECLARED));
+      }
+
+      @Test
+      @DisplayName("withHeader on a declared header should add its value to the declared one")
+      void addedValueForDeclaredHeader() {
+         assertEquals(List.of(DECLARED_VALUE, VALUE),
+               valuesSent(endpointWithHeader().withHeader(DECLARED, VALUE), DECLARED));
+      }
    }
 }

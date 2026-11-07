@@ -88,7 +88,8 @@ public class ParametrizedEndpoint<T extends Enum<T>> implements Endpoint<T> {
     */
    @Override
    public Map<String, List<String>> headers() {
-      Map<String, List<String>> mergedHeaders = new HashMap<>(original.headers());
+      Map<String, List<String>> mergedHeaders = new HashMap<>();
+      original.headers().forEach((key, value) -> mergedHeaders.put(key, new ArrayList<>(value)));
       additionalHeaders.forEach(
             (key, value) -> mergedHeaders.computeIfAbsent(key, k -> new ArrayList<>()).addAll(value));
       return Collections.unmodifiableMap(mergedHeaders);
@@ -105,7 +106,7 @@ public class ParametrizedEndpoint<T extends Enum<T>> implements Endpoint<T> {
       RequestSpecification spec = original.prepareRequestSpec(body);
       spec.pathParams(pathParams);
       spec.queryParams(queryParams);
-      headers().forEach((key, values) -> spec.header(key, String.join(",", values)));
+      additionalHeaders.forEach((key, values) -> spec.header(key, String.join(",", values)));
 
       LogApi.info("Prepared RequestSpecification with pathParams: {}, queryParams: {}, headers: {}",
             pathParams, queryParams, headers());
